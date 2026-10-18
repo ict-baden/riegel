@@ -1,28 +1,209 @@
 // SPDX-License-Identifier: MIT
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Reflection;
 using System.Text;
+using Riegel.Collector.Collection;
 
 namespace Riegel.Collector
 {
     /// <summary>
-    /// Portabler Sammler (spec 7.4). Gerüst: nur <c>--version</c> und <c>--help</c>; er erfasst nichts, schreibt keine
-    /// Datei und endet mit 0. Die Erfassung bringt das Paket collector (Ordner Collection/).
+    /// Portabler Sammler (spec 7.4): <c>Riegel.Collector.exe [--out &lt;Ordner&gt;] [--gzip] [--minimal] [--deep]
+    /// [--pseudonymize] [--quiet] [--nur-lesen] [--version] [--help]</c>. Legt zuerst die Exportdatei an
+    /// (FileMode.CreateNew, sonst Exitcode 3 mit RGL-0102), erfasst dann nach dem eingebetteten Plan und schreibt den
+    /// Export und &lt;Datei&gt;.sha256. Exitcodes: 0 vollständig, 1 geschrieben, aber unvollständig, 3 nichts geschrieben.
     /// </summary>
     internal static class Program
     {
+        public const int Complete = 0;
+        public const int Incomplete = 1;
+        public const int NothingWritten = 3;
+
+        [STAThread]
         private static int Main(string[] args)
         {
-            var messages = Messages.Load(CultureInfo.CurrentUICulture);
-            Console.WriteLine(string.Format(CultureInfo.InvariantCulture, messages.Get("Version"), Version()));
-            if (args.Length > 0 && Is(args[0], "--version")) return 0;
-            Console.WriteLine(messages.Get("Help"));
-            if (args.Length == 0 || !(Is(args[0], "--help") || Is(args[0], "--hilfe") || Is(args[0], "/?")))
-                Console.WriteLine(messages.Get("Stub"));
-            return 0;
+            try
+            {
+                // Niedrige Priorität, damit eine Anlage nichts merkt; secedit und gpresult erben sie
+                Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.BelowNormal;
+            }
+            catch (Exception)
+            {
+                // Priorität ist eine Höflichkeit, kein Muss
+            }
+            var messages = ConsoleMessages.Load(CultureInfo.CurrentUICulture, ConsoleEncoding());
+            try
+            {
+                return Run(args, messages, Console.Out);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(messages.Format("Fatal", e.GetType().Name + ": " + e.Message));
+                return NothingWritten;
+            }
+        }
+
+        /// <summary>Optionen der Befehlszeile.</summary>
+        internal sealed class Options
+        {
+            public string Out;
+            public bool Gzip, Minimal, Deep, Pseudonymize, Quiet, ReadOnly, Version, Help;
+            public string Error;
+        }
+
+        internal static Options Parse(string[] args)
+        {
+            var o = new Options();
+            for (int i = 0; i < args.Length; i++)
+            {
+                string a = args[i];
+                if (Is(a, "--out") || Is(a, "-o"))
+                {
+                    if (i + 1 >= args.Length) { o.Error = "MissingValue|" + a; return o; }
+                    o.Out = args[++i];
+                }
+                else if (Is(a, "--gzip")) o.Gzip = true;
+                else if (Is(a, "--minimal")) o.Minimal = true;
+                else if (Is(a, "--deep")) o.Deep = true;
+                else if (Is(a, "--pseudonymize")) o.Pseudonymize = true;
+                else if (Is(a, "--quiet") || Is(a, "-q")) o.Quiet = true;
+                // spec 7.4 / Richtlinie 09: angenommen, ohne weitere Wirkung – der Sammler schreibt nie Konfiguration
+                else if (Is(a, "--nur-lesen") || Is(a, "--read-only")) o.ReadOnly = true;
+                else if (Is(a, "--version")) o.Version = true;
+                else if (Is(a, "--help") || Is(a, "--hilfe") || Is(a, "-h") || Is(a, "/?")) o.Help = true;
+                else { o.Error = "UnknownOption|" + a; return o; }
+            }
+            return o;
+        }
+
+        internal static int Run(string[] args, ConsoleMessages messages, TextWriter output)
+        {
+            Options o = Parse(args);
+            string version = Version();
+            if (o.Error != null)
+            {
+                string[] parts = o.Error.Split(new[] { '|' }, 2);
+                Console.Error.WriteLine(messages.Format(parts[0], parts[1]));
+                output.WriteLine(messages.Get("Help"));
+                return NothingWritten;
+            }
+            if (o.Version)
+            {
+                output.WriteLine(messages.Format("Version", version));
+                return Complete;
+            }
+            if (o.Help)
+            {
+                output.WriteLine(messages.Format("Version", version));
+                output.WriteLine(messages.Get("Help"));
+                return Complete;
+            }
+
+            Plan plan;
+            try { plan = Plan.LoadEmbedded(); }
+            catch (FormatException e)
+            {
+                Console.Error.WriteLine(messages.Format("PlanError", e.Message));
+                return NothingWritten;
+            }
+
+            // Zuerst die Exportdatei anlegen: ist das Ziel schreibgeschützt (USB gesperrt), wird nichts erfasst
+            DateTime collectedAt = DateTime.UtcNow;
+            collectedAt = new DateTime(collectedAt.Ticks - collectedAt.Ticks % TimeSpan.TicksPerSecond, DateTimeKind.Utc);
+            string exe = typeof(Program).Assembly.Location;
+            string directory = o.Out ?? Path.GetDirectoryName(exe);
+            string path;
+            FileStream stream;
+            try
+            {
+                path = Path.Combine(Path.GetFullPath(directory), ExportNames.FileName(Environment.MachineName, collectedAt, o.Gzip));
+                stream = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Read);
+            }
+            catch (Exception e)
+            {
+                if (!(e is IOException || e is UnauthorizedAccessException || e is ArgumentException || e is NotSupportedException
+                      || e is System.Security.SecurityException)) throw;
+                Console.Error.WriteLine(messages.Format("TargetNotWritable", directory));
+                return NothingWritten;
+            }
+
+            SnapshotData data;
+            byte[] content;
+            var watch = Stopwatch.StartNew();
+            using (stream)
+            {
+                if (!o.Quiet)
+                {
+                    output.WriteLine(messages.Format("Version", version));
+                    output.WriteLine(messages.Get("Collecting"));
+                }
+                var settings = new CollectSettings();
+                settings.Minimal = o.Minimal;
+                settings.Deep = o.Deep;
+                settings.Pseudonymize = o.Pseudonymize;
+                settings.Origin = "collector";
+                settings.CollectorName = "Riegel.Collector";
+                settings.CollectorVersion = version;
+                settings.ExeSha256 = MachineFacts.FileSha256(exe);
+                settings.CollectedAtUtc = collectedAt;
+                data = Collection.Collector.Collect(plan, settings);
+                content = new UTF8Encoding(false).GetBytes(JsonWriter.Write(data.ToJson()));
+                if (o.Gzip) content = Gzip(content);
+                try
+                {
+                    stream.Write(content, 0, content.Length);
+                    stream.Flush();
+                }
+                catch (IOException e)
+                {
+                    Console.Error.WriteLine(messages.Format("WriteFailed", e.Message));
+                    return NothingWritten;
+                }
+            }
+
+            string hash = RawCollector.Sha256Hex(content);
+            try
+            {
+                using (var sidecar = new FileStream(path + ".sha256", FileMode.CreateNew, FileAccess.Write, FileShare.Read))
+                {
+                    byte[] line = new UTF8Encoding(false).GetBytes(hash + "  " + Path.GetFileName(path) + "\n");
+                    sidecar.Write(line, 0, line.Length);
+                }
+            }
+            catch (IOException e)
+            {
+                Console.Error.WriteLine(messages.Format("SidecarFailed", e.Message));
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Console.Error.WriteLine(messages.Format("SidecarFailed", e.Message));
+            }
+
+            bool incomplete = data.Incomplete;
+            if (!o.Quiet)
+            {
+                if (!data.IsAdmin) output.WriteLine(messages.Get("NotAdmin"));
+                output.WriteLine(messages.Format("Summary", data.Items.Count,
+                    data.Count(Statuses.Denied) + data.Count(Statuses.Error), data.Count(Statuses.NotCollected),
+                    (watch.ElapsedMilliseconds / 1000.0).ToString("0.0", CultureInfo.CurrentCulture)));
+            }
+            output.WriteLine(messages.Format("Written", path));
+            output.WriteLine(messages.Format("Sha256", hash));
+            if (!o.Quiet) output.WriteLine(messages.Get(incomplete ? "Incomplete" : "Complete"));
+            return incomplete ? Incomplete : Complete;
+        }
+
+        private static byte[] Gzip(byte[] content)
+        {
+            using (var buffer = new MemoryStream())
+            {
+                using (var zip = new GZipStream(buffer, CompressionMode.Compress, true)) zip.Write(content, 0, content.Length);
+                return buffer.ToArray();
+            }
         }
 
         private static bool Is(string arg, string name)
@@ -30,73 +211,17 @@ namespace Riegel.Collector
             return string.Equals(arg, name, StringComparison.OrdinalIgnoreCase);
         }
 
-        private static string Version()
+        /// <summary>Version aus collector-version.txt (über die Assembly-Angaben des Builds).</summary>
+        internal static string Version()
         {
             var attributes = typeof(Program).Assembly.GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false);
             return attributes.Length > 0 ? ((AssemblyInformationalVersionAttribute)attributes[0]).InformationalVersion : "unknown";
         }
-    }
 
-    /// <summary>
-    /// Meldungstabellen <c>messages.&lt;sprache&gt;.txt</c> (eingebettet, spec 7.10): je Zeile <c>Schlüssel=Text</c>,
-    /// <c>\n</c> = Zeilenumbruch, Zeilen mit <c>#</c> sind Kommentare. Fehlt ein Schlüssel, gilt Englisch.
-    /// </summary>
-    internal sealed class Messages
-    {
-        private readonly Dictionary<string, string> _texts;
-        private readonly Dictionary<string, string> _english;
-
-        private Messages(Dictionary<string, string> texts, Dictionary<string, string> english)
+        private static Encoding ConsoleEncoding()
         {
-            _texts = texts;
-            _english = english;
-        }
-
-        public static Messages Load(CultureInfo culture)
-        {
-            var english = Read("en");
-            string code = Language(culture);
-            return new Messages(code == "en" ? english : Read(code), english);
-        }
-
-        public string Get(string key)
-        {
-            string text;
-            if (_texts.TryGetValue(key, out text) && text.Length > 0) return text;
-            return _english.TryGetValue(key, out text) ? text : key;
-        }
-
-        private static string Language(CultureInfo culture)
-        {
-            for (var c = culture; c != null && c.Name.Length > 0; c = c.Parent)
-            {
-                string name = c.Name;
-                if (name == "zh-Hans" || name == "zh-CN" || name == "zh-SG" || name == "zh-CHS" || name == "zh") return "zh-Hans";
-                if (name == "de" || name == "es" || name == "fr" || name == "en") return name;
-                if (c.Parent == null || c.Parent.Name == c.Name) break;
-            }
-            return "en";
-        }
-
-        private static Dictionary<string, string> Read(string code)
-        {
-            var result = new Dictionary<string, string>(StringComparer.Ordinal);
-            using (var stream = typeof(Messages).Assembly.GetManifestResourceStream("messages." + code + ".txt"))
-            {
-                if (stream == null) return result;
-                using (var reader = new StreamReader(stream, Encoding.UTF8))
-                {
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        if (line.Length == 0 || line[0] == '#') continue;
-                        int equals = line.IndexOf('=');
-                        if (equals <= 0) continue;
-                        result[line.Substring(0, equals)] = line.Substring(equals + 1).Replace("\\n", Environment.NewLine);
-                    }
-                }
-            }
-            return result;
+            try { return Console.OutputEncoding; }
+            catch (IOException) { return null; }
         }
     }
 }

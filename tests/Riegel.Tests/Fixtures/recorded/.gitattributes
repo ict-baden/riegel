@@ -1,0 +1,2 @@
+# Rohdaten der Runner genau so, wie Windows sie schreibt (UTF-16 mit BOM, CRLF): Parser-Fixtures
+raw/** -text

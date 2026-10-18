@@ -1,0 +1,234 @@
+# Sammler auf drei Runnern (spec 8.9, Paket collector): net35-Sammler zweimal bauen und vergleichen, als Admin und
+# ohne Adminrechte laufen lassen, Schema prüfen, Einträge von net35 und net10 (Riegel.Cli.exe collect) vergleichen,
+# Nur-Lesen-Nachweis für alle Ziele und die Befunde V1–V4, V7, V8 in die Zusammenfassung schreiben.
+# Läuft nur, wenn sich Sammler, Windows-Anbindung, Bordmittel, Nachweis, Anonymisierer, Plan oder Schema ändern
+# (Windows-Minuten zählen doppelt). Aufzeichnen (record) nur auf Wunsch: workflow_dispatch mit record=true oder das
+# Label „record-fixtures“ am Pull Request – dann ein kleines Artefakt mit anonymisierten Exporten (7 Tage).
+name: Collector
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/Riegel.Collector/**'
+      - 'src/Riegel.Platform.Windows/**'
+      - 'tools/collect-builtin/**'
+      - 'tools/readonly-proof/**'
+      - 'tools/SnapshotAnonymizer/**'
+      - 'contracts/collection-plan.json'
+      - 'schemas/snapshot.schema.json'
+      - '.github/workflows/collector.yml'
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+    paths:
+      - 'src/Riegel.Collector/**'
+      - 'src/Riegel.Platform.Windows/**'
+      - 'tools/collect-builtin/**'
+      - 'tools/readonly-proof/**'
+      - 'tools/SnapshotAnonymizer/**'
+      - 'contracts/collection-plan.json'
+      - 'schemas/snapshot.schema.json'
+      - '.github/workflows/collector.yml'
+  workflow_dispatch:
+    inputs:
+      record:
+        description: 'Anonymisierte Exporte und Rohdaten als Artefakt hochladen (Fixtures)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: collector-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  collector:
+    # Andere Labels lösen keinen Lauf aus
+    if: github.event.action != 'labeled' || github.event.label.name == 'record-fixtures'
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [windows-2022, windows-2025, windows-11-arm]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    env:
+      RECORD: ${{ (github.event_name == 'workflow_dispatch' && inputs.record) || contains(github.event.pull_request.labels.*.name, 'record-fixtures') }}
+      OUT: ${{ github.workspace }}\out
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Sammler zweimal bauen und vergleichen
+        shell: pwsh
+        run: |
+          $project = 'src/Riegel.Collector/Riegel.Collector.csproj'
+          foreach ($dir in 'a', 'b') {
+            dotnet build $project -c Release --no-incremental -o "$env:OUT/collector-$dir"
+            if ($LASTEXITCODE -ne 0) { throw "Sammler-Build $dir fehlgeschlagen ($LASTEXITCODE)" }
+          }
+          $a = (Get-FileHash "$env:OUT/collector-a/Riegel.Collector.exe" -Algorithm SHA256).Hash.ToLower()
+          $b = (Get-FileHash "$env:OUT/collector-b/Riegel.Collector.exe" -Algorithm SHA256).Hash.ToLower()
+          $size = (Get-Item "$env:OUT/collector-a/Riegel.Collector.exe").Length
+          Write-Host "Riegel.Collector.exe: $a ($size bytes)"
+          if ($a -ne $b) { throw "Sammler nicht bytegleich: $a / $b" }
+          if ($size -gt 150KB) { throw "Sammler größer als 150 KB: $size" }
+          "## Collector on ${{ matrix.runner }}`n`nDouble build: equal, SHA-256 ``$a``, $size bytes`n" >> $env:GITHUB_STEP_SUMMARY
+
+      - name: Riegel.Cli (net10) und Anonymisierer bauen
+        shell: pwsh
+        run: |
+          dotnet build src/Riegel.Cli/Riegel.Cli.csproj -c Release -f net10.0-windows10.0.19041.0 -o "$env:OUT/cli"
+          if ($LASTEXITCODE -ne 0) { throw "Riegel.Cli-Build fehlgeschlagen" }
+          dotnet build tools/SnapshotAnonymizer/SnapshotAnonymizer.csproj -c Release -o "$env:OUT/anonymizer"
+          if ($LASTEXITCODE -ne 0) { throw "Anonymisierer-Build fehlgeschlagen" }
+
+      - name: Sammler als Administrator
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force "$env:OUT/admin" | Out-Null
+          & "$env:OUT/collector-a/Riegel.Collector.exe" --out "$env:OUT/admin"
+          Write-Host "Exitcode: $LASTEXITCODE"
+          if ($LASTEXITCODE -notin 0, 1) { throw "Sammler endete mit $LASTEXITCODE" }
+          exit 0 # 1 = geschrieben, aber unvollständig (z. B. gpresult verweigert) ist ein gültiges Ergebnis
+
+      - name: Sammler ohne Adminrechte (Safer „Basic User“ wie runas /trustlevel:0x20000)
+        id: nonadmin
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force "$env:OUT/nonadmin" | Out-Null
+          $exe = "$env:OUT\collector-a\Riegel.Collector.exe"
+          ./tools/readonly-proof/Start-BasicUser.ps1 -CommandLine "`"$exe`" --out `"$env:OUT\nonadmin`"" -Log "$env:OUT\nonadmin.log"
+          $code = $LASTEXITCODE
+          Get-Content "$env:OUT\nonadmin.log" -ErrorAction SilentlyContinue
+          if ($code -ne 1) { throw "Erwartet Exitcode 1 (unvollständig ohne Admin), erhalten $code" }
+          exit 0
+
+      - name: Riegel.Cli.exe collect (net10)
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force "$env:OUT/net10" | Out-Null
+          & "$env:OUT/cli/Riegel.Cli.exe" collect --out "$env:OUT/net10"
+          Write-Host "Exitcode: $LASTEXITCODE"
+          if ($LASTEXITCODE -notin 0, 1) { throw "Riegel.Cli.exe collect endete mit $LASTEXITCODE" }
+          exit 0
+
+      - name: Schema prüfen und Einträge von net35 und net10 vergleichen
+        shell: pwsh
+        run: |
+          $schema = Resolve-Path schemas/snapshot.schema.json
+          $files = Get-ChildItem "$env:OUT/admin", "$env:OUT/nonadmin", "$env:OUT/net10" -Filter *.snapshot.json -ErrorAction SilentlyContinue
+          foreach ($f in $files) {
+            $ok = Test-Json -Path $f.FullName -SchemaFile $schema -ErrorAction SilentlyContinue -ErrorVariable problems
+            if (-not $ok) { $problems | Select-Object -First 10 | ForEach-Object { Write-Host $_ }; throw "$($f.Name) ist nicht schema-gültig" }
+            Write-Host "schema-gültig: $($f.Directory.Name)/$($f.Name)"
+          }
+          function Items($dir) {
+            $s = Get-Content (Get-ChildItem $dir -Filter *.snapshot.json | Select-Object -First 1).FullName -Raw | ConvertFrom-Json -AsHashtable
+            $map = @{}
+            foreach ($i in $s.items) { $map[$i.key.ToLowerInvariant()] = $i.status }
+            return $map
+          }
+          $a = Items "$env:OUT/admin"; $b = Items "$env:OUT/net10"
+          $diff = @()
+          foreach ($k in @($a.Keys) + @($b.Keys) | Sort-Object -Unique) {
+            if ($k -eq 'api:windows-update-history') { continue } # hängt davon ab, ob wuauserv gerade läuft
+            if ($a[$k] -ne $b[$k]) { $diff += "$k`: net35=$($a[$k]) net10=$($b[$k])" }
+          }
+          "Item sets net35 vs. net10: $($a.Count) / $($b.Count) items, $($diff.Count) differences (header fields ignored)`n" >> $env:GITHUB_STEP_SUMMARY
+          if ($diff.Count) { $diff | Select-Object -First 40 | ForEach-Object { Write-Host $_ }; throw "Einträge von net35 und net10 unterscheiden sich" }
+
+      - name: Nur-Lesen-Nachweis (collector, deep, minimal, cli, builtin)
+        shell: pwsh
+        run: |
+          $c = "$env:OUT/collector-a/Riegel.Collector.exe"
+          ./tools/readonly-proof/Invoke-ReadOnlyProof.ps1 -Target collector, deep, minimal, cli, builtin `
+            -Exe $c, $c, $c, "$env:OUT/cli/Riegel.Cli.exe", tools/collect-builtin/collect-builtin.cmd -Out "$env:OUT/readonly-proof.txt"
+          if ($LASTEXITCODE -ne 0) { throw "Nur-Lesen-Nachweis fehlgeschlagen ($LASTEXITCODE)" }
+
+      - name: Befunde V1–V4, V7, V8
+        if: always()
+        shell: pwsh
+        run: |
+          function Load($dir) {
+            $f = Get-ChildItem $dir -Filter *.snapshot.json -ErrorAction SilentlyContinue | Select-Object -First 1
+            if ($f) { Get-Content $f.FullName -Raw | ConvertFrom-Json -AsHashtable } else { $null }
+          }
+          function Item($s, $key) { if ($s) { $s.items | Where-Object { $_.key -eq $key } | Select-Object -First 1 } }
+          $admin = Load "$env:OUT/admin"; $user = Load "$env:OUT/nonadmin"
+          $lines = @('', '### Findings', '')
+          $proof = if (Test-Path "$env:OUT/readonly-proof.txt") { Get-Content "$env:OUT/readonly-proof.txt" } else { @() }
+          $wu = $proof | Select-String -Pattern '^\s+(before:|untouched|V1 not verifiable)' | ForEach-Object { $_.Line.Trim() }
+          $lines += "- **V1** wuauserv: $(if ($wu) { $wu -join '; ' } else { 'no proof result' })"
+          $v2 = $proof | Select-String -Pattern 'Security log event IDs' | ForEach-Object { $_.Line.Trim() }
+          $lines += "- **V2** Security log during the measured runs (collector, deep, minimal, cli, builtin): $(if ($v2) { $v2 -join ' | ' } else { 'no proof result' })"
+          $v3 = ($proof | Select-String -Pattern 'Defender detection' | ForEach-Object { $_.Line.Trim() })
+          $lines += "- **V3** Defender detections: $(if ($v3) { $v3 -join '; ' } elseif ($proof) { 'none (collector and --deep LSASS query not flagged)' } else { 'no proof result' })"
+          $mp = Item $admin 'wmi:root\Microsoft\Windows\Defender:MSFT_MpComputerStatus'
+          $mode = if ($mp -and $mp.status -eq 'ok' -and $mp.value.rows.Count) { $mp.value.rows[0]['AMRunningMode'] } else { $null }
+          $lines += "- **V4** AMRunningMode: $(if ($mp) { "item $($mp.status), value '$mode'" } else { 'no snapshot' })"
+          if ($user) {
+            $nue = Item $user 'api:netuserenum'
+            $ndis = Item $user 'wmi:root\wmi:MSNdis_PhysicalMediumType'
+            $share = Item $user 'wmi:root\cimv2:Win32_Share'
+            $sd = if ($share -and $share.status -eq 'ok') { ($share.value.rows | ForEach-Object { "$($_['Name'])=$($_['GetSecurityDescriptor']['ReturnValue'])" }) -join ', ' } else { $share.status }
+            $lines += "- **V7** without admin: NetUserEnum level 2 $($nue.status); MSNdis_PhysicalMediumType $($ndis.status); GetSecurityDescriptor ReturnValue per share: $sd"
+          } else { $lines += '- **V7** without admin: no non-admin snapshot on this runner (see the step "Sammler ohne Adminrechte")' }
+          $wsc = Item $admin 'api:wsc-av'
+          $evt = Item $admin 'evt:system:wininit-12'
+          $lines += "- **V7** WSC API from net35: $($wsc.status) $($wsc.error); Wininit event 12: $($evt.status), eventData $(if ($evt.value) { ($evt.value.eventData | ConvertTo-Json -Compress) } else { '-' }), found $($evt.value.found)"
+          $fw = Item $admin 'api:firewall'
+          $local = Item $admin 'reg:HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules'
+          $gpo = Item $admin 'reg:HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\FirewallRules'
+          $lines += "- **V8** FwPolicy2 rules: $(if ($fw.value) { $fw.value.rules.Count } else { '-' }); local registry store: $(if ($local.value) { $local.value.values.Count } else { $local.status }); GPO registry store: $(if ($gpo.value) { $gpo.value.values.Count } else { 'none (no GPO firewall rules on this runner; GPO-deployed rules need a domain - Limitations)' })"
+          $lines += ''
+          $lines += '<details><summary>Read-only proof</summary>'
+          $lines += ''
+          $lines += '```'
+          $lines += $proof
+          $lines += '```'
+          $lines += '</details>'
+          $lines -join "`n" >> $env:GITHUB_STEP_SUMMARY
+
+      - name: Aufzeichnen (nur record) – anonymisieren
+        if: always() && env.RECORD == 'true'
+        shell: pwsh
+        run: |
+          # Rohdaten der Windows-Werkzeuge als Parser-Fixtures (auf dem Wegwerf-Runner, lesend)
+          $raw = "$env:OUT/raw"; $rec = "$env:OUT/record/${{ matrix.runner }}"
+          New-Item -ItemType Directory -Force $raw, "$rec/raw" | Out-Null
+          secedit.exe /export /cfg "$raw\secedit.inf" /log "$raw\secedit.log" /quiet
+          auditpol.exe /backup "/file:$raw\auditpol.csv"
+          gpresult.exe /scope computer /x "$raw\gpresult.xml" /f
+          # Fehlende Rohdateien (gpresult ist auf windows-11-arm auch als Admin verweigert) überspringt der Anonymisierer
+          $host_ = ('RUNNER-' + '${{ matrix.runner }}'.Replace('windows-', '').ToUpperInvariant())
+          $anon = "$env:OUT/anonymizer/SnapshotAnonymizer.dll"
+          $admin = (Get-ChildItem "$env:OUT/admin" -Filter *.snapshot.json | Select-Object -First 1).FullName
+          dotnet $anon $admin "$rec/admin.snapshot.json" --host $host_ --raw "$raw\secedit.inf" "$rec/raw/secedit.inf" --raw "$raw\auditpol.csv" "$rec/raw/auditpol.csv" --raw "$raw\gpresult.xml" "$rec/raw/gpresult.xml"
+          if ($LASTEXITCODE -ne 0) { throw 'Anonymisieren (admin) fehlgeschlagen' }
+          $user = Get-ChildItem "$env:OUT/nonadmin" -Filter *.snapshot.json -ErrorAction SilentlyContinue | Select-Object -First 1
+          if ($user) {
+            dotnet $anon $user.FullName "$rec/nonadmin.snapshot.json" --host $host_
+            if ($LASTEXITCODE -ne 0) { throw 'Anonymisieren (nonadmin) fehlgeschlagen' }
+          }
+          Copy-Item "$env:OUT/readonly-proof.txt" "$rec/readonly-proof.txt" -ErrorAction SilentlyContinue
+          Get-ChildItem $rec -Recurse -File | Format-Table FullName, Length
+
+      - name: Aufzeichnung hochladen (klein, 7 Tage)
+        if: always() && env.RECORD == 'true'
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: recorded-${{ matrix.runner }}
+          path: out/record/
+          if-no-files-found: ignore
+          retention-days: 7
