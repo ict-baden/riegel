@@ -99,6 +99,19 @@ public sealed class ScoringTests
         Assert.Null(Score([], catalogue).Summary.Score);
     }
 
+    [Theory]
+    [InlineData(111, 13, 89)] // 111 von 124 = 89,5 %: vorher als 90 % ohne Hinweis „Unvollständige Prüfung“ (Review evidence-11)
+    [InlineData(112, 12, 90)] // 112 von 124 = 90,3 %
+    [InlineData(179, 1, 99)]  // 179 von 180 = 99,4 %: nie 100 %, solange etwas nicht prüfbar ist
+    public void Pruefumfang_wird_abgeschnitten_damit_die_90_Prozent_Schwelle_stimmt(int checkable, int notCheckable, int expected)
+    {
+        var rules = Enumerable.Range(1, checkable + notCheckable).Select(i => Check($"X-{i:000}")).ToList();
+        var results = rules.Select((r, i) => Result(r.Id, i < checkable ? ResultStatus.Pass : ResultStatus.NotCheckable)).ToList();
+        var summary = Score(results, new TestCatalogue(rules)).Summary;
+        Assert.Equal(expected, summary.CheckedShare);
+        Assert.Equal(100m * checkable / (checkable + notCheckable) < 90m, summary.CheckedShare < 90);
+    }
+
     [Fact]
     public void Domaenencontroller_ohne_Haertungsgrad()
     {

@@ -18,6 +18,7 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 - CRED-17: mit RestrictRemoteSamAuditOnlyMode = 1 (Nur-Überwachen-Modus, jeder Aufruf wird zugelassen) schlägt die Regel fehl; vorher „erfüllt“ mit dem Standard-SDDL.
 - SVC-01: verlangt den Starttyp „Deaktiviert“ der Druckwarteschlange statt nur „beendet“; eine beendete Warteschlange mit Starttyp Automatisch war „erfüllt“, startet aber beim nächsten Neustart wieder. Auch auf Bordmittel-Paketen damit prüfbar.
 - AUD-23: der lokale Wert der Protokollgröße zählt nur, wo die Größe der Gruppenrichtlinie nachweislich nicht gesetzt ist; ein nicht lesbarer Richtlinienschlüssel ergibt „nicht prüfbar“ statt „erfüllt“ aus dem lokalen Wert. Der Mutationstest prüft jetzt auch den Vorrang zwischen Konfigurationsquellen.
+- Prüfumfang: wird auf ganze Prozent abgeschnitten statt gerundet; 89,5 % erschienen vorher als 90 % ohne Hinweis „Unvollständige Prüfung“, ohne Graustufe und ohne Lauf-Flag `Incomplete`.
 
 ## [0.1.0] – 2026-10-18
 

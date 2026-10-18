@@ -139,7 +139,12 @@ internal sealed class ScoreCalculator : IScoring
 
         public int? Score => ConsideredScaled > 0 ? Percent(PassScaled, ConsideredScaled) : null;
         public int? Documented => ConsideredScaled > 0 ? Percent(PassScaled + ExceptionScaled, ConsideredScaled) : null;
-        public int CheckedShare => Denominator > 0 ? Percent(Checkable, Denominator) : 0;
+        /// <summary>
+        /// Prüfumfang in ganzen Prozent, abgeschnitten (Review evidence-11): die Schwelle „unter 90 %“ (spec 2.4 Punkt 9)
+        /// gilt für den echten Anteil – 111 von 124 (89,5 %) darf nicht als 90 % ohne Hinweis „Unvollständige Prüfung“
+        /// erscheinen. Abgeschnitten ist „Wert &lt; 90“ genau „Anteil &lt; 90 %“, und die Anzeige widerspricht dem Hinweis nie.
+        /// </summary>
+        public int CheckedShare => Denominator > 0 ? (int)Math.Floor(100m * Checkable / Denominator) : 0;
 
         /// <summary>Kategoriewerte in Berichtsreihenfolge; Gewicht = Beitrag zum Gesamtwert (audit gedeckelt).</summary>
         public IReadOnlyList<CategoryScore> Categories(bool noScore) =>

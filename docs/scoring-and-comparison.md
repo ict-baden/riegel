@@ -25,7 +25,8 @@ Excluded: `info`, `notApplicable`, `outOfScope` (tailoring) and `notCheckable`.
 - **Dokumentiert** = round(100 × Σw(pass + exception) / Σw(pass + fail + exception))
 
 An exception never raises the Härtungsgrad, only "Dokumentiert". Tailoring removes the rule from both. Arithmetic is
-decimal and rounds once at the end, half away from zero (37.5 % → 38 %).
+decimal and rounds once at the end, half away from zero (37.5 % → 38 %). The Prüfumfang alone is truncated to whole
+percent (89.5 % → 89 %), so that a share below the 90 % threshold never shows as 90 % without the incomplete banner.
 
 Both values cover Riegel's own catalogue (`ruleSetId` `riegel`). Each imported customer baseline has its own section
 with its own pass/fail/exception/not-checkable counts and score, so a customer list does not change the comparable
@@ -50,7 +51,8 @@ report marks the audit category as capped and explains it in a footnote.
   Σw(pass) / Σw(pass + fail + exception)) of that category. The category weight shown is its contribution to the total
   (capped for `audit`).
 - **Prüfumfang** (checked share) = checkable / (applicable − outOfScope − info), where applicable excludes
-  `notApplicable` and checkable means `pass`, `fail` or `exception`. It is shown next to every score.
+  `notApplicable` and checkable means `pass`, `fail` or `exception`, truncated to whole percent. It is shown next to
+  every score.
 - Below **90 %**, or when the snapshot was not collected as administrator, the run is `Incomplete`: the PDF carries the
   banner "Unvollständige Prüfung" with the share and the missing areas (categories with not-checkable results), and the
   Härtungsgrad is greyed out ("nur X % prüfbar").

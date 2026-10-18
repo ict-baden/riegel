@@ -216,7 +216,7 @@ public sealed class RunServiceTests
 
         rig.Clock.Advance(TimeSpan.FromMinutes(1));
         var partial = rig.Evaluate(Hmi(new(2026, 10, 12, 8, 0, 0, TimeSpan.Zero)).Script("NET-08", "pass|1").Script("NET-01", "fail|1"));
-        Assert.Equal(67, partial.Summary.CheckedShare);
+        Assert.Equal(66, partial.Summary.CheckedShare); // 2 von 3, abgeschnitten (Review evidence-11)
         Assert.Equal(RunFlags.Incomplete, partial.Flags & RunFlags.Incomplete);
 
         var dc = rig.Evaluate(SnapshotBuilder.DomainController().CollectedAt(new(2026, 10, 15, 8, 0, 0, TimeSpan.Zero))

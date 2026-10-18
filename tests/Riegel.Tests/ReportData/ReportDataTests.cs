@@ -65,7 +65,7 @@ public sealed class ReportDataTests : IClassFixture<ReportDataTests.Fixture>
         Assert.Equal((2, 2, 1), (c.TailoringEntries, c.MeasuresPlanned, c.MeasuresOverdue));
         Assert.Equal((1, 1, 1), (c.UnsupportedOs, c.StaleSnapshots, c.DomainControllers));
         Assert.True(Data.Score.Greyed);
-        Assert.Equal(96, Data.Score.CheckedShare);
+        Assert.Equal(95, Data.Score.CheckedShare); // abgeschnitten (Review evidence-11), vorher gerundet 96
         Assert.NotNull(Data.Score.Score);
     }
 
@@ -122,7 +122,7 @@ public sealed class ReportDataTests : IClassFixture<ReportDataTests.Fixture>
         Banner B(BannerKind kind) => Assert.Single(Data.Banners, b => b.Kind == kind);
         var incomplete = B(BannerKind.IncompleteCheck);
         Assert.Equal(["DC-01", "SRV-01"], incomplete.Hosts.Order(StringComparer.Ordinal));
-        Assert.Equal(96, incomplete.CheckedShare);
+        Assert.Equal(95, incomplete.CheckedShare); // abgeschnitten (Review evidence-11), vorher gerundet 96
         Assert.Equal(["audit", "accounts"], incomplete.Areas);
         Assert.Equal(["HMI-12"], B(BannerKind.StaleSnapshot).Hosts);
         Assert.Equal(40, B(BannerKind.StaleSnapshot).AgeDays);
