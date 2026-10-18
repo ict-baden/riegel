@@ -1628,6 +1628,7 @@
     {
       "build": 26100,
       "name": "Windows 11, version 24H2 and Windows 11 Enterprise LTSC 2024 (client)",
+      "os": "client",
       "releases": [
         {
           "ubr": 1742,
@@ -2084,6 +2085,7 @@
     {
       "build": 26100,
       "name": "Windows Server 2025",
+      "os": "server",
       "releases": [
         {
           "ubr": 1742,

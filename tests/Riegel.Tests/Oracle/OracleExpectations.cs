@@ -162,8 +162,8 @@ internal static class OracleGate
 {
     public const string Reason = "Oracle wartet auf Katalog und Engine (Integrationsgate)";
 
-    /// <summary>Wird im Integrationsschritt auf true gesetzt (spec 8.2: grün mit der echten Engine ist ein Integrationsgate).</summary>
-    public static readonly bool Entfernt = false;
+    /// <summary>Im Integrationsschritt auf true gesetzt (spec 8.2: grün mit der echten Engine ist ein Integrationsgate).</summary>
+    public static readonly bool Entfernt = true;
 
     private static readonly Lazy<string?> Computed = new(Compute);
 

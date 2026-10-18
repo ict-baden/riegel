@@ -78,7 +78,7 @@ internal sealed partial class EvaluationSession
         string? tableNote = null;
 
         // 1. Build-Tabelle
-        if (Facts.Build is { } build && Facts.Ubr is { } ubr && BuildLookup.Find(Catalogue.Builds, build) is { Releases.Count: > 0 } entry)
+        if (Facts.Build is { } build && Facts.Ubr is { } ubr && BuildLookup.Find(Catalogue.Builds, build, Facts.Kind) is { Releases.Count: > 0 } entry)
         {
             var (exact, lower, higher) = BuildLookup.Locate(entry, ubr);
             // Die Build-Tabelle entscheidet aus dem Rechnerkopf, ohne Eintrag des Exports

@@ -323,8 +323,12 @@ note? } ] }`. The first entry whose build, editions (EditionID) and installation
 Microsoft lists it. Every entry cites a Microsoft Lifecycle page and the date it was seen; `crossCheck` may cite
 endoflife.date.
 
-**`rules/lifecycle/builds.json`** (`riegel.builds/1`): `{ schema, builds: [ { build, name, releases: [ { ubr, date,
-kb?, kind?: B|D|OOB } ], source, seen } ] }`, releases in ascending UBR.
+**`rules/lifecycle/builds.json`** (`riegel.builds/1`): `{ schema, builds: [ { build, name, os?: client|server,
+releases: [ { ubr, date, kb?, kind?: B|D|OOB } ], source, seen } ] }`, releases in ascending UBR. A build appears once
+without `os`, or once per `os` when a client and a server release share the build number but have their own UBR
+sequence (Windows 11 24H2 and Windows Server 2025 both use 26100). The engine picks the entry by build and the
+machine's OS kind (`ProductType` 1 = client, 2/3 = server; `BuildTable.Find(build, osKind)`); with an unknown kind and
+only `os`-specific entries there is no match and the update age is not checkable.
 
 **`rules/capabilities/*.json`** (`riegel.capabilities/1`): `{ schema, capabilities: [ { capability, exists: [ { os?,
 minBuild?, maxBuild?, editions?, installationTypes?, note? } ], source, seen, note? } ] }`. A capability exists on a

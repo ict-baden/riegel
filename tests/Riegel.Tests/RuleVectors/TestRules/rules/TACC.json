@@ -998,7 +998,7 @@
           "expect": "fail"
         },
         {
-          "name": "never logged on, new",
+          "name": "never logged on, new (counts as unused, as DISA counts \"Never\")",
           "machine": {
             "build": 26100,
             "ubr": 6899,
@@ -1026,7 +1026,7 @@
               ]
             }
           },
-          "expect": "pass"
+          "expect": "fail"
         },
         {
           "name": "not collected",

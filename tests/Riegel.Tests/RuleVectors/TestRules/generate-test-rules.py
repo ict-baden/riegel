@@ -172,7 +172,7 @@ add("TREG",
     rule("TREG-11", ("redacted value", "geschwärzter Wert"), registry(TEST_KEY, "SecretToken", "sz", "eq", "x"), [
         vec("redacted cannot be compared", "notCheckable", {R(TEST_KEY): ok(reg({"SecretToken": redacted()}))}),
         vec("missing", "fail", {R(TEST_KEY): st("keyMissing")}),
-        vec("pass", "pass", {R(TEST_KEY): ok(reg({"SecretToken": sz("X")}))}),
+        vec("plain secret value is redacted at import", "notCheckable", {R(TEST_KEY): ok(reg({"SecretToken": sz("X")}))}),
         vec("not collected", "notCheckable", {R(TEST_KEY): st("notCollected")}),
     ]),
     rule("TREG-12", ("automatic logon (LOGON-10 trap)", "automatische Anmeldung (Falle LOGON-10)"),
@@ -417,7 +417,7 @@ SC2 = "wmi:root\\SecurityCenter2:AntivirusProduct"
 WSC = "api:wsc-av"
 ASR_GUID = "00000000-0000-4000-8000-0000000000a1"
 ASR_POLICY = "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules"
-def status(mode="Normal", av=True, rtp=True, updated="2026-10-17T04:00:00Z", **extra):
+def status(mode="Normal", av=True, rtp=True, updated="2026-10-14T04:00:00Z", **extra):
     r = {"AMServiceEnabled": True, "AntivirusEnabled": av, "RealTimeProtectionEnabled": rtp, "AntivirusSignatureLastUpdated": updated}
     if mode is not None: r["AMRunningMode"] = mode
     r.update(extra)
@@ -459,8 +459,8 @@ add("TDEF",
          [v for v in gating(True) if v], category="defender"),
     rule("TDEF-02", ("signature age (LIFE-04 style)", "Alter der Signaturen (wie LIFE-04)"),
          {"type": "defenderSetting", "source": "status", "property": "AntivirusSignatureLastUpdated", "op": "ageDaysLe", "expected": 7}, [
-        vec("1 day old", "pass", {MPS: status(updated="2026-10-17T04:00:00Z"), WSC: DEFENDER_ONLY}),
-        vec("30 days old", "fail", {MPS: status(updated="2026-09-18T04:00:00Z"), WSC: DEFENDER_ONLY}),
+        vec("1 day old", "pass", {MPS: status(updated="2026-10-14T04:00:00Z"), WSC: DEFENDER_ONLY}),
+        vec("30 days old", "fail", {MPS: status(updated="2026-09-15T04:00:00Z"), WSC: DEFENDER_ONLY}),
         vec("not collected", "notCheckable", {MPS: st("notCollected"), WSC: DEFENDER_ONLY}),
         vec("missing", "notCheckable", {MPS: st("keyMissing"), WSC: DEFENDER_ONLY}),
         vec("unparsable", "notCheckable", {MPS: status(updated="gestern"), WSC: DEFENDER_ONLY}),
@@ -502,7 +502,7 @@ add("TDEF",
         vec("missing", "notCheckable", {MPS: st("keyMissing"), WSC: DEFENDER_ONLY}),
     ], category="defender", app=applies(capability="testAsr", absent="fail")),
     rule("TDEF-06", ("an antivirus is active and current (DEF-18 style)", "ein Virenschutz ist aktiv und aktuell (wie DEF-18)"), {"type": "avStatus"}, [
-        vec("Defender current", "pass", {MPS: status(updated="2026-10-17T04:00:00Z"), WSC: DEFENDER_ONLY}),
+        vec("Defender current", "pass", {MPS: status(updated="2026-10-14T04:00:00Z"), WSC: DEFENDER_ONLY}),
         vec("Defender old signatures", "fail", {MPS: status(updated="2026-09-01T04:00:00Z"), WSC: DEFENDER_ONLY}),
         vec("Defender RTP off", "fail", {MPS: status(rtp=False), WSC: DEFENDER_ONLY}),
         vec("third-party current (WSC)", "pass", {MPS: status("Passive", av=False, rtp=False), WSC: THIRD_PARTY}),
@@ -626,18 +626,18 @@ add("TTIM",
     ], category="lifecycle", severity="high"),
     rule("TTIM-02", ("days since last cumulative update", "Tage seit dem letzten kumulativen Update"), {"type": "updateAge", "maxDays": 35}, [
         vec("current", "pass", {}, m=machine(build=99001, ubr=300)),
-        vec("68 days old", "fail", {}, m=machine(build=99001, ubr=100)),
-        vec("newer than the table", "notCheckable", {QFE: ok(rows({"HotFixID": "KB0000009", "InstalledOn": "2026-10-16T00:00:00Z"}))}, m=machine(build=99001, ubr=400)),
+        vec("65 days old", "fail", {}, m=machine(build=99001, ubr=100)),
+        vec("newer than the table", "notCheckable", {QFE: ok(rows({"HotFixID": "KB0000009", "InstalledOn": "2026-10-13T00:00:00Z"}))}, m=machine(build=99001, ubr=400)),
         vec("older than the oldest entry", "fail", {}, m=machine(build=99001, ubr=50)),
-        vec("between entries, at most 40 days: undecided, QFE recent", "pass", {QFE: ok(rows({"HotFixID": "KB0000009", "InstalledOn": "2026-10-10T00:00:00Z"}))}, m=machine(build=99001, ubr=250)),
+        vec("between entries, at most 37 days: undecided, QFE recent", "pass", {QFE: ok(rows({"HotFixID": "KB0000009", "InstalledOn": "2026-10-10T00:00:00Z"}))}, m=machine(build=99001, ubr=250)),
         vec("between entries, QFE not collected", "notCheckable", {QFE: st("notCollected")}, m=machine(build=99001, ubr=250)),
-        vec("between 100 and 200: at least 40 days", "fail", {}, m=machine(build=99001, ubr=150)),
+        vec("between 100 and 200: at least 37 days", "fail", {}, m=machine(build=99001, ubr=150)),
         vec("build not in table, QFE recent", "pass", {QFE: ok(rows({"HotFixID": "KB0000009", "InstalledOn": "2026-10-10T00:00:00Z"}))}, m=machine(build=99500, ubr=1)),
         vec("build not in table, QFE old", "fail", {QFE: ok(rows({"HotFixID": "KB0000009", "InstalledOn": "2026-08-01T00:00:00Z"}))}, m=machine(build=99500, ubr=1)),
         vec("only update history, old", "fail", {QFE: st("denied"), WU: ok({"serviceWasRunning": True, "entries": [
             {"dateUtc": "2026-07-01T10:00:00Z", "resultCode": 2, "operation": 1, "title": "Beispiel-Update"}]})}, m=machine(build=99500, ubr=1)),
         vec("only update history, recent: not provable", "notCheckable", {QFE: st("denied"), WU: ok({"serviceWasRunning": True, "entries": [
-            {"dateUtc": "2026-10-17T10:00:00Z", "resultCode": 2, "operation": 1, "title": "Beispiel-Signaturupdate"}]})}, m=machine(build=99500, ubr=1)),
+            {"dateUtc": "2026-10-14T10:00:00Z", "resultCode": 2, "operation": 1, "title": "Beispiel-Signaturupdate"}]})}, m=machine(build=99500, ubr=1)),
         vec("nothing", "notCheckable", {QFE: st("notCollected"), WU: st("notCollected")}, m=machine(build=99500, ubr=1)),
         vec("missing", "notCheckable", {QFE: st("keyMissing"), WU: st("keyMissing")}, m=machine(build=99500, ubr=1)),
         vec("ubr unknown (builtin)", "notCheckable", {QFE: st("notCollected")}, m=machine(build=99001, ubr=None)),
@@ -742,7 +742,7 @@ add("TACC",
         vec("recently used", "pass", {USERS: ok(STD_USERS)}),
         vec("unused since June", "fail", {USERS: ok(users(account("service", 1003, last="2026-06-01")))}),
         vec("never logged on, old", "fail", {USERS: ok(users(account("service", 1003, last=None, age=200)))}),
-        vec("never logged on, new", "pass", {USERS: ok(users(account("service", 1003, last=None, age=3)))}),
+        vec("never logged on, new (counts as unused, as DISA counts \"Never\")", "fail", {USERS: ok(users(account("service", 1003, last=None, age=3)))}),
         vec("not collected", "notCheckable", {USERS: st("notCollected")}),
         vec("missing", "notCheckable", {USERS: st("keyMissing")}),
     ], category="accounts"),

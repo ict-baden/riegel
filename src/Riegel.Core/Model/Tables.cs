@@ -39,10 +39,33 @@ public sealed record BuildTable(string Schema, IReadOnlyList<BuildEntry> Builds)
     public IReadOnlyList<BuildEntry> Builds { get; init; } = Builds ?? [];
 
     public static BuildTable Empty { get; } = new(SchemaIds.Builds, []);
+
+    /// <summary>
+    /// Eintrag für einen Build und die Art des Betriebssystems (<c>client</c> oder <c>server</c>, aus ProductType 1 =
+    /// client). Ein Eintrag ohne <c>os</c> gilt für beide. Windows 11 24H2 und Server 2025 teilen sich Build 26100,
+    /// haben aber eigene UBR-Folgen: Gibt es für einen Build nur Einträge mit <c>os</c> und ist die Art unbekannt, gibt
+    /// es keinen Treffer (dann „nicht prüfbar“ statt eines geratenen Datums).
+    /// </summary>
+    public BuildEntry? Find(int build, string? osKind)
+    {
+        BuildEntry? any = null, match = null;
+        foreach (var b in Builds)
+        {
+            if (b.Build != build) continue;
+            if (b.Os is null) any ??= b;
+            else if (osKind is not null && string.Equals(b.Os, osKind, StringComparison.Ordinal)) match ??= b;
+        }
+        return match ?? any;
+    }
+
+    /// <summary><c>client</c> für ProductType 1, <c>server</c> für 2 und 3, sonst null.</summary>
+    public static string? OsKindOf(int? productType) => productType switch { 1 => "client", 2 or 3 => "server", _ => null };
 }
 
 /// <summary>Ein Build mit seinen kumulativen Updates, aufsteigend nach UBR.</summary>
-public sealed record BuildEntry(int Build, string Name, IReadOnlyList<BuildRelease> Releases, string Source, DateOnly Seen)
+/// <param name="Os">Optional <c>client</c> oder <c>server</c>, wenn sich Client und Server einen Build teilen.</param>
+public sealed record BuildEntry(int Build, string Name, IReadOnlyList<BuildRelease> Releases, string Source, DateOnly Seen,
+    string? Os = null)
 {
     public IReadOnlyList<BuildRelease> Releases { get; init; } = Releases ?? [];
 }

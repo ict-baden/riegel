@@ -1785,7 +1785,7 @@
           "expect": "fail"
         },
         {
-          "name": "pass",
+          "name": "plain secret value is redacted at import",
           "machine": {
             "build": 26100,
             "ubr": 6899,
@@ -1809,7 +1809,7 @@
               }
             }
           },
-          "expect": "pass"
+          "expect": "notCheckable"
         },
         {
           "name": "not collected",

@@ -548,9 +548,12 @@ public sealed class CommandTests
     [Fact]
     public void Exceptions_validate_Exitcodes_0_1_2()
     {
+        using (var empty = new TempPlant())
+            Assert.Equal(0, Cli.Run("exceptions", "validate", "--plant", empty.Folder).Exit);
         using var plant = new TempPlant();
         plant.WriteRegisters(SampleData.Registers());
-        Assert.Equal(0, Cli.Run("exceptions", "validate", "--plant", plant.Folder).Exit);
+        // Die Beispieldaten enthalten absichtlich beantragte, nach der Freigabe geänderte und „*“-Einträge: Warnungen
+        Assert.Equal(1, Cli.Run("exceptions", "validate", "--plant", plant.Folder).Exit);
 
         var inner = Cli.Inner();
         var warning = new ValidationIssue(RegisterKind.Exceptions, "EX-0005", IssueSeverity.Warning, "RGL-0410", "acceptedValue", "„*“ akzeptiert jeden Wert");

@@ -204,7 +204,7 @@ Evidence is read in the order shown; the first source that can decide does so.
 | `deviceGuard` | `Win32_DeviceGuard` | running services only (1 Credential Guard, 2 memory integrity; VBS status 2 = running); configured but not running → fail "konfiguriert, läuft nicht" (with `requireRunning: false` not checkable, ConfiguredOnly) |
 | `avStatus` | Defender status, then Windows Security Center API, then SecurityCenter2 | Defender active with real-time protection and current signatures → pass; another product on and current (Security Center API) → pass; heuristic evidence only → not checkable with Heuristic; no antivirus at all → fail |
 | `localAccount` | `Win32_UserAccount` (local accounts), then `api:netuserenum` | by RID, never by name; account not found → not checkable |
-| `localAccounts` | `api:netuserenum` | any matching (enabled) account fails and is listed; "unused" = last logon (or, never logged on, the password age) older than the plant's `unusedAccountDays` |
+| `localAccounts` | `api:netuserenum` | any matching (enabled) account fails and is listed; "unused" = last logon older than the plant's `unusedAccountDays`, or never logged on (as DISA counts "Never") |
 | `localGroup` | `api:localgroup:<SID>` | `maxMembers`, `allowedSids` (well-known SIDs or `*-<RID>`); a member without SID → not checkable |
 | `inventory` | the listed items | `info` with a list; not checkable if none of the items could be read |
 

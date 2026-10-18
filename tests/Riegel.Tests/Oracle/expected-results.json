@@ -147,9 +147,8 @@
           "why": "RPC RestrictRemoteClients policy is not in R§3; not collected → notCheckable (S2.4.2)."
         },
         "NET-29": {
-          "status": "notCheckable",
-          "researchGap": true,
-          "why": "IPEnableRouter (Tcpip\\Parameters) is not in R§3; not collected → notCheckable (S2.4.2), as check or as inventory (S2.1)."
+          "status": "info",
+          "why": "Integration 2026-10-18: rules-a ships NET-29 as an inventory of the network facts (S2.1: no shippable source sets an expected value for IP forwarding); an inventory is info as long as one of its items is readable (Win32_NetworkAdapterConfiguration here), the unread IPEnableRouter is shown as unknown with its reason."
         },
         "NETX-01": {
           "status": "notCheckable",
@@ -497,11 +496,8 @@
           "why": "Deny write to unprotected removable drives (BitLocker policy) is not in R§3 (only RemovableStorageDevices) → notCheckable."
         },
         "FW-01": {
-          "status": "pass",
-          "absentFlags": [
-            "fromDefault"
-          ],
-          "why": "R§3 Firewall: all 3 profiles on via HNetCfg.FwPolicy2 (runtime); Domain profile enabled (S2.3 firewallProfile)."
+          "status": "notApplicable",
+          "why": "Integration 2026-10-18: rules-b scopes the Domain-profile rules to domain members (DISA Windows Firewall STIG V2R2); ORACLE-PC is a workgroup machine whose Domain profile never applies (S2.1 domain applicability is recorded per rule)."
         },
         "FW-02": {
           "status": "pass",
@@ -518,11 +514,8 @@
           "why": "R§3 Firewall: all 3 profiles on via HNetCfg.FwPolicy2 (runtime); Public profile enabled (S2.3 firewallProfile)."
         },
         "FW-04": {
-          "status": "pass",
-          "absentFlags": [
-            "fromDefault"
-          ],
-          "why": "R§3 Firewall and R§3.2: inbound block on all profiles in the active store while the persistent store says NotConfigured; runtime decides (Domain, S2.4.6)."
+          "status": "notApplicable",
+          "why": "Integration 2026-10-18: rules-b scopes the Domain-profile rules to domain members (DISA Windows Firewall STIG V2R2); ORACLE-PC is a workgroup machine whose Domain profile never applies (S2.1 domain applicability is recorded per rule)."
         },
         "FW-05": {
           "status": "pass",
@@ -539,9 +532,8 @@
           "why": "R§3 Firewall and R§3.2: inbound block on all profiles in the active store while the persistent store says NotConfigured; runtime decides (Public, S2.4.6)."
         },
         "FW-07": {
-          "status": "notCheckable",
-          "researchGap": true,
-          "why": "Dropped-packet logging (Domain) is not in R§3; logging keys not collected → notCheckable (S2.4.2)."
+          "status": "notApplicable",
+          "why": "Integration 2026-10-18: rules-b scopes the Domain-profile rules to domain members (DISA Windows Firewall STIG V2R2); ORACLE-PC is a workgroup machine whose Domain profile never applies (S2.1 domain applicability is recorded per rule)."
         },
         "FW-08": {
           "status": "notCheckable",
@@ -554,9 +546,8 @@
           "why": "Dropped-packet logging (Public) is not in R§3; logging keys not collected → notCheckable (S2.4.2)."
         },
         "FW-10": {
-          "status": "notCheckable",
-          "researchGap": true,
-          "why": "AllowLocalPolicyMerge (Public, policy store) is not in R§3; not collected → notCheckable (S2.4.2)."
+          "status": "notApplicable",
+          "why": "Integration 2026-10-18: rules-b scopes FW-10 (Public profile ignores local rules) to domain members (DISA Windows Firewall STIG V2R2): on a workgroup machine local rules are the only rules, so the check does not apply."
         },
         "FW-11": {
           "status": "notCheckable",
@@ -724,9 +715,13 @@
           "why": "R§3 PowerShell logging: Transcription keys missing (Windows PowerShell and PowerShellCore) → NotSet; transcription only runs when configured."
         },
         "AUD-30": {
-          "status": "notCheckable",
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
           "researchGap": true,
-          "why": "Time synchronisation source (W32Time) is not in R§3; not collected → notCheckable (S2.4.2)."
+          "why": "Integration 2026-10-18: AUD-30 also requires the W32Time service; the snapshot's Win32_Service rows are partial (6 of 310, README), so W32Time looks absent (ifAbsent fail) – fail or notCheckable, never pass; a local recording decides."
         },
         "PS-01": {
           "status": "any",
@@ -785,12 +780,8 @@
           "why": "R§3 RDP: no policy → fEncryptRPCTraffic (policy only) not configured, secure RPC is not required."
         },
         "RDP-08": {
-          "status": "any",
-          "allowed": [
-            "fail",
-            "notCheckable"
-          ],
-          "why": "R§3 RDP: no policy; MaxIdleTime in RDP-Tcp not measured → fail or notCheckable, never pass."
+          "status": "info",
+          "why": "Integration 2026-10-18: rules-c ships RDP-08 as an inventory of the RDP state (S2.1: no shippable source sets a value for the idle limit; PR #9); an inventory is info, never pass or fail."
         },
         "RDP-09": {
           "status": "info",
@@ -826,13 +817,8 @@
           "why": "Device installation restrictions are not in R§3; not collected → notCheckable (S2.4.2)."
         },
         "TLS-01": {
-          "status": "any",
-          "allowed": [
-            "pass",
-            "fail",
-            "notCheckable"
-          ],
-          "why": "R§3 TLS: no SSL 2.0 values (OS default); R§3.3: SCHANNEL defaults depend on the build → pass from a cited default, fail or notCheckable (S2.4.2)."
+          "status": "notApplicable",
+          "why": "Integration 2026-10-18: rules-c gives TLS-01 the capability schannelSsl2 with ifCapabilityAbsent notApplicable; Microsoft's Schannel protocol table lists SSL 2.0 as not supported on this build, so the rule does not apply (S2.4.8: the risk does not exist without the feature)."
         },
         "TLS-02": {
           "status": "any",
@@ -1031,9 +1017,8 @@
           "why": "RPC RestrictRemoteClients policy is not in R§3; not collected → notCheckable (S2.4.2)."
         },
         "NET-29": {
-          "status": "notCheckable",
-          "researchGap": true,
-          "why": "IPEnableRouter (Tcpip\\Parameters) is not in R§3; not collected → notCheckable (S2.4.2), as check or as inventory (S2.1)."
+          "status": "info",
+          "why": "Integration 2026-10-18: rules-a ships NET-29 as an inventory of the network facts (S2.1: no shippable source sets an expected value for IP forwarding); an inventory is info as long as one of its items is readable (Win32_NetworkAdapterConfiguration here), the unread IPEnableRouter is shown as unknown with its reason."
         },
         "NETX-01": {
           "status": "notCheckable",
@@ -1369,11 +1354,8 @@
           "why": "Deny write to unprotected removable drives (BitLocker policy) is not in R§3 (only RemovableStorageDevices) → notCheckable."
         },
         "FW-01": {
-          "status": "pass",
-          "absentFlags": [
-            "fromDefault"
-          ],
-          "why": "R§3 Firewall: all 3 profiles on via HNetCfg.FwPolicy2 (runtime); Domain profile enabled (S2.3 firewallProfile)."
+          "status": "notApplicable",
+          "why": "Integration 2026-10-18: rules-b scopes the Domain-profile rules to domain members (DISA Windows Firewall STIG V2R2); ORACLE-PC is a workgroup machine whose Domain profile never applies (S2.1 domain applicability is recorded per rule)."
         },
         "FW-02": {
           "status": "pass",
@@ -1390,11 +1372,8 @@
           "why": "R§3 Firewall: all 3 profiles on via HNetCfg.FwPolicy2 (runtime); Public profile enabled (S2.3 firewallProfile)."
         },
         "FW-04": {
-          "status": "pass",
-          "absentFlags": [
-            "fromDefault"
-          ],
-          "why": "R§3 Firewall and R§3.2: inbound block on all profiles in the active store while the persistent store says NotConfigured; runtime decides (Domain, S2.4.6)."
+          "status": "notApplicable",
+          "why": "Integration 2026-10-18: rules-b scopes the Domain-profile rules to domain members (DISA Windows Firewall STIG V2R2); ORACLE-PC is a workgroup machine whose Domain profile never applies (S2.1 domain applicability is recorded per rule)."
         },
         "FW-05": {
           "status": "pass",
@@ -1411,9 +1390,8 @@
           "why": "R§3 Firewall and R§3.2: inbound block on all profiles in the active store while the persistent store says NotConfigured; runtime decides (Public, S2.4.6)."
         },
         "FW-07": {
-          "status": "notCheckable",
-          "researchGap": true,
-          "why": "Dropped-packet logging (Domain) is not in R§3; logging keys not collected → notCheckable (S2.4.2)."
+          "status": "notApplicable",
+          "why": "Integration 2026-10-18: rules-b scopes the Domain-profile rules to domain members (DISA Windows Firewall STIG V2R2); ORACLE-PC is a workgroup machine whose Domain profile never applies (S2.1 domain applicability is recorded per rule)."
         },
         "FW-08": {
           "status": "notCheckable",
@@ -1426,9 +1404,8 @@
           "why": "Dropped-packet logging (Public) is not in R§3; logging keys not collected → notCheckable (S2.4.2)."
         },
         "FW-10": {
-          "status": "notCheckable",
-          "researchGap": true,
-          "why": "AllowLocalPolicyMerge (Public, policy store) is not in R§3; not collected → notCheckable (S2.4.2)."
+          "status": "notApplicable",
+          "why": "Integration 2026-10-18: rules-b scopes FW-10 (Public profile ignores local rules) to domain members (DISA Windows Firewall STIG V2R2): on a workgroup machine local rules are the only rules, so the check does not apply."
         },
         "FW-11": {
           "status": "notCheckable",
@@ -1574,9 +1551,13 @@
           "why": "R§3 PowerShell logging: Transcription keys missing (Windows PowerShell and PowerShellCore) → NotSet; transcription only runs when configured."
         },
         "AUD-30": {
-          "status": "notCheckable",
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
           "researchGap": true,
-          "why": "Time synchronisation source (W32Time) is not in R§3; not collected → notCheckable (S2.4.2)."
+          "why": "Integration 2026-10-18: AUD-30 also requires the W32Time service; the snapshot's Win32_Service rows are partial (6 of 310, README), so W32Time looks absent (ifAbsent fail) – fail or notCheckable, never pass; a local recording decides."
         },
         "PS-01": {
           "status": "any",
@@ -1635,12 +1616,8 @@
           "why": "R§3 RDP: no policy → fEncryptRPCTraffic (policy only) not configured, secure RPC is not required."
         },
         "RDP-08": {
-          "status": "any",
-          "allowed": [
-            "fail",
-            "notCheckable"
-          ],
-          "why": "R§3 RDP: no policy; MaxIdleTime in RDP-Tcp not measured → fail or notCheckable, never pass."
+          "status": "info",
+          "why": "Integration 2026-10-18: rules-c ships RDP-08 as an inventory of the RDP state (S2.1: no shippable source sets a value for the idle limit; PR #9); an inventory is info, never pass or fail."
         },
         "RDP-09": {
           "status": "info",
@@ -1676,13 +1653,8 @@
           "why": "Device installation restrictions are not in R§3; not collected → notCheckable (S2.4.2)."
         },
         "TLS-01": {
-          "status": "any",
-          "allowed": [
-            "pass",
-            "fail",
-            "notCheckable"
-          ],
-          "why": "R§3 TLS: no SSL 2.0 values (OS default); R§3.3: SCHANNEL defaults depend on the build → pass from a cited default, fail or notCheckable (S2.4.2)."
+          "status": "notApplicable",
+          "why": "Integration 2026-10-18: rules-c gives TLS-01 the capability schannelSsl2 with ifCapabilityAbsent notApplicable; Microsoft's Schannel protocol table lists SSL 2.0 as not supported on this build, so the rule does not apply (S2.4.8: the risk does not exist without the feature)."
         },
         "TLS-02": {
           "status": "any",

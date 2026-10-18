@@ -14,8 +14,8 @@ namespace Riegel.Tests.Infrastructure;
 /// </summary>
 public sealed partial class CatalogueInvariantTests
 {
-    /// <summary>Erst der Integrationsschritt setzt das auf true (alle Regelpakete zusammengeführt).</summary>
-    public const bool CatalogueComplete = false;
+    /// <summary>Seit dem Integrationsschritt true: alle Regelpakete zusammengeführt, 20 Präfixdateien mit 153 Regeln.</summary>
+    public const bool CatalogueComplete = true;
 
     /// <summary>Regel-IDs von Katalog 2026.10 je Präfix (spec 2.1).</summary>
     public static readonly IReadOnlyDictionary<string, string[]> Catalogue202610 = new Dictionary<string, string[]>
@@ -64,12 +64,10 @@ public sealed partial class CatalogueInvariantTests
     [Fact]
     public void Katalog_ist_vollstaendig_wenn_die_Integration_es_sagt()
     {
-#pragma warning disable CS0162 // bis zur Integration absichtlich unerreichbar
-        if (!CatalogueComplete) return;
+        Assert.True(CatalogueComplete);
         var present = Files().ToDictionary(f => f.Prefix, f => f.Rules.Rules.Where(r => r.State == RuleState.Active).Select(r => r.Id).ToList());
         Assert.Equal(Catalogue202610.Keys.Order(StringComparer.Ordinal), present.Keys.Order(StringComparer.Ordinal));
         Assert.Equal(153, present.Values.Sum(v => v.Count));
-#pragma warning restore CS0162
     }
 
     [Fact]

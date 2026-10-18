@@ -31,6 +31,14 @@
           "type": "string",
           "minLength": 1
         },
+        "os": {
+          "description": "Optional: client or server, when a client and a server release share one build number (e.g. 26100) but have their own UBR sequence.",
+          "type": "string",
+          "enum": [
+            "client",
+            "server"
+          ]
+        },
         "releases": {
           "type": "array",
           "items": {

@@ -113,7 +113,7 @@ internal static class MachineFacts
     private static string? PatchMonth(MachineInfo m, Snapshot? snapshot, ICatalogue catalogue)
     {
         if (m.Build is { } build && m.Ubr is { } ubr &&
-            catalogue.Builds.Builds.FirstOrDefault(b => b.Build == build)?.Releases.FirstOrDefault(r => r.Ubr == ubr) is { } release)
+            catalogue.Builds.Find(build, BuildTable.OsKindOf(m.ProductType))?.Releases.FirstOrDefault(r => r.Ubr == ubr) is { } release)
             return release.Date.ToString("yyyy-MM", CultureInfo.InvariantCulture);
         DateTimeOffset? newest = null;
         if (Item(snapshot, Qfe) is { ValueKind: JsonValueKind.Object } qfe && qfe.TryGetProperty("rows", out var rows) && rows.ValueKind == JsonValueKind.Array)

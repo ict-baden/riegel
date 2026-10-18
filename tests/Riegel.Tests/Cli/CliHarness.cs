@@ -191,11 +191,12 @@ internal sealed class FakeValidation(IRegisterService inner, params ValidationIs
 /// <summary>Katalog des Stubs plus Testregeln (der eingebettete Katalog des Gerüsts hat noch keine Regeln).</summary>
 internal sealed class CatalogueWith(ICatalogueProvider inner, params Rule[] rules) : ICatalogueProvider
 {
+    // Nur die Testregeln, mit den Tabellen des echten Katalogs (seit der Integration enthält der eingebettete Katalog
+    // die 153 Regeln, und Combine nimmt nur Kunden-Baselines mit IMP-Kennungen an)
     public ICatalogue LoadEmbedded()
     {
         var core = inner.LoadEmbedded();
-        var extra = new ImportedBaseline(new BaselineRef("test", "test", BaselineSourceKind.RiegelJson, "00", null, FixedClock.Default, rules.Length), rules);
-        return inner.Combine(core, [extra]);
+        return new Riegel.Tests.Plants.TestCatalogue(rules, core.ReleasedOn, core.Builds) { Lifecycle = core.Lifecycle };
     }
 
     public ICatalogue Load(Stream catalogueJson, ReadLimits l) => inner.Load(catalogueJson, l);

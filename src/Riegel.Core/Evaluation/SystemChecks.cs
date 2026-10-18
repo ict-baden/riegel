@@ -123,6 +123,8 @@ internal sealed partial class EvaluationSession
             var verdict = ValueComparison.Compare(f.Op, typed, f.Value);
             if (verdict == Verdict.Pass) rows.Add(row);
             else if (verdict != Verdict.Fail) return new Outcome(ResultStatus.NotCheckable, RglCodesEngine.UnexpectedValue) { Expected = expected };
+            // rows: first – die erste passende Zeile entscheidet; spätere Zeilen (auch unklare) zählen nicht mehr
+            if (c.Rows == RowsMode.First && rows.Count > 0) break;
         }
         if (rows.Count == 0)
         {

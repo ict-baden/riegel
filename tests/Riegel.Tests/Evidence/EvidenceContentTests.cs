@@ -20,7 +20,7 @@ public sealed partial class EvidenceContentTests
         f.WriteRegisters();
         var first = f.Evaluate(SnapshotBuilder.Windows10Ltsc2019("HMI-TEST").CollectedAt(new DateTimeOffset(2026, 9, 15, 8, 0, 0, TimeSpan.Zero)).Build());
         f.Services.Plants.SaveApproved(f.Plant.Plant, new ApprovedState(SchemaIds.Approved, first.HostName, first.Id, first.Snapshot.Sha256,
-            new string('a', 64), first.Catalogue.Version, first.Registers,
+            "", first.Catalogue.Version, first.Registers,
             new Approval("Qualitätssicherung", null, new DateOnly(2026, 9, 20), null, "CHG-DEMO-0020", null)));
         f.Clock.Advance(TimeSpan.FromMinutes(5));
         var second = f.Evaluate(SnapshotBuilder.Windows10Ltsc2019("HMI-TEST")

@@ -115,26 +115,38 @@ internal sealed partial class EvaluationSession
         return o;
     }
 
-    /// <summary>Ausnahmen von Defender: MpPreference (nur als Administrator lesbar), sonst Richtlinien- und lokale Registry.</summary>
+    /// <summary>
+    /// Ausnahmen von Defender: MpPreference (nur als Administrator lesbar), sonst Richtlinien- und lokale Registry. Eine
+    /// fehlende Eigenschaft (ohne Admin nicht lesbar, vom Sammler mit „&lt;Eigenschaft&gt;@denied“ markiert, oder auf
+    /// älteren Systemen nicht vorhanden) heißt nie „keine Ausschlüsse“: Sie wird als nicht erfasst genannt; ist keine der
+    /// vier lesbar, entscheidet die Registry.
+    /// </summary>
     private Outcome DefenderExclusions()
     {
         var lists = new SortedSet<string>(StringComparer.OrdinalIgnoreCase);
-        bool readable = false;
+        var missing = new List<string>();
+        int readable = 0;
         var pref = Store.Item(Known.MpPreference);
         if (pref.IsPresent && JsonRead.Rows(pref.Value) is { Count: > 0 } rows)
         {
-            readable = true;
             foreach (var property in new[] { "ExclusionPath", "ExclusionExtension", "ExclusionProcess", "ExclusionIpAddress" })
             {
                 var v = JsonRead.Get(rows[0], property);
-                if (v is { } value && IsAdminOnlyNotice(value)) { readable = false; break; }
+                if (!JsonRead.TryGet(rows[0], property, out _) || JsonRead.Get(rows[0], property + "@denied") is { ValueKind: JsonValueKind.True }
+                    || v is { } notice && IsAdminOnlyNotice(notice))
+                {
+                    missing.Add(property);
+                    continue;
+                }
+                readable++;
                 foreach (var e in JsonRead.Array(v).Where(e => e.ValueKind == JsonValueKind.String))
                     lists.Add(T["Inv_Exclusion", property["Exclusion".Length..], e.GetString()!]);
             }
         }
-        if (!readable)
+        if (readable == 0)
         {
             lists.Clear();
+            missing.Clear();
             foreach (var root in new[] { Known.DefenderExclusionsPolicy, Known.DefenderExclusionsLocal })
                 foreach (var (sub, label) in new[] { ("Paths", "Path"), ("Extensions", "Extension"), ("Processes", "Process"), ("IpAddresses", "IpAddress") })
                 {
@@ -146,8 +158,11 @@ internal sealed partial class EvaluationSession
                 }
         }
         var o = new Outcome(ResultStatus.Info) { Actual = lists.Count.ToString(CultureInfo.InvariantCulture) };
-        if (lists.Count == 0) o = o.With(T["Inv_NoExclusions"]);
-        return lists.Aggregate(o, (x, l) => x.With(l));
+        if (lists.Count == 0 && missing.Count == 0) o = o.With(T["Inv_NoExclusions"]);
+        o = lists.Aggregate(o, (x, l) => x.With(l));
+        foreach (var property in missing)
+            o = o.With(T["Detail_Evidence", Store.Canonical(Known.MpPreference) + " " + property, RglCodesEngine.Message(T.Culture, RglCodesEngine.ItemNotCollected)]);
+        return o;
     }
 
     /// <summary>

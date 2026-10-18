@@ -13,12 +13,18 @@ namespace Riegel.Tests.RuleVectors;
 /// Führt die Testvektoren der Regeln aus (spec 2.3 „tests“). Ein Vektor wird zu einem synthetischen Export:
 /// Rechnerkopf aus <c>machine</c>, Einträge aus <c>items</c>, ohne <c>coverage</c> volle Abdeckung des
 /// Erfassungsplans – dann fehlt ein nicht genannter Planschlüssel nachweislich (KeyMissing), auch ein einzelner.
-/// Zeitbasis: erfasst und ausgewertet zu <see cref="FixedClock.Default"/> (2026-10-18T09:00:00Z), Auswertungstag
-/// 2026-10-18, updateMaxDays 35, unusedAccountDays 90, ohne ESU.
+/// Wie beim Import leitet der Leser die <c>parsed:*</c>-Einträge aus den Rohdaten ab, wo der Vektor sie nicht selbst
+/// nennt (spec 7.3; z. B. die Firewall-Regeln der Registry für FW-11).
+/// Zeitbasis (docs/file-formats.md „Test vectors“): erfasst 2026-10-15T08:00:00Z (Standard des SnapshotBuilder),
+/// ausgewertet zu <see cref="FixedClock.Default"/> (2026-10-18T09:00:00Z), Auswertungstag 2026-10-18,
+/// updateMaxDays 35, unusedAccountDays 90, ohne ESU.
 /// </summary>
 internal static class VectorRunner
 {
     public static DateTimeOffset Time => FixedClock.Default;
+
+    /// <summary>Erfassungszeit der Vektoren (Altersprüfungen messen dagegen, spec 2.8).</summary>
+    public static DateTimeOffset Collected { get; } = new(2026, 10, 15, 8, 0, 0, TimeSpan.Zero);
 
     public static EvaluationContext Context { get; } = new(new DateOnly(2026, 10, 18), FixedClock.Default, null, 35, 90, false, "en");
 
@@ -42,8 +48,9 @@ internal static class VectorRunner
                 if (!present.Contains(key)) items.Add(new SnapshotItem(key, ItemStatus.KeyMissing, null, null, null, 0));
             }
         }
-        return new Snapshot(SchemaIds.Snapshot, new CollectorInfo("Riegel.Collector", "0.1.0", null, "4.0.30319.42000", true), Time, m.IsAdmin,
+        var snapshot = new Snapshot(SchemaIds.Snapshot, new CollectorInfo("Riegel.Collector", "0.1.0", null, "4.0.30319.42000", true), Collected, m.IsAdmin,
             SnapshotOrigin.Synthetic, new CollectionOptions(false, false, false), machine, coverage, items);
+        return Riegel.Core.Snapshots.DerivedItems.Process(snapshot, ReadLimits.Default);
     }
 
     /// <summary>Der Testkatalog der Engine (tests/Riegel.Tests/RuleVectors/TestRules/rules) über den echten Lader.</summary>

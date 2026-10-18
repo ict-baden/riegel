@@ -29,7 +29,7 @@ internal static class EvaluationClock
         var reasons = new List<string>();
         if (ctx.ImportedAtUtc is { } imported && collected > imported + Tolerance) reasons.Add("afterImport");
         if (collected > ctx.EvaluatedAtUtc + Tolerance) reasons.Add("afterEvaluation");
-        if (facts.Build is { } build && facts.Ubr is { } ubr && BuildLookup.Find(c.Builds, build) is { } entry
+        if (facts.Build is { } build && facts.Ubr is { } ubr && BuildLookup.Find(c.Builds, build, facts.Kind) is { } entry
             && BuildLookup.Locate(entry, ubr).Lower is { } lower)
         {
             var released = new DateTimeOffset(lower.Date.ToDateTime(TimeOnly.MinValue), TimeSpan.Zero);
@@ -43,7 +43,7 @@ internal static class EvaluationClock
 /// <summary>Suche in rules/lifecycle/builds.json.</summary>
 internal static class BuildLookup
 {
-    public static BuildEntry? Find(BuildTable table, int build) => table.Builds.FirstOrDefault(b => b.Build == build);
+    public static BuildEntry? Find(BuildTable table, int build, string? osKind) => table.Find(build, osKind);
 
     /// <summary>
     /// Wo liegt <paramref name="ubr"/> in der (aufsteigenden) Liste? Exact = gleiche UBR; Lower = größte UBR darunter

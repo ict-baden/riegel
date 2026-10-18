@@ -212,7 +212,9 @@ internal static partial class CatalogueValidator
                 break;
             case ServiceCheck sv:
                 if (string.IsNullOrWhiteSpace(sv.Name)) Bad(RglCodesEngine.InvalidRule, "name is required");
-                if ((sv.StartMode?.Count ?? 0) == 0 && (sv.State?.Count ?? 0) == 0) Bad(RglCodesEngine.InvalidRule, "startMode or state is required");
+                // Eine Bestandsregel (spec 2.1: geplante Prüfung ohne belegten Sollwert) meldet nur Starttyp und Zustand
+                if (rule.Kind == RuleKind.Check && (sv.StartMode?.Count ?? 0) == 0 && (sv.State?.Count ?? 0) == 0)
+                    Bad(RglCodesEngine.InvalidRule, "startMode or state is required");
                 foreach (var m in sv.StartMode ?? [])
                     if (!StartModes.Contains(m, StringComparer.OrdinalIgnoreCase)) Bad(RglCodesEngine.InvalidRule, $"startMode \"{m}\"");
                 foreach (var st in sv.State ?? [])
@@ -391,12 +393,15 @@ internal static partial class CatalogueValidator
             if (string.IsNullOrWhiteSpace(p.Source) || !p.Source.StartsWith("https://", StringComparison.Ordinal) || p.Seen == default)
                 Add(RglCodesEngine.InvalidTable, where, "source (https) and seen date required");
         }
-        var buildNumbers = new HashSet<int>();
+        // Ein Build darf einmal ohne os oder je einmal mit os client/server vorkommen, nicht gemischt
+        var buildKeys = new HashSet<(int, string?)>();
         foreach (var b in builds.Builds)
         {
             if (b is null) { Add(RglCodesEngine.InvalidTable, "builds", "null"); continue; }
             var where = $"builds {b.Build}";
-            if (!buildNumbers.Add(b.Build)) Add(RglCodesEngine.InvalidTable, where, "duplicate build");
+            if (b.Os is not (null or "client" or "server")) Add(RglCodesEngine.InvalidTable, where, $"os \"{b.Os}\"");
+            bool mixed = b.Os is null ? buildKeys.Any(k => k.Item1 == b.Build) : buildKeys.Contains((b.Build, null));
+            if (!buildKeys.Add((b.Build, b.Os)) || mixed) Add(RglCodesEngine.InvalidTable, where, "duplicate build");
             if (string.IsNullOrWhiteSpace(b.Source) || !b.Source.StartsWith("https://", StringComparison.Ordinal) || b.Seen == default)
                 Add(RglCodesEngine.InvalidTable, where, "source (https) and seen date required");
             for (int i = 1; i < b.Releases.Count; i++)

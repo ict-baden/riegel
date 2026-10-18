@@ -1561,7 +1561,7 @@
           "expect": "pass"
         },
         {
-          "name": "No event since the last boot and no configuration",
+          "name": "No event since the last boot and no configuration (the System log may have wrapped)",
           "machine": {
             "build": 26100,
             "ubr": 6899,
@@ -1595,7 +1595,7 @@
               }
             }
           },
-          "expect": "fail"
+          "expect": "notCheckable"
         },
         {
           "name": "Only configured (RunAsPPL = 2), runtime not collected",

@@ -7,11 +7,13 @@ namespace Riegel.Tests.TestSupport;
 
 /// <summary>
 /// Prüft JSON gegen die Schemas unter schemas/ (JSON Schema 2020-12, JsonSchema.Net). Jedes Schema wird einmal gelesen
-/// (die $id darf je Prozess nur einmal registriert sein).
+/// (die $id darf je Prozess nur einmal registriert sein). Der Cache hält <see cref="Lazy{T}"/>: Laden zwei Testklassen
+/// dasselbe Schema gleichzeitig zum ersten Mal, läuft <c>JsonSchema.FromText</c> trotzdem nur einmal (sonst „Overwriting
+/// registered schemas is not permitted“).
 /// </summary>
 public static class SchemaValidator
 {
-    private static readonly ConcurrentDictionary<string, JsonSchema> Cache = new(StringComparer.Ordinal);
+    private static readonly ConcurrentDictionary<string, Lazy<JsonSchema>> Cache = new(StringComparer.Ordinal);
 
     /// <summary>Schemadatei zu einer Formatkennung (<c>riegel.snapshot/1</c> → snapshot.schema.json).</summary>
     public static string FileFor(string schemaId) => schemaId switch
@@ -39,8 +41,9 @@ public static class SchemaValidator
     };
 
     /// <summary>Das Schema einer Datei unter schemas/ (ohne Endung), z. B. „rule“.</summary>
-    public static JsonSchema Schema(string name) => Cache.GetOrAdd(name, n =>
-        JsonSchema.FromText(File.ReadAllText(Path.Combine(RepoPaths.Schemas, n + ".schema.json"))));
+    public static JsonSchema Schema(string name) => Cache.GetOrAdd(name, n => new Lazy<JsonSchema>(
+        () => JsonSchema.FromText(File.ReadAllText(Path.Combine(RepoPaths.Schemas, n + ".schema.json"))),
+        LazyThreadSafetyMode.ExecutionAndPublication)).Value;
 
     /// <summary>Fehler (leer = gültig) für JSON-Text gegen das Schema seines Felds <c>"schema"</c> bzw. gegen <paramref name="schemaName"/>.</summary>
     public static IReadOnlyList<string> Errors(string json, string? schemaName = null)

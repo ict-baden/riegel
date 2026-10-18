@@ -48,6 +48,9 @@ public sealed class MutationTests(ITestOutputHelper output)
         var catalogue = RiegelServices.Create(new NullPlatform(), new FixedClock()).Catalogue.LoadEmbedded();
         var violations = Violations(catalogue, catalogue.Rules, CatalogueInvariantTests.WhenMissingPassAllowList(), out var runs);
         output.WriteLine($"{catalogue.Rules.Count} Regeln, {runs} Auswertungen");
+        // Seit der Integration enthält der eingebettete Katalog alle 153 Regeln von 2026.10
+        Assert.Equal(153, catalogue.Rules.Count);
+        Assert.True(runs > 10_000, $"nur {runs} Auswertungen");
         Assert.True(violations.Count == 0, $"{violations.Count} Verstöße:\n" + string.Join("\n", violations.Take(60)));
     }
 

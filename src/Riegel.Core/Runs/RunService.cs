@@ -163,7 +163,7 @@ internal sealed class RunService(RiegelServices services, IEvaluator? evaluator 
         if (collected > evaluatedAtUtc + ClockTolerance) return true;
         if (s.Machine.LastBootUtc is { } boot && collected < boot) return true;
         if (s.Machine.Build is { } build && s.Machine.Ubr is { } ubr &&
-            catalogue.Builds.Builds.FirstOrDefault(b => b.Build == build)?.Releases.FirstOrDefault(r => r.Ubr == ubr) is { } release &&
+            catalogue.Builds.Find(build, BuildTable.OsKindOf(s.Machine.ProductType))?.Releases.FirstOrDefault(r => r.Ubr == ubr) is { } release &&
             DateOnly.FromDateTime(collected.UtcDateTime) < release.Date)
             return true;
         return false;

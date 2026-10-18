@@ -396,7 +396,7 @@
           "expect": "fail"
         },
         {
-          "name": "active, preference not collected, policy sets block",
+          "name": "active, preference not collected, policy sets block (configured only)",
           "machine": {
             "build": 26100,
             "edition": "Enterprise",
@@ -444,7 +444,10 @@
               }
             }
           },
-          "expect": "pass"
+          "expect": "notCheckable",
+          "expectFlags": [
+            "configuredOnly"
+          ]
         },
         {
           "name": "block mode but real-time protection off",
@@ -1078,7 +1081,7 @@
           "expect": "fail"
         },
         {
-          "name": "active, preference not collected, policy sets block",
+          "name": "active, preference not collected, policy sets block (configured only)",
           "machine": {
             "build": 26100,
             "edition": "Enterprise",
@@ -1126,7 +1129,10 @@
               }
             }
           },
-          "expect": "pass"
+          "expect": "notCheckable",
+          "expectFlags": [
+            "configuredOnly"
+          ]
         },
         {
           "name": "block mode but real-time protection off",
@@ -1926,7 +1932,7 @@
           "expect": "fail"
         },
         {
-          "name": "active, preference not collected, policy sets block",
+          "name": "active, preference not collected, policy sets block (configured only)",
           "machine": {
             "build": 26100,
             "edition": "Enterprise",
@@ -1975,7 +1981,10 @@
               }
             }
           },
-          "expect": "pass"
+          "expect": "notCheckable",
+          "expectFlags": [
+            "configuredOnly"
+          ]
         },
         {
           "name": "block mode but real-time protection off",
@@ -2768,7 +2777,7 @@
           "expect": "fail"
         },
         {
-          "name": "active, preference not collected, policy sets block",
+          "name": "active, preference not collected, policy sets block (configured only)",
           "machine": {
             "build": 26100,
             "edition": "Enterprise",
@@ -2816,7 +2825,10 @@
               }
             }
           },
-          "expect": "pass"
+          "expect": "notCheckable",
+          "expectFlags": [
+            "configuredOnly"
+          ]
         },
         {
           "name": "block mode but real-time protection off",
@@ -3498,7 +3510,7 @@
           "expect": "fail"
         },
         {
-          "name": "active, preference not collected, policy sets block",
+          "name": "active, preference not collected, policy sets block (configured only)",
           "machine": {
             "build": 26100,
             "edition": "Enterprise",
@@ -3546,7 +3558,10 @@
               }
             }
           },
-          "expect": "pass"
+          "expect": "notCheckable",
+          "expectFlags": [
+            "configuredOnly"
+          ]
         },
         {
           "name": "block mode but real-time protection off",
@@ -4231,7 +4246,7 @@
           "expect": "fail"
         },
         {
-          "name": "active, preference not collected, policy sets block",
+          "name": "active, preference not collected, policy sets block (configured only)",
           "machine": {
             "build": 26100,
             "edition": "Enterprise",
@@ -4279,7 +4294,10 @@
               }
             }
           },
-          "expect": "pass"
+          "expect": "notCheckable",
+          "expectFlags": [
+            "configuredOnly"
+          ]
         },
         {
           "name": "block mode but real-time protection off",
@@ -4966,7 +4984,7 @@
           "expect": "fail"
         },
         {
-          "name": "active, preference not collected, policy sets block",
+          "name": "active, preference not collected, policy sets block (configured only)",
           "machine": {
             "build": 26100,
             "edition": "Enterprise",
@@ -5014,7 +5032,10 @@
               }
             }
           },
-          "expect": "pass"
+          "expect": "notCheckable",
+          "expectFlags": [
+            "configuredOnly"
+          ]
         },
         {
           "name": "block mode but real-time protection off",

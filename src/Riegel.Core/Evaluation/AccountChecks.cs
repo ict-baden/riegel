@@ -49,7 +49,7 @@ internal sealed partial class EvaluationSession
 
     /// <summary>
     /// Kein (aktiviertes) lokales Konto erfüllt die Bedingung; Treffer werden aufgelistet. unusedDays: letzte Anmeldung
-    /// (oder nie, dann Kennwortalter) länger her als die Anlageneinstellung unusedAccountDays, gemessen an CollectedAtUtc.
+    /// länger her als die Anlageneinstellung unusedAccountDays (gemessen an CollectedAtUtc) oder nie.
     /// </summary>
     private Outcome LocalAccounts(LocalAccountsCheck c)
     {
@@ -89,12 +89,9 @@ internal sealed partial class EvaluationSession
     {
         if (JsonRead.TryGet(account, "lastLogonDate", out var last))
         {
-            if (last.ValueKind == JsonValueKind.Null)
-            {
-                // Nie angemeldet: unbenutzt, wenn das Konto (Kennwortalter) älter als die Frist ist
-                var age = JsonRead.Integer(account, "passwordAgeDays");
-                return age is null ? true : age > days;
-            }
+            // Nie angemeldet: keine Anmeldung innerhalb der Frist, also unbenutzt (wie die DISA-Prüfung „Never“ wertet;
+            // ein neues, noch ungenutztes Konto erscheint so lange in der Liste, bis es benutzt wird)
+            if (last.ValueKind == JsonValueKind.Null) return true;
             return JsonRead.Time(last) is { } t && ValueComparison.AgeDays(t, CollectedAtUtc) is { } a ? a > days : null;
         }
         return null;

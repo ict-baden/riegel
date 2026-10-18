@@ -167,7 +167,7 @@
           "expect": "pass"
         },
         {
-          "name": "68 days old",
+          "name": "65 days old",
           "machine": {
             "build": 99001,
             "ubr": 100,
@@ -198,7 +198,7 @@
                 "rows": [
                   {
                     "HotFixID": "KB0000009",
-                    "InstalledOn": "2026-10-16T00:00:00Z"
+                    "InstalledOn": "2026-10-13T00:00:00Z"
                   }
                 ]
               }
@@ -221,7 +221,7 @@
           "expect": "fail"
         },
         {
-          "name": "between entries, at most 40 days: undecided, QFE recent",
+          "name": "between entries, at most 37 days: undecided, QFE recent",
           "machine": {
             "build": 99001,
             "ubr": 250,
@@ -265,7 +265,7 @@
           "expect": "notCheckable"
         },
         {
-          "name": "between 100 and 200: at least 40 days",
+          "name": "between 100 and 200: at least 37 days",
           "machine": {
             "build": 99001,
             "ubr": 150,
@@ -383,7 +383,7 @@
                 "serviceWasRunning": true,
                 "entries": [
                   {
-                    "dateUtc": "2026-10-17T10:00:00Z",
+                    "dateUtc": "2026-10-14T10:00:00Z",
                     "resultCode": 2,
                     "operation": 1,
                     "title": "Beispiel-Signaturupdate"

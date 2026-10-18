@@ -40,8 +40,13 @@ public sealed partial class OracleTests
         Assert.Equal((0, 1, 26200, 9711, "Professional"),
             (snapshot.Machine.DomainRole, snapshot.Machine.ProductType, snapshot.Machine.Build, snapshot.Machine.Ubr, snapshot.Machine.EditionId));
         Assert.Equal(snapshot.Items.Count, snapshot.Items.Select(i => i.Key.ToLowerInvariant()).Distinct().Count());
-        // Kanonische Schreibweise wie die synthetischen Fixtures (Rundreise ohne Änderung)
-        Assert.Equal(json.Replace("\r\n", "\n"), RiegelJson.Serialize(snapshot));
+        // Kanonische Schreibweise wie die synthetischen Fixtures (Rundreise der Datei über die Vertragstypen ohne Änderung)
+        var file = RiegelJson.ReadFile<Snapshot>(path, 64L * 1024 * 1024);
+        Assert.Equal(json.Replace("\r\n", "\n"), RiegelJson.Serialize(file));
+        // Der Leser übernimmt jeden Eintrag der Datei und ergänzt nur fehlende parsed:*-Einträge aus den Rohdaten (spec 7.3)
+        Assert.All(file.Items, i => Assert.Contains(snapshot.Items, r => r.Key == i.Key && r.Status == i.Status));
+        Assert.All(snapshot.Items.Where(r => !file.Items.Any(i => i.Key == r.Key)),
+            r => Assert.StartsWith("parsed:", r.Key, StringComparison.Ordinal));
     }
 
     [Fact]
@@ -66,7 +71,13 @@ public sealed partial class OracleTests
             var expected = key.StartsWith("raw:", StringComparison.Ordinal) ? ItemStatus.NotCollected : ItemStatus.Ok;
             Assert.Equal(expected, Assert.Single(admin.Items, i => ItemKeys.Same(i.Key, key)).Status);
         }
-        Assert.DoesNotContain(user.Items, i => i.Key.StartsWith("parsed:", StringComparison.Ordinal));
+        // Der Leser leitet parsed:* aus den raw:*-Einträgen ab und reicht deren Status weiter (spec 7.3): ohne Admin
+        // gibt es parsed:* höchstens ohne Wert (verweigert oder nicht erfasst), nie mit Inhalt
+        Assert.All(user.Items.Where(i => i.Key.StartsWith("parsed:", StringComparison.Ordinal)), i =>
+        {
+            Assert.NotEqual(ItemStatus.Ok, i.Status);
+            Assert.Null(i.Value);
+        });
         var preference = Assert.Single(user.Items, i => i.Key.EndsWith(":MSFT_MpPreference", StringComparison.Ordinal));
         Assert.DoesNotContain("Exclusion", preference.Value!.Value.GetRawText(), StringComparison.Ordinal);
 

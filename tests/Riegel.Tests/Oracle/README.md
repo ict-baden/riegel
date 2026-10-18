@@ -182,7 +182,10 @@ Everything else is byte-identical (a test checks this).
 `globalAbsentFlags` (`staleSnapshot`, `clockSuspect`) must be absent on every result: the snapshot is collected on
 the evaluation day, after the last boot and after the release of 26200.9711.
 
-Counts (admin / non-admin): pass 28/25, fail 25/24, notApplicable 6/6, info 3/2, notCheckable 65/71, any 26/25.
+Counts (admin / non-admin): pass 26/23, fail 25/24, notApplicable 11/11, info 5/4, notCheckable 61/67, any 25/24.
+The integration step (2026-10-18) changed NET-29, FW-01, FW-04, FW-07, FW-10, AUD-30, RDP-08 and TLS-01 after the
+first run against the real engine and catalogue; each entry's `why` starts with "Integration 2026-10-18" and gives the
+reason (rule decisions of rules-a/b/c with their sources, and the partial service list of this fixture).
 Most `notCheckable` results are research gaps: the research PC was measured for feasibility, not for every rule.
 The decisive part of the oracle is the set of fixed pass/fail/notApplicable/info expectations and every
 `notCheckable` that a sloppy engine would turn into a pass or a fail (values outside the filter, truncated secedit,
@@ -196,7 +199,7 @@ ACCT-14 notApplicable.
 
 ## The 'any' list
 
-26 of 153 (17.0 %) for admin, 25 of 153 (16.3 %) for non-admin – below the 20 % limit (a test enforces it).
+25 of 153 (16.3 %) for admin, 24 of 153 (15.7 %) for non-admin – below the 20 % limit (a test enforces it).
 
 | Rule | Allowed | Why neither R nor S pins it |
 |---|---|---|
@@ -214,9 +217,10 @@ ACCT-14 notApplicable.
 | SVC-02 | pass, fail, notCheckable | Point and Print policy missing; default vs policy required |
 | SVC-04 | pass, info | check or inventory (S2.1 names it as an inventory candidate) |
 | PS-01 | pass, notApplicable | PowerShell 2.0 absent: R§3.3 "not present" vs C "n/a on 24H2+" |
-| RDP-02, RDP-04, RDP-06, RDP-08 | fail, notCheckable | policy missing, the RDP-Tcp value not measured |
+| RDP-02, RDP-04, RDP-06 | fail, notCheckable | policy missing, the RDP-Tcp value not measured |
 | MED-05 | fail, info | USBSTOR 3 fails as a check; C lists no source, so it may ship as inventory |
-| TLS-01, TLS-02, TLS-05, TLS-09, TLS-10 | pass, fail, notCheckable | values not set; R§3.3 per-build SCHANNEL defaults are open |
+| TLS-02, TLS-05, TLS-09, TLS-10 | pass, fail, notCheckable | values not set; R§3.3 per-build SCHANNEL defaults are open |
+| AUD-30 | fail, notCheckable | the rule also needs the W32Time service row, which the partial service list lacks (integration) |
 | TLS-03, TLS-04 | fail, notCheckable | TLS 1.0/1.1 not set; R§3.3: still on in in-market builds, first build with them off unverified |
 
 ## Tests and the integration gate
