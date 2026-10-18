@@ -109,7 +109,8 @@ function Get-RunnerState {
     } catch { $s['fw'] = "error $($_.Exception.Message)" }
     $pol = Join-Path $env:SystemRoot 'System32\GroupPolicy\Machine\Registry.pol'
     $s['registry.pol'] = if (Test-Path $pol) { (Get-FileHash $pol -Algorithm SHA256).Hash } else { 'absent' }
-    $s['temp:riegel-*'] = (@(Get-ChildItem ([IO.Path]::GetTempPath()) -Directory -Filter 'riegel-*' -ErrorAction SilentlyContinue | ForEach-Object Name) -join ';')
+    # Arbeitsordner des Sammlers: genau „riegel-“ und 8 Hexziffern
+    $s['temp:riegel-*'] = (@(Get-ChildItem ([IO.Path]::GetTempPath()) -Directory -Filter 'riegel-*' -ErrorAction SilentlyContinue | Where-Object Name -match '^riegel-[0-9a-f]{8}$' | ForEach-Object Name) -join ';')
     return $s
 }
 
@@ -151,9 +152,10 @@ function Get-ChildrenFromSecurityLog([datetime] $from, [datetime] $to, [int] $ro
     catch { $events = @() }
     $created = foreach ($e in $events) {
         $d = @{}
-        foreach ($n in ([xml] $e.ToXml()).Event.EventData.Data) { $d[$n.Name] = $n.'#text' }
+        # InnerText statt '#text': leere <Data>-Elemente haben keinen Textknoten (StrictMode)
+        foreach ($n in ([xml] $e.ToXml()).Event.EventData.Data) { $d[$n.Name] = $n.InnerText }
         try {
-            [pscustomobject]@{ Pid = [Convert]::ToInt32($d['NewProcessId'], 16); Parent = [Convert]::ToInt32($d['ProcessId'], 16); Name = Split-Path $d['NewProcessName'] -Leaf }
+            [pscustomobject]@{ Pid = [Convert]::ToInt32($d['NewProcessId'], 16); Parent = [Convert]::ToInt32($d['ProcessId'], 16); Name = [IO.Path]::GetFileName([string] $d['NewProcessName']) }
         } catch { }
     }
     $tree = [Collections.Generic.HashSet[int]]::new()
@@ -212,8 +214,18 @@ $busy = 'msiexec', 'TiWorker', 'TrustedInstaller', 'MoUsoCoreWorker', 'wuauclt',
 $quiet = [Diagnostics.Stopwatch]::StartNew()
 while ($quiet.Elapsed.TotalSeconds -lt 300 -and @(Get-Process -Name $busy -ErrorAction SilentlyContinue).Count -gt 0) { Start-Sleep -Seconds 5 }
 $still = @(Get-Process -Name $busy -ErrorAction SilentlyContinue | ForEach-Object Name | Sort-Object -Unique)
-Start-Sleep -Seconds 10
-Line "Settle: waited $([Math]::Round($quiet.Elapsed.TotalSeconds)) s for installer activity to end$(if ($still) { " (still running: $($still -join ', '))" })"
+# Danach, bis Dienste und Aufgaben zweimal hintereinander gleich sind (Folgestarts nach einer Installation)
+function Get-Quick { (@(Get-CimInstance Win32_Service -Property Name, State | ForEach-Object { "$($_.Name)=$($_.State)" }) +
+    @(Get-ScheduledTask | ForEach-Object { "$($_.TaskPath)$($_.TaskName)=$([string] $_.State -eq 'Disabled')" }) | Sort-Object) -join "`n" }
+$stable = [Diagnostics.Stopwatch]::StartNew()
+$last = Get-Quick
+do {
+    Start-Sleep -Seconds 10
+    $now = Get-Quick
+    $same = $now -eq $last
+    $last = $now
+} while (-not $same -and $stable.Elapsed.TotalSeconds -lt 120)
+Line "Settle: waited $([Math]::Round($quiet.Elapsed.TotalSeconds)) s for installer activity to end$(if ($still) { " (still running: $($still -join ', '))" }); services and tasks $(if ($same) { 'stable' } else { 'not yet stable' }) after $([Math]::Round($stable.Elapsed.TotalSeconds)) s"
 Line ''
 
 $detectionsBefore = @(try { Get-MpThreatDetection } catch { @() }).Count
@@ -240,7 +252,7 @@ foreach ($key in @(Compare-State $s0 $s1)) {
 Line ''
 
 # 2. Kalibrierung
-$pause = [Math]::Max(20000, $longest)
+$pause = [Math]::Max(30000, 2 * $longest)
 $calStart = Get-Date
 Start-Sleep -Milliseconds $pause
 $calEnd = Get-Date

@@ -15,8 +15,9 @@ namespace Riegel.Tests.Windows.Collector;
 [Trait("Category", "LocalReadOnly")]
 public sealed class LocalReadOnlyTests
 {
+    // Nur der Arbeitsordner des Sammlers („riegel-“ und 8 Hexziffern); andere Programme legen eigene riegel-*-Ordner an
     private static string[] RiegelTempFolders() =>
-        Directory.GetDirectories(Path.GetTempPath(), "riegel-*").Where(d => !Path.GetFileName(d).StartsWith("riegel-test-", StringComparison.Ordinal)).ToArray();
+        Directory.GetDirectories(Path.GetTempPath(), "riegel-*").Where(d => System.Text.RegularExpressions.Regex.IsMatch(Path.GetFileName(d), "^riegel-[0-9a-f]{8}$")).ToArray();
 
     [Fact]
     public void Sammler_schreibt_nur_Export_und_Pruefsumme_und_raeumt_auf()
@@ -35,7 +36,7 @@ public sealed class LocalReadOnlyTests
         Assert.Equal(HashCheckStatus.Ok, SnapshotFile.Verify(path).Status);
         Assert.Contains(Hashes.Sha256File(path), output, StringComparison.Ordinal);
         string json = File.ReadAllText(path);
-        SchemaValidator.AssertValid(json, files[0]!);
+        SnapshotSchema.AssertValid(json, files[0]!);
         var snapshot = RiegelJson.Deserialize<Snapshot>(File.ReadAllBytes(path));
         Assert.Equal(SnapshotOrigin.Collector, snapshot.Origin);
         Assert.True(snapshot.Options.Minimal);
@@ -63,7 +64,7 @@ public sealed class LocalReadOnlyTests
         Assert.Equal(a, b);
         Assert.Equal(exe.Coverage.Select(c => c.Root), app.Coverage.Select(c => c.Root));
         string json = RiegelJson.Serialize(app);
-        SchemaValidator.AssertValid(json, "CollectThisMachine");
+        SnapshotSchema.AssertValid(json, "CollectThisMachine");
     }
 
     [Fact]

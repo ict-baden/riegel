@@ -34,13 +34,15 @@ public sealed partial class RecordedFixtureTests
         if (relative.Length == 0) return; // noch keine Aufzeichnung
         string path = Path.Combine(RepoPaths.RecordedFixtures, relative);
         string json = File.ReadAllText(path);
-        SchemaValidator.AssertValid(json, relative);
+        SnapshotSchema.AssertValid(json, relative);
         var snapshot = RiegelJson.Deserialize<Snapshot>(File.ReadAllBytes(path));
         Assert.Equal(SnapshotOrigin.Recorded, snapshot.Origin);
         Assert.StartsWith("RUNNER-", snapshot.Machine.HostName, StringComparison.Ordinal);
         if (snapshot.Machine.MachineGuid is not null) Assert.Equal("00000000-0000-4000-8000-0000000000a1", snapshot.Machine.MachineGuid);
         AssertAnonymous(json, relative);
-        Assert.Equal(relative.Contains("nonadmin", StringComparison.Ordinal), !snapshot.IsAdmin);
+        Assert.Equal(relative.Contains("-nonadmin", StringComparison.Ordinal), !snapshot.IsAdmin);
+        Assert.Equal(SnapshotOrigin.Recorded, snapshot.Origin);
+        Assert.DoesNotMatch(@"WIN-[A-Z0-9]{11}", json);
     }
 
     [Fact]
@@ -49,14 +51,16 @@ public sealed partial class RecordedFixtureTests
         if (!Directory.Exists(RepoPaths.RecordedFixtures)) return; // noch keine Aufzeichnung
         foreach (var runner in Runners)
         {
-            string dir = Path.Combine(RepoPaths.RecordedFixtures, runner);
-            Assert.True(File.Exists(Path.Combine(dir, "admin.snapshot.json")), $"{runner}: admin.snapshot.json fehlt");
-            foreach (var raw in new[] { "secedit.inf", "auditpol.csv", "gpresult.xml" })
-            {
-                string file = Path.Combine(dir, "raw", raw);
-                Assert.True(File.Exists(file), $"{runner}: raw/{raw} fehlt");
-                AssertAnonymous(File.ReadAllText(file), $"{runner}/raw/{raw}");
-            }
+            string admin = Path.Combine(RepoPaths.RecordedFixtures, $"{runner}-admin.snapshot.json");
+            Assert.True(File.Exists(admin), $"{runner}-admin.snapshot.json fehlt");
+            var snapshot = RiegelJson.Deserialize<Snapshot>(File.ReadAllBytes(admin));
+            string raw = Path.Combine(RepoPaths.RecordedFixtures, "raw", runner);
+            foreach (var name in new[] { "secedit.inf", "auditpol.csv" })
+                Assert.True(File.Exists(Path.Combine(raw, name)), $"raw/{runner}/{name} fehlt");
+            // gpresult nur, wo der Runner es erlaubt (auf windows-11-arm verweigert es auch Administratoren)
+            bool gpresult = snapshot.Items.Single(i => i.Key == ItemKeys.RawGpresultXml).Status == ItemStatus.Ok;
+            Assert.Equal(gpresult, File.Exists(Path.Combine(raw, "gpresult.xml")));
+            foreach (var file in Directory.GetFiles(raw)) AssertAnonymous(File.ReadAllText(file), $"raw/{runner}/{Path.GetFileName(file)}");
         }
     }
 

@@ -137,7 +137,7 @@ public sealed class PlanAndJsonTests
         data.Items.Add(CollectedItem.Fail(ItemKeys.LsassProtection, Statuses.NotCollected, null, "only with --deep"));
         data.Items.Add(new CollectedItem(@"wmi:root\cimv2:Win32_Tpm", Statuses.Denied) { ErrorCode = -2147217405, Truncated = true });
         string json = JsonWriter.Write(data.ToJson());
-        SchemaValidator.AssertValid(json, "Export");
+        SnapshotSchema.AssertValid(json, "Export");
         var snapshot = RiegelJson.Deserialize<Snapshot>(System.Text.Encoding.UTF8.GetBytes(json));
         Assert.Equal(SnapshotOrigin.Collector, snapshot.Origin);
         Assert.Equal(ItemStatus.NotCollected, snapshot.Items[1].Status);

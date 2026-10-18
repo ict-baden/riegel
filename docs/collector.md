@@ -270,15 +270,23 @@ account.
 
 ## Verified and not verified
 
+Results of 2026-10-18 on the GitHub runners `windows-2022` (Server 2022, build 20348), `windows-2025` (Server 2025,
+build 26100) and `windows-11-arm` (Windows 11 Enterprise 25H2 Arm64, build 26200), workflow `collector.yml`, and on a
+Windows 11 Pro 25H2 x64 workstation (read-only). Every release repeats V1–V3 in `Riegel-Collector-ReadOnlyProof.txt`.
+
 | # | Question | Status |
 |---|---|---|
-| V1 | Does the collector leave `wuauserv` untouched? | answered per runner by the read-only proof (`Riegel-Collector-ReadOnlyProof.txt` and the `collector.yml` summary); the collector only queries the update history when the service already runs |
-| V2 | Which Security-log events does one collection create? | recorded per runner and target in the proof |
-| V3 | Does Defender flag the collector or `--deep`? | recorded per runner in the proof (Get-MpThreatDetection before/after) |
-| V4 | Is `AMRunningMode` present on all runner builds? | in the `collector.yml` summary per runner |
+| V1 | Does the collector leave `wuauserv` untouched? | **Yes** where it could be measured: on `windows-2022` (service disabled) and `windows-2025` (service running, so the collector did read the update history) its start mode and state were unchanged by every measured run. On `windows-11-arm` Windows itself re-enabled and started the service during calibration, so V1 was not verifiable on that runner |
+| V2 | Which Security-log events does one collection create? | Server 2022/2025, one elevated run: 4662 (34, an operation on an object), 4673 and 4674 (privileged service called, operation on a privileged object), 4688 (process creation: the collector, `secedit`, `gpresult`), 4798 (8 on Server 2025, 10 on Server 2022: a user's local group membership enumerated) and 4799 (2: a security-enabled local group's membership enumerated – the collector reads Administrators and Remote Desktop Users). `--minimal`: 4674 and 4688 on Server 2022; 4662, 4673, 4674, 4688 and 4798 on Server 2025; no 4799. Without the collector the runners logged 4624, 4634, 4672, 4674 and 4688 in the same time. Which events appear depends on the machine's audit policy: the Windows 11 Arm64 runner (no process-creation auditing) logged only 4798 (10) and 4799 (2) per run, 4798 (5) with `--minimal`, and nothing for `collect-builtin.cmd` |
+| V3 | Does Defender flag the collector or `--deep`? | **No** detection on any of the three runners (Get-MpThreatDetection before and after, Defender in normal mode) |
+| V4 | Is `AMRunningMode` present on all runner builds? | **Yes**, value `Normal` on all three |
 | V5 | UNC start under CLR 2; 2008 R2 without the 3.5.1 feature | **unverified** – lab test before 1.0 |
-| V7 | `NetUserEnum` level 2, `MSNdis_PhysicalMediumType`, `GetSecurityDescriptor` without admin; WSC API from net35; Wininit event 12 data | on a Windows 11 25H2 workstation (2026-10-18): all three work without administrator rights; the WSC API works from the net35 build (Windows 8+ clients only; on Server and Windows 7 the item is "not collected"); event 12 carries one data value, the protection level (`4`). Per runner: `collector.yml` summary |
-| V8 | Does `HNetCfg.FwPolicy2` return GPO-deployed rules? | runners have no domain; the summary compares the COM rule count with the local and GPO registry stores. GPO-deployed rules from a domain remain **unverified** (Limitations) |
+| V7 | `NetUserEnum` level 2, `MSNdis_PhysicalMediumType`, `GetSecurityDescriptor` without admin; WSC API from net35; Wininit event 12 data | `NetUserEnum` level 2 and `MSNdis_PhysicalMediumType` work without administrator rights on all three runners and the workstation. `GetSecurityDescriptor` works without administrator rights for a normal share on the workstation; the runners have only administrative shares (`ADMIN$`, `C$`, `IPC$`), for which Windows has no share security object (WMI "not found", also for administrators). The WSC API works from the net35 build on Windows 11 (x64 and Arm64); on Server 2022/2025 the class is not registered and the item is "not collected", as Microsoft documents (no server support). Event 12 of Wininit carries one data value, the protection level (`4`, found on the Arm64 runner and the workstation); on the servers, without LSA protection, there is none after the last boot (`found: false`) |
+| V8 | Does `HNetCfg.FwPolicy2` return GPO-deployed rules? | The rule count from COM equals the count in the local registry store on all three runners (314, 348, 502); there are no GPO firewall rules on runners (`SOFTWARE\Policies\Microsoft\WindowsFirewall\FirewallRules` absent). Whether COM returns rules deployed by a **domain** GPO remains **unverified** (no domain on runners; Limitations) |
+
+Two runner facts the fixtures keep: on `windows-11-arm`, `gpresult` answers "Access Denied" even to an elevated
+administrator, so an elevated collection there ends with exit code 1 (`raw:gpresult-xml` is an error); and without
+administrator rights the `EventLog\Security` key is denied, in addition to the areas listed [above](#what-it-reads).
 
 The Windows Security Center interfaces were checked against Microsoft Learn
 ([IWSCProductList](https://learn.microsoft.com/en-us/windows/win32/api/iwscapi/nn-iwscapi-iwscproductlist),
