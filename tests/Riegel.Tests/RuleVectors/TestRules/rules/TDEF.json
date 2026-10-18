@@ -1,0 +1,2995 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "TDEF",
+  "rules": [
+    {
+      "id": "TDEF-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "defender",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Echtzeitschutz",
+        "en": "Test rule: real-time protection"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "defenderSetting",
+        "source": "status",
+        "property": "RealTimeProtectionEnabled",
+        "op": "eq",
+        "expected": true
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "active",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "active, setting off",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "passive + third-party AV",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Passive"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Beispiel-Virenschutz (fiktiv)",
+                  "state": "on",
+                  "signature": "upToDate"
+                },
+                {
+                  "name": "Windows Defender",
+                  "state": "off",
+                  "signature": "outOfDate"
+                }
+              ]
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "EDR block mode + third-party AV",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "EDR Block Mode"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Beispiel-Virenschutz (fiktiv)",
+                  "state": "on",
+                  "signature": "upToDate"
+                },
+                {
+                  "name": "Windows Defender",
+                  "state": "off",
+                  "signature": "outOfDate"
+                }
+              ]
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "passive, no other AV",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Passive"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "off",
+                  "signature": "outOfDate"
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "off, no other AV",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "off",
+                  "signature": "outOfDate"
+                }
+              ]
+            }
+          },
+          "expect": "fail",
+          "expectFlags": [
+            "derived"
+          ]
+        },
+        {
+          "name": "off + third-party AV",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Beispiel-Virenschutz (fiktiv)",
+                  "state": "on",
+                  "signature": "upToDate"
+                },
+                {
+                  "name": "Windows Defender",
+                  "state": "off",
+                  "signature": "outOfDate"
+                }
+              ]
+            }
+          },
+          "expect": "notApplicable",
+          "expectFlags": [
+            "derived"
+          ]
+        },
+        {
+          "name": "absent + third-party AV",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Beispiel-Virenschutz (fiktiv)",
+                  "state": "on",
+                  "signature": "upToDate"
+                },
+                {
+                  "name": "Windows Defender",
+                  "state": "off",
+                  "signature": "outOfDate"
+                }
+              ]
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "absent, no AV",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "unknown (denied)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "denied"
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "unknown (not collected)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "notCollected"
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "unknown (missing)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "keyMissing"
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "unknown (truncated)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              },
+              "truncated": true
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "passive, third-party unknown",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Passive"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "notCollected"
+            },
+            "wmi:root\\SecurityCenter2:AntivirusProduct": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "derived active",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "derived"
+          ]
+        },
+        {
+          "name": "third-party only heuristic",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Passive"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "notCollected"
+            },
+            "wmi:root\\SecurityCenter2:AntivirusProduct": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "displayName": "Beispiel-Virenschutz (fiktiv)",
+                    "productState": 266240
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable",
+          "expectFlags": [
+            "heuristic"
+          ]
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": "yes",
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "vector fact override passive",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "passive",
+            "av.thirdPartyActive": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TDEF-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "lifecycle",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Alter der Signaturen (wie LIFE-04)",
+        "en": "Test rule: signature age (LIFE-04 style)"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "defenderSetting",
+        "source": "status",
+        "property": "AntivirusSignatureLastUpdated",
+        "op": "ageDaysLe",
+        "expected": 7
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "1 day old",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "30 days old",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-09-18T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "notCollected"
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "keyMissing"
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "unparsable",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "gestern",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "passive + third-party AV",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Passive"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Beispiel-Virenschutz (fiktiv)",
+                  "state": "on",
+                  "signature": "upToDate"
+                },
+                {
+                  "name": "Windows Defender",
+                  "state": "off",
+                  "signature": "outOfDate"
+                }
+              ]
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TDEF-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "defender",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: ASR-Regel blockieren",
+        "en": "Test rule: ASR rule block"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "testAsr",
+        "ifCapabilityAbsent": "notApplicable"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "asrRule",
+        "guid": "00000000-0000-4000-8000-0000000000a1"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "block, active, RTP on",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "00000000-0000-4000-8000-0000000000A1"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "audit only",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "00000000-0000-4000-8000-0000000000a1"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      2
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "warn only",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "00000000-0000-4000-8000-0000000000a1"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      6
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "off",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "00000000-0000-4000-8000-0000000000a1"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      0
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not configured (no rules)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": null,
+                    "AttackSurfaceReductionRules_Actions": null
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not configured (other rule)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "00000000-0000-4000-8000-0000000000a2"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "block but RTP off",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "00000000-0000-4000-8000-0000000000a1"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "passive + third-party AV",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Passive"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Beispiel-Virenschutz (fiktiv)",
+                  "state": "on",
+                  "signature": "upToDate"
+                },
+                {
+                  "name": "Windows Defender",
+                  "state": "off",
+                  "signature": "outOfDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "00000000-0000-4000-8000-0000000000a1"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "passive, no AV",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Passive"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "off",
+                  "signature": "outOfDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "00000000-0000-4000-8000-0000000000a1"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "absent, no AV: n/a for a single ASR rule",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "preference denied, policy block",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "denied"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "00000000-0000-4000-8000-0000000000a1": {
+                    "t": "sz",
+                    "v": "1"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable",
+          "expectFlags": [
+            "configuredOnly"
+          ]
+        },
+        {
+          "name": "preference denied, policy audit",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "denied"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "00000000-0000-4000-8000-0000000000a1": {
+                    "t": "sz",
+                    "v": "2"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "preference denied, nothing in policy",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "preference not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "preference missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "preference truncated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "00000000-0000-4000-8000-0000000000a1"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ]
+                  }
+                ]
+              },
+              "truncated": true
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "undocumented mode",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "00000000-0000-4000-8000-0000000000a1"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      3
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": "00000000-0000-4000-8000-0000000000a1",
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "n/a: capability absent",
+          "machine": {
+            "build": 15063,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "00000000-0000-4000-8000-0000000000a1"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TDEF-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "defender",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: ASR-Regel blockieren oder warnen",
+        "en": "Test rule: ASR rule block or warn"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "asrRule",
+        "guid": "00000000-0000-4000-8000-0000000000a1",
+        "accept": "blockOrWarn"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "warn",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "00000000-0000-4000-8000-0000000000a1"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      6
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "audit",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "00000000-0000-4000-8000-0000000000a1"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      2
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TDEF-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "defender",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: ASR überhaupt konfiguriert (wie DEF-09)",
+        "en": "Test rule: ASR configured at all (DEF-09 style)"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "testAsr",
+        "ifCapabilityAbsent": "fail"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "asrRule",
+        "guid": "00000000-0000-4000-8000-0000000000a1",
+        "accept": "blockOrAudit"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "audit",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "00000000-0000-4000-8000-0000000000a1"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      2
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "absent, no AV: protection gap",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "absent + third-party AV",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Beispiel-Virenschutz (fiktiv)",
+                  "state": "on",
+                  "signature": "upToDate"
+                },
+                {
+                  "name": "Windows Defender",
+                  "state": "off",
+                  "signature": "outOfDate"
+                }
+              ]
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "capability absent: fail",
+          "machine": {
+            "build": 15063,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "notCollected"
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "keyMissing"
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TDEF-06",
+      "since": "2026.10",
+      "state": "active",
+      "category": "defender",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: ein Virenschutz ist aktiv und aktuell (wie DEF-18)",
+        "en": "Test rule: an antivirus is active and current (DEF-18 style)"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "avStatus"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "Defender current",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Defender old signatures",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-09-01T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Defender RTP off",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "third-party current (WSC)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Passive"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Beispiel-Virenschutz (fiktiv)",
+                  "state": "on",
+                  "signature": "upToDate"
+                },
+                {
+                  "name": "Windows Defender",
+                  "state": "off",
+                  "signature": "outOfDate"
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "third-party out of date (WSC)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Passive"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Beispiel-Virenschutz (fiktiv)",
+                  "state": "on",
+                  "signature": "outOfDate"
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "WSC: nothing on",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Passive"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "off",
+                  "signature": "outOfDate"
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "heuristic only (Windows 7)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "api:wsc-av": {
+              "status": "notCollected"
+            },
+            "wmi:root\\SecurityCenter2:AntivirusProduct": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "displayName": "Beispiel-Virenschutz (fiktiv)",
+                    "productState": 266240
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notCheckable",
+          "expectFlags": [
+            "heuristic"
+          ]
+        },
+        {
+          "name": "no AV at all",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "api:wsc-av": {
+              "status": "notCollected"
+            },
+            "wmi:root\\SecurityCenter2:AntivirusProduct": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "server without security center",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "api:wsc-av": {
+              "status": "notCollected"
+            },
+            "wmi:root\\SecurityCenter2:AntivirusProduct": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Defender denied, WSC current",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "denied"
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "everything not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "notCollected"
+            },
+            "api:wsc-av": {
+              "status": "notCollected"
+            },
+            "wmi:root\\SecurityCenter2:AntivirusProduct": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "keyMissing"
+            },
+            "api:wsc-av": {
+              "status": "keyMissing"
+            },
+            "wmi:root\\SecurityCenter2:AntivirusProduct": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "truncated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              },
+              "truncated": true
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [],
+              "truncated": true
+            },
+            "wmi:root\\SecurityCenter2:AntivirusProduct": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              },
+              "truncated": true
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": 12345,
+                    "AMRunningMode": "Normal",
+                    "AntivirusSignatureAge": "neu"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "everything denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "denied"
+            },
+            "api:wsc-av": {
+              "status": "denied"
+            },
+            "wmi:root\\SecurityCenter2:AntivirusProduct": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "n/a: domain controller",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-17T04:00:00Z",
+                    "AMRunningMode": "Normal"
+                  }
+                ]
+              }
+            },
+            "api:wsc-av": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Windows Defender",
+                  "state": "on",
+                  "signature": "upToDate"
+                }
+              ]
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    }
+  ]
+}

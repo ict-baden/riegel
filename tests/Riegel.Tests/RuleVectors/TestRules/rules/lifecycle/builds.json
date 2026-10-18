@@ -1,0 +1,31 @@
+{
+  "schema": "riegel.builds/1",
+  "builds": [
+    {
+      "build": 99001,
+      "name": "Testsystem A",
+      "releases": [
+        {
+          "ubr": 100,
+          "date": "2026-08-11",
+          "kb": "KB0000100",
+          "kind": "B"
+        },
+        {
+          "ubr": 200,
+          "date": "2026-09-08",
+          "kb": "KB0000200",
+          "kind": "B"
+        },
+        {
+          "ubr": 300,
+          "date": "2026-10-13",
+          "kb": "KB0000300",
+          "kind": "B"
+        }
+      ],
+      "source": "https://example.org/riegel-test/builds",
+      "seen": "2026-10-18"
+    }
+  ]
+}

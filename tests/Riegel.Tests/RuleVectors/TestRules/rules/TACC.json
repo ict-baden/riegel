@@ -1,0 +1,1626 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "TACC",
+  "rules": [
+    {
+      "id": "TACC-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Gast deaktiviert",
+        "en": "Test rule: Guest disabled"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "localAccount",
+        "rid": 501,
+        "expect": "disabled"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "disabled",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Guest",
+                    "SID": "S-1-5-21-1000-2000-3000-501",
+                    "Disabled": true,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "enabled",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Guest",
+                    "SID": "S-1-5-21-1000-2000-3000-501",
+                    "Disabled": false,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "German name, by RID",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Gast",
+                    "SID": "S-1-5-21-1000-2000-3000-501",
+                    "Disabled": true,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "WMI not collected, API",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "notCollected"
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "notCollected"
+            },
+            "api:netuserenum": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "keyMissing"
+            },
+            "api:netuserenum": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "denied"
+            },
+            "api:netuserenum": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "truncated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Guest",
+                    "SID": "S-1-5-21-1000-2000-3000-501",
+                    "Disabled": true,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  }
+                ]
+              },
+              "truncated": true
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [],
+              "truncated": true
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Guest",
+                    "SID": "S-1-5-21-1000-2000-3000-501",
+                    "Disabled": "ja"
+                  }
+                ]
+              }
+            },
+            "api:netuserenum": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "account absent (domain controller)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TACC-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: integrierter Administrator deaktiviert (Clients)",
+        "en": "Test rule: built-in Administrator disabled (clients)"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "localAccount",
+        "rid": 500,
+        "expect": "disabled"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "disabled",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Administrator",
+                    "SID": "S-1-5-21-1000-2000-3000-500",
+                    "Disabled": true,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "enabled",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Administrator",
+                    "SID": "S-1-5-21-1000-2000-3000-500",
+                    "Disabled": false,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "notCollected"
+            },
+            "api:netuserenum": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "keyMissing"
+            },
+            "api:netuserenum": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "n/a: server",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Administrator",
+                    "SID": "S-1-5-21-1000-2000-3000-500",
+                    "Disabled": true,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TACC-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: kein Kennwort, das nie abläuft",
+        "en": "Test rule: no password that never expires"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "localAccounts",
+        "condition": "passwordNeverExpires",
+        "excludeRids": [
+          500,
+          501,
+          503,
+          504
+        ],
+        "enabledOnly": true
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "only built-in accounts never expire",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "operator never expires",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "disabled account ignored",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "alt",
+                  "sid": "S-1-5-21-1000-2000-3000-1002",
+                  "rid": 1002,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "truncated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ],
+              "truncated": true
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": {
+                "name": "operator"
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "n/a: client only",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TACC-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: keine unbenutzten aktiven Konten",
+        "en": "Test rule: no unused enabled accounts"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "localAccounts",
+        "condition": "unusedDays",
+        "excludeRids": [
+          500,
+          501,
+          503,
+          504
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "recently used",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "unused since June",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "service",
+                  "sid": "S-1-5-21-1000-2000-3000-1003",
+                  "rid": 1003,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-06-01",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "never logged on, old",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "service",
+                  "sid": "S-1-5-21-1000-2000-3000-1003",
+                  "rid": 1003,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": null,
+                  "passwordAgeDays": 200
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "never logged on, new",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "service",
+                  "sid": "S-1-5-21-1000-2000-3000-1003",
+                  "rid": 1003,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": null,
+                  "passwordAgeDays": 3
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TACC-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Administratorgruppe begrenzt",
+        "en": "Test rule: administrators group limited"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "localGroup",
+        "sid": "S-1-5-32-544",
+        "maxMembers": 2,
+        "allowedSids": [
+          "*-500",
+          "*-1001"
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "allowed members",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-544": {
+              "status": "ok",
+              "value": [
+                {
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "name": "Administrator",
+                  "kind": "user",
+                  "domain": "PC"
+                }
+              ]
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "foreign member",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-544": {
+              "status": "ok",
+              "value": [
+                {
+                  "sid": "S-1-5-21-1000-2000-3000-1002",
+                  "name": "zweiter",
+                  "kind": "user",
+                  "domain": "PC"
+                }
+              ]
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "too many",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-544": {
+              "status": "ok",
+              "value": [
+                {
+                  "sid": "S-1-5-21-1000-2000-3000-500"
+                },
+                {
+                  "sid": "S-1-5-21-1000-2000-3000-1001"
+                },
+                {
+                  "sid": "S-1-5-21-1000-2000-3000-500"
+                }
+              ]
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "domain account with the same RID",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-544": {
+              "status": "ok",
+              "value": [
+                {
+                  "sid": "S-1-5-21-4000-5000-6000-500",
+                  "name": "Administrator",
+                  "kind": "user",
+                  "domain": "CORP"
+                }
+              ]
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "deleted account without SID",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-544": {
+              "status": "ok",
+              "value": [
+                {
+                  "sid": null,
+                  "name": "?",
+                  "kind": "deletedAccount"
+                }
+              ]
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-544": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-544": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-544": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "truncated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-544": {
+              "status": "ok",
+              "value": [
+                {
+                  "sid": "S-1-5-21-1000-2000-3000-500"
+                }
+              ],
+              "truncated": true
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-544": {
+              "status": "ok",
+              "value": {
+                "sid": "S-1-5-21-1000-2000-3000-500"
+              }
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "n/a: domain controller",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-544": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    }
+  ]
+}

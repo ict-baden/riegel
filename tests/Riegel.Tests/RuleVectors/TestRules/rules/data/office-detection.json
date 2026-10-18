@@ -1,0 +1,21 @@
+{
+  "schema": "riegel.data/1",
+  "kind": "officeDetection",
+  "officeDetection": {
+    "clickToRunKeys": [
+      {
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\Configuration",
+        "source": "https://example.org/riegel-test/office",
+        "seen": "2026-10-18"
+      }
+    ],
+    "installRootKeys": [],
+    "uninstallDisplayNamePrefixes": [
+      {
+        "pattern": "Beispiel-Office",
+        "source": "https://example.org/riegel-test/office",
+        "seen": "2026-10-18"
+      }
+    ]
+  }
+}

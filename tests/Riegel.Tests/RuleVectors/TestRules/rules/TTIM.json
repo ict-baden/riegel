@@ -1,0 +1,553 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "TTIM",
+  "rules": [
+    {
+      "id": "TTIM-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "lifecycle",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: unterstütztes Betriebssystem",
+        "en": "Test rule: supported operating system"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "lifecycle"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "supported",
+          "machine": {
+            "build": 99001,
+            "ubr": 300,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "pass"
+        },
+        {
+          "name": "support ended, no ESU",
+          "machine": {
+            "build": 99001,
+            "ubr": 300,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "fail"
+        },
+        {
+          "name": "older than every entry",
+          "machine": {
+            "build": 98000,
+            "ubr": 1,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "fail"
+        },
+        {
+          "name": "unknown build",
+          "machine": {
+            "build": 99500,
+            "ubr": 1,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "notCheckable"
+        },
+        {
+          "name": "edition unknown",
+          "machine": {
+            "build": 99001,
+            "ubr": 300,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "notCheckable"
+        },
+        {
+          "name": "server entry",
+          "machine": {
+            "build": 99001,
+            "ubr": 300,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 2,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "pass"
+        }
+      ]
+    },
+    {
+      "id": "TTIM-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "lifecycle",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Tage seit dem letzten kumulativen Update",
+        "en": "Test rule: days since last cumulative update"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "updateAge",
+        "maxDays": 35
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "current",
+          "machine": {
+            "build": 99001,
+            "ubr": 300,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "pass"
+        },
+        {
+          "name": "68 days old",
+          "machine": {
+            "build": 99001,
+            "ubr": 100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "fail"
+        },
+        {
+          "name": "newer than the table",
+          "machine": {
+            "build": 99001,
+            "ubr": 400,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "HotFixID": "KB0000009",
+                    "InstalledOn": "2026-10-16T00:00:00Z"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "older than the oldest entry",
+          "machine": {
+            "build": 99001,
+            "ubr": 50,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "fail"
+        },
+        {
+          "name": "between entries, at most 40 days: undecided, QFE recent",
+          "machine": {
+            "build": 99001,
+            "ubr": 250,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "HotFixID": "KB0000009",
+                    "InstalledOn": "2026-10-10T00:00:00Z"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "between entries, QFE not collected",
+          "machine": {
+            "build": 99001,
+            "ubr": 250,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "between 100 and 200: at least 40 days",
+          "machine": {
+            "build": 99001,
+            "ubr": 150,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "fail"
+        },
+        {
+          "name": "build not in table, QFE recent",
+          "machine": {
+            "build": 99500,
+            "ubr": 1,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "HotFixID": "KB0000009",
+                    "InstalledOn": "2026-10-10T00:00:00Z"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "build not in table, QFE old",
+          "machine": {
+            "build": 99500,
+            "ubr": 1,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "HotFixID": "KB0000009",
+                    "InstalledOn": "2026-08-01T00:00:00Z"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "only update history, old",
+          "machine": {
+            "build": 99500,
+            "ubr": 1,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "denied"
+            },
+            "api:windows-update-history": {
+              "status": "ok",
+              "value": {
+                "serviceWasRunning": true,
+                "entries": [
+                  {
+                    "dateUtc": "2026-07-01T10:00:00Z",
+                    "resultCode": 2,
+                    "operation": 1,
+                    "title": "Beispiel-Update"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "only update history, recent: not provable",
+          "machine": {
+            "build": 99500,
+            "ubr": 1,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "denied"
+            },
+            "api:windows-update-history": {
+              "status": "ok",
+              "value": {
+                "serviceWasRunning": true,
+                "entries": [
+                  {
+                    "dateUtc": "2026-10-17T10:00:00Z",
+                    "resultCode": 2,
+                    "operation": 1,
+                    "title": "Beispiel-Signaturupdate"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "nothing",
+          "machine": {
+            "build": 99500,
+            "ubr": 1,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "notCollected"
+            },
+            "api:windows-update-history": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 99500,
+            "ubr": 1,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "keyMissing"
+            },
+            "api:windows-update-history": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "ubr unknown (builtin)",
+          "machine": {
+            "build": 99001,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "truncated",
+          "machine": {
+            "build": 99500,
+            "ubr": 1,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "HotFixID": "KB0000009",
+                    "InstalledOn": "2026-10-10T00:00:00Z"
+                  }
+                ]
+              },
+              "truncated": true
+            },
+            "api:windows-update-history": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 99500,
+            "ubr": 1,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "HotFixID": "KB0000009",
+                    "InstalledOn": 20261010
+                  }
+                ]
+              }
+            },
+            "api:windows-update-history": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "denied",
+          "machine": {
+            "build": 99500,
+            "ubr": 1,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "denied"
+            },
+            "api:windows-update-history": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "n/a: domain controller",
+          "machine": {
+            "build": 99001,
+            "ubr": 300,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "notApplicable"
+        }
+      ]
+    }
+  ]
+}

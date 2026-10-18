@@ -1,0 +1,2519 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "TREG",
+  "rules": [
+    {
+      "id": "TREG-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: dword eq",
+        "en": "Test rule: dword eq"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+        "value": "Enabled",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "fail"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "pass",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "fail",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "missing (key)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "missing (value)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "truncated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              },
+              "truncated": true
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "sz",
+                    "v": "1"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "n/a: Server",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TREG-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Standardwert",
+        "en": "Test rule: osDefault"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+        "value": "Enabled",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 26100,
+            "editions": [
+              "Professional",
+              "Enterprise"
+            ],
+            "value": 1,
+            "source": "https://example.org/riegel-test/default",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "default on 26100 Pro",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "default unknown on 22631",
+          "machine": {
+            "build": 22631,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "default unknown for Education",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Education",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "set to 0",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing outside coverage",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "coverage": [],
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TREG-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: whenMissing pass",
+        "en": "Test rule: whenMissing pass"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+        "value": "Enabled",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "pass",
+        "missingPass": {
+          "source": "https://example.org/riegel-test/missing",
+          "seen": "2026-10-18",
+          "note": "Not set means enabled (invented for the test)."
+        }
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "missing counts as pass",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "set to 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "set to 0",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TREG-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: whenMissing notCheckable",
+        "en": "Test rule: whenMissing notCheckable"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+        "value": "Enabled",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "notCheckable"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "pass",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "fail",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TREG-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: dword mit acceptTypes sz",
+        "en": "Test rule: dword with acceptTypes sz"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+        "value": "Level",
+        "valueType": "dword",
+        "op": "ge",
+        "expected": 3,
+        "whenMissing": "fail",
+        "acceptTypes": [
+          "sz"
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "dword 3",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Level": {
+                    "t": "dword",
+                    "v": 3
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "sz 5",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Level": {
+                    "t": "sz",
+                    "v": "5"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "sz 2",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Level": {
+                    "t": "sz",
+                    "v": "2"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "sz unparsable",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Level": {
+                    "t": "sz",
+                    "v": "drei"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "qword (not accepted)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Level": {
+                    "t": "qword",
+                    "v": "3"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TREG-06",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: multi_sz containsAll",
+        "en": "Test rule: multi_sz containsAll"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+        "value": "Names",
+        "valueType": "multi_sz",
+        "op": "containsAll",
+        "expected": [
+          "alpha",
+          "beta"
+        ],
+        "whenMissing": "fail"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "all contained",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Names": {
+                    "t": "multi_sz",
+                    "v": [
+                      "Beta",
+                      "alpha",
+                      "gamma"
+                    ]
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "one missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Names": {
+                    "t": "multi_sz",
+                    "v": [
+                      "alpha"
+                    ]
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "wrong type sz",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Names": {
+                    "t": "sz",
+                    "v": "alpha,beta"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TREG-07",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: multi_sz eq als Liste",
+        "en": "Test rule: multi_sz eq as list"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+        "value": "Names",
+        "valueType": "multi_sz",
+        "op": "eq",
+        "expected": [
+          "alpha",
+          "beta"
+        ],
+        "whenMissing": "fail",
+        "multiSz": "list"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "same order",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Names": {
+                    "t": "multi_sz",
+                    "v": [
+                      "alpha",
+                      "BETA"
+                    ]
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "other order",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Names": {
+                    "t": "multi_sz",
+                    "v": [
+                      "beta",
+                      "alpha"
+                    ]
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TREG-08",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: multi_sz eq als Menge",
+        "en": "Test rule: multi_sz eq as set"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+        "value": "Names",
+        "valueType": "multi_sz",
+        "op": "eq",
+        "expected": [
+          "alpha",
+          "beta"
+        ],
+        "whenMissing": "fail"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "other order",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Names": {
+                    "t": "multi_sz",
+                    "v": [
+                      "beta",
+                      "alpha",
+                      "alpha"
+                    ]
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "extra element",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Names": {
+                    "t": "multi_sz",
+                    "v": [
+                      "beta",
+                      "alpha",
+                      "gamma"
+                    ]
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TREG-09",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: binary eq",
+        "en": "Test rule: binary eq"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+        "value": "Blob",
+        "valueType": "binary",
+        "op": "eq",
+        "expected": "hex:0a0b0c",
+        "whenMissing": "fail"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "same bytes",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Blob": {
+                    "t": "binary",
+                    "v": "CgsM"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "other bytes",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Blob": {
+                    "t": "binary",
+                    "v": "Cgs="
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "truncated value",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Blob": {
+                    "t": "binary",
+                    "v": "Cg==",
+                    "truncated": true,
+                    "len": 9000
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Blob": {
+                    "t": "dword",
+                    "v": 10
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TREG-10",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: notExists",
+        "en": "Test rule: notExists"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+        "value": "Forbidden",
+        "valueType": "sz",
+        "op": "notExists",
+        "whenMissing": "fail"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "absent",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "present",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Forbidden": {
+                    "t": "sz",
+                    "v": "x"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "present with any type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Forbidden": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "key denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TREG-11",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: geschwärzter Wert",
+        "en": "Test rule: redacted value"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+        "value": "SecretToken",
+        "valueType": "sz",
+        "op": "eq",
+        "expected": "x",
+        "whenMissing": "fail"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "redacted cannot be compared",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SecretToken": {
+                    "t": "sz",
+                    "redacted": true,
+                    "empty": false
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "pass",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SecretToken": {
+                    "t": "sz",
+                    "v": "X"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TREG-12",
+      "since": "2026.10",
+      "state": "active",
+      "category": "logon",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: automatische Anmeldung (Falle LOGON-10)",
+        "en": "Test rule: automatic logon (LOGON-10 trap)"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+        "value": "AutoAdminLogon",
+        "valueType": "sz",
+        "op": "ne",
+        "expected": "1",
+        "whenMissing": "notCheckable"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "autologon without DefaultPassword",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AutoAdminLogon": {
+                    "t": "sz",
+                    "v": "1"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "autologon with DefaultPassword",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AutoAdminLogon": {
+                    "t": "sz",
+                    "v": "1"
+                  },
+                  "DefaultPassword": {
+                    "t": "sz",
+                    "redacted": true,
+                    "empty": false
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no autologon",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AutoAdminLogon": {
+                    "t": "sz",
+                    "v": "0"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TREG-13",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: registryEffective Richtlinie vor lokal",
+        "en": "Test rule: registryEffective policy before local"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registryEffective",
+        "sources": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Policy",
+            "value": "Mode",
+            "origin": "policy"
+          },
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Local",
+            "value": "Mode",
+            "origin": "local"
+          }
+        ],
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "fail"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "policy 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Policy": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Mode": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Local": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Mode": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "policy 0 beats local 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Policy": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Mode": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Local": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Mode": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policy missing, local 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Local": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Mode": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "policy missing, local 0",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Local": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Mode": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "both missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "fail"
+        },
+        {
+          "name": "policy denied, local 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Policy": {
+              "status": "denied"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Local": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Mode": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "policy not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Policy": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "policy truncated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Policy": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Mode": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              },
+              "truncated": true
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Policy": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Mode": {
+                    "t": "sz",
+                    "v": "1"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "n/a on a domain controller",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Policy": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Mode": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TREG-14",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: qword le und bitsSet",
+        "en": "Test rule: qword le and bitsSet"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+            "value": "Size",
+            "valueType": "qword",
+            "op": "le",
+            "expected": "4294967296",
+            "whenMissing": "fail"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+            "value": "Flags",
+            "valueType": "dword",
+            "op": "bitsSet",
+            "expected": 5,
+            "whenMissing": "fail"
+          }
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "both hold",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Size": {
+                    "t": "qword",
+                    "v": "4294967296"
+                  },
+                  "Flags": {
+                    "t": "dword",
+                    "v": 7
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "size too big",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Size": {
+                    "t": "qword",
+                    "v": "4294967297"
+                  },
+                  "Flags": {
+                    "t": "dword",
+                    "v": 7
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "bit missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Size": {
+                    "t": "qword",
+                    "v": "1"
+                  },
+                  "Flags": {
+                    "t": "dword",
+                    "v": 6
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "one missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Flags": {
+                    "t": "dword",
+                    "v": 7
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    }
+  ]
+}

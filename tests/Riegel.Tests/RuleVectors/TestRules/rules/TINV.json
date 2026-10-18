@@ -1,0 +1,934 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "TINV",
+  "rules": [
+    {
+      "id": "TINV-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "inventory",
+      "title": {
+        "de": "Testregel: lokale Administratoren",
+        "en": "Test rule: local administrators"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "localAdmins",
+        "items": [
+          "api:localgroup:S-1-5-32-544"
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "listed",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-544": {
+              "status": "ok",
+              "value": [
+                {
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "name": "Administrator",
+                  "kind": "user",
+                  "domain": "PC"
+                }
+              ]
+            }
+          },
+          "expect": "info"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-544": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-544": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TINV-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "appControl",
+      "severity": "medium",
+      "kind": "inventory",
+      "title": {
+        "de": "Testregel: Fernwartungswerkzeuge",
+        "en": "Test rule: remote-access tools"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "remoteAccessTools",
+        "items": [
+          "wmi:root\\cimv2:Win32_Service",
+          "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "tool service found",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "BspFernwartung",
+                    "DisplayName": "Beispiel-Fernwartung Dienst",
+                    "State": "Running",
+                    "StartMode": "Auto"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "info"
+        },
+        {
+          "name": "nothing found",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Spooler",
+                    "DisplayName": "Spooler",
+                    "State": "Running",
+                    "StartMode": "Auto"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "info"
+        },
+        {
+          "name": "everything not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TINV-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "inventory",
+      "title": {
+        "de": "Testregel: Freigaben",
+        "en": "Test rule: shares"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "shares",
+        "items": [
+          "wmi:root\\cimv2:Win32_Share"
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "open share",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Share": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Austausch",
+                    "Path": "D:\\Austausch",
+                    "Type": 0,
+                    "GetSecurityDescriptor": {
+                      "ReturnValue": 0,
+                      "Aces": [
+                        {
+                          "Sid": "S-1-1-0",
+                          "AccessMask": 1179817,
+                          "AceType": 0
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "info"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Share": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TINV-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "inventory",
+      "title": {
+        "de": "Testregel: Verwaltungsfreigaben",
+        "en": "Test rule: administrative shares"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "adminShares",
+        "items": [
+          "wmi:root\\cimv2:Win32_Share"
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "listed",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Share": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "C$",
+                    "Path": "C:\\",
+                    "Type": 2147483648
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "info"
+        },
+        {
+          "name": "denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Share": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TINV-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "rdp",
+      "severity": "medium",
+      "kind": "inventory",
+      "title": {
+        "de": "Testregel: RDP-Zustand",
+        "en": "Test rule: RDP state"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "rdpState",
+        "items": [
+          "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server"
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "on",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "fDenyTSConnections": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "info"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TINV-06",
+      "since": "2026.10",
+      "state": "active",
+      "category": "defender",
+      "severity": "medium",
+      "kind": "inventory",
+      "title": {
+        "de": "Testregel: Defender-Ausnahmen",
+        "en": "Test rule: Defender exclusions"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "defenderExclusions",
+        "items": [
+          "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference"
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "listed",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "ExclusionPath": [
+                      "D:\\Daten"
+                    ],
+                    "ExclusionExtension": null,
+                    "ExclusionProcess": null,
+                    "ExclusionIpAddress": null
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "info"
+        },
+        {
+          "name": "non-admin notice, registry denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "coverage": [
+            {
+              "root": "HKLM\\SOFTWARE\\Microsoft\\Windows Defender",
+              "recursive": true,
+              "maxDepth": 8,
+              "complete": true,
+              "deniedSubkeys": [
+                "HKLM\\SOFTWARE\\Microsoft\\Windows Defender\\Exclusions"
+              ]
+            },
+            {
+              "root": "HKLM\\SOFTWARE\\Policies",
+              "recursive": true,
+              "maxDepth": 8,
+              "complete": true,
+              "deniedSubkeys": []
+            }
+          ],
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "ExclusionPath": [
+                      "N/A: Must be an administrator to view exclusions"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "coverage": [],
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TINV-07",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "medium",
+      "kind": "inventory",
+      "title": {
+        "de": "Testregel: Netzanbindung",
+        "en": "Test rule: network facts"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "networkFacts",
+        "items": [
+          "wmi:root\\cimv2:Win32_NetworkAdapterConfiguration"
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "listed",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_NetworkAdapterConfiguration": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "SettingID": "{x}",
+                    "DefaultIPGateway": [
+                      "192.0.2.1"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "info"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_NetworkAdapterConfiguration": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TINV-08",
+      "since": "2026.10",
+      "state": "active",
+      "category": "appControl",
+      "severity": "medium",
+      "kind": "inventory",
+      "title": {
+        "de": "Testregel: Zustand der Anwendungssteuerung",
+        "en": "Test rule: application control state"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "appControlState",
+        "items": [
+          "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard"
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "listed",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "CodeIntegrityPolicyEnforcementStatus": 2,
+                    "UsermodeCodeIntegrityPolicyEnforcementStatus": 0
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "info"
+        },
+        {
+          "name": "namespace missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TINV-09",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "medium",
+      "kind": "inventory",
+      "title": {
+        "de": "Testregel: WLAN-Adapter",
+        "en": "Test rule: wireless adapters"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "wireless",
+        "items": [
+          "wmi:root\\wmi:MSNdis_PhysicalMediumType"
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "wireless",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\wmi:MSNdis_PhysicalMediumType": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "InstanceName": "WLAN (Beispiel)",
+                    "NdisPhysicalMediumType": 9,
+                    "Active": true
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "info"
+        },
+        {
+          "name": "denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\wmi:MSNdis_PhysicalMediumType": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TINV-10",
+      "since": "2026.10",
+      "state": "active",
+      "category": "rdp",
+      "severity": "medium",
+      "kind": "inventory",
+      "title": {
+        "de": "Testregel: Bestandsregel mit Gruppenprüfung",
+        "en": "Test rule: inventory rule with a group check"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "localGroup",
+        "sid": "S-1-5-32-555"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "listed",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-555": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "info"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-555": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    }
+  ]
+}

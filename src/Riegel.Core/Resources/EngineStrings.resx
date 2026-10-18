@@ -4,8 +4,472 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Placeholder" xml:space="preserve">
-    <value>(placeholder of the engine texts)</value>
-    <comment>Scaffold placeholder; the owning package replaces it</comment>
+  <data name="Detail_AccountNotFound" xml:space="preserve">
+    <value>Local account with RID {0} not found</value>
+  </data>
+  <data name="Detail_ActiveProfileUnknown" xml:space="preserve">
+    <value>Active firewall profile not known</value>
+  </data>
+  <data name="Detail_ApplicabilityUnknown" xml:space="preserve">
+    <value>Applicability cannot be determined: {0} unknown</value>
+  </data>
+  <data name="Detail_AsrNotConfigured" xml:space="preserve">
+    <value>ASR rule not configured</value>
+  </data>
+  <data name="Detail_AsrNotEffective" xml:space="preserve">
+    <value>ASR configured, but not effective</value>
+  </data>
+  <data name="Detail_AtLeastDays" xml:space="preserve">
+    <value>Installed update {1}.{2} is at least {0} days old</value>
+  </data>
+  <data name="Detail_AtMostDays" xml:space="preserve">
+    <value>Installed update {1}.{2} is at most {0} days old</value>
+  </data>
+  <data name="Detail_AuditGuidMissing" xml:space="preserve">
+    <value>Subcategory {0} not in the collected audit policy</value>
+  </data>
+  <data name="Detail_AutoLogonPasswordElsewhere" xml:space="preserve">
+    <value>Storage of the password not checkable (an LSA secret is possible)</value>
+  </data>
+  <data name="Detail_AutoLogonPasswordInRegistry" xml:space="preserve">
+    <value>Password in registry (DefaultPassword)</value>
+  </data>
+  <data name="Detail_AvOutOfDate" xml:space="preserve">
+    <value>Antivirus active but out of date: {0}</value>
+  </data>
+  <data name="Detail_CapabilityAbsentFail" xml:space="preserve">
+    <value>Protection feature {0} does not exist on this operating system</value>
+  </data>
+  <data name="Detail_CatalogueTooOld" xml:space="preserve">
+    <value>Update {0}.{1} is newer than the build table – catalogue too old</value>
+  </data>
+  <data name="Detail_ClockSuspect" xml:space="preserve">
+    <value>Clock of the target machine implausible – age not checkable</value>
+  </data>
+  <data name="Detail_Configured" xml:space="preserve">
+    <value>Configured value: {0}</value>
+  </data>
+  <data name="Detail_ConfiguredNotRunning" xml:space="preserve">
+    <value>Configured, not running</value>
+  </data>
+  <data name="Detail_ConfiguredOnly" xml:space="preserve">
+    <value>Configured, effect not proven</value>
+  </data>
+  <data name="Detail_DefaultAssumed" xml:space="preserve">
+    <value>Default value assumed: {0} (source: {1}, seen {2})</value>
+  </data>
+  <data name="Detail_DefaultUnknown" xml:space="preserve">
+    <value>Not set; default value unknown</value>
+  </data>
+  <data name="Detail_DefenderAbsent" xml:space="preserve">
+    <value>Microsoft Defender not present</value>
+  </data>
+  <data name="Detail_DefenderUnknown" xml:space="preserve">
+    <value>State of Microsoft Defender cannot be determined</value>
+  </data>
+  <data name="Detail_EditionUnknown" xml:space="preserve">
+    <value>Edition or installation type unknown</value>
+  </data>
+  <data name="Detail_EsuEnded" xml:space="preserve">
+    <value>Extended Security Updates ended on {0}</value>
+  </data>
+  <data name="Detail_EsuNotOffered" xml:space="preserve">
+    <value>ESU stated for the machine, but Microsoft lists no ESU end for this product</value>
+  </data>
+  <data name="Detail_EsuUntil" xml:space="preserve">
+    <value>Covered by Extended Security Updates until {0}</value>
+  </data>
+  <data name="Detail_EvaluationFailed" xml:space="preserve">
+    <value>Evaluation failed ({0})</value>
+  </data>
+  <data name="Detail_Evidence" xml:space="preserve">
+    <value>Evidence {0}: {1}</value>
+  </data>
+  <data name="Detail_ExclusionsNeedAdmin" xml:space="preserve">
+    <value>Defender exclusions are readable only as administrator</value>
+  </data>
+  <data name="Detail_FeatureAbsent" xml:space="preserve">
+    <value>Feature {0} not present</value>
+  </data>
+  <data name="Detail_HeuristicProduct" xml:space="preserve">
+    <value>Security Center (heuristic): {0} – {1}, signatures {2}</value>
+  </data>
+  <data name="Detail_InstalledRelease" xml:space="preserve">
+    <value>Installed: {0}.{1}, released {2} ({3})</value>
+  </data>
+  <data name="Detail_ItemAbsent" xml:space="preserve">
+    <value>absent</value>
+  </data>
+  <data name="Detail_LifecycleSource" xml:space="preserve">
+    <value>{0} (source: {1}, seen {2})</value>
+  </data>
+  <data name="Detail_LsaEvent" xml:space="preserve">
+    <value>Wininit event 12 after the last start: LSASS started as a protected process ({0})</value>
+  </data>
+  <data name="Detail_LsaNoRuntime" xml:space="preserve">
+    <value>No runtime evidence of LSA protection (runtime query only with --deep)</value>
+  </data>
+  <data name="Detail_LsaNotConfigured" xml:space="preserve">
+    <value>RunAsPPL not configured; no runtime evidence</value>
+  </data>
+  <data name="Detail_MachineSidUnknown" xml:space="preserve">
+    <value>Machine SID unknown – local accounts cannot be told apart</value>
+  </data>
+  <data name="Detail_Member" xml:space="preserve">
+    <value>{0} ({1}, {2})</value>
+  </data>
+  <data name="Detail_MemberNotAllowed" xml:space="preserve">
+    <value>Member not allowed: {0}</value>
+  </data>
+  <data name="Detail_MissingPass" xml:space="preserve">
+    <value>Missing value counts as safe: {0} (source: {1}, seen {2})</value>
+  </data>
+  <data name="Detail_NaBuild" xml:space="preserve">
+    <value>Build {0} outside the range of the rule</value>
+  </data>
+  <data name="Detail_NaCapability" xml:space="preserve">
+    <value>Feature {0} not present on this operating system</value>
+  </data>
+  <data name="Detail_NaCondition" xml:space="preserve">
+    <value>Condition not met: {0} = {1}</value>
+  </data>
+  <data name="Detail_NaDc" xml:space="preserve">
+    <value>Domain controller – catalogue 2026.10 is not designed for domain controllers</value>
+  </data>
+  <data name="Detail_NaDomainJoined" xml:space="preserve">
+    <value>Machine is domain-joined; the rule applies to standalone machines</value>
+  </data>
+  <data name="Detail_NaDomainStandalone" xml:space="preserve">
+    <value>Machine is not domain-joined; the rule applies to domain members</value>
+  </data>
+  <data name="Detail_NaOs" xml:space="preserve">
+    <value>Not for this kind of operating system ({0})</value>
+  </data>
+  <data name="Detail_NeverLocks" xml:space="preserve">
+    <value>Lockout threshold 0: accounts are never locked</value>
+  </data>
+  <data name="Detail_NewestHistory" xml:space="preserve">
+    <value>Newest successful Windows Update installation on {0}</value>
+  </data>
+  <data name="Detail_NewestHotfix" xml:space="preserve">
+    <value>Newest hotfix installed on {0}</value>
+  </data>
+  <data name="Detail_NoActiveAv" xml:space="preserve">
+    <value>No active antivirus (Microsoft Defender: {0})</value>
+  </data>
+  <data name="Detail_NoAv" xml:space="preserve">
+    <value>No antivirus active</value>
+  </data>
+  <data name="Detail_NoLifecycleEntry" xml:space="preserve">
+    <value>No lifecycle entry for {0} build {1}, edition {2}</value>
+  </data>
+  <data name="Detail_NoLifecycleTable" xml:space="preserve">
+    <value>Lifecycle table missing in the catalogue</value>
+  </data>
+  <data name="Detail_NoRows" xml:space="preserve">
+    <value>No matching rows in {0}</value>
+  </data>
+  <data name="Detail_NoToolPatterns" xml:space="preserve">
+    <value>No remote-access tool patterns in the catalogue</value>
+  </data>
+  <data name="Detail_NoUpdateEvidence" xml:space="preserve">
+    <value>No evidence of the update state</value>
+  </data>
+  <data name="Detail_NotConfigured" xml:space="preserve">
+    <value>Not configured</value>
+  </data>
+  <data name="Detail_NotSet" xml:space="preserve">
+    <value>Value not set</value>
+  </data>
+  <data name="Detail_OlderThanTable" xml:space="preserve">
+    <value>Build {0} is older than all lifecycle entries (oldest: build {1}); their support ended on {2}</value>
+  </data>
+  <data name="Detail_OsUnknown" xml:space="preserve">
+    <value>Operating system cannot be determined</value>
+  </data>
+  <data name="Detail_ProfileInboundAllow" xml:space="preserve">
+    <value>Profile {0}: inbound connections allowed by default</value>
+  </data>
+  <data name="Detail_ProfileOff" xml:space="preserve">
+    <value>Profile {0}: firewall off</value>
+  </data>
+  <data name="Detail_ProfileStateUnknown" xml:space="preserve">
+    <value>Profile {0}: state unknown</value>
+  </data>
+  <data name="Detail_RegistryRulesMissing" xml:space="preserve">
+    <value>Firewall rules of the registry stores missing ({0})</value>
+  </data>
+  <data name="Detail_RightHeldBy" xml:space="preserve">
+    <value>Right held by: {0}</value>
+  </data>
+  <data name="Detail_RightMissing" xml:space="preserve">
+    <value>Right missing for: {0}</value>
+  </data>
+  <data name="Detail_RtpOff" xml:space="preserve">
+    <value>Real-time protection off</value>
+  </data>
+  <data name="Detail_RuleExposes" xml:space="preserve">
+    <value>Rule “{0}” opens {1} to any address (profile {2})</value>
+  </data>
+  <data name="Detail_RulesNotCollected" xml:space="preserve">
+    <value>Firewall rule list not collected (--minimal)</value>
+  </data>
+  <data name="Detail_ServiceAbsent" xml:space="preserve">
+    <value>Service {0} not present</value>
+  </data>
+  <data name="Detail_ServiceStateUnknown" xml:space="preserve">
+    <value>Running state unknown (start type from the registry only)</value>
+  </data>
+  <data name="Detail_SignaturesOld" xml:space="preserve">
+    <value>Signatures {0} days old</value>
+  </data>
+  <data name="Detail_SupportEnded" xml:space="preserve">
+    <value>Support ended on {0}</value>
+  </data>
+  <data name="Detail_SupportedUntil" xml:space="preserve">
+    <value>Supported until {0}</value>
+  </data>
+  <data name="Detail_ThirdPartyAv" xml:space="preserve">
+    <value>Third-party antivirus active</value>
+  </data>
+  <data name="Detail_ThirdPartyUnknown" xml:space="preserve">
+    <value>Microsoft Defender {0}; whether another antivirus is active cannot be determined</value>
+  </data>
+  <data name="Detail_TooManyMembers" xml:space="preserve">
+    <value>{0} members, at most {1} allowed</value>
+  </data>
+  <data name="Detail_UbrNotInTable" xml:space="preserve">
+    <value>Update {0}.{1} not listed in the build table</value>
+  </data>
+  <data name="Detail_Unlimited" xml:space="preserve">
+    <value>Unlimited (never)</value>
+  </data>
+  <data name="Detail_UnresolvedNames" xml:space="preserve">
+    <value>Names not resolved to SIDs: {0}</value>
+  </data>
+  <data name="Detail_WrongType" xml:space="preserve">
+    <value>Wrong value type: {0} instead of {1}</value>
+  </data>
+  <data name="Detail_WrongTypeSecedit" xml:space="preserve">
+    <value>Wrong value type in the security template</value>
+  </data>
+  <data name="Error_RGL0200" xml:space="preserve">
+    <value>The rule catalogue is invalid: {0}</value>
+  </data>
+  <data name="Error_RGL0201" xml:space="preserve">
+    <value>Unknown check type: {0}</value>
+  </data>
+  <data name="Error_RGL0202" xml:space="preserve">
+    <value>Unknown field: {0}</value>
+  </data>
+  <data name="Error_RGL0203" xml:space="preserve">
+    <value>Operator does not fit the value type or the expected value: {0}</value>
+  </data>
+  <data name="Error_RGL0204" xml:space="preserve">
+    <value>Default value without a source (https) or date seen: {0}</value>
+  </data>
+  <data name="Error_RGL0205" xml:space="preserve">
+    <value>Rule for missing values is incomplete: {0}</value>
+  </data>
+  <data name="Error_RGL0206" xml:space="preserve">
+    <value>Unknown capability: {0}</value>
+  </data>
+  <data name="Error_RGL0207" xml:space="preserve">
+    <value>Unknown fact or wrong value type in a condition: {0}</value>
+  </data>
+  <data name="Error_RGL0208" xml:space="preserve">
+    <value>Capability defined more than once: {0}</value>
+  </data>
+  <data name="Error_RGL0209" xml:space="preserve">
+    <value>Rule ID occurs more than once: {0}</value>
+  </data>
+  <data name="Error_RGL0210" xml:space="preserve">
+    <value>Invalid rule: {0}</value>
+  </data>
+  <data name="Error_RGL0211" xml:space="preserve">
+    <value>Invalid catalogue table or file: {0}</value>
+  </data>
+  <data name="Error_RGL0212" xml:space="preserve">
+    <value>Customer baseline does not fit: {0}</value>
+  </data>
+  <data name="Error_RGL0220" xml:space="preserve">
+    <value>Access to the evidence was denied</value>
+  </data>
+  <data name="Error_RGL0221" xml:space="preserve">
+    <value>The evidence could not be collected (error)</value>
+  </data>
+  <data name="Error_RGL0222" xml:space="preserve">
+    <value>The evidence was not collected</value>
+  </data>
+  <data name="Error_RGL0223" xml:space="preserve">
+    <value>WMI namespace or class missing</value>
+  </data>
+  <data name="Error_RGL0224" xml:space="preserve">
+    <value>Evidence truncated or collection area incomplete</value>
+  </data>
+  <data name="Error_RGL0225" xml:space="preserve">
+    <value>The collector marked the evidence as not applicable</value>
+  </data>
+  <data name="Error_RGL0226" xml:space="preserve">
+    <value>Absence cannot be proven (outside the collected area)</value>
+  </data>
+  <data name="Error_RGL0227" xml:space="preserve">
+    <value>Value not set; the rule does not assume a default</value>
+  </data>
+  <data name="Error_RGL0228" xml:space="preserve">
+    <value>Value not set, default value unknown</value>
+  </data>
+  <data name="Error_RGL0229" xml:space="preserve">
+    <value>Applicability cannot be determined</value>
+  </data>
+  <data name="Error_RGL0230" xml:space="preserve">
+    <value>Configured, effect not proven</value>
+  </data>
+  <data name="Error_RGL0231" xml:space="preserve">
+    <value>Heuristic evidence only</value>
+  </data>
+  <data name="Error_RGL0232" xml:space="preserve">
+    <value>Clock of the target machine implausible – ages cannot be checked</value>
+  </data>
+  <data name="Error_RGL0233" xml:space="preserve">
+    <value>Unexpected value in the raw data</value>
+  </data>
+  <data name="Error_RGL0234" xml:space="preserve">
+    <value>Redacted value cannot be compared</value>
+  </data>
+  <data name="Error_RGL0235" xml:space="preserve">
+    <value>Catalogue data missing or too old</value>
+  </data>
+  <data name="Error_RGL0236" xml:space="preserve">
+    <value>State of Microsoft Defender cannot be determined</value>
+  </data>
+  <data name="Error_RGL0237" xml:space="preserve">
+    <value>No decisive evidence</value>
+  </data>
+  <data name="Error_RGL0238" xml:space="preserve">
+    <value>Account names in user rights not resolved to SIDs</value>
+  </data>
+  <data name="Error_RGL0239" xml:space="preserve">
+    <value>Evaluation of the rule failed</value>
+  </data>
+  <data name="Error_RGL0240" xml:space="preserve">
+    <value>Not for this kind of operating system</value>
+  </data>
+  <data name="Error_RGL0241" xml:space="preserve">
+    <value>Build outside the range of the rule</value>
+  </data>
+  <data name="Error_RGL0242" xml:space="preserve">
+    <value>Domain membership does not match</value>
+  </data>
+  <data name="Error_RGL0243" xml:space="preserve">
+    <value>Domain controller – the rule does not apply there</value>
+  </data>
+  <data name="Error_RGL0244" xml:space="preserve">
+    <value>Condition of the rule does not apply</value>
+  </data>
+  <data name="Error_RGL0245" xml:space="preserve">
+    <value>Feature not present on this operating system</value>
+  </data>
+  <data name="Error_RGL0246" xml:space="preserve">
+    <value>Third-party antivirus active</value>
+  </data>
+  <data name="Error_RGL0247" xml:space="preserve">
+    <value>Service, feature or data not present</value>
+  </data>
+  <data name="Error_RGL0248" xml:space="preserve">
+    <value>Rule retired</value>
+  </data>
+  <data name="Inv_AppIdService" xml:space="preserve">
+    <value>Application Identity service (AppIDSvc): {0}, start type {1}</value>
+  </data>
+  <data name="Inv_AppLocker" xml:space="preserve">
+    <value>AppLocker policy: {0}</value>
+  </data>
+  <data name="Inv_AutoShare" xml:space="preserve">
+    <value>{0} = {1}</value>
+  </data>
+  <data name="Inv_CodeIntegrity" xml:space="preserve">
+    <value>App Control: kernel mode {0}, user mode {1} (0 off, 1 audit, 2 enforced)</value>
+  </data>
+  <data name="Inv_DriverBlocklist" xml:space="preserve">
+    <value>Vulnerable driver blocklist: {0}</value>
+  </data>
+  <data name="Inv_Exclusion" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="Inv_Fact" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="Inv_MemberCount" xml:space="preserve">
+    <value>{0} members</value>
+  </data>
+  <data name="Inv_NoExclusions" xml:space="preserve">
+    <value>No exclusions</value>
+  </data>
+  <data name="Inv_NoShares" xml:space="preserve">
+    <value>No shares</value>
+  </data>
+  <data name="Inv_NoTools" xml:space="preserve">
+    <value>No known remote-access tool found</value>
+  </data>
+  <data name="Inv_RdpEnabled" xml:space="preserve">
+    <value>Remote Desktop allowed: {0}</value>
+  </data>
+  <data name="Inv_RdpNla" xml:space="preserve">
+    <value>Network Level Authentication: policy {0}, local {1}</value>
+  </data>
+  <data name="Inv_RdpPort" xml:space="preserve">
+    <value>Port: {0}</value>
+  </data>
+  <data name="Inv_RdpService" xml:space="preserve">
+    <value>Remote Desktop service: {0}, start type {1}</value>
+  </data>
+  <data name="Inv_RdpUsers" xml:space="preserve">
+    <value>Members of Remote Desktop Users: {0}</value>
+  </data>
+  <data name="Inv_Share" xml:space="preserve">
+    <value>{0} ({1})</value>
+  </data>
+  <data name="Inv_ShareOpen" xml:space="preserve">
+    <value>{0} ({1}) – access for {2}</value>
+  </data>
+  <data name="Inv_SmartAppControl" xml:space="preserve">
+    <value>Smart App Control state (VerifiedAndReputablePolicyState): {0}</value>
+  </data>
+  <data name="Inv_ToolInstalled" xml:space="preserve">
+    <value>{0}: installed as “{1}”</value>
+  </data>
+  <data name="Inv_ToolService" xml:space="preserve">
+    <value>{0}: service {1} ({2}, start type {3})</value>
+  </data>
+  <data name="Inv_Wireless" xml:space="preserve">
+    <value>Wireless adapters present: {0}</value>
+  </data>
+  <data name="Inv_WirelessAdapter" xml:space="preserve">
+    <value>{0} (active: {1})</value>
+  </data>
+  <data name="Word_No" xml:space="preserve">
+    <value>no</value>
+  </data>
+  <data name="Word_None" xml:space="preserve">
+    <value>none</value>
+  </data>
+  <data name="Word_Off" xml:space="preserve">
+    <value>off</value>
+  </data>
+  <data name="Word_On" xml:space="preserve">
+    <value>on</value>
+  </data>
+  <data name="Word_OutOfDate" xml:space="preserve">
+    <value>out of date</value>
+  </data>
+  <data name="Word_Unknown" xml:space="preserve">
+    <value>unknown</value>
+  </data>
+  <data name="Word_UpToDate" xml:space="preserve">
+    <value>up to date</value>
+  </data>
+  <data name="Word_Yes" xml:space="preserve">
+    <value>yes</value>
   </data>
 </root>

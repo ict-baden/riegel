@@ -1,0 +1,2276 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "TNET",
+  "rules": [
+    {
+      "id": "TNET-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: öffentliches Profil an",
+        "en": "Test rule: public profile on"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallProfile",
+        "profile": "public",
+        "property": "enabled",
+        "expected": true
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "on",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "off",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": false,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "truncated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              },
+              "truncated": true
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "public": {
+                    "enabled": "ja"
+                  }
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "builtin: no runtime, only registry",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableFirewall": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "n/a: domain controller",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TNET-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Domänenprofil blockiert eingehend",
+        "en": "Test rule: domain profile blocks inbound"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallProfile",
+        "profile": "domain",
+        "property": "defaultInboundBlock",
+        "expected": true
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "block",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "allow",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "allow",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TNET-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: öffentliches Profil protokolliert verworfene Pakete",
+        "en": "Test rule: public profile logs dropped packets"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallProfile",
+        "profile": "public",
+        "property": "logDropped",
+        "expected": true
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "policy 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "policy 0 beats local 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "local 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "not configured",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "fail"
+        },
+        {
+          "name": "policy denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging": {
+              "status": "denied"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "local not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\\Logging": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "truncated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              },
+              "truncated": true
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "sz",
+                    "v": "1"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        }
+      ]
+    },
+    {
+      "id": "TNET-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: öffentliches Profil ignoriert lokale Regeln",
+        "en": "Test rule: public profile ignores local rules"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallProfile",
+        "profile": "public",
+        "property": "allowLocalRules",
+        "expected": false
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "policy 0",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowLocalPolicyMerge": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "policy 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowLocalPolicyMerge": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not configured",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TNET-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: RDP/SMB nicht für beliebige Adressen offen (wie FW-11)",
+        "en": "Test rule: RDP/SMB not open to any address (FW-11 style)"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallExposure",
+        "ports": [
+          {
+            "protocol": "tcp",
+            "port": 3389
+          },
+          {
+            "protocol": "tcp",
+            "port": 445
+          }
+        ],
+        "profiles": "all"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "only restricted rules",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "OPC UA",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "4840",
+                    "remoteAddresses": "*",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  },
+                  {
+                    "name": "RDP admin net",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "3389",
+                    "remoteAddresses": "192.0.2.0/255.255.255.0",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "RDP from any address",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "Remote Desktop",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "3389",
+                    "remoteAddresses": "*",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "disabled RDP rule",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "Remote Desktop",
+                    "enabled": false,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "3389",
+                    "remoteAddresses": "*",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "port range covers 445",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "Range",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "400-500",
+                    "remoteAddresses": "*",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "keyword ports do not match",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "RPC",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "RPC",
+                    "remoteAddresses": "*",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  },
+                  {
+                    "name": "EPMap",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "RPC-EPMap",
+                    "remoteAddresses": "*",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "udp rule does not open tcp",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "UDP",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 17,
+                    "localPorts": "445",
+                    "remoteAddresses": "*",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "profile off",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": false,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "inbound allowed by default",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "allow",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "GPO store rule",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": [
+                {
+                  "store": "gpo",
+                  "name": "GPO SMB",
+                  "action": "Allow",
+                  "active": true,
+                  "dir": "In",
+                  "protocol": "6",
+                  "lports": [
+                    "445"
+                  ]
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "local store rule, merge on",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": [
+                {
+                  "store": "local",
+                  "name": "Local SMB",
+                  "action": "Allow",
+                  "active": true,
+                  "dir": "In",
+                  "protocol": "6",
+                  "lports": [
+                    "445"
+                  ],
+                  "profiles": [
+                    "Public"
+                  ]
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "local store rule, merge off",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": [
+                {
+                  "store": "local",
+                  "name": "Local SMB",
+                  "action": "Allow",
+                  "active": true,
+                  "dir": "In",
+                  "protocol": "6",
+                  "lports": [
+                    "445"
+                  ],
+                  "profiles": [
+                    "Public"
+                  ]
+                }
+              ]
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowLocalPolicyMerge": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "local store rule with remote address",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": [
+                {
+                  "store": "local",
+                  "name": "Local SMB",
+                  "action": "Allow",
+                  "active": true,
+                  "dir": "In",
+                  "protocol": "6",
+                  "lports": [
+                    "445"
+                  ],
+                  "ra": [
+                    "192.0.2.0/24"
+                  ]
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "registry rules missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "OPC UA",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "4840",
+                    "remoteAddresses": "*",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "registry rules missing but COM exposes",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "Remote Desktop",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "3389",
+                    "remoteAddresses": "*",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "rules not collected (--minimal)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": false,
+                "rules": []
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "firewall not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "notCollected"
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "firewall missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "keyMissing"
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "firewall denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "denied"
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "firewall truncated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              },
+              "truncated": true
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "unknown protocol shape",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "Odd",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": "SCTP",
+                    "localPorts": "3389",
+                    "remoteAddresses": "*",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": "alle",
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "n/a: domain controller",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TNET-06",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Freigabe nur in aktiven Profilen",
+        "en": "Test rule: exposure on active profiles only"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallExposure",
+        "ports": [
+          {
+            "protocol": "tcp",
+            "port": 5985
+          }
+        ],
+        "profiles": "active"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "rule only for the inactive domain profile",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "WinRM",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "5985",
+                    "remoteAddresses": "*",
+                    "profiles": 1,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "rule for the active private profile",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "WinRM",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "5985",
+                    "remoteAddresses": "*",
+                    "profiles": 2,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "inactive profile off does not count",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": false,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "active profile unknown",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 0,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "notCollected"
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "keyMissing"
+            },
+            "parsed:firewall-rules-registry": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    }
+  ]
+}

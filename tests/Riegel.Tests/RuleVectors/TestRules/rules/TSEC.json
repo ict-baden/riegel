@@ -1,0 +1,2461 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "TSEC",
+  "rules": [
+    {
+      "id": "TSEC-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: secedit Registry-Wert",
+        "en": "Test rule: secedit registry value"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "secedit",
+        "section": "Registry Values",
+        "key": "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\LimitBlankPasswordUse",
+        "op": "eq",
+        "expected": 1,
+        "valueKind": "registryValue",
+        "whenMissing": "fail"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "pass",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {
+                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\LimitBlankPasswordUse": {
+                      "type": 4,
+                      "value": "1"
+                    }
+                  },
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "fail",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {
+                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\LimitBlankPasswordUse": {
+                      "type": 4,
+                      "value": "0"
+                    }
+                  },
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {
+                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\LimitBlankPasswordUse": {
+                      "type": 1,
+                      "value": "1"
+                    }
+                  },
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {},
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "denied",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "truncated",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {
+                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\LimitBlankPasswordUse": {
+                      "type": 4,
+                      "value": "1"
+                    }
+                  },
+                  "Privilege Rights": {}
+                }
+              },
+              "truncated": true
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "n/a: server only",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {
+                    "MACHINE\\System\\CurrentControlSet\\Control\\Lsa\\LimitBlankPasswordUse": {
+                      "type": 4,
+                      "value": "1"
+                    }
+                  },
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TSEC-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: secedit Zahl",
+        "en": "Test rule: secedit number"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "secedit",
+        "section": "System Access",
+        "key": "PasswordComplexity",
+        "op": "eq",
+        "expected": 1,
+        "valueKind": "number",
+        "whenMissing": "notCheckable"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "pass",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {
+                    "PasswordComplexity": "1"
+                  },
+                  "Registry Values": {},
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "fail",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {
+                    "PasswordComplexity": "0"
+                  },
+                  "Registry Values": {},
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {},
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "unreadable value",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {
+                    "PasswordComplexity": "ja"
+                  },
+                  "Registry Values": {},
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TSEC-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: accountPolicy minPwLen",
+        "en": "Test rule: accountPolicy minPwLen"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "standalone",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "accountPolicy",
+        "field": "minPwLen",
+        "op": "ge",
+        "expected": 14
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "api pass",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "minPwLen": 14,
+                "maxPwAgeDays": 365
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "api fail",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "minPwLen": 8,
+                "maxPwAgeDays": 365
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "api denied, secedit pass",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "denied"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {
+                    "MinimumPasswordLength": "15"
+                  },
+                  "Registry Values": {},
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "api without field, secedit fail",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "maxPwAgeDays": 365
+              }
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {
+                    "MinimumPasswordLength": "0"
+                  },
+                  "Registry Values": {},
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "both not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing in secedit",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "keyMissing"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {},
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "truncated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "minPwLen": 14
+              },
+              "truncated": true
+            },
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "minPwLen": true
+              }
+            },
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "denied"
+            },
+            "parsed:secedit": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "n/a: domain member",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "minPwLen": 14
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TSEC-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Sperrschwelle 0 sperrt nie",
+        "en": "Test rule: lockout threshold 0 never locks"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "accountPolicy",
+        "field": "lockoutThreshold",
+        "op": "le",
+        "expected": 5
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "5",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "lockoutThreshold": 5
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "10",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "lockoutThreshold": 10
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "0 never locks",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "lockoutThreshold": 0
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "secedit 0",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {
+                    "LockoutBadCount": "0"
+                  },
+                  "Registry Values": {},
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TSEC-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: maximales Kennwortalter",
+        "en": "Test rule: maximum password age"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "accountPolicy",
+        "field": "maxPwAgeDays",
+        "op": "le",
+        "expected": 365
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "365",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "maxPwAgeDays": 365
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "unlimited (api null)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "maxPwAgeDays": null
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "unlimited (secedit -1)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "denied"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {
+                    "MaximumPasswordAge": "-1"
+                  },
+                  "Registry Values": {},
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "never expires (secedit 0)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "denied"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {
+                    "MaximumPasswordAge": "0"
+                  },
+                  "Registry Values": {},
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TSEC-06",
+      "since": "2026.10",
+      "state": "active",
+      "category": "audit",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Überwachung Anmelden",
+        "en": "Test rule: audit subcategory Logon"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "auditSubcategory",
+        "guid": "{0CCE9215-69AE-11D9-BED3-505054503030}",
+        "expected": "successAndFailure"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "3",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:audit-policy": {
+              "status": "ok",
+              "value": {
+                "{0CCE9215-69AE-11D9-BED3-505054503030}": 3
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "success only",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:audit-policy": {
+              "status": "ok",
+              "value": {
+                "{0CCE9215-69AE-11D9-BED3-505054503030}": 1
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "guid not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:audit-policy": {
+              "status": "ok",
+              "value": {
+                "{0CCE9216-69AE-11D9-BED3-505054503030}": 3
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing item",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:audit-policy": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "error",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:audit-policy": {
+              "status": "error"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:audit-policy": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "truncated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:audit-policy": {
+              "status": "ok",
+              "value": {
+                "{0CCE9215-69AE-11D9-BED3-505054503030}": 3
+              },
+              "truncated": true
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:audit-policy": {
+              "status": "ok",
+              "value": {
+                "{0CCE9215-69AE-11D9-BED3-505054503030}": "Success and Failure"
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "n/a: client only",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:audit-policy": {
+              "status": "ok",
+              "value": {
+                "{0CCE9215-69AE-11D9-BED3-505054503030}": 3
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TSEC-07",
+      "since": "2026.10",
+      "state": "active",
+      "category": "audit",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Überwachung enthält Fehler",
+        "en": "Test rule: audit includesFailure"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "auditSubcategory",
+        "guid": "{0CCE9215-69AE-11D9-BED3-505054503030}",
+        "expected": "includesFailure"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "3",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:audit-policy": {
+              "status": "ok",
+              "value": {
+                "{0CCE9215-69AE-11D9-BED3-505054503030}": 3
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "2",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:audit-policy": {
+              "status": "ok",
+              "value": {
+                "{0CCE9215-69AE-11D9-BED3-505054503030}": 2
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:audit-policy": {
+              "status": "ok",
+              "value": {
+                "{0CCE9215-69AE-11D9-BED3-505054503030}": 1
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:audit-policy": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:audit-policy": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TSEC-08",
+      "since": "2026.10",
+      "state": "active",
+      "category": "userRights",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Gast im Recht „Netzwerkanmeldung verweigern“",
+        "en": "Test rule: deny network logon includes Guest"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "joined",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "userRight",
+        "right": "SeDenyNetworkLogonRight",
+        "mode": "mustInclude",
+        "sids": [
+          "*-501"
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "api with local guest",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDenyNetworkLogonRight": [
+                  "S-1-5-21-1000-2000-3000-501"
+                ]
+              }
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "api without guest",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDenyNetworkLogonRight": []
+              }
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "domain guest only",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDenyNetworkLogonRight": [
+                  "S-1-5-21-4000-5000-6000-501"
+                ]
+              }
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "machine SID unknown",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDenyNetworkLogonRight": [
+                  "S-1-5-21-1000-2000-3000-501"
+                ]
+              }
+            },
+            "api:netuserenum": {
+              "status": "denied"
+            },
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "secedit with German name only",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "denied"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {},
+                  "Privilege Rights": {
+                    "SeDenyNetworkLogonRight": [
+                      "Gast"
+                    ]
+                  }
+                }
+              }
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "secedit with SID",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "denied"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {},
+                  "Privilege Rights": {
+                    "SeDenyNetworkLogonRight": [
+                      "*S-1-5-21-1000-2000-3000-501"
+                    ]
+                  }
+                }
+              }
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000-2000-3000-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000-2000-3000-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "operator",
+                  "sid": "S-1-5-21-1000-2000-3000-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-14",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "keyMissing"
+            },
+            "parsed:secedit": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "n/a: workgroup",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 2,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDenyNetworkLogonRight": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TSEC-09",
+      "since": "2026.10",
+      "state": "active",
+      "category": "userRights",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Debuggen nur Administratoren",
+        "en": "Test rule: debug only by Administrators"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "userRight",
+        "right": "SeDebugPrivilege",
+        "mode": "onlyFrom",
+        "sids": [
+          "S-1-5-32-544"
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "only admins",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDebugPrivilege": [
+                  "S-1-5-32-544"
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "also a user",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDebugPrivilege": [
+                  "S-1-5-32-544",
+                  "S-1-5-21-1000-2000-3000-1001"
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "secedit name Administratoren",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "denied"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {},
+                  "Privilege Rights": {
+                    "SeDebugPrivilege": [
+                      "Administratoren"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "secedit SID and foreign SID",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "denied"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {},
+                  "Privilege Rights": {
+                    "SeDebugPrivilege": [
+                      "*S-1-5-32-544",
+                      "*S-1-5-32-545",
+                      "Benutzer"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "secedit without the right",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "denied"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {},
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "keyMissing"
+            },
+            "parsed:secedit": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "denied"
+            },
+            "parsed:secedit": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "truncated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDebugPrivilege": [
+                  "S-1-5-32-544"
+                ]
+              },
+              "truncated": true
+            },
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDebugPrivilege": "S-1-5-32-544"
+              }
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {},
+                  "Privilege Rights": {
+                    "SeDebugPrivilege": {
+                      "x": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "n/a: domain controller",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDebugPrivilege": [
+                  "S-1-5-32-544"
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TSEC-10",
+      "since": "2026.10",
+      "state": "active",
+      "category": "userRights",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Als Teil des Betriebssystems: niemand",
+        "en": "Test rule: act as part of the OS: nobody"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "userRight",
+        "right": "SeTcbPrivilege",
+        "mode": "empty",
+        "sids": []
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "empty",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeTcbPrivilege": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "assigned",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeTcbPrivilege": [
+                  "S-1-5-32-544"
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "unresolved name only",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "denied"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {},
+                  "Privilege Rights": {
+                    "SeTcbPrivilege": [
+                      "dienstkonto"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "keyMissing"
+            },
+            "parsed:secedit": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TSEC-11",
+      "since": "2026.10",
+      "state": "active",
+      "category": "userRights",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Remoteanmeldung nicht für Jeder",
+        "en": "Test rule: remote logon not for Everyone"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "userRight",
+        "right": "SeRemoteInteractiveLogonRight",
+        "mode": "mustNotInclude",
+        "sids": [
+          "S-1-1-0"
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "admins only",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeRemoteInteractiveLogonRight": [
+                  "S-1-5-32-544"
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "everyone",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeRemoteInteractiveLogonRight": [
+                  "S-1-1-0"
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "unresolved name",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "denied"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {},
+                  "Registry Values": {},
+                  "Privilege Rights": {
+                    "SeRemoteInteractiveLogonRight": [
+                      "Jeder"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "keyMissing"
+            },
+            "parsed:secedit": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    }
+  ]
+}
