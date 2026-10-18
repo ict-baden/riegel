@@ -24,6 +24,7 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 
 ### Geändert
 - Lizenzen: die Drittanbieter-Hinweise der mitgelieferten .NET-Laufzeit und von WPF (Stand v10.0.13) liegen jetzt als `THIRD-PARTY-NOTICES-dotnet-runtime.txt` und `THIRD-PARTY-NOTICES-dotnet-wpf.txt` neben den Programmen und sind in `--licenses` und der Info-Seite enthalten; vorher nur ein Link auf den Zweig main. Die CI vergleicht den Text mit den veröffentlichten Runtime-Paketen.
+- Stückliste (CycloneDX): enthält jetzt auch die Pakete von `Riegel.Cli.exe` für Windows (System.CodeDom) und die WiX-Erweiterung `WixToolset.Util.wixext` (MS-RL), deren Custom Action in der MSI steckt.
 
 ## [0.1.0] – 2026-10-18
 

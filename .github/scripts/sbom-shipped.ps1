@@ -15,15 +15,21 @@
        ihrer echten Version dazu.
     4. Der portable Sammler (Riegel.Collector.exe, net35) steht als eigene Komponente darin – mit dem Vermerk, dass er
        keine Pakete Dritter enthält.
+    5. Die Custom Action der WiX-Erweiterung WixToolset.Util.wixext (MS-RL) steckt in Riegel-x64.msi; CycloneDX sieht
+       sie nicht (es liest nur die App), die Version kommt aus dem Installer-Projekt.
 
 .PARAMETER Sbom
     Die von dotnet-CycloneDX erzeugte JSON-Datei; wird überschrieben.
 
 .PARAMETER DepsJson
-    deps.json der self-contained Publish-Läufe: die Oberfläche (win-x64) und die Linux-Programme (linux-x64, linux-arm64).
+    deps.json der self-contained Publish-Läufe: die Oberfläche (win-x64), Riegel.Cli.exe (win-x64) und die
+    Linux-Programme (linux-x64, linux-arm64).
 
 .PARAMETER CollectorVersion
     Version des Sammlers (src/Riegel.Collector/collector-version.txt).
+
+.PARAMETER WixProject
+    Installer-Projekt (installer/Riegel.Installer.wixproj): daraus die Version von WixToolset.Util.wixext.
 
 .EXAMPLE
     ./.github/scripts/sbom-shipped.ps1 -Sbom dist/Riegel-sbom.cdx.json -CollectorVersion 0.1.0 -DepsJson `
@@ -33,7 +39,8 @@
 param(
     [Parameter(Mandatory)] [string] $Sbom,
     [Parameter(Mandatory)] [string[]] $DepsJson,
-    [Parameter(Mandatory)] [string] $CollectorVersion
+    [Parameter(Mandatory)] [string] $CollectorVersion,
+    [Parameter(Mandatory)] [string] $WixProject
 )
 $ErrorActionPreference = 'Stop'
 
@@ -112,6 +119,22 @@ $collector = [pscustomobject][ordered]@{
     licenses    = @(@{ license = @{ id = 'MIT' } })
 }
 $added += $collector
+# WiX-Erweiterung: die Custom Action (util:CloseApplication) liegt in der MSI
+$wixVersion = ([xml](Get-Content $WixProject -Raw)).Project.ItemGroup.PackageReference |
+    Where-Object { $_.Include -eq 'WixToolset.Util.wixext' } | Select-Object -ExpandProperty Version -First 1
+if (-not $wixVersion) { throw "WixToolset.Util.wixext steht nicht in $WixProject." }
+$wixUrl = PackageUrl 'WixToolset.Util.wixext' $wixVersion
+$added += [pscustomobject][ordered]@{
+    type        = 'library'
+    'bom-ref'   = $wixUrl
+    publisher   = '.NET Foundation'
+    name        = 'WixToolset.Util.wixext'
+    version     = $wixVersion
+    description = 'WiX utility extension: custom action that closes a running Riegel.exe or Riegel.Cli.exe before an update or uninstall (util:CloseApplication), stored inside Riegel-x64.msi'
+    scope       = 'required'
+    licenses    = @(@{ license = @{ id = 'MS-RL' } })
+    purl        = $wixUrl
+}
 
 $droppedRefs = [System.Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
 foreach ($c in $dropped) { [void]$droppedRefs.Add($c.'bom-ref') }
@@ -128,7 +151,7 @@ $bom.components = @($kept) + @($added)
 $bom.dependencies = $dependencies
 [IO.File]::WriteAllText((Resolve-Path $Sbom), ($bom | ConvertTo-Json -Depth 100), [Text.UTF8Encoding]::new($false))
 
-Write-Host "Stückliste: $($kept.Count) Pakete, $($runtimePacks.Count) Runtime-Pakete, Sammler $CollectorVersion"
+Write-Host "Stückliste: $($kept.Count) Pakete, $($runtimePacks.Count) Runtime-Pakete, Sammler $CollectorVersion, WiX-Erweiterung $wixVersion"
 if ($dropped.Count -gt 0) {
     Write-Host "Entfernt (nicht ausgeliefert, kommen aus der Runtime): $(($dropped | ForEach-Object { "$($_.name) $($_.version)" }) -join ', ')"
 }

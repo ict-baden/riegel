@@ -456,11 +456,15 @@ jobs:
                     '--set-name', $env:APP, '--set-version', '${{ steps.version.outputs.version }}')
           dotnet dotnet-CycloneDX @sbom
           if ($LASTEXITCODE -ne 0) { throw "SBOM fehlgeschlagen ($LASTEXITCODE)" }
+          # Alle ausgelieferten Programme: Oberfläche, Riegel.Cli.exe für Windows (bringt System.CodeDom mit, das die
+          # Windows-Desktop-Runtime der Oberfläche schon enthält) und die Linux-Programme
           $deps = @(Get-ChildItem "src/$env:APP/obj/Release/*/win-x64/$env:APP.deps.json") +
+                  @(Get-ChildItem 'src/Riegel.Cli/obj/Release/net10.0-windows10.0.19041.0/win-x64/Riegel.Cli.deps.json') +
                   @(Get-ChildItem 'src/Riegel.Cli/obj/Release/net10.0/linux-x64/Riegel.Cli.deps.json') +
                   @(Get-ChildItem 'src/Riegel.Cli/obj/Release/net10.0/linux-arm64/Riegel.Cli.deps.json')
-          if ($deps.Count -ne 3) { throw "deps.json der Publish-Läufe nicht eindeutig gefunden ($($deps.Count))" }
-          ./.github/scripts/sbom-shipped.ps1 -Sbom $file -DepsJson $deps.FullName -CollectorVersion '${{ steps.version.outputs.collector }}'
+          if ($deps.Count -ne 4) { throw "deps.json der Publish-Läufe nicht eindeutig gefunden ($($deps.Count))" }
+          ./.github/scripts/sbom-shipped.ps1 -Sbom $file -DepsJson $deps.FullName -CollectorVersion '${{ steps.version.outputs.collector }}' `
+            -WixProject installer/Riegel.Installer.wixproj
 
       - name: Prüfsummen
         shell: pwsh
