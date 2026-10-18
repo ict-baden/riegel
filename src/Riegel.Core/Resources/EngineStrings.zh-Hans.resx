@@ -4,7 +4,628 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Placeholder" xml:space="preserve">
-    <value>（engine 文本的占位符）</value>
+  <data name="Detail_AccountNotFound" xml:space="preserve">
+    <value>未找到 RID 为 {0} 的本地帐户</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ActiveProfileUnknown" xml:space="preserve">
+    <value>活动防火墙配置文件未知</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ApplicabilityUnknown" xml:space="preserve">
+    <value>无法确定适用性：{0} 未知</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AsrNotConfigured" xml:space="preserve">
+    <value>未配置 ASR 规则</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AsrNotEffective" xml:space="preserve">
+    <value>ASR 已配置，但未生效</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AtLeastDays" xml:space="preserve">
+    <value>已安装的更新 {1}.{2} 至少已有 {0} 天</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AtMostDays" xml:space="preserve">
+    <value>已安装的更新 {1}.{2} 最多已有 {0} 天</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AuditGuidMissing" xml:space="preserve">
+    <value>收集的审核策略中没有子类别 {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AutoLogonPasswordElsewhere" xml:space="preserve">
+    <value>无法检查密码的存储位置（可能为 LSA 机密）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AutoLogonPasswordInRegistry" xml:space="preserve">
+    <value>密码位于注册表中（DefaultPassword）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AvOutOfDate" xml:space="preserve">
+    <value>防病毒软件处于活动状态但已过期：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_CapabilityAbsentFail" xml:space="preserve">
+    <value>此操作系统上不存在保护功能 {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_CatalogueTooOld" xml:space="preserve">
+    <value>更新 {0}.{1} 比内部版本表更新 – 规则目录过旧</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ClockSuspect" xml:space="preserve">
+    <value>目标计算机时钟不可信 – 无法检查时间跨度</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_Configured" xml:space="preserve">
+    <value>已配置的值：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ConfiguredNotRunning" xml:space="preserve">
+    <value>已配置，未运行</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ConfiguredOnly" xml:space="preserve">
+    <value>已配置，效果未经证实</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_DefaultAssumed" xml:space="preserve">
+    <value>假定默认值：{0}（来源：{1}，查阅于 {2}）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_DefaultUnknown" xml:space="preserve">
+    <value>未设置；默认值未知</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_DefenderAbsent" xml:space="preserve">
+    <value>Microsoft Defender 不存在</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_DefenderUnknown" xml:space="preserve">
+    <value>无法确定 Microsoft Defender 的状态</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_EditionUnknown" xml:space="preserve">
+    <value>版本或安装类型未知</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_EsuEnded" xml:space="preserve">
+    <value>扩展安全更新（ESU）已于 {0} 结束</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_EsuNotOffered" xml:space="preserve">
+    <value>已为该计算机指定 ESU，但 Microsoft 未列出此产品的 ESU 结束日期</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_EsuUntil" xml:space="preserve">
+    <value>扩展安全更新（ESU）覆盖至 {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_EvaluationFailed" xml:space="preserve">
+    <value>评估失败（{0}）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_Evidence" xml:space="preserve">
+    <value>证据 {0}：{1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ExclusionsNeedAdmin" xml:space="preserve">
+    <value>仅管理员可读取 Defender 排除项</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_FeatureAbsent" xml:space="preserve">
+    <value>功能 {0} 不存在</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_HeuristicProduct" xml:space="preserve">
+    <value>安全中心（启发式）：{0} – {1}，签名 {2}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_InstalledRelease" xml:space="preserve">
+    <value>已安装：{0}.{1}，发布于 {2}（{3}）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ItemAbsent" xml:space="preserve">
+    <value>缺失</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_LifecycleSource" xml:space="preserve">
+    <value>{0}（来源：{1}，查阅于 {2}）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_LsaEvent" xml:space="preserve">
+    <value>上次启动后的 Wininit 事件 12：LSASS 已作为受保护进程启动（{0}）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_LsaNoRuntime" xml:space="preserve">
+    <value>没有 LSA 保护的运行时证据（运行时查询仅在使用 --deep 时进行）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_LsaNotConfigured" xml:space="preserve">
+    <value>未配置 RunAsPPL；没有运行时证据</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_MachineSidUnknown" xml:space="preserve">
+    <value>计算机 SID 未知 – 无法区分本地帐户</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_Member" xml:space="preserve">
+    <value>{0}（{1}，{2}）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_MemberNotAllowed" xml:space="preserve">
+    <value>不允许的成员：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_MissingPass" xml:space="preserve">
+    <value>缺失的值视为安全：{0}（来源：{1}，查阅于 {2}）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NaBuild" xml:space="preserve">
+    <value>内部版本 {0} 不在规则范围内</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NaCapability" xml:space="preserve">
+    <value>此操作系统上没有功能 {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NaCondition" xml:space="preserve">
+    <value>条件不满足：{0} = {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NaDc" xml:space="preserve">
+    <value>域控制器 – 规则目录 2026.10 并非为域控制器设计</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NaDomainJoined" xml:space="preserve">
+    <value>计算机已加入域；该规则适用于独立计算机</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NaDomainStandalone" xml:space="preserve">
+    <value>计算机未加入域；该规则适用于域成员</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NaOs" xml:space="preserve">
+    <value>不适用于此类操作系统（{0}）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NeverLocks" xml:space="preserve">
+    <value>锁定阈值 0：帐户永不锁定</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NewestHistory" xml:space="preserve">
+    <value>最近一次成功的 Windows 更新安装于 {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NewestHotfix" xml:space="preserve">
+    <value>最新修补程序安装于 {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NoActiveAv" xml:space="preserve">
+    <value>没有处于活动状态的防病毒软件（Microsoft Defender：{0}）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NoAv" xml:space="preserve">
+    <value>没有防病毒软件处于活动状态</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NoLifecycleEntry" xml:space="preserve">
+    <value>没有 {0} 内部版本 {1}、版本 {2} 的生命周期条目</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NoLifecycleTable" xml:space="preserve">
+    <value>规则目录中缺少生命周期表</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NoRows" xml:space="preserve">
+    <value>{0} 中没有匹配的行</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NoToolPatterns" xml:space="preserve">
+    <value>规则目录中没有远程访问工具模式</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NoUpdateEvidence" xml:space="preserve">
+    <value>没有更新状态的证据</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NotConfigured" xml:space="preserve">
+    <value>未配置</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NotSet" xml:space="preserve">
+    <value>未设置值</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_OlderThanTable" xml:space="preserve">
+    <value>内部版本 {0} 早于所有生命周期条目（最早：{1}）；其支持已于 {2} 结束</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_OsUnknown" xml:space="preserve">
+    <value>无法确定操作系统</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ProfileInboundAllow" xml:space="preserve">
+    <value>配置文件 {0}：默认允许入站连接</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ProfileOff" xml:space="preserve">
+    <value>配置文件 {0}：防火墙已关闭</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ProfileStateUnknown" xml:space="preserve">
+    <value>配置文件 {0}：状态未知</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_RegistryRulesMissing" xml:space="preserve">
+    <value>缺少注册表存储中的防火墙规则（{0}）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_RightHeldBy" xml:space="preserve">
+    <value>权限授予：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_RightMissing" xml:space="preserve">
+    <value>缺少权限：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_RtpOff" xml:space="preserve">
+    <value>实时保护已关闭</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_RuleExposes" xml:space="preserve">
+    <value>规则“{0}”向任意地址开放 {1}（配置文件 {2}）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_RulesNotCollected" xml:space="preserve">
+    <value>未收集防火墙规则列表（--minimal）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ServiceAbsent" xml:space="preserve">
+    <value>服务 {0} 不存在</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ServiceStateUnknown" xml:space="preserve">
+    <value>运行状态未知（仅有注册表中的启动类型）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_SignaturesOld" xml:space="preserve">
+    <value>签名已有 {0} 天</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_SupportEnded" xml:space="preserve">
+    <value>支持已于 {0} 结束</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_SupportedUntil" xml:space="preserve">
+    <value>支持至 {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ThirdPartyAv" xml:space="preserve">
+    <value>第三方防病毒软件处于活动状态</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ThirdPartyUnknown" xml:space="preserve">
+    <value>Microsoft Defender {0}；无法确定是否有其他防病毒软件处于活动状态</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_TooManyMembers" xml:space="preserve">
+    <value>{0} 个成员，最多允许 {1} 个</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_UbrNotInTable" xml:space="preserve">
+    <value>内部版本表中未列出更新 {0}.{1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_Unlimited" xml:space="preserve">
+    <value>无限制（从不）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_UnresolvedNames" xml:space="preserve">
+    <value>未解析为 SID 的名称：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_WrongType" xml:space="preserve">
+    <value>值类型错误：{0}，应为 {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_WrongTypeSecedit" xml:space="preserve">
+    <value>安全模板中的值类型错误</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0200" xml:space="preserve">
+    <value>规则目录无效：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0201" xml:space="preserve">
+    <value>未知的检查类型：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0202" xml:space="preserve">
+    <value>未知字段：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0203" xml:space="preserve">
+    <value>运算符与值类型或期望值不匹配：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0204" xml:space="preserve">
+    <value>默认值缺少来源（https）或查阅日期：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0205" xml:space="preserve">
+    <value>缺失值规则不完整：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0206" xml:space="preserve">
+    <value>未知的功能：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0207" xml:space="preserve">
+    <value>条件中存在未知事实或错误的值类型：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0208" xml:space="preserve">
+    <value>功能被重复定义：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0209" xml:space="preserve">
+    <value>规则 ID 重复：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0210" xml:space="preserve">
+    <value>无效规则：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0211" xml:space="preserve">
+    <value>规则目录的表或文件无效：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0212" xml:space="preserve">
+    <value>客户基线不匹配：{0}</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0220" xml:space="preserve">
+    <value>拒绝访问证据</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0221" xml:space="preserve">
+    <value>因错误未能收集证据</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0222" xml:space="preserve">
+    <value>未收集证据</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0223" xml:space="preserve">
+    <value>缺少 WMI 命名空间或类</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0224" xml:space="preserve">
+    <value>证据被截断或收集范围不完整</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0225" xml:space="preserve">
+    <value>收集器将该证据标记为不适用</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0226" xml:space="preserve">
+    <value>无法证明缺失（在收集范围之外）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0227" xml:space="preserve">
+    <value>未设置值；该规则不假定默认值</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0228" xml:space="preserve">
+    <value>未设置值，默认值未知</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0229" xml:space="preserve">
+    <value>无法确定适用性</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0230" xml:space="preserve">
+    <value>已配置，效果未经证实</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0231" xml:space="preserve">
+    <value>仅有启发式证据</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0232" xml:space="preserve">
+    <value>目标计算机时钟不可信 – 无法检查时间跨度</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0233" xml:space="preserve">
+    <value>原始数据中存在意外值</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0234" xml:space="preserve">
+    <value>已脱敏的值无法比较</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0235" xml:space="preserve">
+    <value>规则目录数据缺失或过旧</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0236" xml:space="preserve">
+    <value>无法确定 Microsoft Defender 的状态</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0237" xml:space="preserve">
+    <value>没有决定性证据</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0238" xml:space="preserve">
+    <value>用户权限中的帐户名未解析为 SID</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0239" xml:space="preserve">
+    <value>规则评估失败</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0240" xml:space="preserve">
+    <value>不适用于此类操作系统</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0241" xml:space="preserve">
+    <value>内部版本不在规则范围内</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0242" xml:space="preserve">
+    <value>域成员身份不匹配</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0243" xml:space="preserve">
+    <value>域控制器 – 该规则不适用</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0244" xml:space="preserve">
+    <value>规则条件不成立</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0245" xml:space="preserve">
+    <value>此操作系统上没有该功能</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0246" xml:space="preserve">
+    <value>第三方防病毒软件处于活动状态</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0247" xml:space="preserve">
+    <value>服务、功能或数据不存在</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0248" xml:space="preserve">
+    <value>规则已停用</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_AppIdService" xml:space="preserve">
+    <value>应用程序标识服务（AppIDSvc）：{0}，启动类型 {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_AppLocker" xml:space="preserve">
+    <value>AppLocker 策略：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_AutoShare" xml:space="preserve">
+    <value>{0} = {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_CodeIntegrity" xml:space="preserve">
+    <value>App Control：内核模式 {0}，用户模式 {1}（0 关闭，1 审核，2 强制）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_DriverBlocklist" xml:space="preserve">
+    <value>易受攻击驱动程序阻止列表：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_Exclusion" xml:space="preserve">
+    <value>{0}：{1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_Fact" xml:space="preserve">
+    <value>{0}：{1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_MemberCount" xml:space="preserve">
+    <value>{0} 个成员</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_NoExclusions" xml:space="preserve">
+    <value>无排除项</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_NoShares" xml:space="preserve">
+    <value>无共享</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_NoTools" xml:space="preserve">
+    <value>未发现已知的远程访问工具</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_RdpEnabled" xml:space="preserve">
+    <value>允许远程桌面：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_RdpNla" xml:space="preserve">
+    <value>网络级别身份验证：策略 {0}，本地 {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_RdpPort" xml:space="preserve">
+    <value>端口：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_RdpService" xml:space="preserve">
+    <value>远程桌面服务：{0}，启动类型 {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_RdpUsers" xml:space="preserve">
+    <value>远程桌面用户组成员：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_Share" xml:space="preserve">
+    <value>{0}（{1}）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_ShareOpen" xml:space="preserve">
+    <value>{0}（{1}）– 授予 {2} 访问权限</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_SmartAppControl" xml:space="preserve">
+    <value>智能应用控制状态（VerifiedAndReputablePolicyState）：{0}</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Inv_ToolInstalled" xml:space="preserve">
+    <value>{0}：安装为“{1}”</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_ToolService" xml:space="preserve">
+    <value>{0}：服务 {1}（{2}，启动类型 {3}）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_Wireless" xml:space="preserve">
+    <value>存在无线适配器：{0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_WirelessAdapter" xml:space="preserve">
+    <value>{0}（活动：{1}）</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_No" xml:space="preserve">
+    <value>否</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_None" xml:space="preserve">
+    <value>无</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_Off" xml:space="preserve">
+    <value>关闭</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_On" xml:space="preserve">
+    <value>开启</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_OutOfDate" xml:space="preserve">
+    <value>已过期</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_Unknown" xml:space="preserve">
+    <value>未知</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_UpToDate" xml:space="preserve">
+    <value>最新</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_Yes" xml:space="preserve">
+    <value>是</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
 </root>

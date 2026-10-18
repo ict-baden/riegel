@@ -1,0 +1,50 @@
+{
+  "schema": "riegel.lifecycle/1",
+  "products": [
+    {
+      "id": "test-client-a-pro",
+      "name": "Testsystem A Pro",
+      "os": "client",
+      "build": 99001,
+      "editions": [
+        "Professional"
+      ],
+      "channel": "gac",
+      "endOfSupport": "2027-01-01",
+      "source": "https://example.org/riegel-test/lifecycle",
+      "seen": "2026-10-18"
+    },
+    {
+      "id": "test-client-a-ent",
+      "name": "Testsystem A Enterprise",
+      "os": "client",
+      "build": 99001,
+      "editions": [
+        "Enterprise"
+      ],
+      "channel": "gac",
+      "endOfSupport": "2025-01-01",
+      "esuEnd": "2027-06-30",
+      "source": "https://example.org/riegel-test/lifecycle",
+      "seen": "2026-10-18"
+    },
+    {
+      "id": "test-server-a",
+      "name": "Testsystem A Server",
+      "os": "server",
+      "build": 99001,
+      "endOfSupport": "2030-01-01",
+      "source": "https://example.org/riegel-test/lifecycle",
+      "seen": "2026-10-18"
+    },
+    {
+      "id": "test-client-old",
+      "name": "Testsystem Alt",
+      "os": "client",
+      "build": 99000,
+      "endOfSupport": "2020-01-01",
+      "source": "https://example.org/riegel-test/lifecycle",
+      "seen": "2026-10-18"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "riegel.capabilities/1",
+  "capabilities": [
+    {
+      "capability": "testFeature",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 22000
+        },
+        {
+          "os": "server",
+          "minBuild": 20348
+        }
+      ],
+      "source": "https://example.org/riegel-test/capability",
+      "seen": "2026-10-18"
+    },
+    {
+      "capability": "testAsr",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 16299
+        },
+        {
+          "os": "server",
+          "minBuild": 17763
+        }
+      ],
+      "source": "https://example.org/riegel-test/capability",
+      "seen": "2026-10-18"
+    }
+  ]
+}

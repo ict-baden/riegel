@@ -4,7 +4,472 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Placeholder" xml:space="preserve">
-    <value>(Platzhalter der Texte von engine)</value>
+  <data name="Detail_AccountNotFound" xml:space="preserve">
+    <value>Lokales Konto mit RID {0} nicht gefunden</value>
+  </data>
+  <data name="Detail_ActiveProfileUnknown" xml:space="preserve">
+    <value>Aktives Firewall-Profil unbekannt</value>
+  </data>
+  <data name="Detail_ApplicabilityUnknown" xml:space="preserve">
+    <value>Anwendbarkeit nicht bestimmbar: {0} unbekannt</value>
+  </data>
+  <data name="Detail_AsrNotConfigured" xml:space="preserve">
+    <value>ASR-Regel nicht konfiguriert</value>
+  </data>
+  <data name="Detail_AsrNotEffective" xml:space="preserve">
+    <value>ASR konfiguriert, aber nicht wirksam</value>
+  </data>
+  <data name="Detail_AtLeastDays" xml:space="preserve">
+    <value>Installiertes Update {1}.{2} ist mindestens {0} Tage alt</value>
+  </data>
+  <data name="Detail_AtMostDays" xml:space="preserve">
+    <value>Installiertes Update {1}.{2} ist höchstens {0} Tage alt</value>
+  </data>
+  <data name="Detail_AuditGuidMissing" xml:space="preserve">
+    <value>Unterkategorie {0} nicht in der erfassten Überwachungsrichtlinie</value>
+  </data>
+  <data name="Detail_AutoLogonPasswordElsewhere" xml:space="preserve">
+    <value>Ablage des Kennworts nicht prüfbar (LSA-Geheimnis möglich)</value>
+  </data>
+  <data name="Detail_AutoLogonPasswordInRegistry" xml:space="preserve">
+    <value>Kennwort in Registry (DefaultPassword)</value>
+  </data>
+  <data name="Detail_AvOutOfDate" xml:space="preserve">
+    <value>Virenschutz aktiv, aber veraltet: {0}</value>
+  </data>
+  <data name="Detail_CapabilityAbsentFail" xml:space="preserve">
+    <value>Schutzfunktion {0} gibt es auf diesem Betriebssystem nicht</value>
+  </data>
+  <data name="Detail_CatalogueTooOld" xml:space="preserve">
+    <value>Update {0}.{1} ist neuer als die Build-Tabelle – Regelwerk zu alt</value>
+  </data>
+  <data name="Detail_ClockSuspect" xml:space="preserve">
+    <value>Uhr des Zielrechners unplausibel – Alter nicht prüfbar</value>
+  </data>
+  <data name="Detail_Configured" xml:space="preserve">
+    <value>Konfigurierter Wert: {0}</value>
+  </data>
+  <data name="Detail_ConfiguredNotRunning" xml:space="preserve">
+    <value>konfiguriert, läuft nicht</value>
+  </data>
+  <data name="Detail_ConfiguredOnly" xml:space="preserve">
+    <value>konfiguriert, Wirkung nicht nachgewiesen</value>
+  </data>
+  <data name="Detail_DefaultAssumed" xml:space="preserve">
+    <value>Standardwert angenommen: {0} (Quelle: {1}, gesehen {2})</value>
+  </data>
+  <data name="Detail_DefaultUnknown" xml:space="preserve">
+    <value>Nicht gesetzt; Standardwert unbekannt</value>
+  </data>
+  <data name="Detail_DefenderAbsent" xml:space="preserve">
+    <value>Microsoft Defender nicht vorhanden</value>
+  </data>
+  <data name="Detail_DefenderUnknown" xml:space="preserve">
+    <value>Zustand von Microsoft Defender nicht bestimmbar</value>
+  </data>
+  <data name="Detail_EditionUnknown" xml:space="preserve">
+    <value>Edition oder Installationsart unbekannt</value>
+  </data>
+  <data name="Detail_EsuEnded" xml:space="preserve">
+    <value>Erweiterte Sicherheitsupdates (ESU) endeten am {0}</value>
+  </data>
+  <data name="Detail_EsuNotOffered" xml:space="preserve">
+    <value>ESU für den Rechner angegeben, Microsoft nennt für dieses Produkt aber kein ESU-Ende</value>
+  </data>
+  <data name="Detail_EsuUntil" xml:space="preserve">
+    <value>Durch erweiterte Sicherheitsupdates (ESU) gedeckt bis {0}</value>
+  </data>
+  <data name="Detail_EvaluationFailed" xml:space="preserve">
+    <value>Auswertung fehlgeschlagen ({0})</value>
+  </data>
+  <data name="Detail_Evidence" xml:space="preserve">
+    <value>Beleg {0}: {1}</value>
+  </data>
+  <data name="Detail_ExclusionsNeedAdmin" xml:space="preserve">
+    <value>Defender-Ausnahmen sind nur als Administrator lesbar</value>
+  </data>
+  <data name="Detail_FeatureAbsent" xml:space="preserve">
+    <value>Feature {0} nicht vorhanden</value>
+  </data>
+  <data name="Detail_HeuristicProduct" xml:space="preserve">
+    <value>Sicherheitscenter (Heuristik): {0} – {1}, Signaturen {2}</value>
+  </data>
+  <data name="Detail_InstalledRelease" xml:space="preserve">
+    <value>Installiert: {0}.{1}, veröffentlicht am {2} ({3})</value>
+  </data>
+  <data name="Detail_ItemAbsent" xml:space="preserve">
+    <value>fehlt</value>
+  </data>
+  <data name="Detail_LifecycleSource" xml:space="preserve">
+    <value>{0} (Quelle: {1}, gesehen {2})</value>
+  </data>
+  <data name="Detail_LsaEvent" xml:space="preserve">
+    <value>Wininit-Ereignis 12 nach dem letzten Start: LSASS als geschützter Prozess gestartet ({0})</value>
+  </data>
+  <data name="Detail_LsaNoRuntime" xml:space="preserve">
+    <value>Kein Laufzeitbeleg für den LSA-Schutz (Laufzeitabfrage nur mit --deep)</value>
+  </data>
+  <data name="Detail_LsaNotConfigured" xml:space="preserve">
+    <value>RunAsPPL nicht konfiguriert; kein Laufzeitbeleg</value>
+  </data>
+  <data name="Detail_MachineSidUnknown" xml:space="preserve">
+    <value>Rechner-SID unbekannt – lokale Konten nicht unterscheidbar</value>
+  </data>
+  <data name="Detail_Member" xml:space="preserve">
+    <value>{0} ({1}, {2})</value>
+  </data>
+  <data name="Detail_MemberNotAllowed" xml:space="preserve">
+    <value>Mitglied nicht erlaubt: {0}</value>
+  </data>
+  <data name="Detail_MissingPass" xml:space="preserve">
+    <value>Fehlender Wert gilt als sicher: {0} (Quelle: {1}, gesehen {2})</value>
+  </data>
+  <data name="Detail_NaBuild" xml:space="preserve">
+    <value>Build {0} außerhalb des Bereichs der Regel</value>
+  </data>
+  <data name="Detail_NaCapability" xml:space="preserve">
+    <value>Funktion {0} auf diesem Betriebssystem nicht vorhanden</value>
+  </data>
+  <data name="Detail_NaCondition" xml:space="preserve">
+    <value>Bedingung nicht erfüllt: {0} = {1}</value>
+  </data>
+  <data name="Detail_NaDc" xml:space="preserve">
+    <value>Domänencontroller – Regelwerk 2026.10 ist nicht für Domänencontroller ausgelegt</value>
+  </data>
+  <data name="Detail_NaDomainJoined" xml:space="preserve">
+    <value>Rechner ist Domänenmitglied; die Regel gilt für Einzelrechner</value>
+  </data>
+  <data name="Detail_NaDomainStandalone" xml:space="preserve">
+    <value>Rechner ist kein Domänenmitglied; die Regel gilt für Domänenmitglieder</value>
+  </data>
+  <data name="Detail_NaOs" xml:space="preserve">
+    <value>Nicht für diese Art von Betriebssystem ({0})</value>
+  </data>
+  <data name="Detail_NeverLocks" xml:space="preserve">
+    <value>Sperrschwelle 0: Konten werden nie gesperrt</value>
+  </data>
+  <data name="Detail_NewestHistory" xml:space="preserve">
+    <value>Neueste erfolgreiche Windows-Update-Installation am {0}</value>
+  </data>
+  <data name="Detail_NewestHotfix" xml:space="preserve">
+    <value>Neuester Hotfix installiert am {0}</value>
+  </data>
+  <data name="Detail_NoActiveAv" xml:space="preserve">
+    <value>kein aktiver Virenschutz (Microsoft Defender: {0})</value>
+  </data>
+  <data name="Detail_NoAv" xml:space="preserve">
+    <value>Kein Virenschutz aktiv</value>
+  </data>
+  <data name="Detail_NoLifecycleEntry" xml:space="preserve">
+    <value>Kein Lebenszyklus-Eintrag für {0} Build {1}, Edition {2}</value>
+  </data>
+  <data name="Detail_NoLifecycleTable" xml:space="preserve">
+    <value>Lebenszyklus-Tabelle fehlt im Regelwerk</value>
+  </data>
+  <data name="Detail_NoRows" xml:space="preserve">
+    <value>Keine passenden Zeilen in {0}</value>
+  </data>
+  <data name="Detail_NoToolPatterns" xml:space="preserve">
+    <value>Keine Muster für Fernwartungswerkzeuge im Regelwerk</value>
+  </data>
+  <data name="Detail_NoUpdateEvidence" xml:space="preserve">
+    <value>Kein Beleg für den Updatestand</value>
+  </data>
+  <data name="Detail_NotConfigured" xml:space="preserve">
+    <value>Nicht konfiguriert</value>
+  </data>
+  <data name="Detail_NotSet" xml:space="preserve">
+    <value>Wert nicht gesetzt</value>
+  </data>
+  <data name="Detail_OlderThanTable" xml:space="preserve">
+    <value>Build {0} ist älter als alle Lebenszyklus-Einträge (ältester: Build {1}); deren Support endete am {2}</value>
+  </data>
+  <data name="Detail_OsUnknown" xml:space="preserve">
+    <value>Betriebssystem nicht bestimmbar</value>
+  </data>
+  <data name="Detail_ProfileInboundAllow" xml:space="preserve">
+    <value>Profil {0}: eingehende Verbindungen standardmäßig erlaubt</value>
+  </data>
+  <data name="Detail_ProfileOff" xml:space="preserve">
+    <value>Profil {0}: Firewall aus</value>
+  </data>
+  <data name="Detail_ProfileStateUnknown" xml:space="preserve">
+    <value>Profil {0}: Zustand unbekannt</value>
+  </data>
+  <data name="Detail_RegistryRulesMissing" xml:space="preserve">
+    <value>Firewall-Regeln der Registry-Speicher fehlen ({0})</value>
+  </data>
+  <data name="Detail_RightHeldBy" xml:space="preserve">
+    <value>Recht vergeben an: {0}</value>
+  </data>
+  <data name="Detail_RightMissing" xml:space="preserve">
+    <value>Recht fehlt für: {0}</value>
+  </data>
+  <data name="Detail_RtpOff" xml:space="preserve">
+    <value>Echtzeitschutz aus</value>
+  </data>
+  <data name="Detail_RuleExposes" xml:space="preserve">
+    <value>Regel „{0}“ öffnet {1} für beliebige Adressen (Profil {2})</value>
+  </data>
+  <data name="Detail_RulesNotCollected" xml:space="preserve">
+    <value>Liste der Firewall-Regeln nicht erfasst (--minimal)</value>
+  </data>
+  <data name="Detail_ServiceAbsent" xml:space="preserve">
+    <value>Dienst {0} nicht vorhanden</value>
+  </data>
+  <data name="Detail_ServiceStateUnknown" xml:space="preserve">
+    <value>Laufzustand unbekannt (nur Starttyp aus der Registry)</value>
+  </data>
+  <data name="Detail_SignaturesOld" xml:space="preserve">
+    <value>Signaturen {0} Tage alt</value>
+  </data>
+  <data name="Detail_SupportEnded" xml:space="preserve">
+    <value>Support endete am {0}</value>
+  </data>
+  <data name="Detail_SupportedUntil" xml:space="preserve">
+    <value>Unterstützt bis {0}</value>
+  </data>
+  <data name="Detail_ThirdPartyAv" xml:space="preserve">
+    <value>Drittanbieter-Virenschutz aktiv</value>
+  </data>
+  <data name="Detail_ThirdPartyUnknown" xml:space="preserve">
+    <value>Microsoft Defender {0}; ob ein anderer Virenschutz aktiv ist, ist nicht bestimmbar</value>
+  </data>
+  <data name="Detail_TooManyMembers" xml:space="preserve">
+    <value>{0} Mitglieder, höchstens {1} erlaubt</value>
+  </data>
+  <data name="Detail_UbrNotInTable" xml:space="preserve">
+    <value>Update {0}.{1} nicht in der Build-Tabelle</value>
+  </data>
+  <data name="Detail_Unlimited" xml:space="preserve">
+    <value>Unbegrenzt (nie)</value>
+  </data>
+  <data name="Detail_UnresolvedNames" xml:space="preserve">
+    <value>Nicht in SIDs aufgelöste Namen: {0}</value>
+  </data>
+  <data name="Detail_WrongType" xml:space="preserve">
+    <value>falscher Werttyp: {0} statt {1}</value>
+  </data>
+  <data name="Detail_WrongTypeSecedit" xml:space="preserve">
+    <value>Falscher Werttyp im Sicherheitstemplate</value>
+  </data>
+  <data name="Error_RGL0200" xml:space="preserve">
+    <value>Das Regelwerk ist ungültig: {0}</value>
+  </data>
+  <data name="Error_RGL0201" xml:space="preserve">
+    <value>Unbekannte Prüfart: {0}</value>
+  </data>
+  <data name="Error_RGL0202" xml:space="preserve">
+    <value>Unbekanntes Feld: {0}</value>
+  </data>
+  <data name="Error_RGL0203" xml:space="preserve">
+    <value>Operator passt nicht zum Werttyp oder Sollwert: {0}</value>
+  </data>
+  <data name="Error_RGL0204" xml:space="preserve">
+    <value>Standardwert ohne Quelle (https) oder Datum: {0}</value>
+  </data>
+  <data name="Error_RGL0205" xml:space="preserve">
+    <value>Regel für fehlende Werte unvollständig: {0}</value>
+  </data>
+  <data name="Error_RGL0206" xml:space="preserve">
+    <value>Unbekannte Fähigkeit: {0}</value>
+  </data>
+  <data name="Error_RGL0207" xml:space="preserve">
+    <value>Unbekannter Fakt oder falscher Werttyp in einer Bedingung: {0}</value>
+  </data>
+  <data name="Error_RGL0208" xml:space="preserve">
+    <value>Fähigkeit mehrfach definiert: {0}</value>
+  </data>
+  <data name="Error_RGL0209" xml:space="preserve">
+    <value>Regel-ID mehrfach vergeben: {0}</value>
+  </data>
+  <data name="Error_RGL0210" xml:space="preserve">
+    <value>Ungültige Regel: {0}</value>
+  </data>
+  <data name="Error_RGL0211" xml:space="preserve">
+    <value>Ungültige Tabelle oder Datei des Regelwerks: {0}</value>
+  </data>
+  <data name="Error_RGL0212" xml:space="preserve">
+    <value>Kunden-Baseline passt nicht: {0}</value>
+  </data>
+  <data name="Error_RGL0220" xml:space="preserve">
+    <value>Zugriff auf den Beleg verweigert</value>
+  </data>
+  <data name="Error_RGL0221" xml:space="preserve">
+    <value>Beleg wegen eines Fehlers nicht erfasst</value>
+  </data>
+  <data name="Error_RGL0222" xml:space="preserve">
+    <value>Beleg nicht erfasst</value>
+  </data>
+  <data name="Error_RGL0223" xml:space="preserve">
+    <value>WMI-Namespace oder -Klasse fehlt</value>
+  </data>
+  <data name="Error_RGL0224" xml:space="preserve">
+    <value>Beleg abgeschnitten oder Erfassungsbereich unvollständig</value>
+  </data>
+  <data name="Error_RGL0225" xml:space="preserve">
+    <value>Vom Sammler als nicht anwendbar markiert</value>
+  </data>
+  <data name="Error_RGL0226" xml:space="preserve">
+    <value>Fehlen nicht beweisbar (außerhalb des erfassten Bereichs)</value>
+  </data>
+  <data name="Error_RGL0227" xml:space="preserve">
+    <value>Wert nicht gesetzt; die Regel nimmt keinen Standardwert an</value>
+  </data>
+  <data name="Error_RGL0228" xml:space="preserve">
+    <value>Wert nicht gesetzt, Standardwert unbekannt</value>
+  </data>
+  <data name="Error_RGL0229" xml:space="preserve">
+    <value>Anwendbarkeit nicht bestimmbar</value>
+  </data>
+  <data name="Error_RGL0230" xml:space="preserve">
+    <value>konfiguriert, Wirkung nicht nachgewiesen</value>
+  </data>
+  <data name="Error_RGL0231" xml:space="preserve">
+    <value>Nur heuristische Belege</value>
+  </data>
+  <data name="Error_RGL0232" xml:space="preserve">
+    <value>Uhr des Zielrechners unplausibel – Altersangaben nicht prüfbar</value>
+  </data>
+  <data name="Error_RGL0233" xml:space="preserve">
+    <value>Unerwarteter Wert in den Rohdaten</value>
+  </data>
+  <data name="Error_RGL0234" xml:space="preserve">
+    <value>Geschwärzter Wert lässt sich nicht vergleichen</value>
+  </data>
+  <data name="Error_RGL0235" xml:space="preserve">
+    <value>Daten des Regelwerks fehlen oder sind zu alt</value>
+  </data>
+  <data name="Error_RGL0236" xml:space="preserve">
+    <value>Zustand von Microsoft Defender nicht bestimmbar</value>
+  </data>
+  <data name="Error_RGL0237" xml:space="preserve">
+    <value>Kein entscheidender Beleg</value>
+  </data>
+  <data name="Error_RGL0238" xml:space="preserve">
+    <value>Kontonamen in Benutzerrechten nicht in SIDs aufgelöst</value>
+  </data>
+  <data name="Error_RGL0239" xml:space="preserve">
+    <value>Auswertung der Regel fehlgeschlagen</value>
+  </data>
+  <data name="Error_RGL0240" xml:space="preserve">
+    <value>Nicht für diese Art von Betriebssystem</value>
+  </data>
+  <data name="Error_RGL0241" xml:space="preserve">
+    <value>Build außerhalb des Bereichs der Regel</value>
+  </data>
+  <data name="Error_RGL0242" xml:space="preserve">
+    <value>Domänenmitgliedschaft passt nicht</value>
+  </data>
+  <data name="Error_RGL0243" xml:space="preserve">
+    <value>Domänencontroller – die Regel gilt dort nicht</value>
+  </data>
+  <data name="Error_RGL0244" xml:space="preserve">
+    <value>Bedingung der Regel trifft nicht zu</value>
+  </data>
+  <data name="Error_RGL0245" xml:space="preserve">
+    <value>Funktion auf diesem Betriebssystem nicht vorhanden</value>
+  </data>
+  <data name="Error_RGL0246" xml:space="preserve">
+    <value>Drittanbieter-Virenschutz aktiv</value>
+  </data>
+  <data name="Error_RGL0247" xml:space="preserve">
+    <value>Dienst, Feature oder Daten nicht vorhanden</value>
+  </data>
+  <data name="Error_RGL0248" xml:space="preserve">
+    <value>Regel zurückgezogen</value>
+  </data>
+  <data name="Inv_AppIdService" xml:space="preserve">
+    <value>Dienst Anwendungsidentität (AppIDSvc): {0}, Starttyp {1}</value>
+  </data>
+  <data name="Inv_AppLocker" xml:space="preserve">
+    <value>AppLocker-Richtlinie: {0}</value>
+  </data>
+  <data name="Inv_AutoShare" xml:space="preserve">
+    <value>{0} = {1}</value>
+  </data>
+  <data name="Inv_CodeIntegrity" xml:space="preserve">
+    <value>App Control: Kernelmodus {0}, Benutzermodus {1} (0 aus, 1 Überwachung, 2 erzwungen)</value>
+  </data>
+  <data name="Inv_DriverBlocklist" xml:space="preserve">
+    <value>Sperrliste für anfällige Treiber: {0}</value>
+  </data>
+  <data name="Inv_Exclusion" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="Inv_Fact" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="Inv_MemberCount" xml:space="preserve">
+    <value>{0} Mitglieder</value>
+  </data>
+  <data name="Inv_NoExclusions" xml:space="preserve">
+    <value>Keine Ausnahmen</value>
+  </data>
+  <data name="Inv_NoShares" xml:space="preserve">
+    <value>Keine Freigaben</value>
+  </data>
+  <data name="Inv_NoTools" xml:space="preserve">
+    <value>Kein bekanntes Fernwartungswerkzeug gefunden</value>
+  </data>
+  <data name="Inv_RdpEnabled" xml:space="preserve">
+    <value>Remotedesktop erlaubt: {0}</value>
+  </data>
+  <data name="Inv_RdpNla" xml:space="preserve">
+    <value>Authentifizierung auf Netzwerkebene: Richtlinie {0}, lokal {1}</value>
+  </data>
+  <data name="Inv_RdpPort" xml:space="preserve">
+    <value>Port: {0}</value>
+  </data>
+  <data name="Inv_RdpService" xml:space="preserve">
+    <value>Remotedesktopdienst: {0}, Starttyp {1}</value>
+  </data>
+  <data name="Inv_RdpUsers" xml:space="preserve">
+    <value>Mitglieder der Remotedesktopbenutzer: {0}</value>
+  </data>
+  <data name="Inv_Share" xml:space="preserve">
+    <value>{0} ({1})</value>
+  </data>
+  <data name="Inv_ShareOpen" xml:space="preserve">
+    <value>{0} ({1}) – Zugriff für {2}</value>
+  </data>
+  <data name="Inv_SmartAppControl" xml:space="preserve">
+    <value>Zustand der intelligenten App-Steuerung (VerifiedAndReputablePolicyState): {0}</value>
+  </data>
+  <data name="Inv_ToolInstalled" xml:space="preserve">
+    <value>{0}: installiert als „{1}“</value>
+  </data>
+  <data name="Inv_ToolService" xml:space="preserve">
+    <value>{0}: Dienst {1} ({2}, Starttyp {3})</value>
+  </data>
+  <data name="Inv_Wireless" xml:space="preserve">
+    <value>WLAN-Adapter vorhanden: {0}</value>
+  </data>
+  <data name="Inv_WirelessAdapter" xml:space="preserve">
+    <value>{0} (aktiv: {1})</value>
+  </data>
+  <data name="Word_No" xml:space="preserve">
+    <value>nein</value>
+  </data>
+  <data name="Word_None" xml:space="preserve">
+    <value>keine</value>
+  </data>
+  <data name="Word_Off" xml:space="preserve">
+    <value>aus</value>
+  </data>
+  <data name="Word_On" xml:space="preserve">
+    <value>ein</value>
+  </data>
+  <data name="Word_OutOfDate" xml:space="preserve">
+    <value>veraltet</value>
+  </data>
+  <data name="Word_Unknown" xml:space="preserve">
+    <value>unbekannt</value>
+  </data>
+  <data name="Word_UpToDate" xml:space="preserve">
+    <value>aktuell</value>
+  </data>
+  <data name="Word_Yes" xml:space="preserve">
+    <value>ja</value>
   </data>
 </root>

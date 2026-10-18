@@ -4,7 +4,628 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Placeholder" xml:space="preserve">
-    <value>(marcador de posición de los textos de engine)</value>
+  <data name="Detail_AccountNotFound" xml:space="preserve">
+    <value>No se encontró la cuenta local con RID {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ActiveProfileUnknown" xml:space="preserve">
+    <value>Perfil de firewall activo desconocido</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ApplicabilityUnknown" xml:space="preserve">
+    <value>No se puede determinar la aplicabilidad: {0} desconocido</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AsrNotConfigured" xml:space="preserve">
+    <value>Regla ASR no configurada</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AsrNotEffective" xml:space="preserve">
+    <value>ASR configurado, pero no efectivo</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AtLeastDays" xml:space="preserve">
+    <value>La actualización instalada {1}.{2} tiene al menos {0} días</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AtMostDays" xml:space="preserve">
+    <value>La actualización instalada {1}.{2} tiene como máximo {0} días</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AuditGuidMissing" xml:space="preserve">
+    <value>La subcategoría {0} no está en la directiva de auditoría recopilada</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AutoLogonPasswordElsewhere" xml:space="preserve">
+    <value>No se puede comprobar dónde se guarda la contraseña (es posible un secreto LSA)</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AutoLogonPasswordInRegistry" xml:space="preserve">
+    <value>Contraseña en el registro (DefaultPassword)</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_AvOutOfDate" xml:space="preserve">
+    <value>Antivirus activo pero desactualizado: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_CapabilityAbsentFail" xml:space="preserve">
+    <value>La función de protección {0} no existe en este sistema operativo</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_CatalogueTooOld" xml:space="preserve">
+    <value>La actualización {0}.{1} es más reciente que la tabla de compilaciones: catálogo demasiado antiguo</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ClockSuspect" xml:space="preserve">
+    <value>Reloj del equipo de destino poco plausible: antigüedad no comprobable</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_Configured" xml:space="preserve">
+    <value>Valor configurado: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ConfiguredNotRunning" xml:space="preserve">
+    <value>Configurado, no se está ejecutando</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ConfiguredOnly" xml:space="preserve">
+    <value>Configurado, efecto no demostrado</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_DefaultAssumed" xml:space="preserve">
+    <value>Valor predeterminado supuesto: {0} (fuente: {1}, consultada {2})</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_DefaultUnknown" xml:space="preserve">
+    <value>No establecido; valor predeterminado desconocido</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_DefenderAbsent" xml:space="preserve">
+    <value>Microsoft Defender no está presente</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_DefenderUnknown" xml:space="preserve">
+    <value>No se puede determinar el estado de Microsoft Defender</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_EditionUnknown" xml:space="preserve">
+    <value>Edición o tipo de instalación desconocido</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_EsuEnded" xml:space="preserve">
+    <value>Las actualizaciones de seguridad extendidas (ESU) finalizaron el {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_EsuNotOffered" xml:space="preserve">
+    <value>Se indicó ESU para el equipo, pero Microsoft no indica fin de ESU para este producto</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_EsuUntil" xml:space="preserve">
+    <value>Cubierto por las actualizaciones de seguridad extendidas (ESU) hasta el {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_EvaluationFailed" xml:space="preserve">
+    <value>Error en la evaluación ({0})</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_Evidence" xml:space="preserve">
+    <value>Evidencia {0}: {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ExclusionsNeedAdmin" xml:space="preserve">
+    <value>Las exclusiones de Defender solo se pueden leer como administrador</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_FeatureAbsent" xml:space="preserve">
+    <value>La característica {0} no está presente</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_HeuristicProduct" xml:space="preserve">
+    <value>Centro de seguridad (heurística): {0} – {1}, firmas {2}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_InstalledRelease" xml:space="preserve">
+    <value>Instalado: {0}.{1}, publicado el {2} ({3})</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ItemAbsent" xml:space="preserve">
+    <value>ausente</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_LifecycleSource" xml:space="preserve">
+    <value>{0} (fuente: {1}, consultada {2})</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_LsaEvent" xml:space="preserve">
+    <value>Evento 12 de Wininit tras el último inicio: LSASS se inició como proceso protegido ({0})</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_LsaNoRuntime" xml:space="preserve">
+    <value>No hay evidencia en tiempo de ejecución de la protección LSA (consulta solo con --deep)</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_LsaNotConfigured" xml:space="preserve">
+    <value>RunAsPPL no configurado; sin evidencia en tiempo de ejecución</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_MachineSidUnknown" xml:space="preserve">
+    <value>SID del equipo desconocido: no se pueden distinguir las cuentas locales</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_Member" xml:space="preserve">
+    <value>{0} ({1}, {2})</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_MemberNotAllowed" xml:space="preserve">
+    <value>Miembro no permitido: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_MissingPass" xml:space="preserve">
+    <value>El valor ausente se considera seguro: {0} (fuente: {1}, consultada {2})</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NaBuild" xml:space="preserve">
+    <value>Compilación {0} fuera del rango de la regla</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NaCapability" xml:space="preserve">
+    <value>La función {0} no está disponible en este sistema operativo</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NaCondition" xml:space="preserve">
+    <value>Condición no cumplida: {0} = {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NaDc" xml:space="preserve">
+    <value>Controlador de dominio: el catálogo 2026.10 no está diseñado para controladores de dominio</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NaDomainJoined" xml:space="preserve">
+    <value>El equipo está unido a un dominio; la regla se aplica a equipos independientes</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NaDomainStandalone" xml:space="preserve">
+    <value>El equipo no está unido a un dominio; la regla se aplica a miembros del dominio</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NaOs" xml:space="preserve">
+    <value>No para este tipo de sistema operativo ({0})</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NeverLocks" xml:space="preserve">
+    <value>Umbral de bloqueo 0: las cuentas nunca se bloquean</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NewestHistory" xml:space="preserve">
+    <value>Instalación correcta más reciente de Windows Update el {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NewestHotfix" xml:space="preserve">
+    <value>Revisión más reciente instalada el {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NoActiveAv" xml:space="preserve">
+    <value>Ningún antivirus activo (Microsoft Defender: {0})</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NoAv" xml:space="preserve">
+    <value>Ningún antivirus activo</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NoLifecycleEntry" xml:space="preserve">
+    <value>No hay entrada de ciclo de vida para {0} compilación {1}, edición {2}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NoLifecycleTable" xml:space="preserve">
+    <value>Falta la tabla de ciclo de vida en el catálogo</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NoRows" xml:space="preserve">
+    <value>No hay filas coincidentes en {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NoToolPatterns" xml:space="preserve">
+    <value>No hay patrones de herramientas de acceso remoto en el catálogo</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NoUpdateEvidence" xml:space="preserve">
+    <value>No hay evidencia del estado de actualización</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NotConfigured" xml:space="preserve">
+    <value>No configurado</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_NotSet" xml:space="preserve">
+    <value>Valor no establecido</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_OlderThanTable" xml:space="preserve">
+    <value>La compilación {0} es anterior a todas las entradas de ciclo de vida (la más antigua: {1}); su soporte terminó el {2}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_OsUnknown" xml:space="preserve">
+    <value>No se puede determinar el sistema operativo</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ProfileInboundAllow" xml:space="preserve">
+    <value>Perfil {0}: conexiones entrantes permitidas de forma predeterminada</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ProfileOff" xml:space="preserve">
+    <value>Perfil {0}: firewall desactivado</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ProfileStateUnknown" xml:space="preserve">
+    <value>Perfil {0}: estado desconocido</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_RegistryRulesMissing" xml:space="preserve">
+    <value>Faltan las reglas de firewall de los almacenes del registro ({0})</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_RightHeldBy" xml:space="preserve">
+    <value>Derecho asignado a: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_RightMissing" xml:space="preserve">
+    <value>Falta el derecho para: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_RtpOff" xml:space="preserve">
+    <value>Protección en tiempo real desactivada</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_RuleExposes" xml:space="preserve">
+    <value>La regla «{0}» abre {1} a cualquier dirección (perfil {2})</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_RulesNotCollected" xml:space="preserve">
+    <value>Lista de reglas de firewall no recopilada (--minimal)</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ServiceAbsent" xml:space="preserve">
+    <value>El servicio {0} no está presente</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ServiceStateUnknown" xml:space="preserve">
+    <value>Estado de ejecución desconocido (solo el tipo de inicio del registro)</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_SignaturesOld" xml:space="preserve">
+    <value>Firmas de {0} días de antigüedad</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_SupportEnded" xml:space="preserve">
+    <value>El soporte terminó el {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_SupportedUntil" xml:space="preserve">
+    <value>Con soporte hasta el {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ThirdPartyAv" xml:space="preserve">
+    <value>Antivirus de terceros activo</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_ThirdPartyUnknown" xml:space="preserve">
+    <value>Microsoft Defender {0}; no se puede determinar si hay otro antivirus activo</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_TooManyMembers" xml:space="preserve">
+    <value>{0} miembros, se permiten como máximo {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_UbrNotInTable" xml:space="preserve">
+    <value>La actualización {0}.{1} no figura en la tabla de compilaciones</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_Unlimited" xml:space="preserve">
+    <value>Ilimitado (nunca)</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_UnresolvedNames" xml:space="preserve">
+    <value>Nombres no resueltos a SID: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_WrongType" xml:space="preserve">
+    <value>Tipo de valor incorrecto: {0} en lugar de {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Detail_WrongTypeSecedit" xml:space="preserve">
+    <value>Tipo de valor incorrecto en la plantilla de seguridad</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0200" xml:space="preserve">
+    <value>El catálogo de reglas no es válido: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0201" xml:space="preserve">
+    <value>Tipo de comprobación desconocido: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0202" xml:space="preserve">
+    <value>Campo desconocido: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0203" xml:space="preserve">
+    <value>El operador no corresponde al tipo de valor o al valor esperado: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0204" xml:space="preserve">
+    <value>Valor predeterminado sin fuente (https) o fecha de consulta: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0205" xml:space="preserve">
+    <value>Regla para valores ausentes incompleta: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0206" xml:space="preserve">
+    <value>Capacidad desconocida: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0207" xml:space="preserve">
+    <value>Hecho desconocido o tipo de valor incorrecto en una condición: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0208" xml:space="preserve">
+    <value>Capacidad definida más de una vez: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0209" xml:space="preserve">
+    <value>ID de regla repetido: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0210" xml:space="preserve">
+    <value>Regla no válida: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0211" xml:space="preserve">
+    <value>Tabla o archivo del catálogo no válido: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0212" xml:space="preserve">
+    <value>La línea base del cliente no encaja: {0}</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0220" xml:space="preserve">
+    <value>Acceso a la evidencia denegado</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0221" xml:space="preserve">
+    <value>La evidencia no se pudo recopilar (error)</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0222" xml:space="preserve">
+    <value>La evidencia no se recopiló</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0223" xml:space="preserve">
+    <value>Falta el espacio de nombres o la clase WMI</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0224" xml:space="preserve">
+    <value>Evidencia truncada o área de recopilación incompleta</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0225" xml:space="preserve">
+    <value>El recopilador marcó la evidencia como no aplicable</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0226" xml:space="preserve">
+    <value>No se puede demostrar la ausencia (fuera del área recopilada)</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0227" xml:space="preserve">
+    <value>Valor no establecido; la regla no supone un valor predeterminado</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0228" xml:space="preserve">
+    <value>Valor no establecido, valor predeterminado desconocido</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0229" xml:space="preserve">
+    <value>No se puede determinar la aplicabilidad</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0230" xml:space="preserve">
+    <value>Configurado, efecto no demostrado</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0231" xml:space="preserve">
+    <value>Solo evidencia heurística</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0232" xml:space="preserve">
+    <value>Reloj del equipo de destino poco plausible: no se pueden comprobar las antigüedades</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0233" xml:space="preserve">
+    <value>Valor inesperado en los datos sin procesar</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0234" xml:space="preserve">
+    <value>Un valor censurado no se puede comparar</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0235" xml:space="preserve">
+    <value>Faltan datos del catálogo o son demasiado antiguos</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0236" xml:space="preserve">
+    <value>No se puede determinar el estado de Microsoft Defender</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0237" xml:space="preserve">
+    <value>Ninguna evidencia decisiva</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0238" xml:space="preserve">
+    <value>Nombres de cuenta en los derechos de usuario sin resolver a SID</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0239" xml:space="preserve">
+    <value>Error al evaluar la regla</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0240" xml:space="preserve">
+    <value>No para este tipo de sistema operativo</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0241" xml:space="preserve">
+    <value>Compilación fuera del rango de la regla</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0242" xml:space="preserve">
+    <value>La pertenencia al dominio no coincide</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0243" xml:space="preserve">
+    <value>Controlador de dominio: la regla no se aplica allí</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0244" xml:space="preserve">
+    <value>La condición de la regla no se cumple</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0245" xml:space="preserve">
+    <value>Función no disponible en este sistema operativo</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0246" xml:space="preserve">
+    <value>Antivirus de terceros activo</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0247" xml:space="preserve">
+    <value>Servicio, característica o datos no presentes</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Error_RGL0248" xml:space="preserve">
+    <value>Regla retirada</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_AppIdService" xml:space="preserve">
+    <value>Servicio Identidad de aplicación (AppIDSvc): {0}, tipo de inicio {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_AppLocker" xml:space="preserve">
+    <value>Directiva de AppLocker: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_AutoShare" xml:space="preserve">
+    <value>{0} = {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_CodeIntegrity" xml:space="preserve">
+    <value>App Control: modo kernel {0}, modo usuario {1} (0 desactivado, 1 auditoría, 2 aplicado)</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_DriverBlocklist" xml:space="preserve">
+    <value>Lista de bloqueo de controladores vulnerables: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_Exclusion" xml:space="preserve">
+    <value>{0}: {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_Fact" xml:space="preserve">
+    <value>{0}: {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_MemberCount" xml:space="preserve">
+    <value>{0} miembros</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_NoExclusions" xml:space="preserve">
+    <value>Sin exclusiones</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_NoShares" xml:space="preserve">
+    <value>Sin recursos compartidos</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_NoTools" xml:space="preserve">
+    <value>No se encontró ninguna herramienta de acceso remoto conocida</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_RdpEnabled" xml:space="preserve">
+    <value>Escritorio remoto permitido: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_RdpNla" xml:space="preserve">
+    <value>Autenticación a nivel de red: directiva {0}, local {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_RdpPort" xml:space="preserve">
+    <value>Puerto: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_RdpService" xml:space="preserve">
+    <value>Servicio de Escritorio remoto: {0}, tipo de inicio {1}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_RdpUsers" xml:space="preserve">
+    <value>Miembros de Usuarios de escritorio remoto: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_Share" xml:space="preserve">
+    <value>{0} ({1})</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_ShareOpen" xml:space="preserve">
+    <value>{0} ({1}): acceso para {2}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_SmartAppControl" xml:space="preserve">
+    <value>Estado de Control inteligente de aplicaciones (VerifiedAndReputablePolicyState): {0}</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Inv_ToolInstalled" xml:space="preserve">
+    <value>{0}: instalado como «{1}»</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_ToolService" xml:space="preserve">
+    <value>{0}: servicio {1} ({2}, tipo de inicio {3})</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_Wireless" xml:space="preserve">
+    <value>Adaptadores inalámbricos presentes: {0}</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Inv_WirelessAdapter" xml:space="preserve">
+    <value>{0} (activo: {1})</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_No" xml:space="preserve">
+    <value>no</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_None" xml:space="preserve">
+    <value>ninguna</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_Off" xml:space="preserve">
+    <value>desactivado</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_On" xml:space="preserve">
+    <value>activado</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_OutOfDate" xml:space="preserve">
+    <value>desactualizadas</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_Unknown" xml:space="preserve">
+    <value>desconocido</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_UpToDate" xml:space="preserve">
+    <value>actualizadas</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
+  </data>
+  <data name="Word_Yes" xml:space="preserve">
+    <value>sí</value>
+    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
 </root>

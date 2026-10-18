@@ -1,0 +1,1931 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "TCMP",
+  "rules": [
+    {
+      "id": "TCMP-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Laufzeit vor Konfiguration (firstOf)",
+        "en": "Test rule: runtime before configuration (firstOf)"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firstOf",
+        "checks": [
+          {
+            "type": "wmiProperty",
+            "item": "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration",
+            "property": "RequireSecuritySignature",
+            "rows": "first",
+            "op": "eq",
+            "expected": true,
+            "ifNoRows": "notCheckable"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters",
+            "value": "RequireSecuritySignature",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 26100,
+                "editions": [
+                  "Professional",
+                  "Enterprise",
+                  "Education"
+                ],
+                "value": 1,
+                "source": "https://example.org/riegel-test/smb-default",
+                "seen": "2026-10-18"
+              }
+            ]
+          }
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "runtime not required beats cited default",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "ok",
+              "value": {
+                "out": {
+                  "RequireSecuritySignature": false
+                }
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "runtime required",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "ok",
+              "value": {
+                "out": {
+                  "RequireSecuritySignature": true
+                }
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RequireSecuritySignature": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "runtime not collected, registry 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RequireSecuritySignature": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "runtime not collected, default",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "runtime not collected, registry 0",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RequireSecuritySignature": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "nothing decisive",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "denied"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 22631,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TCMP-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: allOf",
+        "en": "Test rule: allOf"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+            "value": "A",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+            "value": "B",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          }
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "both pass",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "B": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "one fails",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "B": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "one missing (whenMissing fail)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "one not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TCMP-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: allOf alle n/a",
+        "en": "Test rule: allOf all n/a"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "service",
+            "name": "Gibtsnicht",
+            "startMode": [
+              "Disabled"
+            ],
+            "ifAbsent": "notApplicable"
+          },
+          {
+            "type": "service",
+            "name": "Gibtsnicht",
+            "startMode": [
+              "Disabled"
+            ],
+            "ifAbsent": "notApplicable"
+          }
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "all n/a",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TCMP-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: anyOf",
+        "en": "Test rule: anyOf"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "anyOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+            "value": "A",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+            "value": "B",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "service",
+            "name": "Gibtsnicht",
+            "startMode": [
+              "Disabled"
+            ],
+            "ifAbsent": "notApplicable"
+          }
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "one passes",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 0
+                  },
+                  "B": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "all fail (n/a ignored)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 0
+                  },
+                  "B": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected beside n/a",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "fail"
+        }
+      ]
+    },
+    {
+      "id": "TCMP-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: noneOf",
+        "en": "Test rule: noneOf"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "noneOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+            "value": "A",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+            "value": "B",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          }
+        ]
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "none passes",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 0
+                  },
+                  "B": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "one passes",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "B": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "pass"
+        }
+      ]
+    },
+    {
+      "id": "TCMP-06",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: not",
+        "en": "Test rule: not"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "not",
+        "check": {
+          "type": "registry",
+          "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+          "value": "A",
+          "valueType": "dword",
+          "op": "eq",
+          "expected": 1,
+          "whenMissing": "fail"
+        }
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "inner fails",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "inner passes",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected stays",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "pass"
+        }
+      ]
+    },
+    {
+      "id": "TCMP-07",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: nur Domänenmitglieder",
+        "en": "Test rule: domain-joined only"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "joined",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+        "value": "A",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "fail"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "member",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "workgroup",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "domain controller excluded",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "fail"
+        }
+      ]
+    },
+    {
+      "id": "TCMP-08",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: nur mit Office",
+        "en": "Test rule: only where Office is installed"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [
+          {
+            "fact": "office.installed",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+        "value": "A",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "fail"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "office",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\Configuration": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Platform": {
+                    "t": "sz",
+                    "v": "x64"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "no office",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\Configuration": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "office unknown",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\Configuration": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "fact override",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "office.installed": false
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "fact unknown by override",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "office.installed": null
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\Configuration": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\Configuration": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        }
+      ]
+    },
+    {
+      "id": "TCMP-09",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: fehlender Schutz ist eine Lücke",
+        "en": "Test rule: protection absent counts as gap"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "testFeature",
+        "ifCapabilityAbsent": "fail"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+        "value": "A",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "fail"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "capability present",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "capability absent",
+          "machine": {
+            "build": 19045,
+            "ubr": 1,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "capability unknown (no build)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "capability.testFeature": null
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "fail"
+        }
+      ]
+    },
+    {
+      "id": "TCMP-10",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Build-Bereich",
+        "en": "Test rule: build range"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "minBuild": 19041,
+        "maxBuild": 26100,
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values",
+        "value": "A",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "fail"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "inside",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "too old",
+          "machine": {
+            "build": 17763,
+            "ubr": 1,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "too new",
+          "machine": {
+            "build": 26200,
+            "ubr": 1,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "A": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Riegel-Test\\Values": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "fail"
+        }
+      ]
+    }
+  ]
+}

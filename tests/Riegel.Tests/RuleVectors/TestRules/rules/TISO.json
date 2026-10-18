@@ -1,0 +1,1079 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "TISO",
+  "rules": [
+    {
+      "id": "TISO-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: LSA-Schutz (wie CRED-06)",
+        "en": "Test rule: LSA protection (CRED-06 style)"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "minBuild": 9600,
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "lsaProtection"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "runtime PPL (--deep)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "ok",
+              "value": {
+                "protectionByte": 65,
+                "type": "light",
+                "signer": "Lsa"
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RunAsPPL": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "runtime not protected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "ok",
+              "value": {
+                "protectionByte": 0,
+                "type": "none",
+                "signer": "None"
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RunAsPPL": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "event 12 after boot",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "notCollected"
+            },
+            "evt:system:wininit-12": {
+              "status": "ok",
+              "value": {
+                "found": true,
+                "timeCreatedUtc": "2026-10-12T06:30:41Z",
+                "eventData": [
+                  "4"
+                ],
+                "bootTimeUtc": "2026-10-12T06:30:00Z"
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RunAsPPL": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "event 12 before boot",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "notCollected"
+            },
+            "evt:system:wininit-12": {
+              "status": "ok",
+              "value": {
+                "found": true,
+                "timeCreatedUtc": "2026-10-01T06:30:41Z",
+                "eventData": [
+                  "4"
+                ],
+                "bootTimeUtc": "2026-10-12T06:30:00Z"
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "configured only",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "notCollected"
+            },
+            "evt:system:wininit-12": {
+              "status": "ok",
+              "value": {
+                "found": false,
+                "timeCreatedUtc": null,
+                "eventData": [],
+                "bootTimeUtc": "2026-10-12T06:30:00Z"
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RunAsPPL": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable",
+          "expectFlags": [
+            "configuredOnly"
+          ]
+        },
+        {
+          "name": "configured 0, no event",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "notCollected"
+            },
+            "evt:system:wininit-12": {
+              "status": "ok",
+              "value": {
+                "found": false,
+                "timeCreatedUtc": null,
+                "eventData": [],
+                "bootTimeUtc": "2026-10-12T06:30:00Z"
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RunAsPPL": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not set, no event",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "notCollected"
+            },
+            "evt:system:wininit-12": {
+              "status": "ok",
+              "value": {
+                "found": false,
+                "timeCreatedUtc": null,
+                "eventData": [],
+                "bootTimeUtc": "2026-10-12T06:30:00Z"
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "all not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "notCollected"
+            },
+            "evt:system:wininit-12": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "keyMissing"
+            },
+            "evt:system:wininit-12": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "denied"
+            },
+            "evt:system:wininit-12": {
+              "status": "denied"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "truncated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "ok",
+              "value": {
+                "type": "light"
+              },
+              "truncated": true
+            },
+            "evt:system:wininit-12": {
+              "status": "ok",
+              "value": {
+                "found": true
+              },
+              "truncated": true
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RunAsPPL": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              },
+              "truncated": true
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "notCollected"
+            },
+            "evt:system:wininit-12": {
+              "status": "ok",
+              "value": {
+                "found": false,
+                "timeCreatedUtc": null,
+                "eventData": [],
+                "bootTimeUtc": "2026-10-12T06:30:00Z"
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RunAsPPL": {
+                    "t": "sz",
+                    "v": "2"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "n/a: before Windows 8.1",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RunAsPPL": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TISO-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Credential Guard läuft",
+        "en": "Test rule: Credential Guard running"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "testFeature",
+        "ifCapabilityAbsent": "notApplicable"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "deviceGuard",
+        "service": "credentialGuard"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "running",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesConfigured": [
+                      1,
+                      2
+                    ],
+                    "SecurityServicesRunning": [
+                      1,
+                      2
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "configured, not running",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesConfigured": [
+                      1,
+                      2
+                    ],
+                    "SecurityServicesRunning": [
+                      2
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not configured",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesConfigured": [
+                      0
+                    ],
+                    "SecurityServicesRunning": [
+                      0
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "namespace missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "truncated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "SecurityServicesRunning": [
+                      1
+                    ]
+                  }
+                ]
+              },
+              "truncated": true
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "wrong type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesRunning": "1"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "n/a: capability absent",
+          "machine": {
+            "build": 9600,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 2,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TISO-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: VBS (requireRunning false)",
+        "en": "Test rule: VBS (requireRunning false)"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "deviceGuard",
+        "service": "vbs",
+        "requireRunning": false
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "running",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesConfigured": [
+                      2
+                    ],
+                    "SecurityServicesRunning": [
+                      2
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "enabled, not running",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 1,
+                    "SecurityServicesConfigured": [
+                      2
+                    ],
+                    "SecurityServicesRunning": [
+                      2
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notCheckable",
+          "expectFlags": [
+            "configuredOnly"
+          ]
+        },
+        {
+          "name": "off",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 0,
+                    "SecurityServicesConfigured": [
+                      2
+                    ],
+                    "SecurityServicesRunning": [
+                      2
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TISO-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "de": "Testregel: Speicherintegrität läuft (Schutzregel)",
+        "en": "Test rule: memory integrity running (protection rule)"
+      },
+      "rationale": {
+        "de": "Prüft die Engine (erfundene Testregel).",
+        "en": "Exercises the engine (invented test rule)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "testFeature",
+        "ifCapabilityAbsent": "fail"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "deviceGuard",
+        "service": "hvci"
+      },
+      "references": [],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "running",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesConfigured": [
+                      2
+                    ],
+                    "SecurityServicesRunning": [
+                      2,
+                      7
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "not running",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesConfigured": [
+                      2
+                    ],
+                    "SecurityServicesRunning": [
+                      0
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "capability absent: fail",
+          "machine": {
+            "build": 9600,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    }
+  ]
+}

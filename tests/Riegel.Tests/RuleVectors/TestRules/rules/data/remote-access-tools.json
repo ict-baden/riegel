@@ -1,0 +1,17 @@
+{
+  "schema": "riegel.data/1",
+  "kind": "remoteAccessTools",
+  "remoteAccessTools": [
+    {
+      "product": "Beispiel-Fernwartung",
+      "serviceNames": [
+        "BspFernwartung"
+      ],
+      "displayNameContains": [
+        "Beispiel-Fernwartung"
+      ],
+      "source": "https://example.org/riegel-test/tools",
+      "seen": "2026-10-18"
+    }
+  ]
+}
