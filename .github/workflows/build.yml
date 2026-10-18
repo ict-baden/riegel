@@ -99,7 +99,7 @@ jobs:
         if: always()
         # Nur zur Fehlersuche: Ist der Artefaktspeicher der Organisation voll, bleibt der Lauf trotzdem grün
         continue-on-error: true
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Testergebnisse-linux
           path: TestResults/*.trx
@@ -161,7 +161,7 @@ jobs:
       - name: Testergebnisse
         if: always()
         continue-on-error: true
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Testergebnisse-windows
           path: TestResults/*.trx
@@ -460,7 +460,7 @@ jobs:
       - name: Prüfsummen als Artefakt
         # Klein und nur zur Fehlersuche; die Releases unten nehmen dist/ direkt
         continue-on-error: true
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Pruefsummen-${{ steps.version.outputs.version }}
           path: |

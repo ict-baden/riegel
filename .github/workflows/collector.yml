@@ -226,7 +226,7 @@ jobs:
       - name: Aufzeichnung hochladen (klein, 7 Tage)
         if: always() && env.RECORD == 'true'
         continue-on-error: true
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: recorded-${{ matrix.runner }}
           path: out/record/
