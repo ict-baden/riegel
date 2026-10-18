@@ -865,6 +865,9 @@
             "set",
             "list"
           ]
+        },
+        "configuredOnly": {
+          "type": "boolean"
         }
       },
       "required": [

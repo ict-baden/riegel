@@ -22,6 +22,10 @@ internal sealed partial class EvaluationSession
         var rule = new RegistryRule(c.ValueType, c.AcceptTypes, c.Op, c.Expected, c.WhenMissing, c.OsDefaults, c.MissingPass, c.MultiSz);
         var evidence = Store.RegistryValue(c.Key, c.Value);
         var outcome = evidence.Class == EvidenceClass.NotSet ? Missing(rule, evidence) : CompareRegistry(rule, evidence, null);
+        // Nur Konfiguration (Review evidence-7): ein erfüllter Vergleich belegt die Wirkung nicht
+        if (c.ConfiguredOnly == true && outcome.Status == ResultStatus.Pass)
+            outcome = (outcome with { Status = ResultStatus.NotCheckable, ReasonCode = RglCodesEngine.ConfiguredOnly })
+                .WithFlags(ResultFlags.ConfiguredOnly).With(T["Detail_ConfiguredOnly"]);
         return AutoLogonTrap(c, outcome);
     }
 

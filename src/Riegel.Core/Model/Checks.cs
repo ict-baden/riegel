@@ -90,9 +90,12 @@ public static class CheckTypes
 /// <param name="OsDefaults">Belegte Standardwerte je Build/Edition (nur mit whenMissing osDefault).</param>
 /// <param name="MissingPass">Beleg für whenMissing pass (zusätzlich Eintrag in der Erlaubnisliste des Regelpakets).</param>
 /// <param name="MultiSz">Vergleich von multi_sz als Menge (Standard) oder Liste.</param>
+/// <param name="ConfiguredOnly">true: der Wert ist nur Konfiguration, deren Wirkung von etwas Nicht-Erhobenem abhängt
+/// (z. B. Firmware-Unterstützung) – ein erfüllter Vergleich ergibt „nicht prüfbar“ mit ConfiguredOnly, nie pass;
+/// ein Befund bleibt ein Befund.</param>
 public sealed record RegistryCheck(string Key, string Value, RegValueType ValueType, IReadOnlyList<RegValueType>? AcceptTypes,
     CheckOperator Op, JsonElement? Expected, WhenMissing WhenMissing, IReadOnlyList<OsDefault>? OsDefaults,
-    MissingPass? MissingPass, MultiSzMode? MultiSz) : CheckSpec(CheckTypes.Registry);
+    MissingPass? MissingPass, MultiSzMode? MultiSz, bool? ConfiguredOnly = null) : CheckSpec(CheckTypes.Registry);
 
 /// <summary>Wirksamer Wert aus mehreren Quellen: die erste vorhandene gewinnt; Herkunft wird berichtet.</summary>
 /// <param name="Sources">Geordnet, z. B. Richtlinie vor MDM vor lokal. Eine nicht verfügbare Quelle vor der ersten

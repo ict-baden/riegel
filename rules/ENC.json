@@ -1916,8 +1916,8 @@
         "de": "Externe DMA-Geräte ohne Unterstützung für Kernel-DMA-Schutz werden blockiert"
       },
       "rationale": {
-        "en": "Thunderbolt, USB4 and similar ports allow direct memory access. With Kernel DMA Protection, Windows blocks devices whose drivers do not support DMA remapping; by default only until a user signs in. The rule expects the enumeration policy 'Block all', as ACSC and DISA recommend. The policy works only on hardware that supports Kernel DMA Protection; that runtime state is not collected yet.",
-        "de": "Thunderbolt-, USB4- und ähnliche Anschlüsse erlauben direkten Speicherzugriff. Mit dem Kernel-DMA-Schutz blockiert Windows Geräte, deren Treiber kein DMA-Remapping unterstützen – standardmäßig nur bis zur Anmeldung eines Benutzers. Die Regel erwartet die Aufzählungsrichtlinie „Block all“, wie ACSC und DISA empfehlen. Die Richtlinie wirkt nur auf Hardware mit Kernel-DMA-Schutz; dieser Laufzeitzustand wird noch nicht erhoben."
+        "en": "Thunderbolt, USB4 and similar ports allow direct memory access. With Kernel DMA Protection, Windows blocks devices whose drivers do not support DMA remapping; by default only until a user signs in. The rule expects the enumeration policy 'Block all', as ACSC and DISA recommend. The policy only takes effect when the firmware supports and enables Kernel DMA Protection, which Windows cannot switch on by policy and which many older industrial PCs lack. Riegel does not collect that firmware state, so a set policy is reported as \"configured, effect not proven\" (not checkable), never as met; a missing or weaker policy is a finding. Check the Kernel DMA Protection field in msinfo32 on the machine.",
+        "de": "Thunderbolt-, USB4- und ähnliche Anschlüsse erlauben direkten Speicherzugriff. Mit dem Kernel-DMA-Schutz blockiert Windows Geräte, deren Treiber kein DMA-Remapping unterstützen – standardmäßig nur bis zur Anmeldung eines Benutzers. Die Regel erwartet die Aufzählungsrichtlinie „Block all“, wie ACSC und DISA empfehlen. Die Richtlinie wirkt nur, wenn die Firmware den Kernel-DMA-Schutz unterstützt und einschaltet; Windows kann ihn nicht per Richtlinie einschalten, und vielen älteren Industrie-PCs fehlt er. Riegel erhebt diesen Firmware-Zustand nicht; eine gesetzte Richtlinie heißt deshalb „konfiguriert, Wirkung nicht nachgewiesen“ (nicht prüfbar), nie „erfüllt“; eine fehlende oder schwächere Richtlinie ist ein Befund. Das Feld „Kernel-DMA-Schutz“ in msinfo32 auf dem Rechner prüfen."
       },
       "otNote": {
         "en": "Industrial PCs without Thunderbolt or USB4 ports are hardly exposed. Where such ports exist but are needed for docking stations, check that the docks' drivers support DMA remapping before blocking.",
@@ -1954,7 +1954,8 @@
             "source": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-dmaguard",
             "seen": "2026-10-18"
           }
-        ]
+        ],
+        "configuredOnly": true
       },
       "remediation": {
         "registry": [
@@ -2015,7 +2016,7 @@
           "doc": "Policy CSP - DmaGuard (updated 2025-03-12)",
           "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-dmaguard",
           "date": "2026-10-18",
-          "note": "DeviceEnumerationPolicy: 0 block all, 1 only after log in/screen unlock (default), 2 allow all; Windows 10 1809 [10.0.17763] and later; registry key Software\\Policies\\Microsoft\\Windows\\Kernel DMA Protection."
+          "note": "DeviceEnumerationPolicy: 0 block all, 1 only after log in/screen unlock (default), 2 allow all; Windows 10 1809 [10.0.17763] and later; registry key Software\\Policies\\Microsoft\\Windows\\Kernel DMA Protection. 'This policy only takes effect when Kernel DMA Protection is supported and enabled by the system firmware. Kernel DMA Protection is a platform feature that can't be controlled via policy or by end user.'"
         },
         {
           "src": "DISA",
@@ -2028,7 +2029,7 @@
       ],
       "tests": [
         {
-          "name": "block all",
+          "name": "block all (configured; firmware support not collected)",
           "machine": {
             "build": 26100,
             "edition": "Enterprise",
@@ -2051,7 +2052,10 @@
               }
             }
           },
-          "expect": "pass"
+          "expect": "notCheckable",
+          "expectFlags": [
+            "configuredOnly"
+          ]
         },
         {
           "name": "only after sign-in",

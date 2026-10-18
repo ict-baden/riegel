@@ -285,7 +285,7 @@ The closed set of spec 2.3. Every check has `"type"`; the fields are exactly the
 
 | `type` | Fields |
 |---|---|
-| `registry` | `key`, `value`, `valueType` (`dword qword sz expand_sz multi_sz binary`), `acceptTypes?`, `op`, `expected?`, `whenMissing` (`fail notCheckable osDefault pass`), `osDefaults?` [ `{ minBuild?, maxBuild?, editions?, installationTypes?, domainJoined?, value, source, seen }` ], `missingPass?` `{ source, seen, note }`, `multiSz?` (`set` default, `list`) |
+| `registry` | `key`, `value`, `valueType` (`dword qword sz expand_sz multi_sz binary`), `acceptTypes?`, `op`, `expected?`, `whenMissing` (`fail notCheckable osDefault pass`), `osDefaults?` [ `{ minBuild?, maxBuild?, editions?, installationTypes?, domainJoined?, value, source, seen }` ], `missingPass?` `{ source, seen, note }`, `multiSz?` (`set` default, `list`), `configuredOnly?` (`true`: a met comparison is only configuration whose effect depends on something not collected – not checkable with flag `ConfiguredOnly`, never pass) |
 | `registryEffective` | `sources` [ `{ key, value, origin: policy\|mdm\|local\|other }` ], `selection?` (`value` default: the first source that has the value; `root`: the first source key that has any value is the active policy and a value missing there is not set, as Windows LAPS selects its policy root) plus the registry comparison fields |
 | `secedit` | `section`, `key`, `op`, `expected?`, `valueKind` (`number string registryValue`), `whenMissing` |
 | `accountPolicy` | `field` (`minPwLen maxPwAgeDays minPwAgeDays pwHistLen lockoutThreshold lockoutDurationMin lockoutWindowMin passwordComplexity clearTextPassword`), `op`, `expected?` |
