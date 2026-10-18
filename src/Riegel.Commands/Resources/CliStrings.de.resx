@@ -4,27 +4,225 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Cli_CheckIncomplete" xml:space="preserve">
-    <value>Unvollständige Prüfung: Weniger als 90 % der Regeln waren prüfbar, oder die Erfassung lief nicht als Administrator.</value>
+  <data name="Brief_Clock" xml:space="preserve">
+    <value>Uhr unplausibel</value>
   </data>
-  <data name="Cli_CheckNeedsSnapshot" xml:space="preserve">
-    <value>In diesem Stand braucht check die Angabe --snapshot &lt;Datei&gt;.</value>
+  <data name="Brief_Expired_one" xml:space="preserve">
+    <value>{0} Ausnahme abgelaufen</value>
+  </data>
+  <data name="Brief_Expired_other" xml:space="preserve">
+    <value>{0} Ausnahmen abgelaufen</value>
+  </data>
+  <data name="Brief_Expiring_one" xml:space="preserve">
+    <value>{0} Ausnahme läuft ab</value>
+  </data>
+  <data name="Brief_Expiring_other" xml:space="preserve">
+    <value>{0} Ausnahmen laufen ab</value>
+  </data>
+  <data name="Brief_High_one" xml:space="preserve">
+    <value>{0} hoch</value>
+  </data>
+  <data name="Brief_High_other" xml:space="preserve">
+    <value>{0} hoch</value>
+  </data>
+  <data name="Brief_Incomplete" xml:space="preserve">
+    <value>Prüfung unvollständig</value>
+  </data>
+  <data name="Brief_NewHigh_one" xml:space="preserve">
+    <value>{0} neu offen hoch</value>
+  </data>
+  <data name="Brief_NewHigh_other" xml:space="preserve">
+    <value>{0} neu offen hoch</value>
+  </data>
+  <data name="Brief_Open_one" xml:space="preserve">
+    <value>{0} offen ({1})</value>
+  </data>
+  <data name="Brief_Open_other" xml:space="preserve">
+    <value>{0} offen ({1})</value>
+  </data>
+  <data name="Brief_Overdue_one" xml:space="preserve">
+    <value>{0} Maßnahme überfällig</value>
+  </data>
+  <data name="Brief_Overdue_other" xml:space="preserve">
+    <value>{0} Maßnahmen überfällig</value>
+  </data>
+  <data name="Brief_Pending_one" xml:space="preserve">
+    <value>{0} Freigabe ausstehend</value>
+  </data>
+  <data name="Brief_Pending_other" xml:space="preserve">
+    <value>{0} Freigaben ausstehend</value>
+  </data>
+  <data name="Brief_Stale" xml:space="preserve">
+    <value>Erfassung veraltet</value>
+  </data>
+  <data name="Brief_Worse_one" xml:space="preserve">
+    <value>{0} schlechter</value>
+  </data>
+  <data name="Brief_Worse_other" xml:space="preserve">
+    <value>{0} schlechter</value>
+  </data>
+  <data name="Change_Better" xml:space="preserve">
+    <value>besser</value>
+  </data>
+  <data name="Change_ExceptionAdded" xml:space="preserve">
+    <value>Ausnahme hinzugekommen</value>
+  </data>
+  <data name="Change_ExceptionExpired" xml:space="preserve">
+    <value>Ausnahme abgelaufen</value>
+  </data>
+  <data name="Change_ExceptionRemoved" xml:space="preserve">
+    <value>Ausnahme entfernt</value>
+  </data>
+  <data name="Change_NewRule" xml:space="preserve">
+    <value>neue Regel</value>
+  </data>
+  <data name="Change_Other" xml:space="preserve">
+    <value>geändert</value>
+  </data>
+  <data name="Change_ScopeChanged" xml:space="preserve">
+    <value>Prüfumfang geändert</value>
+  </data>
+  <data name="Change_TailoringAdded" xml:space="preserve">
+    <value>Zuschnitt hinzugekommen</value>
+  </data>
+  <data name="Change_TailoringRemoved" xml:space="preserve">
+    <value>Zuschnitt entfernt</value>
+  </data>
+  <data name="Change_Worse" xml:space="preserve">
+    <value>schlechter</value>
+  </data>
+  <data name="Cli_AndMore" xml:space="preserve">
+    <value>… und {0} weitere</value>
+  </data>
+  <data name="Cli_Approved" xml:space="preserve">
+    <value>{0}: Lauf {1} als freigegebener Stand festgehalten – {2}, {3}, {4}</value>
+  </data>
+  <data name="Cli_ApprovedRunMissing" xml:space="preserve">
+    <value>Hinweis: Der freigegebene Lauf {1} von {0} liegt nicht mehr im Anlagenordner – kein Vergleich mit dem freigegebenen Stand.</value>
+  </data>
+  <data name="Cli_BaselineContentWarning" xml:space="preserve">
+    <value>Warnung: Das Nachweispaket enthält den vollständigen Inhalt importierter Baselines. Prüfen Sie, ob deren Lizenz die Weitergabe erlaubt (die Bedingungen von Microsoft, BSI und CIS erlauben es womöglich nicht).</value>
+  </data>
+  <data name="Cli_BaselineImported" xml:space="preserve">
+    <value>Baseline {0} ({1}) importiert: {2} Regeln, SHA-256 der Quelle {3}</value>
+  </data>
+  <data name="Cli_BaselineLicenceNote" xml:space="preserve">
+    <value>Importierte Baselines bleiben in diesem Anlagenordner. Nachweispakete enthalten nur ihre Metadaten, außer mit report --evidence --include-baseline-content.</value>
+  </data>
+  <data name="Cli_BaselineLine" xml:space="preserve">
+    <value>{0}  {1}  {2} Regeln  importiert {3}  Quelle {4}</value>
+  </data>
+  <data name="Cli_BaselineNone" xml:space="preserve">
+    <value>Keine importierten Baselines.</value>
+  </data>
+  <data name="Cli_BaselineRemoved" xml:space="preserve">
+    <value>Baseline {0} entfernt.</value>
+  </data>
+  <data name="Cli_CheckCounts" xml:space="preserve">
+    <value>  {0} Regeln: {1} erfüllt, {2} nicht erfüllt, {3} bewusst offen, {4} nicht im Prüfumfang, {5} nicht anwendbar, {6} nicht prüfbar, {7} Info</value>
+  </data>
+  <data name="Cli_CheckFlags" xml:space="preserve">
+    <value>  Kennzeichen des Laufs: {0}</value>
+  </data>
+  <data name="Cli_CheckHost" xml:space="preserve">
+    <value>{0} ({1})</value>
+  </data>
+  <data name="Cli_CheckIncomplete" xml:space="preserve">
+    <value>  Unvollständige Prüfung: Weniger als 90 % der Regeln waren prüfbar, oder die Erfassung lief nicht als Administrator.</value>
+  </data>
+  <data name="Cli_CheckNewHigh" xml:space="preserve">
+    <value>  Neu offen mit Schwere hoch: {0} ({1})</value>
+  </data>
+  <data name="Cli_CheckNoPrevious" xml:space="preserve">
+    <value>  Noch kein früherer Lauf dieses Rechners – noch nichts zum Vergleichen</value>
   </data>
   <data name="Cli_CheckOpen" xml:space="preserve">
-    <value>Offene Befunde: {0} hoch, {1} mittel, {2} niedrig</value>
+    <value>  Offene Befunde: {0} hoch, {1} mittel, {2} niedrig</value>
   </data>
-  <data name="Cli_CheckShare" xml:space="preserve">
-    <value>Prüfumfang: {0} %</value>
+  <data name="Cli_CheckOverall" xml:space="preserve">
+    <value>Gesamt: {0} (Exitcode {1}) für {2} Rechner</value>
   </data>
-  <data name="Cli_CheckSummary" xml:space="preserve">
-    <value>{0}: {1} Regeln – {2} erfüllt, {3} nicht erfüllt, {4} bewusst offen, {5} nicht im Prüfumfang, {6} nicht anwendbar, {7} nicht prüfbar, {8} Info</value>
+  <data name="Cli_CheckPolicy" xml:space="preserve">
+    <value>Alarmart {0}: kritisch {1}; Warnung {2}</value>
+  </data>
+  <data name="Cli_CheckRegisters" xml:space="preserve">
+    <value>  Ausnahmen: {0} laufen bald ab, {1} abgelaufen, {2} beantragt · Maßnahmen überfällig: {3}</value>
+  </data>
+  <data name="Cli_CheckResult" xml:space="preserve">
+    <value>  Ergebnis: {0} (Exitcode {1}) – {2}</value>
+  </data>
+  <data name="Cli_CheckResultOk" xml:space="preserve">
+    <value>  Ergebnis: {0} (Exitcode {1})</value>
+  </data>
+  <data name="Cli_CheckRunNotStored" xml:space="preserve">
+    <value>  Lauf {0}, nicht gespeichert</value>
+  </data>
+  <data name="Cli_CheckRunStored" xml:space="preserve">
+    <value>  Lauf {0}, im Anlagenordner gespeichert</value>
+  </data>
+  <data name="Cli_CheckScore" xml:space="preserve">
+    <value>  Härtungsgrad: {0} % · dokumentiert: {1} % · Prüfumfang: {2} %</value>
+  </data>
+  <data name="Cli_CheckScoreNone" xml:space="preserve">
+    <value>  Härtungsgrad: nicht bewertet (Domänencontroller oder nichts prüfbar) · Prüfumfang: {0} %</value>
+  </data>
+  <data name="Cli_CheckVsApproved" xml:space="preserve">
+    <value>  Verglichen mit dem freigegebenen Stand (Lauf {0})</value>
+  </data>
+  <data name="Cli_CheckVsPrevious" xml:space="preserve">
+    <value>  Verglichen mit dem letzten Lauf {0} (erfasst {1})</value>
+  </data>
+  <data name="Cli_CheckWorse" xml:space="preserve">
+    <value>  Verschlechtert seit dem letzten Lauf oder seit der Freigabe: {0} ({1})</value>
+  </data>
+  <data name="Cli_CollectIncomplete" xml:space="preserve">
+    <value>Unvollständig: nicht als Administrator gelaufen, oder einzelne Einträge wurden verweigert. Für einen vollständigen Export in einer Konsole als Administrator ausführen.</value>
   </data>
   <data name="Cli_CollectWritten" xml:space="preserve">
     <value>Export geschrieben: {0}
 SHA-256: {1}</value>
   </data>
+  <data name="Cli_CollectorExported" xml:space="preserve">
+    <value>Sammler-Paket kopiert nach {0} (mit UEBERGABE.txt).</value>
+  </data>
+  <data name="Cli_CompareChangeLine" xml:space="preserve">
+    <value>  {0}  {1}: {2} → {3}</value>
+  </data>
+  <data name="Cli_CompareChanges" xml:space="preserve">
+    <value>Statusänderungen: {0}</value>
+  </data>
+  <data name="Cli_CompareDrift" xml:space="preserve">
+    <value>Abweichungen der Rohwerte: {0}</value>
+  </data>
+  <data name="Cli_CompareHeaderApproved" xml:space="preserve">
+    <value>{0}: Lauf {2} verglichen mit dem freigegebenen Stand (Lauf {1})</value>
+  </data>
+  <data name="Cli_CompareHeaderPrevious" xml:space="preserve">
+    <value>{0}: Lauf {2} verglichen mit dem letzten Lauf {1}</value>
+  </data>
+  <data name="Cli_CompareIdentityChanged" xml:space="preserve">
+    <value>Die Rechneridentität (MachineGuid) hat sich geändert – Rechner neu aufgesetzt?</value>
+  </data>
+  <data name="Cli_CompareNoPrevious" xml:space="preserve">
+    <value>{0}: kein früherer Lauf zum Vergleichen (neuester Lauf {1}).</value>
+  </data>
   <data name="Cli_Description" xml:space="preserve">
     <value>Prüft Windows-Rechner in Anlagen, Laboren und Leitständen lesend und offline gegen ein Härtungs-Regelwerk, hält begründete Ausnahmen fest und erzeugt einen Nachweisbericht zum Abzeichnen.</value>
+  </data>
+  <data name="Cli_DriftLine" xml:space="preserve">
+    <value>  {0}  {1}: {2} → {3}</value>
+  </data>
+  <data name="Cli_EntryApproved" xml:space="preserve">
+    <value>{0} freigegeben – {1}, {2}, {3}; Prüftermin {4}</value>
+  </data>
+  <data name="Cli_GuiOnly" xml:space="preserve">
+    <value>{0} gibt es nur in Riegel.exe (mit Fenster), nicht in der Befehlszeile.</value>
+  </data>
+  <data name="Cli_ImportDone" xml:space="preserve">
+    <value>Import {0}: {1} Exporte aufgenommen in {2}</value>
+  </data>
+  <data name="Cli_ImportNoSidecar" xml:space="preserve">
+    <value>  {0}: keine passende .sha256-Datei – Unversehrtheit nicht belegt</value>
   </data>
   <data name="Cli_InfoCatalogue" xml:space="preserve">
     <value>Regelwerk: {0} {1}</value>
@@ -45,35 +243,507 @@ Quellcode: {2}
 Hilfe und Support: {3}
 Daten und Datenschutz: {4}</value>
   </data>
+  <data name="Cli_InfoThirdParty" xml:space="preserve">
+    <value>Lizenzen der Bestandteile und Quellennachweise der Regeln: {0} --lizenzen</value>
+  </data>
   <data name="Cli_InfoVersion" xml:space="preserve">
     <value>Version: {0}</value>
+  </data>
+  <data name="Cli_IssueLine" xml:space="preserve">
+    <value>  {0} {1} {2}: {3}</value>
   </data>
   <data name="Cli_LicensesMissing" xml:space="preserve">
     <value>Die Lizenztexte fehlen in diesem Stand.</value>
   </data>
-  <data name="Cli_MissingValue" xml:space="preserve">
-    <value>Option {0} braucht einen Wert.</value>
+  <data name="Cli_MeasureAdded" xml:space="preserve">
+    <value>{0} für {1} geplant: fällig {2}, verantwortlich {3}</value>
   </data>
-  <data name="Cli_UnknownArgument" xml:space="preserve">
-    <value>Unbekannter Befehl oder unbekannte Option: {0}. Siehe --help.</value>
+  <data name="Cli_MeasureClosed" xml:space="preserve">
+    <value>{0} abgeschlossen: {1}</value>
   </data>
-  <data name="Cli_Usage" xml:space="preserve">
-    <value>Aufruf: {0} &lt;Befehl&gt; [Optionen]
-
-Befehle in diesem Stand:
-  check --snapshot &lt;Datei&gt; [--format text|json]   Export auswerten und eine Zusammenfassung ausgeben
-  collect [--out &lt;Ordner&gt;]                         Windows: Export dieses Rechners
-
-Globale Optionen:
-  --help, --hilfe           diese Hilfe
-  --version                 Version
-  --info                    Produkt, Lizenz und Links
-  --licenses, --lizenzen    Lizenztexte
-
-Exitcodes von check: 0 OK, 1 Warnung, 2 kritisch, 3 unbekannt (Aufruffehler, Export nicht lesbar).
-In Skripten Riegel.Cli.exe verwenden: Auf Riegel.exe wartet die Konsole nicht.</value>
+  <data name="Cli_MeasureLine" xml:space="preserve">
+    <value>{0}  {1}  {2}  fällig {3}  {4}  {5}</value>
+  </data>
+  <data name="Cli_MeasuresNoneOverdue" xml:space="preserve">
+    <value>{0}: nichts überfällig.</value>
+  </data>
+  <data name="Cli_OptionTwice" xml:space="preserve">
+    <value>Die Option {0} wurde zweimal angegeben.</value>
+  </data>
+  <data name="Cli_PlantCreated" xml:space="preserve">
+    <value>Anlagenordner angelegt: {0}</value>
+  </data>
+  <data name="Cli_PlantInitialized" xml:space="preserve">
+    <value>Anlage {0} ({1}) angelegt in {2}</value>
+  </data>
+  <data name="Cli_RegisterEmpty" xml:space="preserve">
+    <value>{0}: keine Einträge.</value>
+  </data>
+  <data name="Cli_RegisterLine" xml:space="preserve">
+    <value>{0}  {1}  {2}  Prüftermin {3}  {4}</value>
+  </data>
+  <data name="Cli_RegisterNoneExpiring" xml:space="preserve">
+    <value>{0}: In den nächsten {1} Tagen läuft nichts ab.</value>
+  </data>
+  <data name="Cli_RegisterText" xml:space="preserve">
+    <value>      {0}</value>
+  </data>
+  <data name="Cli_RemediationNote" xml:space="preserve">
+    <value>Nur ein Vorschlag – Riegel führt nichts davon aus. Jede Änderung vor dem Anwenden mit dem Anlagenhersteller abstimmen.</value>
+  </data>
+  <data name="Cli_RemediationWritten" xml:space="preserve">
+    <value>Abhilfe-Vorschlag geschrieben nach {0}: {1} Regeln in den Dateien, {2} ausgelassen, {3} Handschritte</value>
+  </data>
+  <data name="Cli_RuleLine" xml:space="preserve">
+    <value>{0}  {1}  {2}  {3}</value>
+  </data>
+  <data name="Cli_RuleMeta" xml:space="preserve">
+    <value>Schwere {0} · Kategorie {1} · Prüfung {2} · seit {3} · {4}</value>
+  </data>
+  <data name="Cli_RuleNeedsAdmin" xml:space="preserve">
+    <value>Braucht einen Export, der als Administrator erfasst wurde.</value>
+  </data>
+  <data name="Cli_RuleOtNote" xml:space="preserve">
+    <value>OT-Hinweis: {0}</value>
+  </data>
+  <data name="Cli_RuleReferences" xml:space="preserve">
+    <value>Verweise:</value>
+  </data>
+  <data name="Cli_RuleRemedy" xml:space="preserve">
+    <value>Abhilfe: {0}</value>
+  </data>
+  <data name="Cli_RulesHeader" xml:space="preserve">
+    <value>Regelwerk {0} {1}: {2} Regeln</value>
+  </data>
+  <data name="Cli_SampleConsistent" xml:space="preserve">
+    <value>{0}: konsistent – der frische Export stimmt mit dem gepackten überein.</value>
+  </data>
+  <data name="Cli_SampleDifferent" xml:space="preserve">
+    <value>{0}: weicht in {1} Punkten ab:</value>
+  </data>
+  <data name="Cli_SampleHashes" xml:space="preserve">
+    <value>Gepackter Export {0} (erfasst {1}) · frischer Export {2} (erfasst {3})</value>
+  </data>
+  <data name="Cli_SidecarMissing" xml:space="preserve">
+    <value>Hinweis: Neben {0} liegt keine .sha256-Datei – die Unversehrtheit wurde nicht geprüft.</value>
+  </data>
+  <data name="Cli_SourceThisPc" xml:space="preserve">
+    <value>dieser PC</value>
+  </data>
+  <data name="Cli_TemplateImported" xml:space="preserve">
+    <value>{0} Einträge als beantragt in {1} aufgenommen – sie gelten erst nach einer Freigabe.</value>
+  </data>
+  <data name="Cli_ValidateInvalid" xml:space="preserve">
+    <value>{0}: {1} Einträge, {2} Fehler, {3} Warnungen – ungültig.</value>
+  </data>
+  <data name="Cli_ValidateOk" xml:space="preserve">
+    <value>{0}: {1} Einträge, gültig.</value>
+  </data>
+  <data name="Cli_ValidateWarnings" xml:space="preserve">
+    <value>{0}: {1} Einträge, {2} Fehler, {3} Warnungen.</value>
+  </data>
+  <data name="Cli_VerifyCounts" xml:space="preserve">
+    <value>Geprüfte Exporte: {0} · verglichene Ergebnisse: {1}</value>
+  </data>
+  <data name="Cli_VerifyError" xml:space="preserve">
+    <value>Das Nachweispaket ließ sich nicht prüfen.</value>
+  </data>
+  <data name="Cli_VerifyMismatch" xml:space="preserve">
+    <value>Nicht reproduziert mit Engine {0} (gepackt: {1}): {2} Befunde.</value>
+  </data>
+  <data name="Cli_VerifyNotVerifiable" xml:space="preserve">
+    <value>Nicht nachprüfbar (Baseline-Inhalt nicht enthalten): {0} Ergebnisse ({1})</value>
+  </data>
+  <data name="Cli_VerifyReproduced" xml:space="preserve">
+    <value>Reproduziert mit Engine {0} (gepackt: {1}).</value>
   </data>
   <data name="Cli_VersionLine" xml:space="preserve">
     <value>Riegel {0} · Sammler {1} · Regelwerk {2}</value>
+  </data>
+  <data name="Cli_Written" xml:space="preserve">
+    <value>Geschrieben: {0}</value>
+  </data>
+  <data name="Drift_Added" xml:space="preserve">
+    <value>hinzugekommen</value>
+  </data>
+  <data name="Drift_Changed" xml:space="preserve">
+    <value>geändert</value>
+  </data>
+  <data name="Drift_Removed" xml:space="preserve">
+    <value>entfernt</value>
+  </data>
+  <data name="EntryState_ChangedAfterApproval" xml:space="preserve">
+    <value>nach Freigabe geändert</value>
+  </data>
+  <data name="EntryState_Expired" xml:space="preserve">
+    <value>abgelaufen</value>
+  </data>
+  <data name="EntryState_Expiring" xml:space="preserve">
+    <value>läuft bald ab</value>
+  </data>
+  <data name="EntryState_Invalid" xml:space="preserve">
+    <value>ungültig</value>
+  </data>
+  <data name="EntryState_Pending" xml:space="preserve">
+    <value>beantragt</value>
+  </data>
+  <data name="EntryState_Valid" xml:space="preserve">
+    <value>gültig</value>
+  </data>
+  <data name="Error_RGL0450" xml:space="preserve">
+    <value>Unbekannter Befehl oder unbekannte Option: {0}. Siehe --hilfe.</value>
+  </data>
+  <data name="Error_RGL0451" xml:space="preserve">
+    <value>Die Option {0} braucht einen Wert.</value>
+  </data>
+  <data name="Error_RGL0452" xml:space="preserve">
+    <value>Ungültiger Wert für {0}: {1}. Erlaubt: {2}.</value>
+  </data>
+  <data name="Error_RGL0453" xml:space="preserve">
+    <value>{0} braucht {1}.</value>
+  </data>
+  <data name="Error_RGL0454" xml:space="preserve">
+    <value>{0} und {1} lassen sich nicht kombinieren.</value>
+  </data>
+  <data name="Error_RGL0455" xml:space="preserve">
+    <value>{0} geht nur unter Windows. Auf diesem System Exporte auswerten: {1}</value>
+  </data>
+  <data name="Error_RGL0456" xml:space="preserve">
+    <value>Ungültiges Übergabe-Token.</value>
+  </data>
+  <data name="Error_RGL0457" xml:space="preserve">
+    <value>Prüfermodus: {0} würde in den Anlagenordner schreiben. Ohne --nur-lesen ausführen.</value>
+  </data>
+  <data name="Error_RGL0458" xml:space="preserve">
+    <value>Prüfermodus: In den Anlagenordner wird nichts geschrieben – Zielordner mit --out angeben.</value>
+  </data>
+  <data name="Error_RGL0459" xml:space="preserve">
+    <value>Kein Lauf für Rechner {0} in dieser Anlage. Erst einen Export importieren oder prüfen.</value>
+  </data>
+  <data name="Error_RGL0460" xml:space="preserve">
+    <value>Rechner {0} hat keinen freigegebenen Stand. Erst einen Lauf freigeben mit approve --machine {0}.</value>
+  </data>
+  <data name="Error_RGL0461" xml:space="preserve">
+    <value>Kein Importnachweis {0} in dieser Anlage. Erst Exporte importieren: import &lt;Datei&gt; --plant &lt;Ordner&gt;.</value>
+  </data>
+  <data name="Error_RGL0462" xml:space="preserve">
+    <value>Nicht im Register: {0}. Es wurde nichts geändert.</value>
+  </data>
+  <data name="Error_RGL0463" xml:space="preserve">
+    <value>Unbekannte Regel: {0}.</value>
+  </data>
+  <data name="Error_RGL0464" xml:space="preserve">
+    <value>Baseline {0} gibt es in diesem Anlagenordner nicht.</value>
+  </data>
+  <data name="Error_RGL0465" xml:space="preserve">
+    <value>{0}: Der SHA-256 passt nicht zur .sha256-Datei (erwartet {1}, tatsächlich {2}). Der Export wurde verändert oder ist beschädigt; Riegel verwendet ihn nicht.</value>
+  </data>
+  <data name="Error_RGL0466" xml:space="preserve">
+    <value>{0} hat keinen Prüftermin. Mit --review-by &lt;JJJJ-MM-TT&gt; angeben.</value>
+  </data>
+  <data name="Error_RGL0467" xml:space="preserve">
+    <value>Lauf {0} gehört zu Rechner {1}, nicht zu {2}.</value>
+  </data>
+  <data name="Error_RGL0468" xml:space="preserve">
+    <value>Kein Anlagenordner unter {0} (riegel-plant.json fehlt). Anlegen mit plant init &lt;Ordner&gt; --name &lt;Name&gt;.</value>
+  </data>
+  <data name="Error_RGL0469" xml:space="preserve">
+    <value>Abgebrochen.</value>
+  </data>
+  <data name="Help_Approve" xml:space="preserve">
+    <value>Aufruf: {0} approve --plant &lt;Ordner&gt; --machine &lt;Rechner&gt;… [--run &lt;ID&gt;] --role "&lt;Rolle&gt;" --record "&lt;Nachweis&gt;" [--name "&lt;Name&gt;"] [--date &lt;JJJJ-MM-TT&gt;]
+
+Hält einen Lauf (Standard: den neuesten) als freigegebenen Stand jedes Rechners fest, zum Beispiel nach Inbetriebnahme,
+Abnahme oder Herstellerbesuch. --record ist Ihre Change-, QMS- oder Freigabe-Nummer.
+
+Exitcodes: 0 Erfolg, 3 Fehler.</value>
+  </data>
+  <data name="Help_Baseline" xml:space="preserve">
+    <value>Aufruf: {0} baseline &lt;Unterbefehl&gt; --plant &lt;Ordner&gt; …
+
+  import &lt;Pfad&gt; --name &lt;Name&gt;      Kunden-Baseline importieren (GPO-Sicherungsordner, riegel.baseline/1 als JSON oder CSV)
+  list [--format text|json]        importierte Baselines
+  remove &lt;ID&gt;                      importierte Baseline entfernen
+
+Exitcodes: 0 Erfolg, 3 Fehler.</value>
+  </data>
+  <data name="Help_Check" xml:space="preserve">
+    <value>Aufruf: {0} check [--plant &lt;Ordner&gt;] [--snapshot &lt;Datei&gt;…|--this-pc] [Optionen]
+
+Wertet Exporte (oder diesen PC) gegen das Regelwerk aus. Ohne --plant nur auswerten und ausgeben. Mit --plant werden
+die Register der Anlage angewendet, der Lauf gespeichert und mit dem letzten Lauf und dem freigegebenen Stand verglichen.
+
+  --plant &lt;Ordner&gt;        Anlagenordner; wird angelegt, wenn er fehlt
+  --snapshot &lt;Datei&gt;…     Exporte (.snapshot.json, .json.gz) oder Ordner mit Bordmittel-Paketen; mehrere möglich
+  --this-pc               zuerst diesen PC erfassen (Windows; dort Standard ohne --snapshot)
+  --no-store              mit --plant: auswerten und vergleichen, aber nichts schreiben
+  --brief                 eine Zeile je Rechner für Icinga/Nagios, mit Leistungsdaten
+  --format text|json      Ausgabeformat (Standard: text)
+  --alert change|state    Veränderung (Standard mit --plant) oder Zustand (Standard ohne)
+  --critical &lt;Liste&gt;      Tokens für Exitcode 2, durch Kommas getrennt; ersetzt die Liste; none = kein Token
+  --warning &lt;Liste&gt;       Tokens für Exitcode 1; ersetzt die Liste
+
+Tokens: regression, newhigh, high, medium, low, expired, expiring, pending, overdue, incomplete, stale, clock
+  change: kritisch regression,newhigh · Warnung expired,expiring,pending,overdue,incomplete,stale,clock
+  state:  kritisch regression,high · Warnung medium,low,expired,expiring,pending,overdue,incomplete,stale,clock
+Exitcodes: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN.</value>
+  </data>
+  <data name="Help_Collect" xml:space="preserve">
+    <value>Aufruf: {0} collect [--out &lt;Ordner&gt;] [--gzip] [--minimal] [--deep] [--pseudonymize]
+
+Nur Windows. Schreibt einen Export dieses PCs (&lt;HOST&gt;_&lt;Zeit&gt;.snapshot.json und .sha256). Liest nur und ändert nichts;
+für einen vollständigen Export in einer Konsole als Administrator ausführen.
+
+  --out &lt;Ordner&gt;     Zielordner (Standard: aktueller Ordner)
+  --gzip             .snapshot.json.gz schreiben
+  --minimal          keine Kindprozesse (kein secedit, kein gpresult), keine Windows-Update-Abfrage, nur Firewall-Profile
+  --deep             zusätzlich den LSASS-Prozessschutz abfragen
+  --pseudonymize     Rechner-, Konto- und Pfadnamen ersetzen
+
+Exitcodes: 0 vollständig, 1 geschrieben, aber unvollständig (nicht als Administrator oder Einträge verweigert), 3 nichts geschrieben.</value>
+  </data>
+  <data name="Help_CollectionRecord" xml:space="preserve">
+    <value>Aufruf: {0} collection-record --plant &lt;Ordner&gt; [--import &lt;ID&gt;|--latest] [--out &lt;Ordner&gt;] [--language &lt;Code&gt;]
+
+Schreibt das Erhebungsprotokoll eines Imports (Standard: des neuesten) zum Abzeichnen: Exporte mit Prüfsummen, Sammler,
+Optionen, Rollen von Erhebendem und Zeugen sowie Unterschriftszeilen.
+
+Exitcodes: 0 Erfolg, 3 Fehler.</value>
+  </data>
+  <data name="Help_Collector" xml:space="preserve">
+    <value>Aufruf: {0} collector export &lt;Ordner&gt;
+
+Nur Windows. Kopiert das portable Sammler-Paket mit Übergabezettel (UEBERGABE.txt: Prüfsummen, Version, Datum, Aufruf,
+was er hinterlässt) auf einen USB-Stick oder eine Freigabe.
+
+Exitcodes: 0 Erfolg, 3 Fehler.</value>
+  </data>
+  <data name="Help_Compare" xml:space="preserve">
+    <value>Aufruf: {0} compare --plant &lt;Ordner&gt; --machine &lt;Rechner&gt; [--against previous|approved] [--format text|json]
+
+Zeigt die Statusänderungen und Abweichungen der Rohwerte zwischen dem neuesten Lauf eines Rechners und seinem letzten
+Lauf (Standard) oder seinem freigegebenen Stand.
+
+Exitcodes: 0 Erfolg, 3 Fehler (zum Beispiel kein freigegebener Stand).</value>
+  </data>
+  <data name="Help_CompareSnapshot" xml:space="preserve">
+    <value>Aufruf: {0} compare-snapshot &lt;frischer-Export&gt; --evidence &lt;ZIP&gt; [--host &lt;Rechner&gt;] [--format text|json]
+
+Stichprobe des Prüfers: vergleicht einen frisch erfassten Export mit dem gepackten Export desselben Rechners in einem
+Nachweispaket, ohne flüchtige Werte.
+
+Exitcodes: 0 konsistent, 1 abweichend, 3 Fehler.</value>
+  </data>
+  <data name="Help_Exceptions" xml:space="preserve">
+    <value>Aufruf: {0} exceptions &lt;Unterbefehl&gt; --plant &lt;Ordner&gt; …
+
+  validate [--format text|json]                  Register prüfen; Exitcode 0 gültig, 1 Warnungen, 2 ungültig
+  list [--format text|json]                      alle Ausnahmen mit Zustand
+  expiring [--days &lt;n&gt;] [--format text|json]     ablaufende und abgelaufene Ausnahmen (Standard: warnDays der Anlage)
+  approval-sheet [--ids &lt;ID&gt;…|--pending] [--out &lt;Ordner&gt;] [--language &lt;Code&gt;]
+                                                 Genehmigungsblatt (PDF); Standard: alle beantragten Einträge
+  approve --ids &lt;ID&gt;… --role "&lt;Rolle&gt;" --record "&lt;Nachweis&gt;" [--review-by &lt;JJJJ-MM-TT&gt;] [--date &lt;JJJJ-MM-TT&gt;] [--name "&lt;Name&gt;"]
+                                                 unterschriebene Freigabe eintragen; ein Prüftermin ist Pflicht
+  import-template &lt;Vorlage.json&gt;                 Einträge einer Vorlage als beantragte Ausnahmen aufnehmen
+
+Exitcodes: 0 Erfolg, 3 Fehler; validate wie oben.</value>
+  </data>
+  <data name="Help_ExitCodes" xml:space="preserve">
+    <value>Exitcodes: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN (Aufruffehler, unlesbarer oder beschädigter Export, Prüfsummenfehler, E/A-Fehler).
+check und import melden mit --plant Veränderungen (kritisch: regression,newhigh), ohne den Zustand (kritisch: regression,high).
+verify: 0 reproduziert, 2 abweichend · compare-snapshot: 0 konsistent, 1 abweichend · validate: 0 gültig, 1 Warnungen, 2 ungültig.</value>
+  </data>
+  <data name="Help_Import" xml:space="preserve">
+    <value>Aufruf: {0} import &lt;Datei|Ordner&gt;… --plant &lt;Ordner&gt; [--collected-by-role &lt;Rolle&gt;] [--witness-role &lt;Rolle&gt;] [--record]
+
+Nimmt Exporte oder Bordmittel-Pakete in den Anlagenordner auf: prüft die .sha256-Dateien, schreibt den Importnachweis,
+wertet aus und speichert die Läufe. Ein Prüfsummenfehler stoppt den ganzen Import, bevor etwas geschrieben wird.
+
+  --plant &lt;Ordner&gt;                  Anlagenordner
+  --collected-by-role &lt;Rolle&gt;       Rolle der Person, die erfasst hat (Importnachweis)
+  --witness-role &lt;Rolle&gt;            Rolle des Zeugen beim Betreiber (Importnachweis)
+  --record                          zusätzlich das Erhebungsprotokoll (PDF) schreiben
+  --brief, --format, --alert, --critical, --warning    wie bei check (Standard-Alarmart: change)
+
+Exitcodes wie bei check.</value>
+  </data>
+  <data name="Help_Measures" xml:space="preserve">
+    <value>Aufruf: {0} measures &lt;Unterbefehl&gt; --plant &lt;Ordner&gt; …
+
+  list [--format text|json]                      der Maßnahmenplan
+  overdue [--format text|json]                   geplante Maßnahmen nach ihrem Fälligkeitsdatum
+  add --rule &lt;ID&gt; --action "&lt;Text&gt;" --owner-role "&lt;Rolle&gt;" --due &lt;JJJJ-MM-TT&gt;
+      [--machine &lt;Rechner&gt;…|--group &lt;ID&gt;…|--all-machines] [--ticket &lt;Nr.&gt;] [--comment "&lt;Text&gt;"] [--created-by-role "&lt;Rolle&gt;"]
+                                                 Maßnahme planen (Standard-Geltungsbereich: alle Rechner)
+  close &lt;ID&gt; [--state done|dropped] [--comment "&lt;Text&gt;"]
+                                                 Maßnahme abschließen (Standard: erledigt)
+
+Exitcodes: 0 Erfolg, 3 Fehler.</value>
+  </data>
+  <data name="Help_Overview" xml:space="preserve">
+    <value>Aufruf: {0} &lt;Befehl&gt; [Optionen]        {0} &lt;Befehl&gt; --hilfe zeigt die Optionen eines Befehls
+
+Prüfen und überwachen:
+  check              diesen PC oder Exporte auswerten; mit --plant: speichern, vergleichen, bei Veränderung melden
+  collect            Windows: Export dieses PCs schreiben
+  import             Exporte oder Bordmittel-Pakete in einen Anlagenordner aufnehmen
+  compare            Statusänderungen und Abweichungen eines Rechners
+  approve            einen Lauf als freigegebenen Stand festhalten
+
+Dokumente:
+  report             Anlagenbericht (PDF, Excel, CSV, JSON) und Nachweispaket
+  summary            eine Seite über mehrere Anlagen
+  target-config      Soll-Konfiguration zum Abzeichnen (PDF, Excel)
+  collection-record  Erhebungsprotokoll eines Imports zum Abzeichnen
+  remediate          Abhilfe-Vorschlag als Dateien – wird nie ausgeführt
+
+Register und Regelwerk:
+  exceptions         validate | list | expiring | approval-sheet | approve | import-template
+  tailoring          list | validate | approve | import-template
+  measures           list | overdue | add | close
+  baseline           import | list | remove
+  rules              das Regelwerk
+
+Für Prüfer:
+  verify             Prüfsummen eines Nachweispakets prüfen und neu auswerten
+  compare-snapshot   frischen Export mit dem gepackten vergleichen (Stichprobe)
+
+Anlagenordner und Sammler:
+  plant init         Anlagenordner anlegen
+  collector export   Windows: portablen Sammler mit Übergabezettel kopieren
+
+Globale Optionen:
+  --hilfe, --help              diese Hilfe
+  --version                    Version von Riegel, Sammler und Regelwerk
+  --info                       Produkt, Lizenz, Links und Datenordner
+  --lizenzen, --licenses       Lizenztexte
+  --nur-lesen, --read-only     nichts in den Anlagenordner schreiben (Dokumente nur nach --out)</value>
+  </data>
+  <data name="Help_Plant" xml:space="preserve">
+    <value>Aufruf: {0} plant init &lt;Ordner&gt; --name &lt;Name&gt;
+
+Legt einen Anlagenordner an (riegel-plant.json). check --plant legt ihn ebenfalls an, wenn er fehlt.
+
+Exitcodes: 0 Erfolg, 3 Fehler.</value>
+  </data>
+  <data name="Help_Remediate" xml:space="preserve">
+    <value>Aufruf: {0} remediate --plant &lt;Ordner&gt; --machine &lt;Rechner&gt; [--run &lt;ID&gt;] [--out &lt;Ordner&gt;] [--language &lt;Code&gt;]
+
+Schreibt einen Abhilfe-Vorschlag nur als Dateien (.reg mit Rückgängig-.reg, GptTmpl.inf, audit.csv, README.txt) unter
+remediation/&lt;Rechner&gt;/&lt;Lauf&gt;/ in --out oder im Anlagenordner. Riegel führt sie nie aus; jede Änderung vorher mit dem
+Anlagenhersteller abstimmen.
+
+Exitcodes: 0 Erfolg, 3 Fehler.</value>
+  </data>
+  <data name="Help_Report" xml:space="preserve">
+    <value>Aufruf: {0} report --plant &lt;Ordner&gt; [Optionen]
+
+Schreibt den Anlagenbericht und die übrigen Ausgaben aus dem neuesten Lauf jedes Rechners.
+
+  --machine &lt;Rechner&gt;…              nur diese Rechner
+  --format pdf,xlsx,csv,json        Formate (Standard: pdf,xlsx); json schreibt die Läufe (results.json)
+  --per-machine                     zusätzlich ein PDF je Rechner
+  --no-appendix                     ohne Anhang je Rechner
+  --preset audit|as-delivered       Berichtsvorlage (Standard: aus der Anlage)
+  --evidence                        zusätzlich das Nachweispaket (ZIP)
+  --include-baseline-content        mit --evidence: Inhalt importierter Baselines mitpacken (Lizenz prüfen)
+  --pdfa                            PDF/A, sofern dieser Stand es kann
+  --language &lt;Code&gt;                 en, de, es, fr, zh-Hans (Standard: Anlage, dann Oberfläche)
+  --out &lt;Ordner&gt;                    Zielordner (Standard: reports/&lt;Zeit&gt;/ im Anlagenordner)
+
+Exitcodes: 0 Erfolg, 3 Fehler.</value>
+  </data>
+  <data name="Help_Rules" xml:space="preserve">
+    <value>Aufruf: {0} rules [--id &lt;ID&gt;] [--format text|json|md]
+
+Listet das Regelwerk auf, oder eine Regel mit Begründung, OT-Hinweis, Abhilfe und Verweisen.
+
+Exitcodes: 0 Erfolg, 3 Fehler.</value>
+  </data>
+  <data name="Help_ScriptsNote" xml:space="preserve">
+    <value>In Skripten und geplanten Aufgaben Riegel.Cli.exe verwenden: cmd und PowerShell warten nicht auf Riegel.exe (sonst start /wait Riegel.exe … oder Riegel.exe … | Out-Default).</value>
+  </data>
+  <data name="Help_Summary" xml:space="preserve">
+    <value>Aufruf: {0} summary --plant &lt;Ordner&gt; [--plant &lt;Ordner&gt;…] [--out &lt;Ordner&gt;] [--language &lt;Code&gt;]
+
+Eine A4-Seite über mehrere Anlagen für die Leitung: Rechner, unterstützte Betriebssysteme, offene hohe Befunde mit Trend,
+Verschlechterungen, ablaufende Ausnahmen und überfällige Maßnahmen. Wird nach --out oder in den aktuellen Ordner geschrieben.
+
+Exitcodes: 0 Erfolg, 3 Fehler.</value>
+  </data>
+  <data name="Help_Tailoring" xml:space="preserve">
+    <value>Aufruf: {0} tailoring &lt;Unterbefehl&gt; --plant &lt;Ordner&gt; …
+
+  list [--format text|json]                      alle Zuschnitt-Einträge mit Zustand
+  validate [--format text|json]                  Register prüfen; Exitcode 0 gültig, 1 Warnungen, 2 ungültig
+  approve --ids &lt;ID&gt;… --role "&lt;Rolle&gt;" --record "&lt;Nachweis&gt;" [--review-by &lt;JJJJ-MM-TT&gt;] [--date &lt;JJJJ-MM-TT&gt;] [--name "&lt;Name&gt;"]
+                                                 unterschriebene Freigabe eintragen; ein Prüftermin ist Pflicht
+  import-template &lt;Vorlage.json&gt;                 Einträge einer Rollenvorlage als beantragten Zuschnitt aufnehmen
+
+Exitcodes: 0 Erfolg, 3 Fehler; validate wie oben.</value>
+  </data>
+  <data name="Help_TargetConfig" xml:space="preserve">
+    <value>Aufruf: {0} target-config --plant &lt;Ordner&gt; [--group &lt;ID&gt;] [--out &lt;Ordner&gt;] [--language &lt;Code&gt;]
+
+Schreibt die Soll-Konfiguration zum Abzeichnen als PDF und Excel: je Gruppe und Rolle die Regeln im Prüfumfang mit
+Sollwerten, die Zuschnitt-Entscheidungen, importierte Baselines und die Herkunft der Sollwerte.
+
+Exitcodes: 0 Erfolg, 3 Fehler.</value>
+  </data>
+  <data name="Help_Verify" xml:space="preserve">
+    <value>Aufruf: {0} verify &lt;Nachweispaket.zip&gt; [--format text|json]
+
+Prüft jede Prüfsumme in einem Nachweispaket, wertet die gepackten Exporte mit dem gepackten Regelwerk und den gepackten
+Registern neu aus und vergleicht mit den gepackten Ergebnissen.
+
+Exitcodes: 0 reproduziert, 2 abweichend, 3 Fehler.</value>
+  </data>
+  <data name="Issue_Error" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="Issue_Warning" xml:space="preserve">
+    <value>Warnung</value>
+  </data>
+  <data name="MeasureState_Done" xml:space="preserve">
+    <value>erledigt</value>
+  </data>
+  <data name="MeasureState_Dropped" xml:space="preserve">
+    <value>verworfen</value>
+  </data>
+  <data name="MeasureState_Overdue" xml:space="preserve">
+    <value>überfällig</value>
+  </data>
+  <data name="MeasureState_Planned" xml:space="preserve">
+    <value>geplant</value>
+  </data>
+  <data name="Rule_Active" xml:space="preserve">
+    <value>aktiv</value>
+  </data>
+  <data name="Rule_Retired" xml:space="preserve">
+    <value>zurückgezogen</value>
+  </data>
+  <data name="Rules_MdHeader" xml:space="preserve">
+    <value>| ID | Schwere | Kategorie | Titel |</value>
+  </data>
+  <data name="Scope_All" xml:space="preserve">
+    <value>alle Rechner</value>
+  </data>
+  <data name="Scope_Groups" xml:space="preserve">
+    <value>Gruppen {0}</value>
+  </data>
+  <data name="Scope_Machines" xml:space="preserve">
+    <value>Rechner {0}</value>
+  </data>
+  <data name="State_Critical" xml:space="preserve">
+    <value>KRITISCH</value>
+  </data>
+  <data name="State_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="State_Unknown" xml:space="preserve">
+    <value>UNBEKANNT</value>
+  </data>
+  <data name="State_Warning" xml:space="preserve">
+    <value>WARNUNG</value>
   </data>
 </root>
