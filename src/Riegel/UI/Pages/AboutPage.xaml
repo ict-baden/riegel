@@ -1,0 +1,101 @@
+<UserControl x:Class="Riegel.UI.Pages.AboutPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:Riegel.UI">
+  <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="32,0,26,24" Focusable="False">
+    <StackPanel MaxWidth="1000" HorizontalAlignment="Stretch">
+      <Border Style="{StaticResource Card}" Padding="22">
+        <StackPanel Orientation="Horizontal">
+          <Image Source="pack://application:,,,/Riegel;component/Assets/riegel.png" Width="64" Height="64" VerticalAlignment="Top" RenderOptions.BitmapScalingMode="HighQuality"/>
+          <StackPanel Margin="20,0,0,0" VerticalAlignment="Center" MaxWidth="780">
+            <TextBlock Text="{Binding ProductName}" Style="{StaticResource SubtitleText}"/>
+            <TextBlock Text="{Binding Tagline}" Style="{StaticResource Body}" FontSize="13" Margin="0,2,0,0"/>
+            <TextBlock Text="{Binding VersionText}" Style="{StaticResource Caption}" Margin="0,6,0,0"/>
+            <TextBlock Text="{Binding ComponentsText}" Style="{StaticResource Caption}"/>
+            <TextBlock Text="{Binding Description}" Style="{StaticResource Caption}" Margin="0,4,0,0"/>
+            <TextBlock Text="{Binding CopyrightText}" Style="{StaticResource Caption}" Margin="0,4,0,0"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+
+      <ui:SettingCard Glyph="&#xE72E;" Header="{ui:T About_ReadOnlyTitle}" Description="{Binding ReadOnlyText}"><TextBlock/></ui:SettingCard>
+      <ui:SettingCard Glyph="&#xE8B7;" Header="{ui:T About_DataFolder}" Description="{Binding DataFolder}">
+        <Button Command="{Binding DataFolderCommand}" Content="{ui:T About_OpenFolder}"/>
+      </ui:SettingCard>
+
+      <TextBlock Text="{ui:T About_LicenseSection}" Style="{StaticResource SectionText}"/>
+      <ui:SettingCard Glyph="&#xE8D7;" Header="{Binding CopyrightText}" Description="{ui:T About_LicenseText}">
+        <Button Command="{Binding LicenseCommand}" Content="{ui:T About_ShowLicense}"/>
+      </ui:SettingCard>
+      <ui:SettingCard Glyph="&#xE8F1;" Header="{ui:T About_Notices}" Description="{ui:T About_NoticesText}">
+        <Button Command="{Binding NoticesCommand}" Content="{ui:T About_Show}"/>
+      </ui:SettingCard>
+      <ui:SettingCard Glyph="&#xE82D;" Header="{ui:T About_RuleSources}" Description="{Binding SourcesText}">
+        <TextBlock Text="{ui:T About_RuleSourcesHint}" Style="{StaticResource Caption}" MaxWidth="260"/>
+      </ui:SettingCard>
+
+      <TextBlock Text="{ui:T About_Links}" Style="{StaticResource SectionText}"/>
+      <ui:SettingCard Glyph="&#xE897;" Header="{ui:T About_Support}" Description="{ui:T About_SupportText}">
+        <Button Command="{Binding LinkCommand}" CommandParameter="{Binding SupportUrl}" Content="{ui:T About_Open}" AutomationProperties.Name="{ui:T About_Support}"/>
+      </ui:SettingCard>
+      <ui:SettingCard Glyph="&#xE9D9;" Header="{ui:T About_Diagnostics}" Description="{ui:T About_DiagnosticsText}">
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Text="{ui:T About_Anonymize}" Style="{StaticResource Caption}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+          <CheckBox Style="{StaticResource ToggleSwitch}" IsChecked="{Binding Anonymize}" VerticalAlignment="Center" Margin="0,0,16,0"
+                    AutomationProperties.Name="{ui:T About_Anonymize}"/>
+          <Button Command="{Binding DiagnosticsCommand}" Content="{ui:T About_Create}"/>
+        </StackPanel>
+      </ui:SettingCard>
+      <ui:SettingCard Glyph="&#xE943;" Header="{ui:T About_Source}" Description="{Binding RepositoryUrl}">
+        <Button Command="{Binding LinkCommand}" CommandParameter="{Binding RepositoryUrl}" Content="{ui:T About_Open}" AutomationProperties.Name="{ui:T About_Source}"/>
+      </ui:SettingCard>
+      <ui:SettingCard Glyph="&#xE8A1;" Header="{ui:T About_Privacy}" Description="{ui:T About_PrivacyText}">
+        <Button Command="{Binding LinkCommand}" CommandParameter="{Binding PrivacyUrl}" Content="{ui:T About_Open}" AutomationProperties.Name="{ui:T About_Privacy}"/>
+      </ui:SettingCard>
+      <ui:SettingCard Glyph="&#xE779;" Header="{ui:T About_Impressum}" Description="{Binding Publisher}">
+        <Button Command="{Binding LinkCommand}" CommandParameter="{Binding ImpressumUrl}" Content="{ui:T About_Open}" AutomationProperties.Name="{ui:T About_Impressum}"/>
+      </ui:SettingCard>
+      <ui:SettingCard Glyph="&#xE774;" Header="{ui:T About_Website}" Description="{ui:T About_WebsiteText}">
+        <Button Command="{Binding LinkCommand}" CommandParameter="{Binding WebsiteUrl}" Content="{ui:T About_Open}" AutomationProperties.Name="{ui:T About_Website}"/>
+      </ui:SettingCard>
+      <ui:SettingCard Glyph="&#xE897;" Header="{ui:T About_Help}" Description="{ui:T About_HelpText}">
+        <Button Command="{Binding LinkCommand}" CommandParameter="{Binding HelpUrl}" Content="{ui:T About_Open}" AutomationProperties.Name="{ui:T About_Help}"/>
+      </ui:SettingCard>
+
+      <TextBlock Text="{ui:T About_CommandLine}" Style="{StaticResource SectionText}"/>
+      <Border Style="{StaticResource Card}" Padding="20,16">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Body}" FontSize="13" Text="{ui:T About_CommandLineText}"/>
+          <TextBox Text="{Binding CommandExample, Mode=OneWay}" IsReadOnly="True" FontFamily="{StaticResource MonoFont}" FontSize="12.5" Margin="0,10,0,0" TextWrapping="Wrap"
+                   AutomationProperties.Name="{ui:T About_CommandExample}"/>
+          <Grid Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="0 OK" Style="{StaticResource BodyStrong}" FontSize="13" Margin="0,0,16,4"/>
+            <TextBlock Grid.Column="1" Text="{ui:T About_Exit0}" Style="{StaticResource Body}" FontSize="13"/>
+            <TextBlock Grid.Row="1" Text="1 WARNING" Style="{StaticResource BodyStrong}" FontSize="13" Margin="0,0,16,4"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{ui:T About_Exit1}" Style="{StaticResource Body}" FontSize="13"/>
+            <TextBlock Grid.Row="2" Text="2 CRITICAL" Style="{StaticResource BodyStrong}" FontSize="13" Margin="0,0,16,4"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{ui:T About_Exit2}" Style="{StaticResource Body}" FontSize="13"/>
+            <TextBlock Grid.Row="3" Text="3 UNKNOWN" Style="{StaticResource BodyStrong}" FontSize="13" Margin="0,0,16,0"/>
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="{ui:T About_Exit3}" Style="{StaticResource Body}" FontSize="13"/>
+          </Grid>
+          <TextBlock Style="{StaticResource Caption}" Margin="0,12,0,0" Text="{ui:T About_CommandLineHint}"/>
+        </StackPanel>
+      </Border>
+
+      <TextBlock Text="{ui:T About_Keyboard}" Style="{StaticResource SectionText}"/>
+      <Border Style="{StaticResource Card}" Padding="20,14">
+        <TextBlock Style="{StaticResource Body}" FontSize="13" LineHeight="22" Text="{ui:T About_KeyboardText}"/>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

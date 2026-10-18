@@ -1,0 +1,22 @@
+<UserControl x:Class="Riegel.UI.Dialogs.NewPlantDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:Riegel.UI">
+  <StackPanel>
+    <TextBlock Text="{ui:T NewPlant_Intro}" Style="{StaticResource Body}" FontSize="13"/>
+    <TextBlock Text="{ui:T NewPlant_Name}" Style="{StaticResource Label}"/>
+    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T NewPlant_Name}"/>
+    <TextBlock Text="{ui:T NewPlant_Folder}" Style="{StaticResource Label}"/>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <TextBox Text="{Binding Folder, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T NewPlant_Folder}"/>
+      <Button Grid.Column="1" Command="{Binding BrowseCommand}" Content="{ui:T Common_Browse}" Margin="8,0,0,0"/>
+    </Grid>
+    <TextBlock Text="{ui:T NewPlant_FolderHint}" Style="{StaticResource Caption}" Margin="0,3,0,0"/>
+    <TextBlock Text="{Binding Error}" Style="{StaticResource Body}" FontSize="13" Foreground="{DynamicResource Critical}" Margin="0,8,0,0"
+               Visibility="{Binding Error, Converter={StaticResource NullToCollapsed}}"/>
+  </StackPanel>
+</UserControl>

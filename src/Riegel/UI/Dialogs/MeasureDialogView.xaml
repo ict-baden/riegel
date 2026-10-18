@@ -1,0 +1,45 @@
+<UserControl x:Class="Riegel.UI.Dialogs.MeasureDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:Riegel.UI">
+  <StackPanel>
+    <TextBlock Style="{StaticResource Body}" FontSize="13">
+      <Run Text="{Binding RuleId, Mode=OneWay}" FontWeight="SemiBold"/><Run Text=" · "/><Run Text="{Binding RuleTitle, Mode=OneWay}"/>
+    </TextBlock>
+    <TextBlock Text="{ui:T MeasureDialog_Intro}" Style="{StaticResource Caption}" Margin="0,6,0,0"/>
+    <TextBlock Text="{ui:T Register_Scope}" Style="{StaticResource Label}"/>
+    <ComboBox ItemsSource="{Binding Scopes}" SelectedItem="{Binding Scope}" AutomationProperties.Name="{ui:T Register_Scope}"/>
+    <TextBlock Text="{ui:T Measures_ColAction}" Style="{StaticResource Label}"/>
+    <TextBox Style="{DynamicResource MultiLineBox}" Text="{Binding Action, UpdateSourceTrigger=PropertyChanged}" MinHeight="60" AutomationProperties.Name="{ui:T Measures_ColAction}"/>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="12"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <StackPanel>
+        <TextBlock Text="{ui:T Measures_ColOwner}" Style="{StaticResource Label}"/>
+        <TextBox Text="{Binding OwnerRole, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Measures_ColOwner}"/>
+      </StackPanel>
+      <StackPanel Grid.Column="2">
+        <TextBlock Text="{ui:T Measures_ColDue}" Style="{StaticResource Label}"/>
+        <DatePicker SelectedDate="{Binding DueDate}" AutomationProperties.Name="{ui:T Measures_ColDue}"/>
+      </StackPanel>
+      <StackPanel Grid.Row="1">
+        <TextBlock Text="{ui:T Measures_ColTicket}" Style="{StaticResource Label}"/>
+        <TextBox Text="{Binding Ticket, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Measures_ColTicket}"/>
+      </StackPanel>
+      <StackPanel Grid.Row="1" Grid.Column="2">
+        <TextBlock Text="{ui:T Register_ColState}" Style="{StaticResource Label}"/>
+        <ComboBox ItemsSource="{Binding States}" SelectedItem="{Binding State}" AutomationProperties.Name="{ui:T Register_ColState}"/>
+      </StackPanel>
+    </Grid>
+    <TextBlock Text="{ui:T Register_Comment}" Style="{StaticResource Label}"/>
+    <TextBox Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Register_Comment}"/>
+    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource DialogIssues}" Focusable="False" IsTabStop="False"/>
+  </StackPanel>
+</UserControl>

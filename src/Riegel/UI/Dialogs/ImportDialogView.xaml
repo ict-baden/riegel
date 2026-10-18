@@ -1,0 +1,39 @@
+<UserControl x:Class="Riegel.UI.Dialogs.ImportDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:Riegel.UI">
+  <StackPanel>
+    <TextBlock Text="{ui:T Import_Intro}" Style="{StaticResource Body}" FontSize="13"/>
+    <Border Style="{StaticResource Card}" Margin="0,10,0,0" Padding="0">
+      <ListBox ItemsSource="{Binding Files}" SelectedItem="{Binding Selected}" MinHeight="90" MaxHeight="220" BorderThickness="0" Background="Transparent"
+               AutomationProperties.Name="{ui:T Import_Files}">
+        <ListBox.ItemTemplate>
+          <DataTemplate><TextBlock Text="{Binding}" Style="{StaticResource Mono}" FontSize="12" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/></DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </Border>
+    <WrapPanel Margin="0,8,0,0">
+      <Button Command="{Binding AddFilesCommand}" Content="{ui:T Import_AddFiles}" Margin="0,0,8,6"/>
+      <Button Command="{Binding AddFolderCommand}" Content="{ui:T Import_AddBundle}" Margin="0,0,8,6"/>
+      <Button Command="{Binding RemoveCommand}" Content="{ui:T Import_Remove}" Margin="0,0,8,6"/>
+    </WrapPanel>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="12"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <StackPanel>
+        <TextBlock Text="{ui:T Import_CollectedBy}" Style="{StaticResource Label}"/>
+        <TextBox Text="{Binding CollectedByRole, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Import_CollectedBy}"/>
+      </StackPanel>
+      <StackPanel Grid.Column="2">
+        <TextBlock Text="{ui:T Import_Witness}" Style="{StaticResource Label}"/>
+        <TextBox Text="{Binding WitnessRole, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Import_Witness}"/>
+      </StackPanel>
+    </Grid>
+    <TextBlock Text="{ui:T Import_RolesHint}" Style="{StaticResource Caption}" Margin="0,3,0,0"/>
+    <CheckBox Content="{ui:T Import_WriteRecord}" IsChecked="{Binding WriteRecord}" Margin="0,12,0,0"/>
+    <TextBlock Text="{ui:T Import_SidecarHint}" Style="{StaticResource Caption}" Margin="0,8,0,0"/>
+  </StackPanel>
+</UserControl>
