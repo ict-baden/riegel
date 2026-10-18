@@ -1,2 +1,3 @@
 # Regelpaket rules-c (AUD, PS, RDP, MED, TLS): Regeln mit whenMissing "pass" (je Zeile eine Regel-ID).
-# Derzeit keine: Fehlende Werte ergeben in diesem Paket fail, notCheckable oder einen belegten osDefault.
+# Sonst ergeben fehlende Werte in diesem Paket fail, notCheckable oder einen belegten osDefault.
+AUD-23 # notExists der Richtlinie: nur wenn MaxSize der Gruppenrichtlinie nachweislich fehlt, entscheidet der lokale Wert (Vorrang Richtlinie vor lokal); das „erfüllt“ trägt der lokale Wert

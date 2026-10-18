@@ -17,6 +17,7 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 - ENC-06: die gesetzte DMA-Richtlinie („Block all“) heißt jetzt „konfiguriert, Wirkung nicht nachgewiesen“ (nicht prüfbar), weil sie nur mit Kernel-DMA-Schutz der Firmware wirkt und Riegel diesen Zustand nicht erhebt; vorher „erfüllt“. Dafür `configuredOnly` an Registry-Prüfungen.
 - CRED-17: mit RestrictRemoteSamAuditOnlyMode = 1 (Nur-Überwachen-Modus, jeder Aufruf wird zugelassen) schlägt die Regel fehl; vorher „erfüllt“ mit dem Standard-SDDL.
 - SVC-01: verlangt den Starttyp „Deaktiviert“ der Druckwarteschlange statt nur „beendet“; eine beendete Warteschlange mit Starttyp Automatisch war „erfüllt“, startet aber beim nächsten Neustart wieder. Auch auf Bordmittel-Paketen damit prüfbar.
+- AUD-23: der lokale Wert der Protokollgröße zählt nur, wo die Größe der Gruppenrichtlinie nachweislich nicht gesetzt ist; ein nicht lesbarer Richtlinienschlüssel ergibt „nicht prüfbar“ statt „erfüllt“ aus dem lokalen Wert. Der Mutationstest prüft jetzt auch den Vorrang zwischen Konfigurationsquellen.
 
 ## [0.1.0] – 2026-10-18
 

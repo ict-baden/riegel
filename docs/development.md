@@ -78,7 +78,9 @@ Gates that guard the evaluation:
   [File formats › Test vectors](file-formats.md#test-vectors).
 - **Mutation test** (`Mutation/`): every evidence item of every rule set to denied, not collected, truncated, error or
   missing must never give a pass – except proven absence listed in `Rules/{A,B,C}/when-missing-pass.txt` or a cited OS
-  default (flagged *FromDefault*).
+  default (flagged *FromDefault*). A second pass checks precedence between configuration sources: in a `firstOf`, a
+  registry part that is made unavailable must never be skipped so that a lower-ranked registry part carries a pass (a
+  policy value would take precedence); a runtime part before a registry part may fall away as intended.
 - **Oracle** (`Oracle/`): expected results of all 153 rules for a workstation snapshot written from research
   measurements; only the oracle's author or a reviewer changes `expected-results.json`, with the reason in the commit
   message. `Compare-LocalRecording.ps1` compares a local recording of your own PC (kept outside the repository).

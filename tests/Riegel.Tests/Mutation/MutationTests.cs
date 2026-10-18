@@ -123,6 +123,84 @@ public sealed class MutationTests(ITestOutputHelper output)
         return [.. violations.Order(StringComparer.Ordinal)];
     }
 
+    /// <summary>
+    /// Vorrang zwischen Konfigurationsquellen (Review evidence-10): in einem firstOf darf eine nicht verfügbare
+    /// Konfigurationsquelle (Registry) nie übersprungen werden, sodass eine nachrangige Konfigurationsquelle ein
+    /// „erfüllt“ trägt – eine gesetzte Richtlinie hätte Vorrang. Laufzeitquellen vor einer Konfiguration (NET-08/09/10:
+    /// GetConfiguration, dann Registry) dürfen dagegen ausfallen; das ist so gewollt (spec 2.3 firstOf).
+    /// </summary>
+    [Fact]
+    public void Nicht_verfuegbare_vorrangige_Konfiguration_traegt_kein_Erfuellt_aus_nachrangiger()
+    {
+        var catalogue = RiegelServices.Create(new NullPlatform(), new FixedClock()).Catalogue.LoadEmbedded();
+        var violations = PrecedenceViolations(catalogue, catalogue.Rules, out var runs);
+        output.WriteLine($"{runs} Auswertungen");
+        Assert.True(runs > 0);
+        Assert.True(violations.Count == 0, $"{violations.Count} Verstöße:\n" + string.Join("\n", violations.Take(60)));
+    }
+
+    [Fact]
+    public void Vorrangtest_erkennt_den_alten_Aufbau_von_AUD_23()
+    {
+        // Negativkontrolle: AUD-23 wie bis 2026.10 (firstOf[Richtlinie whenMissing notCheckable, lokal])
+        var catalogue = RiegelServices.Create(new NullPlatform(), new FixedClock()).Catalogue.LoadEmbedded();
+        var current = catalogue.Find("AUD-23")!;
+        var all = Assert.IsType<FirstOfCheck>(current.Check);
+        var local = Assert.IsType<AllOfCheck>(all.Checks[1]).Checks[1];
+        var old = current with { Check = new FirstOfCheck([all.Checks[0], local]) };
+        var violations = PrecedenceViolations(catalogue, [old], out _);
+        Assert.Contains(violations, v => v.StartsWith("AUD-23", StringComparison.Ordinal));
+    }
+
+    /// <summary>Ist der Teil eine reine Konfigurationsquelle (nur Registry-Prüfungen, auch zusammengesetzt)?</summary>
+    private static bool IsConfiguration(CheckSpec check) => check switch
+    {
+        RegistryCheck or RegistryEffectiveCheck => true,
+        AllOfCheck a => a.Checks.All(IsConfiguration),
+        AnyOfCheck a => a.Checks.All(IsConfiguration),
+        NoneOfCheck n => n.Checks.All(IsConfiguration),
+        FirstOfCheck f => f.Checks.All(IsConfiguration),
+        NotCheck n => n.Check is not null && IsConfiguration(n.Check),
+        _ => false,
+    };
+
+    private static IEnumerable<FirstOfCheck> FirstOfs(CheckSpec check) => CatalogueInvariantTests.Flatten(check).OfType<FirstOfCheck>();
+
+    internal static List<string> PrecedenceViolations(ICatalogue catalogue, IReadOnlyList<Rule> rules, out int runs)
+    {
+        var violations = new ConcurrentBag<string>();
+        int count = 0;
+        Parallel.ForEach(rules.Where(r => r.State == RuleState.Active), rule =>
+        {
+            var evaluator = new Evaluator(null);
+            var bases = rule.Tests.Select(v => (Name: "vector " + v.Name, Snapshot: VectorRunner.ToSnapshot(v), Facts: v.Facts))
+                .Concat(Fixtures.Value.Select(f => (Name: "fixture " + f.Machine.HostName, Snapshot: f, Facts: (IReadOnlyDictionary<string, System.Text.Json.JsonElement>?)null)));
+            foreach (var firstOf in FirstOfs(rule.Check))
+                for (int i = 0; i < firstOf.Checks.Count; i++)
+                {
+                    if (!IsConfiguration(firstOf.Checks[i])) continue;
+                    var higher = CheckEvidence.KeysOf(firstOf.Checks[i]);
+                    for (int j = i + 1; j < firstOf.Checks.Count; j++)
+                    {
+                        if (!IsConfiguration(firstOf.Checks[j])) continue;
+                        var lower = CheckEvidence.KeysOf(firstOf.Checks[j]).Except(higher, StringComparer.OrdinalIgnoreCase).ToList();
+                        if (lower.Count == 0) continue;
+                        foreach (var (name, snapshot, facts) in bases)
+                            foreach (var status in Unavailable)
+                            {
+                                Interlocked.Increment(ref count);
+                                var (result, deciding) = evaluator.EvaluateDetailed(Mutate(snapshot, higher, status, truncate: false), catalogue,
+                                    VectorRunner.Context, facts, [rule]).Single();
+                                if (result.Status == ResultStatus.Pass && deciding.Overlaps(lower))
+                                    violations.Add($"{rule.Id} ({name}): vorrangige Quelle {string.Join(", ", higher)} → {status}, nachrangige Konfiguration ergibt pass");
+                            }
+                    }
+                }
+        });
+        runs = count;
+        return [.. violations.Order(StringComparer.Ordinal)];
+    }
+
     /// <summary>Einträge ersetzen (Status ohne Wert) bzw. als abgeschnitten markieren; Abdeckung bleibt.</summary>
     internal static Snapshot Mutate(Snapshot s, IEnumerable<string> keys, ItemStatus? status, bool truncate)
     {
