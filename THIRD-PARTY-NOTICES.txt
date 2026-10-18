@@ -118,9 +118,15 @@ texts; it ships no CIS or BSI SiSyPHuS content and no Microsoft Security Baselin
     the single file.
     Source: https://github.com/dotnet/runtime, https://github.com/dotnet/wpf
     Copyright (c) .NET Foundation and Contributors
-    Licence: MIT (section B); the runtimes' own third-party notices:
-    https://github.com/dotnet/runtime/blob/main/THIRD-PARTY-NOTICES.TXT
-    https://github.com/dotnet/wpf/blob/main/THIRD-PARTY-NOTICES.TXT
+    Licence: MIT (section B). The runtimes use further third-party components under their own licences (zlib-ng,
+    Unicode data, LLVM, libunwind, Brotli, mimalloc, musl and others; several BSD-style licences ask for the notice in
+    the documentation of binary redistributions). Their notices ship unchanged next to this file and are appended
+    to it in the single-file programs (--licenses, info page):
+    THIRD-PARTY-NOTICES-dotnet-runtime.txt - https://github.com/dotnet/runtime/blob/v10.0.13/THIRD-PARTY-NOTICES.TXT
+      (identical to THIRD-PARTY-NOTICES.TXT of the runtime packs Microsoft.NETCore.App.Runtime.* 10.0.13; the CI
+      compares it with the runtime packs it publishes)
+    THIRD-PARTY-NOTICES-dotnet-wpf.txt - https://github.com/dotnet/wpf/blob/v10.0.13/THIRD-PARTY-NOTICES.TXT
+      (the Windows Desktop runtime pack contains no notices file of its own)
 
 13. WiX Toolset 5.0.2, utility extension - only in Riegel-x64.msi: the custom action that closes a running
     Riegel.exe or Riegel.Cli.exe before an update or uninstall (util:CloseApplication), stored inside the MSI

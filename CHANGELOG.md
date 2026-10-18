@@ -22,6 +22,9 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 - Prüfumfang: wird auf ganze Prozent abgeschnitten statt gerundet; 89,5 % erschienen vorher als 90 % ohne Hinweis „Unvollständige Prüfung“, ohne Graustufe und ohne Lauf-Flag `Incomplete`.
 - Defender ohne Admin: meldet die WSC-API Microsoft Defender als eingeschaltet, wird aus den Platzhaltern von MSFT_MpComputerStatus (eingeschränktes Token) nicht mehr „aus“ hergeleitet; DEF-01/02/12, LIFE-04 und ASR-xx sind dann „nicht prüfbar“ statt „kein aktiver Virenschutz“.
 
+### Geändert
+- Lizenzen: die Drittanbieter-Hinweise der mitgelieferten .NET-Laufzeit und von WPF (Stand v10.0.13) liegen jetzt als `THIRD-PARTY-NOTICES-dotnet-runtime.txt` und `THIRD-PARTY-NOTICES-dotnet-wpf.txt` neben den Programmen und sind in `--licenses` und der Info-Seite enthalten; vorher nur ein Link auf den Zweig main. Die CI vergleicht den Text mit den veröffentlichten Runtime-Paketen.
+
 ## [0.1.0] – 2026-10-18
 
 Erste Version. Sammler 0.1.0, Regelwerk 2026.10 (153 Regeln). Noch nicht signiert; kein Kundenpilot auf OT- oder validierten Rechnern mit dieser Version.

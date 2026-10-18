@@ -222,6 +222,22 @@ jobs:
           $found = @(Get-ChildItem out -Recurse -File | Where-Object Name -Match "^$extras$") +
                    @(Get-ChildItem src -Recurse -Filter *.deps.json | Select-String -Pattern $extras -List)
           if ($found.Count -gt 0) { $found | Out-String | Write-Host; throw "PDFsharp-Zusatzbibliotheken in der Ausgabe oder einer deps.json" }
+          # Die mitgelieferten Hinweise der .NET-Laufzeit müssen die der veröffentlichten Runtime-Pakete sein (notices/README.md)
+          $cache = if ($env:NUGET_PACKAGES) { $env:NUGET_PACKAGES } else { Join-Path $HOME '.nuget/packages' }
+          $ours = (Get-Content notices/THIRD-PARTY-NOTICES-dotnet-runtime.txt -Raw) -replace "`r`n", "`n"
+          $checked = 0
+          foreach ($deps in Get-ChildItem src/Riegel.Cli/obj/Release, src/Riegel/obj/Release -Recurse -Filter *.deps.json) {
+            foreach ($m in [regex]::Matches((Get-Content $deps.FullName -Raw), 'runtimepack\.(Microsoft\.NETCore\.App\.Runtime\.[A-Za-z0-9-]+)/([0-9.]+)')) {
+              $file = Join-Path $cache "$($m.Groups[1].Value.ToLowerInvariant())/$($m.Groups[2].Value)/THIRD-PARTY-NOTICES.TXT"
+              if (-not (Test-Path $file)) { throw "Hinweise des Runtime-Pakets fehlen: $file" }
+              if (((Get-Content $file -Raw) -replace "`r`n", "`n") -ne $ours) {
+                throw "notices/THIRD-PARTY-NOTICES-dotnet-runtime.txt weicht von $($m.Value) ab – Datei vom passenden Tag übernehmen (notices/README.md)"
+              }
+              $checked++
+            }
+          }
+          if ($checked -eq 0) { throw "Kein Runtime-Paket in den deps.json gefunden – Prüfung der Laufzeit-Hinweise läuft ins Leere" }
+          Write-Host "Laufzeit-Hinweise passen zu $checked Runtime-Paketen"
 
       # ---- Signieren der Programmdateien (vor dem Packen, damit ZIP und MSI signierte Dateien enthalten) ----
       - name: Bei Azure anmelden
@@ -330,7 +346,8 @@ jobs:
         run: |
           # Lizenztexte gehören neben die Exe, ins ZIP und in die MSI (richtlinien/06) – die csproj kopieren sie beim Publish
           foreach ($dir in 'out/framework', 'out/self-contained') {
-            foreach ($file in 'LICENSE', 'THIRD-PARTY-NOTICES.txt', 'Riegel.exe', 'Riegel.Cli.exe', 'collector/Riegel.Collector.exe') {
+            foreach ($file in 'LICENSE', 'THIRD-PARTY-NOTICES.txt', 'THIRD-PARTY-NOTICES-dotnet-runtime.txt', 'THIRD-PARTY-NOTICES-dotnet-wpf.txt',
+                              'Riegel.exe', 'Riegel.Cli.exe', 'collector/Riegel.Collector.exe') {
               if (-not (Test-Path "$dir/$file")) { throw "$dir/$file fehlt." }
             }
           }

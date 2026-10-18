@@ -56,6 +56,7 @@
     <!-- Info-Seite und die Befehle info und licenses: Lizenztexte und die Sammler-Version, auch in der einzelnen Exe ohne Dateien daneben -->
     <EmbeddedResource Include="..\..\LICENSE" LogicalName="LICENSE" />
     <EmbeddedResource Include="..\..\THIRD-PARTY-NOTICES.txt" LogicalName="THIRD-PARTY-NOTICES.txt" />
+    <EmbeddedResource Include="..\..\notices\THIRD-PARTY-NOTICES-dotnet-*.txt" LogicalName="%(Filename)%(Extension)" WithCulture="false" />
     <EmbeddedResource Include="..\Riegel.Collector\collector-version.txt" LogicalName="collector-version.txt" />
   </ItemGroup>
 

@@ -55,6 +55,7 @@
   <!-- Lizenztexte neben die Exe (ZIP, MSI); eingebettet sind sie in Riegel.Core (Info-Seite der einzelnen Exe) -->
   <ItemGroup>
     <None Include="..\..\THIRD-PARTY-NOTICES.txt" Link="THIRD-PARTY-NOTICES.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\..\notices\THIRD-PARTY-NOTICES-dotnet-*.txt" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <None Include="..\..\LICENSE" Link="LICENSE" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
