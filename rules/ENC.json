@@ -444,6 +444,13 @@
           "url": "https://learn.microsoft.com/en-us/windows/win32/secprov/win32-encryptablevolume",
           "date": "2026-10-18",
           "note": "EncryptionMethod 1-4 are AES(-CBC) variants, 6 XTS-AES 128, 7 XTS-AES 256."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 10 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/release-information",
+          "date": "2026-10-18",
+          "note": "Version 1511 = OS build 10586."
         }
       ],
       "tests": [

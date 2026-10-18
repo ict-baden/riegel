@@ -14,8 +14,8 @@
         "de": "Echtzeitschutz von Microsoft Defender ist aktiv"
       },
       "rationale": {
-        "en": "Real-time protection scans files and processes when they are opened or started. Without it, Microsoft Defender finds malware only in scheduled scans, after the code has already run. The rule reads the runtime status of Defender, not the policy, and is evaluated only where Defender is the active antivirus.",
-        "de": "Der Echtzeitschutz prüft Dateien und Prozesse beim Öffnen oder Starten. Ohne ihn findet Microsoft Defender Schadsoftware nur bei geplanten Scans – also erst, wenn der Code schon gelaufen ist. Die Regel liest den Laufzeitstatus von Defender, nicht die Richtlinie, und wird nur bewertet, wo Defender der aktive Virenschutz ist."
+        "en": "Real-time protection scans files and processes when they are opened or started. Without it, Microsoft Defender finds malware only in scheduled scans, after the code has already run. The rule reads the runtime status of Defender, not the policy. It is not applicable while another antivirus product is active, and fails when no antivirus is active at all.",
+        "de": "Der Echtzeitschutz prüft Dateien und Prozesse beim Öffnen oder Starten. Ohne ihn findet Microsoft Defender Schadsoftware nur bei geplanten Scans – also erst, wenn der Code schon gelaufen ist. Die Regel liest den Laufzeitstatus von Defender, nicht die Richtlinie. Sie ist nicht anwendbar, solange ein anderer Virenschutz aktiv ist, und schlägt fehl, wenn gar kein Virenschutz aktiv ist."
       },
       "otNote": {
         "en": "Some plant vendors approve only one antivirus product or require scan exclusions for their process folders. If another approved product is active, Defender runs in passive mode and this rule is not applicable. Real-time protection switched off without any other active antivirus is always a finding.",
@@ -471,8 +471,8 @@
         "de": "Verhaltensüberwachung von Microsoft Defender ist aktiv"
       },
       "rationale": {
-        "en": "Behaviour monitoring watches what running processes do, for example mass encryption of files or code injection, and stops malware that signatures do not know yet. The rule reads the runtime status and is evaluated only where Defender is the active antivirus.",
-        "de": "Die Verhaltensüberwachung beobachtet, was laufende Prozesse tun – etwa massenhaftes Verschlüsseln von Dateien oder Code-Injektion – und stoppt Schadsoftware, die Signaturen noch nicht kennen. Die Regel liest den Laufzeitstatus und wird nur bewertet, wo Defender der aktive Virenschutz ist."
+        "en": "Behaviour monitoring watches what running processes do, for example mass encryption of files or code injection, and stops malware that signatures do not know yet. The rule reads the runtime status; it is not applicable while another antivirus product is active.",
+        "de": "Die Verhaltensüberwachung beobachtet, was laufende Prozesse tun – etwa massenhaftes Verschlüsseln von Dateien oder Code-Injektion – und stoppt Schadsoftware, die Signaturen noch nicht kennen. Die Regel liest den Laufzeitstatus; sie ist nicht anwendbar, solange ein anderer Virenschutz aktiv ist."
       },
       "remedy": {
         "en": "Turn behaviour monitoring on (Group Policy 'Turn on behavior monitoring' = Enabled).",
@@ -2190,8 +2190,8 @@
         "de": "Manipulationsschutz ist aktiv"
       },
       "rationale": {
-        "en": "Tamper protection keeps real-time protection, behaviour monitoring and cloud protection switched on and blocks new exclusions, even against local administrators and malware running with their rights. The rule reads the runtime status and is evaluated only where Defender is the active antivirus.",
-        "de": "Der Manipulationsschutz hält Echtzeitschutz, Verhaltensüberwachung und Cloud-Schutz eingeschaltet und blockiert neue Ausnahmen – auch gegen lokale Administratoren und Schadsoftware mit deren Rechten. Die Regel liest den Laufzeitstatus und wird nur bewertet, wo Defender der aktive Virenschutz ist."
+        "en": "Tamper protection keeps real-time protection, behaviour monitoring and cloud protection switched on and blocks new exclusions, even against local administrators and malware running with their rights. The rule reads the runtime status; it is not applicable while another antivirus product is active.",
+        "de": "Der Manipulationsschutz hält Echtzeitschutz, Verhaltensüberwachung und Cloud-Schutz eingeschaltet und blockiert neue Ausnahmen – auch gegen lokale Administratoren und Schadsoftware mit deren Rechten. Die Regel liest den Laufzeitstatus; sie ist nicht anwendbar, solange ein anderer Virenschutz aktiv ist."
       },
       "otNote": {
         "en": "Vendor installers that change Defender settings fail silently while tamper protection is on. Plan such changes with the owner of Defender (troubleshooting mode or central management) instead of switching the protection off permanently.",

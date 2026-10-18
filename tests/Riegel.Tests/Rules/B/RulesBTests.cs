@@ -52,7 +52,6 @@ public sealed partial class RulesBTests
     private static readonly HashSet<string> PendingPlanKeys = new(StringComparer.OrdinalIgnoreCase)
     {
         @"HKLM\SYSTEM\CurrentControlSet\Policies\Microsoft\FVE", // ENC-07 RDVDenyWriteAccess (BitLocker CSP: ADMX-Zuordnung)
-        @"HKLM\SYSTEM\CurrentControlSet\Services\Spooler", // SVC-01: Rückfall auf den Start-Wert, nur im Vektor als keyMissing
     };
 
     private static IReadOnlyList<Rule> Rules() =>

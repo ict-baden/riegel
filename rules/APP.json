@@ -49,8 +49,8 @@
       },
       "remediation": {
         "manual": {
-          "en": "Create an App Control for Business policy (for example with the App Control Wizard), run it in audit mode on a reference machine, then deploy it enforced through Group Policy, Intune or a policy file.",
-          "de": "Eine Richtlinie für App Control for Business erstellen (etwa mit dem App Control Wizard), auf einem Referenzrechner im Überwachungsmodus betreiben und dann durchgesetzt über Gruppenrichtlinie, Intune oder eine Richtliniendatei verteilen."
+          "en": "Create an App Control for Business policy (for example with Microsoft's App Control policy wizard), run it in audit mode on a reference machine, then deploy it enforced through Group Policy, Intune or a policy file.",
+          "de": "Eine Richtlinie für App Control for Business erstellen (etwa mit dem Richtlinien-Assistenten von Microsoft), auf einem Referenzrechner im Überwachungsmodus betreiben und dann durchgesetzt über Gruppenrichtlinie, Intune oder eine Richtliniendatei verteilen."
         }
       },
       "references": [

@@ -120,6 +120,13 @@
           "note": "Rule modes: 0 off, 1 block, 2 audit, 5 not configured, 6 warn."
         },
         {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 10 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/release-information",
+          "date": "2026-10-18",
+          "note": "Version 1709 = OS build 16299."
+        },
+        {
           "src": "DISA",
           "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
           "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Defender_Antivirus_V2R10_STIG.zip",
@@ -845,6 +852,13 @@
           "url": "https://learn.microsoft.com/en-us/defender-endpoint/enable-attack-surface-reduction",
           "date": "2026-10-18",
           "note": "Rule modes: 0 off, 1 block, 2 audit, 5 not configured, 6 warn."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 10 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/release-information",
+          "date": "2026-10-18",
+          "note": "Version 1803 = OS build 17134."
         },
         {
           "src": "DISA",
@@ -1629,6 +1643,13 @@
           "url": "https://learn.microsoft.com/en-us/defender-endpoint/enable-attack-surface-reduction",
           "date": "2026-10-18",
           "note": "Rule modes: 0 off, 1 block, 2 audit, 5 not configured, 6 warn."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 10 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/release-information",
+          "date": "2026-10-18",
+          "note": "Version 1709 = OS build 16299."
         },
         {
           "src": "DISA",
@@ -2471,6 +2492,13 @@
           "note": "Rule modes: 0 off, 1 block, 2 audit, 5 not configured, 6 warn."
         },
         {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 10 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/release-information",
+          "date": "2026-10-18",
+          "note": "Version 1709 = OS build 16299."
+        },
+        {
           "src": "DISA",
           "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
           "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Defender_Antivirus_V2R10_STIG.zip",
@@ -3192,6 +3220,13 @@
           "url": "https://learn.microsoft.com/en-us/defender-endpoint/enable-attack-surface-reduction",
           "date": "2026-10-18",
           "note": "Rule modes: 0 off, 1 block, 2 audit, 5 not configured, 6 warn."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 10 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/release-information",
+          "date": "2026-10-18",
+          "note": "Version 1709 = OS build 16299."
         },
         {
           "src": "DISA",
@@ -3920,6 +3955,13 @@
           "note": "Rule modes: 0 off, 1 block, 2 audit, 5 not configured, 6 warn."
         },
         {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 10 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/release-information",
+          "date": "2026-10-18",
+          "note": "Version 1803 = OS build 17134."
+        },
+        {
           "src": "DISA",
           "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
           "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Defender_Antivirus_V2R10_STIG.zip",
@@ -4646,6 +4688,13 @@
           "url": "https://learn.microsoft.com/en-us/defender-endpoint/enable-attack-surface-reduction",
           "date": "2026-10-18",
           "note": "Rule modes: 0 off, 1 block, 2 audit, 5 not configured, 6 warn."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 10 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/release-information",
+          "date": "2026-10-18",
+          "note": "Version 1709 = OS build 16299."
         },
         {
           "src": "DISA",
