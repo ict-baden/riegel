@@ -129,6 +129,19 @@ public sealed class CommandTests
     }
 
     [Fact]
+    public void Check_eines_Exports_aus_dem_Anlagenordner_wertet_neu_aus_ohne_neuen_Import()
+    {
+        using var temp = new TempFolder();
+        using var plant = new TempPlant();
+        var inside = plant.AddSnapshot(SnapshotBuilder.Windows10Ltsc2019("HMI-TEST").CollectedAt(TestRuns.Collected).Build());
+        var result = Cli.Run("check", "--plant", plant.Folder, "--snapshot", inside);
+        Assert.True(result.Exit is 0 or 1 or 2, result.ToString());
+        Assert.Single(Directory.GetFiles(plant.PathOf("runs/HMI-TEST"), "*.results.json"));
+        Assert.False(Directory.Exists(plant.PathOf("imports")));
+        Assert.Single(Directory.GetFiles(plant.PathOf("snapshots/HMI-TEST"), "*.snapshot.json"));
+    }
+
+    [Fact]
     public void Check_mit_falscher_Pruefsumme_endet_mit_3()
     {
         using var temp = new TempFolder();

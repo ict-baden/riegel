@@ -67,7 +67,8 @@ internal static class Assessor
         counts[AlertToken.Regression] = Math.Max(regressionList.Count, run.Summary.Regressions);
 
         // Neu offen und hoch: im vorigen Lauf nicht offen (auch neue Regel oder vorher nicht prüfbar); ohne vorigen Lauf alle
-        var before = previous?.Results.ToDictionary(r => (r.RuleSetId, r.RuleId), r => r.Status) ?? [];
+        // je Regel der erste Eintrag – doppelte Ergebnisse (Programmfehler) dürfen die Ausgabe nicht verhindern
+        var before = previous?.Results.GroupBy(r => (r.RuleSetId, r.RuleId)).ToDictionary(g => g.Key, g => g.First().Status) ?? [];
         var newHigh = results
             .Where(r => r.Status == ResultStatus.Fail && r.Severity == Severity.High)
             .Where(r => !before.TryGetValue((r.RuleSetId, r.RuleId), out var old) || old != ResultStatus.Fail)
