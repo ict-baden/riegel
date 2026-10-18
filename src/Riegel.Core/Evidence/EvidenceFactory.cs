@@ -1,42 +1,28 @@
 // SPDX-License-Identifier: MIT
-using System.Globalization;
-using System.IO.Compression;
-using System.Text;
 using Riegel.Core.Model;
-using Riegel.Core.Resources;
 using Riegel.Core.Services;
 
 namespace Riegel.Core.Evidence;
 
 /// <summary>
-/// Factory des Nachweispakets (gehört ab dem Gerüst dem Paket data-outputs; Signatur fest). Der Platzhalter schreibt
-/// unter dem echten Namen eine ZIP mit README.txt; verify und die Stichprobe melden RGL-0003 (Exitcode 3).
+/// Factory des Nachweispakets (Paket data-outputs; Signatur fest): Schreiben (O9), <c>verify</c> und die Stichprobe
+/// <c>compare-snapshot</c>.
 /// </summary>
 public static class EvidenceFactory
 {
-    public static IEvidencePack Create(RiegelServices services) => new StubEvidencePack();
+    public static IEvidencePack Create(RiegelServices services) => new EvidencePack(services, () => services.Catalogue.LoadEmbedded());
 }
 
-/// <summary>Platzhalter (Gerüst).</summary>
-internal sealed class StubEvidencePack : IEvidencePack
+/// <summary>Nachweispaket mit dem eingebetteten Katalog (Tests geben einen eigenen Katalog vor).</summary>
+internal sealed class EvidencePack(RiegelServices services, Func<ICatalogue> catalogue) : IEvidencePack
 {
-    public string Write(EvidenceRequest r)
-    {
-        Directory.CreateDirectory(r.OutDir);
-        var path = Path.Combine(r.OutDir, ReportFileNames.Evidence(r.Plant.Name, r.EvaluationDate));
-        using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
-        using var zip = new ZipArchive(stream, ZipArchiveMode.Create);
-        var entry = zip.CreateEntry("README.txt", CompressionLevel.Optimal);
-        using var writer = new StreamWriter(entry.Open(), new UTF8Encoding(false));
-        writer.Write((CommonStrings.ResourceManager.GetString(nameof(CommonStrings.Placeholder_Document), CultureInfo.InvariantCulture) ?? "") + "\n");
-        return path;
-    }
+    private readonly EvidenceWriter _writer = new(services, catalogue);
+    private readonly EvidenceVerifier _verifier = new(services);
 
-    public VerifyResult Verify(string zipPath, ReadLimits l) =>
-        new(VerifyStatus.Error, About.AppInfo.Version, null,
-            [new VerifyFinding(RglCodesCommon.NotImplemented, Path.GetFileName(zipPath), null, null, RglCodesCommon.Message(RglCodesCommon.NotImplemented, "verify"))],
-            0, 0, []);
+    public string Write(EvidenceRequest r) => _writer.Write(r);
+
+    public VerifyResult Verify(string zipPath, ReadLimits l) => _verifier.Verify(zipPath, l);
 
     public SampleResult CompareSample(string freshSnapshotPath, string zipPath, string? host, ReadLimits l) =>
-        new(SampleStatus.Error, null, RglCodesCommon.NotImplemented, RglCodesCommon.Message(RglCodesCommon.NotImplemented, "compare-snapshot"));
+        _verifier.CompareSample(freshSnapshotPath, zipPath, host, l);
 }
