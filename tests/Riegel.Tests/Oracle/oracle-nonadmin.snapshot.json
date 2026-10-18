@@ -1,0 +1,1519 @@
+{
+  "schema": "riegel.snapshot/1",
+  "collector": {
+    "name": "Riegel.Oracle",
+    "version": "1.0.0",
+    "clr": "4.0.30319.42000",
+    "is64BitProcess": true
+  },
+  "collectedAtUtc": "2026-10-18T08:05:00Z",
+  "isAdmin": false,
+  "origin": "synthetic",
+  "options": {
+    "minimal": false,
+    "deep": true,
+    "pseudonymized": false
+  },
+  "machine": {
+    "hostName": "ORACLE-PC",
+    "domainRole": 0,
+    "productType": 1,
+    "build": 26200,
+    "ubr": 9711,
+    "editionId": "Professional",
+    "installationType": "Client",
+    "displayVersion": "25H2",
+    "osLanguage": "en-US",
+    "lastBootUtc": "2026-10-16T06:00:00Z"
+  },
+  "coverage": [
+    {
+      "root": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\DNSClient",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\ModuleLogging",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Policies\\Microsoft\\PowerShellCore\\ScriptBlockLogging",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Policies\\Microsoft\\PowerShellCore\\ModuleLogging",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Policies\\Microsoft\\PowerShellCore\\Transcription",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\SmartScreen",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Policies\\Microsoft Services\\AdmPwd",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Microsoft\\Policies\\LAPS",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\LAPS",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecureBoot\\State",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\CI\\Config",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\CI\\Policy",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\NetBT\\Parameters",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\NetBT\\Parameters\\Interfaces",
+      "recursive": true,
+      "maxDepth": 8,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\DomainProfile",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\StandardProfile",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    }
+  ],
+  "items": [
+    {
+      "key": "api:audit-policy",
+      "status": "error",
+      "errorCode": 1314,
+      "error": "A required privilege is not held by the client",
+      "durationMs": 22
+    },
+    {
+      "key": "api:firewall",
+      "status": "ok",
+      "value": {
+        "currentProfiles": 2,
+        "profiles": {
+          "domain": {
+            "enabled": true,
+            "defaultInbound": "block"
+          },
+          "private": {
+            "enabled": true,
+            "defaultInbound": "block"
+          },
+          "public": {
+            "enabled": true,
+            "defaultInbound": "block"
+          }
+        },
+        "rulesCollected": false,
+        "rules": []
+      },
+      "durationMs": 47
+    },
+    {
+      "key": "api:localgroup:S-1-5-32-544",
+      "status": "ok",
+      "value": [
+        {
+          "sid": "S-1-5-21-1000-2000-3000-500",
+          "name": "Administrator",
+          "kind": "user",
+          "domain": "ORACLE-PC"
+        },
+        {
+          "sid": "S-1-5-21-1000-2000-3000-1001",
+          "name": "local-user-1001",
+          "kind": "user",
+          "domain": "ORACLE-PC"
+        },
+        {
+          "sid": "S-1-5-21-1000-2000-3000-1003",
+          "name": "local-user-1003",
+          "kind": "user",
+          "domain": "ORACLE-PC"
+        }
+      ],
+      "durationMs": 60
+    },
+    {
+      "key": "api:localgroup:S-1-5-32-555",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "api:lsa-rights",
+      "status": "denied",
+      "errorCode": 5,
+      "error": "LsaEnumerateAccountsWithUserRight: access denied",
+      "durationMs": 10
+    },
+    {
+      "key": "api:lsass-protection",
+      "status": "denied",
+      "errorCode": 5,
+      "error": "OpenProcess: access denied",
+      "durationMs": 10
+    },
+    {
+      "key": "api:netuserenum",
+      "status": "notCollected",
+      "error": "NetUserEnum not measured in the research (V7 open; oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "api:netusermodals",
+      "status": "ok",
+      "value": {
+        "minPwLen": 0,
+        "maxPwAgeDays": 42,
+        "pwHistLen": 0,
+        "lockoutThreshold": 10,
+        "lockoutDurationMin": 10,
+        "lockoutWindowMin": 10
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "api:windows-update-history",
+      "status": "notCollected",
+      "error": "wuauserv state not in the research (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "api:winhttp-proxy",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "api:wsc-av",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "evt:system:wininit-12",
+      "status": "ok",
+      "value": {
+        "found": true,
+        "timeCreatedUtc": "2026-10-16T06:01:00Z",
+        "eventData": [
+          "4"
+        ],
+        "bootTimeUtc": "2026-10-16T06:00:00Z"
+      },
+      "durationMs": 240
+    },
+    {
+      "key": "raw:gpresult-xml",
+      "status": "denied",
+      "error": "Access denied",
+      "durationMs": 0
+    },
+    {
+      "key": "raw:registry-pol",
+      "status": "notCollected",
+      "error": "R§3.2: 150 bytes, 1 key-only entry - bytes not reproduced (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "raw:secedit-inf",
+      "status": "denied",
+      "errorCode": 740,
+      "error": "The requested operation requires elevation",
+      "durationMs": 120
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "valueFilter": [
+          "SchUseStrongCrypto",
+          "SystemDefaultTlsVersions"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "valueFilter": [
+          "SchUseStrongCrypto",
+          "SystemDefaultTlsVersions"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Cryptography",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Office\\14.0\\Common\\InstallRoot",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Office\\15.0\\Common\\InstallRoot",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Office\\16.0\\Common\\InstallRoot",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\Configuration",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Policies\\LAPS",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\PolicyManager\\current\\device",
+      "status": "notCollected",
+      "error": "R§3.2: MDM area holds only knobs, values not listed (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows Defender",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",
+      "status": "ok",
+      "value": {
+        "values": {
+          "CurrentBuild": {
+            "t": "sz",
+            "v": "26200"
+          },
+          "UBR": {
+            "t": "dword",
+            "v": 9711
+          },
+          "ProductName": {
+            "t": "sz",
+            "v": "Windows 10 Pro"
+          },
+          "DisplayVersion": {
+            "t": "sz",
+            "v": "25H2"
+          },
+          "EditionID": {
+            "t": "sz",
+            "v": "Professional"
+          },
+          "CompositionEditionID": {
+            "t": "sz",
+            "v": "Enterprise"
+          },
+          "InstallationType": {
+            "t": "sz",
+            "v": "Client"
+          }
+        },
+        "valueFilter": [
+          "CurrentBuild",
+          "UBR",
+          "ProductName",
+          "DisplayVersion",
+          "EditionID",
+          "CompositionEditionID",
+          "InstallationType"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config",
+      "status": "ok",
+      "value": {
+        "values": {}
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "valueFilter": [
+          "NoDriveTypeAutoRun",
+          "NoAutorun"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\LAPS",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+      "status": "ok",
+      "value": {
+        "values": {
+          "EnableLUA": {
+            "t": "dword",
+            "v": 1
+          },
+          "ConsentPromptBehaviorAdmin": {
+            "t": "dword",
+            "v": 5
+          },
+          "PromptOnSecureDesktop": {
+            "t": "dword",
+            "v": 1
+          },
+          "LocalAccountTokenFilterPolicy": {
+            "t": "dword",
+            "v": 1
+          }
+        },
+        "valueFilter": [
+          "EnableLUA",
+          "ConsentPromptBehaviorAdmin",
+          "PromptOnSecureDesktop",
+          "LocalAccountTokenFilterPolicy"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft Services\\AdmPwd",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\PowerShellCore\\ModuleLogging",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\PowerShellCore\\ScriptBlockLogging",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\PowerShellCore\\Transcription",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\SmartScreen",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\DNSClient",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard",
+      "status": "ok",
+      "value": {
+        "values": {
+          "EnableVirtualizationBasedSecurity": {
+            "t": "dword",
+            "v": 0
+          }
+        },
+        "valueFilter": [
+          "EnableVirtualizationBasedSecurity"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "valueFilter": [
+          "NoAutoplayfornonVolume"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\ModuleLogging",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell\\Transcription",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\System",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "valueFilter": [
+          "EnableSmartScreen"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "valueFilter": [
+          "SchUseStrongCrypto",
+          "SystemDefaultTlsVersions"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "valueFilter": [
+          "SchUseStrongCrypto",
+          "SystemDefaultTlsVersions"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\Office\\14.0\\Common\\InstallRoot",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\Office\\15.0\\Common\\InstallRoot",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\Office\\16.0\\Common\\InstallRoot",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\CI\\Config",
+      "status": "ok",
+      "value": {
+        "values": {
+          "VulnerableDriverBlocklistEnable": {
+            "t": "dword",
+            "v": 0
+          }
+        },
+        "valueFilter": [
+          "VulnerableDriverBlocklistEnable"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\CI\\Policy",
+      "status": "ok",
+      "value": {
+        "values": {
+          "VerifiedAndReputablePolicyState": {
+            "t": "dword",
+            "v": 0
+          }
+        },
+        "valueFilter": [
+          "VerifiedAndReputablePolicyState"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+      "status": "ok",
+      "value": {
+        "values": {
+          "RunAsPPL": {
+            "t": "dword",
+            "v": 2
+          }
+        },
+        "valueFilter": [
+          "RunAsPPL",
+          "LmCompatibilityLevel"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0",
+      "status": "ok",
+      "value": {
+        "values": {
+          "NTLMMinClientSec": {
+            "t": "dword",
+            "v": 536870912
+          },
+          "NTLMMinServerSec": {
+            "t": "dword",
+            "v": 536870912
+          }
+        },
+        "valueFilter": [
+          "NTLMMinClientSec",
+          "NTLMMinServerSec",
+          "RestrictSendingNTLMTraffic"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\ProductOptions",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecureBoot\\State",
+      "status": "ok",
+      "value": {
+        "values": {
+          "UEFISecureBootEnabled": {
+            "t": "dword",
+            "v": 1
+          }
+        },
+        "valueFilter": [
+          "UEFISecureBootEnabled"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "subkeys": [
+          "TLS 1.2"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "subkeys": [
+          "Client"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Client",
+      "status": "ok",
+      "value": {
+        "values": {
+          "Enabled": {
+            "t": "dword",
+            "v": 1
+          },
+          "DisabledByDefault": {
+            "t": "dword",
+            "v": 0
+          }
+        },
+        "subkeys": []
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "valueFilter": [
+          "UseLogonCredential"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\kernel",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server",
+      "status": "ok",
+      "value": {
+        "values": {
+          "fDenyTSConnections": {
+            "t": "dword",
+            "v": 0
+          }
+        },
+        "valueFilter": [
+          "fDenyTSConnections"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp",
+      "status": "ok",
+      "value": {
+        "values": {
+          "UserAuthentication": {
+            "t": "dword",
+            "v": 0
+          },
+          "SecurityLayer": {
+            "t": "dword",
+            "v": 2
+          },
+          "PortNumber": {
+            "t": "dword",
+            "v": 3389
+          }
+        },
+        "valueFilter": [
+          "UserAuthentication",
+          "SecurityLayer",
+          "PortNumber"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\EventLog\\Application",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\EventLog\\Security",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\EventLog\\System",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "valueFilter": [
+          "RequireSecuritySignature"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\mrxsmb10",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\NetBT\\Parameters",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "valueFilter": []
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\NetBT\\Parameters\\Interfaces",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "subkeys": [
+          "Tcpip_{00000000-0000-4000-8000-0000000000a1}",
+          "Tcpip_{00000000-0000-4000-8000-0000000000a2}",
+          "Tcpip_{00000000-0000-4000-8000-0000000000a3}",
+          "Tcpip_{00000000-0000-4000-8000-0000000000a4}",
+          "Tcpip_{00000000-0000-4000-8000-0000000000a5}",
+          "Tcpip_{00000000-0000-4000-8000-0000000000a6}",
+          "Tcpip_{00000000-0000-4000-8000-0000000000a7}"
+        ],
+        "valueFilter": []
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\NetBT\\Parameters\\Interfaces\\Tcpip_{00000000-0000-4000-8000-0000000000a1}",
+      "status": "ok",
+      "value": {
+        "values": {
+          "NetbiosOptions": {
+            "t": "dword",
+            "v": 0
+          }
+        },
+        "subkeys": [],
+        "valueFilter": [
+          "NetbiosOptions"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\NetBT\\Parameters\\Interfaces\\Tcpip_{00000000-0000-4000-8000-0000000000a2}",
+      "status": "ok",
+      "value": {
+        "values": {
+          "NetbiosOptions": {
+            "t": "dword",
+            "v": 0
+          }
+        },
+        "subkeys": [],
+        "valueFilter": [
+          "NetbiosOptions"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\NetBT\\Parameters\\Interfaces\\Tcpip_{00000000-0000-4000-8000-0000000000a3}",
+      "status": "ok",
+      "value": {
+        "values": {
+          "NetbiosOptions": {
+            "t": "dword",
+            "v": 0
+          }
+        },
+        "subkeys": [],
+        "valueFilter": [
+          "NetbiosOptions"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\NetBT\\Parameters\\Interfaces\\Tcpip_{00000000-0000-4000-8000-0000000000a4}",
+      "status": "ok",
+      "value": {
+        "values": {
+          "NetbiosOptions": {
+            "t": "dword",
+            "v": 0
+          }
+        },
+        "subkeys": [],
+        "valueFilter": [
+          "NetbiosOptions"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\NetBT\\Parameters\\Interfaces\\Tcpip_{00000000-0000-4000-8000-0000000000a5}",
+      "status": "ok",
+      "value": {
+        "values": {
+          "NetbiosOptions": {
+            "t": "dword",
+            "v": 0
+          }
+        },
+        "subkeys": [],
+        "valueFilter": [
+          "NetbiosOptions"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\NetBT\\Parameters\\Interfaces\\Tcpip_{00000000-0000-4000-8000-0000000000a6}",
+      "status": "ok",
+      "value": {
+        "values": {
+          "NetbiosOptions": {
+            "t": "dword",
+            "v": 0
+          }
+        },
+        "subkeys": [],
+        "valueFilter": [
+          "NetbiosOptions"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\NetBT\\Parameters\\Interfaces\\Tcpip_{00000000-0000-4000-8000-0000000000a7}",
+      "status": "ok",
+      "value": {
+        "values": {
+          "NetbiosOptions": {
+            "t": "dword",
+            "v": 0
+          }
+        },
+        "subkeys": [],
+        "valueFilter": [
+          "NetbiosOptions"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\DomainProfile",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "valueFilter": [
+          "DefaultInboundAction"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "valueFilter": [
+          "DefaultInboundAction"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\StandardProfile",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "valueFilter": [
+          "DefaultInboundAction"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip6\\Parameters",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR",
+      "status": "ok",
+      "value": {
+        "values": {
+          "Start": {
+            "t": "dword",
+            "v": 3
+          }
+        },
+        "valueFilter": [
+          "Start"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "wmi:root\\cimv2:Win32_ComputerSystem",
+      "status": "ok",
+      "value": {
+        "rows": [
+          {
+            "Name": "ORACLE-PC",
+            "DomainRole": 0,
+            "PartOfDomain": false,
+            "Domain": "WORKGROUP"
+          }
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "wmi:root\\cimv2:Win32_NetworkAdapter",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "wmi:root\\cimv2:Win32_NetworkAdapterConfiguration",
+      "status": "ok",
+      "value": {
+        "rows": [
+          {
+            "SettingID": "{00000000-0000-4000-8000-0000000000a1}",
+            "TcpipNetbiosOptions": 0
+          },
+          {
+            "SettingID": "{00000000-0000-4000-8000-0000000000a2}",
+            "TcpipNetbiosOptions": 0
+          }
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "wmi:root\\cimv2:Win32_OperatingSystem",
+      "status": "ok",
+      "value": {
+        "rows": [
+          {
+            "Caption": "Microsoft Windows 11 Pro",
+            "Version": "10.0.26200",
+            "BuildNumber": "26200",
+            "OSArchitecture": "64-bit",
+            "ProductType": 1,
+            "OperatingSystemSKU": 48,
+            "LastBootUpTime": "2026-10-16T06:00:00Z"
+          }
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "wmi:root\\cimv2:Win32_OptionalFeature",
+      "status": "ok",
+      "value": {
+        "rows": [
+          {
+            "Name": "SMB1Protocol",
+            "InstallState": 2
+          },
+          {
+            "Name": "SMB1Protocol-Client",
+            "InstallState": 2
+          },
+          {
+            "Name": "SMB1Protocol-Server",
+            "InstallState": 2
+          }
+        ]
+      },
+      "durationMs": 500
+    },
+    {
+      "key": "wmi:root\\cimv2:Win32_QuickFixEngineering",
+      "status": "notCollected",
+      "error": "R§2/§3: 7 entries, only the newest date given - list not reproduced (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "wmi:root\\cimv2:Win32_Service",
+      "status": "ok",
+      "value": {
+        "rows": [
+          {
+            "Name": "AppIDSvc",
+            "State": "Stopped"
+          },
+          {
+            "Name": "RemoteRegistry",
+            "State": "Stopped",
+            "StartMode": "Disabled"
+          },
+          {
+            "Name": "Spooler",
+            "State": "Running",
+            "StartMode": "Auto"
+          },
+          {
+            "Name": "sshd",
+            "State": "Running",
+            "StartMode": "Auto"
+          },
+          {
+            "Name": "TermService",
+            "State": "Running",
+            "StartMode": "Manual"
+          },
+          {
+            "Name": "WinRM",
+            "State": "Running",
+            "StartMode": "Auto"
+          }
+        ]
+      },
+      "durationMs": 200
+    },
+    {
+      "key": "wmi:root\\cimv2:Win32_Share",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    },
+    {
+      "key": "wmi:root\\cimv2:Win32_UserAccount",
+      "status": "ok",
+      "value": {
+        "rows": [
+          {
+            "Name": "Administrator",
+            "SID": "S-1-5-21-1000-2000-3000-500",
+            "Disabled": true
+          },
+          {
+            "Name": "Guest",
+            "SID": "S-1-5-21-1000-2000-3000-501",
+            "Disabled": true
+          },
+          {
+            "Name": "DefaultAccount",
+            "SID": "S-1-5-21-1000-2000-3000-503",
+            "Disabled": true
+          },
+          {
+            "Name": "WDAGUtilityAccount",
+            "SID": "S-1-5-21-1000-2000-3000-504",
+            "Disabled": true
+          },
+          {
+            "Name": "local-user-1001",
+            "SID": "S-1-5-21-1000-2000-3000-1001"
+          },
+          {
+            "Name": "local-user-1003",
+            "SID": "S-1-5-21-1000-2000-3000-1003"
+          }
+        ]
+      },
+      "durationMs": 56
+    },
+    {
+      "key": "wmi:root\\cimv2\\Security\\MicrosoftTpm:Win32_Tpm",
+      "status": "denied",
+      "error": "Access denied",
+      "durationMs": 0
+    },
+    {
+      "key": "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume",
+      "status": "denied",
+      "error": "Access denied",
+      "durationMs": 88
+    },
+    {
+      "key": "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus",
+      "status": "ok",
+      "value": {
+        "rows": [
+          {
+            "AMRunningMode": "Normal",
+            "RealTimeProtectionEnabled": true,
+            "IsTamperProtected": true,
+            "TamperProtectionSource": "UI",
+            "AntivirusSignatureLastUpdated": "2026-10-18T06:00:00Z",
+            "AntivirusSignatureAge": 0,
+            "AMProductVersion": "4.18.26090.9"
+          }
+        ]
+      },
+      "durationMs": 130
+    },
+    {
+      "key": "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference",
+      "status": "ok",
+      "value": {
+        "rows": [
+          {
+            "AttackSurfaceReductionRules_Ids": null,
+            "AttackSurfaceReductionRules_Actions": null,
+            "PUAProtection": 1,
+            "EnableNetworkProtection": 0,
+            "EnableControlledFolderAccess": 0
+          }
+        ]
+      },
+      "durationMs": 130
+    },
+    {
+      "key": "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard",
+      "status": "ok",
+      "value": {
+        "rows": [
+          {
+            "VirtualizationBasedSecurityStatus": 2,
+            "SecurityServicesConfigured": [
+              2
+            ],
+            "SecurityServicesRunning": [
+              2,
+              7
+            ]
+          }
+        ]
+      },
+      "durationMs": 23
+    },
+    {
+      "key": "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration",
+      "status": "ok",
+      "value": {
+        "out": {
+          "RequireSecuritySignature": true,
+          "EnableInsecureGuestLogons": false
+        }
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration",
+      "status": "ok",
+      "value": {
+        "out": {
+          "EnableSMB1Protocol": false,
+          "RequireSecuritySignature": true,
+          "EncryptData": false
+        }
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "wmi:root\\SecurityCenter2:AntivirusProduct",
+      "status": "ok",
+      "value": {
+        "rows": [
+          {
+            "displayName": "Windows Defender",
+            "productState": 397568
+          }
+        ]
+      },
+      "durationMs": 23
+    },
+    {
+      "key": "wmi:root\\wmi:MSNdis_PhysicalMediumType",
+      "status": "notCollected",
+      "error": "not in research-technik.md §2/§3 (oracle fixture)",
+      "durationMs": 0
+    }
+  ]
+}

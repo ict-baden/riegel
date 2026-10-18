@@ -1,0 +1,1762 @@
+{
+  "schema": "riegel.oracle/1",
+  "catalogue": {
+    "id": "riegel",
+    "version": "2026.10"
+  },
+  "evaluationDate": "2026-10-18",
+  "evaluatedAtUtc": "2026-10-18T09:00:00Z",
+  "sources": {
+    "R": "research-technik.md (2026-10-18): §2 test machine, §3 table, §3.1-3.3, §4.3 non-admin run",
+    "S": "spec.md (final, release 0.1.0), sections as cited",
+    "C": "research-regeln.md, appendix 'candidate checks with source coverage'"
+  },
+  "comparedFlags": [
+    "fromDefault",
+    "configuredOnly",
+    "heuristic",
+    "derived",
+    "staleSnapshot",
+    "clockSuspect"
+  ],
+  "globalAbsentFlags": [
+    "staleSnapshot",
+    "clockSuspect"
+  ],
+  "snapshots": {
+    "admin": {
+      "file": "oracle-admin.snapshot.json",
+      "isAdmin": true,
+      "results": {
+        "LIFE-01": {
+          "status": "pass",
+          "why": "R§2 Support: 25H2 Home/Pro end of updates 2027-10-12 is after EvaluationDate 2026-10-18 (S2.8 calendar facts)."
+        },
+        "LIFE-02": {
+          "status": "pass",
+          "why": "R§2 Patch level: 26200.9711 = 2026-10 B released 2026-10-13, 5 days before CollectedAtUtc, within updateMaxDays 35 (S2.3 updateAge, S2.8)."
+        },
+        "LIFE-03": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "researchGap": true,
+          "why": "R§3 gives no Windows Update policy or wuauserv data and lists only 6 of 310 services; result depends on the items the rule reads (S2.4.1)."
+        },
+        "LIFE-04": {
+          "status": "pass",
+          "absentFlags": [
+            "derived"
+          ],
+          "why": "R§3 Defender: signatures 0 days old; Defender active (S8.4) so the gating of S2.5 evaluates."
+        },
+        "LIFE-05": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "notCheckable"
+          ],
+          "why": "R§2 OS: 64-bit (OSArchitecture) but not the processor architecture (x64 or Arm64) → pass from OSArchitecture, notCheckable if the rule needs os.arch."
+        },
+        "NET-01": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 SMB: GetConfiguration EnableSMB1Protocol False and SMB1Protocol-Server InstallState 2; runtime first, no build default (S2.4.6, S2.4.7)."
+        },
+        "NET-02": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Optional features: SMB1Protocol-Client InstallState 2 (disabled); feature state before registry, no build default (S2.4.7)."
+        },
+        "NET-03": {
+          "status": "fail",
+          "why": "R§3 LLMNR and R§3.1: Policies\\…\\DNSClient key missing (= enabled by default); inside coverage it is NotSet (S2.4.1), so LLMNR is not off."
+        },
+        "NET-04": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 NetBIOS: TcpipNetbiosOptions 0 on 2 adapters, NetbiosOptions 0 on 7 interface keys (not off); NodeType not measured, so a P-node alternative stays open."
+        },
+        "NET-05": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "WPAD / WinHTTP auto-proxy is not in R§3; no evidence → Unavailable → notCheckable (S2.4.2)."
+        },
+        "NET-08": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "S8.4 and R§3 SMB/R§3.3: server RequireSecuritySignature True from GetConfiguration while the registry value is missing; runtime decides (S2.4.6)."
+        },
+        "NET-09": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 SMB: client RequireSecuritySignature True from GetConfiguration; runtime first (S2.4.6)."
+        },
+        "NET-10": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 SMB: client InsecureGuestLogons False from GetConfiguration (EnableInsecureGuestLogons); runtime first (S2.4.6)."
+        },
+        "NET-11": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Plaintext passwords to third-party SMB servers (LanmanWorkstation) are not in R§3; key not collected → notCheckable (S2.4.2)."
+        },
+        "NET-17": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "WinRM client Basic policy is not in R§3 (only WinRM Running/Auto); not collected → notCheckable (S2.4.2)."
+        },
+        "NET-18": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "WinRM service Basic policy is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "NET-19": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "WinRM unencrypted-traffic policy is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "NET-23": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 RDP: no policy under Policies\\…\\Terminal Services, so fAllowToGetHelp is NotSet; the non-policy Remote Assistance value is not in the plan → fail or notCheckable, never pass."
+        },
+        "NET-25": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "RPC RestrictRemoteClients policy is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "NET-29": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "IPEnableRouter (Tcpip\\Parameters) is not in R§3; not collected → notCheckable (S2.4.2), as check or as inventory (S2.1)."
+        },
+        "NETX-01": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Wireless adapters (Win32_NetworkAdapter, MSNdis_PhysicalMediumType) are not in R§3; an inventory without evidence is notCheckable (S2.4.2)."
+        },
+        "CRED-01": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "NoLMHash is not among the Lsa values of R§3/R§3.1; the Lsa item carries a value filter → Unavailable (S2.4.1)."
+        },
+        "CRED-02": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 NTLM/LM and R§3.1: LmCompatibilityLevel not set (valueMissing, OS default applies) and R does not give that default → fail via a cited default or notCheckable, never pass."
+        },
+        "CRED-03": {
+          "status": "fail",
+          "why": "R§3 NTLM/LM: NTLMMinClientSec 536870912 (0x20000000, 128-bit only) lacks the NTLMv2 session security bit 0x00080000 that ACSC/DISA require with it (537395200)."
+        },
+        "CRED-04": {
+          "status": "fail",
+          "why": "R§3 NTLM/LM: NTLMMinServerSec 536870912 (0x20000000, 128-bit only) lacks the NTLMv2 session security bit 0x00080000 that ACSC/DISA require with it (537395200)."
+        },
+        "CRED-05": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 WDigest: UseLogonCredential not set (OS default); pass with fromDefault if the rule cites the default, fail or notCheckable otherwise (S2.4.2)."
+        },
+        "CRED-06": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault",
+            "configuredOnly"
+          ],
+          "why": "R§3 LSA protection: runtime 0x41 = PPL signer Lsa (--deep), Wininit event 12 after boot, RunAsPPL 2; runtime/event decide, not configuration (S2.3 lsaProtection, S8.4)."
+        },
+        "CRED-07": {
+          "status": "fail",
+          "why": "S8.4 and R§3 VBS: SecurityServicesRunning {2,7} lacks Credential Guard (1) → not running (S2.3 deviceGuard)."
+        },
+        "CRED-08": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault",
+            "configuredOnly"
+          ],
+          "why": "S8.4 and R§3 VBS: VirtualizationBasedSecurityStatus 2 (running) although policy EnableVirtualizationBasedSecurity = 0 (R§3.3 config ≠ runtime)."
+        },
+        "CRED-09": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault",
+            "configuredOnly"
+          ],
+          "why": "R§3 VBS: SecurityServicesRunning contains 2 (memory integrity / HVCI) → running (S2.3 deviceGuard)."
+        },
+        "CRED-10": {
+          "status": "notApplicable",
+          "why": "S2.1 domain applicability: CRED-10 applies to domain-joined machines only; R§2 WORKGROUP, DomainRole 0."
+        },
+        "CRED-12": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "RestrictAnonymousSAM is not in R§3; Lsa value outside the value filter → Unavailable (S2.4.1)."
+        },
+        "CRED-13": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "RestrictAnonymous is not in R§3; Lsa value outside the value filter → Unavailable (S2.4.1)."
+        },
+        "CRED-15": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "RestrictNullSessAccess is not in R§3 (only RequireSecuritySignature is known for LanmanServer\\Parameters) → Unavailable (S2.4.1)."
+        },
+        "CRED-17": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "RestrictRemoteSAM is not in R§3; Lsa value outside the value filter → Unavailable (S2.4.1)."
+        },
+        "CRED-18": {
+          "status": "fail",
+          "why": "S8.4 and R§3 UAC: LocalAccountTokenFilterPolicy 1; S2.1: CRED-18 applies everywhere, also on workgroup machines."
+        },
+        "CRED-20": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "CredSSP AllowEncryptionOracle is not in R§3; subkeys of CurrentVersion\\Policies\\System are not covered → notCheckable (S2.4.1)."
+        },
+        "CRED-21": {
+          "status": "notApplicable",
+          "why": "S2.1 domain applicability: CRED-21 applies to domain-joined machines only; R§2 WORKGROUP, DomainRole 0."
+        },
+        "LOGON-09": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "InactivityTimeoutSecs is not among the UAC values of R§3 (value filter) → Unavailable (S2.4.1)."
+        },
+        "LOGON-10": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "AutoAdminLogon is not in R§3 (R§3.3 only says Winlogon holds the user name); Winlogon not collected → notCheckable (S2.4.2)."
+        },
+        "ACCT-01": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Account policy: NetUserModalsGet minimum password length 0 (readable without admin)."
+        },
+        "ACCT-05": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "ClearTextPassword comes only from secedit (S2.3 accountPolicy); R§3 prints only excerpts of the export (parsed:secedit marked truncated) → Unavailable."
+        },
+        "ACCT-06": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail"
+          ],
+          "why": "R§3 Account policy: lockout threshold 10 (lockout is on); whether 10 meets the verified limit (S2.2) is pinned neither by R nor by S."
+        },
+        "ACCT-10": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Guest / local accounts: Guest (RID 501) disabled in Win32_UserAccount; secedit EnableGuestAccount = 0 (S2.3 localAccount)."
+        },
+        "ACCT-11": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Guest / local accounts: built-in Administrator (RID 500) disabled in Win32_UserAccount (S2.3 localAccount)."
+        },
+        "ACCT-12": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "LimitBlankPasswordUse is not in R§3; Lsa value outside the value filter → Unavailable (S2.4.1)."
+        },
+        "ACCT-14": {
+          "status": "notApplicable",
+          "why": "S2.1 domain applicability and S8.4: LAPS applies to domain-joined machines only; R§2 workgroup (R§3 LAPS: only an empty Config key)."
+        },
+        "ACCT-15": {
+          "status": "info",
+          "why": "S2.1 inventory rule; R§3 Local administrators: 3 members (RID 500, 1001, 1003), readable without admin."
+        },
+        "ACCT-16": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "S2.3 localAccounts reads api:netuserenum, which R§3 did not measure (only Win32_UserAccount) → notCheckable."
+        },
+        "ACCT-17": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "S2.3 localAccounts reads api:netuserenum (last logon), which R§3 did not measure → notCheckable."
+        },
+        "UAC-01": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 UAC: EnableLUA 1."
+        },
+        "UAC-02": {
+          "status": "fail",
+          "why": "R§3 UAC: ConsentPromptBehaviorAdmin 5 (consent for non-Windows binaries, no secure-desktop prompt); hardening sources require 1 or 2 (C UAC-02)."
+        },
+        "UAC-04": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "FilterAdministratorToken is not among the UAC values of R§3 (value filter) → Unavailable (S2.4.1)."
+        },
+        "URA-02": {
+          "status": "notApplicable",
+          "why": "S2.1 domain applicability: URA-02 applies to domain-joined machines only; R§2 WORKGROUP."
+        },
+        "URA-03": {
+          "status": "notApplicable",
+          "why": "S2.1 domain applicability: URA-03 applies to domain-joined machines only; R§2 WORKGROUP."
+        },
+        "URA-05": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 User rights (admin): SeDebugPrivilege held by S-1-5-32-544 only (LsaEnumerateAccountsWithUserRight, SIDs)."
+        },
+        "DEF-01": {
+          "status": "pass",
+          "absentFlags": [
+            "derived",
+            "fromDefault"
+          ],
+          "why": "R§3 Defender: real-time protection on; Defender active (S8.4) so the gating of S2.5 evaluates."
+        },
+        "DEF-02": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Behaviour monitoring is not among the Defender values of R§3 → no evidence → notCheckable (S2.4.2)."
+        },
+        "DEF-03": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "MAPSReporting is not in R§3 (only CloudBlockLevel 0, which the plan does not collect) → notCheckable (S2.4.2)."
+        },
+        "DEF-09": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Defender: no ASR rules while Defender is active with RTP on → not configured (S2.3 asrRule, S2.5)."
+        },
+        "DEF-11": {
+          "status": "info",
+          "why": "S2.1 inventory rule; R§3 Defender: 2 exclusion paths, readable as admin."
+        },
+        "DEF-12": {
+          "status": "pass",
+          "absentFlags": [
+            "derived",
+            "fromDefault"
+          ],
+          "why": "R§3 Defender: Tamper Protection on (source UI)."
+        },
+        "DEF-14": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "SEHOP (Session Manager\\kernel) is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "DEF-17": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 SmartScreen: no policy and no SmartScreenEnabled value; pass from a cited default, fail if the policy is required, or notCheckable (S2.4.2)."
+        },
+        "DEF-18": {
+          "status": "pass",
+          "absentFlags": [
+            "heuristic",
+            "derived",
+            "fromDefault"
+          ],
+          "why": "R§3 Defender: active, RTP on, signatures 0 days old → the Defender status decides, not the SecurityCenter2 heuristic (S2.3 avStatus, S2.4.7)."
+        },
+        "ASR-01": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Defender: no ASR rules (vulnerable signed drivers not blocked) while Defender is active with RTP on (S2.5)."
+        },
+        "ASR-02": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Defender: no ASR rules; LSA protection on is only a suggestedReason, never a silent pass (S2.4.7)."
+        },
+        "ASR-05": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "S2.1: ASR-05 applies only where Office is detected; R§3 has no Office data → office.installed unknown → notCheckable (S2.3 appliesTo.when)."
+        },
+        "ASR-08": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Defender: no ASR rules (obfuscated scripts not blocked) while Defender is active with RTP on (S2.5)."
+        },
+        "ASR-09": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Defender: no ASR rules (JS/VBS launching downloads not blocked) while Defender is active with RTP on (S2.5)."
+        },
+        "ASR-13": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Defender: no ASR rules (PsExec/WMI process creation not blocked) while Defender is active with RTP on (S2.5)."
+        },
+        "ASR-15": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Defender: no ASR rules (untrusted USB processes not blocked) while Defender is active with RTP on (S2.5)."
+        },
+        "APP-01": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable",
+            "info"
+          ],
+          "why": "R§3 Code integrity: AppLocker empty, Smart App Control off, only Microsoft system CI policies (CiTool, not in the plan); depends on evidence and on check vs inventory (S2.1)."
+        },
+        "APP-02": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "AlwaysInstallElevated is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "APP-06": {
+          "status": "any",
+          "allowed": [
+            "info",
+            "notCheckable"
+          ],
+          "why": "S2.1 inventory rule; R§3 lists only 6 of 310 services and no Uninstall entries → info on partial data or notCheckable."
+        },
+        "ENC-01": {
+          "status": "fail",
+          "why": "S8.4 and R§3 BitLocker (admin): C: ProtectionStatus 0, fully decrypted, 0 protectors."
+        },
+        "ENC-02": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable",
+            "notApplicable"
+          ],
+          "why": "R§3 BitLocker: both volumes fully decrypted (no encryption method); whether the method check fails or does not apply on an unencrypted volume is not pinned by S2.1/S2.4."
+        },
+        "ENC-03": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 TPM (admin): TPM 2.0 (SpecVersion 2.0, 0, 1.38) enabled, activated, owned."
+        },
+        "ENC-04": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "S2.1: pre-boot PIN applies to mobile devices (PCSystemType 2); R§2 does not give PCSystemType → machine.mobile unknown → notCheckable (S2.3 appliesTo)."
+        },
+        "ENC-05": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Secure Boot: UEFISecureBootEnabled 1 in the registry (readable without admin)."
+        },
+        "ENC-06": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Kernel DMA protection is not in R§3; no evidence → notCheckable (S2.4.2)."
+        },
+        "ENC-07": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Deny write to unprotected removable drives (BitLocker policy) is not in R§3 (only RemovableStorageDevices) → notCheckable."
+        },
+        "FW-01": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Firewall: all 3 profiles on via HNetCfg.FwPolicy2 (runtime); Domain profile enabled (S2.3 firewallProfile)."
+        },
+        "FW-02": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Firewall: all 3 profiles on via HNetCfg.FwPolicy2 (runtime); Private profile enabled (S2.3 firewallProfile)."
+        },
+        "FW-03": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Firewall: all 3 profiles on via HNetCfg.FwPolicy2 (runtime); Public profile enabled (S2.3 firewallProfile)."
+        },
+        "FW-04": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Firewall and R§3.2: inbound block on all profiles in the active store while the persistent store says NotConfigured; runtime decides (Domain, S2.4.6)."
+        },
+        "FW-05": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Firewall and R§3.2: inbound block on all profiles in the active store while the persistent store says NotConfigured; runtime decides (Private, S2.4.6)."
+        },
+        "FW-06": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Firewall and R§3.2: inbound block on all profiles in the active store while the persistent store says NotConfigured; runtime decides (Public, S2.4.6)."
+        },
+        "FW-07": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Dropped-packet logging (Domain) is not in R§3; logging keys not collected → notCheckable (S2.4.2)."
+        },
+        "FW-08": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Dropped-packet logging (Private) is not in R§3; logging keys not collected → notCheckable (S2.4.2)."
+        },
+        "FW-09": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Dropped-packet logging (Public) is not in R§3; logging keys not collected → notCheckable (S2.4.2)."
+        },
+        "FW-10": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "AllowLocalPolicyMerge (Public, policy store) is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "FW-11": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Firewall: the 751 rules are not reproduced (rulesCollected false) → notCheckable (S2.3 firewallExposure)."
+        },
+        "SVC-01": {
+          "status": "notApplicable",
+          "why": "S2.1 and S2.4.7: SVC-01 is about the Print Spooler on servers; R§2 ProductType 1 (client)."
+        },
+        "SVC-02": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 Print Spooler: Point and Print policy keys missing → NotSet; pass from a cited default, fail if the policy is required, or notCheckable (S2.4.2)."
+        },
+        "SVC-04": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "info"
+          ],
+          "why": "R§3 Services: RemoteRegistry Stopped/Disabled → pass as a check; S2.1 allows shipping SVC-04 as inventory (info)."
+        },
+        "SYS-07": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Administrative shares (AutoShareWks, Win32_Share) are not in R§3; inventory without evidence → notCheckable (S2.4.2)."
+        },
+        "SYS-08": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Shares and their security descriptors are not in R§3; inventory without evidence → notCheckable (S2.4.2)."
+        },
+        "AUD-01": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; Credential Validation is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-02": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; Security Group Management is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-03": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; User Account Management is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-04": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; Process Creation is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-05": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Audit policy (admin): Logon {0CCE9215-…} = 3 (success and failure)."
+        },
+        "AUD-06": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; Logoff is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-07": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; Account Lockout is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-08": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; Special Logon is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-09": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; Other Logon/Logoff Events is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-10": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; Audit Policy Change is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-11": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; Authentication Policy Change is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-12": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; Sensitive Privilege Use is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-13": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; Security State Change is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-14": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; Security System Extension is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-15": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; System Integrity is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-16": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; Removable Storage is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-17": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; PNP Activity is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-18": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; Other Object Access Events is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-19": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; MPSSVC Rule-Level Policy Change is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-20": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Audit policy names only Logon {0CCE9215-…} = 3; File Share / Detailed File Share is not given → not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-21": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "SCENoApplyLegacyAuditPolicy (Lsa) is not in R§3; Lsa value outside the value filter → Unavailable (S2.4.1)."
+        },
+        "AUD-22": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "ProcessCreationIncludeCmdLine_Enabled is not in R§3; CurrentVersion\\Policies\\System\\Audit not covered → notCheckable."
+        },
+        "AUD-23": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Security event log size (EventLog\\Security, log policy) is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-26": {
+          "status": "fail",
+          "why": "R§3 PowerShell logging: ScriptBlockLogging keys missing (Windows PowerShell and PowerShellCore) → NotSet; script block logging only runs when configured."
+        },
+        "AUD-27": {
+          "status": "fail",
+          "why": "R§3 PowerShell logging: ModuleLogging keys missing (Windows PowerShell and PowerShellCore) → NotSet; module logging only runs when configured."
+        },
+        "AUD-28": {
+          "status": "fail",
+          "why": "R§3 PowerShell logging: Transcription keys missing (Windows PowerShell and PowerShellCore) → NotSet; transcription only runs when configured."
+        },
+        "AUD-30": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Time synchronisation source (W32Time) is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "PS-01": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "notApplicable"
+          ],
+          "why": "R§3 Optional features: no MicrosoftWindowsPowerShellV2* entries (removed, KB5065506); R§3.3 wants 'not present', C PS-01 says n/a on 24H2+ → pass or notApplicable, never fail."
+        },
+        "PS-02": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Execution policy is not in R§3 (only the logging subkeys are known to be missing) → notCheckable (S2.4.2)."
+        },
+        "RDP-01": {
+          "status": "fail",
+          "why": "S8.4 and R§3 RDP: RDP on (fDenyTSConnections 0), NLA off (UserAuthentication 0), no policy."
+        },
+        "RDP-02": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 RDP: no policy; MinEncryptionLevel in RDP-Tcp not measured → fail if the policy is required, notCheckable if the local value is read (S2.3 registryEffective)."
+        },
+        "RDP-03": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 RDP: SecurityLayer 2 (TLS) in RDP-Tcp and no policy → the effective security layer is TLS."
+        },
+        "RDP-04": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 RDP: no policy; fPromptForPassword in RDP-Tcp not measured → fail or notCheckable, never pass."
+        },
+        "RDP-05": {
+          "status": "fail",
+          "why": "R§3 RDP: no policy under Policies\\…\\Terminal Services → DisablePasswordSaving (policy only) not configured, clients may save passwords."
+        },
+        "RDP-06": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 RDP: no policy; fDisableCdm in RDP-Tcp not measured → fail or notCheckable, never pass."
+        },
+        "RDP-07": {
+          "status": "fail",
+          "why": "R§3 RDP: no policy → fEncryptRPCTraffic (policy only) not configured, secure RPC is not required."
+        },
+        "RDP-08": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 RDP: no policy; MaxIdleTime in RDP-Tcp not measured → fail or notCheckable, never pass."
+        },
+        "RDP-09": {
+          "status": "info",
+          "why": "S2.1 inventory rule; R§3 RDP: RDP enabled, port 3389, NLA off, TermService Running."
+        },
+        "MED-01": {
+          "status": "fail",
+          "why": "R§3 AutoRun: NoAutorun not set (the CurrentVersion\\Policies\\Explorer key exists, R§3.2 Registry.pol) → AutoRun commands are not turned off."
+        },
+        "MED-02": {
+          "status": "fail",
+          "why": "R§3 AutoRun: NoDriveTypeAutoRun not set → AutoPlay is not turned off on all drives."
+        },
+        "MED-03": {
+          "status": "fail",
+          "why": "R§3 AutoRun: NoAutoplayfornonVolume not set (Policies\\Microsoft\\Windows\\Explorer) → AutoPlay for non-volume devices is not turned off."
+        },
+        "MED-04": {
+          "status": "fail",
+          "why": "R§3 USB storage: no RemovableStorageDevices policy keys → removable storage access is not restricted."
+        },
+        "MED-05": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "info"
+          ],
+          "why": "R§3 USB storage: USBSTOR Start = 3 (driver enabled) → fail as a check; C MED-05 lists no source, so it may ship as inventory (S2.1)."
+        },
+        "MED-06": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Device installation restrictions are not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "TLS-01": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 TLS: no SSL 2.0 values (OS default); R§3.3: SCHANNEL defaults depend on the build → pass from a cited default, fail or notCheckable (S2.4.2)."
+        },
+        "TLS-02": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 TLS: no SSL 3.0 values (OS default); R§3.3: SCHANNEL defaults depend on the build → pass from a cited default, fail or notCheckable (S2.4.2)."
+        },
+        "TLS-03": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 TLS: TLS 1.0 not set; R§3.3: Microsoft turns it off only in later builds and 'won't impact in-market' versions, first build unverified → fail or notCheckable, never pass."
+        },
+        "TLS-04": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 TLS: TLS 1.1 not set; R§3.3: Microsoft turns it off only in later builds and 'won't impact in-market' versions, first build unverified → fail or notCheckable, never pass."
+        },
+        "TLS-05": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 TLS: TLS 1.2 Client Enabled=1, DisabledByDefault=0, Server not set; depends on whether the server side needs an explicit value or a cited default (S2.4.2)."
+        },
+        "TLS-06": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "RC4 cipher keys (SCHANNEL\\Ciphers) were not measured in R§3 (only Protocols and .NET values) → notCheckable."
+        },
+        "TLS-07": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "DES/3DES cipher keys (SCHANNEL\\Ciphers) were not measured in R§3 → notCheckable."
+        },
+        "TLS-08": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "NULL cipher key (SCHANNEL\\Ciphers) was not measured in R§3 → notCheckable."
+        },
+        "TLS-09": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 TLS: .NET SchUseStrongCrypto not set; pass from a cited default, fail if the value is required, or notCheckable (S2.4.2)."
+        },
+        "TLS-10": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 TLS: .NET SystemDefaultTlsVersions not set; pass from a cited default, fail if the value is required, or notCheckable (S2.4.2)."
+        },
+        "TLS-11": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "MD5 hash key (SCHANNEL\\Hashes) was not measured in R§3 → notCheckable."
+        }
+      }
+    },
+    "nonadmin": {
+      "file": "oracle-nonadmin.snapshot.json",
+      "isAdmin": false,
+      "results": {
+        "LIFE-01": {
+          "status": "pass",
+          "why": "R§2 Support: 25H2 Home/Pro end of updates 2027-10-12 is after EvaluationDate 2026-10-18 (S2.8 calendar facts)."
+        },
+        "LIFE-02": {
+          "status": "pass",
+          "why": "R§2 Patch level: 26200.9711 = 2026-10 B released 2026-10-13, 5 days before CollectedAtUtc, within updateMaxDays 35 (S2.3 updateAge, S2.8)."
+        },
+        "LIFE-03": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "researchGap": true,
+          "why": "R§3 gives no Windows Update policy or wuauserv data and lists only 6 of 310 services; result depends on the items the rule reads (S2.4.1)."
+        },
+        "LIFE-04": {
+          "status": "pass",
+          "absentFlags": [
+            "derived"
+          ],
+          "why": "R§3 Defender: signatures 0 days old; Defender active (S8.4) so the gating of S2.5 evaluates."
+        },
+        "LIFE-05": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "notCheckable"
+          ],
+          "why": "R§2 OS: 64-bit (OSArchitecture) but not the processor architecture (x64 or Arm64) → pass from OSArchitecture, notCheckable if the rule needs os.arch."
+        },
+        "NET-01": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 SMB: GetConfiguration EnableSMB1Protocol False and SMB1Protocol-Server InstallState 2; runtime first, no build default (S2.4.6, S2.4.7)."
+        },
+        "NET-02": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Optional features: SMB1Protocol-Client InstallState 2 (disabled); feature state before registry, no build default (S2.4.7)."
+        },
+        "NET-03": {
+          "status": "fail",
+          "why": "R§3 LLMNR and R§3.1: Policies\\…\\DNSClient key missing (= enabled by default); inside coverage it is NotSet (S2.4.1), so LLMNR is not off."
+        },
+        "NET-04": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 NetBIOS: TcpipNetbiosOptions 0 on 2 adapters, NetbiosOptions 0 on 7 interface keys (not off); NodeType not measured, so a P-node alternative stays open."
+        },
+        "NET-05": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "WPAD / WinHTTP auto-proxy is not in R§3; no evidence → Unavailable → notCheckable (S2.4.2)."
+        },
+        "NET-08": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "S8.4 and R§3 SMB/R§3.3: server RequireSecuritySignature True from GetConfiguration while the registry value is missing; runtime decides (S2.4.6)."
+        },
+        "NET-09": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 SMB: client RequireSecuritySignature True from GetConfiguration; runtime first (S2.4.6)."
+        },
+        "NET-10": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 SMB: client InsecureGuestLogons False from GetConfiguration (EnableInsecureGuestLogons); runtime first (S2.4.6)."
+        },
+        "NET-11": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Plaintext passwords to third-party SMB servers (LanmanWorkstation) are not in R§3; key not collected → notCheckable (S2.4.2)."
+        },
+        "NET-17": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "WinRM client Basic policy is not in R§3 (only WinRM Running/Auto); not collected → notCheckable (S2.4.2)."
+        },
+        "NET-18": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "WinRM service Basic policy is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "NET-19": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "WinRM unencrypted-traffic policy is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "NET-23": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 RDP: no policy under Policies\\…\\Terminal Services, so fAllowToGetHelp is NotSet; the non-policy Remote Assistance value is not in the plan → fail or notCheckable, never pass."
+        },
+        "NET-25": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "RPC RestrictRemoteClients policy is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "NET-29": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "IPEnableRouter (Tcpip\\Parameters) is not in R§3; not collected → notCheckable (S2.4.2), as check or as inventory (S2.1)."
+        },
+        "NETX-01": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Wireless adapters (Win32_NetworkAdapter, MSNdis_PhysicalMediumType) are not in R§3; an inventory without evidence is notCheckable (S2.4.2)."
+        },
+        "CRED-01": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "NoLMHash is not among the Lsa values of R§3/R§3.1; the Lsa item carries a value filter → Unavailable (S2.4.1)."
+        },
+        "CRED-02": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 NTLM/LM and R§3.1: LmCompatibilityLevel not set (valueMissing, OS default applies) and R does not give that default → fail via a cited default or notCheckable, never pass."
+        },
+        "CRED-03": {
+          "status": "fail",
+          "why": "R§3 NTLM/LM: NTLMMinClientSec 536870912 (0x20000000, 128-bit only) lacks the NTLMv2 session security bit 0x00080000 that ACSC/DISA require with it (537395200)."
+        },
+        "CRED-04": {
+          "status": "fail",
+          "why": "R§3 NTLM/LM: NTLMMinServerSec 536870912 (0x20000000, 128-bit only) lacks the NTLMv2 session security bit 0x00080000 that ACSC/DISA require with it (537395200)."
+        },
+        "CRED-05": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 WDigest: UseLogonCredential not set (OS default); pass with fromDefault if the rule cites the default, fail or notCheckable otherwise (S2.4.2)."
+        },
+        "CRED-06": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault",
+            "configuredOnly"
+          ],
+          "why": "R§3 LSA protection without admin: runtime denied (OpenProcess 5) but Wininit event 12 after boot proves PPL (S2.3 lsaProtection order, S8.4)."
+        },
+        "CRED-07": {
+          "status": "fail",
+          "why": "S8.4 and R§3 VBS: SecurityServicesRunning {2,7} lacks Credential Guard (1) → not running (S2.3 deviceGuard)."
+        },
+        "CRED-08": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault",
+            "configuredOnly"
+          ],
+          "why": "S8.4 and R§3 VBS: VirtualizationBasedSecurityStatus 2 (running) although policy EnableVirtualizationBasedSecurity = 0 (R§3.3 config ≠ runtime)."
+        },
+        "CRED-09": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault",
+            "configuredOnly"
+          ],
+          "why": "R§3 VBS: SecurityServicesRunning contains 2 (memory integrity / HVCI) → running (S2.3 deviceGuard)."
+        },
+        "CRED-10": {
+          "status": "notApplicable",
+          "why": "S2.1 domain applicability: CRED-10 applies to domain-joined machines only; R§2 WORKGROUP, DomainRole 0."
+        },
+        "CRED-12": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "RestrictAnonymousSAM is not in R§3; Lsa value outside the value filter → Unavailable (S2.4.1)."
+        },
+        "CRED-13": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "RestrictAnonymous is not in R§3; Lsa value outside the value filter → Unavailable (S2.4.1)."
+        },
+        "CRED-15": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "RestrictNullSessAccess is not in R§3 (only RequireSecuritySignature is known for LanmanServer\\Parameters) → Unavailable (S2.4.1)."
+        },
+        "CRED-17": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "RestrictRemoteSAM is not in R§3; Lsa value outside the value filter → Unavailable (S2.4.1)."
+        },
+        "CRED-18": {
+          "status": "fail",
+          "why": "S8.4 and R§3 UAC: LocalAccountTokenFilterPolicy 1; S2.1: CRED-18 applies everywhere, also on workgroup machines."
+        },
+        "CRED-20": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "CredSSP AllowEncryptionOracle is not in R§3; subkeys of CurrentVersion\\Policies\\System are not covered → notCheckable (S2.4.1)."
+        },
+        "CRED-21": {
+          "status": "notApplicable",
+          "why": "S2.1 domain applicability: CRED-21 applies to domain-joined machines only; R§2 WORKGROUP, DomainRole 0."
+        },
+        "LOGON-09": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "InactivityTimeoutSecs is not among the UAC values of R§3 (value filter) → Unavailable (S2.4.1)."
+        },
+        "LOGON-10": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "AutoAdminLogon is not in R§3 (R§3.3 only says Winlogon holds the user name); Winlogon not collected → notCheckable (S2.4.2)."
+        },
+        "ACCT-01": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Account policy: NetUserModalsGet minimum password length 0 (readable without admin)."
+        },
+        "ACCT-05": {
+          "status": "notCheckable",
+          "why": "ClearTextPassword comes only from secedit (S2.3 accountPolicy); secedit is denied without admin (R§3, exit 740) → notCheckable."
+        },
+        "ACCT-06": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail"
+          ],
+          "why": "R§3 Account policy: lockout threshold 10 (lockout is on); whether 10 meets the verified limit (S2.2) is pinned neither by R nor by S."
+        },
+        "ACCT-10": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Guest / local accounts (readable without admin): Guest (RID 501) disabled in Win32_UserAccount (S2.3 localAccount)."
+        },
+        "ACCT-11": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Guest / local accounts: built-in Administrator (RID 500) disabled in Win32_UserAccount (S2.3 localAccount)."
+        },
+        "ACCT-12": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "LimitBlankPasswordUse is not in R§3; Lsa value outside the value filter → Unavailable (S2.4.1)."
+        },
+        "ACCT-14": {
+          "status": "notApplicable",
+          "why": "S2.1 domain applicability and S8.4: LAPS applies to domain-joined machines only; R§2 workgroup (R§3 LAPS: only an empty Config key)."
+        },
+        "ACCT-15": {
+          "status": "info",
+          "why": "S2.1 inventory rule; R§3 Local administrators: 3 members (RID 500, 1001, 1003), readable without admin."
+        },
+        "ACCT-16": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "S2.3 localAccounts reads api:netuserenum, which R§3 did not measure (only Win32_UserAccount) → notCheckable."
+        },
+        "ACCT-17": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "S2.3 localAccounts reads api:netuserenum (last logon), which R§3 did not measure → notCheckable."
+        },
+        "UAC-01": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 UAC: EnableLUA 1."
+        },
+        "UAC-02": {
+          "status": "fail",
+          "why": "R§3 UAC: ConsentPromptBehaviorAdmin 5 (consent for non-Windows binaries, no secure-desktop prompt); hardening sources require 1 or 2 (C UAC-02)."
+        },
+        "UAC-04": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "FilterAdministratorToken is not among the UAC values of R§3 (value filter) → Unavailable (S2.4.1)."
+        },
+        "URA-02": {
+          "status": "notApplicable",
+          "why": "S2.1 domain applicability: URA-02 applies to domain-joined machines only; R§2 WORKGROUP."
+        },
+        "URA-03": {
+          "status": "notApplicable",
+          "why": "S2.1 domain applicability: URA-03 applies to domain-joined machines only; R§2 WORKGROUP."
+        },
+        "URA-05": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: user rights denied without admin (enumerate → 5) and secedit denied (740) → notCheckable (S2.4.2)."
+        },
+        "DEF-01": {
+          "status": "pass",
+          "absentFlags": [
+            "derived",
+            "fromDefault"
+          ],
+          "why": "R§3 Defender: real-time protection on; Defender active (S8.4) so the gating of S2.5 evaluates."
+        },
+        "DEF-02": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Behaviour monitoring is not among the Defender values of R§3 → no evidence → notCheckable (S2.4.2)."
+        },
+        "DEF-03": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "MAPSReporting is not in R§3 (only CloudBlockLevel 0, which the plan does not collect) → notCheckable (S2.4.2)."
+        },
+        "DEF-09": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Defender: no ASR rules while Defender is active with RTP on → not configured (S2.3 asrRule, S2.5)."
+        },
+        "DEF-11": {
+          "status": "notCheckable",
+          "why": "R§3 Defender: exclusions need admin ('Must be an administrator to view exclusions'); an inventory without evidence is notCheckable (S2.4.2)."
+        },
+        "DEF-12": {
+          "status": "pass",
+          "absentFlags": [
+            "derived",
+            "fromDefault"
+          ],
+          "why": "R§3 Defender: Tamper Protection on (source UI)."
+        },
+        "DEF-14": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "SEHOP (Session Manager\\kernel) is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "DEF-17": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 SmartScreen: no policy and no SmartScreenEnabled value; pass from a cited default, fail if the policy is required, or notCheckable (S2.4.2)."
+        },
+        "DEF-18": {
+          "status": "pass",
+          "absentFlags": [
+            "heuristic",
+            "derived",
+            "fromDefault"
+          ],
+          "why": "R§3 Defender: active, RTP on, signatures 0 days old → the Defender status decides, not the SecurityCenter2 heuristic (S2.3 avStatus, S2.4.7)."
+        },
+        "ASR-01": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Defender: no ASR rules (vulnerable signed drivers not blocked) while Defender is active with RTP on (S2.5)."
+        },
+        "ASR-02": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Defender: no ASR rules; LSA protection on is only a suggestedReason, never a silent pass (S2.4.7)."
+        },
+        "ASR-05": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "S2.1: ASR-05 applies only where Office is detected; R§3 has no Office data → office.installed unknown → notCheckable (S2.3 appliesTo.when)."
+        },
+        "ASR-08": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Defender: no ASR rules (obfuscated scripts not blocked) while Defender is active with RTP on (S2.5)."
+        },
+        "ASR-09": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Defender: no ASR rules (JS/VBS launching downloads not blocked) while Defender is active with RTP on (S2.5)."
+        },
+        "ASR-13": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Defender: no ASR rules (PsExec/WMI process creation not blocked) while Defender is active with RTP on (S2.5)."
+        },
+        "ASR-15": {
+          "status": "fail",
+          "why": "S8.4 and R§3 Defender: no ASR rules (untrusted USB processes not blocked) while Defender is active with RTP on (S2.5)."
+        },
+        "APP-01": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable",
+            "info"
+          ],
+          "why": "R§3 Code integrity: AppLocker empty, Smart App Control off, only Microsoft system CI policies (CiTool, not in the plan); depends on evidence and on check vs inventory (S2.1)."
+        },
+        "APP-02": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "AlwaysInstallElevated is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "APP-06": {
+          "status": "any",
+          "allowed": [
+            "info",
+            "notCheckable"
+          ],
+          "why": "S2.1 inventory rule; R§3 lists only 6 of 310 services and no Uninstall entries → info on partial data or notCheckable."
+        },
+        "ENC-01": {
+          "status": "notCheckable",
+          "why": "R§3 BitLocker: access denied without admin → notCheckable (S2.4.2)."
+        },
+        "ENC-02": {
+          "status": "notCheckable",
+          "why": "R§3 BitLocker: access denied without admin → notCheckable (S2.4.2)."
+        },
+        "ENC-03": {
+          "status": "notCheckable",
+          "why": "R§3 TPM: access denied without admin → notCheckable (S2.4.2)."
+        },
+        "ENC-04": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "S2.1: pre-boot PIN applies to mobile devices (PCSystemType 2); R§2 does not give PCSystemType → machine.mobile unknown → notCheckable (S2.3 appliesTo)."
+        },
+        "ENC-05": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Secure Boot: UEFISecureBootEnabled 1 in the registry (readable without admin)."
+        },
+        "ENC-06": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Kernel DMA protection is not in R§3; no evidence → notCheckable (S2.4.2)."
+        },
+        "ENC-07": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Deny write to unprotected removable drives (BitLocker policy) is not in R§3 (only RemovableStorageDevices) → notCheckable."
+        },
+        "FW-01": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Firewall: all 3 profiles on via HNetCfg.FwPolicy2 (runtime); Domain profile enabled (S2.3 firewallProfile)."
+        },
+        "FW-02": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Firewall: all 3 profiles on via HNetCfg.FwPolicy2 (runtime); Private profile enabled (S2.3 firewallProfile)."
+        },
+        "FW-03": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Firewall: all 3 profiles on via HNetCfg.FwPolicy2 (runtime); Public profile enabled (S2.3 firewallProfile)."
+        },
+        "FW-04": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Firewall and R§3.2: inbound block on all profiles in the active store while the persistent store says NotConfigured; runtime decides (Domain, S2.4.6)."
+        },
+        "FW-05": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Firewall and R§3.2: inbound block on all profiles in the active store while the persistent store says NotConfigured; runtime decides (Private, S2.4.6)."
+        },
+        "FW-06": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 Firewall and R§3.2: inbound block on all profiles in the active store while the persistent store says NotConfigured; runtime decides (Public, S2.4.6)."
+        },
+        "FW-07": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Dropped-packet logging (Domain) is not in R§3; logging keys not collected → notCheckable (S2.4.2)."
+        },
+        "FW-08": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Dropped-packet logging (Private) is not in R§3; logging keys not collected → notCheckable (S2.4.2)."
+        },
+        "FW-09": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Dropped-packet logging (Public) is not in R§3; logging keys not collected → notCheckable (S2.4.2)."
+        },
+        "FW-10": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "AllowLocalPolicyMerge (Public, policy store) is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "FW-11": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "R§3 Firewall: the 751 rules are not reproduced (rulesCollected false) → notCheckable (S2.3 firewallExposure)."
+        },
+        "SVC-01": {
+          "status": "notApplicable",
+          "why": "S2.1 and S2.4.7: SVC-01 is about the Print Spooler on servers; R§2 ProductType 1 (client)."
+        },
+        "SVC-02": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 Print Spooler: Point and Print policy keys missing → NotSet; pass from a cited default, fail if the policy is required, or notCheckable (S2.4.2)."
+        },
+        "SVC-04": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "info"
+          ],
+          "why": "R§3 Services: RemoteRegistry Stopped/Disabled → pass as a check; S2.1 allows shipping SVC-04 as inventory (info)."
+        },
+        "SYS-07": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Administrative shares (AutoShareWks, Win32_Share) are not in R§3; inventory without evidence → notCheckable (S2.4.2)."
+        },
+        "SYS-08": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Shares and their security descriptors are not in R§3; inventory without evidence → notCheckable (S2.4.2)."
+        },
+        "AUD-01": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-02": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-03": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-04": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-05": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-06": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-07": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-08": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-09": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-10": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-11": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-12": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-13": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-14": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-15": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-16": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-17": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-18": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-19": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-20": {
+          "status": "notCheckable",
+          "why": "R§3 and R§4.3: audit policy without admin → error (auditpol 0x522, AuditQuerySystemPolicy no data) → notCheckable (S2.4.2)."
+        },
+        "AUD-21": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "SCENoApplyLegacyAuditPolicy (Lsa) is not in R§3; Lsa value outside the value filter → Unavailable (S2.4.1)."
+        },
+        "AUD-22": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "ProcessCreationIncludeCmdLine_Enabled is not in R§3; CurrentVersion\\Policies\\System\\Audit not covered → notCheckable."
+        },
+        "AUD-23": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Security event log size (EventLog\\Security, log policy) is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "AUD-26": {
+          "status": "fail",
+          "why": "R§3 PowerShell logging: ScriptBlockLogging keys missing (Windows PowerShell and PowerShellCore) → NotSet; script block logging only runs when configured."
+        },
+        "AUD-27": {
+          "status": "fail",
+          "why": "R§3 PowerShell logging: ModuleLogging keys missing (Windows PowerShell and PowerShellCore) → NotSet; module logging only runs when configured."
+        },
+        "AUD-28": {
+          "status": "fail",
+          "why": "R§3 PowerShell logging: Transcription keys missing (Windows PowerShell and PowerShellCore) → NotSet; transcription only runs when configured."
+        },
+        "AUD-30": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Time synchronisation source (W32Time) is not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "PS-01": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "notApplicable"
+          ],
+          "why": "R§3 Optional features: no MicrosoftWindowsPowerShellV2* entries (removed, KB5065506); R§3.3 wants 'not present', C PS-01 says n/a on 24H2+ → pass or notApplicable, never fail."
+        },
+        "PS-02": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Execution policy is not in R§3 (only the logging subkeys are known to be missing) → notCheckable (S2.4.2)."
+        },
+        "RDP-01": {
+          "status": "fail",
+          "why": "S8.4 and R§3 RDP: RDP on (fDenyTSConnections 0), NLA off (UserAuthentication 0), no policy."
+        },
+        "RDP-02": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 RDP: no policy; MinEncryptionLevel in RDP-Tcp not measured → fail if the policy is required, notCheckable if the local value is read (S2.3 registryEffective)."
+        },
+        "RDP-03": {
+          "status": "pass",
+          "absentFlags": [
+            "fromDefault"
+          ],
+          "why": "R§3 RDP: SecurityLayer 2 (TLS) in RDP-Tcp and no policy → the effective security layer is TLS."
+        },
+        "RDP-04": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 RDP: no policy; fPromptForPassword in RDP-Tcp not measured → fail or notCheckable, never pass."
+        },
+        "RDP-05": {
+          "status": "fail",
+          "why": "R§3 RDP: no policy under Policies\\…\\Terminal Services → DisablePasswordSaving (policy only) not configured, clients may save passwords."
+        },
+        "RDP-06": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 RDP: no policy; fDisableCdm in RDP-Tcp not measured → fail or notCheckable, never pass."
+        },
+        "RDP-07": {
+          "status": "fail",
+          "why": "R§3 RDP: no policy → fEncryptRPCTraffic (policy only) not configured, secure RPC is not required."
+        },
+        "RDP-08": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 RDP: no policy; MaxIdleTime in RDP-Tcp not measured → fail or notCheckable, never pass."
+        },
+        "RDP-09": {
+          "status": "info",
+          "why": "S2.1 inventory rule; R§3 RDP: RDP enabled, port 3389, NLA off, TermService Running."
+        },
+        "MED-01": {
+          "status": "fail",
+          "why": "R§3 AutoRun: NoAutorun not set (the CurrentVersion\\Policies\\Explorer key exists, R§3.2 Registry.pol) → AutoRun commands are not turned off."
+        },
+        "MED-02": {
+          "status": "fail",
+          "why": "R§3 AutoRun: NoDriveTypeAutoRun not set → AutoPlay is not turned off on all drives."
+        },
+        "MED-03": {
+          "status": "fail",
+          "why": "R§3 AutoRun: NoAutoplayfornonVolume not set (Policies\\Microsoft\\Windows\\Explorer) → AutoPlay for non-volume devices is not turned off."
+        },
+        "MED-04": {
+          "status": "fail",
+          "why": "R§3 USB storage: no RemovableStorageDevices policy keys → removable storage access is not restricted."
+        },
+        "MED-05": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "info"
+          ],
+          "why": "R§3 USB storage: USBSTOR Start = 3 (driver enabled) → fail as a check; C MED-05 lists no source, so it may ship as inventory (S2.1)."
+        },
+        "MED-06": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Device installation restrictions are not in R§3; not collected → notCheckable (S2.4.2)."
+        },
+        "TLS-01": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 TLS: no SSL 2.0 values (OS default); R§3.3: SCHANNEL defaults depend on the build → pass from a cited default, fail or notCheckable (S2.4.2)."
+        },
+        "TLS-02": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 TLS: no SSL 3.0 values (OS default); R§3.3: SCHANNEL defaults depend on the build → pass from a cited default, fail or notCheckable (S2.4.2)."
+        },
+        "TLS-03": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 TLS: TLS 1.0 not set; R§3.3: Microsoft turns it off only in later builds and 'won't impact in-market' versions, first build unverified → fail or notCheckable, never pass."
+        },
+        "TLS-04": {
+          "status": "any",
+          "allowed": [
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 TLS: TLS 1.1 not set; R§3.3: Microsoft turns it off only in later builds and 'won't impact in-market' versions, first build unverified → fail or notCheckable, never pass."
+        },
+        "TLS-05": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 TLS: TLS 1.2 Client Enabled=1, DisabledByDefault=0, Server not set; depends on whether the server side needs an explicit value or a cited default (S2.4.2)."
+        },
+        "TLS-06": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "RC4 cipher keys (SCHANNEL\\Ciphers) were not measured in R§3 (only Protocols and .NET values) → notCheckable."
+        },
+        "TLS-07": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "DES/3DES cipher keys (SCHANNEL\\Ciphers) were not measured in R§3 → notCheckable."
+        },
+        "TLS-08": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "NULL cipher key (SCHANNEL\\Ciphers) was not measured in R§3 → notCheckable."
+        },
+        "TLS-09": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 TLS: .NET SchUseStrongCrypto not set; pass from a cited default, fail if the value is required, or notCheckable (S2.4.2)."
+        },
+        "TLS-10": {
+          "status": "any",
+          "allowed": [
+            "pass",
+            "fail",
+            "notCheckable"
+          ],
+          "why": "R§3 TLS: .NET SystemDefaultTlsVersions not set; pass from a cited default, fail if the value is required, or notCheckable (S2.4.2)."
+        },
+        "TLS-11": {
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "MD5 hash key (SCHANNEL\\Hashes) was not measured in R§3 → notCheckable."
+        }
+      }
+    }
+  }
+}
