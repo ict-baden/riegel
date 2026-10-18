@@ -4,7 +4,94 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Placeholder" xml:space="preserve">
-    <value>(Platzhalter der Texte von parsing)</value>
+  <data name="Baseline_Rationale" xml:space="preserve">
+    <value>Vorgabe aus der importierten Baseline „{0}“.</value>
+  </data>
+  <data name="Error_RGL0250" xml:space="preserve">
+    <value>{0} ist kein gültiges JSON (Position {1}); die Datei ist vielleicht abgeschnitten.</value>
+  </data>
+  <data name="Error_RGL0251" xml:space="preserve">
+    <value>Nicht unterstützte Export-Version {0} (diese Version liest {1}).</value>
+  </data>
+  <data name="Error_RGL0252" xml:space="preserve">
+    <value>{0} ist größer als erlaubt (höchstens {1} Bytes).</value>
+  </data>
+  <data name="Error_RGL0253" xml:space="preserve">
+    <value>{0} enthält zu viele Einträge (höchstens {1}).</value>
+  </data>
+  <data name="Error_RGL0254" xml:space="preserve">
+    <value>{0} enthält einen zu langen Text (höchstens {1} Zeichen).</value>
+  </data>
+  <data name="Error_RGL0255" xml:space="preserve">
+    <value>{0} ist zu tief verschachtelt (höchstens Tiefe {1}).</value>
+  </data>
+  <data name="Error_RGL0256" xml:space="preserve">
+    <value>{0} ist keine lesbare gzip-Datei.</value>
+  </data>
+  <data name="Error_RGL0257" xml:space="preserve">
+    <value>{0} ist kein gültiger Export ({1}).</value>
+  </data>
+  <data name="Error_RGL0258" xml:space="preserve">
+    <value>{0} abgeleitete Einträge (parsed:*) in einem erfassten Export wurden verworfen und aus den Rohdaten neu berechnet.</value>
+  </data>
+  <data name="Error_RGL0259" xml:space="preserve">
+    <value>Rohdaten {0} sind nicht verfügbar; der abgeleitete Eintrag ließ sich nicht berechnen.</value>
+  </data>
+  <data name="Error_RGL0260" xml:space="preserve">
+    <value>Kein gültiges Bordmittel-Paket ({0}).</value>
+  </data>
+  <data name="Error_RGL0261" xml:space="preserve">
+    <value>{0} ist größer als erlaubt (höchstens {1} Bytes).</value>
+  </data>
+  <data name="Error_RGL0262" xml:space="preserve">
+    <value>{0} ist kein gültiger Text in {1}.</value>
+  </data>
+  <data name="Error_RGL0263" xml:space="preserve">
+    <value>{0}: Zeile {1} ist keine gültige Zeile eines Registry-Exports.</value>
+  </data>
+  <data name="Error_RGL0264" xml:space="preserve">
+    <value>{0}: Zeile {1} ist in einer Sicherheitsvorlage nicht gültig.</value>
+  </data>
+  <data name="Error_RGL0265" xml:space="preserve">
+    <value>{0}: Zeile {1} ist keine gültige Zeile der Überwachungsrichtlinie.</value>
+  </data>
+  <data name="Error_RGL0266" xml:space="preserve">
+    <value>{0}: Zeile {1} ist keine gültige Ausgabe von reg query.</value>
+  </data>
+  <data name="Error_RGL0267" xml:space="preserve">
+    <value>Schritt {0} endete mit Exitcode {1}; seine Daten werden nicht verwendet.</value>
+  </data>
+  <data name="Error_RGL0268" xml:space="preserve">
+    <value>{0} ist nicht Teil dieses Bordmittel-Pakets.</value>
+  </data>
+  <data name="Error_RGL0270" xml:space="preserve">
+    <value>{0} ist keine gültige Registry.pol-Datei (bei Byte {1}).</value>
+  </data>
+  <data name="Error_RGL0271" xml:space="preserve">
+    <value>Die SHA-256-Prüfsumme von {0} passt nicht zum Inhalt.</value>
+  </data>
+  <data name="Error_RGL0272" xml:space="preserve">
+    <value>{0} ist kein gültiges gpresult-XML ({1}).</value>
+  </data>
+  <data name="Error_RGL0280" xml:space="preserve">
+    <value>{0}: Format der Baseline nicht erkannt (erwartet: Ordner einer GPO-Sicherung, .json- oder .csv-Datei).</value>
+  </data>
+  <data name="Error_RGL0281" xml:space="preserve">
+    <value>Baseline ungültig bei {0} ({1}).</value>
+  </data>
+  <data name="Error_RGL0282" xml:space="preserve">
+    <value>Ungültige Kennung einer Baseline oder Regel: {0}</value>
+  </data>
+  <data name="Error_RGL0283" xml:space="preserve">
+    <value>Regel-ID {0} kommt in der Baseline zweimal vor (zum zweiten Mal bei {1}).</value>
+  </data>
+  <data name="Error_RGL0284" xml:space="preserve">
+    <value>{0}: Zeile {1}, Spalte {2} ist ungültig.</value>
+  </data>
+  <data name="Error_RGL0285" xml:space="preserve">
+    <value>{0} ist zu groß (höchstens {1}).</value>
+  </data>
+  <data name="Error_RGL0286" xml:space="preserve">
+    <value>{0} enthält keine Computereinstellungen (registry.pol, GptTmpl.inf oder audit.csv).</value>
   </data>
 </root>

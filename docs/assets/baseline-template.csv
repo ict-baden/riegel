@@ -1,0 +1,3 @@
+id,title,severity,type,key,value,op,expected,valueType
+EXAMPLE-01,Remote configuration of the example HMI suite is switched off,high,registry,HKLM\SOFTWARE\ExampleVendor\HmiSuite\Remote,EnableRemoteConfig,eq,0,dword
+EXAMPLE-02,The example OPC gateway service is disabled when the line does not use it,medium,service,ExampleOpcGateway,startMode,in,Disabled,

@@ -4,8 +4,94 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Placeholder" xml:space="preserve">
-    <value>(placeholder of the parsing texts)</value>
-    <comment>Scaffold placeholder; the owning package replaces it</comment>
+  <data name="Baseline_Rationale" xml:space="preserve">
+    <value>Requirement from the imported baseline “{0}”.</value>
+  </data>
+  <data name="Error_RGL0250" xml:space="preserve">
+    <value>{0} is not valid JSON (position {1}); the file may be truncated.</value>
+  </data>
+  <data name="Error_RGL0251" xml:space="preserve">
+    <value>Unsupported snapshot version {0} (this version reads {1}).</value>
+  </data>
+  <data name="Error_RGL0252" xml:space="preserve">
+    <value>{0} is larger than allowed (maximum {1} bytes).</value>
+  </data>
+  <data name="Error_RGL0253" xml:space="preserve">
+    <value>{0} contains too many entries (maximum {1}).</value>
+  </data>
+  <data name="Error_RGL0254" xml:space="preserve">
+    <value>{0} contains a text that is too long (maximum {1} characters).</value>
+  </data>
+  <data name="Error_RGL0255" xml:space="preserve">
+    <value>{0} is nested too deeply (maximum depth {1}).</value>
+  </data>
+  <data name="Error_RGL0256" xml:space="preserve">
+    <value>{0} is not a readable gzip file.</value>
+  </data>
+  <data name="Error_RGL0257" xml:space="preserve">
+    <value>{0} is not a valid snapshot ({1}).</value>
+  </data>
+  <data name="Error_RGL0258" xml:space="preserve">
+    <value>{0} derived entries (parsed:*) in a collected snapshot were discarded and recomputed from the raw data.</value>
+  </data>
+  <data name="Error_RGL0259" xml:space="preserve">
+    <value>Raw data {0} is not available; the derived entry could not be computed.</value>
+  </data>
+  <data name="Error_RGL0260" xml:space="preserve">
+    <value>Not a valid built-in-commands bundle ({0}).</value>
+  </data>
+  <data name="Error_RGL0261" xml:space="preserve">
+    <value>{0} is larger than allowed (maximum {1} bytes).</value>
+  </data>
+  <data name="Error_RGL0262" xml:space="preserve">
+    <value>{0} is not valid {1} text.</value>
+  </data>
+  <data name="Error_RGL0263" xml:space="preserve">
+    <value>{0}: line {1} is not a valid registry export line.</value>
+  </data>
+  <data name="Error_RGL0264" xml:space="preserve">
+    <value>{0}: line {1} is not valid in a security template.</value>
+  </data>
+  <data name="Error_RGL0265" xml:space="preserve">
+    <value>{0}: line {1} is not a valid audit policy row.</value>
+  </data>
+  <data name="Error_RGL0266" xml:space="preserve">
+    <value>{0}: line {1} is not valid reg query output.</value>
+  </data>
+  <data name="Error_RGL0267" xml:space="preserve">
+    <value>Step {0} ended with exit code {1}; its data is not used.</value>
+  </data>
+  <data name="Error_RGL0268" xml:space="preserve">
+    <value>{0} is not part of this built-in-commands bundle.</value>
+  </data>
+  <data name="Error_RGL0270" xml:space="preserve">
+    <value>{0} is not a valid Registry.pol file (at byte {1}).</value>
+  </data>
+  <data name="Error_RGL0271" xml:space="preserve">
+    <value>The SHA-256 of {0} does not match its content.</value>
+  </data>
+  <data name="Error_RGL0272" xml:space="preserve">
+    <value>{0} is not valid gpresult XML ({1}).</value>
+  </data>
+  <data name="Error_RGL0280" xml:space="preserve">
+    <value>{0}: baseline format not recognised (expected a GPO backup folder, a .json or a .csv file).</value>
+  </data>
+  <data name="Error_RGL0281" xml:space="preserve">
+    <value>Baseline invalid at {0} ({1}).</value>
+  </data>
+  <data name="Error_RGL0282" xml:space="preserve">
+    <value>Invalid baseline or rule ID: {0}</value>
+  </data>
+  <data name="Error_RGL0283" xml:space="preserve">
+    <value>Rule ID {0} occurs twice in the baseline (second time at {1}).</value>
+  </data>
+  <data name="Error_RGL0284" xml:space="preserve">
+    <value>{0}: line {1}, column {2} is invalid.</value>
+  </data>
+  <data name="Error_RGL0285" xml:space="preserve">
+    <value>{0} is too large (maximum {1}).</value>
+  </data>
+  <data name="Error_RGL0286" xml:space="preserve">
+    <value>{0} contains no computer settings (registry.pol, GptTmpl.inf or audit.csv).</value>
   </data>
 </root>
