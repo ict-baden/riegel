@@ -637,9 +637,6 @@
   <data name="Filter_WithCount" xml:space="preserve">
     <value>{0}（{1}）</value>
   </data>
-  <data name="Format_DaysAgo" xml:space="preserve">
-    <value>{0} 天前</value>
-  </data>
   <data name="Format_Percent" xml:space="preserve">
     <value>{0}%</value>
   </data>
@@ -872,7 +869,7 @@
     <value>已过时</value>
   </data>
   <data name="Machines_Summary" xml:space="preserve">
-    <value>{0} 台计算机 · {1} 台采集已过时 · {2} 个发现项已恶化</value>
+    <value>{0} · {1} · {2}</value>
   </data>
   <data name="Machines_TrendBetter" xml:space="preserve">
     <value>优于上次运行</value>
@@ -912,9 +909,6 @@
   </data>
   <data name="Main_NoPlantTitle" xml:space="preserve">
     <value>此页面需要打开一个装置</value>
-  </data>
-  <data name="Main_PlantDetail" xml:space="preserve">
-    <value>{0} 台计算机</value>
   </data>
   <data name="Main_ReadOnlyBanner" xml:space="preserve">
     <value>审核员模式：不会向装置文件夹写入任何内容。文档只保存到您选择的文件夹。</value>
@@ -997,9 +991,6 @@
   <data name="NewPlant_Title" xml:space="preserve">
     <value>新建装置</value>
   </data>
-  <data name="Notice_Approved" xml:space="preserve">
-    <value>已为 {0} 个条目登记批准（记录 {1}）。</value>
-  </data>
   <data name="Notice_BaselineImported" xml:space="preserve">
     <value>基线 {0} 已导入。</value>
   </data>
@@ -1009,20 +1000,11 @@
   <data name="Notice_CollectorCopied" xml:space="preserve">
     <value>采集器已复制到 {0}。</value>
   </data>
-  <data name="Notice_DocumentWritten" xml:space="preserve">
-    <value>已将 {0} 个文件写入 {1}。</value>
-  </data>
   <data name="Notice_ExceptionSaved" xml:space="preserve">
     <value>例外 {0} 已保存——在登记批准之前为待审批状态。</value>
   </data>
   <data name="Notice_GroupsSaved" xml:space="preserve">
     <value>分组和角色已保存。</value>
-  </data>
-  <data name="Notice_Imported" xml:space="preserve">
-    <value>已导入并评估 {0} 个导出文件。</value>
-  </data>
-  <data name="Notice_ImportedWithRecord" xml:space="preserve">
-    <value>已导入并评估 {0} 个导出文件；已写入采集记录 {1}。</value>
   </data>
   <data name="Notice_LogoSaved" xml:space="preserve">
     <value>徽标已存入装置文件夹。</value>
@@ -1035,9 +1017,6 @@
   </data>
   <data name="Notice_PlantSettingsSaved" xml:space="preserve">
     <value>装置设置已保存。</value>
-  </data>
-  <data name="Notice_Reevaluated" xml:space="preserve">
-    <value>已重新评估 {0} 台计算机。</value>
   </data>
   <data name="Notice_ReportSettingsSaved" xml:space="preserve">
     <value>报告设置已保存到装置中。</value>
@@ -1288,9 +1267,6 @@
   <data name="Reports_HandoverText" xml:space="preserve">
     <value>附 UEBERGABE.txt 的采集器包（校验和、版本、运行方法、留下的痕迹）。</value>
   </data>
-  <data name="Reports_ImportItem" xml:space="preserve">
-    <value>{0} 的导入（{1} 个文件）</value>
-  </data>
   <data name="Reports_Language" xml:space="preserve">
     <value>报告语言</value>
   </data>
@@ -1323,9 +1299,6 @@
   </data>
   <data name="Reports_OutputReadOnly" xml:space="preserve">
     <value>审核员模式：请选择装置文件夹以外的文件夹。</value>
-  </data>
-  <data name="Reports_PendingEntries" xml:space="preserve">
-    <value>{0} 个例外待审批或已更改</value>
   </data>
   <data name="Reports_PerformedBy" xml:space="preserve">
     <value>执行方（封面）</value>
@@ -1705,9 +1678,6 @@
   <data name="Start_Incomplete" xml:space="preserve">
     <value>检查不完整：仅 {0}% 可检查——数值以灰色显示。</value>
   </data>
-  <data name="Start_Machines" xml:space="preserve">
-    <value>{0} 台计算机，其中 {1} 台有运行</value>
-  </data>
   <data name="Start_Open" xml:space="preserve">
     <value>打开装置…</value>
   </data>
@@ -1812,5 +1782,80 @@
   </data>
   <data name="Notice_ReevaluateSkipped" xml:space="preserve">
     <value>未重新评估，导出不属于该运行或不在装置文件夹中：{0}</value>
+  </data>
+  <data name="Format_DaysAgo_one" xml:space="preserve">
+    <value>{0} 天前</value>
+  </data>
+  <data name="Format_DaysAgo_other" xml:space="preserve">
+    <value>{0} 天前</value>
+  </data>
+  <data name="Machines_SummaryMachines_one" xml:space="preserve">
+    <value>{0} 台计算机</value>
+  </data>
+  <data name="Machines_SummaryMachines_other" xml:space="preserve">
+    <value>{0} 台计算机</value>
+  </data>
+  <data name="Machines_SummaryWorse_one" xml:space="preserve">
+    <value>{0} 个发现项已恶化</value>
+  </data>
+  <data name="Machines_SummaryWorse_other" xml:space="preserve">
+    <value>{0} 个发现项已恶化</value>
+  </data>
+  <data name="Main_PlantDetail_one" xml:space="preserve">
+    <value>{0} 台计算机</value>
+  </data>
+  <data name="Main_PlantDetail_other" xml:space="preserve">
+    <value>{0} 台计算机</value>
+  </data>
+  <data name="Start_Machines_one" xml:space="preserve">
+    <value>{0} 台计算机，其中 {1} 台有运行</value>
+  </data>
+  <data name="Start_Machines_other" xml:space="preserve">
+    <value>{0} 台计算机，其中 {1} 台有运行</value>
+  </data>
+  <data name="Notice_Approved_one" xml:space="preserve">
+    <value>已为 {0} 个条目登记批准（记录 {1}）。</value>
+  </data>
+  <data name="Notice_Approved_other" xml:space="preserve">
+    <value>已为 {0} 个条目登记批准（记录 {1}）。</value>
+  </data>
+  <data name="Notice_DocumentWritten_one" xml:space="preserve">
+    <value>已将 {0} 个文件写入 {1}。</value>
+  </data>
+  <data name="Notice_DocumentWritten_other" xml:space="preserve">
+    <value>已将 {0} 个文件写入 {1}。</value>
+  </data>
+  <data name="Notice_Imported_one" xml:space="preserve">
+    <value>已导入并评估 {0} 个导出文件。</value>
+  </data>
+  <data name="Notice_Imported_other" xml:space="preserve">
+    <value>已导入并评估 {0} 个导出文件。</value>
+  </data>
+  <data name="Notice_ImportedWithRecord_one" xml:space="preserve">
+    <value>已导入并评估 {0} 个导出文件；已写入采集记录 {1}。</value>
+  </data>
+  <data name="Notice_ImportedWithRecord_other" xml:space="preserve">
+    <value>已导入并评估 {0} 个导出文件；已写入采集记录 {1}。</value>
+  </data>
+  <data name="Notice_Reevaluated_one" xml:space="preserve">
+    <value>已重新评估 {0} 台计算机。</value>
+  </data>
+  <data name="Notice_Reevaluated_other" xml:space="preserve">
+    <value>已重新评估 {0} 台计算机。</value>
+  </data>
+  <data name="Reports_ImportItem_one" xml:space="preserve">
+    <value>{0} 的导入（{1} 个文件）</value>
+  </data>
+  <data name="Reports_ImportItem_other" xml:space="preserve">
+    <value>{0} 的导入（{1} 个文件）</value>
+  </data>
+  <data name="Reports_PendingEntries_one" xml:space="preserve">
+    <value>{0} 个例外待审批或已更改</value>
+  </data>
+  <data name="Reports_PendingEntries_other" xml:space="preserve">
+    <value>{0} 个例外待审批或已更改</value>
+  </data>
+  <data name="Machines_SummaryStale" xml:space="preserve">
+    <value>{0} 台采集已过时</value>
   </data>
 </root>

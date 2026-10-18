@@ -913,6 +913,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 
 ### `Riegel.Core.Localization`
 
+- **Plural** (static class): `static string Category(string language, long n)`, `static string Format(ResourceManager resources, string key, long n, params object?[] args)`, `static bool Has(ResourceManager resources, string key)` – texts with a count come as `<key>_one` / `<key>_other` (CLDR: en, de, es exactly 1; fr 0 and 1; zh-Hans always other)
 - **UiLanguage** (static class): `static IReadOnlyList<string> Supported`, `static IReadOnlyList<string> ReviewedReportLanguages`, `static CultureInfo System`, `const string EnvironmentVariable`, `const string Fallback`, `static string Normalize(string? setting)`, `static string Resolve(CultureInfo system, params string[] choices)`, `static CultureInfo Apply(string? userSetting, string? machineDefault = null)`, `static bool IsReviewedReportLanguage(string language)`, `static string NativeName(string code)`
 
 ### `Riegel.Core.Diagnostics`

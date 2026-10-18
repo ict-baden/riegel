@@ -165,6 +165,10 @@ public static class RglCodesWorkflow
     public static string Message(string code, params object?[] args)
     {
         var key = "Error_" + code.Replace("-", "", StringComparison.Ordinal);
+        // Mehrzahl (Review docs-ui-2): gibt es eine Form „_one“, wählt die letzte ganze Zahl der Platzhalter die Form
+        if (args.OfType<int>().Select(n => (int?)n).LastOrDefault() is { } count
+            && WorkflowStrings.ResourceManager.GetString(key + "_one", CultureInfo.InvariantCulture) is not null)
+            return Localization.Plural.Format(WorkflowStrings.ResourceManager, key, count, args);
         var text = WorkflowStrings.ResourceManager.GetString(key, CultureInfo.CurrentUICulture) ?? code;
         return args.Length == 0 ? text : string.Format(CultureInfo.CurrentCulture, text, args);
     }

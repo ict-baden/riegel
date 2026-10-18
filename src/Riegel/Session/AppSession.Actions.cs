@@ -74,7 +74,7 @@ internal sealed partial class AppSession
     {
         var plant = RequireWritable();
         return SaveRegistersAsync(r => plant.Services.Registers.Approve(r, kind, ids, approval),
-            Loc.F("Notice_Approved", ids.Count, approval.ApprovalRecord));
+            Loc.P("Notice_Approved", ids.Count, ids.Count, approval.ApprovalRecord));
     }
 
     /// <summary>Vorlage importieren: neue Einträge sind immer „beantragt“ (spec 2.11, 2.12).</summary>
@@ -124,8 +124,8 @@ internal sealed partial class AppSession
         Log.Info($"Import: {record.Files.Count} Datei(en)");
         await ReloadAsync();
         Report(NoticeKind.Success, recordPath is null
-            ? Loc.F("Notice_Imported", record.Files.Count)
-            : Loc.F("Notice_ImportedWithRecord", record.Files.Count, Path.GetFileName(recordPath)));
+            ? Loc.P("Notice_Imported", record.Files.Count, record.Files.Count)
+            : Loc.P("Notice_ImportedWithRecord", record.Files.Count, record.Files.Count, Path.GetFileName(recordPath)));
         return record;
     }
 
@@ -159,7 +159,7 @@ internal sealed partial class AppSession
             return n;
         });
         await ReloadAsync();
-        Report(NoticeKind.Success, Loc.F("Notice_Reevaluated", count));
+        Report(NoticeKind.Success, Loc.P("Notice_Reevaluated", count, count));
         if (skipped.Count > 0) Report(NoticeKind.Warning, Loc.F("Notice_ReevaluateSkipped", string.Join(", ", skipped)));
     }
 
@@ -343,7 +343,7 @@ internal sealed partial class AppSession
             return written;
         });
         Log.Info($"Dokument erzeugt: {d.Kind}");
-        Report(NoticeKind.Success, Loc.F("Notice_DocumentWritten", files.Count, d.OutDir));
+        Report(NoticeKind.Success, Loc.P("Notice_DocumentWritten", files.Count, files.Count, d.OutDir));
         return files;
     }
 

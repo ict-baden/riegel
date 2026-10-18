@@ -637,9 +637,6 @@
   <data name="Filter_WithCount" xml:space="preserve">
     <value>{0} ({1})</value>
   </data>
-  <data name="Format_DaysAgo" xml:space="preserve">
-    <value>{0} days ago</value>
-  </data>
   <data name="Format_Percent" xml:space="preserve">
     <value>{0} %</value>
   </data>
@@ -872,7 +869,7 @@
     <value>outdated</value>
   </data>
   <data name="Machines_Summary" xml:space="preserve">
-    <value>{0} machines · {1} with an outdated collection · {2} findings worse than before</value>
+    <value>{0} · {1} · {2}</value>
   </data>
   <data name="Machines_TrendBetter" xml:space="preserve">
     <value>better than the previous run</value>
@@ -912,9 +909,6 @@
   </data>
   <data name="Main_NoPlantTitle" xml:space="preserve">
     <value>This page needs an open plant</value>
-  </data>
-  <data name="Main_PlantDetail" xml:space="preserve">
-    <value>{0} machines</value>
   </data>
   <data name="Main_ReadOnlyBanner" xml:space="preserve">
     <value>Auditor mode: nothing is written to the plant folder. Documents go only to a folder you choose.</value>
@@ -997,9 +991,6 @@
   <data name="NewPlant_Title" xml:space="preserve">
     <value>New plant</value>
   </data>
-  <data name="Notice_Approved" xml:space="preserve">
-    <value>Approval entered for {0} entries (record {1}).</value>
-  </data>
   <data name="Notice_BaselineImported" xml:space="preserve">
     <value>Baseline {0} imported.</value>
   </data>
@@ -1009,20 +1000,11 @@
   <data name="Notice_CollectorCopied" xml:space="preserve">
     <value>Collector copied to {0}.</value>
   </data>
-  <data name="Notice_DocumentWritten" xml:space="preserve">
-    <value>{0} file(s) written to {1}.</value>
-  </data>
   <data name="Notice_ExceptionSaved" xml:space="preserve">
     <value>Exception {0} saved – it is pending until the approval is entered.</value>
   </data>
   <data name="Notice_GroupsSaved" xml:space="preserve">
     <value>Groups and roles saved.</value>
-  </data>
-  <data name="Notice_Imported" xml:space="preserve">
-    <value>{0} export(s) imported and evaluated.</value>
-  </data>
-  <data name="Notice_ImportedWithRecord" xml:space="preserve">
-    <value>{0} export(s) imported and evaluated; collection record {1} written.</value>
   </data>
   <data name="Notice_LogoSaved" xml:space="preserve">
     <value>Logo stored in the plant folder.</value>
@@ -1035,9 +1017,6 @@
   </data>
   <data name="Notice_PlantSettingsSaved" xml:space="preserve">
     <value>Settings of the plant saved.</value>
-  </data>
-  <data name="Notice_Reevaluated" xml:space="preserve">
-    <value>{0} machine(s) evaluated again.</value>
   </data>
   <data name="Notice_ReportSettingsSaved" xml:space="preserve">
     <value>Report settings saved in the plant.</value>
@@ -1288,9 +1267,6 @@
   <data name="Reports_HandoverText" xml:space="preserve">
     <value>Collector bundle with UEBERGABE.txt (checksums, version, how to run, what it leaves behind).</value>
   </data>
-  <data name="Reports_ImportItem" xml:space="preserve">
-    <value>Import {0} ({1} file(s))</value>
-  </data>
   <data name="Reports_Language" xml:space="preserve">
     <value>Language of the report</value>
   </data>
@@ -1323,9 +1299,6 @@
   </data>
   <data name="Reports_OutputReadOnly" xml:space="preserve">
     <value>Auditor mode: choose a folder outside the plant folder.</value>
-  </data>
-  <data name="Reports_PendingEntries" xml:space="preserve">
-    <value>{0} exception(s) pending or changed</value>
   </data>
   <data name="Reports_PerformedBy" xml:space="preserve">
     <value>Performed by (cover)</value>
@@ -1705,9 +1678,6 @@
   <data name="Start_Incomplete" xml:space="preserve">
     <value>Incomplete check: only {0} % checkable – the score is shown greyed.</value>
   </data>
-  <data name="Start_Machines" xml:space="preserve">
-    <value>{0} machines, {1} with a run</value>
-  </data>
   <data name="Start_Open" xml:space="preserve">
     <value>Open plant…</value>
   </data>
@@ -1813,5 +1783,104 @@
   <data name="Notice_ReevaluateSkipped" xml:space="preserve">
     <value>Not evaluated again, the export does not belong to the run or is not in the plant folder: {0}</value>
     <comment>{0} = host names with RGL code</comment>
+  </data>
+  <data name="Format_DaysAgo_one" xml:space="preserve">
+    <value>{0} day ago</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Format_DaysAgo_other" xml:space="preserve">
+    <value>{0} days ago</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Machines_SummaryMachines_one" xml:space="preserve">
+    <value>{0} machine</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Machines_SummaryMachines_other" xml:space="preserve">
+    <value>{0} machines</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Machines_SummaryWorse_one" xml:space="preserve">
+    <value>{0} finding worse than before</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Machines_SummaryWorse_other" xml:space="preserve">
+    <value>{0} findings worse than before</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Main_PlantDetail_one" xml:space="preserve">
+    <value>{0} machine</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Main_PlantDetail_other" xml:space="preserve">
+    <value>{0} machines</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Start_Machines_one" xml:space="preserve">
+    <value>{0} machine, {1} with a run</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Start_Machines_other" xml:space="preserve">
+    <value>{0} machines, {1} with a run</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Notice_Approved_one" xml:space="preserve">
+    <value>Approval entered for {0} entry (record {1}).</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Notice_Approved_other" xml:space="preserve">
+    <value>Approval entered for {0} entries (record {1}).</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Notice_DocumentWritten_one" xml:space="preserve">
+    <value>{0} file written to {1}.</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Notice_DocumentWritten_other" xml:space="preserve">
+    <value>{0} files written to {1}.</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Notice_Imported_one" xml:space="preserve">
+    <value>{0} export imported and evaluated.</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Notice_Imported_other" xml:space="preserve">
+    <value>{0} exports imported and evaluated.</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Notice_ImportedWithRecord_one" xml:space="preserve">
+    <value>{0} export imported and evaluated; collection record {1} written.</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Notice_ImportedWithRecord_other" xml:space="preserve">
+    <value>{0} exports imported and evaluated; collection record {1} written.</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Notice_Reevaluated_one" xml:space="preserve">
+    <value>{0} machine evaluated again.</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Notice_Reevaluated_other" xml:space="preserve">
+    <value>{0} machines evaluated again.</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Reports_ImportItem_one" xml:space="preserve">
+    <value>Import {0} ({1} file)</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Reports_ImportItem_other" xml:space="preserve">
+    <value>Import {0} ({1} files)</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Reports_PendingEntries_one" xml:space="preserve">
+    <value>{0} exception pending or changed</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Reports_PendingEntries_other" xml:space="preserve">
+    <value>{0} exceptions pending or changed</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Machines_SummaryStale" xml:space="preserve">
+    <value>{0} with an outdated collection</value>
   </data>
 </root>

@@ -67,7 +67,7 @@ internal static class CheckOutput
         if (assessments.Count > 1)
         {
             int exit = assessments.Max(x => x.Outcome.ExitCode);
-            ctx.Line(CliStrings.Cli_CheckOverall, StateName(exit), exit, CommandContext.N(assessments.Count));
+            ctx.Line(Plural.Text("Cli_CheckOverall", assessments.Count, StateName(exit), exit, CommandContext.N(assessments.Count)));
         }
     }
 

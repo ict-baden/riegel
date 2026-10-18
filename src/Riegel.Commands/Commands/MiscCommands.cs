@@ -42,8 +42,10 @@ internal static class MiscCommands
         var catalogue = PlantBaselines.Catalogue(ctx, plant);
         var registers = ctx.Services.Registers.Load(plant);
         var result = ctx.Services.Remediation.Write(run, snapshot, catalogue, registers, outDir, language);
-        ctx.Line(CliStrings.Cli_RemediationWritten, result.Directory, CommandContext.N(result.IncludedRuleIds.Count),
-            CommandContext.N(result.Excluded.Count), CommandContext.N(result.ManualRuleIds.Count));
+        ctx.Line(CliStrings.Cli_RemediationWritten, result.Directory,
+            Plural.Text("Cli_CountRulesInFiles", result.IncludedRuleIds.Count, CommandContext.N(result.IncludedRuleIds.Count)),
+            Plural.Text("Cli_CountLeftOut", result.Excluded.Count, CommandContext.N(result.Excluded.Count)),
+            Plural.Text("Cli_CountManualSteps", result.ManualRuleIds.Count, CommandContext.N(result.ManualRuleIds.Count)));
         foreach (var file in result.Files) ctx.Written(file);
         ctx.Line(CliStrings.Cli_RemediationNote);
         return CommandApp.Ok;

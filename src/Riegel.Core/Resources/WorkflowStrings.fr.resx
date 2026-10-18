@@ -489,4 +489,7 @@
   <data name="Error_RGL0416" xml:space="preserve">
     <value>L'export {0} ne correspond pas à l'exécution {1} (SHA-256 attendu {2}, trouvé {3}). Il n'est utilisé ni pour une annulation, ni pour une comparaison, ni pour une réévaluation.</value>
   </data>
+  <data name="Error_RGL0439_one" xml:space="preserve">
+    <value>Expire le {0} (dans {1} jour).</value>
+  </data>
 </root>

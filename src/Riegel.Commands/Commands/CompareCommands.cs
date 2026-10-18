@@ -169,7 +169,7 @@ internal static class CompareCommands
                 ctx.Line(CliStrings.Cli_VerifyReproduced, result.EngineVersion, packed);
                 break;
             case VerifyStatus.Mismatch:
-                ctx.Line(CliStrings.Cli_VerifyMismatch, result.EngineVersion, packed, CommandContext.N(result.Findings.Count));
+                ctx.Line(Plural.Text("Cli_VerifyMismatch", result.Findings.Count, result.EngineVersion, packed, CommandContext.N(result.Findings.Count)));
                 break;
             default:
                 ctx.Line(CliStrings.Cli_VerifyError);
@@ -185,7 +185,7 @@ internal static class CompareCommands
         }
         if (result.Findings.Count > MaxLines) ctx.Line(CliStrings.Cli_AndMore, result.Findings.Count - MaxLines);
         if (result.NotVerifiable.Count > 0)
-            ctx.Line(CliStrings.Cli_VerifyNotVerifiable, CommandContext.N(result.NotVerifiable.Count), CheckOutput.Ids(result.NotVerifiable));
+            ctx.Line(Plural.Text("Cli_VerifyNotVerifiable", result.NotVerifiable.Count, CommandContext.N(result.NotVerifiable.Count), CheckOutput.Ids(result.NotVerifiable)));
         return result.ExitCode;
     }
 

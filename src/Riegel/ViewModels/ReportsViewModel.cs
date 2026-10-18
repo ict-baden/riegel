@@ -101,7 +101,7 @@ internal sealed class ReportsViewModel : PageViewModel
     public string PerformedBy { get => _performedBy; set => Set(ref _performedBy, value); }
     public string LogoText => Plant?.Plant.Settings.CoverLogoFile is { } logo ? logo : Loc.T("Reports_NoLogo");
     public int PendingCount => Plant?.Registers.Exceptions.Exceptions.Count(e => Plant.Info(e).State is RegisterEntryState.Pending or RegisterEntryState.ChangedAfterApproval) ?? 0;
-    public string PendingText => Loc.F("Reports_PendingEntries", PendingCount);
+    public string PendingText => Loc.P("Reports_PendingEntries", PendingCount, PendingCount);
     public bool HasWritten => Written.Count > 0;
 
     public RelayCommand BrowseCommand { get; }
@@ -132,7 +132,7 @@ internal sealed class ReportsViewModel : PageViewModel
             foreach (var m in plant.Machines.Where(m => m.Latest is not null)) HostChoices.Add(new Choice<string?>(m.HostName, m.HostName));
             foreach (var g in plant.Plant.Groups) Groups.Add(new Choice<string?>(g.Id, $"{g.Name} ({Texts.Role(g.Role)})"));
             foreach (var i in plant.Imports.OrderByDescending(i => i.ImportedAtUtc))
-                Imports.Add(new Choice<string?>(i.Id, Loc.F("Reports_ImportItem", Texts.DateTime(i.ImportedAtUtc), i.Files.Count)));
+                Imports.Add(new Choice<string?>(i.Id, Loc.P("Reports_ImportItem", i.Files.Count, Texts.DateTime(i.ImportedAtUtc), i.Files.Count)));
             Plants.Add(new PlantPick(plant.Folder, plant.Plant.Name, true));
             foreach (var folder in Session.RecentPlants.Where(f => !string.Equals(f, plant.Folder, StringComparison.OrdinalIgnoreCase)))
                 Plants.Add(new PlantPick(folder, Path.GetFileName(folder), false) { IsChecked = false });

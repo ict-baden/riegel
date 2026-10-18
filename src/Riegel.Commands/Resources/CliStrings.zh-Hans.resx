@@ -104,14 +104,8 @@
     <value>警告：证据包包含已导入基线的完整内容。请确认其许可证允许转交（Microsoft、BSI 和 CIS 的条款可能不允许）。</value>
     <comment>TODO-übersetzen</comment>
   </data>
-  <data name="Cli_BaselineImported" xml:space="preserve">
-    <value>基线 {0}（{1}）已导入：{2} 条规则，来源 SHA-256 {3}</value>
-  </data>
   <data name="Cli_BaselineLicenceNote" xml:space="preserve">
     <value>导入的基线保留在此设备文件夹中。除非使用 report --evidence --include-baseline-content，否则证据包只包含其元数据。</value>
-  </data>
-  <data name="Cli_BaselineLine" xml:space="preserve">
-    <value>{0}  {1}  {2} 条规则  导入于 {3}  来源 {4}</value>
   </data>
   <data name="Cli_BaselineNone" xml:space="preserve">
     <value>没有已导入的基线。</value>
@@ -139,9 +133,6 @@
   </data>
   <data name="Cli_CheckOpen" xml:space="preserve">
     <value>  未解决的发现：高 {0}，中 {1}，低 {2}</value>
-  </data>
-  <data name="Cli_CheckOverall" xml:space="preserve">
-    <value>总体：{0}（退出代码 {1}），共 {2} 台计算机</value>
   </data>
   <data name="Cli_CheckPolicy" xml:space="preserve">
     <value>告警模式 {0}：严重 {1}；警告 {2}</value>
@@ -220,9 +211,6 @@ SHA-256：{1}</value>
   <data name="Cli_GuiOnly" xml:space="preserve">
     <value>{0} 仅在 Riegel.exe（窗口程序）中可用，命令行中不可用。</value>
   </data>
-  <data name="Cli_ImportDone" xml:space="preserve">
-    <value>导入 {0}：已将 {1} 个导出文件添加到 {2}</value>
-  </data>
   <data name="Cli_ImportNoSidecar" xml:space="preserve">
     <value>  {0}：没有匹配的 .sha256 文件 – 完整性未经证明</value>
   </data>
@@ -284,9 +272,6 @@ SHA-256：{1}</value>
   <data name="Cli_RegisterLine" xml:space="preserve">
     <value>{0}  {1}  {2}  复审日期 {3}  {4}</value>
   </data>
-  <data name="Cli_RegisterNoneExpiring" xml:space="preserve">
-    <value>{0}：{1} 天内没有到期的条目。</value>
-  </data>
   <data name="Cli_RegisterText" xml:space="preserve">
     <value>      {0}</value>
   </data>
@@ -294,7 +279,7 @@ SHA-256：{1}</value>
     <value>仅为建议 – Riegel 不会执行。应用前请与设备制造商协商每项更改。</value>
   </data>
   <data name="Cli_RemediationWritten" xml:space="preserve">
-    <value>修复建议已写入 {0}：文件中 {1} 条规则，{2} 条省略，{3} 个手动步骤</value>
+    <value>修复建议已写入 {0}：{1}，{2}，{3}</value>
   </data>
   <data name="Cli_RuleLine" xml:space="preserve">
     <value>{0}  {1}  {2}  {3}</value>
@@ -332,29 +317,20 @@ SHA-256：{1}</value>
   <data name="Cli_SourceThisPc" xml:space="preserve">
     <value>本机</value>
   </data>
-  <data name="Cli_TemplateImported" xml:space="preserve">
-    <value>已将 {0} 个条目以“已申请”状态添加到 {1} – 只有批准后才生效。</value>
-  </data>
   <data name="Cli_ValidateInvalid" xml:space="preserve">
-    <value>{0}：{1} 个条目，{2} 个错误，{3} 个警告 – 无效。</value>
+    <value>{0}：{1}，{2}，{3} – 无效。</value>
   </data>
   <data name="Cli_ValidateOk" xml:space="preserve">
-    <value>{0}：{1} 个条目，有效。</value>
+    <value>{0}：{1}，有效。</value>
   </data>
   <data name="Cli_ValidateWarnings" xml:space="preserve">
-    <value>{0}：{1} 个条目，{2} 个错误，{3} 个警告。</value>
+    <value>{0}：{1}，{2}，{3}。</value>
   </data>
   <data name="Cli_VerifyCounts" xml:space="preserve">
     <value>已检查的导出文件：{0} · 已比较的结果：{1}</value>
   </data>
   <data name="Cli_VerifyError" xml:space="preserve">
     <value>无法验证证据包。</value>
-  </data>
-  <data name="Cli_VerifyMismatch" xml:space="preserve">
-    <value>未能使用引擎 {0} 重现（包内：{1}）：{2} 项发现。</value>
-  </data>
-  <data name="Cli_VerifyNotVerifiable" xml:space="preserve">
-    <value>无法核实（未包含基线内容）：{0} 个结果（{1}）</value>
   </data>
   <data name="Cli_VerifyReproduced" xml:space="preserve">
     <value>已使用引擎 {0} 重现（包内：{1}）。</value>
@@ -768,5 +744,89 @@ remediation/&lt;计算机&gt;/&lt;运行&gt;/ 下。Riegel 从不执行这些文
   </data>
   <data name="Error_RGL0471" xml:space="preserve">
     <value>没有名为 {0} 的模板文件或内置模板。内置模板：{1}。</value>
+  </data>
+  <data name="Cli_ImportDone_one" xml:space="preserve">
+    <value>导入 {0}：已将 {1} 个导出文件添加到 {2}</value>
+  </data>
+  <data name="Cli_ImportDone_other" xml:space="preserve">
+    <value>导入 {0}：已将 {1} 个导出文件添加到 {2}</value>
+  </data>
+  <data name="Cli_TemplateImported_one" xml:space="preserve">
+    <value>已将 {0} 个条目以“已申请”状态添加到 {1} – 只有批准后才生效。</value>
+  </data>
+  <data name="Cli_TemplateImported_other" xml:space="preserve">
+    <value>已将 {0} 个条目以“已申请”状态添加到 {1} – 只有批准后才生效。</value>
+  </data>
+  <data name="Cli_CountEntries_one" xml:space="preserve">
+    <value>{0} 个条目</value>
+  </data>
+  <data name="Cli_CountEntries_other" xml:space="preserve">
+    <value>{0} 个条目</value>
+  </data>
+  <data name="Cli_CountErrors_one" xml:space="preserve">
+    <value>{0} 个错误</value>
+  </data>
+  <data name="Cli_CountErrors_other" xml:space="preserve">
+    <value>{0} 个错误</value>
+  </data>
+  <data name="Cli_CountWarnings_one" xml:space="preserve">
+    <value>{0} 个警告</value>
+  </data>
+  <data name="Cli_CountWarnings_other" xml:space="preserve">
+    <value>{0} 个警告</value>
+  </data>
+  <data name="Cli_CheckOverall_one" xml:space="preserve">
+    <value>总体：{0}（退出代码 {1}），共 {2} 台计算机</value>
+  </data>
+  <data name="Cli_CheckOverall_other" xml:space="preserve">
+    <value>总体：{0}（退出代码 {1}），共 {2} 台计算机</value>
+  </data>
+  <data name="Cli_RegisterNoneExpiring_one" xml:space="preserve">
+    <value>{0}：{1} 天内没有到期的条目。</value>
+  </data>
+  <data name="Cli_RegisterNoneExpiring_other" xml:space="preserve">
+    <value>{0}：{1} 天内没有到期的条目。</value>
+  </data>
+  <data name="Cli_VerifyMismatch_one" xml:space="preserve">
+    <value>未能使用引擎 {0} 重现（包内：{1}）：{2} 项发现。</value>
+  </data>
+  <data name="Cli_VerifyMismatch_other" xml:space="preserve">
+    <value>未能使用引擎 {0} 重现（包内：{1}）：{2} 项发现。</value>
+  </data>
+  <data name="Cli_VerifyNotVerifiable_one" xml:space="preserve">
+    <value>无法核实（未包含基线内容）：{0} 个结果（{1}）</value>
+  </data>
+  <data name="Cli_VerifyNotVerifiable_other" xml:space="preserve">
+    <value>无法核实（未包含基线内容）：{0} 个结果（{1}）</value>
+  </data>
+  <data name="Cli_CountRulesInFiles_one" xml:space="preserve">
+    <value>文件中 {0} 条规则</value>
+  </data>
+  <data name="Cli_CountRulesInFiles_other" xml:space="preserve">
+    <value>文件中 {0} 条规则</value>
+  </data>
+  <data name="Cli_CountLeftOut_one" xml:space="preserve">
+    <value>{0} 条省略</value>
+  </data>
+  <data name="Cli_CountLeftOut_other" xml:space="preserve">
+    <value>{0} 条省略</value>
+  </data>
+  <data name="Cli_CountManualSteps_one" xml:space="preserve">
+    <value>{0} 个手动步骤</value>
+  </data>
+  <data name="Cli_CountManualSteps_other" xml:space="preserve">
+    <value>{0} 个手动步骤</value>
+  </data>
+  <data name="Cli_BaselineImported_one" xml:space="preserve">
+    <value>基线 {0}（{1}）已导入：{2} 条规则，来源 SHA-256 {3}</value>
+  </data>
+  <data name="Cli_BaselineImported_other" xml:space="preserve">
+    <value>基线 {0}（{1}）已导入：{2} 条规则，来源 SHA-256 {3}</value>
+  </data>
+  <data name="Cli_BaselineLine_one" xml:space="preserve">
+    <value>{0}  {1}  {2} 条规则  导入于 {3}  来源 {4}</value>
+  </data>
+  <data name="Cli_BaselineLine_other" xml:space="preserve">
+    <value>{0}  {1}  {2} 条规则  导入于 {3}  来源 {4}</value>
   </data>
 </root>

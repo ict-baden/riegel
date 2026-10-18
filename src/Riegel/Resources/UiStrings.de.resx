@@ -637,9 +637,6 @@
   <data name="Filter_WithCount" xml:space="preserve">
     <value>{0} ({1})</value>
   </data>
-  <data name="Format_DaysAgo" xml:space="preserve">
-    <value>vor {0} Tagen</value>
-  </data>
   <data name="Format_Percent" xml:space="preserve">
     <value>{0} %</value>
   </data>
@@ -872,7 +869,7 @@
     <value>veraltet</value>
   </data>
   <data name="Machines_Summary" xml:space="preserve">
-    <value>{0} Rechner · {1} mit veralteter Erfassung · {2} Befunde verschlechtert</value>
+    <value>{0} · {1} · {2}</value>
   </data>
   <data name="Machines_TrendBetter" xml:space="preserve">
     <value>besser als der vorige Lauf</value>
@@ -912,9 +909,6 @@
   </data>
   <data name="Main_NoPlantTitle" xml:space="preserve">
     <value>Diese Seite braucht eine geöffnete Anlage</value>
-  </data>
-  <data name="Main_PlantDetail" xml:space="preserve">
-    <value>{0} Rechner</value>
   </data>
   <data name="Main_ReadOnlyBanner" xml:space="preserve">
     <value>Prüfermodus: In den Anlagenordner wird nichts geschrieben. Dokumente gehen nur in einen gewählten Ordner.</value>
@@ -997,9 +991,6 @@
   <data name="NewPlant_Title" xml:space="preserve">
     <value>Neue Anlage</value>
   </data>
-  <data name="Notice_Approved" xml:space="preserve">
-    <value>Genehmigung für {0} Einträge eingetragen (Nachweis {1}).</value>
-  </data>
   <data name="Notice_BaselineImported" xml:space="preserve">
     <value>Baseline {0} importiert.</value>
   </data>
@@ -1009,20 +1000,11 @@
   <data name="Notice_CollectorCopied" xml:space="preserve">
     <value>Sammler nach {0} kopiert.</value>
   </data>
-  <data name="Notice_DocumentWritten" xml:space="preserve">
-    <value>{0} Datei(en) nach {1} geschrieben.</value>
-  </data>
   <data name="Notice_ExceptionSaved" xml:space="preserve">
     <value>Ausnahme {0} gespeichert – sie ist beantragt, bis die Genehmigung eingetragen ist.</value>
   </data>
   <data name="Notice_GroupsSaved" xml:space="preserve">
     <value>Gruppen und Rollen gespeichert.</value>
-  </data>
-  <data name="Notice_Imported" xml:space="preserve">
-    <value>{0} Export(e) importiert und ausgewertet.</value>
-  </data>
-  <data name="Notice_ImportedWithRecord" xml:space="preserve">
-    <value>{0} Export(e) importiert und ausgewertet; Erhebungsprotokoll {1} geschrieben.</value>
   </data>
   <data name="Notice_LogoSaved" xml:space="preserve">
     <value>Logo im Anlagenordner abgelegt.</value>
@@ -1035,9 +1017,6 @@
   </data>
   <data name="Notice_PlantSettingsSaved" xml:space="preserve">
     <value>Einstellungen der Anlage gespeichert.</value>
-  </data>
-  <data name="Notice_Reevaluated" xml:space="preserve">
-    <value>{0} Rechner neu ausgewertet.</value>
   </data>
   <data name="Notice_ReportSettingsSaved" xml:space="preserve">
     <value>Berichtsangaben in der Anlage gespeichert.</value>
@@ -1288,9 +1267,6 @@
   <data name="Reports_HandoverText" xml:space="preserve">
     <value>Sammler-Paket mit UEBERGABE.txt (Prüfsummen, Version, Ausführung, was zurückbleibt).</value>
   </data>
-  <data name="Reports_ImportItem" xml:space="preserve">
-    <value>Import vom {0} ({1} Datei(en))</value>
-  </data>
   <data name="Reports_Language" xml:space="preserve">
     <value>Sprache des Berichts</value>
   </data>
@@ -1323,9 +1299,6 @@
   </data>
   <data name="Reports_OutputReadOnly" xml:space="preserve">
     <value>Prüfermodus: einen Ordner außerhalb des Anlagenordners wählen.</value>
-  </data>
-  <data name="Reports_PendingEntries" xml:space="preserve">
-    <value>{0} Ausnahme(n) beantragt oder geändert</value>
   </data>
   <data name="Reports_PerformedBy" xml:space="preserve">
     <value>Durchgeführt von (Deckblatt)</value>
@@ -1705,9 +1678,6 @@
   <data name="Start_Incomplete" xml:space="preserve">
     <value>Unvollständige Prüfung: nur {0} % prüfbar – der Wert ist grau.</value>
   </data>
-  <data name="Start_Machines" xml:space="preserve">
-    <value>{0} Rechner, {1} mit Lauf</value>
-  </data>
   <data name="Start_Open" xml:space="preserve">
     <value>Anlage öffnen …</value>
   </data>
@@ -1812,5 +1782,80 @@
   </data>
   <data name="Notice_ReevaluateSkipped" xml:space="preserve">
     <value>Nicht neu ausgewertet, der Export gehört nicht zum Lauf oder liegt nicht im Anlagenordner: {0}</value>
+  </data>
+  <data name="Format_DaysAgo_one" xml:space="preserve">
+    <value>vor {0} Tag</value>
+  </data>
+  <data name="Format_DaysAgo_other" xml:space="preserve">
+    <value>vor {0} Tagen</value>
+  </data>
+  <data name="Machines_SummaryMachines_one" xml:space="preserve">
+    <value>{0} Rechner</value>
+  </data>
+  <data name="Machines_SummaryMachines_other" xml:space="preserve">
+    <value>{0} Rechner</value>
+  </data>
+  <data name="Machines_SummaryWorse_one" xml:space="preserve">
+    <value>{0} Befund verschlechtert</value>
+  </data>
+  <data name="Machines_SummaryWorse_other" xml:space="preserve">
+    <value>{0} Befunde verschlechtert</value>
+  </data>
+  <data name="Main_PlantDetail_one" xml:space="preserve">
+    <value>{0} Rechner</value>
+  </data>
+  <data name="Main_PlantDetail_other" xml:space="preserve">
+    <value>{0} Rechner</value>
+  </data>
+  <data name="Start_Machines_one" xml:space="preserve">
+    <value>{0} Rechner, {1} mit Lauf</value>
+  </data>
+  <data name="Start_Machines_other" xml:space="preserve">
+    <value>{0} Rechner, {1} mit Lauf</value>
+  </data>
+  <data name="Notice_Approved_one" xml:space="preserve">
+    <value>Genehmigung für {0} Eintrag eingetragen (Nachweis {1}).</value>
+  </data>
+  <data name="Notice_Approved_other" xml:space="preserve">
+    <value>Genehmigung für {0} Einträge eingetragen (Nachweis {1}).</value>
+  </data>
+  <data name="Notice_DocumentWritten_one" xml:space="preserve">
+    <value>{0} Datei nach {1} geschrieben.</value>
+  </data>
+  <data name="Notice_DocumentWritten_other" xml:space="preserve">
+    <value>{0} Dateien nach {1} geschrieben.</value>
+  </data>
+  <data name="Notice_Imported_one" xml:space="preserve">
+    <value>{0} Export importiert und ausgewertet.</value>
+  </data>
+  <data name="Notice_Imported_other" xml:space="preserve">
+    <value>{0} Exporte importiert und ausgewertet.</value>
+  </data>
+  <data name="Notice_ImportedWithRecord_one" xml:space="preserve">
+    <value>{0} Export importiert und ausgewertet; Erhebungsprotokoll {1} geschrieben.</value>
+  </data>
+  <data name="Notice_ImportedWithRecord_other" xml:space="preserve">
+    <value>{0} Exporte importiert und ausgewertet; Erhebungsprotokoll {1} geschrieben.</value>
+  </data>
+  <data name="Notice_Reevaluated_one" xml:space="preserve">
+    <value>{0} Rechner neu ausgewertet.</value>
+  </data>
+  <data name="Notice_Reevaluated_other" xml:space="preserve">
+    <value>{0} Rechner neu ausgewertet.</value>
+  </data>
+  <data name="Reports_ImportItem_one" xml:space="preserve">
+    <value>Import vom {0} ({1} Datei)</value>
+  </data>
+  <data name="Reports_ImportItem_other" xml:space="preserve">
+    <value>Import vom {0} ({1} Dateien)</value>
+  </data>
+  <data name="Reports_PendingEntries_one" xml:space="preserve">
+    <value>{0} Ausnahme beantragt oder geändert</value>
+  </data>
+  <data name="Reports_PendingEntries_other" xml:space="preserve">
+    <value>{0} Ausnahmen beantragt oder geändert</value>
+  </data>
+  <data name="Machines_SummaryStale" xml:space="preserve">
+    <value>{0} mit veralteter Erfassung</value>
   </data>
 </root>

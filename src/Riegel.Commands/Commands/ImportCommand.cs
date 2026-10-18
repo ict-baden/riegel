@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 using Riegel.Commands.Alerting;
+using Riegel.Commands.Output;
 using Riegel.Commands.Parsing;
 using Riegel.Commands.Resources;
 using Riegel.Core.Model;
@@ -70,7 +71,7 @@ internal static class ImportCommand
         else if (format == "json") CheckOutput.Json(ctx, assessments, policy, record);
         else
         {
-            ctx.Line(CliStrings.Cli_ImportDone, record.Id, CommandContext.N(record.Files.Count), plant.Folder);
+            ctx.Line(Plural.Text("Cli_ImportDone", record.Files.Count, record.Id, CommandContext.N(record.Files.Count), plant.Folder));
             foreach (var file in record.Files.Where(f => !f.SidecarOk))
                 ctx.Line(CliStrings.Cli_ImportNoSidecar, file.FileName);
             ctx.Line();

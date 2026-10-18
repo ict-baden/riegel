@@ -35,7 +35,7 @@ internal static class BaselineCommands
         var plant = ctx.OpenPlant(a.Required("--plant", "<folder>"), forWrite: true, "baseline import");
         var imported = ctx.Services.Baselines.Import(source, name, ReadLimits.Default);
         var path = PlantBaselines.Save(plant, imported, name);
-        ctx.Line(CliStrings.Cli_BaselineImported, imported.Baseline.Id, name, CommandContext.N(imported.Rules.Count), imported.Baseline.SourceSha256);
+        ctx.Line(Plural.Text("Cli_BaselineImported", imported.Rules.Count, imported.Baseline.Id, name, CommandContext.N(imported.Rules.Count), imported.Baseline.SourceSha256));
         ctx.Written(path);
         ctx.Note(CliStrings.Cli_BaselineLicenceNote);
         return CommandApp.Ok;
@@ -73,8 +73,8 @@ internal static class BaselineCommands
         }
         if (files.Count == 0) ctx.Line(CliStrings.Cli_BaselineNone);
         foreach (var file in files)
-            ctx.Line(CliStrings.Cli_BaselineLine, file.Id, file.Name, CommandContext.N(file.Rules.Count),
-                file.ImportedAtUtc is { } at ? CommandContext.T(at) : "–", file.SourceSha256 ?? "–");
+            ctx.Line(Plural.Text("Cli_BaselineLine", file.Rules.Count, file.Id, file.Name, CommandContext.N(file.Rules.Count),
+                file.ImportedAtUtc is { } at ? CommandContext.T(at) : "–", file.SourceSha256 ?? "–"));
         return CommandApp.Ok;
     }
 

@@ -103,14 +103,8 @@
   <data name="Cli_BaselineContentWarning" xml:space="preserve">
     <value>Avertissement : le paquet de preuves contient le contenu complet des bases importées. Vérifiez que leur licence autorise leur transmission (les conditions de Microsoft, du BSI et du CIS peuvent l'interdire).</value>
   </data>
-  <data name="Cli_BaselineImported" xml:space="preserve">
-    <value>Base {0} ({1}) importée : {2} règles, SHA-256 de la source {3}</value>
-  </data>
   <data name="Cli_BaselineLicenceNote" xml:space="preserve">
     <value>Les bases importées restent dans ce dossier de l'installation. Les paquets de preuves ne contiennent que leurs métadonnées, sauf avec report --evidence --include-baseline-content.</value>
-  </data>
-  <data name="Cli_BaselineLine" xml:space="preserve">
-    <value>{0}  {1}  {2} règles  importée {3}  source {4}</value>
   </data>
   <data name="Cli_BaselineNone" xml:space="preserve">
     <value>Aucune base importée.</value>
@@ -138,9 +132,6 @@
   </data>
   <data name="Cli_CheckOpen" xml:space="preserve">
     <value>  Constats ouverts : {0} élevés, {1} moyens, {2} faibles</value>
-  </data>
-  <data name="Cli_CheckOverall" xml:space="preserve">
-    <value>Global : {0} (code de sortie {1}) pour {2} machines</value>
   </data>
   <data name="Cli_CheckPolicy" xml:space="preserve">
     <value>Mode d'alerte {0} : critique {1} ; avertissement {2}</value>
@@ -219,9 +210,6 @@ SHA-256 : {1}</value>
   <data name="Cli_GuiOnly" xml:space="preserve">
     <value>{0} n'est disponible que dans Riegel.exe (la fenêtre), pas en ligne de commande.</value>
   </data>
-  <data name="Cli_ImportDone" xml:space="preserve">
-    <value>Import {0} : {1} exports ajoutés à {2}</value>
-  </data>
   <data name="Cli_ImportNoSidecar" xml:space="preserve">
     <value>  {0} : aucun fichier .sha256 correspondant – intégrité non prouvée</value>
   </data>
@@ -283,9 +271,6 @@ Données et confidentialité : {4}</value>
   <data name="Cli_RegisterLine" xml:space="preserve">
     <value>{0}  {1}  {2}  revue avant le {3}  {4}</value>
   </data>
-  <data name="Cli_RegisterNoneExpiring" xml:space="preserve">
-    <value>{0} : rien n'expire dans les {1} prochains jours.</value>
-  </data>
   <data name="Cli_RegisterText" xml:space="preserve">
     <value>      {0}</value>
   </data>
@@ -293,7 +278,7 @@ Données et confidentialité : {4}</value>
     <value>Proposition uniquement – Riegel ne l'applique pas. Convenez de chaque modification avec le fabricant de l'installation avant de l'appliquer.</value>
   </data>
   <data name="Cli_RemediationWritten" xml:space="preserve">
-    <value>Proposition de correction écrite dans {0} : {1} règles dans les fichiers, {2} omises, {3} étapes manuelles</value>
+    <value>Proposition de correction écrite dans {0} : {1}, {2}, {3}</value>
   </data>
   <data name="Cli_RuleLine" xml:space="preserve">
     <value>{0}  {1}  {2}  {3}</value>
@@ -331,29 +316,20 @@ Données et confidentialité : {4}</value>
   <data name="Cli_SourceThisPc" xml:space="preserve">
     <value>ce PC</value>
   </data>
-  <data name="Cli_TemplateImported" xml:space="preserve">
-    <value>{0} entrées ajoutées à {1} comme demandées – elles ne comptent qu'après une approbation.</value>
-  </data>
   <data name="Cli_ValidateInvalid" xml:space="preserve">
-    <value>{0} : {1} entrées, {2} erreurs, {3} avertissements – non valide.</value>
+    <value>{0} : {1}, {2}, {3} – non valide.</value>
   </data>
   <data name="Cli_ValidateOk" xml:space="preserve">
-    <value>{0} : {1} entrées, valide.</value>
+    <value>{0} : {1}, valide.</value>
   </data>
   <data name="Cli_ValidateWarnings" xml:space="preserve">
-    <value>{0} : {1} entrées, {2} erreurs, {3} avertissements.</value>
+    <value>{0} : {1}, {2}, {3}.</value>
   </data>
   <data name="Cli_VerifyCounts" xml:space="preserve">
     <value>Exports vérifiés : {0} · résultats comparés : {1}</value>
   </data>
   <data name="Cli_VerifyError" xml:space="preserve">
     <value>Le paquet de preuves n'a pas pu être vérifié.</value>
-  </data>
-  <data name="Cli_VerifyMismatch" xml:space="preserve">
-    <value>Non reproduit avec le moteur {0} (empaqueté : {1}) : {2} constats.</value>
-  </data>
-  <data name="Cli_VerifyNotVerifiable" xml:space="preserve">
-    <value>Non vérifiable (contenu de la base non inclus) : {0} résultats ({1})</value>
   </data>
   <data name="Cli_VerifyReproduced" xml:space="preserve">
     <value>Reproduit avec le moteur {0} (empaqueté : {1}).</value>
@@ -762,5 +738,89 @@ Codes de sortie : 0 reproduit, 2 divergent, 3 erreur.</value>
   </data>
   <data name="Error_RGL0471" xml:space="preserve">
     <value>Aucun fichier de modèle ni aucun modèle intégré nommé {0}. Intégrés : {1}.</value>
+  </data>
+  <data name="Cli_ImportDone_one" xml:space="preserve">
+    <value>Import {0} : {1} export ajouté à {2}</value>
+  </data>
+  <data name="Cli_ImportDone_other" xml:space="preserve">
+    <value>Import {0} : {1} exports ajoutés à {2}</value>
+  </data>
+  <data name="Cli_TemplateImported_one" xml:space="preserve">
+    <value>{0} entrée ajoutée à {1} comme demandée – elle ne compte qu'après une approbation.</value>
+  </data>
+  <data name="Cli_TemplateImported_other" xml:space="preserve">
+    <value>{0} entrées ajoutées à {1} comme demandées – elles ne comptent qu'après une approbation.</value>
+  </data>
+  <data name="Cli_CountEntries_one" xml:space="preserve">
+    <value>{0} entrée</value>
+  </data>
+  <data name="Cli_CountEntries_other" xml:space="preserve">
+    <value>{0} entrées</value>
+  </data>
+  <data name="Cli_CountErrors_one" xml:space="preserve">
+    <value>{0} erreur</value>
+  </data>
+  <data name="Cli_CountErrors_other" xml:space="preserve">
+    <value>{0} erreurs</value>
+  </data>
+  <data name="Cli_CountWarnings_one" xml:space="preserve">
+    <value>{0} avertissement</value>
+  </data>
+  <data name="Cli_CountWarnings_other" xml:space="preserve">
+    <value>{0} avertissements</value>
+  </data>
+  <data name="Cli_CheckOverall_one" xml:space="preserve">
+    <value>Global : {0} (code de sortie {1}) pour {2} machine</value>
+  </data>
+  <data name="Cli_CheckOverall_other" xml:space="preserve">
+    <value>Global : {0} (code de sortie {1}) pour {2} machines</value>
+  </data>
+  <data name="Cli_RegisterNoneExpiring_one" xml:space="preserve">
+    <value>{0} : rien n'expire d'ici {1} jour.</value>
+  </data>
+  <data name="Cli_RegisterNoneExpiring_other" xml:space="preserve">
+    <value>{0} : rien n'expire dans les {1} prochains jours.</value>
+  </data>
+  <data name="Cli_VerifyMismatch_one" xml:space="preserve">
+    <value>Non reproduit avec le moteur {0} (empaqueté : {1}) : {2} constat.</value>
+  </data>
+  <data name="Cli_VerifyMismatch_other" xml:space="preserve">
+    <value>Non reproduit avec le moteur {0} (empaqueté : {1}) : {2} constats.</value>
+  </data>
+  <data name="Cli_VerifyNotVerifiable_one" xml:space="preserve">
+    <value>Non vérifiable (contenu de la base non inclus) : {0} résultat ({1})</value>
+  </data>
+  <data name="Cli_VerifyNotVerifiable_other" xml:space="preserve">
+    <value>Non vérifiable (contenu de la base non inclus) : {0} résultats ({1})</value>
+  </data>
+  <data name="Cli_CountRulesInFiles_one" xml:space="preserve">
+    <value>{0} règle dans les fichiers</value>
+  </data>
+  <data name="Cli_CountRulesInFiles_other" xml:space="preserve">
+    <value>{0} règles dans les fichiers</value>
+  </data>
+  <data name="Cli_CountLeftOut_one" xml:space="preserve">
+    <value>{0} omise</value>
+  </data>
+  <data name="Cli_CountLeftOut_other" xml:space="preserve">
+    <value>{0} omises</value>
+  </data>
+  <data name="Cli_CountManualSteps_one" xml:space="preserve">
+    <value>{0} étape manuelle</value>
+  </data>
+  <data name="Cli_CountManualSteps_other" xml:space="preserve">
+    <value>{0} étapes manuelles</value>
+  </data>
+  <data name="Cli_BaselineImported_one" xml:space="preserve">
+    <value>Base {0} ({1}) importée : {2} règle, SHA-256 de la source {3}</value>
+  </data>
+  <data name="Cli_BaselineImported_other" xml:space="preserve">
+    <value>Base {0} ({1}) importée : {2} règles, SHA-256 de la source {3}</value>
+  </data>
+  <data name="Cli_BaselineLine_one" xml:space="preserve">
+    <value>{0}  {1}  {2} règle  importée {3}  source {4}</value>
+  </data>
+  <data name="Cli_BaselineLine_other" xml:space="preserve">
+    <value>{0}  {1}  {2} règles  importée {3}  source {4}</value>
   </data>
 </root>

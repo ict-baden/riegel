@@ -132,7 +132,7 @@ internal static partial class RegisterRules
         if (string.IsNullOrWhiteSpace(m.Action)) issues.Add(new(RglCodesWorkflow.FieldRequired, IssueSeverity.Error, "action", "action"));
         if (string.IsNullOrWhiteSpace(m.OwnerRole)) issues.Add(new(RglCodesWorkflow.FieldRequired, IssueSeverity.Error, "ownerRole", "ownerRole"));
         if (m.State == MeasureState.Planned && m.DueDate < today)
-            issues.Add(new(RglCodesWorkflow.MeasureOverdue, IssueSeverity.Warning, "dueDate", Iso(m.DueDate)));
+            issues.Add(new(RglCodesWorkflow.MeasureOverdue, IssueSeverity.Warning, "dueDate", Shown(m.DueDate)));
     }
 
     /// <summary>Ist die Maßnahme überfällig (geplant und Fälligkeit vorbei)? Ob der Befund noch offen ist, prüft der Aufrufer.</summary>
@@ -204,28 +204,28 @@ internal static partial class RegisterRules
         }
         if (a.ApprovedOn is { } on && on > today)
         {
-            issues.Add(new(RglCodesWorkflow.ApprovedInFuture, IssueSeverity.Warning, "approval.approvedOn", Iso(on)));
+            issues.Add(new(RglCodesWorkflow.ApprovedInFuture, IssueSeverity.Warning, "approval.approvedOn", Shown(on)));
             pending = true;
         }
         if (a.ApprovedOn is { } approvedOn && a.ReviewBy is { } reviewBy)
         {
             if (reviewBy < approvedOn)
-                issues.Add(new(RglCodesWorkflow.ReviewByBeforeApproval, IssueSeverity.Error, "approval.reviewBy", Iso(reviewBy), Iso(approvedOn)));
+                issues.Add(new(RglCodesWorkflow.ReviewByBeforeApproval, IssueSeverity.Error, "approval.reviewBy", Shown(reviewBy), Shown(approvedOn)));
             else if (reviewBy > approvedOn.AddMonths(MaxReviewMonths))
-                issues.Add(new(RglCodesWorkflow.ReviewByTooLate, IssueSeverity.Error, "approval.reviewBy", Iso(reviewBy), MaxReviewMonths, Iso(approvedOn)));
+                issues.Add(new(RglCodesWorkflow.ReviewByTooLate, IssueSeverity.Error, "approval.reviewBy", Shown(reviewBy), MaxReviewMonths, Shown(approvedOn)));
             else if (warnLong && reviewBy > approvedOn.AddMonths(WarnReviewMonths))
-                issues.Add(new(RglCodesWorkflow.ReviewByLong, IssueSeverity.Warning, "approval.reviewBy", Iso(reviewBy), WarnReviewMonths, Iso(approvedOn)));
+                issues.Add(new(RglCodesWorkflow.ReviewByLong, IssueSeverity.Warning, "approval.reviewBy", Shown(reviewBy), WarnReviewMonths, Shown(approvedOn)));
         }
         if (missing.Count == 0 && !pending && !changed && a.ReviewBy is { } until)
         {
             if (today > until)
             {
-                issues.Add(new(RglCodesWorkflow.Expired, IssueSeverity.Warning, "approval.reviewBy", Iso(until)));
+                issues.Add(new(RglCodesWorkflow.Expired, IssueSeverity.Warning, "approval.reviewBy", Shown(until)));
                 expired = true;
             }
             else if (until.DayNumber - today.DayNumber <= warnDays)
             {
-                issues.Add(new(RglCodesWorkflow.Expiring, IssueSeverity.Warning, "approval.reviewBy", Iso(until), until.DayNumber - today.DayNumber));
+                issues.Add(new(RglCodesWorkflow.Expiring, IssueSeverity.Warning, "approval.reviewBy", Shown(until), until.DayNumber - today.DayNumber));
                 expiring = true;
             }
         }
@@ -234,5 +234,9 @@ internal static partial class RegisterRules
 
     private static int Length(string? text) => text?.Trim().Length ?? 0;
 
+    /// <summary>Datum in einer Meldung: Gebietsschema der Oberfläche, invariant ISO 8601 (Review docs-ui-11).</summary>
+    internal static Localization.LocalDate Shown(DateOnly date) => new(date);
+
+    /// <summary>Datum in Dateien und Berichtsdaten: ISO 8601.</summary>
     internal static string Iso(DateOnly date) => FileNames.Date(date);
 }

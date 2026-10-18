@@ -640,9 +640,6 @@
   <data name="Filter_WithCount" xml:space="preserve">
     <value>{0} ({1})</value>
   </data>
-  <data name="Format_DaysAgo" xml:space="preserve">
-    <value>il y a {0} jours</value>
-  </data>
   <data name="Format_Percent" xml:space="preserve">
     <value>{0} %</value>
   </data>
@@ -876,7 +873,7 @@
     <value>obsolète</value>
   </data>
   <data name="Machines_Summary" xml:space="preserve">
-    <value>{0} machines · {1} avec collecte obsolète · {2} constats dégradés</value>
+    <value>{0} · {1} · {2}</value>
   </data>
   <data name="Machines_TrendBetter" xml:space="preserve">
     <value>meilleur que l’exécution précédente</value>
@@ -916,9 +913,6 @@
   </data>
   <data name="Main_NoPlantTitle" xml:space="preserve">
     <value>Cette page nécessite une installation ouverte</value>
-  </data>
-  <data name="Main_PlantDetail" xml:space="preserve">
-    <value>{0} machines</value>
   </data>
   <data name="Main_ReadOnlyBanner" xml:space="preserve">
     <value>Mode auditeur : rien n’est écrit dans le dossier de l’installation. Les documents vont uniquement dans un dossier choisi.</value>
@@ -1001,9 +995,6 @@
   <data name="NewPlant_Title" xml:space="preserve">
     <value>Nouvelle installation</value>
   </data>
-  <data name="Notice_Approved" xml:space="preserve">
-    <value>Approbation saisie pour {0} entrées (justificatif {1}).</value>
-  </data>
   <data name="Notice_BaselineImported" xml:space="preserve">
     <value>Référentiel {0} importé.</value>
   </data>
@@ -1013,20 +1004,11 @@
   <data name="Notice_CollectorCopied" xml:space="preserve">
     <value>Collecteur copié dans {0}.</value>
   </data>
-  <data name="Notice_DocumentWritten" xml:space="preserve">
-    <value>{0} fichier(s) écrit(s) dans {1}.</value>
-  </data>
   <data name="Notice_ExceptionSaved" xml:space="preserve">
     <value>Exception {0} enregistrée – elle reste en attente jusqu’à la saisie de l’approbation.</value>
   </data>
   <data name="Notice_GroupsSaved" xml:space="preserve">
     <value>Groupes et rôles enregistrés.</value>
-  </data>
-  <data name="Notice_Imported" xml:space="preserve">
-    <value>{0} export(s) importé(s) et évalué(s).</value>
-  </data>
-  <data name="Notice_ImportedWithRecord" xml:space="preserve">
-    <value>{0} export(s) importé(s) et évalué(s) ; procès-verbal de collecte {1} écrit.</value>
   </data>
   <data name="Notice_LogoSaved" xml:space="preserve">
     <value>Logo enregistré dans le dossier de l’installation.</value>
@@ -1039,9 +1021,6 @@
   </data>
   <data name="Notice_PlantSettingsSaved" xml:space="preserve">
     <value>Paramètres de l’installation enregistrés.</value>
-  </data>
-  <data name="Notice_Reevaluated" xml:space="preserve">
-    <value>{0} machine(s) réévaluée(s).</value>
   </data>
   <data name="Notice_ReportSettingsSaved" xml:space="preserve">
     <value>Paramètres du rapport enregistrés dans l’installation.</value>
@@ -1295,9 +1274,6 @@
   <data name="Reports_HandoverText" xml:space="preserve">
     <value>Paquet du collecteur avec UEBERGABE.txt (sommes de contrôle, version, exécution, traces laissées).</value>
   </data>
-  <data name="Reports_ImportItem" xml:space="preserve">
-    <value>Import du {0} ({1} fichier(s))</value>
-  </data>
   <data name="Reports_Language" xml:space="preserve">
     <value>Langue du rapport</value>
   </data>
@@ -1330,9 +1306,6 @@
   </data>
   <data name="Reports_OutputReadOnly" xml:space="preserve">
     <value>Mode auditeur : choisissez un dossier hors du dossier de l’installation.</value>
-  </data>
-  <data name="Reports_PendingEntries" xml:space="preserve">
-    <value>{0} exception(s) en attente ou modifiée(s)</value>
   </data>
   <data name="Reports_PerformedBy" xml:space="preserve">
     <value>Réalisé par (couverture)</value>
@@ -1715,9 +1688,6 @@
   <data name="Start_Incomplete" xml:space="preserve">
     <value>Contrôle incomplet : seulement {0} % vérifiable – le score est grisé.</value>
   </data>
-  <data name="Start_Machines" xml:space="preserve">
-    <value>{0} machines, {1} avec exécution</value>
-  </data>
   <data name="Start_Open" xml:space="preserve">
     <value>Ouvrir une installation…</value>
   </data>
@@ -1828,5 +1798,80 @@
   </data>
   <data name="Notice_ReevaluateSkipped" xml:space="preserve">
     <value>Non réévalué : l'export n'appartient pas à l'exécution ou n'est pas dans le dossier de l'installation : {0}</value>
+  </data>
+  <data name="Format_DaysAgo_one" xml:space="preserve">
+    <value>il y a {0} jour</value>
+  </data>
+  <data name="Format_DaysAgo_other" xml:space="preserve">
+    <value>il y a {0} jours</value>
+  </data>
+  <data name="Machines_SummaryMachines_one" xml:space="preserve">
+    <value>{0} machine</value>
+  </data>
+  <data name="Machines_SummaryMachines_other" xml:space="preserve">
+    <value>{0} machines</value>
+  </data>
+  <data name="Machines_SummaryWorse_one" xml:space="preserve">
+    <value>{0} constat dégradé</value>
+  </data>
+  <data name="Machines_SummaryWorse_other" xml:space="preserve">
+    <value>{0} constats dégradés</value>
+  </data>
+  <data name="Main_PlantDetail_one" xml:space="preserve">
+    <value>{0} machine</value>
+  </data>
+  <data name="Main_PlantDetail_other" xml:space="preserve">
+    <value>{0} machines</value>
+  </data>
+  <data name="Start_Machines_one" xml:space="preserve">
+    <value>{0} machine, {1} avec exécution</value>
+  </data>
+  <data name="Start_Machines_other" xml:space="preserve">
+    <value>{0} machines, {1} avec exécution</value>
+  </data>
+  <data name="Notice_Approved_one" xml:space="preserve">
+    <value>Approbation saisie pour {0} entrée (justificatif {1}).</value>
+  </data>
+  <data name="Notice_Approved_other" xml:space="preserve">
+    <value>Approbation saisie pour {0} entrées (justificatif {1}).</value>
+  </data>
+  <data name="Notice_DocumentWritten_one" xml:space="preserve">
+    <value>{0} fichier écrit dans {1}.</value>
+  </data>
+  <data name="Notice_DocumentWritten_other" xml:space="preserve">
+    <value>{0} fichiers écrits dans {1}.</value>
+  </data>
+  <data name="Notice_Imported_one" xml:space="preserve">
+    <value>{0} export importé et évalué.</value>
+  </data>
+  <data name="Notice_Imported_other" xml:space="preserve">
+    <value>{0} exports importés et évalués.</value>
+  </data>
+  <data name="Notice_ImportedWithRecord_one" xml:space="preserve">
+    <value>{0} export importé et évalué ; procès-verbal de collecte {1} écrit.</value>
+  </data>
+  <data name="Notice_ImportedWithRecord_other" xml:space="preserve">
+    <value>{0} exports importés et évalués ; procès-verbal de collecte {1} écrit.</value>
+  </data>
+  <data name="Notice_Reevaluated_one" xml:space="preserve">
+    <value>{0} machine réévaluée.</value>
+  </data>
+  <data name="Notice_Reevaluated_other" xml:space="preserve">
+    <value>{0} machines réévaluées.</value>
+  </data>
+  <data name="Reports_ImportItem_one" xml:space="preserve">
+    <value>Import du {0} ({1} fichier)</value>
+  </data>
+  <data name="Reports_ImportItem_other" xml:space="preserve">
+    <value>Import du {0} ({1} fichiers)</value>
+  </data>
+  <data name="Reports_PendingEntries_one" xml:space="preserve">
+    <value>{0} exception en attente ou modifiée</value>
+  </data>
+  <data name="Reports_PendingEntries_other" xml:space="preserve">
+    <value>{0} exceptions en attente ou modifiées</value>
+  </data>
+  <data name="Machines_SummaryStale" xml:space="preserve">
+    <value>{0} avec collecte obsolète</value>
   </data>
 </root>

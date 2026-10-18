@@ -497,4 +497,8 @@
     <value>The export {0} does not match run {1} (SHA-256 expected {2}, found {3}). It is not used for a rollback, comparison or re-evaluation.</value>
     <comment>run snapshot hash differs from run.snapshot.sha256</comment>
   </data>
+  <data name="Error_RGL0439_one" xml:space="preserve">
+    <value>Expires on {0} (in {1} day).</value>
+    <comment>plural form for 1 day; Error_RGL0439 is the other form</comment>
+  </data>
 </root>

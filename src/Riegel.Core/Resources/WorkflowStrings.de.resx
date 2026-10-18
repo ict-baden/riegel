@@ -475,4 +475,7 @@
   <data name="Error_RGL0416" xml:space="preserve">
     <value>Der Export {0} passt nicht zum Lauf {1} (SHA-256 erwartet {2}, gefunden {3}). Er wird für keine Rücknahme, keinen Vergleich und keine erneute Auswertung verwendet.</value>
   </data>
+  <data name="Error_RGL0439_one" xml:space="preserve">
+    <value>Läuft am {0} ab (in {1} Tag).</value>
+  </data>
 </root>

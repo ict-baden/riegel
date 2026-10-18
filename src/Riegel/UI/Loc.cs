@@ -38,6 +38,12 @@ public static class Loc
     /// <summary>Text mit Platzhaltern in der Kultur der Oberfläche.</summary>
     public static string F(string key, params object?[] args) => string.Format(CultureInfo.CurrentCulture, T(key), args);
 
+    /// <summary>
+    /// Text mit Mehrzahl (Richtlinie 13 Punkt 3): <paramref name="key"/>_one bzw. _other nach der Regel der Sprache für
+    /// <paramref name="n"/>; die Platzhalter wie im Text (die Zahl selbst steht in <paramref name="args"/>).
+    /// </summary>
+    public static string P(string key, long n, params object?[] args) => Core.Localization.Plural.Format(Strings, key, n, args);
+
     /// <summary>Gemeinsamer Text aus Riegel.Core (Status, Schwere, Kategorien, Flags …).</summary>
     public static string C(string key) => CommonStrings.ResourceManager.GetString(key, CultureInfo.CurrentUICulture) ?? key;
 }

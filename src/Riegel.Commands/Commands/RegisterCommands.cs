@@ -69,7 +69,9 @@ internal static class RegisterCommands
         var plant = ctx.OpenPlant(a.Required("--plant", "<folder>"), forWrite: false, name);
         var registers = ctx.Services.Registers.Load(plant);
         var catalogue = PlantBaselines.Catalogue(ctx, plant);
-        var issues = ctx.Services.Registers.Validate(registers, catalogue, plant, ctx.Services.Today).Where(i => i.Register == kind).ToList();
+        // Meldungen mit Datum: auf dem Bildschirm nach Gebietsschema, in JSON ISO 8601 (Review docs-ui-11)
+        var issues = CommandContext.Formatted(format == "json", () => ctx.Services.Registers.Validate(registers, catalogue, plant, ctx.Services.Today))
+            .Where(i => i.Register == kind).ToList();
         int exit = issues.Any(i => i.Severity == IssueSeverity.Error) ? CommandApp.Critical
             : issues.Count > 0 ? CommandApp.Warning : CommandApp.Ok;
 
@@ -93,13 +95,14 @@ internal static class RegisterCommands
         foreach (var issue in issues)
             ctx.Line(CliStrings.Cli_IssueLine, issue.Severity == IssueSeverity.Error ? CliStrings.Issue_Error : CliStrings.Issue_Warning,
                 issue.EntryId ?? "–", issue.Code, issue.Message);
+        int errors = issues.Count(i => i.Severity == IssueSeverity.Error), warnings = issues.Count(i => i.Severity == IssueSeverity.Warning);
         ctx.Line(exit switch
         {
             CommandApp.Ok => CliStrings.Cli_ValidateOk,
             CommandApp.Warning => CliStrings.Cli_ValidateWarnings,
             _ => CliStrings.Cli_ValidateInvalid,
-        }, Name(kind), CommandContext.N(entries), CommandContext.N(issues.Count(i => i.Severity == IssueSeverity.Error)),
-            CommandContext.N(issues.Count(i => i.Severity == IssueSeverity.Warning)));
+        }, Name(kind), Plural.Text("Cli_CountEntries", entries, CommandContext.N(entries)), Plural.Text("Cli_CountErrors", errors, CommandContext.N(errors)),
+            Plural.Text("Cli_CountWarnings", warnings, CommandContext.N(warnings)));
         return exit;
     }
 
@@ -148,7 +151,7 @@ internal static class RegisterCommands
         }
         if (rows.Count == 0)
         {
-            ctx.Line(expiringOnly ? CliStrings.Cli_RegisterNoneExpiring : CliStrings.Cli_RegisterEmpty, Name(kind), CommandContext.N(warnDays));
+            ctx.Line(expiringOnly ? Plural.Text("Cli_RegisterNoneExpiring", warnDays, Name(kind), CommandContext.N(warnDays)) : CommandContext.F(CliStrings.Cli_RegisterEmpty, Name(kind), CommandContext.N(warnDays)));
             return CommandApp.Ok;
         }
         foreach (var row in rows)
@@ -288,7 +291,7 @@ internal static class RegisterCommands
             ? updated.Exceptions.Exceptions.Count - registers.Exceptions.Exceptions.Count
             : updated.Tailoring.Entries.Count - registers.Tailoring.Entries.Count;
         ctx.Services.Registers.Save(plant, updated, registers.Hashes);
-        ctx.Line(CliStrings.Cli_TemplateImported, CommandContext.N(added), Name(kind));
+        ctx.Line(Plural.Text("Cli_TemplateImported", added, CommandContext.N(added), Name(kind)));
         return CommandApp.Ok;
     }
 

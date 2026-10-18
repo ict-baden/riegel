@@ -489,4 +489,7 @@
   <data name="Error_RGL0416" xml:space="preserve">
     <value>导出 {0} 与运行 {1} 不符（SHA-256 应为 {2}，实际为 {3}）。不会用于回退、比较或重新评估。</value>
   </data>
+  <data name="Error_RGL0439_one" xml:space="preserve">
+    <value>将于 {0} 过期（{1} 天后）。</value>
+  </data>
 </root>

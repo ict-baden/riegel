@@ -107,14 +107,8 @@
   <data name="Cli_BaselineContentWarning" xml:space="preserve">
     <value>Warning: the evidence pack contains the full content of imported baselines. Make sure their licence allows passing them on (Microsoft, BSI and CIS terms may not).</value>
   </data>
-  <data name="Cli_BaselineImported" xml:space="preserve">
-    <value>Baseline {0} ({1}) imported: {2} rules, source SHA-256 {3}</value>
-  </data>
   <data name="Cli_BaselineLicenceNote" xml:space="preserve">
     <value>Imported baselines stay in this plant folder. Evidence packs contain only their metadata unless report --evidence --include-baseline-content is used.</value>
-  </data>
-  <data name="Cli_BaselineLine" xml:space="preserve">
-    <value>{0}  {1}  {2} rules  imported {3}  source {4}</value>
   </data>
   <data name="Cli_BaselineNone" xml:space="preserve">
     <value>No imported baselines.</value>
@@ -143,9 +137,6 @@
   </data>
   <data name="Cli_CheckOpen" xml:space="preserve">
     <value>  Open findings: {0} high, {1} medium, {2} low</value>
-  </data>
-  <data name="Cli_CheckOverall" xml:space="preserve">
-    <value>Overall: {0} (exit code {1}) for {2} machines</value>
   </data>
   <data name="Cli_CheckPolicy" xml:space="preserve">
     <value>Alert mode {0}: critical {1}; warning {2}</value>
@@ -225,9 +216,6 @@ SHA-256: {1}</value>
   <data name="Cli_GuiOnly" xml:space="preserve">
     <value>{0} is available only in Riegel.exe (the window), not on the command line.</value>
   </data>
-  <data name="Cli_ImportDone" xml:space="preserve">
-    <value>Import {0}: {1} exports added to {2}</value>
-  </data>
   <data name="Cli_ImportNoSidecar" xml:space="preserve">
     <value>  {0}: no matching .sha256 file – integrity not proven</value>
   </data>
@@ -292,9 +280,6 @@ Data and privacy: {4}</value>
     <value>{0}  {1}  {2}  review by {3}  {4}</value>
     <comment>{0} = id, {1} = rule, {2} = state, {3} = review date, {4} = scope</comment>
   </data>
-  <data name="Cli_RegisterNoneExpiring" xml:space="preserve">
-    <value>{0}: nothing expires within {1} days.</value>
-  </data>
   <data name="Cli_RegisterText" xml:space="preserve">
     <value>      {0}</value>
   </data>
@@ -302,7 +287,7 @@ Data and privacy: {4}</value>
     <value>Proposal only – Riegel does not apply it. Agree every change with the machine vendor before applying it.</value>
   </data>
   <data name="Cli_RemediationWritten" xml:space="preserve">
-    <value>Remediation proposal written to {0}: {1} rules in the files, {2} left out, {3} manual steps</value>
+    <value>Remediation proposal written to {0}: {1}, {2}, {3}</value>
   </data>
   <data name="Cli_RuleLine" xml:space="preserve">
     <value>{0}  {1}  {2}  {3}</value>
@@ -341,29 +326,20 @@ Data and privacy: {4}</value>
   <data name="Cli_SourceThisPc" xml:space="preserve">
     <value>this PC</value>
   </data>
-  <data name="Cli_TemplateImported" xml:space="preserve">
-    <value>{0} entries added to {1} as pending – they count only after an approval.</value>
-  </data>
   <data name="Cli_ValidateInvalid" xml:space="preserve">
-    <value>{0}: {1} entries, {2} errors, {3} warnings – invalid.</value>
+    <value>{0}: {1}, {2}, {3} – invalid.</value>
   </data>
   <data name="Cli_ValidateOk" xml:space="preserve">
-    <value>{0}: {1} entries, valid.</value>
+    <value>{0}: {1}, valid.</value>
   </data>
   <data name="Cli_ValidateWarnings" xml:space="preserve">
-    <value>{0}: {1} entries, {2} errors, {3} warnings.</value>
+    <value>{0}: {1}, {2}, {3}.</value>
   </data>
   <data name="Cli_VerifyCounts" xml:space="preserve">
     <value>Snapshots checked: {0} · results compared: {1}</value>
   </data>
   <data name="Cli_VerifyError" xml:space="preserve">
     <value>The evidence pack could not be verified.</value>
-  </data>
-  <data name="Cli_VerifyMismatch" xml:space="preserve">
-    <value>Not reproduced with engine {0} (packed: {1}): {2} findings.</value>
-  </data>
-  <data name="Cli_VerifyNotVerifiable" xml:space="preserve">
-    <value>Not verifiable (baseline content not included): {0} results ({1})</value>
   </data>
   <data name="Cli_VerifyReproduced" xml:space="preserve">
     <value>Reproduced with engine {0} (packed: {1}).</value>
@@ -772,5 +748,117 @@ Exit codes: 0 reproduced, 2 mismatch, 3 error.</value>
   </data>
   <data name="Error_RGL0471" xml:space="preserve">
     <value>No template file and no built-in template named {0}. Built-in: {1}.</value>
+  </data>
+  <data name="Cli_ImportDone_one" xml:space="preserve">
+    <value>Import {0}: {1} export added to {2}</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Cli_ImportDone_other" xml:space="preserve">
+    <value>Import {0}: {1} exports added to {2}</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Cli_TemplateImported_one" xml:space="preserve">
+    <value>{0} entry added to {1} as pending – it counts only after an approval.</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Cli_TemplateImported_other" xml:space="preserve">
+    <value>{0} entries added to {1} as pending – they count only after an approval.</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Cli_CountEntries_one" xml:space="preserve">
+    <value>{0} entry</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Cli_CountEntries_other" xml:space="preserve">
+    <value>{0} entries</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Cli_CountErrors_one" xml:space="preserve">
+    <value>{0} error</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Cli_CountErrors_other" xml:space="preserve">
+    <value>{0} errors</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Cli_CountWarnings_one" xml:space="preserve">
+    <value>{0} warning</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Cli_CountWarnings_other" xml:space="preserve">
+    <value>{0} warnings</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Cli_CheckOverall_one" xml:space="preserve">
+    <value>Overall: {0} (exit code {1}) for {2} machine</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Cli_CheckOverall_other" xml:space="preserve">
+    <value>Overall: {0} (exit code {1}) for {2} machines</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Cli_RegisterNoneExpiring_one" xml:space="preserve">
+    <value>{0}: nothing expires within {1} day.</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Cli_RegisterNoneExpiring_other" xml:space="preserve">
+    <value>{0}: nothing expires within {1} days.</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Cli_VerifyMismatch_one" xml:space="preserve">
+    <value>Not reproduced with engine {0} (packed: {1}): {2} finding.</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Cli_VerifyMismatch_other" xml:space="preserve">
+    <value>Not reproduced with engine {0} (packed: {1}): {2} findings.</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Cli_VerifyNotVerifiable_one" xml:space="preserve">
+    <value>Not verifiable (baseline content not included): {0} result ({1})</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Cli_VerifyNotVerifiable_other" xml:space="preserve">
+    <value>Not verifiable (baseline content not included): {0} results ({1})</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Cli_CountRulesInFiles_one" xml:space="preserve">
+    <value>{0} rule in the files</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Cli_CountRulesInFiles_other" xml:space="preserve">
+    <value>{0} rules in the files</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Cli_CountLeftOut_one" xml:space="preserve">
+    <value>{0} left out</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Cli_CountLeftOut_other" xml:space="preserve">
+    <value>{0} left out</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Cli_CountManualSteps_one" xml:space="preserve">
+    <value>{0} manual step</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Cli_CountManualSteps_other" xml:space="preserve">
+    <value>{0} manual steps</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Cli_BaselineImported_one" xml:space="preserve">
+    <value>Baseline {0} ({1}) imported: {2} rule, source SHA-256 {3}</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Cli_BaselineImported_other" xml:space="preserve">
+    <value>Baseline {0} ({1}) imported: {2} rules, source SHA-256 {3}</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
+  <data name="Cli_BaselineLine_one" xml:space="preserve">
+    <value>{0}  {1}  {2} rule  imported {3}  source {4}</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Cli_BaselineLine_other" xml:space="preserve">
+    <value>{0}  {1}  {2} rules  imported {3}  source {4}</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
   </data>
 </root>
