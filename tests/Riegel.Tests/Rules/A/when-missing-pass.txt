@@ -1,3 +1,4 @@
 # Regeln des Pakets rules-a, die bei fehlendem Wert mit whenMissing "pass" bestehen dürfen (spec 2.3/2.4).
 # Je Zeile eine Regel-ID; jede Regel nennt im Feld missingPass Quelle, Datum und Begründung.
 LOGON-10 # AutoAdminLogon fehlt = keine automatische Anmeldung (Microsoft Learn: Turn on automatic logon in Windows, gesehen 2026-10-18)
+CRED-17 # RestrictRemoteSamAuditOnlyMode fehlt = kein Nur-Überwachen-Modus (Microsoft Learn: Network access – Restrict clients allowed to make remote calls to SAM, „Audit only mode isn't configured by default“, gesehen 2026-10-18)
