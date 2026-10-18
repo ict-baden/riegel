@@ -1,0 +1,4 @@
+# Meldungen des Sammlers (spec 7.10): Schlüssel=Text, \n = Zeilenumbruch. Englisch ist die Rückfallsprache.
+Version=Riegel collector {0}
+Help=Reads the security settings of this PC and changes nothing.\nUsage: Riegel.Collector.exe [--out <folder>] [--gzip] [--minimal] [--deep] [--pseudonymize] [--quiet] [--nur-lesen] [--version] [--help]\nExit codes: 0 complete, 1 written but incomplete, 3 nothing written.
+Stub=This build is a placeholder: it collects nothing and writes no file.

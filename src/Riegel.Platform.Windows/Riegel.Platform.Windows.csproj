@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Alles Windows-Eigene (spec 7.2 IPlatform): Erfassung dieses Rechners über den verlinkten Sammler-Code, Rechte-
+         erhöhung mit Übergabeordner, Öffnen mit der Shell, Sammler-Paket kopieren. Riegel.Core bleibt plattformneutral. -->
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <RootNamespace>Riegel.Platform.Windows</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Description>Windows-Anbindung für Riegel: Erfassung, Rechteerhöhung, Shell.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Riegel.Core\Riegel.Core.csproj" />
+  </ItemGroup>
+
+  <!--
+    System.Management 10.0.13 (neueste 10.0.x, fest), MIT –
+    https://api.nuget.org/v3-flatcontainer/system.management/10.0.13/system.management.nuspec (gesehen 2026-10-18);
+    bringt System.CodeDom 10.0.13 (MIT) mit.
+  -->
+  <ItemGroup>
+    <PackageReference Include="System.Management" Version="10.0.13" />
+  </ItemGroup>
+
+  <!-- Derselbe Erfassungscode wie im net35-Sammler (spec 7.4): Riegel.Cli.exe collect und die App liefern dieselben Einträge.
+       Der Code muss deshalb für net35 und net10.0-windows übersetzbar bleiben (keine LINQ, kein HashSet …). -->
+  <ItemGroup>
+    <Compile Include="..\Riegel.Collector\Collection\**\*.cs" Link="Collection\%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\PlatformStrings.resx" StronglyTypedLanguage="CSharp" StronglyTypedNamespace="Riegel.Platform.Windows.Resources"
+                      StronglyTypedClassName="PlatformStrings" StronglyTypedFileName="$(IntermediateOutputPath)PlatformStrings.g.cs" PublicClass="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Riegel.Tests" />
+  </ItemGroup>
+</Project>

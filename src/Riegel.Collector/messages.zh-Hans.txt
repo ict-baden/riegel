@@ -1,0 +1,5 @@
+# Meldungen des Sammlers (spec 7.10): Schlüssel=Text, \n = Zeilenumbruch. Englisch ist die Rückfallsprache.
+# Maschinell vorübersetzt: TODO-übersetzen (Muttersprachler gegenlesen lassen)
+Version=Riegel 采集器 {0}
+Help=读取本机的安全设置，不做任何更改。\n用法：Riegel.Collector.exe [--out <文件夹>] [--gzip] [--minimal] [--deep] [--pseudonymize] [--quiet] [--nur-lesen] [--version] [--help]\n退出代码：0 完整，1 已写入但不完整，3 未写入任何内容。
+Stub=此版本为占位符：不采集任何内容，也不写入任何文件。

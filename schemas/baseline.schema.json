@@ -1,0 +1,1382 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ict-baden:riegel:schema:baseline",
+  "title": "riegel.baseline/1 – Customer baseline (spec 2.15)",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "riegel.baseline/1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,39}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "sourceFileName": {
+      "type": "string"
+    },
+    "sourceSha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "importedAtUtc": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_.-]{1,40}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "severity": {
+            "$ref": "#/$defs/severity"
+          },
+          "category": {
+            "$ref": "#/$defs/category"
+          },
+          "check": {
+            "$ref": "#/$defs/check"
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "check"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "name",
+    "rules"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "category": {
+      "type": "string",
+      "enum": [
+        "lifecycle",
+        "network",
+        "credentials",
+        "logon",
+        "accounts",
+        "userRights",
+        "defender",
+        "appControl",
+        "encryption",
+        "firewall",
+        "services",
+        "system",
+        "audit",
+        "powershell",
+        "rdp",
+        "media",
+        "tls"
+      ]
+    },
+    "check": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/check_registry"
+        },
+        {
+          "$ref": "#/$defs/check_registryEffective"
+        },
+        {
+          "$ref": "#/$defs/check_secedit"
+        },
+        {
+          "$ref": "#/$defs/check_accountPolicy"
+        },
+        {
+          "$ref": "#/$defs/check_auditSubcategory"
+        },
+        {
+          "$ref": "#/$defs/check_userRight"
+        },
+        {
+          "$ref": "#/$defs/check_service"
+        },
+        {
+          "$ref": "#/$defs/check_feature"
+        },
+        {
+          "$ref": "#/$defs/check_wmiProperty"
+        },
+        {
+          "$ref": "#/$defs/check_defenderSetting"
+        },
+        {
+          "$ref": "#/$defs/check_asrRule"
+        },
+        {
+          "$ref": "#/$defs/check_firewallProfile"
+        },
+        {
+          "$ref": "#/$defs/check_firewallExposure"
+        },
+        {
+          "$ref": "#/$defs/check_lifecycle"
+        },
+        {
+          "$ref": "#/$defs/check_updateAge"
+        },
+        {
+          "$ref": "#/$defs/check_lsaProtection"
+        },
+        {
+          "$ref": "#/$defs/check_deviceGuard"
+        },
+        {
+          "$ref": "#/$defs/check_avStatus"
+        },
+        {
+          "$ref": "#/$defs/check_localAccount"
+        },
+        {
+          "$ref": "#/$defs/check_localAccounts"
+        },
+        {
+          "$ref": "#/$defs/check_localGroup"
+        },
+        {
+          "$ref": "#/$defs/check_inventory"
+        },
+        {
+          "$ref": "#/$defs/check_firstOf"
+        },
+        {
+          "$ref": "#/$defs/check_allOf"
+        },
+        {
+          "$ref": "#/$defs/check_anyOf"
+        },
+        {
+          "$ref": "#/$defs/check_noneOf"
+        },
+        {
+          "$ref": "#/$defs/check_not"
+        }
+      ],
+      "description": "closed check vocabulary (spec 2.3), discriminated by 'type'"
+    },
+    "check_accountPolicy": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "accountPolicy"
+        },
+        "field": {
+          "type": "string",
+          "enum": [
+            "minPwLen",
+            "maxPwAgeDays",
+            "minPwAgeDays",
+            "pwHistLen",
+            "lockoutThreshold",
+            "lockoutDurationMin",
+            "lockoutWindowMin",
+            "passwordComplexity",
+            "clearTextPassword"
+          ]
+        },
+        "op": {
+          "$ref": "#/$defs/operator"
+        },
+        "expected": {}
+      },
+      "required": [
+        "type",
+        "field",
+        "op"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "not": {
+                  "enum": [
+                    "exists",
+                    "notExists"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "required": [
+              "expected"
+            ]
+          }
+        }
+      ]
+    },
+    "check_allOf": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "allOf"
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/check"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "checks"
+      ],
+      "additionalProperties": false
+    },
+    "check_anyOf": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "anyOf"
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/check"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "checks"
+      ],
+      "additionalProperties": false
+    },
+    "check_asrRule": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "asrRule"
+        },
+        "guid": {
+          "type": "string",
+          "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$"
+        },
+        "accept": {
+          "type": "string",
+          "enum": [
+            "block",
+            "blockOrWarn",
+            "blockOrAudit"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "guid"
+      ],
+      "additionalProperties": false
+    },
+    "check_auditSubcategory": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "auditSubcategory"
+        },
+        "guid": {
+          "type": "string",
+          "pattern": "^\\{[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}\\}$"
+        },
+        "expected": {
+          "type": "string",
+          "enum": [
+            "success",
+            "failure",
+            "successAndFailure",
+            "includesSuccess",
+            "includesFailure",
+            "noAuditing"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "guid",
+        "expected"
+      ],
+      "additionalProperties": false
+    },
+    "check_avStatus": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "avStatus"
+        },
+        "maxSignatureAgeDays": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "check_defenderSetting": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "defenderSetting"
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "status",
+            "preference"
+          ]
+        },
+        "property": {
+          "type": "string",
+          "minLength": 1
+        },
+        "op": {
+          "$ref": "#/$defs/operator"
+        },
+        "expected": {}
+      },
+      "required": [
+        "type",
+        "source",
+        "property",
+        "op"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "not": {
+                  "enum": [
+                    "exists",
+                    "notExists"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "required": [
+              "expected"
+            ]
+          }
+        }
+      ]
+    },
+    "check_deviceGuard": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "deviceGuard"
+        },
+        "service": {
+          "type": "string",
+          "enum": [
+            "credentialGuard",
+            "hvci",
+            "vbs"
+          ]
+        },
+        "requireRunning": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "service"
+      ],
+      "additionalProperties": false
+    },
+    "check_feature": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "feature"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "installState": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "enum": [
+              1,
+              2,
+              3
+            ]
+          },
+          "minItems": 1
+        },
+        "ifAbsent": {
+          "type": "string",
+          "enum": [
+            "fail",
+            "pass",
+            "notApplicable"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "name",
+        "installState",
+        "ifAbsent"
+      ],
+      "additionalProperties": false
+    },
+    "check_firewallExposure": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "firewallExposure"
+        },
+        "ports": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "protocol": {
+                "type": "string",
+                "enum": [
+                  "tcp",
+                  "udp"
+                ]
+              },
+              "port": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 65535
+              }
+            },
+            "required": [
+              "protocol",
+              "port"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "profiles": {
+          "type": "string",
+          "enum": [
+            "active",
+            "all"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "ports",
+        "profiles"
+      ],
+      "additionalProperties": false
+    },
+    "check_firewallProfile": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "firewallProfile"
+        },
+        "profile": {
+          "type": "string",
+          "enum": [
+            "domain",
+            "private",
+            "public"
+          ]
+        },
+        "property": {
+          "type": "string",
+          "enum": [
+            "enabled",
+            "defaultInboundBlock",
+            "logDropped",
+            "allowLocalRules"
+          ]
+        },
+        "expected": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "profile",
+        "property",
+        "expected"
+      ],
+      "additionalProperties": false
+    },
+    "check_firstOf": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "firstOf"
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/check"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "checks"
+      ],
+      "additionalProperties": false
+    },
+    "check_inventory": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "inventory"
+        },
+        "renderer": {
+          "type": "string",
+          "enum": [
+            "localAdmins",
+            "remoteAccessTools",
+            "rdpState",
+            "defenderExclusions",
+            "shares",
+            "adminShares",
+            "networkFacts",
+            "appControlState",
+            "wireless"
+          ]
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(reg|wmi|api|evt|raw|parsed):"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "renderer",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "check_lifecycle": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "lifecycle"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "check_localAccount": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "localAccount"
+        },
+        "rid": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expect": {
+          "type": "string",
+          "enum": [
+            "disabled"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "rid",
+        "expect"
+      ],
+      "additionalProperties": false
+    },
+    "check_localAccounts": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "localAccounts"
+        },
+        "condition": {
+          "type": "string",
+          "enum": [
+            "passwordNeverExpires",
+            "unusedDays",
+            "passwordNotRequired"
+          ]
+        },
+        "excludeRids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "enabledOnly": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "condition"
+      ],
+      "additionalProperties": false
+    },
+    "check_localGroup": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "localGroup"
+        },
+        "sid": {
+          "type": "string",
+          "pattern": "^S-1(-\\d+)+$"
+        },
+        "maxMembers": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "allowedSids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(S-1(-\\d+)+|\\*-\\d+)$"
+          }
+        }
+      },
+      "required": [
+        "type",
+        "sid"
+      ],
+      "additionalProperties": false
+    },
+    "check_lsaProtection": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "lsaProtection"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "check_noneOf": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "noneOf"
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/check"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "type",
+        "checks"
+      ],
+      "additionalProperties": false
+    },
+    "check_not": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "not"
+        },
+        "check": {
+          "$ref": "#/$defs/check"
+        }
+      },
+      "required": [
+        "type",
+        "check"
+      ],
+      "additionalProperties": false
+    },
+    "check_registry": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "registry"
+        },
+        "key": {
+          "type": "string",
+          "pattern": "^HKLM\\\\"
+        },
+        "value": {
+          "type": "string"
+        },
+        "valueType": {
+          "$ref": "#/$defs/regValueType"
+        },
+        "acceptTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/regValueType"
+          }
+        },
+        "op": {
+          "$ref": "#/$defs/operator"
+        },
+        "expected": {},
+        "whenMissing": {
+          "$ref": "#/$defs/whenMissing"
+        },
+        "osDefaults": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/osDefault"
+          },
+          "minItems": 1
+        },
+        "missingPass": {
+          "$ref": "#/$defs/missingPass"
+        },
+        "multiSz": {
+          "type": "string",
+          "enum": [
+            "set",
+            "list"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "key",
+        "value",
+        "valueType",
+        "op",
+        "whenMissing"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "whenMissing": {
+                "const": "osDefault"
+              }
+            },
+            "required": [
+              "whenMissing"
+            ]
+          },
+          "then": {
+            "required": [
+              "osDefaults"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "whenMissing": {
+                "const": "pass"
+              }
+            },
+            "required": [
+              "whenMissing"
+            ]
+          },
+          "then": {
+            "required": [
+              "missingPass"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "not": {
+                  "enum": [
+                    "exists",
+                    "notExists"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "required": [
+              "expected"
+            ]
+          }
+        }
+      ]
+    },
+    "check_registryEffective": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "registryEffective"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string",
+                "pattern": "^HKLM\\\\"
+              },
+              "value": {
+                "type": "string"
+              },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "policy",
+                  "mdm",
+                  "local",
+                  "other"
+                ]
+              }
+            },
+            "required": [
+              "key",
+              "value",
+              "origin"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "valueType": {
+          "$ref": "#/$defs/regValueType"
+        },
+        "acceptTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/regValueType"
+          }
+        },
+        "op": {
+          "$ref": "#/$defs/operator"
+        },
+        "expected": {},
+        "whenMissing": {
+          "$ref": "#/$defs/whenMissing"
+        },
+        "osDefaults": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/osDefault"
+          },
+          "minItems": 1
+        },
+        "missingPass": {
+          "$ref": "#/$defs/missingPass"
+        },
+        "multiSz": {
+          "type": "string",
+          "enum": [
+            "set",
+            "list"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "sources",
+        "valueType",
+        "op",
+        "whenMissing"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "whenMissing": {
+                "const": "osDefault"
+              }
+            },
+            "required": [
+              "whenMissing"
+            ]
+          },
+          "then": {
+            "required": [
+              "osDefaults"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "whenMissing": {
+                "const": "pass"
+              }
+            },
+            "required": [
+              "whenMissing"
+            ]
+          },
+          "then": {
+            "required": [
+              "missingPass"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "not": {
+                  "enum": [
+                    "exists",
+                    "notExists"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "required": [
+              "expected"
+            ]
+          }
+        }
+      ]
+    },
+    "check_secedit": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "secedit"
+        },
+        "section": {
+          "type": "string",
+          "minLength": 1
+        },
+        "key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "op": {
+          "$ref": "#/$defs/operator"
+        },
+        "expected": {},
+        "valueKind": {
+          "type": "string",
+          "enum": [
+            "number",
+            "string",
+            "registryValue"
+          ]
+        },
+        "whenMissing": {
+          "$ref": "#/$defs/whenMissing"
+        }
+      },
+      "required": [
+        "type",
+        "section",
+        "key",
+        "op",
+        "valueKind",
+        "whenMissing"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "not": {
+                  "enum": [
+                    "exists",
+                    "notExists"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "required": [
+              "expected"
+            ]
+          }
+        }
+      ]
+    },
+    "check_service": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "service"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "startMode": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "Boot",
+              "System",
+              "Auto",
+              "Manual",
+              "Disabled"
+            ]
+          },
+          "minItems": 1
+        },
+        "state": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "ifAbsent": {
+          "type": "string",
+          "enum": [
+            "fail",
+            "pass",
+            "notApplicable"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "name",
+        "ifAbsent"
+      ],
+      "additionalProperties": false
+    },
+    "check_updateAge": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "updateAge"
+        },
+        "maxDays": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "check_userRight": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "userRight"
+        },
+        "right": {
+          "type": "string",
+          "pattern": "^Se[A-Za-z]+$"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "mustInclude",
+            "mustNotInclude",
+            "onlyFrom",
+            "empty"
+          ]
+        },
+        "sids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(S-1(-\\d+)+|\\*-\\d+)$"
+          }
+        }
+      },
+      "required": [
+        "type",
+        "right",
+        "mode",
+        "sids"
+      ],
+      "additionalProperties": false
+    },
+    "check_wmiProperty": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "wmiProperty"
+        },
+        "item": {
+          "type": "string",
+          "pattern": "^wmi:"
+        },
+        "property": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rowFilter": {
+          "type": "object",
+          "properties": {
+            "property": {
+              "type": "string",
+              "minLength": 1
+            },
+            "op": {
+              "$ref": "#/$defs/operator"
+            },
+            "value": {}
+          },
+          "required": [
+            "property",
+            "op",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        "rows": {
+          "type": "string",
+          "enum": [
+            "any",
+            "all",
+            "first"
+          ]
+        },
+        "op": {
+          "$ref": "#/$defs/operator"
+        },
+        "expected": {},
+        "ifNoRows": {
+          "type": "string",
+          "enum": [
+            "notCheckable",
+            "fail",
+            "notApplicable",
+            "pass"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "item",
+        "property",
+        "rows",
+        "op",
+        "ifNoRows"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "not": {
+                  "enum": [
+                    "exists",
+                    "notExists"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "required": [
+              "expected"
+            ]
+          }
+        }
+      ]
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "ISO 8601 date (yyyy-MM-dd)"
+    },
+    "httpsUrl": {
+      "type": "string",
+      "pattern": "^https?://"
+    },
+    "missingPass": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/httpsUrl"
+        },
+        "seen": {
+          "$ref": "#/$defs/date"
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "source",
+        "seen",
+        "note"
+      ],
+      "additionalProperties": false
+    },
+    "operator": {
+      "type": "string",
+      "enum": [
+        "eq",
+        "ne",
+        "lt",
+        "le",
+        "gt",
+        "ge",
+        "in",
+        "notIn",
+        "bitsSet",
+        "bitsClear",
+        "containsAll",
+        "containsNone",
+        "exists",
+        "notExists",
+        "ageDaysLe",
+        "ageDaysGt"
+      ]
+    },
+    "osDefault": {
+      "type": "object",
+      "properties": {
+        "minBuild": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxBuild": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "editions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "installationTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "domainJoined": {
+          "type": "boolean"
+        },
+        "value": {},
+        "source": {
+          "$ref": "#/$defs/httpsUrl"
+        },
+        "seen": {
+          "$ref": "#/$defs/date"
+        }
+      },
+      "required": [
+        "value",
+        "source",
+        "seen"
+      ],
+      "additionalProperties": false
+    },
+    "regValueType": {
+      "type": "string",
+      "enum": [
+        "dword",
+        "qword",
+        "sz",
+        "expand_sz",
+        "multi_sz",
+        "binary"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?(Z|[+-]\\d{2}:\\d{2})$",
+      "description": "ISO 8601 timestamp with zone; Riegel writes UTC with Z"
+    },
+    "whenMissing": {
+      "type": "string",
+      "enum": [
+        "notCheckable",
+        "fail",
+        "osDefault",
+        "pass"
+      ]
+    }
+  }
+}

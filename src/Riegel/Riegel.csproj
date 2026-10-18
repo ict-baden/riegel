@@ -1,0 +1,64 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Auswerte-App (spec 3, 7.8): WPF, weil „Diesen PC prüfen“ Rechteerhöhung und die Windows-Shell braucht.
+         Fensterprogramm mit Konsolen-Anbindung wie Zutritt; für Skripte gibt es Riegel.Cli.exe (spec 4.2). -->
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Riegel</RootNamespace>
+    <AssemblyName>Riegel</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\riegel.ico</ApplicationIcon>
+    <Description>Checks Windows machines in plants, labs and control rooms against a hardening baseline – read-only and offline – records justified exceptions and produces an evidence report for sign-off.</Description>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!-- Eigener Einstiegspunkt (Program.Main): Befehlszeile ganz ohne WPF, sonst Oberfläche.
+         App.xaml wird deshalb als normale Seite übersetzt, nicht als ApplicationDefinition mit eigenem Main. -->
+    <EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- WPF lässt System.IO aus den impliziten usings weg (Path kollidiert mit System.Windows.Shapes.Path) -->
+    <Using Include="System.IO" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Riegel.Core\Riegel.Core.csproj" />
+    <ProjectReference Include="..\Riegel.Commands\Riegel.Commands.csproj" />
+    <ProjectReference Include="..\Riegel.Platform.Windows\Riegel.Platform.Windows.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\riegel.ico" />
+    <Resource Include="Assets\riegel.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\UiStrings.resx" StronglyTypedLanguage="CSharp" StronglyTypedNamespace="Riegel.Resources"
+                      StronglyTypedClassName="UiStrings" StronglyTypedFileName="$(IntermediateOutputPath)UiStrings.g.cs" PublicClass="true" />
+  </ItemGroup>
+
+  <!-- Demo-Anlage „Musterwerk – Linie 3“ (spec 7.9): synthetische Exporte, eingebettet als "demo/<Pfad>" -->
+  <ItemGroup>
+    <EmbeddedResource Include="Demo\**\*.json" LogicalName="demo/%(RecursiveDir)%(Filename)%(Extension)" RiegelLogicalName="true" WithCulture="false" />
+  </ItemGroup>
+
+  <Target Name="RiegelNormalizeLogicalNames" BeforeTargets="PrepareForBuild">
+    <ItemGroup>
+      <EmbeddedResource Condition="'%(EmbeddedResource.RiegelLogicalName)' == 'true'">
+        <LogicalName>$([System.String]::Copy('%(EmbeddedResource.LogicalName)').Replace('\', '/'))</LogicalName>
+      </EmbeddedResource>
+    </ItemGroup>
+  </Target>
+
+  <!-- Lizenztexte neben die Exe (ZIP, MSI); eingebettet sind sie in Riegel.Core (Info-Seite der einzelnen Exe) -->
+  <ItemGroup>
+    <None Include="..\..\THIRD-PARTY-NOTICES.txt" Link="THIRD-PARTY-NOTICES.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\..\LICENSE" Link="LICENSE" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Riegel.Tests" />
+  </ItemGroup>
+</Project>

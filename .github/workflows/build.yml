@@ -1,0 +1,498 @@
+# Nach der Vorlage aus ict-baden/richtlinien und dem Workflow von Zutritt. Job „linux“ baut und testet den
+# plattformneutralen Teil (Core, Befehle; richtlinien/02); der Job „windows“ startet erst, wenn er grün ist, baut alles
+# (auch den net35-Sammler), packt und veröffentlicht selbst – ohne Umweg über Artefakte (deren Speicher teilen sich alle
+# Repos der Organisation; ist er voll, darf das kein Release verhindern). Jedes Release enthält eine Stückliste (SBOM,
+# richtlinien/06), öffentliche Repos einen Herkunftsnachweis (richtlinien/05).
+# Schritte, die Pakete später mit Leben füllen (Lese-Nachweis, Demo-Bericht), prüfen selbst, ob ihr Skript da ist.
+# Der Workflow collector.yml (Sammler auf drei Runnern, Nur-Lesen-Nachweis) gehört dem Paket collector.
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Ein neuer Push auf denselben Branch bricht den überholten Lauf ab (spart Minuten); Tag-Läufe laufen immer zu Ende.
+# release-latest.ps1 veröffentlicht nur den neuesten Stand von main und räumt Reste abgebrochener Läufe auf.
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_type != 'tag' }}
+
+env:
+  APP: "Riegel"
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  # Signieren nur, wenn die Organisation Artifact Signing eingerichtet hat (siehe richtlinien/05-signieren.md)
+  # und nicht bei Pull Requests (dort gibt es kein OIDC-Token mit den nötigen Rechten).
+  SIGN: ${{ vars.SIGNING_ACCOUNT != '' && github.event_name != 'pull_request' }}
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Schriften für die PDF-Tests
+        # Segoe UI gibt es unter Linux nicht: freie Schriften für die PDF-Dokumente (Liberation ist metrisch gleich Arial)
+        # und Noto CJK für zh-Hans (laut spec 7.10 womöglich CFF-Konturen – das prüft das Paket pdf)
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q --no-install-recommends fonts-dejavu-core fonts-liberation fonts-noto-cjk
+
+      - name: CJK-Schrift mit TrueType-Konturen (Kandidat)
+        # Für PDFsharp, falls es keine CFF-Konturen einbettet (spec 7.10). Fehlt das Paket im Ubuntu-Image, läuft der Build weiter.
+        continue-on-error: true
+        run: |
+          apt-cache policy fonts-wqy-microhei
+          sudo apt-get install -y -q --no-install-recommends fonts-wqy-microhei
+          fc-list :lang=zh | head -n 20
+
+      - name: Build
+        run: dotnet build tests/Riegel.Tests -c Release -f net10.0
+
+      - name: Tests
+        # Nur der plattformneutrale Teil (Core, Befehle, Fixtures, Schemas, Katalog). Windows-Anbindung, App und
+        # Sammler testet der Job „windows“.
+        run: dotnet test tests/Riegel.Tests -c Release -f net10.0 --no-build --logger "trx;LogFileName=tests-linux.trx" --results-directory TestResults
+
+      - name: Rauchtest Linux-Befehlszeile
+        # riegel check --snapshot auf einem synthetischen Export: Exitcode 0–2 ist ein Ergebnis, 3 oder ein Absturz nicht
+        shell: bash
+        run: |
+          fixture=tests/Riegel.Tests/Fixtures/synthetic/win11-24h2-workgroup-admin.snapshot.json
+          if [ ! -f "$fixture" ]; then echo "::notice::$fixture fehlt – Rauchtest übersprungen"; exit 0; fi
+          set +e
+          dotnet run --project src/Riegel.Cli -c Release -f net10.0 -- check --snapshot "$fixture" --format json > smoke.json
+          code=$?
+          set -e
+          echo "Exitcode: $code"
+          head -c 600 smoke.json; echo
+          if [ "$code" -gt 2 ]; then echo "::error::riegel check endete mit $code"; exit 1; fi
+
+      - name: Testergebnisse
+        if: always()
+        # Nur zur Fehlersuche: Ist der Artefaktspeicher der Organisation voll, bleibt der Lauf trotzdem grün
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: Testergebnisse-linux
+          path: TestResults/*.trx
+          if-no-files-found: ignore
+          retention-days: 7
+
+  windows:
+    # Erst bauen und veröffentlichen, wenn der plattformneutrale Teil auch unter Linux grün ist
+    needs: linux
+    runs-on: windows-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write # für die Releases
+      id-token: write # Anmeldung bei Azure Artifact Signing (OIDC) und Herkunftsnachweis
+      attestations: write # Herkunftsnachweis
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Version bestimmen
+        id: version
+        shell: pwsh
+        run: |
+          # Tag v1.2.3 -> 1.2.3, sonst Basisversion aus Directory.Build.props mit Build-Nummer
+          if ($env:GITHUB_REF_TYPE -eq 'tag') {
+            $v = $env:GITHUB_REF_NAME -replace '^v', ''
+          } else {
+            $base = ([xml](Get-Content Directory.Build.props)).Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
+            $v = "$base-ci.$env:GITHUB_RUN_NUMBER"
+          }
+          # MSI kennt nur Zahlen. CI-Builds: Version + Lauf-Nummer als 4. Stelle (z. B. 0.1.0.12).
+          # Windows Installer vergleicht nur drei Stellen, deshalb ersetzen sich CI-Builds gegenseitig
+          # (AllowSameVersionUpgrades), und ein Release v0.1.1 ist immer neuer als jeder 0.1.0-CI-Build.
+          $core = $v -replace '[-+].*$', ''
+          $msi = if ($env:GITHUB_REF_TYPE -eq 'tag') { $core } else { "$core.$env:GITHUB_RUN_NUMBER" }
+          # Dateinamen: Releases aus einem Tag mit Version, sonst fest, damit die Links auf 'latest' dauerhaft gelten
+          $suffix = if ($env:GITHUB_REF_TYPE -eq 'tag') { "-$v" } else { '' }
+          # Der Sammler hat seine eigene Version (spec 4.3)
+          $collector = (Get-Content src/Riegel.Collector/collector-version.txt -Raw).Trim()
+          "version=$v" >> $env:GITHUB_OUTPUT
+          "msi=$msi" >> $env:GITHUB_OUTPUT
+          "suffix=$suffix" >> $env:GITHUB_OUTPUT
+          "collector=$collector" >> $env:GITHUB_OUTPUT
+          Write-Host "Version: $v  MSI: $msi  Sammler: $collector  Signieren: $env:SIGN"
+
+      - name: Restore
+        run: dotnet restore "${{ env.APP }}.sln"
+
+      - name: Build
+        # Die Lösung enthält den net35-Sammler; er ignoriert die CI-Version (TreatAsLocalProperty)
+        run: dotnet build "${{ env.APP }}.sln" -c Release --no-restore
+
+      - name: Tests
+        run: dotnet test "${{ env.APP }}.sln" -c Release --no-build -p:TestTfmsInParallel=false --logger "trx;LogFilePrefix=tests" --results-directory TestResults
+
+      - name: Testergebnisse
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: Testergebnisse-windows
+          path: TestResults/*.trx
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Sammler zweimal bauen und Prüfsumme vergleichen
+        id: collector
+        shell: pwsh
+        run: |
+          # Bytegleicher Build (spec 4.3): zwei vollständige Builds in zwei Ordner, dann Hash-Sperre gegen collector.sha256
+          $project = 'src/Riegel.Collector/Riegel.Collector.csproj'
+          foreach ($dir in 'out/collector-a', 'out/collector-b') {
+            dotnet build $project -c Release --no-incremental -o $dir
+            if ($LASTEXITCODE -ne 0) { throw "Sammler-Build nach $dir fehlgeschlagen ($LASTEXITCODE)" }
+          }
+          $a = (Get-FileHash out/collector-a/Riegel.Collector.exe -Algorithm SHA256).Hash.ToLower()
+          $b = (Get-FileHash out/collector-b/Riegel.Collector.exe -Algorithm SHA256).Hash.ToLower()
+          Write-Host "Sammler ${{ steps.version.outputs.collector }}: $a (Größe $((Get-Item out/collector-a/Riegel.Collector.exe).Length) Bytes)"
+          if ($a -ne $b) { throw "Sammler nicht bytegleich: $a / $b" }
+          $expected = (Get-Content src/Riegel.Collector/collector.sha256 -Raw).Trim().ToLower()
+          if ($expected -eq 'unset') {
+            Write-Host "::notice::collector.sha256 ist 'unset' – Hash-Sperre noch nicht aktiv (der Integrationsschritt setzt $a)."
+          } elseif ($expected -ne $a) {
+            throw "Sammler-Bytes geändert ohne Versionssprung: erwartet $expected, gebaut $a (collector-version.txt anheben und collector.sha256 setzen)."
+          }
+          "sha256=$a" >> $env:GITHUB_OUTPUT
+
+      - name: Publish
+        shell: pwsh
+        run: |
+          $v = '${{ steps.version.outputs.version }}'
+          $gui = @("src/$env:APP/$env:APP.csproj", '-c', 'Release', '-r', 'win-x64', '-p:PublishSingleFile=true', "-p:Version=$v", '-p:DebugType=none')
+          # Oberfläche: benötigt .NET 10 Desktop Runtime / ohne Runtime-Abhängigkeit (Grundlage der MSI) / eine einzige Exe
+          dotnet publish @gui --self-contained false -o out/framework
+          if ($LASTEXITCODE -ne 0) { throw "Publish (framework) fehlgeschlagen ($LASTEXITCODE)" }
+          dotnet publish @gui --self-contained true -o out/self-contained
+          if ($LASTEXITCODE -ne 0) { throw "Publish (self-contained) fehlgeschlagen ($LASTEXITCODE)" }
+          dotnet publish @gui --self-contained true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o out/standalone
+          if ($LASTEXITCODE -ne 0) { throw "Publish (Einzeldatei) fehlgeschlagen ($LASTEXITCODE)" }
+          # Konsolenprogramm Riegel.Cli.exe (spec 4.2) neben die Oberfläche, dazu als einzelne Datei riegel-win-x64.exe
+          $cli = @('src/Riegel.Cli/Riegel.Cli.csproj', '-c', 'Release', '-f', 'net10.0-windows10.0.19041.0', '-r', 'win-x64', '-p:PublishSingleFile=true', "-p:Version=$v", '-p:DebugType=none')
+          dotnet publish @cli --self-contained false -o out/framework
+          if ($LASTEXITCODE -ne 0) { throw "Publish CLI (framework) fehlgeschlagen ($LASTEXITCODE)" }
+          dotnet publish @cli --self-contained true -o out/self-contained
+          if ($LASTEXITCODE -ne 0) { throw "Publish CLI (self-contained) fehlgeschlagen ($LASTEXITCODE)" }
+          dotnet publish @cli --self-contained true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o out/cli-standalone
+          if ($LASTEXITCODE -ne 0) { throw "Publish CLI (Einzeldatei) fehlgeschlagen ($LASTEXITCODE)" }
+          # Linux x64 und arm64: auf diesem Runner übersetzt (Cross-Publish), damit das Release nicht von Artefakten abhängt
+          foreach ($rid in 'linux-x64', 'linux-arm64') {
+            dotnet publish src/Riegel.Cli/Riegel.Cli.csproj -c Release -f net10.0 -r $rid --self-contained true -p:PublishSingleFile=true `
+              -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true "-p:Version=$v" -p:DebugType=none -o "out/$rid"
+            if ($LASTEXITCODE -ne 0) { throw "Publish $rid fehlgeschlagen ($LASTEXITCODE)" }
+          }
+          Get-ChildItem out/linux-x64, out/linux-arm64, out/cli-standalone | Format-Table Name, Length
+
+      # ---- Signieren der Programmdateien (vor dem Packen, damit ZIP und MSI signierte Dateien enthalten) ----
+      - name: Bei Azure anmelden
+        if: env.SIGN == 'true'
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Exe signieren (framework)
+        if: env.SIGN == 'true'
+        uses: azure/artifact-signing-action@v2
+        with:
+          endpoint: ${{ vars.SIGNING_ENDPOINT }}
+          signing-account-name: ${{ vars.SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ vars.SIGNING_PROFILE }}
+          files-folder: ${{ github.workspace }}\out\framework
+          files-folder-filter: exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
+      - name: Exe signieren (self-contained, für die MSI)
+        if: env.SIGN == 'true'
+        uses: azure/artifact-signing-action@v2
+        with:
+          endpoint: ${{ vars.SIGNING_ENDPOINT }}
+          signing-account-name: ${{ vars.SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ vars.SIGNING_PROFILE }}
+          files-folder: ${{ github.workspace }}\out\self-contained
+          files-folder-filter: exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
+      - name: Exe signieren (Einzeldatei Riegel.exe)
+        if: env.SIGN == 'true'
+        uses: azure/artifact-signing-action@v2
+        with:
+          endpoint: ${{ vars.SIGNING_ENDPOINT }}
+          signing-account-name: ${{ vars.SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ vars.SIGNING_PROFILE }}
+          files-folder: ${{ github.workspace }}\out\standalone
+          files-folder-filter: exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
+      - name: Exe signieren (riegel-win-x64.exe)
+        if: env.SIGN == 'true'
+        uses: azure/artifact-signing-action@v2
+        with:
+          endpoint: ${{ vars.SIGNING_ENDPOINT }}
+          signing-account-name: ${{ vars.SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ vars.SIGNING_PROFILE }}
+          files-folder: ${{ github.workspace }}\out\cli-standalone
+          files-folder-filter: exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
+      - name: Exe signieren (Sammler, vor dem Packen)
+        if: env.SIGN == 'true'
+        uses: azure/artifact-signing-action@v2
+        with:
+          endpoint: ${{ vars.SIGNING_ENDPOINT }}
+          signing-account-name: ${{ vars.SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ vars.SIGNING_PROFILE }}
+          files-folder: ${{ github.workspace }}\out\collector-a
+          files-folder-filter: exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
+      - name: Sammler-Paket
+        shell: pwsh
+        run: |
+          # Riegel-Collector.zip (spec 4.6): Exe, .exe.config, collect-builtin.cmd (wenn vorhanden), README.txt, Lizenzen,
+          # innere SHA256SUMS.txt – reproduzierbar gepackt und als collector\ neben die App kopiert (MSI, ZIP)
+          $bundle = 'out/collector-bundle'
+          New-Item -ItemType Directory -Force $bundle, dist | Out-Null
+          Copy-Item out/collector-a/Riegel.Collector.exe, out/collector-a/Riegel.Collector.exe.config $bundle
+          if (Test-Path tools/collect-builtin/collect-builtin.cmd) { Copy-Item tools/collect-builtin/collect-builtin.cmd $bundle }
+          else { Write-Host "::notice::tools/collect-builtin/collect-builtin.cmd fehlt noch (Paket collector)" }
+          if (Test-Path src/Riegel.Collector/README.txt) { Copy-Item src/Riegel.Collector/README.txt $bundle }
+          else { [IO.File]::WriteAllText("$PWD/$bundle/README.txt", "Riegel collector ${{ steps.version.outputs.collector }} - see https://github.com/ict-baden/riegel/blob/main/docs/collector.md`n") }
+          Copy-Item LICENSE, THIRD-PARTY-NOTICES.txt $bundle
+          ./.github/scripts/zip-deterministic.ps1 -Source $bundle -Destination "dist/Riegel-Collector${{ steps.version.outputs.suffix }}.zip" -SumsFile SHA256SUMS.txt
+          foreach ($dir in 'out/framework', 'out/self-contained') {
+            New-Item -ItemType Directory -Force "$dir/collector" | Out-Null
+            Copy-Item "$bundle/*" "$dir/collector/"
+          }
+
+      - name: Pakete schnüren
+        shell: pwsh
+        run: |
+          # Lizenztexte gehören neben die Exe, ins ZIP und in die MSI (richtlinien/06) – die csproj kopieren sie beim Publish
+          foreach ($dir in 'out/framework', 'out/self-contained') {
+            foreach ($file in 'LICENSE', 'THIRD-PARTY-NOTICES.txt', 'Riegel.exe', 'Riegel.Cli.exe', 'collector/Riegel.Collector.exe') {
+              if (-not (Test-Path "$dir/$file")) { throw "$dir/$file fehlt." }
+            }
+          }
+          $s = '${{ steps.version.outputs.suffix }}'
+          Copy-Item README.md out/framework/
+          Compress-Archive -Path out/framework/* -DestinationPath "dist/$env:APP$s-win-x64-framework.zip"
+          Copy-Item "out/standalone/$env:APP.exe" "dist/$env:APP.exe"
+          Copy-Item out/cli-standalone/Riegel.Cli.exe "dist/riegel$s-win-x64.exe"
+          Copy-Item out/linux-x64/Riegel.Cli "dist/riegel$s-linux-x64"
+          Copy-Item out/linux-arm64/Riegel.Cli "dist/riegel$s-linux-arm64"
+
+      - name: MSI bauen
+        shell: pwsh
+        run: |
+          # Self-contained: läuft ohne installierte .NET-Runtime; enthält Riegel.exe, Riegel.Cli.exe und collector\
+          dotnet build "installer/$env:APP.Installer.wixproj" -c Release "-p:PublishDir=$PWD/out/self-contained/" -p:ProductVersion=${{ steps.version.outputs.msi }}
+          if ($LASTEXITCODE -ne 0) { throw "MSI-Build fehlgeschlagen ($LASTEXITCODE)" }
+          Copy-Item "installer/bin/Release/$env:APP.msi" "dist/$env:APP${{ steps.version.outputs.suffix }}-x64.msi"
+
+      - name: MSI signieren
+        if: env.SIGN == 'true'
+        uses: azure/artifact-signing-action@v2
+        with:
+          endpoint: ${{ vars.SIGNING_ENDPOINT }}
+          signing-account-name: ${{ vars.SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ vars.SIGNING_PROFILE }}
+          files-folder: ${{ github.workspace }}\dist
+          files-folder-filter: msi
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
+      - name: MSI-Installationstest (nur auf dem Wegwerf-Runner)
+        shell: pwsh
+        run: |
+          # Installieren, Riegel.Cli.exe --version mit verlässlichem $LASTEXITCODE, Sammler vorhanden, deinstallieren,
+          # Ordner weg (spec 8.12). Läuft nur auf dem CI-Runner, nie auf einem Arbeitsplatz.
+          if ($env:GITHUB_ACTIONS -ne 'true') { throw 'Nur auf GitHub-Runnern.' }
+          $msi = (Resolve-Path "dist/$env:APP${{ steps.version.outputs.suffix }}-x64.msi").Path
+          $p = Start-Process msiexec.exe -ArgumentList '/i', "`"$msi`"", '/qn', '/l*v', "`"$PWD\msi-install.log`"" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { Get-Content msi-install.log -Tail 60; throw "Installation fehlgeschlagen ($($p.ExitCode))" }
+          $dir = Join-Path $env:ProgramFiles 'Riegel'
+          & "$dir\Riegel.Cli.exe" --version
+          if ($LASTEXITCODE -ne 0) { throw "Riegel.Cli.exe --version endete mit $LASTEXITCODE" }
+          if (-not (Test-Path "$dir\collector\Riegel.Collector.exe")) { throw 'collector\Riegel.Collector.exe fehlt in der Installation' }
+          $p = Start-Process msiexec.exe -ArgumentList '/x', "`"$msi`"", '/qn', '/l*v', "`"$PWD\msi-uninstall.log`"" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { Get-Content msi-uninstall.log -Tail 60; throw "Deinstallation fehlgeschlagen ($($p.ExitCode))" }
+          if (Test-Path $dir) { Get-ChildItem $dir -Recurse | Select-Object -First 20; throw "$dir ist nach der Deinstallation noch da" }
+          Write-Host 'MSI: installiert, Riegel.Cli.exe --version = 0, Sammler vorhanden, deinstalliert, Ordner entfernt.'
+
+      - name: Nur-Lesen-Nachweis des Sammlers
+        shell: pwsh
+        run: |
+          # spec 4.3/8.9: das Skript bringt das Paket collector; bis dahin ein ehrlicher Platzhalter
+          $out = "dist/Riegel-Collector-ReadOnlyProof${{ steps.version.outputs.suffix }}.txt"
+          if (Test-Path tools/readonly-proof/Invoke-ReadOnlyProof.ps1) {
+            ./tools/readonly-proof/Invoke-ReadOnlyProof.ps1 -Target collector -Exe out/collector-bundle/Riegel.Collector.exe -Out $out
+            if ($LASTEXITCODE -ne 0) { throw "Nur-Lesen-Nachweis fehlgeschlagen ($LASTEXITCODE)" }
+          } else {
+            $text = "Riegel collector ${{ steps.version.outputs.collector }} (SHA-256 unsigned: ${{ steps.collector.outputs.sha256 }})`n" +
+                    "Read-only proof: not yet available in this build (tools/readonly-proof/Invoke-ReadOnlyProof.ps1 is delivered by a later work package).`n" +
+                    "Nur-Lesen-Nachweis: in diesem Stand noch nicht vorhanden.`n"
+            [IO.File]::WriteAllText("$PWD/$out", $text, [Text.UTF8Encoding]::new($false))
+            Write-Host "::notice::tools/readonly-proof/Invoke-ReadOnlyProof.ps1 fehlt – Platzhalter geschrieben"
+          }
+
+      - name: AppLocker-Daten des Sammlers
+        # Nur auf dem Runner: liest Dateiinformationen und gibt eine Hash-Regel als XML aus – wendet nichts an (spec 4.3)
+        shell: powershell
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $exe = (Resolve-Path out/collector-bundle/Riegel.Collector.exe).Path
+          $dir = 'out/allowlist'
+          New-Item -ItemType Directory -Force $dir | Out-Null
+          try {
+            $info = Get-AppLockerFileInformation -Path $exe
+            ($info | Format-List * | Out-String -Width 200) | Out-File -Encoding utf8 "$dir/AppLockerFileInformation.txt"
+            $xml = New-AppLockerPolicy -FileInformation $info -RuleType Hash -User Everyone -Xml
+            [IO.File]::WriteAllText("$PWD/$dir/Riegel-Collector-AppLocker-HashRule.xml", $xml)
+          } catch {
+            "AppLocker data could not be generated on this runner: $_" | Out-File -Encoding utf8 "$dir/ERROR.txt"
+          }
+          $hash = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLower()
+          [IO.File]::WriteAllText("$PWD/$dir/SHA256.txt", "$hash  Riegel.Collector.exe`n")
+          $readme = "Riegel collector ${{ steps.version.outputs.collector }} - AppLocker allow-list data`n`n" +
+                    "AppLockerFileInformation.txt: output of Get-AppLockerFileInformation for Riegel.Collector.exe (incl. the hash as AppLocker sees it).`n" +
+                    "Riegel-Collector-AppLocker-HashRule.xml: a hash rule generated with New-AppLockerPolicy -RuleType Hash -User Everyone -Xml. It was printed, not applied.`n" +
+                    "SHA256.txt: SHA-256 of the exe (sha256sum format).`n`n" +
+                    "Import the XML into your own AppLocker policy only after review. Once releases are signed, prefer a publisher rule.`n"
+          [IO.File]::WriteAllText("$PWD/$dir/README.txt", $readme)
+
+      - name: AppLocker-Daten packen
+        shell: pwsh
+        run: ./.github/scripts/zip-deterministic.ps1 -Source out/allowlist -Destination "dist/Riegel-Collector-allowlist${{ steps.version.outputs.suffix }}.zip"
+
+      - name: Demo-Bericht
+        shell: pwsh
+        run: |
+          # Riegel.exe --demo-report schreibt jedes Dokument aus spec 5 (bis zum Paket app als Platzhalter); kein Upload
+          $exe = (Resolve-Path out/self-contained/Riegel.exe).Path
+          $target = Join-Path $PWD 'out/demo'
+          $p = Start-Process -FilePath $exe -ArgumentList '--demo-report', "`"$target`"" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "Riegel.exe --demo-report endete mit $($p.ExitCode)" }
+          $expected = 'Riegel-Report_*.pdf', 'Riegel-Summary_*.pdf', 'Riegel-Overview_*.xlsx', 'results.csv', 'Riegel-Evidence_*.zip',
+                      'Riegel-Soll-Konfiguration_*.pdf', 'Riegel-Soll-Konfiguration_*.xlsx', 'Riegel-Ausnahmen-zur-Genehmigung_*.pdf',
+                      'Riegel-Erhebungsprotokoll_*.pdf', 'riegel-remediation.reg', 'riegel-rollback.reg', 'GptTmpl.inf', 'audit.csv'
+          foreach ($pattern in $expected) {
+            if (-not (Get-ChildItem $target -Recurse -Filter $pattern)) { throw "Demo-Bericht: $pattern fehlt" }
+          }
+          Get-ChildItem $target -Recurse -File | ForEach-Object { $_.FullName.Substring($target.Length + 1) }
+
+      - name: Stückliste (SBOM)
+        shell: pwsh
+        run: |
+          # CycloneDX-Stückliste der ausgelieferten Pakete und Runtime-Pakete (Windows und Linux) plus der Sammler
+          dotnet tool restore
+          if ($LASTEXITCODE -ne 0) { throw "dotnet tool restore fehlgeschlagen ($LASTEXITCODE)" }
+          $file = "dist/$env:APP${{ steps.version.outputs.suffix }}-sbom.cdx.json"
+          $sbom = @("src/$env:APP/$env:APP.csproj", '--recursive', '--exclude-dev', '--output', 'dist',
+                    '--filename', (Split-Path $file -Leaf), '--output-format', 'Json',
+                    '--set-name', $env:APP, '--set-version', '${{ steps.version.outputs.version }}')
+          dotnet dotnet-CycloneDX @sbom
+          if ($LASTEXITCODE -ne 0) { throw "SBOM fehlgeschlagen ($LASTEXITCODE)" }
+          $deps = @(Get-ChildItem "src/$env:APP/obj/Release/*/win-x64/$env:APP.deps.json") +
+                  @(Get-ChildItem 'src/Riegel.Cli/obj/Release/net10.0/linux-x64/Riegel.Cli.deps.json') +
+                  @(Get-ChildItem 'src/Riegel.Cli/obj/Release/net10.0/linux-arm64/Riegel.Cli.deps.json')
+          if ($deps.Count -ne 3) { throw "deps.json der Publish-Läufe nicht eindeutig gefunden ($($deps.Count))" }
+          ./.github/scripts/sbom-shipped.ps1 -Sbom $file -DepsJson $deps.FullName -CollectorVersion '${{ steps.version.outputs.collector }}'
+
+      - name: Prüfsummen
+        shell: pwsh
+        run: |
+          # Nach dem Signieren, sonst stimmen die Summen nicht. Zeilenenden LF: mit CRLF scheitert `sha256sum -c` unter Linux.
+          $sums = Get-ChildItem dist -File | Where-Object Name -ne 'SHA256SUMS.txt' | Sort-Object Name | ForEach-Object {
+            "$((Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower())  $($_.Name)"
+          }
+          [IO.File]::WriteAllText("$PWD/dist/SHA256SUMS.txt", ($sums -join "`n") + "`n", [Text.Encoding]::ASCII)
+          Get-Content dist/SHA256SUMS.txt
+
+      - name: Herkunftsnachweis
+        # Nur für öffentliche Repos; für private bräuchte es GitHub Enterprise (richtlinien/05)
+        if: github.event_name != 'pull_request' && !github.event.repository.private
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: 'dist/*'
+
+      - name: Prüfsummen als Artefakt
+        # Klein und nur zur Fehlersuche; die Releases unten nehmen dist/ direkt
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: Pruefsummen-${{ steps.version.outputs.version }}
+          path: |
+            dist/SHA256SUMS.txt
+            dist/Riegel-Collector-ReadOnlyProof*.txt
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Release erstellen (nur bei Tag v*)
+        if: github.ref_type == 'tag' && github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          # v1.0.0-rc1 und ähnliche: Vorabversion, nicht „Latest“
+          $pre = if ($env:GITHUB_REF_NAME -match '-') { @('--prerelease') } else { @() }
+          gh release create $env:GITHUB_REF_NAME (Get-ChildItem dist/*).FullName --title "$env:APP $env:GITHUB_REF_NAME" --generate-notes @pre
+          if ($LASTEXITCODE -ne 0) { throw "Release ließ sich nicht anlegen ($LASTEXITCODE)" }
+
+      - name: "Release 'latest' aktualisieren (main)"
+        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          # Rollierendes Release: immer der neueste main-Stand, unter festen Links (Einzelheiten im Skript)
+          $base = "https://github.com/$env:GITHUB_REPOSITORY/releases/download/latest"
+          $built = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd HH:mm')
+          $signed = if ($env:SIGN -eq 'true') { 'signiert' } else { 'noch nicht signiert' }
+          $collector = "Sammler ${{ steps.version.outputs.collector }}, SHA-256 (unsigniert) ${{ steps.collector.outputs.sha256 }}"
+          $notes = "Automatischer Build von main ($($env:GITHUB_SHA.Substring(0,7))), Version ${{ steps.version.outputs.version }}, gebaut $built UTC, $signed. $collector.`n`n" +
+                   "Die Links bleiben gleich und zeigen immer auf den neuesten Build. Für OT- und validierte Rechner bitte Tag-Releases nehmen, nie 'latest'.`n`n" +
+                   "- **[$env:APP-x64.msi]($base/$env:APP-x64.msi)**: Auswerte-App für alle Benutzer (Intune/GPO) – nicht der Weg auf OT-Rechner`n" +
+                   "- **[$env:APP.exe]($base/$env:APP.exe)**: Oberfläche als eine Datei, ohne Installation und ohne .NET-Runtime`n" +
+                   "- **[$env:APP-win-x64-framework.zip]($base/$env:APP-win-x64-framework.zip)**: kleine Variante mit Riegel.Cli.exe und collector\, braucht die .NET 10 Desktop Runtime`n" +
+                   "- **[riegel-win-x64.exe]($base/riegel-win-x64.exe)**: Befehlszeile für Windows als eine Datei (Skripte, geplante Prüfungen)`n" +
+                   "- **[riegel-linux-x64]($base/riegel-linux-x64)** / **[riegel-linux-arm64]($base/riegel-linux-arm64)**: Befehlszeile für Linux (Prüfer, CI); arm64 ohne Laufzeittest`n" +
+                   "- **[Riegel-Collector.zip]($base/Riegel-Collector.zip)**: portabler Sammler für OT- und Alt-Rechner (Windows 7 SP1 bis 11), installiert nichts`n" +
+                   "- [Riegel-Collector-allowlist.zip]($base/Riegel-Collector-allowlist.zip): AppLocker-Daten des Sammlers`n" +
+                   "- [Riegel-Collector-ReadOnlyProof.txt]($base/Riegel-Collector-ReadOnlyProof.txt): Nur-Lesen-Nachweis dieses Builds`n" +
+                   "- [Riegel-sbom.cdx.json]($base/Riegel-sbom.cdx.json): Stückliste der Bestandteile (CycloneDX)`n" +
+                   "- [SHA256SUMS.txt]($base/SHA256SUMS.txt): Prüfsummen"
+          $expected = 'Riegel-x64.msi', 'Riegel.exe', 'Riegel-win-x64-framework.zip', 'riegel-win-x64.exe', 'riegel-linux-x64', 'riegel-linux-arm64',
+                      'Riegel-Collector.zip', 'Riegel-Collector-allowlist.zip', 'Riegel-Collector-ReadOnlyProof.txt', 'Riegel-sbom.cdx.json', 'SHA256SUMS.txt'
+          ./.github/scripts/release-latest.ps1 -Notes $notes -Title "Latest Build (main) – ${{ steps.version.outputs.version }}" -Expected $expected

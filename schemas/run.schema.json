@@ -1,0 +1,585 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ict-baden:riegel:schema:run",
+  "title": "riegel.run/1 – Evaluation run (O2)",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "riegel.run/1"
+    },
+    "id": {
+      "$ref": "#/$defs/runId"
+    },
+    "hostName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evaluatedAtUtc": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "evaluationDate": {
+      "$ref": "#/$defs/date"
+    },
+    "collectedAtUtc": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "importedAtUtc": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "snapshot": {
+      "$ref": "#/$defs/fileRef"
+    },
+    "tool": {
+      "$ref": "#/$defs/toolInfo"
+    },
+    "catalogue": {
+      "$ref": "#/$defs/catalogueRef"
+    },
+    "baselines": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/baselineRef"
+      }
+    },
+    "registers": {
+      "$ref": "#/$defs/registerHashes"
+    },
+    "isAdmin": {
+      "type": "boolean"
+    },
+    "options": {
+      "$ref": "#/$defs/collectionOptions"
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ruleResult"
+      }
+    },
+    "summary": {
+      "$ref": "#/$defs/runSummary"
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/categoryScore"
+      }
+    },
+    "facts": {
+      "type": "object"
+    },
+    "previousRunId": {
+      "$ref": "#/$defs/runId"
+    },
+    "approvedRunId": {
+      "$ref": "#/$defs/runId"
+    },
+    "reEvaluationOf": {
+      "$ref": "#/$defs/runId"
+    },
+    "flags": {
+      "$ref": "#/$defs/runFlags"
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "hostName",
+    "evaluatedAtUtc",
+    "evaluationDate",
+    "collectedAtUtc",
+    "snapshot",
+    "tool",
+    "catalogue",
+    "baselines",
+    "registers",
+    "isAdmin",
+    "options",
+    "results",
+    "summary",
+    "categories",
+    "facts",
+    "flags"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "baselineRef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "gpoBackup",
+            "riegelJson",
+            "csv"
+          ]
+        },
+        "sourceSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "sourceFileName": {
+          "type": "string"
+        },
+        "importedAtUtc": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "ruleCount": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "sourceSha256",
+        "importedAtUtc",
+        "ruleCount"
+      ],
+      "additionalProperties": false
+    },
+    "catalogueRef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "releasedOn": {
+          "$ref": "#/$defs/date"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "releasedOn",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "lifecycle",
+        "network",
+        "credentials",
+        "logon",
+        "accounts",
+        "userRights",
+        "defender",
+        "appControl",
+        "encryption",
+        "firewall",
+        "services",
+        "system",
+        "audit",
+        "powershell",
+        "rdp",
+        "media",
+        "tls"
+      ]
+    },
+    "categoryScore": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "$ref": "#/$defs/category"
+        },
+        "pass": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fail": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "exception": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "weight": {
+          "type": "number"
+        },
+        "capped": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "category",
+        "pass",
+        "fail",
+        "exception",
+        "weight",
+        "capped"
+      ],
+      "additionalProperties": false
+    },
+    "collectionOptions": {
+      "type": "object",
+      "properties": {
+        "minimal": {
+          "type": "boolean"
+        },
+        "deep": {
+          "type": "boolean"
+        },
+        "pseudonymized": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "minimal",
+        "deep",
+        "pseudonymized"
+      ],
+      "additionalProperties": false
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "ISO 8601 date (yyyy-MM-dd)"
+    },
+    "fileRef": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "registerHashes": {
+      "type": "object",
+      "properties": {
+        "exceptions": {
+          "$ref": "#/$defs/sha256OrEmpty"
+        },
+        "tailoring": {
+          "$ref": "#/$defs/sha256OrEmpty"
+        },
+        "measures": {
+          "$ref": "#/$defs/sha256OrEmpty"
+        }
+      },
+      "required": [
+        "exceptions",
+        "tailoring",
+        "measures"
+      ],
+      "additionalProperties": false
+    },
+    "resultFlags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "regression",
+          "newRule",
+          "exceptionExpired",
+          "exceptionExpiring",
+          "exceptionPending",
+          "exceptionValueMismatch",
+          "exceptionChangedAfterApproval",
+          "tailoringPending",
+          "measurePlanned",
+          "measureOverdue",
+          "fromDefault",
+          "configuredOnly",
+          "heuristic",
+          "derived",
+          "staleSnapshot",
+          "clockSuspect"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "resultStatus": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail",
+        "exception",
+        "outOfScope",
+        "notApplicable",
+        "notCheckable",
+        "info"
+      ]
+    },
+    "ruleResult": {
+      "type": "object",
+      "properties": {
+        "ruleSetId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ruleId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "$ref": "#/$defs/resultStatus"
+        },
+        "severity": {
+          "$ref": "#/$defs/severity"
+        },
+        "expected": {
+          "type": "string"
+        },
+        "actual": {
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/valueSource"
+        },
+        "sourceDetail": {
+          "type": "string"
+        },
+        "evidenceKeys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "exceptionId": {
+          "type": "string"
+        },
+        "tailoringId": {
+          "type": "string"
+        },
+        "measureId": {
+          "type": "string"
+        },
+        "flags": {
+          "$ref": "#/$defs/resultFlags"
+        },
+        "reasonCode": {
+          "type": "string",
+          "pattern": "^RGL-\\d{4}$"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "ruleSetId",
+        "ruleId",
+        "status",
+        "severity",
+        "source",
+        "evidenceKeys",
+        "flags"
+      ],
+      "additionalProperties": false
+    },
+    "runFlags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "staleSnapshot",
+          "clockSuspect",
+          "machineIdentityChanged",
+          "incomplete",
+          "domainController"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "runId": {
+      "type": "string",
+      "pattern": "^\\d{8}T\\d{6}Z-[0-9a-f]{6}$"
+    },
+    "runSummary": {
+      "type": "object",
+      "properties": {
+        "pass": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fail": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "exception": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "outOfScope": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "notApplicable": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "notCheckable": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "info": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "openHigh": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "openMedium": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "openLow": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "regressions": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "newlyOpen": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "exceptionsExpiring": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "exceptionsExpired": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "exceptionsPending": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "measuresOverdue": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "checkedShare": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "documented": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        }
+      },
+      "required": [
+        "pass",
+        "fail",
+        "exception",
+        "outOfScope",
+        "notApplicable",
+        "notCheckable",
+        "info",
+        "openHigh",
+        "openMedium",
+        "openLow",
+        "regressions",
+        "newlyOpen",
+        "exceptionsExpiring",
+        "exceptionsExpired",
+        "exceptionsPending",
+        "measuresOverdue",
+        "checkedShare"
+      ],
+      "additionalProperties": false
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "sha256OrEmpty": {
+      "type": "string",
+      "pattern": "^([0-9a-f]{64})?$",
+      "description": "empty = register does not exist"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?(Z|[+-]\\d{2}:\\d{2})$",
+      "description": "ISO 8601 timestamp with zone; Riegel writes UTC with Z"
+    },
+    "toolInfo": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit": {
+          "type": "string"
+        },
+        "exeSha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "valueSource": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "domainGpo",
+        "localPolicy",
+        "mdm",
+        "directlySet",
+        "osDefault",
+        "runtime",
+        "notSet"
+      ]
+    }
+  }
+}

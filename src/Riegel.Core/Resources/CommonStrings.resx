@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="About_NoData" xml:space="preserve">
+    <value>This software does not send any data to ICT-Baden.</value>
+    <comment>Guideline 07</comment>
+  </data>
+  <data name="About_VersionWithBuild" xml:space="preserve">
+    <value>{0} (build {1})</value>
+    <comment>{0} = version, {1} = commit</comment>
+  </data>
+  <data name="Category_accounts" xml:space="preserve">
+    <value>Accounts / UAC</value>
+  </data>
+  <data name="Category_appControl" xml:space="preserve">
+    <value>Application control</value>
+  </data>
+  <data name="Category_audit" xml:space="preserve">
+    <value>Audit / logging</value>
+  </data>
+  <data name="Category_credentials" xml:space="preserve">
+    <value>Credentials / NTLM / LSA</value>
+  </data>
+  <data name="Category_defender" xml:space="preserve">
+    <value>Defender / ASR</value>
+  </data>
+  <data name="Category_encryption" xml:space="preserve">
+    <value>Encryption / boot</value>
+  </data>
+  <data name="Category_firewall" xml:space="preserve">
+    <value>Firewall</value>
+  </data>
+  <data name="Category_lifecycle" xml:space="preserve">
+    <value>Lifecycle / patches</value>
+  </data>
+  <data name="Category_logon" xml:space="preserve">
+    <value>Logon</value>
+  </data>
+  <data name="Category_media" xml:space="preserve">
+    <value>Removable media</value>
+  </data>
+  <data name="Category_network" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="Category_powershell" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="Category_rdp" xml:space="preserve">
+    <value>Remote Desktop</value>
+  </data>
+  <data name="Category_services" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="Category_system" xml:space="preserve">
+    <value>System / shares</value>
+  </data>
+  <data name="Category_tls" xml:space="preserve">
+    <value>TLS / SCHANNEL</value>
+  </data>
+  <data name="Category_userRights" xml:space="preserve">
+    <value>User rights</value>
+  </data>
+  <data name="Confidentiality_Default" xml:space="preserve">
+    <value>Confidential – contains security configuration</value>
+  </data>
+  <data name="Diag_AnonymizedNo" xml:space="preserve">
+    <value>Anonymised: no</value>
+  </data>
+  <data name="Diag_AnonymizedYes" xml:space="preserve">
+    <value>Anonymised: yes (machine, account, domain and server names, paths, SIDs and addresses replaced)</value>
+  </data>
+  <data name="Diag_Created" xml:space="preserve">
+    <value>Created: {0}</value>
+  </data>
+  <data name="Diag_Language" xml:space="preserve">
+    <value>Language: {0}, time zone: {1}</value>
+  </data>
+  <data name="Diag_Logs" xml:space="preserve">
+    <value>Logs: {0} file(s) of the last {1} days</value>
+  </data>
+  <data name="Diag_OperatingSystem" xml:space="preserve">
+    <value>Operating system: {0} ({1})</value>
+  </data>
+  <data name="Diag_Runtime" xml:space="preserve">
+    <value>.NET: {0}</value>
+  </data>
+  <data name="Diag_Title" xml:space="preserve">
+    <value>Riegel – diagnostics package</value>
+  </data>
+  <data name="Error_RGL0001" xml:space="preserve">
+    <value>Unexpected error. Please create a diagnostics package and contact support.</value>
+  </data>
+  <data name="Error_RGL0002" xml:space="preserve">
+    <value>Not found: {0}</value>
+  </data>
+  <data name="Error_RGL0003" xml:space="preserve">
+    <value>Not available yet in this build: {0}</value>
+  </data>
+  <data name="Error_RGL0004" xml:space="preserve">
+    <value>Invalid JSON or wrong structure ({0})</value>
+  </data>
+  <data name="Error_RGL0005" xml:space="preserve">
+    <value>Unsupported file format: {0}</value>
+  </data>
+  <data name="Error_RGL0006" xml:space="preserve">
+    <value>Limit exceeded: {0} (maximum {1})</value>
+  </data>
+  <data name="Error_RGL0007" xml:space="preserve">
+    <value>Read or write error: {0}</value>
+  </data>
+  <data name="Error_RGL0008" xml:space="preserve">
+    <value>Access denied: {0}</value>
+  </data>
+  <data name="Error_RGL0009" xml:space="preserve">
+    <value>Checksum does not match: {0}</value>
+  </data>
+  <data name="Error_RGL0010" xml:space="preserve">
+    <value>Settings could not be read; the defaults apply.</value>
+  </data>
+  <data name="Error_RGL0011" xml:space="preserve">
+    <value>Machine-wide presets (defaults.json) could not be read and are ignored.</value>
+  </data>
+  <data name="Error_RGL0012" xml:space="preserve">
+    <value>Not possible on this operating system.</value>
+  </data>
+  <data name="Error_RGL0013" xml:space="preserve">
+    <value>Invalid value: {0}</value>
+  </data>
+  <data name="Error_RGL0014" xml:space="preserve">
+    <value>Read-only mode: nothing is written to the plant folder.</value>
+  </data>
+  <data name="Error_RGL0015" xml:space="preserve">
+    <value>The diagnostics package could not be written: {0}</value>
+  </data>
+  <data name="Error_RGL0016" xml:space="preserve">
+    <value>Already exists and is not overwritten: {0}</value>
+  </data>
+  <data name="Flag_ClockSuspect" xml:space="preserve">
+    <value>Clock implausible</value>
+  </data>
+  <data name="Flag_ConfiguredOnly" xml:space="preserve">
+    <value>Configured, effect not proven</value>
+  </data>
+  <data name="Flag_Derived" xml:space="preserve">
+    <value>Derived</value>
+  </data>
+  <data name="Flag_ExceptionChangedAfterApproval" xml:space="preserve">
+    <value>Exception changed after approval</value>
+  </data>
+  <data name="Flag_ExceptionExpired" xml:space="preserve">
+    <value>Exception expired</value>
+  </data>
+  <data name="Flag_ExceptionExpiring" xml:space="preserve">
+    <value>Exception expiring soon</value>
+  </data>
+  <data name="Flag_ExceptionPending" xml:space="preserve">
+    <value>Exception requested</value>
+  </data>
+  <data name="Flag_ExceptionValueMismatch" xml:space="preserve">
+    <value>Value differs from the accepted value</value>
+  </data>
+  <data name="Flag_FromDefault" xml:space="preserve">
+    <value>Default value assumed</value>
+  </data>
+  <data name="Flag_Heuristic" xml:space="preserve">
+    <value>Heuristic evidence only</value>
+  </data>
+  <data name="Flag_MeasureOverdue" xml:space="preserve">
+    <value>Measure overdue</value>
+  </data>
+  <data name="Flag_MeasurePlanned" xml:space="preserve">
+    <value>Remediation planned</value>
+  </data>
+  <data name="Flag_NewRule" xml:space="preserve">
+    <value>New rule</value>
+  </data>
+  <data name="Flag_Regression" xml:space="preserve">
+    <value>Worse than before</value>
+  </data>
+  <data name="Flag_StaleSnapshot" xml:space="preserve">
+    <value>Collection outdated</value>
+  </data>
+  <data name="Flag_TailoringPending" xml:space="preserve">
+    <value>Tailoring requested</value>
+  </data>
+  <data name="Group_None" xml:space="preserve">
+    <value>Without group</value>
+  </data>
+  <data name="Integrity_Statement" xml:space="preserve">
+    <value>The SHA-256 checksums show that a file has not been changed since the checksum was created. They do not prove that an export came unchanged from the target machine: whoever carries the storage medium can replace export and checksum together. That is what the collection record with a witness and the sample check with compare-snapshot are for.</value>
+    <comment>Spec 5, integrity statement (method section, evidence README, O14)</comment>
+  </data>
+  <data name="Item_Denied" xml:space="preserve">
+    <value>Access denied</value>
+  </data>
+  <data name="Item_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Item_KeyMissing" xml:space="preserve">
+    <value>Key not present</value>
+  </data>
+  <data name="Item_NamespaceMissing" xml:space="preserve">
+    <value>WMI namespace missing</value>
+  </data>
+  <data name="Item_NotApplicable" xml:space="preserve">
+    <value>Not applicable</value>
+  </data>
+  <data name="Item_NotCollected" xml:space="preserve">
+    <value>Not collected</value>
+  </data>
+  <data name="Item_Ok" xml:space="preserve">
+    <value>Read</value>
+  </data>
+  <data name="Item_ValueMissing" xml:space="preserve">
+    <value>Value not set</value>
+  </data>
+  <data name="Placeholder_Document" xml:space="preserve">
+    <value>Placeholder: this document is produced by a later work package of Riegel 0.1.0.</value>
+    <comment>Only in scaffold placeholder files; replaced by the pdf and data-outputs packages</comment>
+  </data>
+  <data name="PreTranslation_Note" xml:space="preserve">
+    <value>Machine pre-translation – not reviewed</value>
+    <comment>Cover and footer of documents in a language that is not reviewed (spec 7.10)</comment>
+  </data>
+  <data name="Reason_CompensatingControl" xml:space="preserve">
+    <value>Compensating control</value>
+  </data>
+  <data name="Reason_NotRelevantHere" xml:space="preserve">
+    <value>Not relevant here</value>
+  </data>
+  <data name="Reason_RiskAccepted" xml:space="preserve">
+    <value>Risk accepted</value>
+  </data>
+  <data name="Reason_TechnicalNecessity" xml:space="preserve">
+    <value>Technical necessity</value>
+  </data>
+  <data name="Reason_VendorRequirement" xml:space="preserve">
+    <value>Vendor requirement</value>
+  </data>
+  <data name="RegisterFlag_MeasureDoneButFailing" xml:space="preserve">
+    <value>Measure done, rule still not met</value>
+  </data>
+  <data name="RegisterFlag_Overlap" xml:space="preserve">
+    <value>Overlaps another entry</value>
+  </data>
+  <data name="RegisterFlag_RuleRetired" xml:space="preserve">
+    <value>Rule retired</value>
+  </data>
+  <data name="RegisterFlag_Unused" xml:space="preserve">
+    <value>No longer needed?</value>
+  </data>
+  <data name="RegisterFlag_ValueMismatch" xml:space="preserve">
+    <value>Value differs</value>
+  </data>
+  <data name="Remediation_Header" xml:space="preserve">
+    <value>Proposal – not executed by Riegel. Agree with the plant vendor before applying.</value>
+    <comment>First line of every remediation file (spec 5 O10)</comment>
+  </data>
+  <data name="Role_PlantManagement" xml:space="preserve">
+    <value>Plant management</value>
+    <comment>Default sign-off role 'approved'</comment>
+  </data>
+  <data name="Role_PlantOwner" xml:space="preserve">
+    <value>Plant owner</value>
+    <comment>Default sign-off role 'created'</comment>
+  </data>
+  <data name="Role_QualityAssurance" xml:space="preserve">
+    <value>Quality assurance</value>
+  </data>
+  <data name="Role_SecurityOfficer" xml:space="preserve">
+    <value>Information security officer</value>
+    <comment>Default sign-off role 'reviewed'</comment>
+  </data>
+  <data name="RunFlag_ClockSuspect" xml:space="preserve">
+    <value>Clock implausible</value>
+  </data>
+  <data name="RunFlag_DomainController" xml:space="preserve">
+    <value>Domain controller</value>
+  </data>
+  <data name="RunFlag_Incomplete" xml:space="preserve">
+    <value>Incomplete check</value>
+  </data>
+  <data name="RunFlag_MachineIdentityChanged" xml:space="preserve">
+    <value>Machine reinstalled?</value>
+  </data>
+  <data name="RunFlag_StaleSnapshot" xml:space="preserve">
+    <value>Collection outdated</value>
+  </data>
+  <data name="Severity_High" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="Severity_Low" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="Severity_Medium" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="Status_Exception" xml:space="preserve">
+    <value>Deliberately open</value>
+    <comment>ResultStatus.Exception (valid exception)</comment>
+  </data>
+  <data name="Status_Fail" xml:space="preserve">
+    <value>Not met</value>
+    <comment>ResultStatus.Fail</comment>
+  </data>
+  <data name="Status_Info" xml:space="preserve">
+    <value>Info</value>
+    <comment>ResultStatus.Info (inventory)</comment>
+  </data>
+  <data name="Status_NotApplicable" xml:space="preserve">
+    <value>Not applicable</value>
+    <comment>ResultStatus.NotApplicable</comment>
+  </data>
+  <data name="Status_NotCheckable" xml:space="preserve">
+    <value>Not checkable</value>
+    <comment>ResultStatus.NotCheckable</comment>
+  </data>
+  <data name="Status_OutOfScope" xml:space="preserve">
+    <value>Out of scope</value>
+    <comment>ResultStatus.OutOfScope (tailoring)</comment>
+  </data>
+  <data name="Status_Pass" xml:space="preserve">
+    <value>Met</value>
+    <comment>ResultStatus.Pass</comment>
+  </data>
+  <data name="Value_NotSet" xml:space="preserve">
+    <value>(not set)</value>
+    <comment>Display of a missing value (spec 7.3)</comment>
+  </data>
+  <data name="Value_Redacted" xml:space="preserve">
+    <value>(redacted)</value>
+    <comment>Display of a redacted secret</comment>
+  </data>
+</root>

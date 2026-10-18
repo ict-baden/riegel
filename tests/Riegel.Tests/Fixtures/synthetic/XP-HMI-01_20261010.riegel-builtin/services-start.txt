@@ -1,0 +1,27 @@
+
+! REG.EXE VERSION 3.0
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Spooler
+    Start	REG_DWORD	0x2
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\RemoteRegistry
+    Start	REG_DWORD	0x2
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\TermService
+    Start	REG_DWORD	0x3
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time
+    Start	REG_DWORD	0x2
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\wuauserv
+    Start	REG_DWORD	0x2
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\lanmanserver
+    Start	REG_DWORD	0x2
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\mrxsmb10
+    Start	REG_DWORD	0x2
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\USBSTOR
+    Start	REG_DWORD	0x3
+

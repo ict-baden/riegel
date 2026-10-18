@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Windows-Ziel: alle Tests (Core, Befehle, Windows-Anbindung, App). net10.0: nur die plattformneutralen Tests, die
+         auch unter Linux laufen (ohne Windows/**). Tests ändern nie die Konfiguration des Rechners: nur Fixtures,
+         Temp-Ordner und lesende Abfragen (spec 8). -->
+    <TargetFrameworks>net10.0-windows10.0.19041.0;net10.0</TargetFrameworks>
+    <!-- auch unter Linux wiederherstellbar (das Windows-Ziel wird dort nur nicht ausgeführt) -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <IsPackable>false</IsPackable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>Riegel.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-windows10.0.19041.0'">
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <!--
+    Nur für Tests, nicht ausgeliefert (gesehen 2026-10-18 über die NuGet-API):
+    - Microsoft.NET.Test.Sdk 18.11.0, MIT; xunit 2.9.3, Apache-2.0; xunit.runner.visualstudio 4.0.1, Apache-2.0
+      (dieselben Versionen wie Zutritt)
+    - JsonSchema.Net 8.0.5, MIT – https://api.nuget.org/v3-flatcontainer/jsonschema.net/8.0.5/jsonschema.net.nuspec
+      Die neueste Version 9.4.1 (und alle ab 9.0.0) steht unter der OSMF-EULA
+      (https://api.nuget.org/v3-flatcontainer/jsonschema.net/9.4.1/jsonschema.net.nuspec: license type="file" OSMFEULA.txt),
+      nicht MIT – deshalb 8.0.5, Dependabot ignoriert >= 9. Bringt JsonPointer.Net 6.0.1, Json.More.Net 2.2.0 und
+      Humanizer.Core 3.0.1 mit (alle MIT laut nuspec).
+  -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1" />
+    <PackageReference Include="JsonSchema.Net" Version="8.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Riegel.Core\Riegel.Core.csproj" />
+    <ProjectReference Include="..\..\src\Riegel.Commands\Riegel.Commands.csproj" />
+  </ItemGroup>
+
+  <!-- Nur unter Windows: Windows-Anbindung, die WPF-App und der gebaute net35-Sammler (Referenztest, spec 8.13) -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows10.0.19041.0'">
+    <ProjectReference Include="..\..\src\Riegel.Platform.Windows\Riegel.Platform.Windows.csproj" />
+    <ProjectReference Include="..\..\src\Riegel\Riegel.csproj" />
+    <ProjectReference Include="..\..\src\Riegel.Collector\Riegel.Collector.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=net35" Private="false" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+    <Compile Remove="Windows\**" />
+  </ItemGroup>
+
+  <!-- Wo der Test den gebauten Sammler findet (gleiche Konfiguration wie der Testlauf) -->
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>RiegelCollectorExe</_Parameter1>
+      <_Parameter2>$(MSBuildThisFileDirectory)..\..\src\Riegel.Collector\bin\$(Configuration)\net35\Riegel.Collector.exe</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <!-- Fixtures neben die Tests; Unterordner und Dateinamen bleiben erhalten -->
+  <ItemGroup>
+    <None Include="Fixtures\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Cli_CheckIncomplete" xml:space="preserve">
+    <value>检查不完整：可检查的规则少于 90%，或采集未以管理员身份运行。</value>
+  </data>
+  <data name="Cli_CheckNeedsSnapshot" xml:space="preserve">
+    <value>在此版本中，check 需要 --snapshot &lt;文件&gt;。</value>
+  </data>
+  <data name="Cli_CheckOpen" xml:space="preserve">
+    <value>未解决的发现：高 {0}，中 {1}，低 {2}</value>
+  </data>
+  <data name="Cli_CheckShare" xml:space="preserve">
+    <value>已检查比例：{0}%</value>
+  </data>
+  <data name="Cli_CheckSummary" xml:space="preserve">
+    <value>{0}：{1} 条规则 – {2} 符合，{3} 不符合，{4} 有意保留，{5} 不在检查范围内，{6} 不适用，{7} 无法检查，{8} 信息</value>
+  </data>
+  <data name="Cli_CollectWritten" xml:space="preserve">
+    <value>已写入导出文件：{0}
+SHA-256：{1}</value>
+  </data>
+  <data name="Cli_Description" xml:space="preserve">
+    <value>对照加固基线检查工厂、实验室和控制室中的 Windows 计算机（只读、离线），记录有正当理由的例外，并生成可供签署的证据报告。</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Cli_InfoCatalogue" xml:space="preserve">
+    <value>规则目录：{0} {1}</value>
+  </data>
+  <data name="Cli_InfoCollector" xml:space="preserve">
+    <value>采集器：{0}</value>
+  </data>
+  <data name="Cli_InfoDataFolder" xml:space="preserve">
+    <value>数据文件夹：{0}</value>
+  </data>
+  <data name="Cli_InfoLicence" xml:space="preserve">
+    <value>许可证：MIT（{0}）</value>
+  </data>
+  <data name="Cli_InfoLinks" xml:space="preserve">
+    <value>网站：{0}
+法律声明（Impressum）：{1}
+源代码：{2}
+帮助和支持：{3}
+数据和隐私：{4}</value>
+  </data>
+  <data name="Cli_InfoVersion" xml:space="preserve">
+    <value>版本：{0}</value>
+  </data>
+  <data name="Cli_LicensesMissing" xml:space="preserve">
+    <value>此版本中缺少许可证文本。</value>
+  </data>
+  <data name="Cli_MissingValue" xml:space="preserve">
+    <value>选项 {0} 需要一个值。</value>
+  </data>
+  <data name="Cli_UnknownArgument" xml:space="preserve">
+    <value>未知的命令或选项：{0}。请参阅 --help。</value>
+  </data>
+  <data name="Cli_Usage" xml:space="preserve">
+    <value>用法：{0} &lt;命令&gt; [选项]
+
+此版本中的命令：
+  check --snapshot &lt;文件&gt; [--format text|json]   评估导出文件并输出摘要
+  collect [--out &lt;文件夹&gt;]                        Windows：导出本机
+
+全局选项：
+  --help, --hilfe           本帮助
+  --version                 版本
+  --info                    产品、许可证和链接
+  --licenses, --lizenzen    许可证文本
+
+check 的退出代码：0 正常，1 警告，2 严重，3 未知（用法错误、导出文件无法读取）。
+在脚本中请使用 Riegel.Cli.exe：控制台不会等待 Riegel.exe。</value>
+  </data>
+  <data name="Cli_VersionLine" xml:space="preserve">
+    <value>Riegel {0} · 采集器 {1} · 规则目录 {2}</value>
+  </data>
+</root>

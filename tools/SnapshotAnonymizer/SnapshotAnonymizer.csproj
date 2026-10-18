@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Entwicklerwerkzeug, nicht ausgeliefert -->
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Riegel.Tools.SnapshotAnonymizer</RootNamespace>
+    <AssemblyName>SnapshotAnonymizer</AssemblyName>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Riegel.Core\Riegel.Core.csproj" />
+  </ItemGroup>
+</Project>

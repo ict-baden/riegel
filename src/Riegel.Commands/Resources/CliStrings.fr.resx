@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Cli_CheckIncomplete" xml:space="preserve">
+    <value>Vérification incomplète : moins de 90 % des règles ont pu être vérifiées, ou la collecte n'a pas été exécutée en tant qu'administrateur.</value>
+  </data>
+  <data name="Cli_CheckNeedsSnapshot" xml:space="preserve">
+    <value>Dans cette version, check nécessite --snapshot &lt;fichier&gt;.</value>
+  </data>
+  <data name="Cli_CheckOpen" xml:space="preserve">
+    <value>Constats ouverts : {0} élevés, {1} moyens, {2} faibles</value>
+  </data>
+  <data name="Cli_CheckShare" xml:space="preserve">
+    <value>Part vérifiée : {0} %</value>
+  </data>
+  <data name="Cli_CheckSummary" xml:space="preserve">
+    <value>{0} : {1} règles – {2} conformes, {3} non conformes, {4} ouvertes délibérément, {5} hors périmètre, {6} non applicables, {7} non vérifiables, {8} info</value>
+  </data>
+  <data name="Cli_CollectWritten" xml:space="preserve">
+    <value>Export écrit : {0}
+SHA-256 : {1}</value>
+  </data>
+  <data name="Cli_Description" xml:space="preserve">
+    <value>Vérifie les machines Windows des installations, laboratoires et salles de contrôle par rapport à une base de durcissement – en lecture seule et hors ligne –, consigne les exceptions justifiées et produit un rapport de preuves à signer.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Cli_InfoCatalogue" xml:space="preserve">
+    <value>Catalogue : {0} {1}</value>
+  </data>
+  <data name="Cli_InfoCollector" xml:space="preserve">
+    <value>Collecteur : {0}</value>
+  </data>
+  <data name="Cli_InfoDataFolder" xml:space="preserve">
+    <value>Dossier de données : {0}</value>
+  </data>
+  <data name="Cli_InfoLicence" xml:space="preserve">
+    <value>Licence : MIT ({0})</value>
+  </data>
+  <data name="Cli_InfoLinks" xml:space="preserve">
+    <value>Site web : {0}
+Mentions légales (Impressum) : {1}
+Code source : {2}
+Aide et support : {3}
+Données et confidentialité : {4}</value>
+  </data>
+  <data name="Cli_InfoVersion" xml:space="preserve">
+    <value>Version : {0}</value>
+  </data>
+  <data name="Cli_LicensesMissing" xml:space="preserve">
+    <value>Les textes de licence manquent dans cette version.</value>
+  </data>
+  <data name="Cli_MissingValue" xml:space="preserve">
+    <value>L'option {0} nécessite une valeur.</value>
+  </data>
+  <data name="Cli_UnknownArgument" xml:space="preserve">
+    <value>Commande ou option inconnue : {0}. Voir --help.</value>
+  </data>
+  <data name="Cli_Usage" xml:space="preserve">
+    <value>Utilisation : {0} &lt;commande&gt; [options]
+
+Commandes de cette version :
+  check --snapshot &lt;fichier&gt; [--format text|json]   évaluer un export et afficher un résumé
+  collect [--out &lt;dossier&gt;]                          Windows : export de ce PC
+
+Options globales :
+  --help, --hilfe           cette aide
+  --version                 version
+  --info                    produit, licence et liens
+  --licenses, --lizenzen    textes de licence
+
+Codes de sortie de check : 0 OK, 1 avertissement, 2 critique, 3 inconnu (erreur d'utilisation, export illisible).
+Dans les scripts, utilisez Riegel.Cli.exe : la console n'attend pas Riegel.exe.</value>
+  </data>
+  <data name="Cli_VersionLine" xml:space="preserve">
+    <value>Riegel {0} · collecteur {1} · catalogue {2}</value>
+  </data>
+</root>

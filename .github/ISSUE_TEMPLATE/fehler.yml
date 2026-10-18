@@ -1,0 +1,77 @@
+name: Fehler melden / Bug report
+description: Etwas funktioniert nicht wie beschrieben. / Something does not work as documented.
+labels: [fehler]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke! Bitte keine Passwörter, internen Hostnamen oder Kundendaten einfügen – dieses Issue ist öffentlich.
+        Bei Riegel heißt das auch: **keine Exporte (`*.snapshot.json`), Register, Berichte (PDF, Excel) oder Nachweispakete anhängen** – sie beschreiben die Sicherheitskonfiguration Ihrer Rechner.
+        Thanks! Please do not paste passwords, internal host names or customer data – this issue is public.
+        Never attach snapshots, registers, reports or evidence packs: they describe the security configuration of your machines.
+  - type: input
+    id: version
+    attributes:
+      label: Version von Riegel / Riegel version
+      description: Von der Seite *Info* oder aus `Riegel.Cli.exe --version`. / From the *Info* page or `Riegel.Cli.exe --version`.
+      placeholder: Riegel 0.1.0-ci.12 (Build abc1234)
+    validations:
+      required: true
+  - type: input
+    id: katalog
+    attributes:
+      label: Version des Regelwerks / Catalogue version
+      description: Steht in `--version` und auf dem Deckblatt des Berichts. / Shown by `--version` and on the report cover.
+      placeholder: "2026.10"
+    validations:
+      required: true
+  - type: input
+    id: sammler
+    attributes:
+      label: Version des Sammlers / Collector version
+      description: Aus `Riegel.Collector.exe --version` oder dem Erhebungsprotokoll; „keiner“, wenn nicht benutzt. / From `Riegel.Collector.exe --version` or the collection record; "none" if not used.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: variante
+    attributes:
+      label: Variante / Package
+      options: [MSI, Einzeldatei Riegel.exe / single exe, riegel-win-x64.exe, ZIP (framework), Linux (riegel-linux-x64/arm64), Sammler / collector (Riegel-Collector.zip), Bordmittel / collect-builtin.cmd, aus dem Quellcode / from source]
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: Windows-Version und Build des geprüften Rechners / OS build of the checked machine
+      description: Z. B. aus `winver` oder `ver`. / E.g. from `winver` or `ver`.
+      placeholder: Windows 10 Enterprise LTSC 2019, 10.0.17763.7792
+    validations:
+      required: true
+  - type: input
+    id: auswerter
+    attributes:
+      label: System, auf dem ausgewertet wurde / OS where Riegel ran
+      placeholder: Windows 11 24H2 / Ubuntu 24.04
+  - type: textarea
+    id: schritte
+    attributes:
+      label: Schritte zum Nachstellen / Steps to reproduce
+      placeholder: |
+        1. …
+        2. …
+    validations:
+      required: true
+  - type: textarea
+    id: erwartet
+    attributes:
+      label: Erwartet und tatsächlich / Expected and actual
+      description: Bei falschen Ergebnissen bitte die Regel-ID (z. B. NET-08) und den Status nennen. / For wrong results, name the rule ID (e.g. NET-08) and the status.
+    validations:
+      required: true
+  - type: textarea
+    id: protokoll
+    attributes:
+      label: Ausgabe oder Diagnosepaket (anonymisiert) / Output or diagnostics (anonymised)
+      description: Ohne Host-, Konto- und Pfadnamen. Das Diagnosepaket (*Info* › *Diagnosepaket erstellen*) enthält keine Exporte oder Register. / Without host, account and path names. The diagnostics package contains no snapshots or registers.
+      render: text

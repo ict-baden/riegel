@@ -1,0 +1,19 @@
+<Window x:Class="Riegel.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="720" Height="420" MinWidth="480" MinHeight="300"
+        WindowStartupLocation="CenterScreen" Icon="/Assets/riegel.ico">
+  <Grid Margin="24">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <StackPanel Orientation="Horizontal">
+      <Image Source="/Assets/riegel.png" Width="48" Height="48" Margin="0,0,16,0" />
+      <TextBlock x:Name="Heading" FontSize="24" VerticalAlignment="Center" TextWrapping="Wrap" />
+    </StackPanel>
+    <TextBlock x:Name="Body" Grid.Row="1" Margin="0,16,0,0" TextWrapping="Wrap" FontSize="14" />
+    <Button x:Name="InfoButton" Grid.Row="2" HorizontalAlignment="Left" Padding="16,6" Click="OnInfo" />
+  </Grid>
+</Window>

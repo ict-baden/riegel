@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Cli_CheckIncomplete" xml:space="preserve">
+    <value>Comprobación incompleta: se pudo verificar menos del 90 % de las reglas o la captura no se ejecutó como administrador.</value>
+  </data>
+  <data name="Cli_CheckNeedsSnapshot" xml:space="preserve">
+    <value>En esta versión, check necesita --snapshot &lt;archivo&gt;.</value>
+  </data>
+  <data name="Cli_CheckOpen" xml:space="preserve">
+    <value>Hallazgos abiertos: {0} altos, {1} medios, {2} bajos</value>
+  </data>
+  <data name="Cli_CheckShare" xml:space="preserve">
+    <value>Alcance verificado: {0} %</value>
+  </data>
+  <data name="Cli_CheckSummary" xml:space="preserve">
+    <value>{0}: {1} reglas – {2} cumplidas, {3} no cumplidas, {4} abiertas deliberadamente, {5} fuera del alcance, {6} no aplicables, {7} no verificables, {8} información</value>
+  </data>
+  <data name="Cli_CollectWritten" xml:space="preserve">
+    <value>Exportación escrita: {0}
+SHA-256: {1}</value>
+  </data>
+  <data name="Cli_Description" xml:space="preserve">
+    <value>Comprueba equipos Windows en instalaciones, laboratorios y salas de control frente a una línea base de bastionado, en modo de solo lectura y sin conexión, registra las excepciones justificadas y genera un informe de evidencias para su firma.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Cli_InfoCatalogue" xml:space="preserve">
+    <value>Catálogo: {0} {1}</value>
+  </data>
+  <data name="Cli_InfoCollector" xml:space="preserve">
+    <value>Recopilador: {0}</value>
+  </data>
+  <data name="Cli_InfoDataFolder" xml:space="preserve">
+    <value>Carpeta de datos: {0}</value>
+  </data>
+  <data name="Cli_InfoLicence" xml:space="preserve">
+    <value>Licencia: MIT ({0})</value>
+  </data>
+  <data name="Cli_InfoLinks" xml:space="preserve">
+    <value>Sitio web: {0}
+Aviso legal (Impressum): {1}
+Código fuente: {2}
+Ayuda y soporte: {3}
+Datos y privacidad: {4}</value>
+  </data>
+  <data name="Cli_InfoVersion" xml:space="preserve">
+    <value>Versión: {0}</value>
+  </data>
+  <data name="Cli_LicensesMissing" xml:space="preserve">
+    <value>Faltan los textos de licencia en esta versión.</value>
+  </data>
+  <data name="Cli_MissingValue" xml:space="preserve">
+    <value>La opción {0} necesita un valor.</value>
+  </data>
+  <data name="Cli_UnknownArgument" xml:space="preserve">
+    <value>Comando u opción desconocidos: {0}. Consulte --help.</value>
+  </data>
+  <data name="Cli_Usage" xml:space="preserve">
+    <value>Uso: {0} &lt;comando&gt; [opciones]
+
+Comandos de esta versión:
+  check --snapshot &lt;archivo&gt; [--format text|json]   evaluar una exportación y mostrar un resumen
+  collect [--out &lt;carpeta&gt;]                          Windows: exportación de este equipo
+
+Opciones globales:
+  --help, --hilfe           esta ayuda
+  --version                 versión
+  --info                    producto, licencia y enlaces
+  --licenses, --lizenzen    textos de licencia
+
+Códigos de salida de check: 0 OK, 1 advertencia, 2 crítico, 3 desconocido (error de uso, exportación ilegible).
+En scripts use Riegel.Cli.exe: la consola no espera a Riegel.exe.</value>
+  </data>
+  <data name="Cli_VersionLine" xml:space="preserve">
+    <value>Riegel {0} · recopilador {1} · catálogo {2}</value>
+  </data>
+</root>

@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ict-baden:riegel:schema:capabilities",
+  "title": "riegel.capabilities/1 – Capability table (rules/capabilities/*.json, spec 2.5)",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "riegel.capabilities/1"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/capabilityEntry"
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "capabilities"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "capabilityEntry": {
+      "type": "object",
+      "properties": {
+        "capability": {
+          "type": "string",
+          "pattern": "^[a-z][A-Za-z0-9]*$"
+        },
+        "exists": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "os": {
+                "type": "string",
+                "enum": [
+                  "client",
+                  "server"
+                ]
+              },
+              "minBuild": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "maxBuild": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "editions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "installationTypes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "note": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "source": {
+          "$ref": "#/$defs/httpsUrl"
+        },
+        "seen": {
+          "$ref": "#/$defs/date"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "capability",
+        "exists",
+        "source",
+        "seen"
+      ],
+      "additionalProperties": false
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "ISO 8601 date (yyyy-MM-dd)"
+    },
+    "httpsUrl": {
+      "type": "string",
+      "pattern": "^https?://"
+    }
+  }
+}

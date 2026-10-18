@@ -1,0 +1,13 @@
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+    AutoAdminLogon	REG_SZ	1
+
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+    DefaultUserName	REG_SZ	operator
+
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+    DefaultDomainName	REG_SZ	XP-HMI-01
+
+DefaultPassword=present

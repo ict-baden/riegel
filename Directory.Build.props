@@ -1,0 +1,22 @@
+<Project>
+  <!-- Gemeinsame Einstellungen für alle Projekte im Repo (Vorlage aus ict-baden/richtlinien) -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+
+    <Company>ICT-Baden</Company>
+    <Product>Riegel</Product>
+    <Copyright>© 2026 ICT-Baden</Copyright>
+    <!-- Basisversion für alle Teile außer dem Sammler (Richtlinie 04). CI-Builds setzen -p:Version=0.1.0-ci.<Lauf>;
+         der Sammler hat seine eigene Version in src/Riegel.Collector/collector-version.txt und ignoriert -p:Version
+         (TreatAsLocalProperty in seiner csproj), damit seine Bytes stabil bleiben. -->
+    <Version>0.1.0</Version>
+    <!-- *Strings.resx ist Englisch und Rückfallsprache, siehe richtlinien/13 -->
+    <NeutralLanguage>en</NeutralLanguage>
+    <!-- Nur unsere fünf Sprachen mitliefern (eigene und fremde Pakete) -->
+    <SatelliteResourceLanguages>en;de;es;fr;zh-Hans</SatelliteResourceLanguages>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,72 @@
+<!-- TreatAsLocalProperty: -p:Version der CI (0.1.0-ci.<Lauf>) gilt für alle Projekte außer diesem. Der Sammler hat seine
+     eigene Version (collector-version.txt), damit seine Bytes nur mit dem Erfassungscode wechseln (spec 4.3). -->
+<Project Sdk="Microsoft.NET.Sdk" TreatAsLocalProperty="Version;FileVersion;AssemblyVersion;InformationalVersion">
+  <PropertyGroup>
+    <!-- Portabler Sammler für OT-Rechner (spec 2.9, 3.5): net35 + Riegel.Collector.exe.config (supportedRuntime v4.0,
+         dann v2.0.50727) läuft ohne Installation von Windows 7 SP1 (CLR 2) bis Windows 11 / Server 2025 (CLR 4).
+         Nur Assemblys der 2.0-Schicht: mscorlib, System, System.Management (System.Xml nur bei Bedarf); kein
+         System.Core, also keine LINQ und kein HashSet. Ein Test liest die Referenzen der gebauten Exe. -->
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net35</TargetFramework>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>Riegel.Collector</RootNamespace>
+    <AssemblyName>Riegel.Collector</AssemblyName>
+    <Description>Riegel-Sammler: liest Sicherheitseinstellungen dieses Rechners, ändert nichts.</Description>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <!-- Nur die ausdrücklich genannten Framework-Assemblys (unten), keine impliziten wie System.Core oder System.Xml.Linq -->
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <!-- Die eigene App.config (supportedRuntime v4.0, dann v2.0.50727) unverändert übernehmen -->
+    <GenerateSupportedRuntime>false</GenerateSupportedRuntime>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>false</GenerateBindingRedirectsOutputType>
+
+    <!-- Bytegleicher Build (spec 4.3): die CI baut zweimal und vergleicht die SHA-256 mit collector.sha256 -->
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <PathMap>$(MSBuildProjectDirectory)=/_/src/Riegel.Collector/</PathMap>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <!-- Version nur aus collector-version.txt -->
+  <PropertyGroup>
+    <CollectorVersion>$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)collector-version.txt').Trim())</CollectorVersion>
+    <Version>$(CollectorVersion)</Version>
+    <FileVersion>$(CollectorVersion).0</FileVersion>
+    <AssemblyVersion>$(CollectorVersion).0</AssemblyVersion>
+    <InformationalVersion>$(CollectorVersion)</InformationalVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Management" />
+  </ItemGroup>
+
+  <!--
+    Nur zum Bauen, nicht ausgeliefert (gesehen 2026-10-18 über die NuGet-API):
+    - Microsoft.NETFramework.ReferenceAssemblies.net35 1.0.3 – Referenzassemblys für net35, Lizenz laut nuspec
+      https://github.com/Microsoft/dotnet/blob/master/LICENSE (MIT);
+      https://api.nuget.org/v3-flatcontainer/microsoft.netframework.referenceassemblies.net35/1.0.3/microsoft.netframework.referenceassemblies.net35.nuspec
+    - Microsoft.Net.Compilers.Toolset 5.9.0 (neueste stabile), MIT – fester Compiler, damit ein SDK-Update die Bytes
+      nicht ändert; https://api.nuget.org/v3-flatcontainer/microsoft.net.compilers.toolset/5.9.0/microsoft.net.compilers.toolset.nuspec
+  -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net35" Version="1.0.3" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="5.9.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- Erfassungsplan (Vertrag, spec 7.3) und Meldungstabellen je Sprache (spec 7.10), eingebettet -->
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\contracts\collection-plan.json" Link="collection-plan.json" LogicalName="collection-plan.json" />
+    <EmbeddedResource Include="messages.*.txt" LogicalName="%(Filename)%(Extension)" WithCulture="false" />
+  </ItemGroup>
+</Project>

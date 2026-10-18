@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Cli_CheckIncomplete" xml:space="preserve">
+    <value>Unvollständige Prüfung: Weniger als 90 % der Regeln waren prüfbar, oder die Erfassung lief nicht als Administrator.</value>
+  </data>
+  <data name="Cli_CheckNeedsSnapshot" xml:space="preserve">
+    <value>In diesem Stand braucht check die Angabe --snapshot &lt;Datei&gt;.</value>
+  </data>
+  <data name="Cli_CheckOpen" xml:space="preserve">
+    <value>Offene Befunde: {0} hoch, {1} mittel, {2} niedrig</value>
+  </data>
+  <data name="Cli_CheckShare" xml:space="preserve">
+    <value>Prüfumfang: {0} %</value>
+  </data>
+  <data name="Cli_CheckSummary" xml:space="preserve">
+    <value>{0}: {1} Regeln – {2} erfüllt, {3} nicht erfüllt, {4} bewusst offen, {5} nicht im Prüfumfang, {6} nicht anwendbar, {7} nicht prüfbar, {8} Info</value>
+  </data>
+  <data name="Cli_CollectWritten" xml:space="preserve">
+    <value>Export geschrieben: {0}
+SHA-256: {1}</value>
+  </data>
+  <data name="Cli_Description" xml:space="preserve">
+    <value>Prüft Windows-Rechner in Anlagen, Laboren und Leitständen lesend und offline gegen ein Härtungs-Regelwerk, hält begründete Ausnahmen fest und erzeugt einen Nachweisbericht zum Abzeichnen.</value>
+  </data>
+  <data name="Cli_InfoCatalogue" xml:space="preserve">
+    <value>Regelwerk: {0} {1}</value>
+  </data>
+  <data name="Cli_InfoCollector" xml:space="preserve">
+    <value>Sammler: {0}</value>
+  </data>
+  <data name="Cli_InfoDataFolder" xml:space="preserve">
+    <value>Datenordner: {0}</value>
+  </data>
+  <data name="Cli_InfoLicence" xml:space="preserve">
+    <value>Lizenz: MIT ({0})</value>
+  </data>
+  <data name="Cli_InfoLinks" xml:space="preserve">
+    <value>Webseite: {0}
+Impressum: {1}
+Quellcode: {2}
+Hilfe und Support: {3}
+Daten und Datenschutz: {4}</value>
+  </data>
+  <data name="Cli_InfoVersion" xml:space="preserve">
+    <value>Version: {0}</value>
+  </data>
+  <data name="Cli_LicensesMissing" xml:space="preserve">
+    <value>Die Lizenztexte fehlen in diesem Stand.</value>
+  </data>
+  <data name="Cli_MissingValue" xml:space="preserve">
+    <value>Option {0} braucht einen Wert.</value>
+  </data>
+  <data name="Cli_UnknownArgument" xml:space="preserve">
+    <value>Unbekannter Befehl oder unbekannte Option: {0}. Siehe --help.</value>
+  </data>
+  <data name="Cli_Usage" xml:space="preserve">
+    <value>Aufruf: {0} &lt;Befehl&gt; [Optionen]
+
+Befehle in diesem Stand:
+  check --snapshot &lt;Datei&gt; [--format text|json]   Export auswerten und eine Zusammenfassung ausgeben
+  collect [--out &lt;Ordner&gt;]                         Windows: Export dieses Rechners
+
+Globale Optionen:
+  --help, --hilfe           diese Hilfe
+  --version                 Version
+  --info                    Produkt, Lizenz und Links
+  --licenses, --lizenzen    Lizenztexte
+
+Exitcodes von check: 0 OK, 1 Warnung, 2 kritisch, 3 unbekannt (Aufruffehler, Export nicht lesbar).
+In Skripten Riegel.Cli.exe verwenden: Auf Riegel.exe wartet die Konsole nicht.</value>
+  </data>
+  <data name="Cli_VersionLine" xml:space="preserve">
+    <value>Riegel {0} · Sammler {1} · Regelwerk {2}</value>
+  </data>
+</root>

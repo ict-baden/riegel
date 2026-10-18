@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Cli_CheckIncomplete" xml:space="preserve">
+    <value>Incomplete check: less than 90 % of the rules could be checked, or the collection did not run as administrator.</value>
+  </data>
+  <data name="Cli_CheckNeedsSnapshot" xml:space="preserve">
+    <value>In this build, check needs --snapshot &lt;file&gt;.</value>
+  </data>
+  <data name="Cli_CheckOpen" xml:space="preserve">
+    <value>Open findings: {0} high, {1} medium, {2} low</value>
+  </data>
+  <data name="Cli_CheckShare" xml:space="preserve">
+    <value>Checked share: {0} %</value>
+  </data>
+  <data name="Cli_CheckSummary" xml:space="preserve">
+    <value>{0}: {1} rules – {2} met, {3} not met, {4} deliberately open, {5} out of scope, {6} not applicable, {7} not checkable, {8} info</value>
+    <comment>{0} = host name</comment>
+  </data>
+  <data name="Cli_CollectWritten" xml:space="preserve">
+    <value>Snapshot written: {0}
+SHA-256: {1}</value>
+  </data>
+  <data name="Cli_Description" xml:space="preserve">
+    <value>Checks Windows machines in plants, labs and control rooms against a hardening baseline – read-only and offline – records justified exceptions and produces an evidence report for sign-off.</value>
+  </data>
+  <data name="Cli_InfoCatalogue" xml:space="preserve">
+    <value>Catalogue: {0} {1}</value>
+  </data>
+  <data name="Cli_InfoCollector" xml:space="preserve">
+    <value>Collector: {0}</value>
+  </data>
+  <data name="Cli_InfoDataFolder" xml:space="preserve">
+    <value>Data folder: {0}</value>
+  </data>
+  <data name="Cli_InfoLicence" xml:space="preserve">
+    <value>Licence: MIT ({0})</value>
+  </data>
+  <data name="Cli_InfoLinks" xml:space="preserve">
+    <value>Website: {0}
+Impressum: {1}
+Source code: {2}
+Help and support: {3}
+Data and privacy: {4}</value>
+  </data>
+  <data name="Cli_InfoVersion" xml:space="preserve">
+    <value>Version: {0}</value>
+  </data>
+  <data name="Cli_LicensesMissing" xml:space="preserve">
+    <value>The licence texts are missing in this build.</value>
+  </data>
+  <data name="Cli_MissingValue" xml:space="preserve">
+    <value>Option {0} needs a value.</value>
+  </data>
+  <data name="Cli_UnknownArgument" xml:space="preserve">
+    <value>Unknown command or option: {0}. See --help.</value>
+  </data>
+  <data name="Cli_Usage" xml:space="preserve">
+    <value>Usage: {0} &lt;command&gt; [options]
+
+Commands in this build:
+  check --snapshot &lt;file&gt; [--format text|json]   evaluate a snapshot and print a summary
+  collect [--out &lt;folder&gt;]                        Windows: snapshot of this PC
+
+Global options:
+  --help, --hilfe           this help
+  --version                 version
+  --info                    product, licence and links
+  --licenses, --lizenzen    licence texts
+
+Exit codes of check: 0 OK, 1 warning, 2 critical, 3 unknown (usage error, unreadable snapshot).
+In scripts use Riegel.Cli.exe: Riegel.exe does not make the console wait for it.</value>
+    <comment>{0} = program name</comment>
+  </data>
+  <data name="Cli_VersionLine" xml:space="preserve">
+    <value>Riegel {0} · collector {1} · catalogue {2}</value>
+  </data>
+</root>

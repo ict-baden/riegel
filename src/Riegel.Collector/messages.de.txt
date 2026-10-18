@@ -1,0 +1,4 @@
+# Meldungen des Sammlers (spec 7.10): Schlüssel=Text, \n = Zeilenumbruch. Englisch ist die Rückfallsprache.
+Version=Riegel-Sammler {0}
+Help=Liest die Sicherheitseinstellungen dieses Rechners und ändert nichts.\nAufruf: Riegel.Collector.exe [--out <Ordner>] [--gzip] [--minimal] [--deep] [--pseudonymize] [--quiet] [--nur-lesen] [--version] [--help]\nExitcodes: 0 vollständig, 1 geschrieben, aber unvollständig, 3 nichts geschrieben.
+Stub=Dieser Stand ist ein Platzhalter: Er erfasst nichts und schreibt keine Datei.

@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ict-baden:riegel:schema:import",
+  "title": "riegel.import/1 – Import and collection record (spec 7.6)",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "riegel.import/1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "importedAtUtc": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "collectedByRole": {
+      "type": "string"
+    },
+    "witnessRole": {
+      "type": "string"
+    },
+    "operatorRole": {
+      "type": "string"
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "sidecarOk": {
+            "type": "boolean"
+          },
+          "hostName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "collectedAtUtc": {
+            "$ref": "#/$defs/timestamp"
+          },
+          "collectorName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "collectorVersion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "collectorExeSha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "isAdmin": {
+            "type": "boolean"
+          },
+          "options": {
+            "$ref": "#/$defs/collectionOptions"
+          },
+          "origin": {
+            "$ref": "#/$defs/snapshotOrigin"
+          },
+          "runId": {
+            "$ref": "#/$defs/runId"
+          }
+        },
+        "required": [
+          "fileName",
+          "sha256",
+          "sidecarOk",
+          "hostName",
+          "collectedAtUtc",
+          "collectorName",
+          "collectorVersion",
+          "isAdmin",
+          "options",
+          "origin"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "importedAtUtc",
+    "files"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "collectionOptions": {
+      "type": "object",
+      "properties": {
+        "minimal": {
+          "type": "boolean"
+        },
+        "deep": {
+          "type": "boolean"
+        },
+        "pseudonymized": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "minimal",
+        "deep",
+        "pseudonymized"
+      ],
+      "additionalProperties": false
+    },
+    "runId": {
+      "type": "string",
+      "pattern": "^\\d{8}T\\d{6}Z-[0-9a-f]{6}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "snapshotOrigin": {
+      "type": "string",
+      "enum": [
+        "collector",
+        "app",
+        "builtin",
+        "recorded",
+        "synthetic"
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?(Z|[+-]\\d{2}:\\d{2})$",
+      "description": "ISO 8601 timestamp with zone; Riegel writes UTC with Z"
+    }
+  }
+}

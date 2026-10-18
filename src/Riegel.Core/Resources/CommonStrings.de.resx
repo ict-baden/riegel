@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="About_NoData" xml:space="preserve">
+    <value>Diese Software sendet keine Daten an ICT-Baden.</value>
+  </data>
+  <data name="About_VersionWithBuild" xml:space="preserve">
+    <value>{0} (Build {1})</value>
+  </data>
+  <data name="Category_accounts" xml:space="preserve">
+    <value>Konten / UAC</value>
+  </data>
+  <data name="Category_appControl" xml:space="preserve">
+    <value>Anwendungssteuerung</value>
+  </data>
+  <data name="Category_audit" xml:space="preserve">
+    <value>Überwachung / Protokollierung</value>
+  </data>
+  <data name="Category_credentials" xml:space="preserve">
+    <value>Anmeldedaten / NTLM / LSA</value>
+  </data>
+  <data name="Category_defender" xml:space="preserve">
+    <value>Defender / ASR</value>
+  </data>
+  <data name="Category_encryption" xml:space="preserve">
+    <value>Verschlüsselung / Start</value>
+  </data>
+  <data name="Category_firewall" xml:space="preserve">
+    <value>Firewall</value>
+  </data>
+  <data name="Category_lifecycle" xml:space="preserve">
+    <value>Lebenszyklus / Patches</value>
+  </data>
+  <data name="Category_logon" xml:space="preserve">
+    <value>Anmeldung</value>
+  </data>
+  <data name="Category_media" xml:space="preserve">
+    <value>Wechselmedien</value>
+  </data>
+  <data name="Category_network" xml:space="preserve">
+    <value>Netzwerk</value>
+  </data>
+  <data name="Category_powershell" xml:space="preserve">
+    <value>PowerShell</value>
+  </data>
+  <data name="Category_rdp" xml:space="preserve">
+    <value>Remotedesktop</value>
+  </data>
+  <data name="Category_services" xml:space="preserve">
+    <value>Dienste</value>
+  </data>
+  <data name="Category_system" xml:space="preserve">
+    <value>System / Freigaben</value>
+  </data>
+  <data name="Category_tls" xml:space="preserve">
+    <value>TLS / SCHANNEL</value>
+  </data>
+  <data name="Category_userRights" xml:space="preserve">
+    <value>Benutzerrechte</value>
+  </data>
+  <data name="Confidentiality_Default" xml:space="preserve">
+    <value>Vertraulich – enthält Sicherheitskonfiguration</value>
+  </data>
+  <data name="Diag_AnonymizedNo" xml:space="preserve">
+    <value>Anonymisiert: nein</value>
+  </data>
+  <data name="Diag_AnonymizedYes" xml:space="preserve">
+    <value>Anonymisiert: ja (Rechner-, Konto-, Domänen- und Servernamen, Pfade, SIDs und Adressen ersetzt)</value>
+  </data>
+  <data name="Diag_Created" xml:space="preserve">
+    <value>Erstellt: {0}</value>
+  </data>
+  <data name="Diag_Language" xml:space="preserve">
+    <value>Sprache: {0}, Zeitzone: {1}</value>
+  </data>
+  <data name="Diag_Logs" xml:space="preserve">
+    <value>Protokolle: {0} Datei(en) der letzten {1} Tage</value>
+  </data>
+  <data name="Diag_OperatingSystem" xml:space="preserve">
+    <value>Betriebssystem: {0} ({1})</value>
+  </data>
+  <data name="Diag_Runtime" xml:space="preserve">
+    <value>.NET: {0}</value>
+  </data>
+  <data name="Diag_Title" xml:space="preserve">
+    <value>Riegel – Diagnosepaket</value>
+  </data>
+  <data name="Error_RGL0001" xml:space="preserve">
+    <value>Unerwarteter Fehler. Bitte ein Diagnosepaket erstellen und den Support kontaktieren.</value>
+  </data>
+  <data name="Error_RGL0002" xml:space="preserve">
+    <value>Nicht gefunden: {0}</value>
+  </data>
+  <data name="Error_RGL0003" xml:space="preserve">
+    <value>In diesem Stand noch nicht verfügbar: {0}</value>
+  </data>
+  <data name="Error_RGL0004" xml:space="preserve">
+    <value>Ungültiges JSON oder falscher Aufbau ({0})</value>
+  </data>
+  <data name="Error_RGL0005" xml:space="preserve">
+    <value>Nicht unterstütztes Dateiformat: {0}</value>
+  </data>
+  <data name="Error_RGL0006" xml:space="preserve">
+    <value>Grenze überschritten: {0} (höchstens {1})</value>
+  </data>
+  <data name="Error_RGL0007" xml:space="preserve">
+    <value>Lese- oder Schreibfehler: {0}</value>
+  </data>
+  <data name="Error_RGL0008" xml:space="preserve">
+    <value>Zugriff verweigert: {0}</value>
+  </data>
+  <data name="Error_RGL0009" xml:space="preserve">
+    <value>Prüfsumme stimmt nicht: {0}</value>
+  </data>
+  <data name="Error_RGL0010" xml:space="preserve">
+    <value>Einstellungen nicht lesbar; es gelten die Standardwerte.</value>
+  </data>
+  <data name="Error_RGL0011" xml:space="preserve">
+    <value>Vorgaben für alle Benutzer (defaults.json) nicht lesbar; sie werden ignoriert.</value>
+  </data>
+  <data name="Error_RGL0012" xml:space="preserve">
+    <value>Auf diesem Betriebssystem nicht möglich.</value>
+  </data>
+  <data name="Error_RGL0013" xml:space="preserve">
+    <value>Ungültige Angabe: {0}</value>
+  </data>
+  <data name="Error_RGL0014" xml:space="preserve">
+    <value>Prüfermodus: In den Anlagenordner wird nichts geschrieben.</value>
+  </data>
+  <data name="Error_RGL0015" xml:space="preserve">
+    <value>Das Diagnosepaket ließ sich nicht schreiben: {0}</value>
+  </data>
+  <data name="Error_RGL0016" xml:space="preserve">
+    <value>Existiert bereits und wird nicht überschrieben: {0}</value>
+  </data>
+  <data name="Flag_ClockSuspect" xml:space="preserve">
+    <value>Uhr unplausibel</value>
+  </data>
+  <data name="Flag_ConfiguredOnly" xml:space="preserve">
+    <value>Konfiguriert, Wirkung nicht nachgewiesen</value>
+  </data>
+  <data name="Flag_Derived" xml:space="preserve">
+    <value>Abgeleitet</value>
+  </data>
+  <data name="Flag_ExceptionChangedAfterApproval" xml:space="preserve">
+    <value>Ausnahme nach Freigabe geändert</value>
+  </data>
+  <data name="Flag_ExceptionExpired" xml:space="preserve">
+    <value>Ausnahme abgelaufen</value>
+  </data>
+  <data name="Flag_ExceptionExpiring" xml:space="preserve">
+    <value>Ausnahme läuft bald ab</value>
+  </data>
+  <data name="Flag_ExceptionPending" xml:space="preserve">
+    <value>Ausnahme beantragt</value>
+  </data>
+  <data name="Flag_ExceptionValueMismatch" xml:space="preserve">
+    <value>Wert weicht vom akzeptierten Wert ab</value>
+  </data>
+  <data name="Flag_FromDefault" xml:space="preserve">
+    <value>Standardwert angenommen</value>
+  </data>
+  <data name="Flag_Heuristic" xml:space="preserve">
+    <value>Nur heuristischer Nachweis</value>
+  </data>
+  <data name="Flag_MeasureOverdue" xml:space="preserve">
+    <value>Maßnahme überfällig</value>
+  </data>
+  <data name="Flag_MeasurePlanned" xml:space="preserve">
+    <value>Behebung geplant</value>
+  </data>
+  <data name="Flag_NewRule" xml:space="preserve">
+    <value>Neue Regel</value>
+  </data>
+  <data name="Flag_Regression" xml:space="preserve">
+    <value>Verschlechtert</value>
+  </data>
+  <data name="Flag_StaleSnapshot" xml:space="preserve">
+    <value>Erfassung veraltet</value>
+  </data>
+  <data name="Flag_TailoringPending" xml:space="preserve">
+    <value>Zuschnitt beantragt</value>
+  </data>
+  <data name="Group_None" xml:space="preserve">
+    <value>Ohne Gruppe</value>
+  </data>
+  <data name="Integrity_Statement" xml:space="preserve">
+    <value>Die SHA-256-Prüfsummen zeigen, dass eine Datei seit dem Erzeugen der Prüfsumme nicht verändert wurde. Sie beweisen nicht, dass ein Export unverändert vom Zielrechner stammt: Wer den Datenträger trägt, kann Export und Prüfsumme gemeinsam ersetzen. Dafür gibt es das Erhebungsprotokoll mit Zeugen und die Stichprobe mit compare-snapshot.</value>
+  </data>
+  <data name="Item_Denied" xml:space="preserve">
+    <value>Zugriff verweigert</value>
+  </data>
+  <data name="Item_Error" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="Item_KeyMissing" xml:space="preserve">
+    <value>Schlüssel nicht vorhanden</value>
+  </data>
+  <data name="Item_NamespaceMissing" xml:space="preserve">
+    <value>WMI-Namespace fehlt</value>
+  </data>
+  <data name="Item_NotApplicable" xml:space="preserve">
+    <value>Nicht anwendbar</value>
+  </data>
+  <data name="Item_NotCollected" xml:space="preserve">
+    <value>Nicht erfasst</value>
+  </data>
+  <data name="Item_Ok" xml:space="preserve">
+    <value>Gelesen</value>
+  </data>
+  <data name="Item_ValueMissing" xml:space="preserve">
+    <value>Wert nicht gesetzt</value>
+  </data>
+  <data name="Placeholder_Document" xml:space="preserve">
+    <value>Platzhalter: Dieses Dokument erzeugt ein späteres Arbeitspaket von Riegel 0.1.0.</value>
+  </data>
+  <data name="PreTranslation_Note" xml:space="preserve">
+    <value>Maschinelle Vorübersetzung – nicht geprüft</value>
+  </data>
+  <data name="Reason_CompensatingControl" xml:space="preserve">
+    <value>Kompensierende Maßnahme</value>
+  </data>
+  <data name="Reason_NotRelevantHere" xml:space="preserve">
+    <value>Hier nicht relevant</value>
+  </data>
+  <data name="Reason_RiskAccepted" xml:space="preserve">
+    <value>Risiko akzeptiert</value>
+  </data>
+  <data name="Reason_TechnicalNecessity" xml:space="preserve">
+    <value>Technische Notwendigkeit</value>
+  </data>
+  <data name="Reason_VendorRequirement" xml:space="preserve">
+    <value>Herstellervorgabe</value>
+  </data>
+  <data name="RegisterFlag_MeasureDoneButFailing" xml:space="preserve">
+    <value>Maßnahme erledigt, Regel weiter nicht erfüllt</value>
+  </data>
+  <data name="RegisterFlag_Overlap" xml:space="preserve">
+    <value>Überschneidet sich mit einem anderen Eintrag</value>
+  </data>
+  <data name="RegisterFlag_RuleRetired" xml:space="preserve">
+    <value>Regel zurückgezogen</value>
+  </data>
+  <data name="RegisterFlag_Unused" xml:space="preserve">
+    <value>Ausnahme nicht mehr nötig?</value>
+  </data>
+  <data name="RegisterFlag_ValueMismatch" xml:space="preserve">
+    <value>Wert weicht ab</value>
+  </data>
+  <data name="Remediation_Header" xml:space="preserve">
+    <value>Vorschlag – wird von Riegel nicht ausgeführt. Vor Anwendung mit dem Anlagenhersteller abstimmen.</value>
+  </data>
+  <data name="Role_PlantManagement" xml:space="preserve">
+    <value>Betriebsleitung</value>
+  </data>
+  <data name="Role_PlantOwner" xml:space="preserve">
+    <value>Anlagenverantwortlicher</value>
+  </data>
+  <data name="Role_QualityAssurance" xml:space="preserve">
+    <value>Qualitätssicherung</value>
+  </data>
+  <data name="Role_SecurityOfficer" xml:space="preserve">
+    <value>Informationssicherheitsbeauftragter</value>
+  </data>
+  <data name="RunFlag_ClockSuspect" xml:space="preserve">
+    <value>Uhr unplausibel</value>
+  </data>
+  <data name="RunFlag_DomainController" xml:space="preserve">
+    <value>Domänencontroller</value>
+  </data>
+  <data name="RunFlag_Incomplete" xml:space="preserve">
+    <value>Unvollständige Prüfung</value>
+  </data>
+  <data name="RunFlag_MachineIdentityChanged" xml:space="preserve">
+    <value>Rechner neu aufgesetzt?</value>
+  </data>
+  <data name="RunFlag_StaleSnapshot" xml:space="preserve">
+    <value>Erfassung veraltet</value>
+  </data>
+  <data name="Severity_High" xml:space="preserve">
+    <value>Hoch</value>
+  </data>
+  <data name="Severity_Low" xml:space="preserve">
+    <value>Niedrig</value>
+  </data>
+  <data name="Severity_Medium" xml:space="preserve">
+    <value>Mittel</value>
+  </data>
+  <data name="Status_Exception" xml:space="preserve">
+    <value>Bewusst offen</value>
+  </data>
+  <data name="Status_Fail" xml:space="preserve">
+    <value>Nicht erfüllt</value>
+  </data>
+  <data name="Status_Info" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="Status_NotApplicable" xml:space="preserve">
+    <value>Nicht anwendbar</value>
+  </data>
+  <data name="Status_NotCheckable" xml:space="preserve">
+    <value>Nicht prüfbar</value>
+  </data>
+  <data name="Status_OutOfScope" xml:space="preserve">
+    <value>Nicht im Prüfumfang</value>
+  </data>
+  <data name="Status_Pass" xml:space="preserve">
+    <value>Erfüllt</value>
+  </data>
+  <data name="Value_NotSet" xml:space="preserve">
+    <value>(nicht gesetzt)</value>
+  </data>
+  <data name="Value_Redacted" xml:space="preserve">
+    <value>(geschwärzt)</value>
+  </data>
+</root>

@@ -1,0 +1,5 @@
+# Meldungen des Sammlers (spec 7.10): Schlüssel=Text, \n = Zeilenumbruch. Englisch ist die Rückfallsprache.
+# Maschinell vorübersetzt: TODO-übersetzen (Muttersprachler gegenlesen lassen)
+Version=Recopilador de Riegel {0}
+Help=Lee la configuración de seguridad de este equipo y no cambia nada.\nUso: Riegel.Collector.exe [--out <carpeta>] [--gzip] [--minimal] [--deep] [--pseudonymize] [--quiet] [--nur-lesen] [--version] [--help]\nCódigos de salida: 0 completo, 1 escrito pero incompleto, 3 no se escribió nada.
+Stub=Esta versión es un marcador de posición: no recopila nada ni escribe ningún archivo.

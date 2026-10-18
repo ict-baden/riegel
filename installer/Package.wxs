@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  MSI für Riegel (nach der Vorlage aus ict-baden/richtlinien und Zutritt): Programmdateien nach %ProgramFiles%\Riegel
+  – Riegel.exe (Oberfläche), Riegel.Cli.exe (Befehlszeile), collector\ (portabler Sammler zum Kopieren auf
+  Datenträger), Lizenztexte – und ein Startmenü-Eintrag. Kein Dienst, keine geplante Aufgabe, kein Autostart
+  (Richtlinie 04). Daten und Einstellungen liegen pro Benutzer unter %LocalAppData%\Riegel, Anlagen in Ordnern des
+  Kunden. Die MSI ist nicht der Weg auf OT- oder validierte Rechner (spec 4.1).
+  UpgradeCode und die GUID der Startmenü-Komponente wurden für Riegel neu erzeugt ([guid]::NewGuid(), 2026-10-18)
+  und werden nie geändert: sonst installiert sich ein Update neben die alte Version, statt sie zu ersetzen.
+  Manufacturer wird „ICT-Baden GmbH“, sobald die Firmierung steht (OFFEN.md), zusammen mit LICENSE und
+  Directory.Build.props.
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
+  <Package Name="Riegel"
+           Manufacturer="ICT-Baden"
+           Version="$(ProductVersion)"
+           UpgradeCode="B5657095-F1E6-418A-8F3E-9578C4EB1B13"
+           Scope="perMachine"
+           Compressed="yes">
+
+    <!-- AllowSameVersionUpgrades: CI-Builds unterscheiden sich nur in der 4. Stelle, die Windows Installer beim Vergleich
+         ignoriert. Ohne die Option würden sie nebeneinander statt übereinander installiert. -->
+    <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="Eine neuere Version von Riegel ist bereits installiert." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Icon Id="RiegelIcon" SourceFile="$(AssetsDir)\riegel.ico" />
+    <Property Id="ARPPRODUCTICON" Value="RiegelIcon" />
+    <Property Id="ARPURLINFOABOUT" Value="https://github.com/ict-baden/riegel" />
+    <Property Id="ARPHELPLINK" Value="https://github.com/ict-baden/riegel/blob/main/SUPPORT.md" />
+
+    <!-- Laufende Instanzen beenden, sonst sind die Dateien gesperrt -->
+    <util:CloseApplication Id="CloseRiegel" Target="Riegel.exe" CloseMessage="yes" TerminateProcess="1" RebootPrompt="no" />
+    <util:CloseApplication Id="CloseRiegelCli" Target="Riegel.Cli.exe" CloseMessage="no" TerminateProcess="1" RebootPrompt="no" />
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="Riegel" />
+    </StandardDirectory>
+    <StandardDirectory Id="ProgramMenuFolder" />
+
+    <Feature Id="Main" Title="Riegel" Level="1">
+      <!-- Alles aus dem Publish-Ordner: Riegel.exe, Riegel.Cli.exe, native WPF-DLLs, collector\, LICENSE, THIRD-PARTY-NOTICES.txt -->
+      <Files Include="$(PublishDir)\**" Directory="INSTALLFOLDER">
+        <Exclude Files="$(PublishDir)\**\*.pdb" />
+      </Files>
+
+      <Component Id="StartMenu" Directory="ProgramMenuFolder" Guid="577DFE8C-6CB0-4127-9B0A-F86608882BE5">
+        <Shortcut Id="RiegelShortcut" Name="Riegel" Description="Härtungs-Check für Windows-Rechner in Anlagen, Laboren und Leitständen"
+                  Target="[INSTALLFOLDER]Riegel.exe" WorkingDirectory="INSTALLFOLDER" Icon="RiegelIcon" />
+        <RegistryValue Root="HKLM" Key="SOFTWARE\ICT-Baden\Riegel" Name="StartMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </Feature>
+  </Package>
+</Wix>

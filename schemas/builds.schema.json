@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ict-baden:riegel:schema:builds",
+  "title": "riegel.builds/1 – Build → UBR → release date (rules/lifecycle/builds.json)",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "riegel.builds/1"
+    },
+    "builds": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/buildEntry"
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "builds"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "buildEntry": {
+      "type": "object",
+      "properties": {
+        "build": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "releases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ubr": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "date": {
+                "$ref": "#/$defs/date"
+              },
+              "kb": {
+                "type": "string",
+                "pattern": "^KB\\d+$"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "B",
+                  "D",
+                  "OOB"
+                ]
+              }
+            },
+            "required": [
+              "ubr",
+              "date"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "source": {
+          "$ref": "#/$defs/httpsUrl"
+        },
+        "seen": {
+          "$ref": "#/$defs/date"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "releases",
+        "source",
+        "seen"
+      ],
+      "additionalProperties": false
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "ISO 8601 date (yyyy-MM-dd)"
+    },
+    "httpsUrl": {
+      "type": "string",
+      "pattern": "^https?://"
+    }
+  }
+}

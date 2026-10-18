@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Alle Befehle der Befehlszeile (spec 7.7), plattformneutral: dieselben Befehle laufen in Riegel.Cli (Windows,
+         Linux) und über die Konsolen-Anbindung von Riegel.exe. Windows-Eigenes nur über Riegel.Core.Services.IPlatform. -->
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Riegel.Commands</RootNamespace>
+    <Description>Befehle, Argumente, Textausgabe und Exitcodes von Riegel.</Description>
+    <WarningsAsErrors>$(WarningsAsErrors);CA1416</WarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Riegel.Core\Riegel.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\CliStrings.resx" StronglyTypedLanguage="CSharp" StronglyTypedNamespace="Riegel.Commands.Resources"
+                      StronglyTypedClassName="CliStrings" StronglyTypedFileName="$(IntermediateOutputPath)CliStrings.g.cs" PublicClass="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Riegel.Tests" />
+  </ItemGroup>
+</Project>
