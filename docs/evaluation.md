@@ -106,7 +106,10 @@ protection value without proof that LSASS really started protected. Therefore:
   not checkable or not applicable are skipped. A runtime "not required" therefore beats a cited default "required":
   the result is fail.
 - Several check types have the order built in (see [Check types](#check-types)): the firewall's enabled state and
-  default inbound action come only from the runtime (`HNetCfg.FwPolicy2`); Defender settings from Defender's own status;
+  default inbound action come from a Group Policy value of the profile when one is set (it overrides the local
+  setting in both directions), otherwise from the firewall service (`HNetCfg.FwPolicy2`), which reports only the local
+  setting – Microsoft: FirewallEnabled "indicates whether a firewall is enabled locally (the effective result may differ
+  due to group policy settings)"; Defender settings from Defender's own status;
   VBS, memory integrity and Credential Guard only from the list of **running** security services.
 - `anyOf` is never used to combine a runtime source with a configured or default value, because a cited default would
   then override a runtime "not required".
@@ -196,8 +199,8 @@ Evidence is read in the order shown; the first source that can decide does so.
 | `wmiProperty` | the named `wmi:` item (rows or method `out`) | row filter, then `any`/`all`/`first`; no rows → `ifNoRows`; JSON null counts as "not set" only for `exists`/`notExists` |
 | `defenderSetting` | `MSFT_MpComputerStatus` or `MSFT_MpPreference` | [Defender gating](#microsoft-defender-gating) first |
 | `asrRule` | `MSFT_MpPreference`, then policy store, then MDM | gating, modes, real-time protection |
-| `firewallProfile` | runtime profile state for enabled/default inbound; policy store, then local store for logging and local-rule merge | without runtime state not checkable; "not configured" logging/merge is a fail when the rule asks for the hardened setting, otherwise not checkable |
-| `firewallExposure` | runtime state, runtime rule list, `parsed:firewall-rules-registry` (GPO and local store), merge setting per profile | fail if a profile is off, allows inbound by default, or an enabled inbound allow rule opens a listed port to any address (`*`, `Any`, empty) on a considered profile; local rules do not count where merging is off; pass only with the runtime list **and** the registry stores; anything unclear → not checkable |
+| `firewallProfile` | enabled/default inbound: a set Group Policy value (`EnableFirewall`, `DefaultInboundAction` 1 = block, 0 = allow) decides, otherwise the local setting from the firewall service; policy store, then local store for logging and local-rule merge | policy store not readable, or no policy and no service state → not checkable; "not configured" logging/merge is a fail when the rule asks for the hardened setting, otherwise not checkable |
+| `firewallExposure` | effective profile state (as `firewallProfile`), runtime rule list, `parsed:firewall-rules-registry` (GPO and local store), merge setting per profile | fail if a profile is off, allows inbound by default, or an enabled inbound allow rule opens a listed port to any address (`*`, `Any`, empty) on a considered profile; local rules do not count where merging is off; pass only with the runtime list **and** the registry stores; anything unclear → not checkable |
 | `lifecycle` | machine header, `rules/lifecycle/windows.json`, plant `esuCovered` | first matching product; evaluation date ≤ end of support → pass; with ESU covered and an ESU end listed by Microsoft → pass until that date; a build older than every entry of its kind whose support has ended → fail; otherwise not checkable "Regelwerk ergänzen" |
 | `updateAge` | `rules/lifecycle/builds.json`, then newest hotfix `InstalledOn`, then Windows Update history | release day of build + UBR; between two listed updates decided by the span; newer than the table → not checkable "Regelwerk zu alt"; older than the oldest entry → fail "mindestens N Tage" when that already exceeds the limit; the update history can only prove a finding (it also contains signature updates) |
 | `lsaProtection` | `api:lsass-protection` (only with `--deep`), then Wininit event 12 after the last start, then `RunAsPPL` | registry alone is never pass: configured → not checkable with ConfiguredOnly; not configured → not checkable (a UEFI-locked or default-on protection is not visible in the registry) |
@@ -314,6 +317,10 @@ file (0211), customer baseline conflict (0212). An invalid catalogue is never us
   `SOFTWARE\Policies\Microsoft\WindowsFirewall\{Domain,Private,Public}Profile`, local
   `…\SharedAccess\Parameters\FirewallPolicy\{Domain,Standard,Public}Profile`. That `AllowLocalPolicyMerge` also exists in
   the local store is *(unverified)*; when it is not set, merging counts as allowed, which can only add rules.
+- The firewall profile state is the Group Policy value when set, else the local setting from `INetFwPolicy2`. An MDM
+  (Firewall CSP) setting is not read separately, and the effective state of the firewall service itself
+  (`MSFT_NetFirewallProfile` in the active store, Windows 8 / Server 2012 and later) is not collected yet; that would be
+  a collector change. *(open)*
 - Firewall port keywords such as `RPC` or `RPC-EPMap` denote dynamic or service ports and are not treated as the fixed
   ports of a rule. Block rules are not considered (an allow rule may be overridden by a block rule; that can only cause
   a fail, never a pass).

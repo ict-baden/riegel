@@ -628,4 +628,7 @@
     <value>sí</value>
     <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
+  <data name="Detail_FirewallPolicyDecides" xml:space="preserve">
+    <value>Decide el valor de la directiva de grupo; el servicio de firewall indica como configuración local: {0}</value>
+  </data>
 </root>

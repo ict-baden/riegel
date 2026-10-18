@@ -472,4 +472,7 @@
   <data name="Word_Yes" xml:space="preserve">
     <value>ja</value>
   </data>
+  <data name="Detail_FirewallPolicyDecides" xml:space="preserve">
+    <value>Der Wert der Gruppenrichtlinie entscheidet; der Firewall-Dienst meldet als lokale Einstellung: {0}</value>
+  </data>
 </root>

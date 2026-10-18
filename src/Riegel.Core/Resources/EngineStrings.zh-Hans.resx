@@ -628,4 +628,7 @@
     <value>是</value>
     <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
+  <data name="Detail_FirewallPolicyDecides" xml:space="preserve">
+    <value>以组策略的值为准；防火墙服务报告的本地设置：{0}</value>
+  </data>
 </root>

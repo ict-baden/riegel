@@ -628,4 +628,7 @@
     <value>oui</value>
     <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
+  <data name="Detail_FirewallPolicyDecides" xml:space="preserve">
+    <value>La valeur de la stratégie de groupe l'emporte ; le service de pare-feu indique comme paramètre local : {0}</value>
+  </data>
 </root>
