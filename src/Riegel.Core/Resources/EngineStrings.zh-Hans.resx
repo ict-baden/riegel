@@ -634,4 +634,7 @@
   <data name="Detail_ActiveRoot" xml:space="preserve">
     <value>生效的策略根（第一个含有任何设置的根）：{0}</value>
   </data>
+  <data name="Detail_HotfixNotProof" xml:space="preserve">
+    <value>最新修补程序安装于 {0}——任何更新（包括服务堆栈或 .NET）的安装日期都不能证明已安装的累积更新的发布时间</value>
+  </data>
 </root>

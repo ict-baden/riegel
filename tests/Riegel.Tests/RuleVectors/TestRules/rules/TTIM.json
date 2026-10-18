@@ -221,7 +221,7 @@
           "expect": "fail"
         },
         {
-          "name": "between entries, at most 37 days: undecided, QFE recent",
+          "name": "between entries, at most 37 days: undecided, QFE recent is no proof",
           "machine": {
             "build": 99001,
             "ubr": 250,
@@ -244,7 +244,7 @@
               }
             }
           },
-          "expect": "pass"
+          "expect": "notCheckable"
         },
         {
           "name": "between entries, QFE not collected",
@@ -279,7 +279,7 @@
           "expect": "fail"
         },
         {
-          "name": "build not in table, QFE recent",
+          "name": "build not in table, QFE recent is no proof (install date, any CBS update)",
           "machine": {
             "build": 99500,
             "ubr": 1,
@@ -302,7 +302,7 @@
               }
             }
           },
-          "expect": "pass"
+          "expect": "notCheckable"
         },
         {
           "name": "build not in table, QFE old",

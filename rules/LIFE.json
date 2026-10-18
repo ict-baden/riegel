@@ -240,8 +240,8 @@
         "de": "Letztes kumulatives Update ist aktuell"
       },
       "rationale": {
-        "en": "Every month Microsoft fixes vulnerabilities that attackers analyse within days. Riegel takes the release date of the installed build and revision (UBR) from Microsoft's release tables; without a table entry it uses the newest installed hotfix or the newest successful Windows Update history entry. The age is measured against the time of collection and compared with the plant setting updateMaxDays (default 35 days).",
-        "de": "Microsoft behebt jeden Monat Schwachstellen, die Angreifer innerhalb weniger Tage auswerten. Riegel nimmt das Veröffentlichungsdatum von Build und Revision (UBR) aus den Microsoft-Release-Tabellen; ohne Tabelleneintrag zählt der neueste installierte Hotfix oder der neueste erfolgreiche Eintrag im Windows-Update-Verlauf. Das Alter wird zum Zeitpunkt der Erfassung gemessen und mit der Anlageneinstellung updateMaxDays (Standard 35 Tage) verglichen."
+        "en": "Every month Microsoft fixes vulnerabilities that attackers analyse within days. Riegel takes the release date of the installed build and revision (UBR) from Microsoft's release tables; without a table entry (for example Windows 7, 8.1 and Server 2012 R2 with ESU) the newest installed hotfix and the newest successful Windows Update history entry can only show that the machine is too old: the hotfix list contains every component update (also servicing stack and .NET) and gives the installation date, not the release date, so a recent date is not proof of a recent cumulative update and the rule is then not checkable. The age is measured against the time of collection and compared with the plant setting updateMaxDays (default 35 days).",
+        "de": "Microsoft behebt jeden Monat Schwachstellen, die Angreifer innerhalb weniger Tage auswerten. Riegel nimmt das Veröffentlichungsdatum von Build und Revision (UBR) aus den Microsoft-Release-Tabellen; ohne Tabelleneintrag (zum Beispiel Windows 7, 8.1 und Server 2012 R2 mit ESU) können der neueste installierte Hotfix und der neueste erfolgreiche Eintrag im Windows-Update-Verlauf nur zeigen, dass der Rechner zu alt ist: die Hotfix-Liste enthält jedes Komponenten-Update (auch Wartungsstapel und .NET) und nennt das Installations-, nicht das Veröffentlichungsdatum – ein junges Datum belegt kein aktuelles kumulatives Update, die Regel ist dann nicht prüfbar. Das Alter wird zum Zeitpunkt der Erfassung gemessen und mit der Anlageneinstellung updateMaxDays (Standard 35 Tage) verglichen."
       },
       "otNote": {
         "en": "Validated systems are patched only in maintenance windows after vendor approval. Plan the next update as a measure with a due date instead of excepting the rule permanently.",
@@ -327,6 +327,12 @@
           "url": "https://learn.microsoft.com/en-us/windows/release-health/windows11-release-information",
           "date": "2026-10-18",
           "note": "Build, UBR, release date and KB of every update (also the Windows 10 and Windows Server release information pages) are the source of rules/lifecycle/builds.json."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering",
+          "date": "2026-10-18",
+          "note": "Win32_QuickFixEngineering returns only the updates supplied by Component Based Servicing (CBS); InstalledOn is the installation date. A recent entry therefore does not prove a recent cumulative update; only 'nothing installed for N days' is evidence."
         }
       ],
       "tests": [
@@ -431,6 +437,66 @@
             }
           },
           "expect": "notCheckable"
+        },
+        {
+          "name": "Server 2012 R2 (no build table): a hotfix installed recently is not proof of a recent cumulative update",
+          "machine": {
+            "build": 9600,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "HotFixID": "KB5000001",
+                    "InstalledOn": "2026-10-14T00:00:00Z"
+                  },
+                  {
+                    "HotFixID": "KB5034819",
+                    "InstalledOn": "2025-01-15T00:00:00Z"
+                  }
+                ]
+              }
+            },
+            "api:windows-update-history": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Server 2012 R2 (no build table): nothing installed for more than 35 days",
+          "machine": {
+            "build": 9600,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "HotFixID": "KB5034819",
+                    "InstalledOn": "2025-01-15T00:00:00Z"
+                  }
+                ]
+              }
+            },
+            "api:windows-update-history": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "fail"
         }
       ]
     },

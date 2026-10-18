@@ -634,4 +634,7 @@
   <data name="Detail_ActiveRoot" xml:space="preserve">
     <value>Raíz de directiva activa (la primera con alguna configuración): {0}</value>
   </data>
+  <data name="Detail_HotfixNotProof" xml:space="preserve">
+    <value>Revisión más reciente instalada el {0}: la fecha de instalación de cualquier actualización (también de la pila de servicio o de .NET) no demuestra cuándo se publicó la actualización acumulativa instalada</value>
+  </data>
 </root>

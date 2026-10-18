@@ -478,4 +478,7 @@
   <data name="Detail_ActiveRoot" xml:space="preserve">
     <value>Aktiver Richtlinienbereich (der erste mit einer Einstellung): {0}</value>
   </data>
+  <data name="Detail_HotfixNotProof" xml:space="preserve">
+    <value>Neuester Hotfix installiert am {0} – das Installationsdatum irgendeines Updates (auch Wartungsstapel oder .NET) belegt nicht, wann das installierte kumulative Update erschien</value>
+  </data>
 </root>

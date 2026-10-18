@@ -478,4 +478,7 @@
   <data name="Detail_ActiveRoot" xml:space="preserve">
     <value>Active policy root (the first one with any setting): {0}</value>
   </data>
+  <data name="Detail_HotfixNotProof" xml:space="preserve">
+    <value>Newest hotfix installed on {0} – the installation date of any update (also servicing stack or .NET) does not prove when the installed cumulative update was released</value>
+  </data>
 </root>
