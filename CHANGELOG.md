@@ -7,6 +7,7 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 ### Sicherheit
 - Rücknahme (`remediate`), Vergleich, erneute Auswertung und die Vergleichsbasis eines Laufs lesen den Export eines gespeicherten Laufs nur noch aus dem Anlagenordner (kein absoluter Pfad, kein UNC-Pfad, kein „..“, keine Verknüpfung) und nur mit dem SHA-256 des Laufs (`RGL-0415`, `RGL-0416`). Vorher konnte ein manipulierter Lauf eine Rücknahme aus dem Export eines anderen Rechners oder von außerhalb der Anlage erzeugen.
 - Lizenz: `PdfSharp.WPFonts.dll` (sechs Segoe-WP-Schriften von Microsoft, „All Rights Reserved“, ohne Recht zur Weitergabe) sowie `PdfSharp.Snippets.dll` und `PdfSharp.Quality.dll` werden nicht mehr ausgeliefert; die Drittanbieter-Hinweise nannten die Schriften fälschlich MIT.
+- Protokoll: Pfade (auch aus IO-Fehlermeldungen), Rechner-, Benutzer- und Domänennamen, Konten, SIDs und Adressen werden vor dem Schreiben ersetzt; vorher standen Benutzerprofil- und Anlagenordner-Namen im Protokoll.
 
 ### Behoben
 - FW-01…06 und FW-11: ein gesetzter Wert der Gruppenrichtlinie (EnableFirewall, DefaultInboundAction) entscheidet vor der lokalen Einstellung, die der Firewall-Dienst (INetFwPolicy2) meldet; eine per GPO abgeschaltete Firewall wurde vorher als „erfüllt“ gemeldet. Nicht lesbarer Richtlinienspeicher → „nicht prüfbar“.
