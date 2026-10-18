@@ -107,7 +107,12 @@ public static class RulesDocGenerator
                     parts.Add("MSB: " + string.Join("; ", refs.Select(r => r.Setting ?? "").Where(s => s.Length > 0)));
                     break;
                 case "DISA":
-                    parts.Add("DISA: " + string.Join(", ", refs.Select(r => r.Id ?? r.Section ?? "").Where(s => s.Length > 0)));
+                    // STIG-Kennungen stehen je nach Regelpaket in id oder ids (V-ID und Regel-ID); ohne beide der Abschnitt
+                    parts.Add("DISA: " + string.Join(", ", refs.SelectMany(r =>
+                    {
+                        var ids = (r.Ids ?? []).Concat(r.Id is null ? [] : [r.Id]).ToList();
+                        return ids.Count > 0 ? ids : [r.Section ?? ""];
+                    }).Where(s => s.Length > 0).Distinct(StringComparer.Ordinal)));
                     break;
                 case "GSPP":
                     parts.Add("GS++: " + string.Join(", ", refs.SelectMany(r => (r.Ids ?? []).Concat(r.Id is null ? [] : [r.Id]))));

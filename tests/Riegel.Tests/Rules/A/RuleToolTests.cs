@@ -44,6 +44,21 @@ public sealed partial class RuleToolTests : IDisposable
             Assert.Contains($"| {id} |", text, StringComparison.Ordinal);
     }
 
+    /// <summary>
+    /// Regressionstest (Review legal-8): DISA-Verweise mit „ids“ (V-ID und Regel-ID) erscheinen in docs/rules.md; vorher
+    /// stand bei 33 Regeln nur „DISA: “ ohne Kennung.
+    /// </summary>
+    [Fact]
+    public void Regeldoku_nennt_die_STIG_Kennungen_jedes_DISA_Verweises()
+    {
+        var text = File.ReadAllText(Path.Combine(RepoPaths.Root, "docs", "rules.md"));
+        Assert.DoesNotMatch(@"DISA: (<br>|\s*\|)", text);
+        Assert.Matches(@"\| FW-01 \|[^\n]*DISA: [^<|]*V-241989", text);
+        foreach (Match row in Regex.Matches(text, @"^\| (?<id>[A-Z]+-\d+) \|.*$", RegexOptions.Multiline))
+            if (row.Value.Contains("DISA: ", StringComparison.Ordinal))
+                Assert.Matches(@"DISA: [^<|]*\S", row.Value);
+    }
+
     [RuleToolFact]
     public void Regeldoku_check_erkennt_eine_veraltete_Seite()
     {

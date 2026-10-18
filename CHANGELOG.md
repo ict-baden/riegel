@@ -22,6 +22,7 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 - AUD-23: der lokale Wert der Protokollgröße zählt nur, wo die Größe der Gruppenrichtlinie nachweislich nicht gesetzt ist; ein nicht lesbarer Richtlinienschlüssel ergibt „nicht prüfbar“ statt „erfüllt“ aus dem lokalen Wert. Der Mutationstest prüft jetzt auch den Vorrang zwischen Konfigurationsquellen.
 - Prüfumfang: wird auf ganze Prozent abgeschnitten statt gerundet; 89,5 % erschienen vorher als 90 % ohne Hinweis „Unvollständige Prüfung“, ohne Graustufe und ohne Lauf-Flag `Incomplete`.
 - Defender ohne Admin: meldet die WSC-API Microsoft Defender als eingeschaltet, wird aus den Platzhaltern von MSFT_MpComputerStatus (eingeschränktes Token) nicht mehr „aus“ hergeleitet; DEF-01/02/12, LIFE-04 und ASR-xx sind dann „nicht prüfbar“ statt „kein aktiver Virenschutz“.
+- docs/rules.md nennt bei allen DISA-Verweisen die STIG-Kennungen (V-ID und Regel-ID); bei 33 Regeln stand vorher nur „DISA: “.
 
 ### Geändert
 - Lizenzen: die Drittanbieter-Hinweise der mitgelieferten .NET-Laufzeit und von WPF (Stand v10.0.13) liegen jetzt als `THIRD-PARTY-NOTICES-dotnet-runtime.txt` und `THIRD-PARTY-NOTICES-dotnet-wpf.txt` neben den Programmen und sind in `--licenses` und der Info-Seite enthalten; vorher nur ein Link auf den Zweig main. Die CI vergleicht den Text mit den veröffentlichten Runtime-Paketen.
