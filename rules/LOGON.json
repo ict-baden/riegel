@@ -1,0 +1,598 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "LOGON",
+  "rules": [
+    {
+      "id": "LOGON-09",
+      "since": "2026.10",
+      "state": "active",
+      "category": "logon",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Machine locks after at most 15 minutes of inactivity",
+        "de": "Rechner sperrt nach höchstens 15 Minuten Inaktivität"
+      },
+      "rationale": {
+        "en": "An unlocked, unattended session lets anyone act under the signed-in account. The policy \"Interactive logon: Machine inactivity limit\" must be between 1 and 900 seconds; 0 or a missing value means the machine never locks by itself. The setting exists from Windows 8 and Server 2012.",
+        "de": "Eine entsperrte, unbeaufsichtigte Sitzung erlaubt jedem, unter dem angemeldeten Konto zu handeln. Die Richtlinie „Interaktive Anmeldung: Inaktivitätsgrenze des Computers“ muss zwischen 1 und 900 Sekunden liegen; 0 oder ein fehlender Wert bedeutet, dass der Rechner sich nicht selbst sperrt. Die Einstellung gibt es ab Windows 8 und Server 2012."
+      },
+      "otNote": {
+        "en": "Operator displays in control rooms must stay visible and must not lock in the middle of production. Cover them by tailoring for the HMI role (physical access control of the control room) rather than by an exception.",
+        "de": "Bedienbilder in Leitständen müssen sichtbar bleiben und dürfen nicht mitten in der Produktion sperren. Sie über den Zuschnitt der Rolle HMI abdecken (Zutrittsschutz des Leitstands) statt über eine Ausnahme."
+      },
+      "remedy": {
+        "en": "Set \"Interactive logon: Machine inactivity limit\" to 900 seconds or less.",
+        "de": "„Interaktive Anmeldung: Inaktivitätsgrenze des Computers“ auf 900 Sekunden oder weniger setzen."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "minBuild": 9200,
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+            "value": "InactivityTimeoutSecs",
+            "valueType": "dword",
+            "op": "ge",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+            "value": "InactivityTimeoutSecs",
+            "valueType": "dword",
+            "op": "le",
+            "expected": 900,
+            "whenMissing": "fail"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+            "value": "InactivityTimeoutSecs",
+            "type": "dword",
+            "data": 900
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Session locking",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Interactive logon: Machine inactivity limit"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253444",
+          "id": "WN11-SO-000070",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254456",
+          "id": "WN22-SO-000120",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278206",
+          "id": "WN25-SO-000120",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.3.12"
+          ],
+          "version": "2026-09-24"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Session locking",
+          "note": "Interactive logon: Machine inactivity limit: 900 seconds."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000070 (V-253444, CAT II)",
+          "note": "Policies\\System InactivityTimeoutSecs REG_DWORD 900 or less, excluding 0."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/interactive-logon-machine-inactivity-limit",
+          "date": "2026-10-18",
+          "note": "Default on all server types and client computers: Disabled; introduced in Windows Server 2012 and Windows 8."
+        }
+      ],
+      "tests": [
+        {
+          "name": "900 seconds",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "InactivityTimeoutSecs": {
+                    "t": "dword",
+                    "v": 900
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "600 seconds",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "InactivityTimeoutSecs": {
+                    "t": "dword",
+                    "v": 600
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "0 (never locks)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "InactivityTimeoutSecs": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "1800 seconds",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "InactivityTimeoutSecs": {
+                    "t": "dword",
+                    "v": 1800
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "EnableLUA": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Windows 7: setting does not exist",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "EnableLUA": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "LOGON-10",
+      "since": "2026.10",
+      "state": "active",
+      "category": "logon",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "No automatic logon",
+        "de": "Keine automatische Anmeldung"
+      },
+      "rationale": {
+        "en": "With AutoAdminLogon = 1 Windows signs in an account at every start without anyone entering a password, so everyone with physical access works under that account. The password is stored either in the registry (DefaultPassword, readable remotely by authenticated users) or as an LSA secret that administrators can decrypt. The rule fails whenever AutoAdminLogon is 1, whether or not DefaultPassword exists.",
+        "de": "Mit AutoAdminLogon = 1 meldet Windows bei jedem Start ein Konto an, ohne dass jemand ein Kennwort eingibt; jeder mit physischem Zugang arbeitet dann unter diesem Konto. Das Kennwort liegt entweder in der Registry (DefaultPassword, für angemeldete Benutzer auch aus der Ferne lesbar) oder als LSA-Geheimnis, das Administratoren entschlüsseln können. Die Regel schlägt immer fehl, wenn AutoAdminLogon 1 ist, unabhängig von DefaultPassword."
+      },
+      "otNote": {
+        "en": "Operator stations and kiosk HMIs often sign in automatically so that the plant software starts after a power failure. Keep this as an exception with compensating measures: a dedicated account without administrator rights, a locked-down shell, no network shares and physical protection.",
+        "de": "Bedienstationen und Kiosk-HMIs melden sich oft automatisch an, damit die Anlagensoftware nach einem Stromausfall startet. Das als Ausnahme mit ausgleichenden Maßnahmen führen: eigenes Konto ohne Administratorrechte, abgeschottete Oberfläche, keine Netzfreigaben und physischer Schutz."
+      },
+      "remedy": {
+        "en": "Set AutoAdminLogon to 0 and delete DefaultPassword; with Sysinternals Autologon use its disable option to remove the LSA secret.",
+        "de": "AutoAdminLogon auf 0 setzen und DefaultPassword löschen; bei Sysinternals Autologon dessen Abschaltfunktion nutzen, um das LSA-Geheimnis zu entfernen."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+        "value": "AutoAdminLogon",
+        "valueType": "sz",
+        "op": "ne",
+        "expected": "1",
+        "whenMissing": "pass",
+        "missingPass": {
+          "source": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/user-profiles-and-logon/turn-on-automatic-logon",
+          "seen": "2026-10-18",
+          "note": "Automatic logon requires AutoAdminLogon = 1; without the value Windows does not sign in automatically."
+        }
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+            "value": "AutoAdminLogon",
+            "type": "sz",
+            "data": "0"
+          },
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+            "value": "DefaultPassword",
+            "delete": true
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.5.1",
+            "BER.3.16"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1027",
+            "M0927"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/user-profiles-and-logon/turn-on-automatic-logon",
+          "date": "2026-10-18",
+          "note": "Autologon is a security risk: anyone with physical access gains the account; the password is stored in the registry in plain text and can be read remotely by Authenticated Users; AutoAdminLogon 1 enables it."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/sysinternals/downloads/autologon",
+          "date": "2026-10-18",
+          "note": "Sysinternals Autologon stores the password as an LSA secret, which an administrator can easily retrieve and decrypt."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Automatic logon off",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AutoAdminLogon": {
+                    "t": "sz",
+                    "v": "0"
+                  },
+                  "DefaultUserName": {
+                    "t": "sz",
+                    "v": "bediener"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Automatic logon with password in the registry",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AutoAdminLogon": {
+                    "t": "sz",
+                    "v": "1"
+                  },
+                  "DefaultUserName": {
+                    "t": "sz",
+                    "v": "bediener"
+                  },
+                  "DefaultPassword": {
+                    "t": "sz",
+                    "redacted": true,
+                    "empty": false
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Automatic logon without DefaultPassword (LSA secret)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AutoAdminLogon": {
+                    "t": "sz",
+                    "v": "1"
+                  },
+                  "DefaultUserName": {
+                    "t": "sz",
+                    "v": "bediener"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing (no automatic logon)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "DefaultUserName": {
+                    "t": "sz",
+                    "v": "bediener"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Wrong value type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AutoAdminLogon": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "schema": "riegel.exceptions-template/1",
+  "plantId": "vorlage-beispiel-anlagenbau",
+  "exceptions": [
+    {
+      "id": "EX-0001",
+      "ruleId": "NET-08",
+      "scope": {
+        "machines": [],
+        "groups": [],
+        "allMachines": true
+      },
+      "category": "vendorRequirement",
+      "justification": "Die Bedienpanels der Linie (Firmware 3.x) greifen ohne SMB-Signierung auf die Rezepturfreigabe zu; eine Firmware mit Signierung ist angekündigt.",
+      "compensatingMeasure": "Freigabe nur für das Panel-VLAN erreichbar, Schreibrecht nur für das Rezepturkonto.",
+      "reference": "Herstellerdokument HD-4711",
+      "acceptedValue": "false",
+      "approval": {},
+      "createdOn": "2026-10-18",
+      "createdByRole": "Hersteller",
+      "catalogueVersion": "2026.10",
+      "comment": "Vorlage von Beispiel-Anlagenbau – Geltungsbereich bei Übernahme auf die betroffenen Rechner einschränken."
+    },
+    {
+      "id": "EX-0002",
+      "ruleId": "CRED-02",
+      "scope": {
+        "machines": [],
+        "groups": [],
+        "allMachines": true
+      },
+      "category": "vendorRequirement",
+      "justification": "Die Bediensoftware meldet ältere Steuerungsrechner noch mit NTLMv1 an; Stufe 5 würde diese Anmeldungen ablehnen.",
+      "compensatingMeasure": "NTLM-Überwachung aktiv; Ablösung der älteren Rechner im Maßnahmenplan.",
+      "reference": "Herstellerdokument HD-4711",
+      "acceptedValue": "3",
+      "approval": {},
+      "createdOn": "2026-10-18",
+      "createdByRole": "Hersteller",
+      "catalogueVersion": "2026.10",
+      "comment": "Vorlage von Beispiel-Anlagenbau – Geltungsbereich bei Übernahme auf die betroffenen Rechner einschränken."
+    },
+    {
+      "id": "EX-0003",
+      "ruleId": "CRED-09",
+      "scope": {
+        "machines": [],
+        "groups": [],
+        "allMachines": true
+      },
+      "category": "vendorRequirement",
+      "justification": "Der Treiber der Feldbuskarte ist nicht mit der Speicherintegrität (HVCI) verträglich; mit HVCI startet der Treiber nicht.",
+      "compensatingMeasure": "Treiber signiert vom Kartenhersteller; Anwendungssteuerung auf dem Rechner aktiv.",
+      "reference": "Herstellerdokument HD-4711",
+      "approval": {},
+      "createdOn": "2026-10-18",
+      "createdByRole": "Hersteller",
+      "catalogueVersion": "2026.10",
+      "comment": "Vorlage von Beispiel-Anlagenbau – akzeptierten Wert bei Übernahme aus dem Ist-Wert übernehmen."
+    },
+    {
+      "id": "EX-0004",
+      "ruleId": "MED-05",
+      "scope": {
+        "machines": [],
+        "groups": [],
+        "allMachines": true
+      },
+      "category": "vendorRequirement",
+      "justification": "Rezepturen und Projektstände werden laut Betriebsanleitung per USB-Stick auf das Bediengerät übertragen.",
+      "compensatingMeasure": "Nur registrierte USB-Sticks; Prüfung an einer Schleusenstation vor dem Einstecken.",
+      "reference": "Herstellerdokument HD-4711",
+      "acceptedValue": "3",
+      "approval": {},
+      "createdOn": "2026-10-18",
+      "createdByRole": "Hersteller",
+      "catalogueVersion": "2026.10",
+      "comment": "Vorlage von Beispiel-Anlagenbau – Geltungsbereich bei Übernahme auf die betroffenen Rechner einschränken."
+    },
+    {
+      "id": "EX-0005",
+      "ruleId": "LOGON-10",
+      "scope": {
+        "machines": [],
+        "groups": [],
+        "allMachines": true
+      },
+      "category": "vendorRequirement",
+      "justification": "Das Bediengerät startet nach Stromausfall ohne Anmeldung in die Bedienoberfläche; dafür ist die automatische Anmeldung eines Bedienerkontos vorgesehen.",
+      "compensatingMeasure": "Bedienerkonto ohne Administratorrechte, abgeschottete Oberfläche, keine Netzfreigaben, Gerät im verschlossenen Schaltschrank.",
+      "reference": "Herstellerdokument HD-4711",
+      "acceptedValue": "1",
+      "approval": {},
+      "createdOn": "2026-10-18",
+      "createdByRole": "Hersteller",
+      "catalogueVersion": "2026.10",
+      "comment": "Vorlage von Beispiel-Anlagenbau – Geltungsbereich bei Übernahme auf die betroffenen Rechner einschränken."
+    }
+  ]
+}

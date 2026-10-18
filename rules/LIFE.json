@@ -1,0 +1,1364 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "LIFE",
+  "rules": [
+    {
+      "id": "LIFE-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "lifecycle",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "Windows release still receives security updates",
+        "de": "Windows-Version erhält noch Sicherheitsupdates"
+      },
+      "rationale": {
+        "en": "Once Microsoft ends support for a Windows release, newly found vulnerabilities in it are no longer fixed. Riegel looks up the installed build and edition in its lifecycle table, which is taken from Microsoft's lifecycle pages, and compares the end of support with the evaluation date. Extended Security Updates count only for machines that the plant record marks as covered.",
+        "de": "Endet der Support für eine Windows-Version, behebt Microsoft neu gefundene Schwachstellen darin nicht mehr. Riegel sucht Build und Edition in seiner Lebenszyklus-Tabelle, die aus den Microsoft-Lifecycle-Seiten stammt, und vergleicht das Supportende mit dem Auswertungsdatum. Extended Security Updates zählen nur bei Rechnern, die im Anlagenordner als ESU-versorgt eingetragen sind."
+      },
+      "otNote": {
+        "en": "Plant PCs often run a release that the plant software vendor has validated and that cannot be upgraded without requalification. Keep such machines as a deliberate exception with compensating measures (segmentation, no internet access, application control) and plan the migration as a measure.",
+        "de": "Anlagenrechner laufen oft mit einer Version, die der Hersteller der Anlagensoftware freigegeben hat und die sich nicht ohne Requalifizierung anheben lässt. Solche Rechner als bewusste Ausnahme mit ausgleichenden Maßnahmen (Segmentierung, kein Internetzugang, Anwendungssteuerung) führen und die Ablösung als Maßnahme planen."
+      },
+      "remedy": {
+        "en": "Move to a supported Windows release or LTSC edition. Where Microsoft offers Extended Security Updates, license them and mark the machine as ESU-covered in the plant folder.",
+        "de": "Auf eine unterstützte Windows-Version oder LTSC-Edition wechseln. Wo Microsoft Extended Security Updates anbietet, diese lizenzieren und den Rechner im Anlagenordner als ESU-versorgt kennzeichnen."
+      },
+      "suggestedReason": "compensatingControl",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "lifecycle"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Upgrade the operating system or enrol the machine in Extended Security Updates; no setting can fix this.",
+          "de": "Betriebssystem aktualisieren oder den Rechner in Extended Security Updates aufnehmen; keine Einstellung behebt das."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Operating system version",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253263",
+          "id": "WN11-00-000040",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254247",
+          "id": "WN22-00-000100",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-289259",
+          "id": "WN25-00-000480",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "DET.5.10"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1051",
+            "M0951"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        },
+        {
+          "src": "ENDOFLIFE",
+          "url": "https://endoflife.date/api/v1/products/windows/"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-00-000040 (V-253263, CAT I)",
+          "note": "An end-of-support date in the past is a finding (CAT I)."
+        },
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Operating system version",
+          "note": "Use the latest version of Windows."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/lifecycle/products/windows-11-enterprise-and-education",
+          "date": "2026-10-18",
+          "note": "End-of-support dates per release; all lifecycle dates of rules/lifecycle/windows.json cite their page."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Windows 11 24H2 Enterprise, supported until 2027-10-12",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "pass"
+        },
+        {
+          "name": "Windows 10 Enterprise LTSC 2019, supported until 2029-01-09",
+          "machine": {
+            "build": 17763,
+            "ubr": 7792,
+            "edition": "EnterpriseS",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "pass"
+        },
+        {
+          "name": "Windows Server 2022, supported until 2031-10-14",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Windows 7 SP1, support ended 2020-01-14",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "fail"
+        },
+        {
+          "name": "Windows 10 1809 Pro (general availability channel), support ended 2020-11-10",
+          "machine": {
+            "build": 17763,
+            "ubr": 7792,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "fail"
+        },
+        {
+          "name": "Windows Server 2012 R2, ESU year 3 ended 2026-10-13",
+          "machine": {
+            "build": 9600,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 2,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "fail"
+        },
+        {
+          "name": "Build unknown to the lifecycle table",
+          "machine": {
+            "build": 99999,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "LIFE-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "lifecycle",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "Latest cumulative update is recent",
+        "de": "Letztes kumulatives Update ist aktuell"
+      },
+      "rationale": {
+        "en": "Every month Microsoft fixes vulnerabilities that attackers analyse within days. Riegel takes the release date of the installed build and revision (UBR) from Microsoft's release tables; without a table entry it uses the newest installed hotfix or the newest successful Windows Update history entry. The age is measured against the time of collection and compared with the plant setting updateMaxDays (default 35 days).",
+        "de": "Microsoft behebt jeden Monat Schwachstellen, die Angreifer innerhalb weniger Tage auswerten. Riegel nimmt das Veröffentlichungsdatum von Build und Revision (UBR) aus den Microsoft-Release-Tabellen; ohne Tabelleneintrag zählt der neueste installierte Hotfix oder der neueste erfolgreiche Eintrag im Windows-Update-Verlauf. Das Alter wird zum Zeitpunkt der Erfassung gemessen und mit der Anlageneinstellung updateMaxDays (Standard 35 Tage) verglichen."
+      },
+      "otNote": {
+        "en": "Validated systems are patched only in maintenance windows after vendor approval. Plan the next update as a measure with a due date instead of excepting the rule permanently.",
+        "de": "Validierte Systeme werden nur im Wartungsfenster nach Herstellerfreigabe gepatcht. Das nächste Update als Maßnahme mit Termin planen, statt die Regel dauerhaft auszunehmen."
+      },
+      "remedy": {
+        "en": "Install the latest cumulative update for this build (Windows Update, WSUS or the offline package from the Microsoft Update Catalog) after the vendor has released it.",
+        "de": "Das neueste kumulative Update für diesen Build installieren (Windows Update, WSUS oder Offline-Paket aus dem Microsoft Update-Katalog), nachdem der Hersteller es freigegeben hat."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "updateAge"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Install the latest cumulative update.",
+          "de": "Neuestes kumulatives Update installieren."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Operating system patching",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-277982",
+          "id": "WN25-00-000001",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "DET.5.10",
+            "KONF.8.1.1"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1051",
+            "M0951"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Operating system patching",
+          "note": "Operating system patches are to be applied in an appropriate timeframe."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_Server_2025_STIG_V1R4_Manual-xccdf.xml (Release 4, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN25-00-000001 (V-277982, CAT II)",
+          "note": "Security-relevant updates within 30 days; Riegel uses the plant setting updateMaxDays (default 35 days, one monthly cycle plus processing)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/windows11-release-information",
+          "date": "2026-10-18",
+          "note": "Build, UBR, release date and KB of every update (also the Windows 10 and Windows Server release information pages) are the source of rules/lifecycle/builds.json."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Windows 11 24H2 with the 2026-10 update (released 2026-10-13)",
+          "machine": {
+            "build": 26100,
+            "ubr": 9711,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "pass"
+        },
+        {
+          "name": "Windows 11 24H2 with the 2025-10 update",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "fail"
+        },
+        {
+          "name": "Revision older than the oldest table entry",
+          "machine": {
+            "build": 26100,
+            "ubr": 1000,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "fail"
+        },
+        {
+          "name": "Revision newer than the table (catalogue too old)",
+          "machine": {
+            "build": 26100,
+            "ubr": 99999,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "notCheckable"
+        },
+        {
+          "name": "No revision, no hotfix list, no update history",
+          "machine": {
+            "build": 14393,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 2,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion": {
+              "status": "keyMissing"
+            },
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            },
+            "api:windows-update-history": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Build without table, hotfix list and update history not collected",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_QuickFixEngineering": {
+              "status": "notCollected"
+            },
+            "api:windows-update-history": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "LIFE-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "lifecycle",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Automatic Updates are not switched off",
+        "de": "Automatische Updates sind nicht abgeschaltet"
+      },
+      "rationale": {
+        "en": "With Automatic Updates switched off by policy, or the Windows Update service disabled, a machine stays on its patch level until someone intervenes. The rule fails when the policy value NoAutoUpdate is 1 or the service wuauserv is disabled. Updates from WSUS or a maintenance process are fine as long as the client is not switched off.",
+        "de": "Sind automatische Updates per Richtlinie abgeschaltet oder ist der Windows-Update-Dienst deaktiviert, bleibt ein Rechner auf seinem Patchstand, bis jemand eingreift. Die Regel schlägt fehl, wenn der Richtlinienwert NoAutoUpdate 1 ist oder der Dienst wuauserv deaktiviert ist. Updates über WSUS oder einen Wartungsprozess sind in Ordnung, solange der Client nicht abgeschaltet ist."
+      },
+      "otNote": {
+        "en": "On validated plant systems automatic updates are often off by design; updates come through WSUS or offline packages in maintenance windows. Record this in the role's tailoring (see the HMI template) or as an exception.",
+        "de": "Auf validierten Anlagensystemen sind automatische Updates oft bewusst aus; Updates kommen über WSUS oder Offline-Pakete im Wartungsfenster. Das im Zuschnitt der Rolle (siehe Vorlage HMI) oder als Ausnahme festhalten."
+      },
+      "remedy": {
+        "en": "Set \"Configure Automatic Updates\" to Enabled (or Not configured) and keep the Windows Update service on Manual.",
+        "de": "„Automatische Updates konfigurieren“ auf Aktiviert (oder Nicht konfiguriert) setzen und den Dienst Windows Update auf Manuell lassen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU",
+            "value": "NoAutoUpdate",
+            "valueType": "dword",
+            "op": "ne",
+            "expected": 1,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 10240,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/deployment/update/waas-wu-settings",
+                "seen": "2026-10-18"
+              }
+            ]
+          },
+          {
+            "type": "service",
+            "name": "wuauserv",
+            "startMode": [
+              "Manual",
+              "Auto"
+            ],
+            "ifAbsent": "fail"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU",
+            "value": "NoAutoUpdate",
+            "type": "dword",
+            "data": 0
+          }
+        ],
+        "manual": {
+          "en": "Set the Windows Update service (wuauserv) to Manual start.",
+          "de": "Dienst Windows Update (wuauserv) auf Starttyp Manuell setzen."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Operating system patching",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.8.1",
+            "KONF.8.1.1"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1051",
+            "M0951"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Operating system patching",
+          "note": "Configure Automatic Updates: Enabled."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/deployment/update/waas-wu-settings",
+          "date": "2026-10-18",
+          "note": "NoAutoUpdate under ...\\WindowsUpdate\\AU: 0 = Automatic Updates enabled (default), 1 = disabled."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "MicrosoftDocs/windowsserverdocs (CC BY 4.0)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/windows-services/security-guidelines-for-disabling-system-services-in-windows-server",
+          "date": "2026-10-18",
+          "note": "Windows Update (wuauserv): startup type Manual; if disabled, Windows Update and automatic updating cannot be used."
+        }
+      ],
+      "tests": [
+        {
+          "name": "No update policy (default enabled), service manual",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU": {
+              "status": "keyMissing"
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "wuauserv",
+                    "State": "Stopped",
+                    "StartMode": "Manual"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Automatic download and scheduled install, service manual",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NoAutoUpdate": {
+                    "t": "dword",
+                    "v": 0
+                  },
+                  "AUOptions": {
+                    "t": "dword",
+                    "v": 4
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "wuauserv",
+                    "State": "Running",
+                    "StartMode": "Manual"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Automatic Updates disabled by policy",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NoAutoUpdate": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "wuauserv",
+                    "State": "Stopped",
+                    "StartMode": "Manual"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows Update service disabled",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU": {
+              "status": "keyMissing"
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "wuauserv",
+                    "State": "Stopped",
+                    "StartMode": "Disabled"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows 7 without policy: default not documented",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU": {
+              "status": "keyMissing"
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "wuauserv",
+                    "State": "Running",
+                    "StartMode": "Auto"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Policy not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU": {
+              "status": "notCollected"
+            },
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "wuauserv",
+                    "State": "Stopped",
+                    "StartMode": "Manual"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "LIFE-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "lifecycle",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Microsoft Defender security intelligence is current",
+        "de": "Virensignaturen von Microsoft Defender sind aktuell"
+      },
+      "rationale": {
+        "en": "Signature-based detection only finds what the installed security intelligence knows. Riegel reads when Microsoft Defender last updated its signatures and expects an age of at most one day at the time of collection. The rule applies only where Defender is the active antivirus; with another active product it is not applicable, without any active antivirus it fails.",
+        "de": "Signaturbasierte Erkennung findet nur, was die installierten Signaturen kennen. Riegel liest, wann Microsoft Defender seine Signaturen zuletzt aktualisiert hat, und erwartet zum Zeitpunkt der Erfassung ein Alter von höchstens einem Tag. Die Regel gilt nur, wenn Defender der aktive Virenschutz ist; mit einem anderen aktiven Produkt ist sie nicht anwendbar, ohne aktiven Virenschutz schlägt sie fehl."
+      },
+      "otNote": {
+        "en": "Offline plants update signatures with offline packages on a fixed schedule. If the schedule is longer than a day, record it as an exception with the schedule as compensating measure.",
+        "de": "Offline-Anlagen aktualisieren Signaturen mit Offline-Paketen nach festem Plan. Ist der Abstand länger als ein Tag, als Ausnahme mit dem Plan als ausgleichender Maßnahme festhalten."
+      },
+      "remedy": {
+        "en": "Make sure security intelligence updates arrive at least daily (Windows Update, WSUS, a file share or the offline update package).",
+        "de": "Sicherstellen, dass Signaturupdates mindestens täglich ankommen (Windows Update, WSUS, Dateifreigabe oder Offline-Paket)."
+      },
+      "suggestedReason": "compensatingControl",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "defenderSetting",
+        "source": "status",
+        "property": "AntivirusSignatureLastUpdated",
+        "op": "ageDaysLe",
+        "expected": 1
+      },
+      "remediation": {
+        "manual": {
+          "en": "Schedule daily security intelligence updates.",
+          "de": "Tägliche Signaturupdates einrichten."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Antivirus software",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.6"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1049",
+            "M0949"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Antivirus software",
+          "note": "Signatures should be updated at least on a daily basis."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/desktop/defender/msft-mpcomputerstatus",
+          "date": "2026-10-18",
+          "note": "MSFT_MpComputerStatus.AntivirusSignatureLastUpdated: date and time of the last security intelligence update."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Updated six hours before collection",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T02:00:00Z"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Last update six weeks before collection",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "AntivirusSignatureLastUpdated": "2026-09-01T02:00:00Z"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Defender passive, third-party antivirus active",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "passive",
+            "av.thirdPartyActive": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AntivirusSignatureLastUpdated": "2026-09-01T02:00:00Z"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "Defender off and no other antivirus",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "off",
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": false,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Defender namespace missing and no other antivirus",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "absent",
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Defender mode unknown",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "unknown"
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Status not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Signature date missing in the status",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "valueMissing",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AntivirusSignatureLastUpdated": null
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "LIFE-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "lifecycle",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "64-bit edition of Windows",
+        "de": "64-Bit-Ausgabe von Windows"
+      },
+      "rationale": {
+        "en": "64-bit Windows enforces driver signing, kernel patch protection and hardware DEP, which 32-bit Windows lacks. Riegel reads the system environment variable PROCESSOR_ARCHITECTURE from the registry; AMD64, ARM64 and IA64 are 64-bit, x86 is 32-bit.",
+        "de": "64-Bit-Windows erzwingt Treibersignaturen, Kernel-Patch-Schutz und Hardware-DEP, die 32-Bit-Windows fehlen. Riegel liest die Systemumgebungsvariable PROCESSOR_ARCHITECTURE aus der Registry; AMD64, ARM64 und IA64 sind 64 Bit, x86 ist 32 Bit."
+      },
+      "otNote": {
+        "en": "Old panel PCs and drivers for legacy interface cards exist only for 32-bit Windows; replacement is then a migration project.",
+        "de": "Alte Panel-PCs und Treiber für ältere Schnittstellenkarten gibt es nur für 32-Bit-Windows; der Wechsel ist dann ein Migrationsprojekt."
+      },
+      "remedy": {
+        "en": "Reinstall the machine with a 64-bit edition when the hardware and the plant software allow it.",
+        "de": "Den Rechner mit einer 64-Bit-Ausgabe neu installieren, sobald Hardware und Anlagensoftware das zulassen."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment",
+        "value": "PROCESSOR_ARCHITECTURE",
+        "valueType": "sz",
+        "op": "in",
+        "expected": [
+          "AMD64",
+          "ARM64",
+          "IA64"
+        ],
+        "whenMissing": "notCheckable"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Reinstall with a 64-bit edition of Windows.",
+          "de": "Mit einer 64-Bit-Ausgabe von Windows neu installieren."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Operating system architecture",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253254",
+          "id": "WN11-00-000005",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.14",
+            "KONF.7.16.1"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1050",
+            "M0950"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Operating system architecture",
+          "note": "Workstations should use the x64 (64-bit) versions of Windows."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-00-000005 (V-253254, CAT II)",
+          "note": "Domain-joined systems must use the 64-bit version."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/winprog64/wow64-implementation-details",
+          "date": "2026-10-18",
+          "note": "PROCESSOR_ARCHITECTURE is AMD64, IA64 or ARM64 for 64-bit processes and x86 for 32-bit processes."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/procthread/environment-variables",
+          "date": "2026-10-18",
+          "note": "System environment variables are stored under HKLM\\System\\CurrentControlSet\\Control\\Session Manager\\Environment (value AMD64 read there read-only on a Windows 11 x64 machine on 2026-10-18)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "x64 machine",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "coverage": [
+            {
+              "root": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment",
+              "recursive": false,
+              "maxDepth": 0,
+              "complete": true,
+              "deniedSubkeys": []
+            }
+          ],
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "PROCESSOR_ARCHITECTURE": {
+                    "t": "sz",
+                    "v": "AMD64"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "ARM64 machine",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "coverage": [
+            {
+              "root": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment",
+              "recursive": false,
+              "maxDepth": 0,
+              "complete": true,
+              "deniedSubkeys": []
+            }
+          ],
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "PROCESSOR_ARCHITECTURE": {
+                    "t": "sz",
+                    "v": "ARM64"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "32-bit Windows",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "coverage": [
+            {
+              "root": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment",
+              "recursive": false,
+              "maxDepth": 0,
+              "complete": true,
+              "deniedSubkeys": []
+            }
+          ],
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "PROCESSOR_ARCHITECTURE": {
+                    "t": "sz",
+                    "v": "x86"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "coverage": [
+            {
+              "root": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment",
+              "recursive": false,
+              "maxDepth": 0,
+              "complete": true,
+              "deniedSubkeys": []
+            }
+          ],
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "OS": {
+                    "t": "sz",
+                    "v": "Windows_NT"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    }
+  ]
+}

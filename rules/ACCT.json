@@ -1,0 +1,2738 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "ACCT",
+  "rules": [
+    {
+      "id": "ACCT-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Minimum password length is at least 14 characters",
+        "de": "Mindestlänge für Kennwörter ist mindestens 14 Zeichen"
+      },
+      "rationale": {
+        "en": "Short passwords are found by guessing and offline cracking within hours. The local password policy must require at least 14 characters (DISA; ACSC recommends 15). Riegel reads the effective policy through the user modals API, otherwise from the security template export.",
+        "de": "Kurze Kennwörter werden durch Raten und Offline-Knacken in Stunden gefunden. Die lokale Kennwortrichtlinie muss mindestens 14 Zeichen verlangen (DISA; ACSC empfiehlt 15). Riegel liest die wirksame Richtlinie über die Benutzer-Modals-API, sonst aus dem Export der Sicherheitsvorlage."
+      },
+      "otNote": {
+        "en": "Shared operator accounts with long passwords are hard to use on touch panels; consider smart cards or separate personal accounts instead of short passwords.",
+        "de": "Gemeinsame Bedienerkonten mit langen Kennwörtern sind an Touchpanels mühsam; besser Smartcards oder persönliche Konten statt kurzer Kennwörter."
+      },
+      "remedy": {
+        "en": "Set \"Minimum password length\" to 14 or more and change existing short passwords.",
+        "de": "„Minimale Kennwortlänge“ auf 14 oder mehr setzen und vorhandene kurze Kennwörter ändern."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "accountPolicy",
+        "field": "minPwLen",
+        "op": "ge",
+        "expected": 14
+      },
+      "remediation": {
+        "securityTemplate": [
+          {
+            "section": "System Access",
+            "key": "MinimumPasswordLength",
+            "value": "14"
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Password and logon authentication policy",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Minimum password length"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253303",
+          "id": "WN11-AC-000035",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254291",
+          "id": "WN22-AC-000070",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.6.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1027",
+            "M0927"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-AC-000035 (V-253303, CAT II)",
+          "note": "Minimum password length must be at least 14 characters."
+        },
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Password and logon authentication policy",
+          "note": "Minimum password length: 15 characters."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/minimum-password-length",
+          "date": "2026-10-18",
+          "note": "Minimum password length setting, 0 to 14 characters without \"Relax minimum password length limits\"."
+        }
+      ],
+      "tests": [
+        {
+          "name": "14 characters",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "minPwLen": 14,
+                "maxPwAgeDays": null,
+                "minPwAgeDays": 0,
+                "pwHistLen": 0,
+                "lockoutThreshold": 5,
+                "lockoutDurationMin": 15,
+                "lockoutWindowMin": 15
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "8 characters",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "minPwLen": 8,
+                "maxPwAgeDays": null,
+                "minPwAgeDays": 0,
+                "pwHistLen": 0,
+                "lockoutThreshold": 5,
+                "lockoutDurationMin": 15,
+                "lockoutWindowMin": 15
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "API not collected, security template 15",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {
+                    "MinimumPasswordLength": "15"
+                  }
+                }
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "API not collected, security template 0",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {
+                    "MinimumPasswordLength": "0"
+                  }
+                }
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "API not collected, template without the key",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "valueMissing",
+              "value": {
+                "sections": {
+                  "System Access": {}
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Nothing collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": false
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "ACCT-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "Passwords are not stored with reversible encryption",
+        "de": "Kennwörter werden nicht umkehrbar verschlüsselt gespeichert"
+      },
+      "rationale": {
+        "en": "Reversible encryption stores passwords in a form that can be turned back into plain text. \"Store passwords using reversible encryption\" must be Disabled. The value is only in the security template export, which needs administrator rights.",
+        "de": "Umkehrbare Verschlüsselung speichert Kennwörter so, dass sie sich in Klartext zurückverwandeln lassen. „Kennwörter mit umkehrbarer Verschlüsselung speichern“ muss deaktiviert sein. Der Wert steht nur im Export der Sicherheitsvorlage, der Administratorrechte braucht."
+      },
+      "remedy": {
+        "en": "Set \"Store passwords using reversible encryption\" to Disabled and change the passwords stored while it was on.",
+        "de": "„Kennwörter mit umkehrbarer Verschlüsselung speichern“ deaktivieren und die in dieser Zeit gespeicherten Kennwörter ändern."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": true,
+      "check": {
+        "type": "accountPolicy",
+        "field": "clearTextPassword",
+        "op": "eq",
+        "expected": 0
+      },
+      "remediation": {
+        "securityTemplate": [
+          {
+            "section": "System Access",
+            "key": "ClearTextPassword",
+            "value": "0"
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Password and logon authentication policy",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Store passwords using reversible encryption"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253305",
+          "id": "WN11-AC-000045",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254293",
+          "id": "WN22-AC-000090",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278040",
+          "id": "WN25-AC-000090",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.5.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1027",
+            "M0927"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Password and logon authentication policy",
+          "note": "Store passwords using reversible encryption: Disabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-AC-000045 (V-253305, CAT I)",
+          "note": "\"Store password using reversible encryption\" must be Disabled."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/store-passwords-using-reversible-encryption",
+          "date": "2026-10-18",
+          "note": "Default on all server types and client computers: Disabled."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Reversible encryption off",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {
+                    "ClearTextPassword": "0"
+                  }
+                }
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Reversible encryption on",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {
+                    "ClearTextPassword": "1"
+                  }
+                }
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Template without the key",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "valueMissing",
+              "value": {
+                "sections": {
+                  "System Access": {
+                    "MinimumPasswordLength": "14"
+                  }
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Template not collected (no administrator rights)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": false
+          },
+          "items": {
+            "parsed:secedit": {
+              "status": "notCollected"
+            },
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "minPwLen": 14,
+                "maxPwAgeDays": null,
+                "minPwAgeDays": 0,
+                "pwHistLen": 0,
+                "lockoutThreshold": 5,
+                "lockoutDurationMin": 15,
+                "lockoutWindowMin": 15
+              }
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "ACCT-06",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Accounts lock after at most 5 failed logons",
+        "de": "Konten sperren nach höchstens 5 Fehlanmeldungen"
+      },
+      "rationale": {
+        "en": "Without a lockout threshold an attacker can try passwords without limit. The threshold must be between 1 and 5 invalid attempts (ACSC; DISA asks for 3 or fewer); 0 means accounts never lock.",
+        "de": "Ohne Sperrschwelle kann ein Angreifer unbegrenzt Kennwörter ausprobieren. Die Schwelle muss zwischen 1 und 5 Fehlversuchen liegen (ACSC; DISA verlangt 3 oder weniger); 0 heißt, Konten sperren nie."
+      },
+      "otNote": {
+        "en": "A locked operator account can stop production. Use personal accounts, a longer threshold agreed with operations, or record an exception with monitoring of failed logons.",
+        "de": "Ein gesperrtes Bedienerkonto kann die Produktion anhalten. Persönliche Konten, eine mit dem Betrieb abgestimmte Schwelle oder eine Ausnahme mit Überwachung der Fehlanmeldungen nutzen."
+      },
+      "remedy": {
+        "en": "Set \"Account lockout threshold\" to 5 or fewer invalid logon attempts.",
+        "de": "„Kontensperrungsschwelle“ auf 5 oder weniger ungültige Anmeldeversuche setzen."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "accountPolicy",
+            "field": "lockoutThreshold",
+            "op": "ge",
+            "expected": 1
+          },
+          {
+            "type": "accountPolicy",
+            "field": "lockoutThreshold",
+            "op": "le",
+            "expected": 5
+          }
+        ]
+      },
+      "remediation": {
+        "securityTemplate": [
+          {
+            "section": "System Access",
+            "key": "LockoutBadCount",
+            "value": "5"
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Account lockout policy",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Account lockout threshold"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253298",
+          "id": "WN11-AC-000010",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254286",
+          "id": "WN22-AC-000020",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278034",
+          "id": "WN25-AC-000020",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.3.10"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1036",
+            "M0936"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Account lockout policy",
+          "note": "Account lockout threshold: 5 invalid logon attempts."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-AC-000010 (V-253298, CAT II)",
+          "note": "A threshold of 0 or more than 3 attempts is a finding."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/account-lockout-threshold",
+          "date": "2026-10-18",
+          "note": "A value of 0 means the account is never locked out."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Threshold 5",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "minPwLen": 14,
+                "maxPwAgeDays": null,
+                "minPwAgeDays": 0,
+                "pwHistLen": 0,
+                "lockoutThreshold": 5,
+                "lockoutDurationMin": 15,
+                "lockoutWindowMin": 15
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Threshold 3",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "minPwLen": 14,
+                "maxPwAgeDays": null,
+                "minPwAgeDays": 0,
+                "pwHistLen": 0,
+                "lockoutThreshold": 3,
+                "lockoutDurationMin": 15,
+                "lockoutWindowMin": 15
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Never locks (0)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "minPwLen": 14,
+                "maxPwAgeDays": null,
+                "minPwAgeDays": 0,
+                "pwHistLen": 0,
+                "lockoutThreshold": 0,
+                "lockoutDurationMin": 15,
+                "lockoutWindowMin": 15
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Threshold 10",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "ok",
+              "value": {
+                "minPwLen": 14,
+                "maxPwAgeDays": null,
+                "minPwAgeDays": 0,
+                "pwHistLen": 0,
+                "lockoutThreshold": 10,
+                "lockoutDurationMin": 15,
+                "lockoutWindowMin": 15
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "API not collected, template 5",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "System Access": {
+                    "LockoutBadCount": "5"
+                  }
+                }
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "API not collected, template without the key",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "valueMissing",
+              "value": {
+                "sections": {
+                  "System Access": {}
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Nothing collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": false
+          },
+          "items": {
+            "api:netusermodals": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "ACCT-10",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "Built-in Guest account is disabled",
+        "de": "Integriertes Gastkonto ist deaktiviert"
+      },
+      "rationale": {
+        "en": "The Guest account lets unauthenticated network users in without a password; every share open to Guests or Everyone becomes reachable. Riegel finds the account by its relative ID 501, so a renamed account is found too.",
+        "de": "Das Gastkonto lässt nicht angemeldete Netzbenutzer ohne Kennwort herein; jede Freigabe für Gäste oder Jeder wird erreichbar. Riegel findet das Konto über seine relative Kennung 501, auch wenn es umbenannt ist."
+      },
+      "remedy": {
+        "en": "Disable the Guest account (\"Accounts: Guest account status\" Disabled).",
+        "de": "Gastkonto deaktivieren („Konten: Gastkontenstatus“ deaktiviert)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "localAccount",
+        "rid": 501,
+        "expect": "disabled"
+      },
+      "remediation": {
+        "securityTemplate": [
+          {
+            "section": "System Access",
+            "key": "EnableGuestAccount",
+            "value": "0"
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Built-in guest accounts",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253433",
+          "id": "WN11-SO-000010",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254445",
+          "id": "WN22-SO-000010",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278195",
+          "id": "WN25-SO-000010",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.3",
+            "BER.4.5"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1018",
+            "M0918"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Built-in guest accounts",
+          "note": "Accounts: Guest account status: Disabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000010 (V-253433, CAT II)",
+          "note": "\"Accounts: Guest account status\" must be Disabled."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/accounts-guest-account-status",
+          "date": "2026-10-18",
+          "note": "Default on all server types and client computers: Disabled."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Guest disabled",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Administrator",
+                    "SID": "S-1-5-21-1000000001-1000000002-1000000003-500",
+                    "Disabled": true,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  },
+                  {
+                    "Name": "Guest",
+                    "SID": "S-1-5-21-1000000001-1000000002-1000000003-501",
+                    "Disabled": true,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Guest enabled",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Administrator",
+                    "SID": "S-1-5-21-1000000001-1000000002-1000000003-500",
+                    "Disabled": true,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  },
+                  {
+                    "Name": "Guest",
+                    "SID": "S-1-5-21-1000000001-1000000002-1000000003-501",
+                    "Disabled": false,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Renamed guest (German locale) disabled",
+          "machine": {
+            "build": 19045,
+            "ubr": 6456,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Gast",
+                    "SID": "S-1-5-21-1000000001-1000000002-1000000003-501",
+                    "Disabled": true,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "WMI not collected, account API shows disabled",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "notCollected"
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Guest",
+                  "sid": "S-1-5-21-1000000001-1000000002-1000000003-501",
+                  "rid": 501,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": null,
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Account list without RID 501",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "valueMissing",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Administrator",
+                    "SID": "S-1-5-21-1000000001-1000000002-1000000003-500",
+                    "Disabled": true,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  }
+                ]
+              }
+            },
+            "api:netuserenum": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Nothing collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "notCollected"
+            },
+            "api:netuserenum": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Domain controller",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "ACCT-11",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Built-in Administrator account is disabled",
+        "de": "Integriertes Administratorkonto ist deaktiviert"
+      },
+      "rationale": {
+        "en": "The built-in Administrator (relative ID 500) has the same well-known SID on every machine and cannot be locked out by default, which makes it the first target of password guessing and pass-the-hash. It is disabled by default on current Windows releases and should stay so. ACSC instead keeps it enabled with a unique, LAPS-managed password; that is a valid compensating control and can be recorded as an exception.",
+        "de": "Der integrierte Administrator (relative Kennung 500) hat auf jedem Rechner dieselbe bekannte SID und wird standardmäßig nicht gesperrt; er ist damit das erste Ziel für Kennwortraten und Pass-the-Hash. Auf aktuellen Windows-Versionen ist er standardmäßig deaktiviert und sollte es bleiben. ACSC lässt ihn stattdessen mit eindeutigem, per LAPS verwaltetem Kennwort aktiv; das ist eine gültige ausgleichende Maßnahme und kann als Ausnahme geführt werden."
+      },
+      "otNote": {
+        "en": "Some vendor service procedures sign in with the built-in Administrator. Give the vendor a personal or managed service account instead, or manage the built-in account with LAPS and record that as compensating control.",
+        "de": "Manche Serviceabläufe von Herstellern melden sich mit dem integrierten Administrator an. Dem Hersteller besser ein persönliches oder verwaltetes Servicekonto geben oder das integrierte Konto mit LAPS verwalten und das als ausgleichende Maßnahme festhalten."
+      },
+      "remedy": {
+        "en": "Disable the built-in Administrator (\"Accounts: Administrator account status\" Disabled) after another administrative account exists.",
+        "de": "Den integrierten Administrator deaktivieren („Konten: Administratorkontostatus“ deaktiviert), sobald ein anderes Administratorkonto existiert."
+      },
+      "suggestedReason": "compensatingControl",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "localAccount",
+        "rid": 500,
+        "expect": "disabled"
+      },
+      "remediation": {
+        "securityTemplate": [
+          {
+            "section": "System Access",
+            "key": "EnableAdminAccount",
+            "value": "0"
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Appendix H: Securing Local Administrator Accounts and Groups",
+          "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-h--securing-local-administrator-accounts-and-groups"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.3",
+            "BER.3.6"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1026",
+            "M0926"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "MicrosoftDocs/windowsserverdocs (CC BY 4.0)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-h--securing-local-administrator-accounts-and-groups",
+          "date": "2026-10-18",
+          "note": "On all supported versions the local Administrator account is disabled by default, which makes it unusable for pass-the-hash; enabled local Administrator accounts can be used to propagate compromise."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/accounts-administrator-account-status",
+          "date": "2026-10-18",
+          "note": "Client computer effective default: Disabled."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Administrator disabled",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Administrator",
+                    "SID": "S-1-5-21-1000000001-1000000002-1000000003-500",
+                    "Disabled": true,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  },
+                  {
+                    "Name": "Guest",
+                    "SID": "S-1-5-21-1000000001-1000000002-1000000003-501",
+                    "Disabled": true,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Administrator enabled",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Administrator",
+                    "SID": "S-1-5-21-1000000001-1000000002-1000000003-500",
+                    "Disabled": false,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  },
+                  {
+                    "Name": "Guest",
+                    "SID": "S-1-5-21-1000000001-1000000002-1000000003-501",
+                    "Disabled": true,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Renamed administrator (German locale) enabled",
+          "machine": {
+            "build": 19045,
+            "ubr": 6456,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Administrator-Anlage",
+                    "SID": "S-1-5-21-1000000001-1000000002-1000000003-500",
+                    "Disabled": false,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "WMI not collected, account API shows disabled",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "notCollected"
+            },
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000000001-1000000002-1000000003-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-01",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Account list without RID 500",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "valueMissing",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Guest",
+                    "SID": "S-1-5-21-1000000001-1000000002-1000000003-501",
+                    "Disabled": true,
+                    "Lockout": false,
+                    "PasswordRequired": true,
+                    "PasswordExpires": false
+                  }
+                ]
+              }
+            },
+            "api:netuserenum": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Nothing collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "notCollected"
+            },
+            "api:netuserenum": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Domain controller",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_UserAccount": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "ACCT-12",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "Accounts with blank passwords can sign in only at the console",
+        "de": "Konten ohne Kennwort können sich nur an der Konsole anmelden"
+      },
+      "rationale": {
+        "en": "A local account with an empty password must never be usable over the network. LimitBlankPasswordUse must be 1, which is the Windows default.",
+        "de": "Ein lokales Konto mit leerem Kennwort darf nie über das Netz nutzbar sein. LimitBlankPasswordUse muss 1 sein, das ist der Windows-Standard."
+      },
+      "remedy": {
+        "en": "Enable \"Accounts: Limit local account use of blank passwords to console logon only\" and give every account a password.",
+        "de": "„Konten: Lokale Kontenverwendung von leeren Kennwörtern auf Konsolenanmeldung beschränken“ aktivieren und jedem Konto ein Kennwort geben."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+        "value": "LimitBlankPasswordUse",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 10240,
+            "value": 1,
+            "source": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/accounts-limit-local-account-use-of-blank-passwords-to-console-logon-only",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+            "value": "LimitBlankPasswordUse",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Password and logon authentication policy",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Accounts: Limit local account use of blank passwords to console logon only"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253434",
+          "id": "WN11-SO-000015",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254446",
+          "id": "WN22-SO-000020",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278196",
+          "id": "WN25-SO-000020",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.6.3",
+            "KONF.5.1"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1027",
+            "M0927"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Password and logon authentication policy",
+          "note": "Accounts: Limit local account use of blank passwords to console logon only: Enabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000015 (V-253434, CAT II)",
+          "note": "Control\\Lsa LimitBlankPasswordUse REG_DWORD 1."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/accounts-limit-local-account-use-of-blank-passwords-to-console-logon-only",
+          "date": "2026-10-18",
+          "note": "Default on all server types and client computers: Enabled."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Limited to console",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LimitBlankPasswordUse": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Blank passwords usable over the network",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LimitBlankPasswordUse": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing on Windows 11 (default on)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "LmCompatibilityLevel": {
+                    "t": "dword",
+                    "v": 5
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "Value missing on Windows 7 (default not documented)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "LmCompatibilityLevel": {
+                    "t": "dword",
+                    "v": 5
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "ACCT-14",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Windows LAPS backs up the local administrator password",
+        "de": "Windows LAPS sichert das lokale Administratorkennwort"
+      },
+      "rationale": {
+        "en": "With the same local administrator password on many machines, one stolen hash opens all of them. Windows LAPS sets a unique password per machine and backs it up to Active Directory (BackupDirectory 2) or Microsoft Entra ID (1). Riegel reads the policy roots in Microsoft's order (CSP, Group Policy, local configuration); a missing setting means Disabled. Microsoft Entra join is not detected in v1, and the deprecated legacy Microsoft LAPS is not recognised (record it as an exception).",
+        "de": "Mit demselben lokalen Administratorkennwort auf vielen Rechnern öffnet ein gestohlener Hash alle. Windows LAPS setzt je Rechner ein eigenes Kennwort und sichert es in Active Directory (BackupDirectory 2) oder Microsoft Entra ID (1). Riegel liest die Richtlinienbereiche in Microsofts Reihenfolge (CSP, Gruppenrichtlinie, lokale Konfiguration); ein fehlender Wert bedeutet deaktiviert. Ein Microsoft-Entra-Beitritt wird in v1 nicht erkannt, und das abgekündigte alte Microsoft LAPS wird nicht erkannt (als Ausnahme führen)."
+      },
+      "otNote": {
+        "en": "Machine builders often need the local administrator password for service visits. With LAPS, read the current password from the directory for the visit instead of sharing one fixed password.",
+        "de": "Anlagenbauer brauchen für Serviceeinsätze oft das lokale Administratorkennwort. Mit LAPS das aktuelle Kennwort für den Einsatz aus dem Verzeichnis lesen, statt ein festes Kennwort weiterzugeben."
+      },
+      "remedy": {
+        "en": "Configure Windows LAPS: System > LAPS > \"Configure password backup directory\" to Active Directory or Microsoft Entra ID.",
+        "de": "Windows LAPS einrichten: System > LAPS > „Kennwortsicherungsverzeichnis konfigurieren“ auf Active Directory oder Microsoft Entra ID."
+      },
+      "suggestedReason": "compensatingControl",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "joined",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registryEffective",
+        "sources": [
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Policies\\LAPS",
+            "value": "BackupDirectory",
+            "origin": "mdm"
+          },
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\LAPS",
+            "value": "BackupDirectory",
+            "origin": "policy"
+          },
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config",
+            "value": "BackupDirectory",
+            "origin": "local"
+          }
+        ],
+        "valueType": "dword",
+        "op": "in",
+        "expected": [
+          1,
+          2
+        ],
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Deploy the Windows LAPS policy (Group Policy or Intune) with a backup directory; Active Directory needs the LAPS schema extension.",
+          "de": "Die Windows-LAPS-Richtlinie (Gruppenrichtlinie oder Intune) mit Sicherungsverzeichnis verteilen; Active Directory braucht die LAPS-Schemaerweiterung."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Local administrator accounts",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Configure password backup directory"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253476",
+          "id": "WN11-SO-000280",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.3.6",
+            "KONF.2.3"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1027",
+            "M1026",
+            "M0927",
+            "M0926"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Local administrator accounts",
+          "note": "Configure password backup directory: Enabled, Active Directory or Azure Active Directory."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "MicrosoftDocs/windowsserverdocs (CC BY 4.0)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/identity/laps/laps-management-policy-settings",
+          "date": "2026-10-18",
+          "note": "Policy roots in order: CSP HKLM\\Software\\Microsoft\\Policies\\LAPS, Group Policy ...\\CurrentVersion\\Policies\\LAPS, local ...\\CurrentVersion\\LAPS\\Config; BackupDirectory 0 Disabled (default), 1 Microsoft Entra, 2 Active Directory."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Group Policy backs up to Active Directory",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Policies\\LAPS": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\LAPS": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "BackupDirectory": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Intune backs up to Microsoft Entra ID",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Policies\\LAPS": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "BackupDirectory": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\LAPS": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Backup disabled by policy",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Policies\\LAPS": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\LAPS": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "BackupDirectory": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No LAPS policy at all",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Policies\\LAPS": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\LAPS": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "CSP root not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Policies\\LAPS": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\LAPS": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "BackupDirectory": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Workgroup machine",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "notApplicable"
+        },
+        {
+          "name": "Domain controller",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "ACCT-15",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "low",
+      "kind": "inventory",
+      "title": {
+        "en": "Members of the local Administrators group (inventory)",
+        "de": "Mitglieder der lokalen Gruppe Administratoren (Bestand)"
+      },
+      "rationale": {
+        "en": "Every member of the local Administrators group controls the machine completely. Riegel lists the members, found by the group's SID, so that the plant owner can review them; vendor service accounts often appear here.",
+        "de": "Jedes Mitglied der lokalen Gruppe Administratoren beherrscht den Rechner vollständig. Riegel listet die Mitglieder, über die SID der Gruppe gefunden, damit der Betreiber sie prüfen kann; Servicekonten von Herstellern tauchen hier oft auf."
+      },
+      "otNote": {
+        "en": "Plant software sometimes requires its operator account to be a local administrator. Ask the vendor for the rights actually needed and record the remaining need as an exception.",
+        "de": "Anlagensoftware verlangt teils, dass ihr Bedienerkonto lokaler Administrator ist. Beim Hersteller die tatsächlich nötigen Rechte erfragen und den verbleibenden Bedarf als Ausnahme festhalten."
+      },
+      "remedy": {
+        "en": "Remove accounts that do not need administrative rights; use separate administrative accounts.",
+        "de": "Konten ohne Bedarf an Administratorrechten entfernen; getrennte Administratorkonten nutzen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "localAdmins",
+        "items": [
+          "api:localgroup:S-1-5-32-544"
+        ]
+      },
+      "remediation": {
+        "manual": {
+          "en": "Review and reduce the members of the local Administrators group.",
+          "de": "Mitglieder der lokalen Gruppe Administratoren prüfen und verringern."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Restricting privileged accounts",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253269",
+          "id": "WN11-00-000070",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254428",
+          "id": "WN22-MS-000010",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278177",
+          "id": "WN25-MS-000010",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.4.4",
+            "BER.3.6"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1026",
+            "M0926"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "Three members",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:localgroup:S-1-5-32-544": {
+              "status": "ok",
+              "value": [
+                {
+                  "sid": "S-1-5-21-1000000001-1000000002-1000000003-500",
+                  "name": "Administrator",
+                  "kind": "user",
+                  "domain": "HMI-TEST"
+                },
+                {
+                  "sid": "S-1-5-21-1000000001-1000000002-1000000003-1001",
+                  "name": "service",
+                  "kind": "user",
+                  "domain": "HMI-TEST"
+                },
+                {
+                  "sid": "S-1-5-21-2000000001-2000000002-2000000003-512",
+                  "name": "Domain Admins",
+                  "kind": "group",
+                  "domain": "EXAMPLE"
+                }
+              ]
+            }
+          },
+          "expect": "info"
+        }
+      ]
+    },
+    {
+      "id": "ACCT-16",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": "No enabled local account has a password that never expires",
+        "de": "Kein aktives lokales Konto hat ein Kennwort ohne Ablauf"
+      },
+      "rationale": {
+        "en": "An account flagged \"Password never expires\" keeps its password regardless of the password policy; such passwords are typically shared and old. DISA requires that no active account carries the flag. ACSC, following current password guidance, does not require periodic expiry at all; a plant that follows ACSC records that as tailoring.",
+        "de": "Ein Konto mit „Kennwort läuft nie ab“ behält sein Kennwort unabhängig von der Kennwortrichtlinie; solche Kennwörter sind meist geteilt und alt. DISA verlangt, dass kein aktives Konto das Kennzeichen trägt. ACSC verlangt nach aktueller Kennwortempfehlung gar keinen regelmäßigen Ablauf; eine Anlage, die ACSC folgt, hält das als Zuschnitt fest."
+      },
+      "otNote": {
+        "en": "Service and autologon accounts of plant software often have non-expiring passwords so that a password change cannot stop production. Document them as exceptions with a manual change interval.",
+        "de": "Dienst- und Autologon-Konten von Anlagensoftware haben oft Kennwörter ohne Ablauf, damit ein Kennwortwechsel die Produktion nicht anhält. Sie als Ausnahme mit manuellem Wechselintervall dokumentieren."
+      },
+      "remedy": {
+        "en": "Clear \"Password never expires\" on active local accounts, or replace service accounts with managed service accounts.",
+        "de": "„Kennwort läuft nie ab“ bei aktiven lokalen Konten entfernen oder Dienstkonten durch verwaltete Dienstkonten ersetzen."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "localAccounts",
+        "condition": "passwordNeverExpires",
+        "enabledOnly": true
+      },
+      "remediation": {
+        "manual": {
+          "en": "Clear the \"Password never expires\" flag on the listed accounts.",
+          "de": "Bei den aufgeführten Konten „Kennwort läuft nie ab“ entfernen."
+        }
+      },
+      "references": [
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253273",
+          "id": "WN11-00-000090",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254258",
+          "id": "WN22-00-000210",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278005",
+          "id": "WN25-00-000210",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.6.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1027",
+            "M0927"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-00-000090 (V-253273, CAT II)",
+          "note": "If \"Password never expires\" is selected for any active account, this is a finding."
+        }
+      ],
+      "tests": [
+        {
+          "name": "All enabled accounts expire",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000000001-1000000002-1000000003-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-01",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "bediener",
+                  "sid": "S-1-5-21-1000000001-1000000002-1000000003-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-01",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Enabled account with never-expiring password",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000000001-1000000002-1000000003-500",
+                  "rid": 500,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-01",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "service",
+                  "sid": "S-1-5-21-1000000001-1000000002-1000000003-1002",
+                  "rid": 1002,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": true,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-01",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No local accounts listed",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": []
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Account API returned no data",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Account API not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Domain controller",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "ACCT-17",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": "No enabled local account is unused",
+        "de": "Kein aktives lokales Konto ist ungenutzt"
+      },
+      "rationale": {
+        "en": "Enabled accounts that nobody uses keep their old passwords and are rarely watched. Riegel lists enabled local accounts without a logon within the plant setting unusedAccountDays (default 90) before the collection; DISA uses 35 days. The built-in Administrator, Guest and DefaultAccount are excluded as in DISA's check.",
+        "de": "Aktive Konten, die niemand nutzt, behalten alte Kennwörter und werden selten beobachtet. Riegel listet aktive lokale Konten ohne Anmeldung innerhalb der Anlageneinstellung unusedAccountDays (Standard 90) vor der Erfassung; DISA nutzt 35 Tage. Der integrierte Administrator, Gast und DefaultAccount sind wie in der DISA-Prüfung ausgenommen."
+      },
+      "otNote": {
+        "en": "Emergency and vendor accounts are used rarely by design. Keep them disabled until needed, or record them as exceptions.",
+        "de": "Notfall- und Herstellerkonten werden bestimmungsgemäß selten genutzt. Sie bis zum Bedarf deaktiviert lassen oder als Ausnahme führen."
+      },
+      "remedy": {
+        "en": "Disable or delete local accounts that are no longer needed.",
+        "de": "Nicht mehr benötigte lokale Konten deaktivieren oder löschen."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "localAccounts",
+        "condition": "unusedDays",
+        "excludeRids": [
+          500,
+          501,
+          503
+        ],
+        "enabledOnly": true
+      },
+      "remediation": {
+        "manual": {
+          "en": "Disable or remove the listed accounts.",
+          "de": "Die aufgeführten Konten deaktivieren oder entfernen."
+        }
+      },
+      "references": [
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-288812",
+          "id": "WN11-00-000065",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254256",
+          "id": "WN22-00-000190",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278003",
+          "id": "WN25-00-000190",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.3.15",
+            "BER.3.9"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1018",
+            "M0918"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-00-000065 (V-288812, CAT III)",
+          "note": "Enabled accounts not logged on within 35 days are a finding, excluding the built-in administrator (RID 500), guest (501), DefaultAccount (503) and the local administrator account."
+        }
+      ],
+      "tests": [
+        {
+          "name": "All enabled accounts used recently",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "bediener",
+                  "sid": "S-1-5-21-1000000001-1000000002-1000000003-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-01",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "Administrator",
+                  "sid": "S-1-5-21-1000000001-1000000002-1000000003-500",
+                  "rid": 500,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2025-01-01",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Enabled account unused since January",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "bediener",
+                  "sid": "S-1-5-21-1000000001-1000000002-1000000003-1001",
+                  "rid": 1001,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-10-01",
+                  "passwordAgeDays": 30
+                },
+                {
+                  "name": "altkonto",
+                  "sid": "S-1-5-21-1000000001-1000000002-1000000003-1002",
+                  "rid": 1002,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2026-01-02",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Enabled account never used",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "neu",
+                  "sid": "S-1-5-21-1000000001-1000000002-1000000003-1003",
+                  "rid": 1003,
+                  "disabled": false,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": null,
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Unused account disabled",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "ok",
+              "value": [
+                {
+                  "name": "altkonto",
+                  "sid": "S-1-5-21-1000000001-1000000002-1000000003-1002",
+                  "rid": 1002,
+                  "disabled": true,
+                  "passwordNotRequired": false,
+                  "passwordNeverExpires": false,
+                  "lockedOut": false,
+                  "lastLogonDate": "2025-01-02",
+                  "passwordAgeDays": 30
+                }
+              ]
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Account API returned no data",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Account API not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:netuserenum": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    }
+  ]
+}

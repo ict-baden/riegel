@@ -1,0 +1,137 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "NETX",
+  "rules": [
+    {
+      "id": "NETX-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "low",
+      "kind": "inventory",
+      "title": {
+        "en": "Wireless network adapters (inventory)",
+        "de": "WLAN-Adapter (Bestand)"
+      },
+      "rationale": {
+        "en": "A wireless adapter on a plant PC can bridge the plant network to a network nobody controls. Riegel lists physical adapters with their medium type and connection state so that unplanned wireless interfaces are visible in the report and the insurer sheet.",
+        "de": "Ein WLAN-Adapter an einem Anlagenrechner kann das Anlagennetz mit einem fremden Netz verbinden. Riegel listet die physischen Adapter mit Medientyp und Verbindungsstatus, damit ungeplante Funkschnittstellen im Bericht und im Versicherer-Blatt sichtbar werden."
+      },
+      "otNote": {
+        "en": "Mobile operator panels and service laptops may need wireless by design; list them in the plant documentation.",
+        "de": "Mobile Bediengeräte und Servicelaptops brauchen teils WLAN; sie in der Anlagendokumentation aufführen."
+      },
+      "remedy": {
+        "en": "Disable or remove wireless adapters that the plant design does not need.",
+        "de": "WLAN-Adapter, die die Anlagenplanung nicht vorsieht, deaktivieren oder ausbauen."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "wireless",
+        "items": [
+          "wmi:root\\cimv2:Win32_NetworkAdapter",
+          "wmi:root\\wmi:MSNdis_PhysicalMediumType"
+        ]
+      },
+      "remediation": {
+        "manual": {
+          "en": "Disable unneeded wireless adapters in Device Manager or the firmware.",
+          "de": "Nicht benötigte WLAN-Adapter im Geräte-Manager oder in der Firmware abschalten."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Bridging networks",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278017",
+          "id": "WN25-00-000332",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "ARCH.3.2",
+            "KONF.2.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1042",
+            "M0806"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "One wired and one wireless adapter",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_NetworkAdapter": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Ethernet",
+                    "NetConnectionStatus": 2,
+                    "GUID": "{A1}",
+                    "NetEnabled": true
+                  },
+                  {
+                    "Name": "Wi-Fi",
+                    "NetConnectionStatus": 7,
+                    "GUID": "{A2}",
+                    "NetEnabled": true
+                  }
+                ]
+              }
+            },
+            "wmi:root\\wmi:MSNdis_PhysicalMediumType": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "InstanceName": "Ethernet",
+                    "NdisPhysicalMediumType": 0,
+                    "Active": true
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "info"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,865 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "UAC",
+  "rules": [
+    {
+      "id": "UAC-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "User Account Control is on",
+        "de": "Benutzerkontensteuerung ist eingeschaltet"
+      },
+      "rationale": {
+        "en": "With EnableLUA = 0 every administrator process runs with full rights without any prompt, and protected mode features that rely on UAC are off. The value must be 1, the Windows default.",
+        "de": "Mit EnableLUA = 0 läuft jeder Administratorprozess ohne Rückfrage mit vollen Rechten, und auf UAC aufbauende Schutzfunktionen sind aus. Der Wert muss 1 sein, der Windows-Standard."
+      },
+      "otNote": {
+        "en": "Some old plant software fails when UAC filters administrator rights. Fix the installation (run elevated once, correct file permissions) instead of turning UAC down.",
+        "de": "Manche alte Anlagensoftware scheitert, wenn UAC Administratorrechte filtert. Besser die Installation korrigieren (einmal erhöht ausführen, Dateirechte richten), statt UAC abzuschwächen."
+      },
+      "remedy": {
+        "en": "Set \"User Account Control: Run all administrators in Admin Approval Mode\" to Enabled and restart.",
+        "de": "„Benutzerkontensteuerung: Alle Administratoren im Administratorbestätigungsmodus ausführen“ aktivieren und neu starten."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+        "value": "EnableLUA",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 10240,
+            "value": 1,
+            "source": "https://learn.microsoft.com/en-us/windows/security/application-security/application-control/user-account-control/settings-and-configuration",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+            "value": "EnableLUA",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Elevating privileges",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "User Account Control: Run all administrators in Admin Approval Mode"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253474",
+          "id": "WN11-SO-000270",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254488",
+          "id": "WN22-SO-000440",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278238",
+          "id": "WN25-SO-000440",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.6.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1052",
+            "M1026",
+            "M0926"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Elevating privileges",
+          "note": "Run all administrators in Admin Approval Mode: Enabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000270 (V-253474, CAT II)",
+          "note": "Policies\\System EnableLUA REG_DWORD 1."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/security/application-security/application-control/user-account-control/settings-and-configuration",
+          "date": "2026-10-18",
+          "note": "Registry value EnableLUA: default 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "EnableLUA = 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableLUA": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "EnableLUA = 0",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableLUA": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing (default 1)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "PromptOnSecureDesktop": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "Value missing on Windows 7 (default not documented)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "PromptOnSecureDesktop": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "UAC-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Administrators are prompted on the secure desktop",
+        "de": "Administratoren werden auf dem sicheren Desktop gefragt"
+      },
+      "rationale": {
+        "en": "The elevation prompt for administrators must appear on the secure desktop, where other programs cannot click it or read what is typed: \"Prompt for credentials on the secure desktop\" (1, ACSC) or \"Prompt for consent on the secure desktop\" (2, DISA). The Windows default (5) elevates Windows binaries silently and fails.",
+        "de": "Die Rückfrage zur Rechteerhöhung für Administratoren muss auf dem sicheren Desktop erscheinen, wo andere Programme sie weder anklicken noch Eingaben mitlesen können: „Aufforderung zu Anmeldeinformationen auf dem sicheren Desktop“ (1, ACSC) oder „Aufforderung zur Zustimmung auf dem sicheren Desktop“ (2, DISA). Der Windows-Standard (5) erhöht Windows-Programme ohne Rückfrage und schlägt fehl."
+      },
+      "remedy": {
+        "en": "Set \"User Account Control: Behavior of the elevation prompt for administrators in Admin Approval Mode\" to \"Prompt for credentials on the secure desktop\".",
+        "de": "„Benutzerkontensteuerung: Verhalten der Benutzeraufforderung mit erhöhten Rechten für Administratoren im Administratorbestätigungsmodus“ auf „Aufforderung zu Anmeldeinformationen auf dem sicheren Desktop“ setzen."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+        "value": "ConsentPromptBehaviorAdmin",
+        "valueType": "dword",
+        "op": "in",
+        "expected": [
+          1,
+          2
+        ],
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 10240,
+            "value": 5,
+            "source": "https://learn.microsoft.com/en-us/windows/security/application-security/application-control/user-account-control/settings-and-configuration",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+            "value": "ConsentPromptBehaviorAdmin",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Elevating privileges",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "User Account Control: Behavior of the elevation prompt for administrators in Admin Approval Mode"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253469",
+          "id": "WN11-SO-000250",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254484",
+          "id": "WN22-SO-000400",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278234",
+          "id": "WN25-SO-000400",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.6.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1052",
+            "M1026",
+            "M0926"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Elevating privileges",
+          "note": "Behavior of the elevation prompt for administrators in Admin Approval Mode: Prompt for credentials on the secure desktop."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000250 (V-253469, CAT II)",
+          "note": "Policies\\System ConsentPromptBehaviorAdmin REG_DWORD 2 (consent on the secure desktop); WN22-SO-000400 accepts 1 or 2."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/security/application-security/application-control/user-account-control/settings-and-configuration",
+          "date": "2026-10-18",
+          "note": "Registry value ConsentPromptBehaviorAdmin: default 5 (Prompt for consent for non-Windows binaries); 1 credentials, 2 consent on the secure desktop."
+        }
+      ],
+      "tests": [
+        {
+          "name": "ConsentPromptBehaviorAdmin = 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "ConsentPromptBehaviorAdmin": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "ConsentPromptBehaviorAdmin = 0",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "ConsentPromptBehaviorAdmin": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Consent on the secure desktop (2)",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "ConsentPromptBehaviorAdmin": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Elevate without prompting (0)",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "ConsentPromptBehaviorAdmin": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing (default 5)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "PromptOnSecureDesktop": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing on Windows 7 (default not documented)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "PromptOnSecureDesktop": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "UAC-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "accounts",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Admin Approval Mode applies to the built-in Administrator",
+        "de": "Administratorbestätigungsmodus gilt für den integrierten Administrator"
+      },
+      "rationale": {
+        "en": "Without Admin Approval Mode the built-in Administrator runs every program with full rights and no prompt. FilterAdministratorToken must be 1; the Windows default (0) fails.",
+        "de": "Ohne Administratorbestätigungsmodus führt der integrierte Administrator jedes Programm ohne Rückfrage mit vollen Rechten aus. FilterAdministratorToken muss 1 sein; der Windows-Standard (0) schlägt fehl."
+      },
+      "otNote": {
+        "en": "Some old plant software fails when UAC filters administrator rights. Fix the installation (run elevated once, correct file permissions) instead of turning UAC down.",
+        "de": "Manche alte Anlagensoftware scheitert, wenn UAC Administratorrechte filtert. Besser die Installation korrigieren (einmal erhöht ausführen, Dateirechte richten), statt UAC abzuschwächen."
+      },
+      "remedy": {
+        "en": "Set \"User Account Control: Admin Approval Mode for the Built-in Administrator account\" to Enabled.",
+        "de": "„Benutzerkontensteuerung: Administratorbestätigungsmodus für das integrierte Administratorkonto“ aktivieren."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+        "value": "FilterAdministratorToken",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 10240,
+            "value": 0,
+            "source": "https://learn.microsoft.com/en-us/windows/security/application-security/application-control/user-account-control/settings-and-configuration",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+            "value": "FilterAdministratorToken",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Elevating privileges",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "User Account Control: Admin Approval Mode for the Built-in Administrator account"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253468",
+          "id": "WN11-SO-000245",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254482",
+          "id": "WN22-SO-000380",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278232",
+          "id": "WN25-SO-000380",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.6.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1052",
+            "M1026",
+            "M0926"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Elevating privileges",
+          "note": "Admin Approval Mode for the Built-in Administrator account: Enabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000245 (V-253468, CAT II)",
+          "note": "Policies\\System FilterAdministratorToken REG_DWORD 1."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/security/application-security/application-control/user-account-control/settings-and-configuration",
+          "date": "2026-10-18",
+          "note": "Registry value FilterAdministratorToken: default 0."
+        }
+      ],
+      "tests": [
+        {
+          "name": "FilterAdministratorToken = 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "FilterAdministratorToken": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "FilterAdministratorToken = 0",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "FilterAdministratorToken": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing (default 0)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "PromptOnSecureDesktop": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing on Windows 7 (default not documented)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "PromptOnSecureDesktop": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4848 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "CRED",
+  "rules": [
+    {
+      "id": "CRED-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "LAN Manager hashes are not stored",
+        "de": "LAN-Manager-Hashes werden nicht gespeichert"
+      },
+      "rationale": {
+        "en": "The LAN Manager hash of a password can be cracked within minutes. With NoLMHash = 1 Windows stores no LM hash at the next password change; existing hashes disappear only after the password has been changed.",
+        "de": "Der LAN-Manager-Hash eines Kennworts lässt sich in Minuten knacken. Mit NoLMHash = 1 speichert Windows beim nächsten Kennwortwechsel keinen LM-Hash mehr; vorhandene Hashes verschwinden erst nach einem Kennwortwechsel."
+      },
+      "remedy": {
+        "en": "Enable \"Network security: Do not store LAN Manager hash value on next password change\" and have users change their passwords.",
+        "de": "„Netzwerksicherheit: Keine LAN Manager-Hashwerte für nächste Kennwortänderung speichern“ aktivieren und Kennwörter ändern lassen."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+        "value": "NoLMHash",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 10240,
+            "value": 1,
+            "source": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-security-do-not-store-lan-manager-hash-value-on-next-password-change",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+            "value": "NoLMHash",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "NoLMHash policy",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253461",
+          "id": "WN11-SO-000195",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254474",
+          "id": "WN22-SO-000300",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.5.4",
+            "KONF.2.2"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1027",
+            "M1028",
+            "M0927",
+            "M0928"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "NoLMHash policy",
+          "note": "Network security: Do not store LAN Manager hash value on next password change: Enabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000195 (V-253461, CAT I)",
+          "note": "Control\\Lsa NoLMHash REG_DWORD 1."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-security-do-not-store-lan-manager-hash-value-on-next-password-change",
+          "date": "2026-10-18",
+          "note": "Default on all server types and client computers: Enabled."
+        }
+      ],
+      "tests": [
+        {
+          "name": "NoLMHash = 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NoLMHash": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "NoLMHash = 0",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NoLMHash": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing on Windows 11 (documented default)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "Other": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "Value missing on Windows 7 (default not documented)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "Other": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": false
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "CRED-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "Only NTLMv2 is sent and LM and NTLM are refused",
+        "de": "Nur NTLMv2 wird gesendet, LM und NTLM werden abgelehnt"
+      },
+      "rationale": {
+        "en": "LM and NTLMv1 responses can be cracked or relayed easily. Level 5 (\"Send NTLMv2 response only. Refuse LM & NTLM\") makes the machine send only NTLMv2 and refuse the older protocols. A missing value is a finding, because the Windows default (level 3) still accepts LM and NTLM.",
+        "de": "LM- und NTLMv1-Antworten lassen sich leicht knacken oder weiterleiten. Stufe 5 („Nur NTLMv2-Antworten senden. LM & NTLM verweigern“) lässt den Rechner nur NTLMv2 senden und die alten Verfahren ablehnen. Ein fehlender Wert ist ein Befund, weil der Windows-Standard (Stufe 3) LM und NTLM noch annimmt."
+      },
+      "otNote": {
+        "en": "Legacy devices, NAS boxes and old engineering software may still authenticate with NTLMv1. Find them with NTLM auditing first and record exceptions for what cannot be updated.",
+        "de": "Alte Geräte, NAS-Boxen und alte Engineering-Software melden sich teils noch mit NTLMv1 an. Diese zuerst mit NTLM-Überwachung finden und für Nicht-Aktualisierbares Ausnahmen anlegen."
+      },
+      "remedy": {
+        "en": "Set \"Network security: LAN Manager authentication level\" to \"Send NTLMv2 response only. Refuse LM & NTLM\".",
+        "de": "„Netzwerksicherheit: LAN Manager-Authentifizierungsebene“ auf „Nur NTLMv2-Antworten senden. LM & NTLM verweigern“ setzen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+        "value": "LmCompatibilityLevel",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 5,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+            "value": "LmCompatibilityLevel",
+            "type": "dword",
+            "data": 5
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Network authentication",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Network security: LAN Manager authentication level"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253462",
+          "id": "WN11-SO-000205",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254475",
+          "id": "WN22-SO-000310",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278225",
+          "id": "WN25-SO-000310",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.2",
+            "BER.5.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1028",
+            "M0928"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Network authentication",
+          "note": "Network security: LAN Manager authentication level: Send NTLMv2 response only. Refuse LM & NTLM."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000205 (V-253462, CAT I)",
+          "note": "Control\\Lsa LmCompatibilityLevel REG_DWORD 5."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-security-lan-manager-authentication-level",
+          "date": "2026-10-18",
+          "note": "Registry security level 5 = Send NTLMv2 response only. Refuse LM & NTLM; location HKLM\\System\\CurrentControlSet\\Control\\Lsa\\LmCompatibilityLevel; effective default on servers: Send NTLMv2 response only (3)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "LmCompatibilityLevel = 5",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LmCompatibilityLevel": {
+                    "t": "dword",
+                    "v": 5
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "LmCompatibilityLevel = 0",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LmCompatibilityLevel": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "Other": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": false
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Level 3 (Windows default behaviour)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LmCompatibilityLevel": {
+                    "t": "dword",
+                    "v": 3
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        }
+      ]
+    },
+    {
+      "id": "CRED-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "NTLM sessions as client require NTLMv2 session security and 128-bit encryption",
+        "de": "NTLM-Sitzungen als Client verlangen NTLMv2-Sitzungssicherheit und 128-Bit-Verschlüsselung"
+      },
+      "rationale": {
+        "en": "For NTLM-based connections (clients) Windows can insist on NTLMv2 session security and 128-bit encryption (bits 0x00080000 and 0x20000000, together 537395200). Both bits must be set; the Windows default requires 128-bit encryption only.",
+        "de": "Für NTLM-basierte Verbindungen (Clients) kann Windows NTLMv2-Sitzungssicherheit und 128-Bit-Verschlüsselung verlangen (Bits 0x00080000 und 0x20000000, zusammen 537395200). Beide Bits müssen gesetzt sein; der Windows-Standard verlangt nur die 128-Bit-Verschlüsselung."
+      },
+      "otNote": {
+        "en": "Very old NTLM implementations in embedded devices may not negotiate NTLMv2 session security; test the connections first.",
+        "de": "Sehr alte NTLM-Implementierungen in eingebetteten Geräten handeln die NTLMv2-Sitzungssicherheit teils nicht aus; die Verbindungen vorher testen."
+      },
+      "remedy": {
+        "en": "Set \"Network security: Minimum session security for NTLM SSP based (including secure RPC) clients\" to require NTLMv2 session security and 128-bit encryption.",
+        "de": "„Netzwerksicherheit: Minimale Sitzungssicherheit für NTLM-SSP-basierte (einschließlich sicherer RPC-) Clients“ auf NTLMv2-Sitzungssicherheit und 128-Bit-Verschlüsselung setzen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0",
+        "value": "NTLMMinClientSec",
+        "valueType": "dword",
+        "op": "bitsSet",
+        "expected": 537395200,
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 10240,
+            "value": 536870912,
+            "source": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-security-minimum-session-security-for-ntlm-ssp-based-including-secure-rpc-clients",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0",
+            "value": "NTLMMinClientSec",
+            "type": "dword",
+            "data": 537395200
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Network authentication",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Network security: Minimum session security for NTLM SSP based (including secure RPC) clients"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253464",
+          "id": "WN11-SO-000215",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254477",
+          "id": "WN22-SO-000330",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278227",
+          "id": "WN25-SO-000330",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.2"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0941"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Network authentication",
+          "note": "Minimum session security for NTLM SSP based clients: Require NTLMv2 session security, Require 128-bit encryption."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000215 (V-253464, CAT II)",
+          "note": "Control\\Lsa\\MSV1_0 NTLMMinClientSec REG_DWORD 0x20080000 (537395200)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-security-minimum-session-security-for-ntlm-ssp-based-including-secure-rpc-clients",
+          "date": "2026-10-18",
+          "note": "Default on all server types and client computers: Require 128-bit encryption (0x20000000 = 536870912)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Both bits set",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NTLMMinClientSec": {
+                    "t": "dword",
+                    "v": 537395200
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Only 128-bit encryption",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NTLMMinClientSec": {
+                    "t": "dword",
+                    "v": 536870912
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No requirement",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NTLMMinClientSec": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing on Windows 11 (default 128-bit only)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "AuditReceivingNTLMTraffic": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing on Windows 7 (default not documented)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "AuditReceivingNTLMTraffic": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "CRED-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "NTLM sessions as server require NTLMv2 session security and 128-bit encryption",
+        "de": "NTLM-Sitzungen als Server verlangen NTLMv2-Sitzungssicherheit und 128-Bit-Verschlüsselung"
+      },
+      "rationale": {
+        "en": "For NTLM-based connections (servers) Windows can insist on NTLMv2 session security and 128-bit encryption (bits 0x00080000 and 0x20000000, together 537395200). Both bits must be set; the Windows default requires 128-bit encryption only.",
+        "de": "Für NTLM-basierte Verbindungen (Server) kann Windows NTLMv2-Sitzungssicherheit und 128-Bit-Verschlüsselung verlangen (Bits 0x00080000 und 0x20000000, zusammen 537395200). Beide Bits müssen gesetzt sein; der Windows-Standard verlangt nur die 128-Bit-Verschlüsselung."
+      },
+      "otNote": {
+        "en": "Very old NTLM implementations in embedded devices may not negotiate NTLMv2 session security; test the connections first.",
+        "de": "Sehr alte NTLM-Implementierungen in eingebetteten Geräten handeln die NTLMv2-Sitzungssicherheit teils nicht aus; die Verbindungen vorher testen."
+      },
+      "remedy": {
+        "en": "Set \"Network security: Minimum session security for NTLM SSP based (including secure RPC) servers\" to require NTLMv2 session security and 128-bit encryption.",
+        "de": "„Netzwerksicherheit: Minimale Sitzungssicherheit für NTLM-SSP-basierte (einschließlich sicherer RPC-) Server“ auf NTLMv2-Sitzungssicherheit und 128-Bit-Verschlüsselung setzen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0",
+        "value": "NTLMMinServerSec",
+        "valueType": "dword",
+        "op": "bitsSet",
+        "expected": 537395200,
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 10240,
+            "value": 536870912,
+            "source": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-security-minimum-session-security-for-ntlm-ssp-based-including-secure-rpc-servers",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0",
+            "value": "NTLMMinServerSec",
+            "type": "dword",
+            "data": 537395200
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Network authentication",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Network security: Minimum session security for NTLM SSP based (including secure RPC) servers"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253465",
+          "id": "WN11-SO-000220",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254478",
+          "id": "WN22-SO-000340",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278228",
+          "id": "WN25-SO-000340",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.2"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0941"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Network authentication",
+          "note": "Minimum session security for NTLM SSP based servers: Require NTLMv2 session security, Require 128-bit encryption."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000220 (V-253465, CAT II)",
+          "note": "Control\\Lsa\\MSV1_0 NTLMMinServerSec REG_DWORD 0x20080000 (537395200)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-security-minimum-session-security-for-ntlm-ssp-based-including-secure-rpc-servers",
+          "date": "2026-10-18",
+          "note": "Default on all server types and client computers: Require 128-bit encryption (0x20000000 = 536870912)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Both bits set",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NTLMMinServerSec": {
+                    "t": "dword",
+                    "v": 537395200
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Only 128-bit encryption",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NTLMMinServerSec": {
+                    "t": "dword",
+                    "v": 536870912
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No requirement",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NTLMMinServerSec": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing on Windows 11 (default 128-bit only)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "AuditReceivingNTLMTraffic": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing on Windows 7 (default not documented)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "AuditReceivingNTLMTraffic": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\MSV1_0": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "CRED-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "WDigest does not keep plaintext credentials",
+        "de": "WDigest hält keine Klartext-Anmeldedaten vor"
+      },
+      "rationale": {
+        "en": "With WDigest caching enabled, LSASS keeps the plaintext password of every interactive logon in memory, where credential dumping tools read it. UseLogonCredential must be 0. Riegel expects the value to be set explicitly, as DISA does, so that a later change is visible.",
+        "de": "Ist das WDigest-Zwischenspeichern aktiv, hält LSASS das Klartextkennwort jeder interaktiven Anmeldung im Speicher, wo Werkzeuge zum Auslesen von Anmeldedaten es finden. UseLogonCredential muss 0 sein. Riegel erwartet den Wert wie DISA ausdrücklich gesetzt, damit eine spätere Änderung sichtbar wird."
+      },
+      "remedy": {
+        "en": "Set UseLogonCredential = 0 (MS Security Guide policy \"WDigest Authentication\" Disabled; on Windows 7 and Server 2008 R2 install KB2871997 first).",
+        "de": "UseLogonCredential = 0 setzen (Richtlinie „WDigest Authentication“ des MS Security Guide deaktiviert; unter Windows 7 und Server 2008 R2 zuvor KB2871997 installieren)."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest",
+        "value": "UseLogonCredential",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 0,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest",
+            "value": "UseLogonCredential",
+            "type": "dword",
+            "data": 0
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Credential protection",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253358",
+          "id": "WN11-CC-000038",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254334",
+          "id": "WN22-CC-000020",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.3.20"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1043",
+            "M1028",
+            "M0928"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Credential protection",
+          "note": "WDigest Authentication (disabling may require KB2871997): Disabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-CC-000038 (V-253358, CAT II)",
+          "note": "SecurityProviders\\Wdigest UseLogonCredential REG_DWORD 0; a missing value is a finding."
+        }
+      ],
+      "tests": [
+        {
+          "name": "WDigest caching off",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UseLogonCredential": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "WDigest caching on",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UseLogonCredential": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value not set",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "Debuglevel": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Key missing",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\WDigest": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "CRED-06",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "LSA protection is running",
+        "de": "LSA-Schutz ist aktiv"
+      },
+      "rationale": {
+        "en": "LSA protection runs LSASS as a protected process, so that non-protected processes cannot read its memory or inject code. Riegel accepts only evidence that LSASS actually runs protected: the protection level of the process (with --deep) or Wininit event 12 since the last boot. A RunAsPPL value alone is reported as \"configured, effect not proven\". Windows releases before 8.1 and Server 2012 R2 do not offer the feature, which counts as a gap.",
+        "de": "Der LSA-Schutz startet LSASS als geschützten Prozess; ungeschützte Prozesse können dann weder seinen Speicher lesen noch Code einschleusen. Riegel akzeptiert nur den Nachweis, dass LSASS tatsächlich geschützt läuft: die Schutzstufe des Prozesses (mit --deep) oder das Wininit-Ereignis 12 seit dem letzten Start. Ein RunAsPPL-Wert allein wird als „konfiguriert, Wirkung nicht nachgewiesen“ gemeldet. Versionen vor 8.1 und Server 2012 R2 bieten die Funktion nicht; das zählt als Lücke."
+      },
+      "otNote": {
+        "en": "Plug-ins that load into LSASS (smart card or token middleware, some vendor authentication modules) must be signed for LSA protection; check the CodeIntegrity audit events first.",
+        "de": "Erweiterungen, die in LSASS geladen werden (Smartcard- oder Token-Middleware, manche Anmeldemodule von Herstellern), müssen für den LSA-Schutz signiert sein; vorher die CodeIntegrity-Überwachungsereignisse prüfen."
+      },
+      "remedy": {
+        "en": "Enable \"Configure LSASS to run as a protected process\" (System > Local Security Authority), preferably with UEFI lock, and restart.",
+        "de": "„LSASS als geschützten Prozess ausführen“ (System > Lokale Sicherheitsautorität) aktivieren, möglichst mit UEFI-Sperre, und neu starten."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "lsaPpl",
+        "ifCapabilityAbsent": "fail"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "lsaProtection"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+            "value": "RunAsPPL",
+            "type": "dword",
+            "data": 1
+          }
+        ],
+        "manual": {
+          "en": "Restart after setting RunAsPPL; verify Wininit event 12.",
+          "de": "Nach dem Setzen von RunAsPPL neu starten; Wininit-Ereignis 12 prüfen."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Credential protection",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Configures LSASS to run as a protected process"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.3.20"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1025",
+            "M1043"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Credential protection",
+          "note": "Configure LSASS to run as a protected process: Enabled with UEFI Lock."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "MicrosoftDocs/windowsserverdocs (CC BY 4.0)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/configuring-additional-lsa-protection",
+          "date": "2026-10-18",
+          "note": "Windows 8.1 / Server 2012 R2 and later; RunAsPPL 1 (UEFI lock) or 2 (without lock, Windows 11 22H2 and later); WinInit event 12 \"LSASS.exe was started as a protected process with level: 4\"."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Process protection level PPL with LSA signer (--deep)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "ok",
+              "value": {
+                "protectionByte": 65,
+                "type": "light",
+                "signer": 4
+              }
+            },
+            "evt:system:wininit-12": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Process not protected (--deep)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "ok",
+              "value": {
+                "protectionByte": 0,
+                "type": "none",
+                "signer": 0
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RunAsPPL": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Wininit event 12 since the last boot",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "notCollected"
+            },
+            "evt:system:wininit-12": {
+              "status": "ok",
+              "value": {
+                "found": true,
+                "timeCreatedUtc": "2026-10-15T06:01:10Z",
+                "eventData": [
+                  "4"
+                ],
+                "bootTimeUtc": "2026-10-15T06:00:00Z"
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "No event since the last boot and no configuration",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "notCollected"
+            },
+            "evt:system:wininit-12": {
+              "status": "ok",
+              "value": {
+                "found": false,
+                "bootTimeUtc": "2026-10-15T06:00:00Z"
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "LmCompatibilityLevel": {
+                    "t": "dword",
+                    "v": 5
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Only configured (RunAsPPL = 2), runtime not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "notCollected"
+            },
+            "evt:system:wininit-12": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RunAsPPL": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable",
+          "expectFlags": [
+            "configuredOnly"
+          ]
+        },
+        {
+          "name": "Nothing collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "notCollected"
+            },
+            "evt:system:wininit-12": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Windows 7: feature does not exist",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsass-protection": {
+              "status": "notCollected"
+            },
+            "evt:system:wininit-12": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "fail"
+        }
+      ]
+    },
+    {
+      "id": "CRED-07",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Credential Guard is running",
+        "de": "Credential Guard läuft"
+      },
+      "rationale": {
+        "en": "Credential Guard moves NTLM hashes and Kerberos tickets into an isolated VBS environment that malware with administrator rights cannot read. Riegel counts only the running service (SecurityServicesRunning contains 1); configured but not running fails. On releases without Credential Guard the rule fails as a gap; edition requirements (Enterprise, Education, Pro Education/SE) are not modelled, so other editions fail as not running.",
+        "de": "Credential Guard verlagert NTLM-Hashes und Kerberos-Tickets in eine isolierte VBS-Umgebung, die Schadcode mit Administratorrechten nicht lesen kann. Riegel zählt nur den laufenden Dienst (SecurityServicesRunning enthält 1); konfiguriert, aber nicht laufend schlägt fehl. Auf Versionen ohne Credential Guard schlägt die Regel als Lücke fehl; Editionsvoraussetzungen (Enterprise, Education, Pro Education/SE) sind nicht abgebildet, andere Editionen scheitern daher als „läuft nicht“."
+      },
+      "otNote": {
+        "en": "Credential Guard needs VBS-compatible drivers and blocks NTLMv1, MS-CHAPv2 and unconstrained delegation. Drivers of fieldbus cards and older engineering tools are the usual blockers; test on a reference machine.",
+        "de": "Credential Guard braucht VBS-taugliche Treiber und sperrt NTLMv1, MS-CHAPv2 und uneingeschränkte Delegierung. Treiber von Feldbuskarten und ältere Engineering-Werkzeuge sind die üblichen Hindernisse; an einem Referenzrechner testen."
+      },
+      "remedy": {
+        "en": "Enable \"Turn On Virtualization Based Security\" with Credential Guard (System > Device Guard) on supported hardware and edition, then restart.",
+        "de": "„Virtualisierungsbasierte Sicherheit aktivieren“ mit Credential Guard (System > Device Guard) auf geeigneter Hardware und Edition einschalten, dann neu starten."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "credentialGuard",
+        "ifCapabilityAbsent": "fail"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "deviceGuard",
+        "service": "credentialGuard",
+        "requireRunning": true
+      },
+      "remediation": {
+        "manual": {
+          "en": "Enable Credential Guard by Group Policy or Intune; hardware, firmware and edition must support it.",
+          "de": "Credential Guard per Gruppenrichtlinie oder Intune aktivieren; Hardware, Firmware und Edition müssen es unterstützen."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Credential protection",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Turn On Virtualization Based Security"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253370",
+          "id": "WN11-CC-000075",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254441",
+          "id": "WN22-MS-000140",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278190",
+          "id": "WN25-MS-000140",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.3.20"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1043"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Credential protection",
+          "note": "Turn On Virtualization Based Security: Credential Guard Configuration: Enabled with UEFI lock."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-CC-000075 (V-253370, CAT I)",
+          "note": "Win32_DeviceGuard SecurityServicesRunning must include 1; the registry value alone does not ensure function."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/security/hardware-security/enable-virtualization-based-protection-of-code-integrity",
+          "date": "2026-10-18",
+          "note": "SecurityServicesRunning value 1: Credential Guard is running."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/security/identity-protection/credential-guard/",
+          "date": "2026-10-18",
+          "note": "Editions: Windows Enterprise, Education, Pro Education/SE; Windows Server 2016 and later."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Credential Guard running",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesConfigured": [
+                      1,
+                      2
+                    ],
+                    "SecurityServicesRunning": [
+                      1,
+                      2
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Configured but not running",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesConfigured": [
+                      1,
+                      2
+                    ],
+                    "SecurityServicesRunning": [
+                      2
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Not configured, no Device Guard policy",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 0,
+                    "SecurityServicesConfigured": [],
+                    "SecurityServicesRunning": []
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Device Guard namespace missing although the release has it",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Windows 7: feature does not exist",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "fail"
+        }
+      ]
+    },
+    {
+      "id": "CRED-08",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Virtualization-based security is running",
+        "de": "Virtualisierungsbasierte Sicherheit läuft"
+      },
+      "rationale": {
+        "en": "Virtualization-based security (VBS) is the isolated environment that Credential Guard and memory integrity build on. Riegel requires VirtualizationBasedSecurityStatus 2 (enabled and running); 1 (enabled, not running) fails. Releases without VBS fail as a gap.",
+        "de": "Virtualisierungsbasierte Sicherheit (VBS) ist die isolierte Umgebung, auf der Credential Guard und Speicherintegrität aufsetzen. Riegel verlangt VirtualizationBasedSecurityStatus 2 (aktiviert und laufend); 1 (aktiviert, läuft nicht) schlägt fehl. Versionen ohne VBS schlagen als Lücke fehl."
+      },
+      "otNote": {
+        "en": "VBS needs a 64-bit CPU with virtualization extensions and SLAT enabled in the firmware; older industrial PCs and some hypervisors do not offer it.",
+        "de": "VBS braucht eine 64-Bit-CPU mit Virtualisierungserweiterungen und SLAT, in der Firmware eingeschaltet; ältere Industrie-PCs und manche Hypervisoren bieten das nicht."
+      },
+      "remedy": {
+        "en": "Enable virtualization extensions in the firmware and \"Turn On Virtualization Based Security\", then restart.",
+        "de": "Virtualisierungserweiterungen in der Firmware und „Virtualisierungsbasierte Sicherheit aktivieren“ einschalten, dann neu starten."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "vbs",
+        "ifCapabilityAbsent": "fail"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "deviceGuard",
+        "service": "vbs",
+        "requireRunning": true
+      },
+      "remediation": {
+        "manual": {
+          "en": "Enable VBS by Group Policy or Intune after checking hardware readiness.",
+          "de": "VBS nach Prüfung der Hardware per Gruppenrichtlinie oder Intune aktivieren."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Credential protection",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Turn On Virtualization Based Security"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253369",
+          "id": "WN11-CC-000070",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254343",
+          "id": "WN22-CC-000110",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278090",
+          "id": "WN25-CC-000110",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.14",
+            "KONF.7.16.1"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1043",
+            "M1050",
+            "M0950"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Credential protection",
+          "note": "Turn On Virtualization Based Security: Enabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-CC-000070 (V-253369, CAT II)",
+          "note": "VirtualizationBasedSecurityStatus must be 2 (running)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/security/hardware-security/enable-virtualization-based-protection-of-code-integrity",
+          "date": "2026-10-18",
+          "note": "VirtualizationBasedSecurityStatus: 0 not enabled, 1 enabled but not running, 2 enabled and running; Win32_DeviceGuard exists on Windows 10, Windows 11 and Windows Server 2016 and later."
+        }
+      ],
+      "tests": [
+        {
+          "name": "VBS running",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesConfigured": [
+                      2
+                    ],
+                    "SecurityServicesRunning": [
+                      2
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "VBS enabled but not running",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 1,
+                    "SecurityServicesConfigured": [
+                      2
+                    ],
+                    "SecurityServicesRunning": []
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "VBS off, no Device Guard policy",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 0,
+                    "SecurityServicesConfigured": [],
+                    "SecurityServicesRunning": []
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Namespace missing although the release has VBS",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Windows 7: feature does not exist",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "fail"
+        }
+      ]
+    },
+    {
+      "id": "CRED-09",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Memory integrity (HVCI) is running",
+        "de": "Speicherintegrität (HVCI) läuft"
+      },
+      "rationale": {
+        "en": "Memory integrity checks kernel-mode code in the VBS environment and blocks unsigned or tampered drivers. Riegel requires SecurityServicesRunning to contain 2; configured but not running fails. Releases without the feature fail as a gap.",
+        "de": "Die Speicherintegrität prüft Kernelcode in der VBS-Umgebung und blockiert unsignierte oder veränderte Treiber. Riegel verlangt, dass SecurityServicesRunning 2 enthält; konfiguriert, aber nicht laufend schlägt fehl. Versionen ohne die Funktion schlagen als Lücke fehl."
+      },
+      "otNote": {
+        "en": "Kernel drivers of interface cards, dongles and some protection software are often not HVCI-compatible. Check the driver list with the vendor before switching it on.",
+        "de": "Kerneltreiber von Schnittstellenkarten, Dongles und mancher Schutzsoftware sind oft nicht HVCI-tauglich. Die Treiberliste vor dem Einschalten mit dem Hersteller klären."
+      },
+      "remedy": {
+        "en": "Turn on Memory integrity (Windows Security > Device security > Core isolation) or the corresponding Device Guard policy, then restart.",
+        "de": "Speicherintegrität einschalten (Windows-Sicherheit > Gerätesicherheit > Kernisolierung) oder die entsprechende Device-Guard-Richtlinie setzen, dann neu starten."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "hvci",
+        "ifCapabilityAbsent": "fail"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "deviceGuard",
+        "service": "hvci",
+        "requireRunning": true
+      },
+      "remediation": {
+        "manual": {
+          "en": "Enable memory integrity after checking driver compatibility.",
+          "de": "Speicherintegrität nach Prüfung der Treiber einschalten."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Credential protection",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Turn On Virtualization Based Security"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253371",
+          "id": "WN11-CC-000080",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.14",
+            "KONF.7.16.1"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1050",
+            "M1038",
+            "M0950",
+            "M0938"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Credential protection",
+          "note": "Virtualization Based Protection of Code Integrity: Enabled with UEFI lock."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-CC-000080 (V-253371, CAT II)",
+          "note": "SecurityServicesRunning must include 2 (hypervisor-enforced code integrity)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/security/hardware-security/enable-virtualization-based-protection-of-code-integrity",
+          "date": "2026-10-18",
+          "note": "SecurityServicesRunning value 2: memory integrity is running."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Memory integrity running",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesConfigured": [
+                      2
+                    ],
+                    "SecurityServicesRunning": [
+                      2,
+                      7
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Configured but not running",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesConfigured": [
+                      2
+                    ],
+                    "SecurityServicesRunning": []
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Not configured, no Device Guard policy",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 0,
+                    "SecurityServicesConfigured": [],
+                    "SecurityServicesRunning": []
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Namespace missing although the release has it",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Windows 8.1: feature does not exist",
+          "machine": {
+            "build": 9600,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "fail"
+        }
+      ]
+    },
+    {
+      "id": "CRED-10",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": "Few domain logons are cached",
+        "de": "Wenige Domänenanmeldungen werden zwischengespeichert"
+      },
+      "rationale": {
+        "en": "Cached domain logons let users sign in without a domain controller, but the cached verifiers can be extracted and attacked offline. Riegel expects at most 4 cached logons (DISA for member servers; ACSC recommends 1 for workstations). The Windows default of 10 fails.",
+        "de": "Zwischengespeicherte Domänenanmeldungen erlauben die Anmeldung ohne Domänencontroller, die gespeicherten Prüfwerte lassen sich aber auslesen und offline angreifen. Riegel erwartet höchstens 4 gespeicherte Anmeldungen (DISA für Mitgliedsserver; ACSC empfiehlt 1 für Arbeitsplätze). Der Windows-Standard von 10 schlägt fehl."
+      },
+      "otNote": {
+        "en": "Operator stations must still accept a logon when the link to the domain controller fails. Keep enough cached logons for the shift accounts and document the number.",
+        "de": "Bedienstationen müssen auch bei gestörter Verbindung zum Domänencontroller eine Anmeldung zulassen. Genug gespeicherte Anmeldungen für die Schichtkonten vorsehen und die Zahl dokumentieren."
+      },
+      "remedy": {
+        "en": "Set \"Interactive logon: Number of previous logons to cache\" to 4 or less (1 where possible).",
+        "de": "„Interaktive Anmeldung: Anzahl zwischenzuspeichernder vorheriger Anmeldungen“ auf 4 oder weniger setzen (wo möglich 1)."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "joined",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+        "value": "CachedLogonsCount",
+        "valueType": "dword",
+        "acceptTypes": [
+          "sz"
+        ],
+        "op": "le",
+        "expected": 4,
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 10240,
+            "value": 10,
+            "source": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/interactive-logon-number-of-previous-logons-to-cache-in-case-domain-controller-is-not-available",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+            "value": "CachedLogonsCount",
+            "type": "sz",
+            "data": "4"
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Credential protection",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253447",
+          "id": "WN11-SO-000085",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254432",
+          "id": "WN22-MS-000050",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278181",
+          "id": "WN25-MS-000050",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.3.20"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1028",
+            "M0928"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Credential protection",
+          "note": "Interactive logon: Number of previous logons to cache: 1 logons."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_Server_2022_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN22-MS-000050 (V-254432, CAT II)",
+          "note": "Winlogon CachedLogonsCount REG_SZ 4 or less on domain-joined member servers (WN11-SO-000085 allows 10 on workstations)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/interactive-logon-number-of-previous-logons-to-cache-in-case-domain-controller-is-not-available",
+          "date": "2026-10-18",
+          "note": "Default on member servers and client computers: 10 logons; no effect on domain controllers."
+        }
+      ],
+      "tests": [
+        {
+          "name": "One cached logon",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "CachedLogonsCount": {
+                    "t": "sz",
+                    "v": "1"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Four cached logons",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "CachedLogonsCount": {
+                    "t": "sz",
+                    "v": "4"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Ten cached logons",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "CachedLogonsCount": {
+                    "t": "sz",
+                    "v": "10"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing (default 10)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "AutoAdminLogon": {
+                    "t": "sz",
+                    "v": "0"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Not a number",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "CachedLogonsCount": {
+                    "t": "sz",
+                    "v": "many"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Workgroup machine",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "CachedLogonsCount": {
+                    "t": "sz",
+                    "v": "10"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "Domain controller",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "CachedLogonsCount": {
+                    "t": "sz",
+                    "v": "10"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "CRED-12",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "No anonymous enumeration of SAM accounts",
+        "de": "Keine anonyme Aufzählung von SAM-Konten"
+      },
+      "rationale": {
+        "en": "Anonymous users must not list the local accounts; the list is a starting point for password guessing. RestrictAnonymousSAM must be 1, which is the Windows default.",
+        "de": "Anonyme Benutzer dürfen die lokalen Konten nicht auflisten; die Liste ist ein Ausgangspunkt für Kennwortraten. RestrictAnonymousSAM muss 1 sein, das ist der Windows-Standard."
+      },
+      "remedy": {
+        "en": "Enable \"Network access: Do not allow anonymous enumeration of SAM accounts\".",
+        "de": "„Netzwerkzugriff: Anonyme Aufzählung von SAM-Konten nicht erlauben“ aktivieren."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+        "value": "RestrictAnonymousSAM",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 10240,
+            "value": 1,
+            "source": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-access-do-not-allow-anonymous-enumeration-of-sam-accounts",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+            "value": "RestrictAnonymousSAM",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Anonymous connections",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Network access: Do not allow anonymous enumeration of SAM accounts"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253453",
+          "id": "WN11-SO-000145",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254466",
+          "id": "WN22-SO-000220",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278216",
+          "id": "WN25-SO-000220",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.4.5"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1028",
+            "M0928"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Anonymous connections",
+          "note": "Network access: Do not allow anonymous enumeration of SAM accounts: Enabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000145 (V-253453, CAT I)",
+          "note": "Control\\Lsa RestrictAnonymousSAM REG_DWORD 1."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-access-do-not-allow-anonymous-enumeration-of-sam-accounts",
+          "date": "2026-10-18",
+          "note": "Default on all server types and client computers: Enabled."
+        }
+      ],
+      "tests": [
+        {
+          "name": "RestrictAnonymousSAM = 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictAnonymousSAM": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "RestrictAnonymousSAM = 0",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictAnonymousSAM": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing on Windows 11 (documented default)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "Other": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "Value missing on Windows 7 (default not documented)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "Other": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": false
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "CRED-13",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "No anonymous enumeration of SAM accounts and shares",
+        "de": "Keine anonyme Aufzählung von SAM-Konten und Freigaben"
+      },
+      "rationale": {
+        "en": "With RestrictAnonymous = 1 anonymous users can list neither accounts nor shares. The Windows default (0) allows share enumeration and fails.",
+        "de": "Mit RestrictAnonymous = 1 können anonyme Benutzer weder Konten noch Freigaben auflisten. Der Windows-Standard (0) erlaubt die Aufzählung der Freigaben und schlägt fehl."
+      },
+      "otNote": {
+        "en": "Very old clients that browse shares anonymously stop seeing them; that is intended.",
+        "de": "Sehr alte Clients, die Freigaben anonym durchsuchen, sehen sie danach nicht mehr; das ist gewollt."
+      },
+      "remedy": {
+        "en": "Enable \"Network access: Do not allow anonymous enumeration of SAM accounts and shares\".",
+        "de": "„Netzwerkzugriff: Anonyme Aufzählung von SAM-Konten und Freigaben nicht erlauben“ aktivieren."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+        "value": "RestrictAnonymous",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 10240,
+            "value": 0,
+            "source": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-access-do-not-allow-anonymous-enumeration-of-sam-accounts-and-shares",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+            "value": "RestrictAnonymous",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Anonymous connections",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Network access: Do not allow anonymous enumeration of SAM accounts and shares"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253454",
+          "id": "WN11-SO-000150",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254467",
+          "id": "WN22-SO-000230",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278217",
+          "id": "WN25-SO-000230",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.4.5"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1028",
+            "M0928"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Anonymous connections",
+          "note": "Network access: Do not allow anonymous enumeration of SAM accounts and shares: Enabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000150 (V-253454, CAT I)",
+          "note": "Control\\Lsa RestrictAnonymous REG_DWORD 1."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-access-do-not-allow-anonymous-enumeration-of-sam-accounts-and-shares",
+          "date": "2026-10-18",
+          "note": "Default on all server types and client computers: Disabled."
+        }
+      ],
+      "tests": [
+        {
+          "name": "RestrictAnonymous = 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictAnonymous": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "RestrictAnonymous = 0",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictAnonymous": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing on Windows 11 (documented default)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "Other": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing on Windows 7 (default not documented)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "Other": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": false
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "CRED-15",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Anonymous access to named pipes and shares is restricted",
+        "de": "Anonymer Zugriff auf Named Pipes und Freigaben ist eingeschränkt"
+      },
+      "rationale": {
+        "en": "Null sessions to named pipes and shares give unauthenticated users information and attack surface. RestrictNullSessAccess must be 1 (the Windows default); exceptions are only the pipes and shares listed explicitly.",
+        "de": "Nullsitzungen auf Named Pipes und Freigaben geben nicht angemeldeten Benutzern Informationen und Angriffsfläche. RestrictNullSessAccess muss 1 sein (Windows-Standard); Ausnahmen sind nur die ausdrücklich gelisteten Pipes und Freigaben."
+      },
+      "remedy": {
+        "en": "Enable \"Network access: Restrict anonymous access to Named Pipes and Shares\".",
+        "de": "„Netzwerkzugriff: Anonymen Zugriff auf Named Pipes und Freigaben einschränken“ aktivieren."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters",
+        "value": "RestrictNullSessAccess",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 10240,
+            "value": 1,
+            "source": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-access-restrict-anonymous-access-to-named-pipes-and-shares",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters",
+            "value": "RestrictNullSessAccess",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Anonymous connections",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Network access: Restrict anonymous access to Named Pipes and Shares"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253456",
+          "id": "WN11-SO-000165",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254469",
+          "id": "WN22-SO-000250",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278219",
+          "id": "WN25-SO-000250",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.4.5",
+            "KONF.11.1"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1028",
+            "M0928"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Anonymous connections",
+          "note": "Network access: Restrict anonymous access to Named Pipes and Shares: Enabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000165 (V-253456, CAT I)",
+          "note": "LanManServer\\Parameters RestrictNullSessAccess REG_DWORD 1."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-access-restrict-anonymous-access-to-named-pipes-and-shares",
+          "date": "2026-10-18",
+          "note": "Default on all server types and client computers: Enabled."
+        }
+      ],
+      "tests": [
+        {
+          "name": "RestrictNullSessAccess = 1",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictNullSessAccess": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "RestrictNullSessAccess = 0",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictNullSessAccess": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing on Windows 11 (documented default)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "Other": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "Value missing on Windows 7 (default not documented)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "Other": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": false
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "CRED-17",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Remote SAM calls are restricted to administrators",
+        "de": "Entfernte SAM-Aufrufe sind auf Administratoren beschränkt"
+      },
+      "rationale": {
+        "en": "Remote calls to the Security Account Manager let any authenticated user enumerate local users and groups. RestrictRemoteSAM must allow only the local Administrators group. Windows 10 1607 and Server 2016 and later have this restriction built in when the value is missing; earlier releases are unrestricted.",
+        "de": "Entfernte Aufrufe an die Sicherheitskontenverwaltung erlauben jedem angemeldeten Benutzer, lokale Benutzer und Gruppen aufzuzählen. RestrictRemoteSAM darf nur die lokale Gruppe Administratoren zulassen. Ab Windows 10 1607 und Server 2016 ist diese Einschränkung bei fehlendem Wert eingebaut; ältere Versionen sind uneingeschränkt."
+      },
+      "otNote": {
+        "en": "Management and inventory tools that enumerate local groups remotely need an entry for their account; add it to the descriptor instead of removing the restriction.",
+        "de": "Verwaltungs- und Inventarwerkzeuge, die lokale Gruppen entfernt auflisten, brauchen einen Eintrag für ihr Konto; diesen ergänzen, statt die Einschränkung zu entfernen."
+      },
+      "remedy": {
+        "en": "Set \"Network access: Restrict clients allowed to make remote calls to SAM\" to allow only Administrators (O:BAG:BAD:(A;;RC;;;BA)).",
+        "de": "„Netzwerkzugriff: Clients einschränken, denen Remoteaufrufe an SAM erlaubt sind“ so setzen, dass nur Administratoren zugelassen sind (O:BAG:BAD:(A;;RC;;;BA))."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firstOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+            "value": "RestrictRemoteSAM",
+            "valueType": "sz",
+            "op": "in",
+            "expected": [
+              "O:BAG:BAD:(A;;RC;;;BA)",
+              "O:SYG:SYD:(A;;RC;;;BA)"
+            ],
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 14393,
+                "value": "O:SYG:SYD:(A;;RC;;;BA)",
+                "source": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-access-restrict-clients-allowed-to-make-remote-sam-calls",
+                "seen": "2026-10-18"
+              }
+            ]
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+            "value": "RestrictRemoteSAM",
+            "valueType": "sz",
+            "op": "in",
+            "expected": [
+              "O:BAG:BAD:(A;;RC;;;BA)",
+              "O:SYG:SYD:(A;;RC;;;BA)"
+            ],
+            "whenMissing": "fail"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+            "value": "RestrictRemoteSAM",
+            "type": "sz",
+            "data": "O:BAG:BAD:(A;;RC;;;BA)"
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Anonymous connections",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Network access: Restrict clients allowed to make remote calls to SAM"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253457",
+          "id": "WN11-SO-000167",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254433",
+          "id": "WN22-MS-000060",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278182",
+          "id": "WN25-MS-000060",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.4.1",
+            "BER.4.5"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1028",
+            "M0928"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Anonymous connections",
+          "note": "Network access: Restrict clients allowed to make remote calls to SAM: O:BAG:BAD:(A;;RC;;;BA)."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000167 (V-253457, CAT II)",
+          "note": "Control\\Lsa RestrictRemoteSAM REG_SZ O:BAG:BAD:(A;;RC;;;BA)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-access-restrict-clients-allowed-to-make-remote-sam-calls",
+          "date": "2026-10-18",
+          "note": "Registry HKLM\\System\\CurrentControlSet\\Control\\Lsa\\RestrictRemoteSam; hard-coded default O:SYG:SYD:(A;;RC;;;BA) on Windows 10 1607 and later non-DCs; earlier versions perform no access check by default."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Restricted to Administrators",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictRemoteSAM": {
+                    "t": "sz",
+                    "v": "O:BAG:BAD:(A;;RC;;;BA)"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Everyone added",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictRemoteSAM": {
+                    "t": "sz",
+                    "v": "O:BAG:BAD:(A;;RC;;;BA)(A;;RC;;;WD)"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing on Windows 11 (built-in default)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "LmCompatibilityLevel": {
+                    "t": "dword",
+                    "v": 5
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "Value missing on Windows 8.1 (unrestricted)",
+          "machine": {
+            "build": 9600,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "LmCompatibilityLevel": {
+                    "t": "dword",
+                    "v": 5
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Domain controller",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictRemoteSAM": {
+                    "t": "sz",
+                    "v": "O:BAG:BAD:(A;;RC;;;BA)"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "CRED-18",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "UAC remote restrictions apply to local accounts",
+        "de": "UAC-Fernbeschränkungen gelten für lokale Konten"
+      },
+      "rationale": {
+        "en": "With LocalAccountTokenFilterPolicy = 1, a local administrator who connects over the network receives a full administrator token. Attackers use this to move from machine to machine with a shared local administrator password. The value must be 0 (the default) or missing.",
+        "de": "Mit LocalAccountTokenFilterPolicy = 1 erhält ein lokaler Administrator, der sich über das Netz verbindet, ein volles Administrator-Token. Angreifer nutzen das, um mit einem gemeinsamen lokalen Administratorkennwort von Rechner zu Rechner zu springen. Der Wert muss 0 sein (Standard) oder fehlen."
+      },
+      "otNote": {
+        "en": "In workgroup plants, remote administration with a local administrator account (WMI, remote registry, vendor tools) often relies on value 1. Use a dedicated management path or LAPS-managed unique passwords; otherwise record an exception with the compensating measures.",
+        "de": "In Arbeitsgruppen-Anlagen beruht Fernverwaltung mit einem lokalen Administratorkonto (WMI, Remoteregistrierung, Herstellerwerkzeuge) oft auf dem Wert 1. Einen eigenen Verwaltungsweg oder eindeutige, per LAPS verwaltete Kennwörter nutzen; sonst eine Ausnahme mit den ausgleichenden Maßnahmen anlegen."
+      },
+      "remedy": {
+        "en": "Set LocalAccountTokenFilterPolicy to 0 or delete it (MS Security Guide: \"Apply UAC restrictions to local accounts on network logons\" Enabled).",
+        "de": "LocalAccountTokenFilterPolicy auf 0 setzen oder löschen (MS Security Guide: „Apply UAC restrictions to local accounts on network logons“ aktiviert)."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+        "value": "LocalAccountTokenFilterPolicy",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 0,
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "value": 0,
+            "source": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/windows-security/user-account-control-and-remote-restriction",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+            "value": "LocalAccountTokenFilterPolicy",
+            "type": "dword",
+            "data": 0
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Local administrator accounts",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Apply UAC restrictions to local accounts on network logons"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253357",
+          "id": "WN11-CC-000037",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254429",
+          "id": "WN22-MS-000020",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278178",
+          "id": "WN25-MS-000020",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.6.4",
+            "BER.3.6"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1026",
+            "M1052",
+            "M0926"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Local administrator accounts",
+          "note": "Apply UAC restrictions to local accounts on network logons: Enabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-CC-000037 (V-253357, CAT II)",
+          "note": "Policies\\System LocalAccountTokenFilterPolicy REG_DWORD 0 (on domain systems)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/windows-security/user-account-control-and-remote-restriction",
+          "date": "2026-10-18",
+          "note": "LocalAccountTokenFilterPolicy 0 builds a filtered token and is the default; 1 builds an elevated token."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Filtered token (0)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LocalAccountTokenFilterPolicy": {
+                    "t": "dword",
+                    "v": 0
+                  },
+                  "EnableLUA": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Elevated token for local administrators (1)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LocalAccountTokenFilterPolicy": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "EnableLUA": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing (default 0)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "EnableLUA": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "Workgroup server with 1",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 2,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LocalAccountTokenFilterPolicy": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Domain controller",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LocalAccountTokenFilterPolicy": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "CRED-20",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "CredSSP accepts only updated peers (\"Force updated clients\")",
+        "de": "CredSSP akzeptiert nur aktualisierte Gegenstellen („Aktualisierte Clients erzwingen“)"
+      },
+      "rationale": {
+        "en": "The CredSSP encryption oracle flaw (CVE-2018-0886) allowed remote code execution through RDP and WinRM. With AllowEncryptionOracle = 0 neither the client falls back to the vulnerable protocol version nor does the service accept unpatched clients. The default after the May 2018 update is \"Mitigated\" (1), which still accepts unpatched clients.",
+        "de": "Die CredSSP-Schwachstelle „Encryption Oracle“ (CVE-2018-0886) erlaubte Codeausführung über RDP und WinRM. Mit AllowEncryptionOracle = 0 fällt weder der Client auf die verwundbare Protokollversion zurück, noch nimmt der Dienst nicht aktualisierte Clients an. Standard seit dem Update von Mai 2018 ist „Abgeschwächt“ (1), das nicht aktualisierte Clients noch annimmt."
+      },
+      "otNote": {
+        "en": "Unpatched RDP clients and old thin clients can no longer connect once this is enforced; update them first.",
+        "de": "Nicht aktualisierte RDP-Clients und alte Thin Clients können sich danach nicht mehr verbinden; diese zuerst aktualisieren."
+      },
+      "remedy": {
+        "en": "Set System > Credentials Delegation > \"Encryption Oracle Remediation\" to Enabled with \"Force Updated Clients\" after all peers are updated.",
+        "de": "System > Delegierung von Anmeldeinformationen > „Encryption Oracle Remediation“ auf Aktiviert mit „Force Updated Clients“ setzen, sobald alle Gegenstellen aktualisiert sind."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\CredSSP\\Parameters",
+        "value": "AllowEncryptionOracle",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 0,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\CredSSP\\Parameters",
+            "value": "AllowEncryptionOracle",
+            "type": "dword",
+            "data": 0
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Remote Desktop Services",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Encryption Oracle Remediation"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.2",
+            "KONF.4.1.1"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1051",
+            "M1028",
+            "M0951",
+            "M0928"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Remote Desktop Services",
+          "note": "Encryption Oracle Remediation: Enabled, Protection Level: Force Updated Clients."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://support.microsoft.com/en-us/help/4093492",
+          "date": "2026-10-18",
+          "note": "Registry HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\CredSSP\\Parameters AllowEncryptionOracle: 0 Force updated clients, 1 Mitigated, 2 Vulnerable; default changed to Mitigated on 2018-05-08."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Force updated clients",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\CredSSP\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowEncryptionOracle": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Mitigated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\CredSSP\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowEncryptionOracle": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Vulnerable",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\CredSSP\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowEncryptionOracle": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Policy missing (default Mitigated)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\CredSSP\\Parameters": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\CredSSP\\Parameters": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "CRED-21",
+      "since": "2026.10",
+      "state": "active",
+      "category": "credentials",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Kerberos uses AES only (no DES or RC4)",
+        "de": "Kerberos nutzt nur AES (kein DES oder RC4)"
+      },
+      "rationale": {
+        "en": "Kerberos tickets encrypted with RC4 or DES can be cracked offline (Kerberoasting). The policy \"Configure encryption types allowed for Kerberos\" must allow AES128 and AES256 and neither DES nor RC4: the bits 0x1, 0x2 and 0x4 clear, the bits 0x8 and 0x10 set. A missing policy fails.",
+        "de": "Mit RC4 oder DES verschlüsselte Kerberos-Tickets lassen sich offline knacken (Kerberoasting). Die Richtlinie „Für Kerberos zulässige Verschlüsselungstypen konfigurieren“ muss AES128 und AES256 erlauben und weder DES noch RC4: die Bits 0x1, 0x2 und 0x4 frei, die Bits 0x8 und 0x10 gesetzt. Eine fehlende Richtlinie schlägt fehl."
+      },
+      "otNote": {
+        "en": "Old devices and service accounts that only have RC4 keys stop authenticating; find them with the KDC events (4768/4769) first.",
+        "de": "Alte Geräte und Dienstkonten, die nur RC4-Schlüssel haben, können sich danach nicht mehr anmelden; diese zuerst über die KDC-Ereignisse (4768/4769) finden."
+      },
+      "remedy": {
+        "en": "Set \"Network security: Configure encryption types allowed for Kerberos\" to AES128_HMAC_SHA1 and AES256_HMAC_SHA1 (optionally Future encryption types).",
+        "de": "„Netzwerksicherheit: Für Kerberos zulässige Verschlüsselungstypen konfigurieren“ auf AES128_HMAC_SHA1 und AES256_HMAC_SHA1 setzen (optional künftige Verschlüsselungstypen)."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "joined",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Parameters",
+            "value": "SupportedEncryptionTypes",
+            "valueType": "dword",
+            "op": "bitsClear",
+            "expected": 7,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Parameters",
+            "value": "SupportedEncryptionTypes",
+            "valueType": "dword",
+            "op": "bitsSet",
+            "expected": 24,
+            "whenMissing": "fail"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Parameters",
+            "value": "SupportedEncryptionTypes",
+            "type": "dword",
+            "data": 2147483640
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Network authentication",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253460",
+          "id": "WN11-SO-000190",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254473",
+          "id": "WN22-SO-000290",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278223",
+          "id": "WN25-SO-000290",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.2",
+            "BER.5.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0941"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Network authentication",
+          "note": "Network security: Configure encryption types allowed for Kerberos: AES128_HMAC_SHA1, AES256_HMAC_SHA1."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000190 (V-253460, CAT II)",
+          "note": "Policies\\System\\Kerberos\\Parameters SupportedEncryptionTypes REG_DWORD 0x7ffffff8 (AES and future types, no DES or RC4)."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "MicrosoftDocs/windowsserverdocs (CC BY 4.0)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/kerberos/detect-remediate-rc4-kerberos",
+          "date": "2026-10-18",
+          "note": "Encryption type bit flags: 0x1 DES_CBC_CRC, 0x2 DES_CBC_MD5, 0x4 RC4, 0x8 AES 128, 0x10 AES 256."
+        }
+      ],
+      "tests": [
+        {
+          "name": "AES128 and AES256 (24)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SupportedEncryptionTypes": {
+                    "t": "dword",
+                    "v": 24
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "AES and future types (0x7ffffff8)",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SupportedEncryptionTypes": {
+                    "t": "dword",
+                    "v": 2147483640
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "RC4 and AES (28)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SupportedEncryptionTypes": {
+                    "t": "dword",
+                    "v": 28
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "AES256 only (16)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SupportedEncryptionTypes": {
+                    "t": "dword",
+                    "v": 16
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Policy missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Parameters": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Parameters": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Workgroup machine",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Parameters": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    }
+  ]
+}

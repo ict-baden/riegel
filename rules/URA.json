@@ -1,0 +1,974 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "URA",
+  "rules": [
+    {
+      "id": "URA-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "userRights",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Local accounts are denied network logon",
+        "de": "Lokalen Konten ist die Netzwerkanmeldung verweigert"
+      },
+      "rationale": {
+        "en": "On domain-joined machines, local accounts are the usual path for lateral movement with a shared password. The right \"Deny access to this computer from the network\" must contain \"Local account\" (S-1-5-113) or, as DISA allows on member servers, \"Local account and member of Administrators group\" (S-1-5-114). Workgroup machines have only local accounts, so the rule does not apply there.",
+        "de": "Auf Domänenrechnern sind lokale Konten mit gemeinsamem Kennwort der übliche Weg für seitliche Bewegung. Das Recht „Zugriff vom Netzwerk auf diesen Computer verweigern“ muss „Lokales Konto“ (S-1-5-113) enthalten oder, wie DISA bei Mitgliedsservern zulässt, „Lokales Konto und Mitglied der Gruppe Administratoren“ (S-1-5-114). Arbeitsgruppenrechner haben nur lokale Konten; dort gilt die Regel nicht."
+      },
+      "otNote": {
+        "en": "Vendor tools that copy data over SMB with a local account stop working; give them a domain service account or record an exception.",
+        "de": "Herstellerwerkzeuge, die mit einem lokalen Konto Daten über SMB kopieren, funktionieren danach nicht mehr; ihnen ein Domänendienstkonto geben oder eine Ausnahme anlegen."
+      },
+      "remedy": {
+        "en": "Add \"Local account\" (or \"Local account and member of Administrators group\") to \"Deny access to this computer from the network\".",
+        "de": "„Lokales Konto“ (oder „Lokales Konto und Mitglied der Gruppe Administratoren“) zu „Zugriff vom Netzwerk auf diesen Computer verweigern“ hinzufügen."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "joined",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": true,
+      "check": {
+        "type": "anyOf",
+        "checks": [
+          {
+            "type": "userRight",
+            "right": "SeDenyNetworkLogonRight",
+            "mode": "mustInclude",
+            "sids": [
+              "S-1-5-113"
+            ]
+          },
+          {
+            "type": "userRight",
+            "right": "SeDenyNetworkLogonRight",
+            "mode": "mustInclude",
+            "sids": [
+              "S-1-5-114"
+            ]
+          }
+        ]
+      },
+      "remediation": {
+        "securityTemplate": [
+          {
+            "section": "Privilege Rights",
+            "key": "SeDenyNetworkLogonRight",
+            "sids": [
+              "*S-1-5-32-546",
+              "*S-1-5-113"
+            ]
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "User rights policies",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Deny access to this computer from the network"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253491",
+          "id": "WN11-UR-000070",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254435",
+          "id": "WN22-MS-000080",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278184",
+          "id": "WN25-MS-000080",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.4.1",
+            "KONF.6.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1026",
+            "M1035",
+            "M0926",
+            "M0935"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "User rights policies",
+          "note": "Deny access to this computer from the network: Administrators, NT AUTHORITY\\Local Account."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-UR-000070 (V-253491, CAT II)",
+          "note": "Domain systems: \"Local account\" must be denied network access; WN22-MS-000080 accepts \"Local account and member of Administrators group\" or \"Local account\"."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "MicrosoftDocs/windowsserverdocs (CC BY 4.0)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-identifiers",
+          "date": "2026-10-18",
+          "note": "S-1-5-113 Local account; S-1-5-114 Local account and member of Administrators group."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Local account denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDenyNetworkLogonRight": [
+                  "S-1-5-32-546",
+                  "S-1-5-113"
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Local administrators denied (member server)",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDenyNetworkLogonRight": [
+                  "S-1-5-32-546",
+                  "S-1-5-114"
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Only Guests denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDenyNetworkLogonRight": [
+                  "S-1-5-32-546"
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "API not collected, template with SID",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "Privilege Rights": {
+                    "SeDenyNetworkLogonRight": [
+                      "*S-1-5-32-546",
+                      "*S-1-5-113"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "API not collected, template with an unresolved name only",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "Privilege Rights": {
+                    "SeDenyNetworkLogonRight": [
+                      "Gäste",
+                      "Lokales Konto"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "API not collected, right missing in the template",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "valueMissing",
+              "value": {
+                "sections": {
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Nothing collected (no administrator rights)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": false
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Workgroup machine",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDenyNetworkLogonRight": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "URA-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "userRights",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Local accounts are denied Remote Desktop logon",
+        "de": "Lokalen Konten ist die Remotedesktop-Anmeldung verweigert"
+      },
+      "rationale": {
+        "en": "A local account that may sign in through Remote Desktop gives an attacker with its password an interactive session on the machine. On domain-joined machines the right \"Deny log on through Remote Desktop Services\" must contain \"Local account\" (S-1-5-113). Workgroup machines are excluded because their remote access depends on local accounts.",
+        "de": "Ein lokales Konto, das sich per Remotedesktop anmelden darf, verschafft einem Angreifer mit seinem Kennwort eine interaktive Sitzung. Auf Domänenrechnern muss das Recht „Anmelden über Remotedesktopdienste verweigern“ „Lokales Konto“ (S-1-5-113) enthalten. Arbeitsgruppenrechner sind ausgenommen, weil ihr Fernzugang an lokalen Konten hängt."
+      },
+      "otNote": {
+        "en": "Remote maintenance by the machine builder over RDP with a local account is common. Move it to personal domain accounts or a jump host, or record an exception.",
+        "de": "Fernwartung des Anlagenbauers per RDP mit einem lokalen Konto ist üblich. Auf persönliche Domänenkonten oder einen Sprungserver umstellen oder eine Ausnahme anlegen."
+      },
+      "remedy": {
+        "en": "Add \"Local account\" to \"Deny log on through Remote Desktop Services\".",
+        "de": "„Lokales Konto“ zu „Anmelden über Remotedesktopdienste verweigern“ hinzufügen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "joined",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": true,
+      "check": {
+        "type": "userRight",
+        "right": "SeDenyRemoteInteractiveLogonRight",
+        "mode": "mustInclude",
+        "sids": [
+          "S-1-5-113"
+        ]
+      },
+      "remediation": {
+        "securityTemplate": [
+          {
+            "section": "Privilege Rights",
+            "key": "SeDenyRemoteInteractiveLogonRight",
+            "sids": [
+              "*S-1-5-32-546",
+              "*S-1-5-113"
+            ]
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Remote Desktop Services",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Deny log on through Remote Desktop Services"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253495",
+          "id": "WN11-UR-000090",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254439",
+          "id": "WN22-MS-000120",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278188",
+          "id": "WN25-MS-000120",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "BER.4.1",
+            "KONF.6.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1026",
+            "M1035",
+            "M0926",
+            "M0935"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Remote Desktop Services",
+          "note": "Deny log on through Remote Desktop Services: Administrators, NT AUTHORITY\\Local Account."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-UR-000090 (V-253495, CAT II)",
+          "note": "Domain systems: \"Local account\" must be denied logon through Remote Desktop Services."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "MicrosoftDocs/windowsserverdocs (CC BY 4.0)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-identifiers",
+          "date": "2026-10-18",
+          "note": "S-1-5-113 Local account."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Local account denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDenyRemoteInteractiveLogonRight": [
+                  "S-1-5-32-546",
+                  "S-1-5-113"
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Only Guests denied",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDenyRemoteInteractiveLogonRight": [
+                  "S-1-5-32-546"
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Nobody denied",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDenyRemoteInteractiveLogonRight": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "API not collected, template with SID",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "Privilege Rights": {
+                    "SeDenyRemoteInteractiveLogonRight": [
+                      "*S-1-5-113"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "API not collected, right missing in the template",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "valueMissing",
+              "value": {
+                "sections": {
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Nothing collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": false
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Workgroup machine",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDenyRemoteInteractiveLogonRight": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "URA-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "userRights",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "Only Administrators may debug programs",
+        "de": "Nur Administratoren dürfen Programme debuggen"
+      },
+      "rationale": {
+        "en": "The debug privilege lets a process read and change the memory of any other process, including LSASS, and is the standard tool for credential theft. \"Debug programs\" may be granted to Administrators only, or to nobody. A name in the security template that is not resolved to a SID makes the result not checkable.",
+        "de": "Das Debug-Recht erlaubt einem Prozess, den Speicher jedes anderen Prozesses einschließlich LSASS zu lesen und zu ändern; es ist das Standardwerkzeug für Diebstahl von Anmeldedaten. „Programme debuggen“ darf nur Administratoren oder niemandem zugewiesen sein. Ein nicht in eine SID aufgelöster Name in der Sicherheitsvorlage macht das Ergebnis nicht prüfbar."
+      },
+      "otNote": {
+        "en": "Development and diagnostic tools of plant software sometimes ask for the debug right for their service account. Grant it only temporarily for a diagnosis and record that.",
+        "de": "Entwicklungs- und Diagnosewerkzeuge von Anlagensoftware verlangen teils das Debug-Recht für ihr Dienstkonto. Es nur vorübergehend für eine Diagnose vergeben und das festhalten."
+      },
+      "remedy": {
+        "en": "Assign \"Debug programs\" to Administrators only.",
+        "de": "„Programme debuggen“ nur Administratoren zuweisen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": true,
+      "check": {
+        "type": "userRight",
+        "right": "SeDebugPrivilege",
+        "mode": "onlyFrom",
+        "sids": [
+          "S-1-5-32-544"
+        ]
+      },
+      "remediation": {
+        "securityTemplate": [
+          {
+            "section": "Privilege Rights",
+            "key": "SeDebugPrivilege",
+            "sids": [
+              "*S-1-5-32-544"
+            ]
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "User rights policies",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Debug programs"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253490",
+          "id": "WN11-UR-000065",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254500",
+          "id": "WN22-UR-000100",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278250",
+          "id": "WN25-UR-000100",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.6.4",
+            "BER.4.1"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1026",
+            "M0926"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "User rights policies",
+          "note": "Debug programs: Administrators."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-UR-000065 (V-253490, CAT I)",
+          "note": "Any group or account other than Administrators holding \"Debug programs\" is a finding."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/debug-programs",
+          "date": "2026-10-18",
+          "note": "Debug programs (SeDebugPrivilege); default holder Administrators."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Administrators only",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDebugPrivilege": [
+                  "S-1-5-32-544"
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Nobody",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDebugPrivilege": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Also a local user",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "ok",
+              "value": {
+                "SeDebugPrivilege": [
+                  "S-1-5-32-544",
+                  "S-1-5-21-1000000001-1000000002-1000000003-1001"
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "API not collected, template with SID",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "Privilege Rights": {
+                    "SeDebugPrivilege": [
+                      "*S-1-5-32-544"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "API not collected, template with an unresolved name",
+          "machine": {
+            "build": 19045,
+            "ubr": 6456,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "ok",
+              "value": {
+                "sections": {
+                  "Privilege Rights": {
+                    "SeDebugPrivilege": [
+                      "Administratoren"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "API not collected, right missing in the template",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "valueMissing",
+              "value": {
+                "sections": {
+                  "Privilege Rights": {}
+                }
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Nothing collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": false
+          },
+          "items": {
+            "api:lsa-rights": {
+              "status": "notCollected"
+            },
+            "parsed:secedit": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    }
+  ]
+}

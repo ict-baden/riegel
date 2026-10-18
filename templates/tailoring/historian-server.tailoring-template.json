@@ -1,0 +1,48 @@
+{
+  "schema": "riegel.tailoring-template/1",
+  "plantId": "vorlage-historian-server",
+  "entries": [
+    {
+      "id": "TL-0001",
+      "ruleId": "DEF-03",
+      "scope": {
+        "machines": [],
+        "groups": [],
+        "allMachines": true
+      },
+      "reason": "Der Historian-Server steht im Anlagennetz ohne Internetzugang; der Cloud-Schutz (MAPS) kann keine Verbindung aufbauen. Signaturen kommen über Offline-Pakete.",
+      "approval": {},
+      "createdOn": "2026-10-18",
+      "createdByRole": "Vorlage Riegel",
+      "comment": "Vorschlag – vor Übernahme prüfen"
+    },
+    {
+      "id": "TL-0002",
+      "ruleId": "LIFE-03",
+      "scope": {
+        "machines": [],
+        "groups": [],
+        "allMachines": true
+      },
+      "reason": "Der Historian-Server wird nach Freigabe des Herstellers im Wartungsfenster gepatcht, um laufende Datenerfassung nicht zu unterbrechen; der Patchstand bleibt über LIFE-02 im Prüfumfang.",
+      "approval": {},
+      "createdOn": "2026-10-18",
+      "createdByRole": "Vorlage Riegel",
+      "comment": "Vorschlag – vor Übernahme prüfen"
+    },
+    {
+      "id": "TL-0003",
+      "ruleId": "DEF-17",
+      "scope": {
+        "machines": [],
+        "groups": [],
+        "allMachines": true
+      },
+      "reason": "Auf dem Server werden keine Programme aus dem Internet geladen oder von Benutzern gestartet; der Reputationsdienst von SmartScreen ist ohne Internetzugang ohnehin nicht erreichbar.",
+      "approval": {},
+      "createdOn": "2026-10-18",
+      "createdByRole": "Vorlage Riegel",
+      "comment": "Vorschlag – vor Übernahme prüfen"
+    }
+  ]
+}

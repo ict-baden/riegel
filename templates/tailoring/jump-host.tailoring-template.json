@@ -1,0 +1,34 @@
+{
+  "schema": "riegel.tailoring-template/1",
+  "plantId": "vorlage-jump-host",
+  "entries": [
+    {
+      "id": "TL-0001",
+      "ruleId": "RDP-09",
+      "scope": {
+        "machines": [],
+        "groups": [],
+        "allMachines": true
+      },
+      "reason": "Fernzugriff per Remotedesktop ist der Zweck des Sprungservers; seine Absicherung prüfen die Regeln RDP-01 bis RDP-08 sowie FW-11, nicht die Bestandsmeldung.",
+      "approval": {},
+      "createdOn": "2026-10-18",
+      "createdByRole": "Vorlage Riegel",
+      "comment": "Vorschlag – vor Übernahme prüfen"
+    },
+    {
+      "id": "TL-0002",
+      "ruleId": "APP-06",
+      "scope": {
+        "machines": [],
+        "groups": [],
+        "allMachines": true
+      },
+      "reason": "Fernwartungswerkzeuge sind auf dem Sprungserver gewollt und im Werkzeugverzeichnis der Anlage freigegeben; die Bestandsliste ersetzt diese Freigabe nicht.",
+      "approval": {},
+      "createdOn": "2026-10-18",
+      "createdByRole": "Vorlage Riegel",
+      "comment": "Vorschlag – vor Übernahme prüfen"
+    }
+  ]
+}

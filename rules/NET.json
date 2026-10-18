@@ -1,0 +1,4244 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "NET",
+  "rules": [
+    {
+      "id": "NET-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "SMBv1 server is disabled",
+        "de": "SMBv1-Server ist deaktiviert"
+      },
+      "rationale": {
+        "en": "SMB version 1 lacks the integrity and encryption protections of SMB 2 and 3 and was the entry point of self-spreading ransomware. Riegel first reads the running SMB server configuration, then the SMB1 server feature, then the SMB1 registry value; a missing value counts as enabled, as on Windows 7 and Server 2008 R2.",
+        "de": "SMB Version 1 fehlen die Integritäts- und Verschlüsselungsmechanismen von SMB 2 und 3; über SMB1 verbreitete sich selbstausbreitende Ransomware. Riegel liest zuerst die laufende SMB-Serverkonfiguration, dann das SMB1-Serverfeature, dann den Registry-Wert SMB1; ein fehlender Wert gilt wie unter Windows 7 und Server 2008 R2 als eingeschaltet."
+      },
+      "otNote": {
+        "en": "Old engineering tools, NAS devices and panels sometimes still need SMBv1. Ask the vendor for an update; until then record an exception limited to the affected machines.",
+        "de": "Alte Engineering-Werkzeuge, NAS-Geräte und Bedienpanels brauchen teils noch SMBv1. Beim Hersteller ein Update anfragen; bis dahin eine auf die betroffenen Rechner begrenzte Ausnahme anlegen."
+      },
+      "remedy": {
+        "en": "Remove the optional feature \"SMB 1.0/CIFS File Sharing Support\" or set the server configuration to disable SMB1.",
+        "de": "Das optionale Feature „SMB 1.0/CIFS-Dateifreigabeunterstützung“ entfernen oder SMB1 in der Serverkonfiguration abschalten."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firstOf",
+        "checks": [
+          {
+            "type": "wmiProperty",
+            "item": "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration",
+            "property": "EnableSMB1Protocol",
+            "rows": "first",
+            "op": "eq",
+            "expected": false,
+            "ifNoRows": "notCheckable"
+          },
+          {
+            "type": "feature",
+            "name": "SMB1Protocol-Server",
+            "installState": [
+              2,
+              3
+            ],
+            "ifAbsent": "notApplicable"
+          },
+          {
+            "type": "anyOf",
+            "checks": [
+              {
+                "type": "feature",
+                "name": "SMB1Protocol",
+                "installState": [
+                  2,
+                  3
+                ],
+                "ifAbsent": "notApplicable"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters",
+                "value": "SMB1",
+                "valueType": "dword",
+                "op": "eq",
+                "expected": 0,
+                "whenMissing": "fail"
+              }
+            ]
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters",
+            "value": "SMB1",
+            "type": "dword",
+            "data": 0
+          }
+        ],
+        "manual": {
+          "en": "Remove the optional feature SMB1Protocol (Windows 8.1 / Server 2012 R2 and later); a restart is required.",
+          "de": "Optionales Feature SMB1Protocol entfernen (ab Windows 8.1 / Server 2012 R2); ein Neustart ist nötig."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Server Message Block sessions",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Configure SMB v1 server"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253286",
+          "id": "WN11-00-000160",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253287",
+          "id": "WN11-00-000165",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254276",
+          "id": "WN22-00-000390",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278024",
+          "id": "WN25-00-000390",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1042",
+            "M0942"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Server Message Block sessions",
+          "note": "Configure SMB v1 server: Disabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-00-000165 (V-253287, CAT II)",
+          "note": "LanmanServer\\Parameters SMB1 REG_DWORD 0; WN11-00-000160 checks the SMB1Protocol feature."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "MicrosoftDocs/windowsserverdocs (CC BY 4.0)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/storage/file-server/troubleshoot/detect-enable-and-disable-smbv1-v2-v3",
+          "date": "2026-10-18",
+          "note": "Get-SmbServerConfiguration EnableSMB1Protocol shows the state without elevation; SMB1 = 0 disables SMBv1, the default 1 (enabled) creates no value."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "MicrosoftDocs/windowsserverdocs (CC BY 4.0)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/storage/file-server/troubleshoot/smbv1-not-installed-by-default-in-windows",
+          "date": "2026-10-18",
+          "note": "Since Windows 10 1709 SMBv1 has separate client and server sub-features (names SMB1Protocol-Client and -Server observed read-only on Windows 11 on 2026-10-18)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Running configuration: SMB1 off",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "ok",
+              "value": {
+                "out": {
+                  "EnableSMB1Protocol": false,
+                  "RequireSecuritySignature": true
+                }
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Running configuration: SMB1 on",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "ok",
+              "value": {
+                "out": {
+                  "EnableSMB1Protocol": true,
+                  "RequireSecuritySignature": false
+                }
+              }
+            },
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "SMB1Protocol",
+                    "InstallState": 2
+                  },
+                  {
+                    "Name": "SMB1Protocol-Client",
+                    "InstallState": 2
+                  },
+                  {
+                    "Name": "SMB1Protocol-Server",
+                    "InstallState": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No runtime data, server feature removed",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "SMB1Protocol",
+                    "InstallState": 2
+                  },
+                  {
+                    "Name": "SMB1Protocol-Client",
+                    "InstallState": 2
+                  },
+                  {
+                    "Name": "SMB1Protocol-Server",
+                    "InstallState": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "No runtime data, server feature installed",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "SMB1Protocol",
+                    "InstallState": 1
+                  },
+                  {
+                    "Name": "SMB1Protocol-Client",
+                    "InstallState": 2
+                  },
+                  {
+                    "Name": "SMB1Protocol-Server",
+                    "InstallState": 1
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows 7 without SMB1 value (default on)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "namespaceMissing"
+            },
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "TelnetClient",
+                    "InstallState": 2
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "Size": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows 7 with SMB1 = 0",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "namespaceMissing"
+            },
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "TelnetClient",
+                    "InstallState": 2
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SMB1": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Nothing collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "NET-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "SMBv1 client driver is disabled",
+        "de": "SMBv1-Clienttreiber ist deaktiviert"
+      },
+      "rationale": {
+        "en": "A machine with the SMB1 client can be tricked into talking SMB1 to a hostile server. Riegel first reads the SMB1 client feature and then the start type of the mrxsmb10 driver, which Microsoft sets to 4 (disabled) to turn the client off.",
+        "de": "Ein Rechner mit SMB1-Client lässt sich dazu bringen, mit einem feindlichen Server SMB1 zu sprechen. Riegel liest zuerst das SMB1-Clientfeature und dann den Starttyp des Treibers mrxsmb10, den Microsoft zum Abschalten auf 4 (deaktiviert) setzt."
+      },
+      "otNote": {
+        "en": "Legacy file servers and NAS devices in the plant may only speak SMB1. Replace or update them; until then record an exception for the machines that need them.",
+        "de": "Alte Dateiserver und NAS-Geräte in der Anlage sprechen teils nur SMB1. Ersetzen oder aktualisieren; bis dahin eine Ausnahme für die Rechner anlegen, die sie brauchen."
+      },
+      "remedy": {
+        "en": "Remove the SMB1 client feature, or set the mrxsmb10 driver to disabled and remove it from the dependencies of LanmanWorkstation.",
+        "de": "Das SMB1-Clientfeature entfernen oder den Treiber mrxsmb10 deaktivieren und aus den Abhängigkeiten von LanmanWorkstation entfernen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firstOf",
+        "checks": [
+          {
+            "type": "feature",
+            "name": "SMB1Protocol-Client",
+            "installState": [
+              2,
+              3
+            ],
+            "ifAbsent": "notApplicable"
+          },
+          {
+            "type": "anyOf",
+            "checks": [
+              {
+                "type": "feature",
+                "name": "SMB1Protocol",
+                "installState": [
+                  2,
+                  3
+                ],
+                "ifAbsent": "notApplicable"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\mrxsmb10",
+                "value": "Start",
+                "valueType": "dword",
+                "op": "eq",
+                "expected": 4,
+                "whenMissing": "notCheckable"
+              }
+            ]
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\mrxsmb10",
+            "value": "Start",
+            "type": "dword",
+            "data": 4
+          }
+        ],
+        "manual": {
+          "en": "Also set LanmanWorkstation DependOnService to Bowser, MRxSmb20, NSI as Microsoft describes, then restart.",
+          "de": "Zusätzlich DependOnService von LanmanWorkstation wie von Microsoft beschrieben auf Bowser, MRxSmb20, NSI setzen, dann neu starten."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Server Message Block sessions",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Configure SMB v1 client driver"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253288",
+          "id": "WN11-00-000170",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254277",
+          "id": "WN22-00-000400",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278025",
+          "id": "WN25-00-000400",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1042",
+            "M0942"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Server Message Block sessions",
+          "note": "Configure SMB v1 client driver: Disable driver."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-00-000170 (V-253288, CAT II)",
+          "note": "Services\\mrxsmb10 Start REG_DWORD 4."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "MicrosoftDocs/windowsserverdocs (CC BY 4.0)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/storage/file-server/troubleshoot/detect-enable-and-disable-smbv1-v2-v3",
+          "date": "2026-10-18",
+          "note": "Disabling the SMBv1 client: mrxsmb10 start = disabled (Start 4) and LanmanWorkstation DependOnService without MRxSmb10."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Client feature removed",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "SMB1Protocol",
+                    "InstallState": 2
+                  },
+                  {
+                    "Name": "SMB1Protocol-Client",
+                    "InstallState": 2
+                  },
+                  {
+                    "Name": "SMB1Protocol-Server",
+                    "InstallState": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Client feature installed",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "SMB1Protocol",
+                    "InstallState": 1
+                  },
+                  {
+                    "Name": "SMB1Protocol-Client",
+                    "InstallState": 1
+                  },
+                  {
+                    "Name": "SMB1Protocol-Server",
+                    "InstallState": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows 7, driver starts automatically",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "TelnetClient",
+                    "InstallState": 2
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\mrxsmb10": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Start": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows 7, driver disabled",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "TelnetClient",
+                    "InstallState": 2
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\mrxsmb10": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Start": {
+                    "t": "dword",
+                    "v": 4
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Windows 7, driver key missing",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "TelnetClient",
+                    "InstallState": 2
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\mrxsmb10": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Nothing collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\mrxsmb10": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "NET-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Multicast name resolution (LLMNR) is turned off",
+        "de": "Multicast-Namensauflösung (LLMNR) ist abgeschaltet"
+      },
+      "rationale": {
+        "en": "LLMNR answers name queries from anyone on the local segment, so an attacker can impersonate a server and capture logon attempts. The policy \"Turn off multicast name resolution\" writes EnableMulticast = 0; without the policy LLMNR is on.",
+        "de": "LLMNR beantwortet Namensanfragen von jedem im lokalen Segment; ein Angreifer kann so einen Server vortäuschen und Anmeldeversuche abgreifen. Die Richtlinie „Multicastnamensauflösung deaktivieren“ schreibt EnableMulticast = 0; ohne die Richtlinie ist LLMNR eingeschaltet."
+      },
+      "otNote": {
+        "en": "Isolated cells without DNS sometimes rely on LLMNR or NetBIOS to find each other. Use a hosts file or a small DNS server instead; otherwise record an exception.",
+        "de": "Abgeschottete Zellen ohne DNS finden sich teils über LLMNR oder NetBIOS. Besser eine hosts-Datei oder einen kleinen DNS-Server nutzen; sonst eine Ausnahme anlegen."
+      },
+      "remedy": {
+        "en": "Enable the policy Computer Configuration > Administrative Templates > Network > DNS Client > \"Turn off multicast name resolution\".",
+        "de": "Richtlinie Computerkonfiguration > Administrative Vorlagen > Netzwerk > DNS-Client > „Multicastnamensauflösung deaktivieren“ aktivieren."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\DNSClient",
+        "value": "EnableMulticast",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 0,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\DNSClient",
+            "value": "EnableMulticast",
+            "type": "dword",
+            "data": 0
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Security policies",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Turn off multicast name resolution"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1042",
+            "M1037",
+            "M0942",
+            "M0937"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Security policies",
+          "note": "Turn off multicast name resolution: Enabled."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-dnsclient",
+          "date": "2026-10-18",
+          "note": "Turn_Off_Multicast maps to Software\\Policies\\Microsoft\\Windows NT\\DNSClient EnableMulticast; disabled or not configured means LLMNR is enabled. DnsClient.admx (read-only on Windows 11, 2026-10-18) writes 0 when enabled."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Policy turns LLMNR off",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\DNSClient": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableMulticast": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Policy explicitly allows LLMNR",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\DNSClient": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableMulticast": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No DNS client policy",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\DNSClient": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Policy key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\DNSClient": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Wrong value type",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\DNSClient": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableMulticast": {
+                    "t": "sz",
+                    "v": "0"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        }
+      ]
+    },
+    {
+      "id": "NET-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "NetBIOS over TCP/IP is disabled on every network interface",
+        "de": "NetBIOS über TCP/IP ist an jeder Netzwerkschnittstelle abgeschaltet"
+      },
+      "rationale": {
+        "en": "NetBIOS name service and its broadcasts allow name spoofing and leak host and user information. Riegel reads the NetBIOS setting of every IP-enabled adapter; every adapter must be set to \"Disable NetBIOS over TCP/IP\" (2). The setting \"Default\" (0) leaves the decision to DHCP and counts as not disabled.",
+        "de": "Der NetBIOS-Namensdienst und seine Broadcasts erlauben Namensfälschung und verraten Rechner- und Benutzerdaten. Riegel liest die NetBIOS-Einstellung jedes IP-aktiven Adapters; jeder muss auf „NetBIOS über TCP/IP deaktivieren“ (2) stehen. Die Einstellung „Standard“ (0) überlässt die Entscheidung dem DHCP-Server und gilt als nicht abgeschaltet."
+      },
+      "otNote": {
+        "en": "Some older OPC, file and printer integrations still browse by NetBIOS name. Check them before disabling it on plant interfaces.",
+        "de": "Manche ältere OPC-, Datei- und Druckeranbindungen suchen noch über NetBIOS-Namen. Vor dem Abschalten auf Anlagenschnittstellen prüfen."
+      },
+      "remedy": {
+        "en": "In the IPv4 WINS settings of every adapter select \"Disable NetBIOS over TCP/IP\", or have DHCP send the corresponding option.",
+        "de": "In den IPv4-WINS-Einstellungen jedes Adapters „NetBIOS über TCP/IP deaktivieren“ wählen oder den DHCP-Server die passende Option senden lassen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "wmiProperty",
+        "item": "wmi:root\\cimv2:Win32_NetworkAdapterConfiguration",
+        "property": "TcpipNetbiosOptions",
+        "rows": "all",
+        "op": "eq",
+        "expected": 2,
+        "ifNoRows": "notApplicable"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Set NetBIOS over TCP/IP to Disabled on every adapter (adapter properties, IPv4, Advanced, WINS).",
+          "de": "NetBIOS über TCP/IP an jedem Adapter auf Deaktiviert setzen (Adaptereigenschaften, IPv4, Erweitert, WINS)."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "NetBIOS over TCP/IP",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1042",
+            "M1037",
+            "M0942",
+            "M0937"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "NetBIOS over TCP/IP",
+          "note": "Disable NetBIOS over TCP/IP on all network interfaces."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-networkadapterconfiguration",
+          "date": "2026-10-18",
+          "note": "TcpipNetbiosOptions: 0 = EnableNetbiosViaDhcp, 1 = EnableNetbios, 2 = DisableNetbios."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Both adapters disabled",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_NetworkAdapterConfiguration": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "SettingID": "{A1}",
+                    "TcpipNetbiosOptions": 2
+                  },
+                  {
+                    "SettingID": "{A2}",
+                    "TcpipNetbiosOptions": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "One adapter on DHCP default",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_NetworkAdapterConfiguration": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "SettingID": "{A1}",
+                    "TcpipNetbiosOptions": 2
+                  },
+                  {
+                    "SettingID": "{A2}",
+                    "TcpipNetbiosOptions": 0
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No IP-enabled adapter",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_NetworkAdapterConfiguration": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "Adapter list not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_NetworkAdapterConfiguration": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Setting missing on the adapter",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_NetworkAdapterConfiguration": {
+              "status": "valueMissing",
+              "value": {
+                "rows": [
+                  {
+                    "SettingID": "{A1}",
+                    "TcpipNetbiosOptions": null
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "NET-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Web Proxy Auto-Discovery (WPAD) is disabled for WinHTTP",
+        "de": "Web Proxy Auto-Discovery (WPAD) ist für WinHTTP abgeschaltet"
+      },
+      "rationale": {
+        "en": "WPAD lets a machine fetch its proxy configuration from whoever answers the name \"wpad\" on the network, which attackers use to redirect traffic and collect credentials. Since Windows 10 1809 and Server 2019, DisableWpad = 1 stops WPAD for WinHTTP; without it WPAD stays on.",
+        "de": "Mit WPAD holt sich ein Rechner seine Proxykonfiguration von dem, der im Netz auf den Namen „wpad“ antwortet; Angreifer leiten so Verkehr um und sammeln Anmeldedaten. Seit Windows 10 1809 und Server 2019 schaltet DisableWpad = 1 WPAD für WinHTTP ab; ohne den Wert bleibt WPAD an."
+      },
+      "otNote": {
+        "en": "Plant networks rarely use WPAD; if a site relies on automatic proxy detection, configure the proxy explicitly instead.",
+        "de": "Anlagennetze nutzen WPAD selten; wenn ein Standort auf automatische Proxyerkennung setzt, den Proxy besser fest eintragen."
+      },
+      "remedy": {
+        "en": "Set DisableWpad = 1 and turn off \"Automatically detect settings\" for the proxy. On older builds add the hosts entry \"255.255.255.255 wpad\" as ACSC suggests.",
+        "de": "DisableWpad = 1 setzen und beim Proxy „Einstellungen automatisch erkennen“ abschalten. Auf älteren Builds den hosts-Eintrag „255.255.255.255 wpad“ setzen, wie ACSC empfiehlt."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "minBuild": 17763,
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\WinHttp",
+        "value": "DisableWpad",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\WinHttp",
+            "value": "DisableWpad",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Web Proxy Auto Discovery protocol",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1042",
+            "M0942"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Web Proxy Auto Discovery protocol",
+          "note": "Organisations that do not rely on WPAD should disable it."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/disable-http-proxy-auth-features",
+          "date": "2026-10-18",
+          "note": "From Windows Server 2019 and Windows 10 1809, DWORD DisableWpad = 1 under HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\WinHttp disables WPAD for WinHTTP."
+        }
+      ],
+      "tests": [
+        {
+          "name": "WPAD disabled",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "coverage": [
+            {
+              "root": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\WinHttp",
+              "recursive": false,
+              "maxDepth": 0,
+              "complete": true,
+              "deniedSubkeys": []
+            }
+          ],
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\WinHttp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DisableWpad": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "WPAD explicitly allowed",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "coverage": [
+            {
+              "root": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\WinHttp",
+              "recursive": false,
+              "maxDepth": 0,
+              "complete": true,
+              "deniedSubkeys": []
+            }
+          ],
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\WinHttp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DisableWpad": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing (WPAD on)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "coverage": [
+            {
+              "root": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\WinHttp",
+              "recursive": false,
+              "maxDepth": 0,
+              "complete": true,
+              "deniedSubkeys": []
+            }
+          ],
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\WinHttp": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "DisableBranchCache": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\WinHttp": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Windows 10 1607: switch does not exist",
+          "machine": {
+            "build": 14393,
+            "ubr": 8519,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 2,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "NET-08",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "SMB server requires signing",
+        "de": "SMB-Server verlangt Signierung"
+      },
+      "rationale": {
+        "en": "Without required signing, an attacker in the network path can relay or alter SMB sessions to this machine. Riegel reads the running SMB server configuration first. Only without it does it read the registry; if the value is missing, the Windows default of the build applies: required on Windows 11 24H2 Pro, Enterprise and Education, not required on earlier Windows 10 and 11 builds and on Windows Server 2025; for older releases the default is not documented and the result is not checkable.",
+        "de": "Ohne verlangte Signierung kann ein Angreifer im Netzweg SMB-Sitzungen zu diesem Rechner weiterleiten oder verändern. Riegel liest zuerst die laufende SMB-Serverkonfiguration, nur ohne sie die Registry; fehlt der Wert, gilt der Windows-Standard des Builds: verlangt unter Windows 11 24H2 Pro, Enterprise und Education, nicht verlangt auf älteren Builds von Windows 10 und 11 und unter Windows Server 2025; für ältere Versionen ist der Standard nicht dokumentiert und das Ergebnis nicht prüfbar."
+      },
+      "otNote": {
+        "en": "Old engineering tools and NAS clients sometimes fail against servers that require signing. Test before enabling and record an exception for affected file servers.",
+        "de": "Alte Engineering-Werkzeuge und NAS-Clients scheitern teils an Servern, die Signierung verlangen. Vorher testen und für betroffene Dateiserver eine Ausnahme anlegen."
+      },
+      "remedy": {
+        "en": "Enable \"Microsoft network server: Digitally sign communications (always)\" (Security Options) or run Set-SmbServerConfiguration -RequireSecuritySignature $true.",
+        "de": "„Microsoft-Netzwerk (Server): Kommunikation digital signieren (immer)“ aktivieren (Sicherheitsoptionen) oder Set-SmbServerConfiguration -RequireSecuritySignature $true ausführen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firstOf",
+        "checks": [
+          {
+            "type": "wmiProperty",
+            "item": "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration",
+            "property": "RequireSecuritySignature",
+            "rows": "first",
+            "op": "eq",
+            "expected": true,
+            "ifNoRows": "notCheckable"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters",
+            "value": "RequireSecuritySignature",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 26100,
+                "editions": [
+                  "Professional",
+                  "Enterprise",
+                  "Education"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows-server/storage/file-server/smb-signing",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "editions": [
+                  "ServerStandard",
+                  "ServerDatacenter"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows-server/storage/file-server/smb-signing",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10240,
+                "maxBuild": 26099,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/microsoft-network-server-digitally-sign-communications-always",
+                "seen": "2026-10-18"
+              }
+            ]
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters",
+            "value": "RequireSecuritySignature",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Server Message Block sessions",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Microsoft network server: Digitally sign communications (always)"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253451",
+          "id": "WN11-SO-000120",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254463",
+          "id": "WN22-SO-000190",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278213",
+          "id": "WN25-SO-000190",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.2"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0802"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Server Message Block sessions",
+          "note": "Microsoft network server: Digitally sign communications (always): Enabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000120 (V-253451, CAT II)",
+          "note": "LanManServer\\Parameters RequireSecuritySignature REG_DWORD 1."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "MicrosoftDocs/windowsserverdocs (CC BY 4.0)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/storage/file-server/smb-signing",
+          "date": "2026-10-18",
+          "note": "Windows 11 24H2 Enterprise, Pro and Education require outbound and inbound signing; Windows Server 2025 requires outbound signing only."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/microsoft-network-server-digitally-sign-communications-always",
+          "date": "2026-10-18",
+          "note": "Default for stand-alone servers, member servers and client computers: Disabled (domain controllers: Enabled)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Running server requires signing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "ok",
+              "value": {
+                "out": {
+                  "EnableSMB1Protocol": false,
+                  "RequireSecuritySignature": true
+                }
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Running server does not require signing although the default would",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "ok",
+              "value": {
+                "out": {
+                  "RequireSecuritySignature": false
+                }
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "AutoShareWks": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No runtime data, registry requires signing",
+          "machine": {
+            "build": 19045,
+            "ubr": 6456,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RequireSecuritySignature": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "No runtime data, registry 0",
+          "machine": {
+            "build": 19045,
+            "ubr": 6456,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RequireSecuritySignature": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No runtime data, Windows 11 24H2 Pro default (required)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "AutoShareWks": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "No runtime data, Windows 10 default (not required)",
+          "machine": {
+            "build": 19045,
+            "ubr": 6456,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "AutoShareWks": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No runtime data, Windows Server 2025 default (not required inbound)",
+          "machine": {
+            "build": 26100,
+            "ubr": 32230,
+            "edition": "ServerDatacenter",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "AutoShareServer": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows 7 without value: default not documented",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "namespaceMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "AutoShareWks": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Nothing collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "NET-09",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "SMB client requires signing",
+        "de": "SMB-Client verlangt Signierung"
+      },
+      "rationale": {
+        "en": "A client that does not require signing can be pointed at a spoofed file server or have its session relayed. Riegel reads the running SMB client configuration first, otherwise the registry; a missing value takes the Windows default of the build: required on Windows 11 24H2 Pro, Enterprise, Education and on Windows Server 2025, not required on earlier Windows 10 and 11 builds; for older releases the default is not documented and the result is not checkable.",
+        "de": "Ein Client, der keine Signierung verlangt, lässt sich auf einen gefälschten Dateiserver lenken oder seine Sitzung weiterleiten. Riegel liest zuerst die laufende SMB-Clientkonfiguration, sonst die Registry; fehlt der Wert, gilt der Windows-Standard des Builds: verlangt unter Windows 11 24H2 Pro, Enterprise, Education und Windows Server 2025, nicht verlangt auf älteren Builds von Windows 10 und 11; für ältere Versionen ist der Standard nicht dokumentiert und das Ergebnis nicht prüfbar."
+      },
+      "otNote": {
+        "en": "Clients that must reach old NAS devices or third-party SMB servers without signing support need an exception for those machines.",
+        "de": "Clients, die alte NAS-Geräte oder fremde SMB-Server ohne Signierung erreichen müssen, brauchen für diese Rechner eine Ausnahme."
+      },
+      "remedy": {
+        "en": "Enable \"Microsoft network client: Digitally sign communications (always)\" or run Set-SmbClientConfiguration -RequireSecuritySignature $true.",
+        "de": "„Microsoft-Netzwerk (Client): Kommunikation digital signieren (immer)“ aktivieren oder Set-SmbClientConfiguration -RequireSecuritySignature $true ausführen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firstOf",
+        "checks": [
+          {
+            "type": "wmiProperty",
+            "item": "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration",
+            "property": "RequireSecuritySignature",
+            "rows": "first",
+            "op": "eq",
+            "expected": true,
+            "ifNoRows": "notCheckable"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters",
+            "value": "RequireSecuritySignature",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 26100,
+                "editions": [
+                  "Professional",
+                  "Enterprise",
+                  "Education"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows-server/storage/file-server/smb-signing",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "editions": [
+                  "ServerStandard",
+                  "ServerDatacenter"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows-server/storage/file-server/smb-signing",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10240,
+                "maxBuild": 26099,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/microsoft-network-client-digitally-sign-communications-always",
+                "seen": "2026-10-18"
+              }
+            ]
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters",
+            "value": "RequireSecuritySignature",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Server Message Block sessions",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Microsoft network client: Digitally sign communications (always)"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253449",
+          "id": "WN11-SO-000100",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254460",
+          "id": "WN22-SO-000160",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278210",
+          "id": "WN25-SO-000160",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.2"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0802"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Server Message Block sessions",
+          "note": "Microsoft network client: Digitally sign communications (always): Enabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000100 (V-253449, CAT II)",
+          "note": "LanmanWorkstation\\Parameters RequireSecuritySignature REG_DWORD 1."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "MicrosoftDocs/windowsserverdocs (CC BY 4.0)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/storage/file-server/smb-signing",
+          "date": "2026-10-18",
+          "note": "Windows 11 24H2 Enterprise, Pro and Education and Windows Server 2025 require outbound signing."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/microsoft-network-client-digitally-sign-communications-always",
+          "date": "2026-10-18",
+          "note": "Default on all server types and client computers: Disabled."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Running client requires signing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration": {
+              "status": "ok",
+              "value": {
+                "out": {
+                  "RequireSecuritySignature": true,
+                  "EnableInsecureGuestLogons": false
+                }
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Running client does not require signing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration": {
+              "status": "ok",
+              "value": {
+                "out": {
+                  "RequireSecuritySignature": false
+                }
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "EnablePlainTextPassword": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No runtime data, registry 1",
+          "machine": {
+            "build": 19045,
+            "ubr": 6456,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RequireSecuritySignature": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "No runtime data, Server 2025 default (required)",
+          "machine": {
+            "build": 26100,
+            "ubr": 32230,
+            "edition": "ServerDatacenter",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "EnablePlainTextPassword": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "No runtime data, Windows 10 default (not required)",
+          "machine": {
+            "build": 19045,
+            "ubr": 6456,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "EnablePlainTextPassword": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows 7 without value: default not documented",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration": {
+              "status": "namespaceMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "EnablePlainTextPassword": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Nothing collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "NET-10",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Insecure SMB guest logons are refused",
+        "de": "Unsichere SMB-Gastanmeldungen werden abgelehnt"
+      },
+      "rationale": {
+        "en": "With insecure guest logons the SMB client connects to shares without any authentication, so it cannot tell a spoofed server from the real one. Riegel reads the running client configuration first, then the policy \"Enable insecure guest logons\"; without either the result is not checkable.",
+        "de": "Mit unsicheren Gastanmeldungen verbindet sich der SMB-Client ohne jede Authentifizierung mit Freigaben und kann einen gefälschten Server nicht vom echten unterscheiden. Riegel liest zuerst die laufende Clientkonfiguration, dann die Richtlinie „Unsichere Gastanmeldungen aktivieren“; ohne beides ist das Ergebnis nicht prüfbar."
+      },
+      "otNote": {
+        "en": "Cheap NAS boxes and some machine controllers offer only guest shares. Give them an account instead, or record an exception for the machines that need them.",
+        "de": "Günstige NAS-Geräte und manche Maschinensteuerungen bieten nur Gastfreigaben. Besser ein Konto einrichten, sonst eine Ausnahme für die betroffenen Rechner anlegen."
+      },
+      "remedy": {
+        "en": "Set \"Enable insecure guest logons\" (Network > Lanman Workstation) to Disabled.",
+        "de": "„Unsichere Gastanmeldungen aktivieren“ (Netzwerk > Lanman-Arbeitsstation) auf Deaktiviert setzen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firstOf",
+        "checks": [
+          {
+            "type": "wmiProperty",
+            "item": "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration",
+            "property": "EnableInsecureGuestLogons",
+            "rows": "first",
+            "op": "eq",
+            "expected": false,
+            "ifNoRows": "notCheckable"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation",
+            "value": "AllowInsecureGuestAuth",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 0,
+            "whenMissing": "notCheckable"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation",
+            "value": "AllowInsecureGuestAuth",
+            "type": "dword",
+            "data": 0
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Anonymous connections",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Enable insecure guest logons"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253360",
+          "id": "WN11-CC-000040",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254339",
+          "id": "WN22-CC-000070",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278086",
+          "id": "WN25-CC-000070",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.11.1",
+            "KONF.11.1.2"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1028",
+            "M0928"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Anonymous connections",
+          "note": "Enable insecure guest logons: Disabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-CC-000040 (V-253360, CAT II)",
+          "note": "Policies\\Microsoft\\Windows\\LanmanWorkstation AllowInsecureGuestAuth REG_DWORD 0."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "MicrosoftDocs/windowsserverdocs (CC BY 4.0)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/storage/file-server/enable-insecure-guest-logons-smb2-and-smb3",
+          "date": "2026-10-18",
+          "note": "EnableInsecureGuestLogons of the SMB client configuration; guest logons are refused by default since Windows 10 1709 (Enterprise, Education) and Windows 11 Pro builds after 25267."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Running client refuses guest logons",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration": {
+              "status": "ok",
+              "value": {
+                "out": {
+                  "EnableInsecureGuestLogons": false
+                }
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Running client allows guest logons",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration": {
+              "status": "ok",
+              "value": {
+                "out": {
+                  "EnableInsecureGuestLogons": true
+                }
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No runtime data, policy refuses",
+          "machine": {
+            "build": 19045,
+            "ubr": 6456,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowInsecureGuestAuth": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "No runtime data, policy allows",
+          "machine": {
+            "build": 19045,
+            "ubr": 6456,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowInsecureGuestAuth": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No runtime data, no policy",
+          "machine": {
+            "build": 19045,
+            "ubr": 6456,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Nothing collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\LanmanWorkstation": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "NET-11",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "No plaintext passwords to third-party SMB servers",
+        "de": "Keine Klartextkennwörter an fremde SMB-Server"
+      },
+      "rationale": {
+        "en": "If the SMB client may send unencrypted passwords, a server that does not support password encryption receives the password in clear text. The setting must be off (EnablePlainTextPassword = 0); it is off by default.",
+        "de": "Darf der SMB-Client unverschlüsselte Kennwörter senden, erhält ein Server ohne Kennwortverschlüsselung das Kennwort im Klartext. Die Einstellung muss aus sein (EnablePlainTextPassword = 0); sie ist standardmäßig aus."
+      },
+      "remedy": {
+        "en": "Set \"Microsoft network client: Send unencrypted password to third-party SMB servers\" to Disabled.",
+        "de": "„Microsoft-Netzwerk (Client): Unverschlüsseltes Kennwort an SMB-Server von Drittanbietern senden“ auf Deaktiviert setzen."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters",
+        "value": "EnablePlainTextPassword",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 0,
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 10240,
+            "value": 0,
+            "source": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/microsoft-network-client-send-unencrypted-password-to-third-party-smb-servers",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters",
+            "value": "EnablePlainTextPassword",
+            "type": "dword",
+            "data": 0
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Server Message Block sessions",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Microsoft network client: Send unencrypted password to third-party SMB servers"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253450",
+          "id": "WN11-SO-000110",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254462",
+          "id": "WN22-SO-000180",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278212",
+          "id": "WN25-SO-000180",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.2"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0941"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Server Message Block sessions",
+          "note": "Send unencrypted password to third-party SMB servers: Disabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-SO-000110 (V-253450, CAT II)",
+          "note": "LanmanWorkstation\\Parameters EnablePlainTextPassword REG_DWORD 0."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/microsoft-network-client-send-unencrypted-password-to-third-party-smb-servers",
+          "date": "2026-10-18",
+          "note": "Default on all server types and client computers: Disabled."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Plaintext passwords off",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnablePlainTextPassword": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Plaintext passwords allowed",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnablePlainTextPassword": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Value missing on Windows 11 (default off)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "RequireSecuritySignature": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "Value missing on Windows 7 (default not documented)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters": {
+              "status": "valueMissing",
+              "value": {
+                "values": {
+                  "RequireSecuritySignature": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Key not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "NET-17",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "WinRM client does not use Basic authentication",
+        "de": "WinRM-Client nutzt keine Basic-Authentifizierung"
+      },
+      "rationale": {
+        "en": "Basic authentication sends user name and password only base64-encoded, so anyone who reads the traffic learns them. The WinRM client policy \"Allow Basic authentication\" must be Disabled (AllowBasic = 0). Riegel checks the policy; without it the local WinRM configuration decides, which Riegel does not read, so a missing policy fails.",
+        "de": "Basic-Authentifizierung überträgt Benutzername und Kennwort nur Base64-kodiert; wer den Verkehr mitliest, kennt sie. Die WinRM-Client-Richtlinie „Standardauthentifizierung zulassen“ muss deaktiviert sein (AllowBasic = 0). Riegel prüft die Richtlinie; ohne sie entscheidet die lokale WinRM-Konfiguration, die Riegel nicht liest, daher schlägt eine fehlende Richtlinie fehl."
+      },
+      "otNote": {
+        "en": "Some PowerShell remoting scripts of machine builders use Basic authentication over HTTP. Switch them to Kerberos or certificate-based HTTPS before enforcing the policy.",
+        "de": "Manche PowerShell-Remoting-Skripte von Anlagenbauern nutzen Basic über HTTP. Vor dem Durchsetzen der Richtlinie auf Kerberos oder zertifikatsbasiertes HTTPS umstellen."
+      },
+      "remedy": {
+        "en": "Set Windows Components > Windows Remote Management > WinRM Client > \"Allow Basic authentication\" to Disabled.",
+        "de": "Windows-Komponenten > Windows-Remoteverwaltung > WinRM-Client > „Standardauthentifizierung zulassen“ auf Deaktiviert setzen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client",
+        "value": "AllowBasic",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 0,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client",
+            "value": "AllowBasic",
+            "type": "dword",
+            "data": 0
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Windows Remote Management",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Allow Basic authentication"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253416",
+          "id": "WN11-CC-000330",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254378",
+          "id": "WN22-CC-000470",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278125",
+          "id": "WN25-CC-000470",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.4.3",
+            "KONF.2.2"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M1028",
+            "M0941",
+            "M0928"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Windows Remote Management",
+          "note": "WinRM client: Allow Basic authentication: Disabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-CC-000330 (V-253416, CAT I)",
+          "note": "Policies\\Microsoft\\Windows\\WinRM\\Client AllowBasic REG_DWORD 0; a missing value is a finding."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Basic authentication disabled by policy",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowBasic": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Basic authentication allowed",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowBasic": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No WinRM policy",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Policy not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "NET-18",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "WinRM service does not accept Basic authentication",
+        "de": "WinRM-Dienst nimmt keine Basic-Authentifizierung an"
+      },
+      "rationale": {
+        "en": "Basic authentication sends user name and password only base64-encoded, so anyone who reads the traffic learns them. The WinRM service policy \"Allow Basic authentication\" must be Disabled (AllowBasic = 0). Riegel checks the policy; without it the local WinRM configuration decides, which Riegel does not read, so a missing policy fails.",
+        "de": "Basic-Authentifizierung überträgt Benutzername und Kennwort nur Base64-kodiert; wer den Verkehr mitliest, kennt sie. Die WinRM-Dienst-Richtlinie „Standardauthentifizierung zulassen“ muss deaktiviert sein (AllowBasic = 0). Riegel prüft die Richtlinie; ohne sie entscheidet die lokale WinRM-Konfiguration, die Riegel nicht liest, daher schlägt eine fehlende Richtlinie fehl."
+      },
+      "otNote": {
+        "en": "Some PowerShell remoting scripts of machine builders use Basic authentication over HTTP. Switch them to Kerberos or certificate-based HTTPS before enforcing the policy.",
+        "de": "Manche PowerShell-Remoting-Skripte von Anlagenbauern nutzen Basic über HTTP. Vor dem Durchsetzen der Richtlinie auf Kerberos oder zertifikatsbasiertes HTTPS umstellen."
+      },
+      "remedy": {
+        "en": "Set Windows Components > Windows Remote Management > WinRM Service > \"Allow Basic authentication\" to Disabled.",
+        "de": "Windows-Komponenten > Windows-Remoteverwaltung > WinRM-Dienst > „Standardauthentifizierung zulassen“ auf Deaktiviert setzen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service",
+        "value": "AllowBasic",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 0,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service",
+            "value": "AllowBasic",
+            "type": "dword",
+            "data": 0
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Windows Remote Management",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Allow Basic authentication"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253418",
+          "id": "WN11-CC-000345",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254381",
+          "id": "WN22-CC-000500",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278128",
+          "id": "WN25-CC-000500",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.4.3",
+            "KONF.2.2"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M1028",
+            "M0941",
+            "M0928"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Windows Remote Management",
+          "note": "WinRM service: Allow Basic authentication: Disabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-CC-000345 (V-253418, CAT I)",
+          "note": "Policies\\Microsoft\\Windows\\WinRM\\Service AllowBasic REG_DWORD 0; a missing value is a finding."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Basic authentication disabled by policy",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowBasic": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Basic authentication allowed",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowBasic": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No WinRM policy",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Policy not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "NET-19",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "WinRM client and service do not allow unencrypted traffic",
+        "de": "WinRM-Client und -Dienst erlauben keinen unverschlüsselten Verkehr"
+      },
+      "rationale": {
+        "en": "Unencrypted WinRM traffic exposes commands, output and, with some authentication methods, credentials to anyone on the network path. Both the client and the service policy \"Allow unencrypted traffic\" must be Disabled (AllowUnencryptedTraffic = 0); a missing policy fails.",
+        "de": "Unverschlüsselter WinRM-Verkehr legt Befehle, Ausgaben und bei manchen Anmeldeverfahren auch Anmeldedaten für jeden im Netzweg offen. Die Richtlinie „Unverschlüsselten Datenverkehr zulassen“ muss für Client und Dienst deaktiviert sein (AllowUnencryptedTraffic = 0); eine fehlende Richtlinie schlägt fehl."
+      },
+      "otNote": {
+        "en": "Remote maintenance scripts over plain HTTP need to move to HTTPS or Kerberos encryption first.",
+        "de": "Fernwartungsskripte über reines HTTP müssen zuerst auf HTTPS oder Kerberos-Verschlüsselung umgestellt werden."
+      },
+      "remedy": {
+        "en": "Set \"Allow unencrypted traffic\" to Disabled under both WinRM Client and WinRM Service.",
+        "de": "„Unverschlüsselten Datenverkehr zulassen“ unter WinRM-Client und WinRM-Dienst auf Deaktiviert setzen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client",
+            "value": "AllowUnencryptedTraffic",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 0,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service",
+            "value": "AllowUnencryptedTraffic",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 0,
+            "whenMissing": "fail"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client",
+            "value": "AllowUnencryptedTraffic",
+            "type": "dword",
+            "data": 0
+          },
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service",
+            "value": "AllowUnencryptedTraffic",
+            "type": "dword",
+            "data": 0
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Windows Remote Management",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Allow unencrypted traffic"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253417",
+          "id": "WN11-CC-000335",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253419",
+          "id": "WN11-CC-000350",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254379",
+          "id": "WN22-CC-000480",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254382",
+          "id": "WN22-CC-000510",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278126",
+          "id": "WN25-CC-000480",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278129",
+          "id": "WN25-CC-000510",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.2",
+            "KONF.4.3"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0808"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Windows Remote Management",
+          "note": "WinRM Client and WinRM Service: Allow unencrypted traffic: Disabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-CC-000335 (V-253417, CAT II)",
+          "note": "WinRM\\Client AllowUnencryptedTraffic REG_DWORD 0; WN11-CC-000350 the same for WinRM\\Service."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Both policies disallow unencrypted traffic",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowUnencryptedTraffic": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowUnencryptedTraffic": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Client allows unencrypted traffic",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowUnencryptedTraffic": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowUnencryptedTraffic": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Service policy missing",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowUnencryptedTraffic": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Service policy not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Client": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowUnencryptedTraffic": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WinRM\\Service": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "NET-23",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Solicited Remote Assistance is turned off by policy",
+        "de": "Angeforderte Remoteunterstützung ist per Richtlinie abgeschaltet"
+      },
+      "rationale": {
+        "en": "A Remote Assistance invitation lets whoever holds it take control of the user's session; intercepted invitations have been abused. The policy \"Configure Solicited Remote Assistance\" must be Disabled (fAllowToGetHelp = 0). Without the policy the local setting decides, which Riegel does not read, so a missing policy fails.",
+        "de": "Eine Einladung zur Remoteunterstützung erlaubt dem, der sie hat, die Sitzung des Benutzers zu übernehmen; abgefangene Einladungen wurden missbraucht. Die Richtlinie „Remoteunterstützung anfordern“ muss deaktiviert sein (fAllowToGetHelp = 0). Ohne Richtlinie entscheidet die lokale Einstellung, die Riegel nicht liest, daher schlägt eine fehlende Richtlinie fehl."
+      },
+      "otNote": {
+        "en": "Plant support sometimes uses Remote Assistance for operator help. Prefer a managed remote access path with logging; otherwise record an exception.",
+        "de": "Der Anlagensupport nutzt teils Remoteunterstützung für Bedienerhilfe. Besser einen verwalteten Fernzugang mit Protokollierung nutzen; sonst eine Ausnahme anlegen."
+      },
+      "remedy": {
+        "en": "Set System > Remote Assistance > \"Configure Solicited Remote Assistance\" to Disabled.",
+        "de": "System > Remoteunterstützung > „Remoteunterstützung anfordern“ auf Deaktiviert setzen."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+        "value": "fAllowToGetHelp",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 0,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+            "value": "fAllowToGetHelp",
+            "type": "dword",
+            "data": 0
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Remote Assistance",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Configure Solicited Remote Assistance"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253382",
+          "id": "WN11-CC-000155",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.4.4"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1042",
+            "M0942"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Remote Assistance",
+          "note": "Configure Solicited Remote Assistance: Disabled."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-CC-000155 (V-253382, CAT I)",
+          "note": "Policies\\Microsoft\\Windows NT\\Terminal Services fAllowToGetHelp REG_DWORD 0; a missing value is a finding."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Remote Assistance off by policy",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "fAllowToGetHelp": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Remote Assistance allowed by policy",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "fAllowToGetHelp": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "No Terminal Services policy",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Policy not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "NET-25",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "RPC server accepts only authenticated clients",
+        "de": "RPC-Server nimmt nur authentifizierte Clients an"
+      },
+      "rationale": {
+        "en": "RPC interfaces reachable without authentication widen the attack surface of every service that registers one. The policy \"Restrict Unauthenticated RPC clients\" must be \"Authenticated\" (1) or \"Authenticated without exceptions\" (2). Without the policy Windows clients behave as \"Authenticated\" and Windows Server as \"None\".",
+        "de": "RPC-Schnittstellen ohne Authentifizierung vergrößern die Angriffsfläche jedes Dienstes, der eine anbietet. Die Richtlinie „Nicht authentifizierte RPC-Clients einschränken“ muss auf „Authentifiziert“ (1) oder „Authentifiziert ohne Ausnahmen“ (2) stehen. Ohne Richtlinie verhalten sich Windows-Clients wie „Authentifiziert“, Windows Server wie „Keine“."
+      },
+      "otNote": {
+        "en": "Some DCOM-based plant interfaces (OPC DA) call RPC without authentication. Test \"Authenticated\" on such servers first.",
+        "de": "Manche DCOM-basierte Anlagenschnittstellen (OPC DA) rufen RPC ohne Authentifizierung auf. „Authentifiziert“ auf solchen Servern zuerst testen."
+      },
+      "remedy": {
+        "en": "Set System > Remote Procedure Call > \"Restrict Unauthenticated RPC clients\" to Enabled with \"Authenticated\".",
+        "de": "System > Remoteprozeduraufruf > „Nicht authentifizierte RPC-Clients einschränken“ auf Aktiviert mit „Authentifiziert“ setzen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Rpc",
+        "value": "RestrictRemoteClients",
+        "valueType": "dword",
+        "op": "in",
+        "expected": [
+          1,
+          2
+        ],
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 10240,
+            "installationTypes": [
+              "Client"
+            ],
+            "value": 1,
+            "source": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-remoteprocedurecall",
+            "seen": "2026-10-18"
+          },
+          {
+            "minBuild": 14393,
+            "installationTypes": [
+              "Server",
+              "Server Core"
+            ],
+            "value": 0,
+            "source": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-remoteprocedurecall",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Rpc",
+            "value": "RestrictRemoteClients",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "section": "Remote Procedure Call",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Restrict Unauthenticated RPC clients"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG",
+          "section": "V-253383",
+          "id": "WN11-CC-000165",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG",
+          "section": "V-254431",
+          "id": "WN22-MS-000040",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2022_V2R11_STIG.zip",
+          "version": "V2R11"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG",
+          "section": "V-278180",
+          "id": "WN25-MS-000040",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Server_2025_V1R4_STIG.zip",
+          "version": "V1R4"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.11.1",
+            "BER.4.5"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1028",
+            "M0928"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (last reviewed 2026-01-23)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Remote Procedure Call",
+          "note": "Restrict Unauthenticated RPC clients: Enabled, Authenticated."
+        },
+        {
+          "src": "DISA",
+          "doc": "U_MS_Windows_11_STIG_V2R11_Manual-xccdf.xml (Release 11, benchmark date 30 Sep 2026)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "WN11-CC-000165 (V-253383, CAT II)",
+          "note": "Policies\\Microsoft\\Windows NT\\Rpc RestrictRemoteClients REG_DWORD 1."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-remoteprocedurecall",
+          "date": "2026-10-18",
+          "note": "Not configured: the RPC runtime behaves as \"Authenticated\" on Windows clients and \"None\" on Windows Server. Values 0 None, 1 Authenticated, 2 Authenticated without exceptions as in RPC.admx (read-only on Windows 11, 2026-10-18)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Authenticated",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Rpc": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictRemoteClients": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Authenticated without exceptions",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Rpc": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictRemoteClients": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "None",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Rpc": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictRemoteClients": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Client without policy (default Authenticated)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Rpc": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "Server without policy (default None)",
+          "machine": {
+            "build": 20348,
+            "ubr": 4294,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Rpc": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Policy not collected",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Rpc": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "NET-29",
+      "since": "2026.10",
+      "state": "active",
+      "category": "network",
+      "severity": "medium",
+      "kind": "inventory",
+      "title": {
+        "en": "IP routing between network interfaces (inventory)",
+        "de": "IP-Weiterleitung zwischen Netzwerkschnittstellen (Bestand)"
+      },
+      "rationale": {
+        "en": "A dual-homed plant PC that forwards IP packets connects network segments that the plant design keeps apart. Riegel lists the IP forwarding setting (IPEnableRouter) together with the adapters and gateways as network facts. No shippable hardening source sets an expected value for it, so the rule reports it for review only.",
+        "de": "Ein Anlagenrechner mit zwei Netzen, der IP-Pakete weiterleitet, verbindet Segmente, die die Anlagenplanung trennt. Riegel führt die Weiterleitung (IPEnableRouter) mit Adaptern und Gateways als Netzwerkfakten auf. Keine auslieferbare Härtungsquelle legt dafür einen Sollwert fest; die Regel meldet sie daher nur zur Prüfung."
+      },
+      "otNote": {
+        "en": "Gateways and protocol converters may route by design; document that in the plant's network plan.",
+        "de": "Gateways und Protokollumsetzer leiten teils gewollt weiter; das im Netzplan der Anlage festhalten."
+      },
+      "remedy": {
+        "en": "If the machine is not meant to route, set IPEnableRouter to 0 and restart.",
+        "de": "Soll der Rechner nicht routen, IPEnableRouter auf 0 setzen und neu starten."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "networkFacts",
+        "items": [
+          "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters",
+          "wmi:root\\cimv2:Win32_NetworkAdapterConfiguration",
+          "api:winhttp-proxy"
+        ]
+      },
+      "remediation": {
+        "manual": {
+          "en": "Review IP forwarding against the network plan.",
+          "de": "IP-Weiterleitung gegen den Netzplan prüfen."
+        }
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "ids": [
+            "ARCH.2.2",
+            "ARCH.4.2"
+          ],
+          "version": "2026-09-24"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1030",
+            "M0930"
+          ],
+          "url": "https://attack.mitre.org/mitigations/enterprise/",
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "Forwarding off on a dual-homed machine",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "IPEnableRouter": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_NetworkAdapterConfiguration": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "SettingID": "{A1}",
+                    "DefaultIPGateway": [
+                      "192.0.2.1"
+                    ]
+                  },
+                  {
+                    "SettingID": "{A2}",
+                    "DefaultIPGateway": null
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "info"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+# Belegschlüssel der Regeln des Pakets rules-a, die contracts/collection-plan.json (Version 1) noch nicht erfasst.
+# Je Zeile „<Regel-ID> <Schlüssel>“; jede Lücke steht als Integrationsanfrage im Bericht des Pakets.
+# Ein Test prüft, dass RuleTool coverage keine weiteren Lücken für diese Regeln meldet.
+LIFE-03 reg:HKLM\SYSTEM\CurrentControlSet\Services\wuauserv   # Rückfallquelle des service-Checks (Win32_Service liegt im Plan)
+LIFE-05 reg:HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment   # Integrationsanfrage: Einzelschlüssel, Wert PROCESSOR_ARCHITECTURE
+NET-05 reg:HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\WinHttp   # Integrationsanfrage: Einzelschlüssel, Wert DisableWpad
