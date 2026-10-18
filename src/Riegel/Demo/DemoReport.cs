@@ -57,9 +57,8 @@ internal static class DemoReport
     /// <summary>Alle Dokumente der Demo-Anlage nach <paramref name="folder"/> (Anlage im Arbeitsordner <paramref name="work"/>).</summary>
     public static IReadOnlyList<Entry> Write(string folder, string work, IPlatform platform)
     {
-        bool fake = AppServices.FakeRequested();
-        var plant = DemoPlant.Build(work, platform, fake);
-        var services = DemoPlant.Services(platform, DemoData.Now, fake);
+        var plant = DemoPlant.Build(work, platform);
+        var services = DemoPlant.Services(platform, DemoData.Now);
         plant = services.Plants.Open(plant.Folder!, readOnly: false);
         var language = UiLanguage.Normalize(CultureInfo.CurrentUICulture.Name) is { Length: > 0 } code ? code : UiLanguage.Fallback;
         var today = services.Today;
@@ -152,7 +151,6 @@ internal static class DemoReport
         var sb = new StringBuilder();
         sb.Append("Riegel demo report – plant \"").Append(DemoData.PlantName).Append("\" (fictitious), as of ")
             .Append(DemoData.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)).Append('\n');
-        if (AppServices.FakeRequested()) sb.Append("Development services (RIEGEL_FAKE_SERVICES=1)\n");
         sb.Append('\n');
         foreach (var e in entries)
             sb.Append(e.Output).Append('\t').Append(e.Skipped is null ? System.IO.Path.GetRelativePath(folder, e.Path!).Replace('\\', '/') : "skipped: " + e.Skipped).Append('\n');

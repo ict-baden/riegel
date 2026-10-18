@@ -39,6 +39,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Riegel.Core\Riegel.Core.csproj" />
     <ProjectReference Include="..\..\src\Riegel.Commands\Riegel.Commands.csproj" />
+    <!-- RuleTool nur bauen (die RuleTool-Tests starten es als eigenen Prozess), auch im Linux-Job -->
+    <ProjectReference Include="..\..\tools\RuleTool\RuleTool.csproj" ReferenceOutputAssembly="false" Private="false" />
   </ItemGroup>
 
   <!-- Nur unter Windows: Windows-Anbindung, die WPF-App und der gebaute net35-Sammler (Referenztest, spec 8.13) -->
@@ -46,6 +48,19 @@
     <ProjectReference Include="..\..\src\Riegel.Platform.Windows\Riegel.Platform.Windows.csproj" />
     <ProjectReference Include="..\..\src\Riegel\Riegel.csproj" />
     <ProjectReference Include="..\..\src\Riegel.Collector\Riegel.Collector.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=net35" Private="false" />
+    <!-- Riegel.Cli.exe als eigener Prozess (ConsoleHostTests): nur bauen -->
+    <ProjectReference Include="..\..\src\Riegel.Cli\Riegel.Cli.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=net10.0-windows10.0.19041.0" Private="false" />
+  </ItemGroup>
+
+  <!-- Das Sammler-Paket neben die Tests (wie collector\ neben Riegel.exe in MSI und ZIP), für „Sammler auf Datenträger
+       kopieren“ (O15) im Demo-Bericht und in den Ende-zu-Ende-Tests -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows10.0.19041.0'">
+    <None Include="..\..\src\Riegel.Collector\bin\$(Configuration)\net35\Riegel.Collector.exe" Link="collector\Riegel.Collector.exe" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\src\Riegel.Collector\bin\$(Configuration)\net35\Riegel.Collector.exe.config" Link="collector\Riegel.Collector.exe.config" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\tools\collect-builtin\collect-builtin.cmd" Link="collector\collect-builtin.cmd" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\src\Riegel.Collector\README.txt" Link="collector\README.txt" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\LICENSE" Link="collector\LICENSE" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\THIRD-PARTY-NOTICES.txt" Link="collector\THIRD-PARTY-NOTICES.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">

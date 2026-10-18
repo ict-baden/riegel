@@ -43,12 +43,10 @@ public sealed class PlanAndJsonTests
     }
 
     [Fact]
-    public void Kopie_des_Plans_in_der_Windows_Anbindung_entspricht_dem_Vertrag()
+    public void Windows_Anbindung_bettet_den_Plan_des_Vertrags_ein()
     {
-        string contract = File.ReadAllText(RepoPaths.CollectionPlan).Replace("\r\n", "\n").TrimEnd('\n');
-        Assert.True(contract == PlanCopy.Json.Replace("\r\n", "\n"),
-            "src/Riegel.Platform.Windows/PlanCopy.cs weicht von contracts/collection-plan.json ab – Kopie neu erzeugen.");
         Assert.Equal(CollectorTestFiles.ContractPlan().Wmi.Count, WindowsPlatform.LoadPlan().Wmi.Count);
+        Assert.Equal(CollectorTestFiles.ContractPlan().Registry.Count, WindowsPlatform.LoadPlan().Registry.Count);
     }
 
     [Theory]

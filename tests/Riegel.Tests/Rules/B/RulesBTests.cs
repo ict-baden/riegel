@@ -49,10 +49,9 @@ public sealed partial class RulesBTests
     /// Schlüssel, die Regeln dieses Pakets brauchen, die der Erhebungsplan 1 aber noch nicht liest
     /// (Integrationsanfrage im Abschlussbericht). Bis dahin ergeben die betroffenen Regeln „nicht prüfbar“.
     /// </summary>
-    private static readonly HashSet<string> PendingPlanKeys = new(StringComparer.OrdinalIgnoreCase)
-    {
-        @"HKLM\SYSTEM\CurrentControlSet\Policies\Microsoft\FVE", // ENC-07 RDVDenyWriteAccess (BitLocker CSP: ADMX-Zuordnung)
-    };
+    // Schlüssel, die die Regeln lesen, die der Erhebungsplan aber noch nicht enthält (seit der Integration keine;
+    // FVE für ENC-07 steht im Plan)
+    private static readonly HashSet<string> PendingPlanKeys = new(StringComparer.OrdinalIgnoreCase);
 
     private static IReadOnlyList<Rule> Rules() =>
         [.. Prefixes.SelectMany(p => RiegelJson.Deserialize<RuleFile>(File.ReadAllBytes(Path.Combine(RepoPaths.Rules, p + ".json"))).Rules)];
@@ -181,10 +180,12 @@ public sealed partial class RulesBTests
     {
         var file = Path.Combine(RepoPaths.TestsProject, "Rules", "B", "when-missing-pass.txt");
         var listed = File.ReadAllLines(file).Select(l => l.Split('#')[0].Trim()).Where(l => l.Length > 0).ToHashSet(StringComparer.Ordinal);
+        // whenMissing: pass, und seit dem Erhebungsplan mit Services\<Name>: ifAbsent pass eines Diensts über die Registry
         var used = Rules().Where(r => CatalogueInvariantTests.Flatten(r.Check).Any(c => c switch
         {
             RegistryCheck rc => rc.WhenMissing == WhenMissing.Pass,
             RegistryEffectiveCheck re => re.WhenMissing == WhenMissing.Pass,
+            ServiceCheck sc => sc.IfAbsent == AbsentOutcome.Pass,
             _ => false,
         })).Select(r => r.Id).ToHashSet(StringComparer.Ordinal);
         Assert.Equal(used.Order(StringComparer.Ordinal), listed.Order(StringComparer.Ordinal));

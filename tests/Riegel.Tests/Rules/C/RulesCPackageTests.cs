@@ -27,11 +27,8 @@ internal static class RulesCPackage
     /// Registry-Schlüssel, die die Regeln lesen, aber der Erfassungsplan v1 noch nicht erfasst (Integrationsanfrage).
     /// Bis dahin ergeben die lokalen Quellen „nicht prüfbar“; die Testvektoren geben ihre Abdeckung selbst an.
     /// </summary>
-    public static readonly string[] PlanGaps =
-    [
-        @"HKLM\SYSTEM\CurrentControlSet\Services\W32Time\Parameters",
-        @"HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpClient",
-    ];
+    // Seit der Integration enthält der Erhebungsplan die beiden W32Time-Schlüssel von AUD-30: keine Lücken mehr
+    public static readonly string[] PlanGaps = [];
 
     public static IReadOnlyList<Rule> Rules() =>
         [.. Prefixes.SelectMany(p => RiegelJson.Deserialize<RuleFile>(File.ReadAllBytes(Path.Combine(RepoPaths.Rules, p + ".json"))).Rules)];

@@ -11,8 +11,8 @@ namespace Riegel.Tests.Windows.App;
 
 /// <summary>
 /// Demo-Anlage „Musterwerk – Linie 3“ (spec 7.9): eingebettete synthetische Exporte, nur Rollen und erfundene Nachweise,
-/// Aufbau über die echten Dienste. Mit den Entwicklungsdiensten zeigt sie Verschlechterung, ablaufende und beantragte
-/// Ausnahme, Zuschnitt, überfällige Maßnahme und einen Rechner mit passivem Defender.
+/// Aufbau und Auswertung über die echten Dienste (Engine und eingebetteter Katalog): Verschlechterung, ablaufende und
+/// beantragte Ausnahme, Zuschnitt, überfällige Maßnahme und ein Rechner mit passivem Defender.
 /// </summary>
 [Collection(AppCollection.Name)]
 public sealed class DemoPlantTests
@@ -77,8 +77,8 @@ public sealed class DemoPlantTests
     public void Aufbau_ueber_die_echten_Dienste()
     {
         using var temp = new TempFolder();
-        var plant = DemoPlant.Build(temp.Path, PlatformFactory.Create(), fake: false);
-        var services = DemoPlant.Services(PlatformFactory.Create(), DemoData.Now, fake: false);
+        var plant = DemoPlant.Build(temp.Path, PlatformFactory.Create());
+        var services = DemoPlant.Services(PlatformFactory.Create(), DemoData.Now);
         var context = PlantContext.Load(services, services.Plants.Open(plant.Folder!, readOnly: false), isDemo: true);
         Assert.Equal("Musterwerk – Linie 3", context.Plant.Name);
         Assert.Equal(6, context.Machines.Count);
@@ -92,11 +92,11 @@ public sealed class DemoPlantTests
     }
 
     [Fact]
-    public void Mit_Entwicklungsdiensten_zeigt_die_Demo_jeden_Fall()
+    public void Mit_der_echten_Engine_zeigt_die_Demo_jeden_Fall()
     {
         using var temp = new TempFolder();
-        var plant = DemoPlant.Build(temp.Path, PlatformFactory.Create(), fake: true);
-        var services = DemoPlant.Services(PlatformFactory.Create(), DemoData.Now, fake: true);
+        var plant = DemoPlant.Build(temp.Path, PlatformFactory.Create());
+        var services = DemoPlant.Services(PlatformFactory.Create(), DemoData.Now);
         var context = PlantContext.Load(services, services.Plants.Open(plant.Folder!, readOnly: false), isDemo: true);
         RuleResult Result(string host, string rule) =>
             context.Machines.Single(m => m.HostName == host).Latest!.Results.Single(r => r.RuleId == rule);

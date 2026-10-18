@@ -52,7 +52,7 @@ Collection plan `riegel.collection-plan/1` version 1. Limits: at most 50,000 reg
 | `HKLM\SYSTEM\CurrentControlSet\Services\USBSTOR` | this key only | all | no |
 | `HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters` | this key only | all | no |
 | `HKLM\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters` | this key only | all | no |
-| `HKLM\SYSTEM\CurrentControlSet\Services\EventLog\Security` | this key only | all | no |
+| `HKLM\SYSTEM\CurrentControlSet\Services\EventLog\Security` | this key only | all | yes |
 | `HKLM\SYSTEM\CurrentControlSet\Services\EventLog\System` | this key only | all | no |
 | `HKLM\SYSTEM\CurrentControlSet\Services\EventLog\Application` | this key only | all | no |
 | `HKLM\SYSTEM\CurrentControlSet\Control\SecureBoot\State` | this key only | all | no |
@@ -75,6 +75,15 @@ Collection plan `riegel.collection-plan/1` version 1. Limits: at most 50,000 reg
 | `HKLM\SOFTWARE\WOW6432Node\Microsoft\Office\15.0\Common\InstallRoot` | this key only | all | no |
 | `HKLM\SOFTWARE\Microsoft\Office\14.0\Common\InstallRoot` | this key only | all | no |
 | `HKLM\SOFTWARE\WOW6432Node\Microsoft\Office\14.0\Common\InstallRoot` | this key only | all | no |
+| `HKLM\SYSTEM\CurrentControlSet\Services\W32Time\Parameters` | this key only | all | no |
+| `HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpClient` | this key only | all | no |
+| `HKLM\SYSTEM\CurrentControlSet\Policies\Microsoft\FVE` | this key only | all | no |
+| `HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment` | this key only | `PROCESSOR_ARCHITECTURE` | no |
+| `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\WinHttp` | this key only | `DisableWpad` | no |
+| `HKLM\SYSTEM\CurrentControlSet\Services\RemoteRegistry` | this key only | `Start` | no |
+| `HKLM\SYSTEM\CurrentControlSet\Services\Spooler` | this key only | `Start` | no |
+| `HKLM\SYSTEM\CurrentControlSet\Services\W32Time` | this key only | `Start` | no |
+| `HKLM\SYSTEM\CurrentControlSet\Services\wuauserv` | this key only | `Start` | no |
 
 **WMI (queries and the allowed read-only methods)**
 

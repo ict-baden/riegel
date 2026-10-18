@@ -45,7 +45,6 @@ internal static class Screenshots
         AsyncCommand.Strict = true;
         AsyncCommand.Failed = session.Fail;
         await session.OpenDemoAsync();
-        if (session.Services.IsFake) Console.WriteLine("  (development services)");
 
         int written = 0, findings = 0;
         foreach (var dark in variants)

@@ -164,6 +164,9 @@
           "items": {
             "wmi:root\\cimv2:Win32_Service": {
               "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry": {
+              "status": "notCollected"
             }
           },
           "expect": "notCheckable"
@@ -182,6 +185,9 @@
           "items": {
             "wmi:root\\cimv2:Win32_Service": {
               "status": "denied"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry": {
+              "status": "notCollected"
             }
           },
           "expect": "notCheckable"
@@ -211,6 +217,9 @@
                 ]
               },
               "truncated": true
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry": {
+              "status": "notCollected"
             }
           },
           "expect": "notCheckable"
@@ -229,9 +238,30 @@
           "items": {
             "wmi:root\\cimv2:Win32_Service": {
               "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry": {
+              "status": "notCollected"
             }
           },
           "expect": "notCheckable"
+        },
+        {
+          "name": "service list not collected, service key absent (plan key)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "pass"
         },
         {
           "name": "wrong type",
@@ -549,6 +579,9 @@
           "items": {
             "wmi:root\\cimv2:Win32_Service": {
               "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\Spooler": {
+              "status": "notCollected"
             }
           },
           "expect": "notCheckable"
@@ -567,6 +600,9 @@
           "items": {
             "wmi:root\\cimv2:Win32_Service": {
               "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\Spooler": {
+              "status": "notCollected"
             }
           },
           "expect": "notCheckable"

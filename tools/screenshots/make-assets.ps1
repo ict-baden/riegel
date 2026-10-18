@@ -16,9 +16,7 @@
     -Review rendert zusaetzlich alle fuenf Sprachen (hell) in einen Temp-Ordner und zeigt die Meldungen der
     Layout-Pruefung ("[layout]": gekuerzte Texte, Richtlinie 13 - 30 % Reserve, Chinesisch einmal pruefen).
 
-    -DevServices nimmt die nachgebildeten Dienste der Entwickler (RIEGEL_FAKE_SERVICES=1, nur fuer die Demo),
-    solange Regelwerk und Auswertung noch Platzhalter sind. Fuer die Doku eines Releases ohne diesen Schalter
-    erzeugen - dann zeigen die Bilder die echte Auswertung.
+    Die Demo-Anlage wird mit der echten Engine und dem eingebetteten Katalog ausgewertet.
 
 .EXAMPLE
     cd tools\banner; npm install; cd ..\screenshots; .\make-assets.ps1
@@ -27,7 +25,6 @@
 #>
 param(
     [switch]$Review,
-    [switch]$DevServices,
     [switch]$SkipBanner
 )
 $ErrorActionPreference = 'Stop'
@@ -39,7 +36,7 @@ New-Item -ItemType Directory -Force $shots, $tmp | Out-Null
 
 $saved = @{}
 $data = $null
-foreach ($name in 'RIEGEL_LANGUAGE', 'RIEGEL_DATA_DIR', 'RIEGEL_FAKE_SERVICES') { $saved[$name] = [Environment]::GetEnvironmentVariable($name) }
+foreach ($name in 'RIEGEL_LANGUAGE', 'RIEGEL_DATA_DIR') { $saved[$name] = [Environment]::GetEnvironmentVariable($name) }
 
 function Invoke-Screenshots([string]$exe, [string]$language, [string]$target, [string]$theme) {
     $env:RIEGEL_LANGUAGE = $language
@@ -56,7 +53,6 @@ try {
     # fester Name, weil die Info-Seite den Datenordner zeigt (%TEMP%\Riegel-Screenshots statt eines Zufallsnamens)
     $data = Join-Path ([IO.Path]::GetTempPath()) 'Riegel-Screenshots'
     $env:RIEGEL_DATA_DIR = $data
-    $env:RIEGEL_FAKE_SERVICES = if ($DevServices) { '1' } else { $null }
 
     # 1. Screenshots auf Englisch, hell und dunkel
     $en = Join-Path $tmp 'en'

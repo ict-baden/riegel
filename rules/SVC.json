@@ -162,7 +162,27 @@
           "expect": "pass"
         },
         {
-          "name": "service list not collected",
+          "name": "service list and service key not collected",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\Spooler": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "service list not collected, service key absent (spooler not installed)",
           "machine": {
             "build": 20348,
             "edition": "ServerStandard",
@@ -176,7 +196,7 @@
               "status": "notCollected"
             }
           },
-          "expect": "notCheckable"
+          "expect": "pass"
         },
         {
           "name": "client",

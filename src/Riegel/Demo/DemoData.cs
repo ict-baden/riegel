@@ -78,7 +78,7 @@ internal static class DemoData
             RoleOwner, new DateOnly(2026, 4, 20), new DateOnly(2027, 4, 20), "CHG-DEMO-0001"),
         Approve(new ExceptionEntry("EX-0002", "SVC-01", Machine("OPS-01"), ReasonCategory.TechnicalNecessity,
                 "Der Betriebsserver ist zugleich Druckserver für die Etikettendrucker der Linie 3.",
-                null, null, "Running", Approval.None, new DateOnly(2025, 10, 20), RoleOwner, null, "2026.10", null),
+                null, null, "{\"startMode\":\"Auto\",\"state\":\"Running\"}", Approval.None, new DateOnly(2025, 10, 20), RoleOwner, null, "2026.10", null),
             RoleIsb, new DateOnly(2025, 11, 5), new DateOnly(2026, 11, 5), "CHG-DEMO-0002"),
         new ExceptionEntry("EX-0003", "RDP-01", Machine("HMI-L3-02"), ReasonCategory.VendorRequirement,
             "Das Fernwartungsgerät von Beispiel-Anlagenbau unterstützt keine Authentifizierung auf Netzwerkebene.",

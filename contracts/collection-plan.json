@@ -165,8 +165,9 @@
         "path": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\EventLog\\Security",
         "kind": "key",
         "maxDepth": 0,
-        "needsAdmin": false,
-        "mode": "always"
+        "needsAdmin": true,
+        "mode": "always",
+        "note": "denied without admin on Windows Server 2022/2025 and Windows 11 x64/Arm64 (recorded on the CI runners)"
       },
       {
         "path": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\EventLog\\System",
@@ -342,6 +343,96 @@
         "needsAdmin": false,
         "mode": "always",
         "note": "32-bit view"
+      },
+      {
+        "path": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\W32Time\\Parameters",
+        "kind": "key",
+        "maxDepth": 0,
+        "needsAdmin": false,
+        "mode": "always",
+        "note": "AUD-30: local time source (Type) when no W32Time policy is set"
+      },
+      {
+        "path": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\W32Time\\TimeProviders\\NtpClient",
+        "kind": "key",
+        "maxDepth": 0,
+        "needsAdmin": false,
+        "mode": "always",
+        "note": "AUD-30: local NTP client (Enabled)"
+      },
+      {
+        "path": "HKLM\\SYSTEM\\CurrentControlSet\\Policies\\Microsoft\\FVE",
+        "kind": "key",
+        "maxDepth": 0,
+        "needsAdmin": false,
+        "mode": "always",
+        "note": "ENC-07: RDVDenyWriteAccess (the BitLocker CSP ADMX mapping puts it under SYSTEM\\CurrentControlSet\\Policies)"
+      },
+      {
+        "path": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment",
+        "kind": "key",
+        "maxDepth": 0,
+        "needsAdmin": false,
+        "mode": "always",
+        "values": [
+          "PROCESSOR_ARCHITECTURE"
+        ],
+        "note": "LIFE-05: only PROCESSOR_ARCHITECTURE"
+      },
+      {
+        "path": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\WinHttp",
+        "kind": "key",
+        "maxDepth": 0,
+        "needsAdmin": false,
+        "mode": "always",
+        "values": [
+          "DisableWpad"
+        ],
+        "note": "NET-05: only DisableWpad"
+      },
+      {
+        "path": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry",
+        "kind": "key",
+        "maxDepth": 0,
+        "needsAdmin": false,
+        "mode": "always",
+        "values": [
+          "Start"
+        ],
+        "note": "start mode only (fallback of the service check without Win32_Service, as in the built-in bundle)"
+      },
+      {
+        "path": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Spooler",
+        "kind": "key",
+        "maxDepth": 0,
+        "needsAdmin": false,
+        "mode": "always",
+        "values": [
+          "Start"
+        ],
+        "note": "start mode only (fallback of the service check without Win32_Service, as in the built-in bundle)"
+      },
+      {
+        "path": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\W32Time",
+        "kind": "key",
+        "maxDepth": 0,
+        "needsAdmin": false,
+        "mode": "always",
+        "values": [
+          "Start"
+        ],
+        "note": "start mode only (fallback of the service check without Win32_Service, as in the built-in bundle)"
+      },
+      {
+        "path": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\wuauserv",
+        "kind": "key",
+        "maxDepth": 0,
+        "needsAdmin": false,
+        "mode": "always",
+        "values": [
+          "Start"
+        ],
+        "note": "start mode only (fallback of the service check without Win32_Service, as in the built-in bundle)"
       }
     ]
   },

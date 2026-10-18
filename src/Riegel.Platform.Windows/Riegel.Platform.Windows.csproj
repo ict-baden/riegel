@@ -29,6 +29,11 @@
     <Compile Include="..\Riegel.Collector\Collection\**\*.cs" Link="Collection\%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
+  <!-- Derselbe Erfassungsplan wie im Sammler (Vertrag contracts/collection-plan.json), eingebettet unter demselben Namen -->
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\contracts\collection-plan.json" Link="collection-plan.json" LogicalName="collection-plan.json" />
+  </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Update="Resources\PlatformStrings.resx" StronglyTypedLanguage="CSharp" StronglyTypedNamespace="Riegel.Platform.Windows.Resources"
                       StronglyTypedClassName="PlatformStrings" StronglyTypedFileName="$(IntermediateOutputPath)PlatformStrings.g.cs" PublicClass="true" />

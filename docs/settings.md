@@ -101,7 +101,6 @@ New values count from the next evaluation (*Evaluate again* on the Machines page
 |---|---|
 | `RIEGEL_LANGUAGE` | language of the user interface and the command line (`en`, `de`, `es`, `fr`, `zh-Hans`); wins over every setting – used for the screenshots of all languages |
 | `RIEGEL_DATA_DIR` | absolute path of the data folder instead of the default (scripts, tests, screenshots); `settings.json` and the logs go there |
-| `RIEGEL_FAKE_SERVICES` | **development only.** `1` replaces rule catalogue and evaluation of the *demo plant* with a small built-in imitation while those packages are still placeholders, so the demo, `--screenshots` and `--demo-report` show realistic results. It is ignored for every real plant and never mentioned in the user interface. Release documentation is made without it |
 
 ## Data folder
 

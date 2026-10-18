@@ -167,10 +167,8 @@ internal sealed partial class AppSession : ObservableObject, IDisposable
     }
 
     /// <summary>Demo-Anlage „Musterwerk – Linie 3“ aufbauen und öffnen (spec 7.9).</summary>
-    /// <param name="fakeServices">Nur für Tests: Entwicklungsdienste erzwingen oder abschalten; sonst RIEGEL_FAKE_SERVICES.</param>
-    public async Task OpenDemoAsync(bool? fakeServices = null)
+    public async Task OpenDemoAsync()
     {
-        bool fake = fakeServices ?? AppServices.FakeRequested();
         var platform = Platform;
         var (folder, context) = await Work(Loc.T("Busy_Demo"), () =>
         {
@@ -178,8 +176,8 @@ internal sealed partial class AppSession : ObservableObject, IDisposable
             var dir = DemoPlant.NewFolder();
             try
             {
-                var plant = DemoPlant.Build(dir, platform, fake);
-                var services = DemoPlant.Services(platform, DemoData.Now, fake);
+                var plant = DemoPlant.Build(dir, platform);
+                var services = DemoPlant.Services(platform, DemoData.Now);
                 return (dir, PlantContext.Load(services, services.Plants.Open(plant.Folder!, false), isDemo: true));
             }
             catch

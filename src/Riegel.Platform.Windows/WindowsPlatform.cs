@@ -58,11 +58,11 @@ internal sealed class WindowsPlatform : IPlatform
     internal static Snapshot ToSnapshot(SnapshotData data) =>
         RiegelJson.Deserialize<Snapshot>(Encoding.UTF8.GetBytes(JsonWriter.Write(data.ToJson())));
 
-    /// <summary>Plan aus der Ressource (wenn eingebettet), sonst aus der geprüften Kopie <see cref="PlanCopy"/>.</summary>
+    /// <summary>Plan aus der eingebetteten Ressource (contracts/collection-plan.json, wie im Sammler).</summary>
     internal static Plan LoadPlan()
     {
-        using var stream = typeof(WindowsPlatform).Assembly.GetManifestResourceStream(Plan.ResourceName);
-        if (stream is null) return Plan.Parse(PlanCopy.Json);
+        using var stream = typeof(WindowsPlatform).Assembly.GetManifestResourceStream(Plan.ResourceName)
+            ?? throw new InvalidOperationException("Erfassungsplan nicht eingebettet (" + Plan.ResourceName + ")");
         using var reader = new StreamReader(stream, Encoding.UTF8);
         return Plan.Parse(reader.ReadToEnd());
     }

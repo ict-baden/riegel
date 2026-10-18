@@ -5,9 +5,8 @@ namespace Riegel.Session;
 
 /// <summary>
 /// Die Dienste, die die Oberfläche benutzt – dieselben Schnittstellen wie <see cref="RiegelServices"/> (spec 7.2).
-/// Normal kommen alle aus <see cref="RiegelServices.CreateDefault"/>. Nur für die Entwicklung kann die Demo-Anlage
-/// über <c>RIEGEL_FAKE_SERVICES=1</c> mit nachgebildeten Diensten laufen (<see cref="Dev.FakeServices"/>), solange die
-/// Engine ein Platzhalter ist – die Seiten und ihr Code bleiben dabei dieselben.
+/// Alle kommen aus <see cref="RiegelServices.CreateDefault"/>, auch für die Demo-Anlage (echte Engine und echter
+/// Katalog).
 /// </summary>
 internal sealed class AppServices
 {
@@ -26,9 +25,6 @@ internal sealed class AppServices
     public required IRemediationWriter Remediation { get; init; }
     public required IPlatform Platform { get; init; }
     public required TimeProvider Clock { get; init; }
-
-    /// <summary>Nachgebildete Dienste aktiv (nur Demo-Anlage, nur mit RIEGEL_FAKE_SERVICES=1).</summary>
-    public bool IsFake { get; init; }
 
     /// <summary>Heute (UTC) laut Uhr der Dienste.</summary>
     public DateOnly Today => DateOnly.FromDateTime(Clock.GetUtcNow().UtcDateTime);
@@ -53,20 +49,6 @@ internal sealed class AppServices
         Clock = s.Clock,
     };
 
-    /// <summary>Umgebungsvariable für die nachgebildeten Dienste der Demo (nur Entwicklung, nie in der Oberfläche genannt).</summary>
-    public const string FakeServicesVariable = "RIEGEL_FAKE_SERVICES";
-
-    /// <summary>Sind die nachgebildeten Dienste für die Demo verlangt?</summary>
-    public static bool FakeRequested(Func<string, string?>? env = null) =>
-        (env ?? Environment.GetEnvironmentVariable)(FakeServicesVariable) is "1";
-
-    /// <summary>
-    /// Dienste für die Demo-Anlage: echte, oder mit <c>RIEGEL_FAKE_SERVICES=1</c> die nachgebildeten. Für Anlagen der
-    /// Benutzer gilt die Variable nie (<see cref="From"/>).
-    /// </summary>
-    public static AppServices ForDemo(IPlatform platform, TimeProvider clock, bool fake)
-    {
-        var real = RiegelServices.Create(platform, clock);
-        return fake ? Dev.FakeServices.Create(real) : From(real);
-    }
+    /// <summary>Dienste für die Demo-Anlage: die echten, mit der Uhr der Demo.</summary>
+    public static AppServices ForDemo(IPlatform platform, TimeProvider clock) => From(RiegelServices.Create(platform, clock));
 }

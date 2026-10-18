@@ -36,7 +36,7 @@ public sealed class WalkthroughTests
         AsyncCommand.Failed = errors.Add;
         AsyncCommand.Strict = false;
         using var session = DemoSession();
-        await session.OpenDemoAsync(fakeServices: true);
+        await session.OpenDemoAsync();
         var dialogs = new TestDialogs();
         var vm = new MainViewModel(session, dialogs);
         try
@@ -126,7 +126,7 @@ public sealed class WalkthroughTests
         foreach (var mode in new[] { AppMode.Demo, AppMode.Screenshots })
         {
             using var session = new AppSession(mode, PlatformFactory.Create(), RiegelSettings.Empty, RiegelSettings.Empty, saveSettings: false);
-            await session.OpenDemoAsync(fakeServices: false);
+            await session.OpenDemoAsync();
             Assert.False(session.CollectionAllowed);
             var vm = new MainViewModel(session, new TestDialogs());
             try
@@ -147,7 +147,7 @@ public sealed class WalkthroughTests
     {
         using var session = new AppSession(AppMode.Normal, PlatformFactory.Create(), RiegelSettings.Empty, RiegelSettings.Empty, saveSettings: false);
         Assert.False(session.HasPlant);
-        await session.OpenDemoAsync(fakeServices: false);
+        await session.OpenDemoAsync();
         Assert.True(session.Plant!.IsDemo);
         Assert.False(session.CollectionAllowed);
         await Assert.ThrowsAsync<RiegelException>(() => session.CheckThisPcAsync(elevate: false));

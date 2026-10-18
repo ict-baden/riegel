@@ -91,5 +91,14 @@ internal static class PlanItems
         @"HKLM\SOFTWARE\WOW6432Node\Microsoft\Office\15.0\Common\InstallRoot",
         @"HKLM\SOFTWARE\Microsoft\Office\14.0\Common\InstallRoot",
         @"HKLM\SOFTWARE\WOW6432Node\Microsoft\Office\14.0\Common\InstallRoot",
+        @"HKLM\SYSTEM\CurrentControlSet\Services\W32Time\Parameters",
+        @"HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpClient",
+        @"HKLM\SYSTEM\CurrentControlSet\Policies\Microsoft\FVE",
+        @"HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment",
+        @"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\WinHttp",
+        @"HKLM\SYSTEM\CurrentControlSet\Services\RemoteRegistry",
+        @"HKLM\SYSTEM\CurrentControlSet\Services\Spooler",
+        @"HKLM\SYSTEM\CurrentControlSet\Services\W32Time",
+        @"HKLM\SYSTEM\CurrentControlSet\Services\wuauserv",
     ];
 }

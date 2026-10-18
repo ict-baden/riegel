@@ -1989,7 +1989,7 @@
           "expect": "fail"
         },
         {
-          "name": "key outside the current collection plan",
+          "name": "policy key absent (single plan key, collected)",
           "machine": {
             "build": 26100,
             "edition": "Enterprise",
@@ -1999,7 +1999,7 @@
             "isAdmin": true
           },
           "items": {},
-          "expect": "notCheckable"
+          "expect": "fail"
         },
         {
           "name": "not collected",

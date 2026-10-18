@@ -4,3 +4,8 @@
 # AlwaysInstallElevated: Windows Installer erhöht nur, wenn der Wert unter HKCU und HKLM 1 ist
 # (https://learn.microsoft.com/en-us/windows/win32/msi/alwaysinstallelevated, gesehen 2026-10-18).
 APP-02
+
+# Dienst Druckwarteschlange: ifAbsent pass, auch über die Registry erreicht – fehlt Win32_Service, beweist der fehlende
+# Schlüssel Services\Spooler (einzelner Planschlüssel), dass der Dienst nicht installiert ist (Dienstdatenbank des
+# Dienststeuerungs-Managers unter HKLM\SYSTEM\CurrentControlSet\Services).
+SVC-01

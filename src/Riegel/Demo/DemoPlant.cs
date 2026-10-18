@@ -16,8 +16,7 @@ internal sealed class DemoClock(DateTimeOffset now) : TimeProvider
 /// Baut die Demo-Anlage „Musterwerk – Linie 3“ beim Start über die echten Dienste auf (spec 7.9): Anlagenordner im
 /// Temp-Ordner, Register, zwei Erhebungsrunden je Rechner als Import (mit Erhebungsprotokoll-Angaben) und der
 /// freigegebene Stand von HMI-L3-02 nach der ersten Runde. Jede Runde läuft mit der Uhr ihres Tages, damit Fristen,
-/// veraltete Erfassungen und Vergleiche stimmen. Mit <c>RIEGEL_FAKE_SERVICES=1</c> (nur Entwicklung) werten
-/// nachgebildete Dienste aus, sonst die echten.
+/// veraltete Erfassungen und Vergleiche stimmen. Ausgewertet wird mit der echten Engine und dem eingebetteten Katalog.
 /// </summary>
 internal static class DemoPlant
 {
@@ -55,14 +54,14 @@ internal static class DemoPlant
     }
 
     /// <summary>Dienste der Demo mit der Uhr <paramref name="now"/>.</summary>
-    public static AppServices Services(IPlatform platform, DateTimeOffset now, bool fake) => AppServices.ForDemo(platform, new DemoClock(now), fake);
+    public static AppServices Services(IPlatform platform, DateTimeOffset now) => AppServices.ForDemo(platform, new DemoClock(now));
 
     /// <summary>Die Demo-Anlage in <paramref name="folder"/> aufbauen und für die Oberfläche öffnen.</summary>
-    public static Plant Build(string folder, IPlatform platform, bool fake)
+    public static Plant Build(string folder, IPlatform platform)
     {
-        Log.Info(fake ? "Demo-Anlage wird aufgebaut (nachgebildete Dienste)" : "Demo-Anlage wird aufgebaut");
-        var first = Services(platform, DemoData.FirstImport, fake);
-        var second = Services(platform, DemoData.SecondImport, fake);
+        Log.Info("Demo-Anlage wird aufgebaut");
+        var first = Services(platform, DemoData.FirstImport);
+        var second = Services(platform, DemoData.SecondImport);
         var plantFolder = Path.Combine(folder, "Musterwerk-Linie-3");
 
         var plant = first.Plants.Create(plantFolder, DemoData.PlantName);
