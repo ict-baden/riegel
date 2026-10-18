@@ -1810,4 +1810,8 @@
   <data name="Toggle_On" xml:space="preserve">
     <value>On</value>
   </data>
+  <data name="Notice_ReevaluateSkipped" xml:space="preserve">
+    <value>Not evaluated again, the export does not belong to the run or is not in the plant folder: {0}</value>
+    <comment>{0} = host names with RGL code</comment>
+  </data>
 </root>

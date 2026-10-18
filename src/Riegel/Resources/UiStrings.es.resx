@@ -1826,4 +1826,7 @@
   <data name="Toggle_On" xml:space="preserve">
     <value>Sí</value>
   </data>
+  <data name="Notice_ReevaluateSkipped" xml:space="preserve">
+    <value>No se ha vuelto a evaluar; la exportación no pertenece a la ejecución o no está en la carpeta de la planta: {0}</value>
+  </data>
 </root>

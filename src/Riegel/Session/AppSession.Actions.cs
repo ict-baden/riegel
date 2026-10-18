@@ -134,6 +134,7 @@ internal sealed partial class AppSession
     {
         var plant = RequireWritable();
         var language = ReportLanguage;
+        var skipped = new List<string>();
         int count = await Work(Loc.T("Busy_Evaluating"), () =>
         {
             int n = 0;
@@ -141,8 +142,17 @@ internal sealed partial class AppSession
             {
                 if (hosts is not null && !hosts.Contains(m.HostName, StringComparer.OrdinalIgnoreCase)) continue;
                 if (m.Latest is not { } run || string.IsNullOrEmpty(run.Snapshot.Path)) continue;
-                var path = Path.Combine(plant.Folder, run.Snapshot.Path.Replace('/', Path.DirectorySeparatorChar));
-                if (!File.Exists(path)) continue;
+                // Nur der geprüfte Export im Anlagenordner (RGL-0415/0416): sonst würde ein fremder Pfad gelesen und
+                // als Export in die Anlage übernommen; dieser Rechner wird dann übersprungen
+                string? path;
+                try { path = plant.SnapshotPath(run); }
+                catch (RiegelException e)
+                {
+                    Log.Warning($"Neu auswerten: Export übersprungen ({e.Code})");
+                    skipped.Add($"{m.HostName} ({e.Code})");
+                    continue;
+                }
+                if (path is null) continue;
                 plant.Services.Runs.EvaluateAndStore(plant.Plant, path, new RunOptions(ImportedAtUtc: run.ImportedAtUtc, Language: language));
                 n++;
             }
@@ -150,6 +160,7 @@ internal sealed partial class AppSession
         });
         await ReloadAsync();
         Report(NoticeKind.Success, Loc.F("Notice_Reevaluated", count));
+        if (skipped.Count > 0) Report(NoticeKind.Warning, Loc.F("Notice_ReevaluateSkipped", string.Join(", ", skipped)));
     }
 
     /// <summary>„Diesen Lauf freigeben“: freigegebener Stand mit Rolle und Nachweis (spec 2.14).</summary>

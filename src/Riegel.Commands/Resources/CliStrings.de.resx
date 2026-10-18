@@ -746,4 +746,7 @@ Exitcodes: 0 reproduziert, 2 abweichend, 3 Fehler.</value>
   <data name="State_Warning" xml:space="preserve">
     <value>WARNUNG</value>
   </data>
+  <data name="Cli_RunSnapshotSkipped" xml:space="preserve">
+    <value>Hinweis: Der Export des Laufs {0} wird nicht verwendet – {1}</value>
+  </data>
 </root>

@@ -483,4 +483,10 @@
   <data name="Service_State" xml:space="preserve">
     <value>状态 {0}</value>
   </data>
+  <data name="Error_RGL0415" xml:space="preserve">
+    <value>运行 {0} 的导出不在装置文件夹中（{1}）：只使用文件夹内不含链接的相对路径。</value>
+  </data>
+  <data name="Error_RGL0416" xml:space="preserve">
+    <value>导出 {0} 与运行 {1} 不符（SHA-256 应为 {2}，实际为 {3}）。不会用于回退、比较或重新评估。</value>
+  </data>
 </root>

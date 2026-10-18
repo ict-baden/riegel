@@ -32,7 +32,8 @@ internal static class MiscCommands
         var plant = ctx.OpenPlant(a.Required("--plant", "<folder>"), forWrite: false, "remediate");
         var host = a.Required("--machine", "<host>");
         var run = a.Value("--run") is { } id ? CompareCommands.RunOf(ctx, plant, host, id) : CompareCommands.Latest(ctx, plant, host);
-        var snapshot = new Pipeline(ctx).TrySnapshotOf(plant, run) ?? throw RiegelException.Common(RglCodesCommon.NotFound, run.Snapshot.Path);
+        // Die Rücknahme braucht genau den Export dieses Laufs: nur aus dem Anlagenordner und mit passendem SHA-256
+        var snapshot = new Pipeline(ctx).SnapshotOf(plant, run);
         string outDir;
         if (a.Value("--out") is { } given) outDir = Path.GetFullPath(given);
         else if (ctx.ReadOnly || plant.ReadOnly) throw RglCodesCli.Error(RglCodesCli.ReadOnlyNeedsOut);

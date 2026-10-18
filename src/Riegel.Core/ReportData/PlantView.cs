@@ -96,12 +96,9 @@ internal sealed class PlantView
         if (Plant.Folder is not { } folder || string.IsNullOrWhiteSpace(run.Snapshot.Path)) return null;
         if (_snapshotCache.TryGetValue(run.Id, out var cached)) return cached;
         Snapshot? snapshot = null;
-        var path = PlantFiles.Full(folder, run.Snapshot.Path);
-        if (PlantFiles.Relative(folder, path) is not null && File.Exists(path))
-        {
-            try { snapshot = _services.Snapshots.Read(path, _limits); }
-            catch (RiegelException) { snapshot = null; }
-        }
+        // Nur ein geprüfter Export im Anlagenordner, der zum Lauf passt (PlantFiles.RunSnapshot); sonst fehlend
+        try { snapshot = _services.Snapshots.Read(PlantFiles.RunSnapshot(folder, run), _limits); }
+        catch (RiegelException) { snapshot = null; }
         _snapshotCache[run.Id] = snapshot;
         return snapshot;
     }

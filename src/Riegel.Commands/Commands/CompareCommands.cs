@@ -35,8 +35,8 @@ internal static class CompareCommands
         var pipeline = new Pipeline(ctx);
 
         var to = Latest(ctx, plant, host);
-        var toSnapshot = pipeline.TrySnapshotOf(plant, to)
-                         ?? throw RiegelException.Common(RglCodesCommon.NotFound, to.Snapshot.Path);
+        // Ziel des Vergleichs: geprüfter Export (RGL-0415/0416/0002); die Basis darf fehlen (dann ohne Rohwerte)
+        var toSnapshot = pipeline.SnapshotOf(plant, to);
         Run? from;
         if (basis == ComparisonBasis.Approved)
         {

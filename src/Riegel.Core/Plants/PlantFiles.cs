@@ -50,6 +50,37 @@ internal static class PlantFiles
     }
 
     /// <summary>
+    /// Export eines gespeicherten Laufs im Anlagenordner (spec 7.12: Anlagendateien sind feindliche Eingaben). Nur ein
+    /// relativer Pfad, der im Ordner bleibt, ohne Laufwerk, ohne Verknüpfung auf dem Weg und kein Ordner (RGL-0415);
+    /// die Datei muss es geben (RGL-0002) und ihr SHA-256 zum Lauf passen (RGL-0416). Erst dann taugt der Export für
+    /// Rücknahme, Vergleich und erneute Auswertung. Gibt den vollständigen Pfad zurück.
+    /// </summary>
+    public static string RunSnapshot(string folder, Run run)
+    {
+        var relative = run.Snapshot.Path;
+        if (string.IsNullOrWhiteSpace(relative)) throw RiegelException.Common(RglCodesCommon.NotFound, run.Id);
+        var outside = () => RglCodesWorkflow.Error(RglCodesWorkflow.RunSnapshotOutsidePlant, run.Id, relative);
+        // Kein absoluter Pfad, kein Laufwerk, keine UNC-Freigabe: Path.Combine gäbe sie unverändert zurück
+        if (Path.IsPathRooted(relative) || relative.Contains(':') || relative.StartsWith('\\') || relative.StartsWith('/')) throw outside();
+        var root = Path.GetFullPath(folder).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        var full = Path.GetFullPath(Path.Combine(root, relative.Replace('\\', '/').Replace('/', Path.DirectorySeparatorChar)));
+        var comparison = OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+        if (!full.StartsWith(root + Path.DirectorySeparatorChar, comparison) || Directory.Exists(full)) throw outside();
+        // Keine Verknüpfung (Reparse-Punkt) zwischen Anlagenordner und Datei
+        var current = root;
+        foreach (var part in full[(root.Length + 1)..].Split(Path.DirectorySeparatorChar))
+        {
+            current = Path.Combine(current, part);
+            if ((File.Exists(current) || Directory.Exists(current)) && (File.GetAttributes(current) & FileAttributes.ReparsePoint) != 0) throw outside();
+        }
+        if (!File.Exists(full)) throw RiegelException.Common(RglCodesCommon.NotFound, relative);
+        var actual = Hashes.Sha256File(full);
+        if (!string.Equals(actual, run.Snapshot.Sha256, StringComparison.OrdinalIgnoreCase))
+            throw RglCodesWorkflow.Error(RglCodesWorkflow.RunSnapshotMismatch, relative, run.Id, run.Snapshot.Sha256, actual);
+        return full;
+    }
+
+    /// <summary>
     /// Ordner eines Rechners unter <paramref name="root"/> (runs/, snapshots/, history/approved/): Hostnamen sind unter
     /// Windows ohne Groß/klein – ein vorhandener Ordner in anderer Schreibweise wird auch unter Linux wiederverwendet.
     /// </summary>

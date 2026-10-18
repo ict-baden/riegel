@@ -1826,4 +1826,7 @@
   <data name="Toggle_On" xml:space="preserve">
     <value>Oui</value>
   </data>
+  <data name="Notice_ReevaluateSkipped" xml:space="preserve">
+    <value>Non réévalué : l'export n'appartient pas à l'exécution ou n'est pas dans le dossier de l'installation : {0}</value>
+  </data>
 </root>

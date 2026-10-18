@@ -469,4 +469,10 @@
   <data name="Service_State" xml:space="preserve">
     <value>Status {0}</value>
   </data>
+  <data name="Error_RGL0415" xml:space="preserve">
+    <value>Der Export des Laufs {0} liegt nicht im Anlagenordner ({1}): nur ein relativer Pfad im Ordner ohne Verknüpfung wird verwendet.</value>
+  </data>
+  <data name="Error_RGL0416" xml:space="preserve">
+    <value>Der Export {0} passt nicht zum Lauf {1} (SHA-256 erwartet {2}, gefunden {3}). Er wird für keine Rücknahme, keinen Vergleich und keine erneute Auswertung verwendet.</value>
+  </data>
 </root>

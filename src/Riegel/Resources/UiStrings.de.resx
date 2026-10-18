@@ -1810,4 +1810,7 @@
   <data name="Toggle_On" xml:space="preserve">
     <value>Ein</value>
   </data>
+  <data name="Notice_ReevaluateSkipped" xml:space="preserve">
+    <value>Nicht neu ausgewertet, der Export gehört nicht zum Lauf oder liegt nicht im Anlagenordner: {0}</value>
+  </data>
 </root>

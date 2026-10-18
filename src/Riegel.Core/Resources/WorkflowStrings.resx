@@ -489,4 +489,12 @@
   <data name="Service_State" xml:space="preserve">
     <value>state {0}</value>
   </data>
+  <data name="Error_RGL0415" xml:space="preserve">
+    <value>The export of run {0} is not in the plant folder ({1}): only a relative path inside the folder without links is used.</value>
+    <comment>run snapshot path escapes the plant folder (absolute, .., drive, reparse point, folder)</comment>
+  </data>
+  <data name="Error_RGL0416" xml:space="preserve">
+    <value>The export {0} does not match run {1} (SHA-256 expected {2}, found {3}). It is not used for a rollback, comparison or re-evaluation.</value>
+    <comment>run snapshot hash differs from run.snapshot.sha256</comment>
+  </data>
 </root>

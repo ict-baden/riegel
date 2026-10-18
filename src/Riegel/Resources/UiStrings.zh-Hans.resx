@@ -1810,4 +1810,7 @@
   <data name="Toggle_On" xml:space="preserve">
     <value>开</value>
   </data>
+  <data name="Notice_ReevaluateSkipped" xml:space="preserve">
+    <value>未重新评估，导出不属于该运行或不在装置文件夹中：{0}</value>
+  </data>
 </root>

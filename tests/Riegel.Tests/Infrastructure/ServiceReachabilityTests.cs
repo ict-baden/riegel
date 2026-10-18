@@ -100,6 +100,7 @@ public sealed class ServiceReachabilityTests
             Callable(() => s.Plants.SaveApproved(opened, new ApprovedState(SchemaIds.Approved, run.HostName, run.Id, run.Snapshot.Sha256,
                 new string('a', 64), run.Catalogue.Version, run.Registers, new Approval("QS", null, new DateOnly(2026, 10, 18), null, "CHG-TEST", null))), "SaveApproved");
             Callable(() => s.Plants.LoadApproved(opened, run.HostName), "LoadApproved");
+            Callable(() => Assert.True(File.Exists(s.Plants.RunSnapshotPath(opened, run))), "RunSnapshotPath");
             Callable(() => s.Remediation.Write(run, snapshot, s.Catalogue.LoadEmbedded(), registers, temp.Sub("abhilfe"), "de"), "Remediation.Write");
         }
         var template = Path.Combine(temp.Path, "x.exceptions-template.json");

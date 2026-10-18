@@ -483,4 +483,10 @@
   <data name="Service_State" xml:space="preserve">
     <value>estado {0}</value>
   </data>
+  <data name="Error_RGL0415" xml:space="preserve">
+    <value>La exportación de la ejecución {0} no está en la carpeta de la planta ({1}): solo se usa una ruta relativa dentro de la carpeta sin enlaces.</value>
+  </data>
+  <data name="Error_RGL0416" xml:space="preserve">
+    <value>La exportación {0} no corresponde a la ejecución {1} (SHA-256 esperado {2}, encontrado {3}). No se usa para una reversión, una comparación ni una nueva evaluación.</value>
+  </data>
 </root>

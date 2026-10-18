@@ -461,6 +461,13 @@ isAdmin, options, results: [ RuleResult ], summary: RunSummary, categories: [ Ca
 value|null }, previousRunId?, approvedRunId?, reEvaluationOf?, flags: [ staleSnapshot|clockSuspect|
 machineIdentityChanged|incomplete|domainController ] }`.
 
+`snapshot.path` is relative to the plant folder (`snapshots/<host>/<file>`). Run files are hostile input (spec 7.12):
+whoever reads a run's export again – remediation and its rollback, `compare`, re-evaluation, the comparison basis
+of a new run, report data – takes it only through `IPlantStore.RunSnapshotPath`, which rejects absolute paths, drive
+letters, UNC paths, `..` out of the folder, links (reparse points) and folders (`RGL-0415`) and a file whose SHA-256
+differs from `snapshot.sha256` (`RGL-0416`). `remediate` and the target of `compare` fail with that code; a
+comparison basis or the previous run of a monitoring `check` treats the export as missing and prints a note.
+
 `RuleResult`: `{ ruleSetId, ruleId, status: pass|fail|exception|outOfScope|notApplicable|notCheckable|info, severity,
 expected?, actual?, source: unknown|domainGpo|localPolicy|mdm|directlySet|osDefault|runtime|notSet, sourceDetail?,
 evidenceKeys, exceptionId?, tailoringId?, measureId?, flags, reasonCode?, details? }`.
@@ -880,7 +887,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 - **IEvidencePack** (interface): `string Write(EvidenceRequest r)`, `VerifyResult Verify(string zipPath, ReadLimits l)`, `SampleResult CompareSample(string freshSnapshotPath, string zipPath, string? host, ReadLimits l)`
 - **IFactsDeriver** (interface): `IReadOnlyDictionary<string, JsonElement> Derive(Snapshot s, ICatalogue c)`
 - **IPdfWriter** (interface): `string WriteReport(ReportData d, PdfOptions o)`, `string WriteSummary(SummaryData d, PdfOptions o)`, `string WriteTargetConfig(TargetConfigData d, PdfOptions o)`, `string WriteApprovalSheet(ApprovalSheetData d, PdfOptions o)`, `string WriteCollectionRecord(CollectionRecordData d, PdfOptions o)`
-- **IPlantStore** (interface): `Plant Create(string dir, string name)`, `Plant Open(string dir, bool readOnly)`, `void SavePlant(Plant p, string expectedSha256)`, `ImportRecord Import(Plant p, IReadOnlyList<string> paths, ImportOptions o)`, `void SaveRun(Plant p, Run r)`, `IReadOnlyList<RunInfo> ListRuns(Plant p, string host)`, `Run LoadRun(Plant p, string runId)`, `ApprovedState LoadApproved(Plant p, string host)`, `void SaveApproved(Plant p, ApprovedState a)`
+- **IPlantStore** (interface): `Plant Create(string dir, string name)`, `Plant Open(string dir, bool readOnly)`, `void SavePlant(Plant p, string expectedSha256)`, `ImportRecord Import(Plant p, IReadOnlyList<string> paths, ImportOptions o)`, `void SaveRun(Plant p, Run r)`, `IReadOnlyList<RunInfo> ListRuns(Plant p, string host)`, `Run LoadRun(Plant p, string runId)`, `string RunSnapshotPath(Plant p, Run r)`, `ApprovedState LoadApproved(Plant p, string host)`, `void SaveApproved(Plant p, ApprovedState a)`
 - **IPlatform** (interface): `bool CanCollect`, `bool IsElevated`, `Snapshot CollectThisMachine(CollectOptions o, CancellationToken ct)`, `string CreateHandoffDirectory(string token)`, `HandoffResult RunElevatedCollect(string token, CancellationToken ct)`, `void OpenWithShell(string path)`, `string ExportCollectorBundle(string targetDir)`
 - **IRegisterService** (interface): `RegisterSet Load(Plant p)`, `void Save(Plant p, RegisterSet r, RegisterHashes expected)`, `IReadOnlyList<RuleResult> Apply(IReadOnlyList<RuleResult> raw, RegisterSet r, Plant p, string host, DateOnly today)`, `IReadOnlyList<ValidationIssue> Validate(RegisterSet r, ICatalogue c, Plant p, DateOnly today)`, `RegisterSet Approve(RegisterSet r, RegisterKind kind, IReadOnlyList<string> ids, Approval a)`, `RegisterSet ImportTemplate(RegisterSet r, string templatePath, ReadLimits l)`
 - **IRemediationWriter** (interface): `RemediationOutput Write(Run r, Snapshot s, ICatalogue c, RegisterSet reg, string outDir, string lang)`

@@ -57,6 +57,12 @@ public static class RglCodesWorkflow
     /// <summary>Begründungsgrund: Rohstatus eines schon angewendeten Ergebnisses unbekannt (Zuschnitt nicht mehr gültig).</summary>
     public const string RawStatusUnknown = "RGL-0414";
 
+    /// <summary>Der Export eines Laufs liegt nicht im Anlagenordner (absoluter Pfad, „..“, Laufwerk, Verknüpfung, Ordner).</summary>
+    public const string RunSnapshotOutsidePlant = "RGL-0415";
+
+    /// <summary>Der Export im Anlagenordner passt nicht zum Lauf (SHA-256 abweichend).</summary>
+    public const string RunSnapshotMismatch = "RGL-0416";
+
     // ---- Registerprüfung (ValidationIssue.Code) ----
 
     /// <summary>ID doppelt.</summary>
@@ -148,7 +154,7 @@ public static class RglCodesWorkflow
     [
         ReadOnlyPlant, NotAPlant, ChangedByOthers, LockTimeout, SnapshotConflict, SidecarMismatch, InvalidRunId,
         ApprovalIncomplete, EntryNotFound, ApprovedStateMismatch, InvalidImportId, InvalidPlant, MeasuresNeedNoApproval,
-        RawStatusUnknown, DuplicateId, IdFormat, UnknownRule, RuleRetired, EmptyScope, UnknownGroup, UnknownMachine,
+        RawStatusUnknown, RunSnapshotOutsidePlant, RunSnapshotMismatch, DuplicateId, IdFormat, UnknownRule, RuleRetired, EmptyScope, UnknownGroup, UnknownMachine,
         TextTooShort, ReferenceRequired, CompensatingMeasureRequired, AcceptedValueRequired, AcceptedValueAny,
         ApprovalPending, ApprovalNotBound, ChangedAfterApproval, ReviewByTooLate, ReviewByLong, ReviewByBeforeApproval,
         Expired, Expiring, RiskAcceptanceRole, Overlap, TailoringHighSeverity, MeasureOverdue, FieldRequired,
