@@ -128,19 +128,19 @@
     <value>基于虚拟化的安全性</value>
   </data>
   <data name="Error_RGL0401" xml:space="preserve">
-    <value>工厂文件夹以审核员模式（只读）打开：不会向其中写入任何内容。请使用 --out 输出结果。</value>
+    <value>装置文件夹以审核员模式（只读）打开：不会向其中写入任何内容。请使用 --out 输出结果。</value>
   </data>
   <data name="Error_RGL0402" xml:space="preserve">
-    <value>{0} 不是工厂文件夹（缺少 riegel-plant.json）。请使用“plant init”创建。</value>
+    <value>{0} 不是装置文件夹（缺少 riegel-plant.json）。请使用“plant init”创建。</value>
   </data>
   <data name="Error_RGL0403" xml:space="preserve">
     <value>{0} 在此期间已被他人更改。请重新加载后再试。</value>
   </data>
   <data name="Error_RGL0404" xml:space="preserve">
-    <value>工厂文件夹被另一个进程锁定（已等待 10 秒）。</value>
+    <value>装置文件夹被另一个进程锁定（已等待 10 秒）。</value>
   </data>
   <data name="Error_RGL0405" xml:space="preserve">
-    <value>工厂文件夹中已存在同名的其他导出：{0}。未覆盖任何内容。</value>
+    <value>装置文件夹中已存在同名的其他导出：{0}。未覆盖任何内容。</value>
   </data>
   <data name="Error_RGL0406" xml:space="preserve">
     <value>校验和文件与导出 {0} 不符（预期 {1}，实际 {2}）。未导入任何内容。</value>
@@ -164,7 +164,7 @@
     <value>riegel-plant.json 在 {0} 处无效（条目缺失、重复或未知）。</value>
   </data>
   <data name="Error_RGL0413" xml:space="preserve">
-    <value>措施无需批准；工厂报告的签署涵盖该计划。</value>
+    <value>措施无需批准；装置报告的签署涵盖该计划。</value>
   </data>
   <data name="Error_RGL0414" xml:space="preserve">
     <value>裁剪已不再有效且原始结果未知：请重新评估导出。</value>
@@ -186,10 +186,10 @@
     <value>范围为空：请指定计算机、组或所有计算机。</value>
   </data>
   <data name="Error_RGL0425" xml:space="preserve">
-    <value>工厂中不存在组 {0}。</value>
+    <value>装置中不存在组 {0}。</value>
   </data>
   <data name="Error_RGL0426" xml:space="preserve">
-    <value>工厂中未知计算机 {0}（无条目，无运行）。</value>
+    <value>装置中未知计算机 {0}（无条目，无运行）。</value>
   </data>
   <data name="Error_RGL0427" xml:space="preserve">
     <value>{0} 至少需要 {1} 个字符。</value>
@@ -247,7 +247,7 @@
     <value>{0} 为必填项。</value>
   </data>
   <data name="Error_RGL0445" xml:space="preserve">
-    <value>文件中的 plantId {0} 与工厂 {1} 不符。</value>
+    <value>文件中的 plantId {0} 与装置 {1} 不符。</value>
   </data>
   <data name="Error_RGL0446" xml:space="preserve">
     <value>approvedOn {0} 在将来：批准尚未生效。</value>

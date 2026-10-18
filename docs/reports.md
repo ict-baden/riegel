@@ -56,7 +56,7 @@ Layout as in the product specification, section 5:
 2. **Contents** with page numbers and a short **reading guide**: every status with its meaning and whether it counts
    as open.
 3. **Management summary – exactly one page.** Counts first: open findings by severity, regressions, newly open,
-   valid / expiring / expired / requested exceptions, overdue measures, not checkable. Then hardening level,
+   valid / expiring / expired / requested exceptions, overdue measures, not checkable. Then hardening score,
    documented and checked share; below 90 % checkable or without administrator rights the values are grey and the
    line "Incomplete check: only X checkable" appears. Domain controllers, unsupported operating systems, outdated
    collections, tailoring and planned measures as one line each. Category values (only categories with results),
@@ -96,7 +96,7 @@ Layout as in the product specification, section 5:
     signature and remarks. Each block stays on one page.
 13. **Appendix A: machines in detail** (`IncludeAppendix`, default on; `--no-appendix` leaves it out) – one page
     per machine: host, label, group and role, machine identity, operating system with build, UBR, edition and
-    architecture, support, domain role, collection time with age ("Stand der Erfassung: … (vor N Tagen)" when
+    architecture, support, domain role, collection time with age ("Collection status: … (N days ago) – outdated" (*Stand der Erfassung*) when
     outdated), import time, administrator, options, origin, collector with its SHA-256, export SHA-256, import and
     run ID, values and counts, run flags. Then "worse" first; open findings with expected, actual, value source
     (domain GPO marked "not tested in a real domain") and notes (flags such as "Default value assumed", register
@@ -126,7 +126,7 @@ and the host.
 Exactly one A4 page for up to 12 plants (`SummaryLayout.PlantsPerPage`; tested in all five languages with long
 plant names, three banners and five findings). Per plant: machines, share on a supported OS, open high findings,
 open high at the last four month-ends (oldest first, "–" before the first run), regressions, exceptions expiring,
-measures overdue, hardening level / documented and the checked share (grey when incomplete). A total row, the
+measures overdue, hardening score / documented and the checked share (grey when incomplete). A total row, the
 five most frequent high findings across all plants, the banners in one line each and a legend. More than 12 plants
 continue on a second page.
 
@@ -146,7 +146,7 @@ sheet time. One block per requested or changed entry: ID, kind, rule and title, 
 justification or reason, compensating measure, reference, accepted value, planned measure, the full content SHA-256
 and a decision line "[ ] approved · [ ] rejected · review by: ____". Then the binding sentence and one signature
 block per approver role. After signing, the approval fields are entered in the app or with `exceptions approve`,
-citing the sheet as `approvalRecord` ("Freigabeblatt FB-12 vom 2026-10-18").
+citing the sheet as `approvalRecord` ("Genehmigungsblatt GB-12 vom 2026-10-18").
 
 ## Collection record (O14)
 
@@ -168,13 +168,13 @@ export SHA-256, whether the `.sha256` sidecar matches (red when missing or diffe
 
 | `BannerKind` | Text (de) |
 |---|---|
-| `IncompleteCheck` | Unvollständige Prüfung: nur X % prüfbar – affected machines and missing areas |
+| `IncompleteCheck` | "Incomplete check: only X % checkable" (*Unvollständige Prüfung: nur X % prüfbar*) – affected machines and missing areas |
 | `StaleSnapshot` | Veraltete Erfassung: Stand der Erfassung vor N Tagen – affected machines |
 | `StaleCatalogue` | Regelwerk älter als 6 Monate – Lebenszyklus- und Patchangaben können veraltet sein |
 | `PreTranslation` | Maschinelle Vorübersetzung – nicht geprüft / Machine pre-translation – not reviewed |
 | `ExperimentalGpoAttribution` | Quelle: Domänen-GPO (nicht in echter Domäne getestet) |
 | `ClockSuspect` | Uhr unplausibel: altersabhängige Ergebnisse sind nicht prüfbar |
-| `DomainController` | Domänencontroller: nicht bewertet – das Regelwerk 2026.10 ist nicht für Domänencontroller ausgelegt |
+| `DomainController` | "Domain controllers: not scored – catalogue 2026.10 is not designed for domain controllers" (*Domänencontroller: nicht bewertet*) |
 
 The pre-translation banner follows the language the document is actually written in, not the data: it appears for
 es, fr and zh-Hans and never for en and de, even if the data contains it.

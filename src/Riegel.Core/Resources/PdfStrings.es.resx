@@ -74,7 +74,7 @@
     <value>Referencia</value>
   </data>
   <data name="ApprovalDoc_Reference" xml:space="preserve">
-    <value>Hoja de aprobación {0}, instalación {1}, {2}.</value>
+    <value>Hoja de aprobación {0}, planta {1}, {2}.</value>
   </data>
   <data name="ApprovalDoc_Scope" xml:space="preserve">
     <value>Alcance</value>
@@ -327,7 +327,7 @@
     <value>Responsable (rol)</value>
   </data>
   <data name="Col_Plant" xml:space="preserve">
-    <value>Instalación</value>
+    <value>Planta</value>
   </data>
   <data name="Col_Reason" xml:space="preserve">
     <value>Motivo</value>
@@ -439,7 +439,7 @@
     <value>Realizado por</value>
   </data>
   <data name="Cover_Plant" xml:space="preserve">
-    <value>Instalación</value>
+    <value>Planta</value>
   </data>
   <data name="Cover_Registers" xml:space="preserve">
     <value>Registros</value>
@@ -610,7 +610,7 @@
     <value>Pedido / proyecto</value>
   </data>
   <data name="Identity_PlantSoftware" xml:space="preserve">
-    <value>Software de la instalación</value>
+    <value>Software de la planta</value>
   </data>
   <data name="Identity_SerialNumber" xml:space="preserve">
     <value>Número de serie</value>
@@ -799,7 +799,7 @@
     <value>Catálogo de reglas</value>
   </data>
   <data name="Method_Collection" xml:space="preserve">
-    <value>El recopilador de Riegel lee la configuración y el estado en ejecución del equipo – registro, directiva de seguridad, directiva de auditoría, servicios, Defender, firewall, BitLocker, cuentas locales – sin cambiar nada y sin acceso a la red, y escribe una exportación de datos brutos con su SHA-256. La evaluación comprueba la exportación sin conexión frente al catálogo de reglas y aplica los registros de la instalación. Los derechos de administrador amplían lo que se puede leer; sin ellos, las reglas afectadas se indican como no verificables.</value>
+    <value>El recopilador de Riegel lee la configuración y el estado en ejecución del equipo – registro, directiva de seguridad, directiva de auditoría, servicios, Defender, firewall, BitLocker, cuentas locales – sin cambiar nada y sin acceso a la red, y escribe una exportación de datos brutos con su SHA-256. La evaluación comprueba la exportación sin conexión frente al catálogo de reglas y aplica los registros de la planta. Los derechos de administrador amplían lo que se puede leer; sin ellos, las reglas afectadas se indican como no verificables.</value>
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Collection_Heading" xml:space="preserve">
@@ -874,7 +874,7 @@
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Score" xml:space="preserve">
-    <value>Pesos: alta 3, media 2, baja 1, sobre los resultados verificables (cumplido, no cumplido, abierto deliberadamente). Grado de bastionado = cumplido ponderado ÷ verificable; documentado = (cumplido + abierto deliberadamente) ÷ verificable. Las excepciones nunca elevan el grado de bastionado; el ajuste de alcance excluye la regla de ambos valores. La categoría de auditoría aporta como máximo 12 puntos de peso. Proporción comprobada = verificable ÷ (aplicable − fuera del alcance − inventario). Se redondea al final, la mitad hacia arriba. Los controladores de dominio no reciben grado de bastionado.</value>
+    <value>Pesos: alta 3, media 2, baja 1, sobre los resultados verificables (cumplido, no cumplido, abierto deliberadamente). Grado de bastionado = cumplido ponderado ÷ verificable; documentado = (cumplido + abierto deliberadamente) ÷ verificable. Las excepciones nunca elevan el grado de bastionado; el ajuste de alcance excluye la regla de ambos valores. La categoría de auditoría aporta como máximo 12 puntos de peso. Proporción comprobada = verificable ÷ (aplicable − fuera del alcance − inventario). Se redondea al final, la mitad hacia arriba; la proporción comprobada se trunca a porcentaje entero. Los controladores de dominio no reciben grado de bastionado.</value>
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Score_Heading" xml:space="preserve">
@@ -988,7 +988,7 @@
     <value>Operador (rol)</value>
   </data>
   <data name="RecordDoc_Reference" xml:space="preserve">
-    <value>Se refiere a la importación {0} de la instalación {1}.</value>
+    <value>Se refiere a la importación {0} de la planta {1}.</value>
   </data>
   <data name="RecordDoc_Sidecar" xml:space="preserve">
     <value>Archivo de suma de comprobación (.sha256)</value>
@@ -1032,7 +1032,7 @@
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Report_MachineSubtitle" xml:space="preserve">
-    <value>{0} – informe del equipo, instalación {1}</value>
+    <value>{0} – informe del equipo, planta {1}</value>
   </data>
   <data name="Report_Title_AsDelivered" xml:space="preserve">
     <value>Estado de entrega – evidencia de bastionado</value>
@@ -1217,7 +1217,7 @@
     <value>Revisado</value>
   </data>
   <data name="SummaryDoc_Footnote" xml:space="preserve">
-    <value>Los detalles por instalación están en los informes de instalación. Riegel aporta evidencias; no hace ninguna declaración de conformidad.</value>
+    <value>Los detalles por planta están en los informes de planta. Riegel aporta evidencias; no hace ninguna declaración de conformidad.</value>
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="SummaryDoc_Legend" xml:space="preserve">
@@ -1228,7 +1228,7 @@
     <value>Sin hallazgos altos abiertos.</value>
   </data>
   <data name="SummaryDoc_NoPlants" xml:space="preserve">
-    <value>No se ha seleccionado ninguna instalación.</value>
+    <value>No se ha seleccionado ninguna planta.</value>
   </data>
   <data name="SummaryDoc_Subtitle" xml:space="preserve">
     <value>Situación {0} · creado {1}</value>
@@ -1238,10 +1238,10 @@
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="SummaryDoc_TopFindings" xml:space="preserve">
-    <value>Hallazgos altos más frecuentes en todas las instalaciones</value>
+    <value>Hallazgos altos más frecuentes en todas las plantas</value>
   </data>
   <data name="SummaryDoc_Total" xml:space="preserve">
-    <value>Todas las instalaciones</value>
+    <value>Todas las plantas</value>
   </data>
   <data name="Summary_Categories" xml:space="preserve">
     <value>Valores por categoría</value>
@@ -1327,7 +1327,7 @@
     <value>Grupos</value>
   </data>
   <data name="Target_Intro" xml:space="preserve">
-    <value>Por grupo y rol: las reglas dentro del alcance con su valor esperado, generado a partir de la propia comprobación, su aplicabilidad y las fuentes que respaldan el valor. Una vez aprobado, este documento es la configuración objetivo de la instalación y Riegel comprueba los equipos frente a ella.</value>
+    <value>Por grupo y rol: las reglas dentro del alcance con su valor esperado, generado a partir de la propia comprobación, su aplicabilidad y las fuentes que respaldan el valor. Una vez aprobado, este documento es la configuración objetivo de la planta y Riegel comprueba los equipos frente a ella.</value>
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Target_Inventory" xml:space="preserve">
@@ -1359,7 +1359,7 @@
     <value>Procedencia de los valores esperados</value>
   </data>
   <data name="Target_Reference" xml:space="preserve">
-    <value>Se refiere a la configuración objetivo de la instalación {0}, situación {1}.</value>
+    <value>Se refiere a la configuración objetivo de la planta {0}, situación {1}.</value>
   </data>
   <data name="Target_RulesBacked" xml:space="preserve">
     <value>Reglas</value>
@@ -1368,7 +1368,7 @@
     <value>Aprobación de la configuración objetivo</value>
   </data>
   <data name="Target_SignOff_Intro" xml:space="preserve">
-    <value>Con su firma, los roles indicados adoptan esta configuración objetivo para la instalación. Los cambios requieren una nueva versión de este documento.</value>
+    <value>Con su firma, los roles indicados adoptan esta configuración objetivo para la planta. Los cambios requieren una nueva versión de este documento.</value>
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Target_Tailoring" xml:space="preserve">

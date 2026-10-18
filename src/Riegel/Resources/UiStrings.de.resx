@@ -170,7 +170,7 @@
     <value>Freigegeben am</value>
   </data>
   <data name="Approval_Intro" xml:space="preserve">
-    <value>Eintragen, was das unterschriebene Genehmigungsblatt (oder der Change) festhält. Die Freigabe wird an den jetzigen Inhalt jedes Eintrags gebunden.</value>
+    <value>Eintragen, was das unterschriebene Genehmigungsblatt (oder der Change) festhält. Die Genehmigung wird an den jetzigen Inhalt jedes Eintrags gebunden.</value>
   </data>
   <data name="Approval_Name" xml:space="preserve">
     <value>Name (optional)</value>
@@ -182,7 +182,7 @@
     <value>Freigabe-Nachweis</value>
   </data>
   <data name="Approval_RecordHint" xml:space="preserve">
-    <value>Change-, QMS- oder Blattnummer, z. B. „CHG-2026-0042“ oder „Freigabeblatt FB-12“.</value>
+    <value>Change-, QMS- oder Blattnummer, z. B. „CHG-2026-0042“ oder „Genehmigungsblatt GB-12“.</value>
   </data>
   <data name="Approval_ReviewBy" xml:space="preserve">
     <value>Prüfen bis</value>
@@ -341,7 +341,7 @@
     <value>geändert</value>
   </data>
   <data name="Change_ScopeChanged" xml:space="preserve">
-    <value>Prüfumfang geändert</value>
+    <value>Erhebung geändert</value>
   </data>
   <data name="Change_TailoringAdded" xml:space="preserve">
     <value>Zuschnitt hinzugekommen</value>
@@ -971,7 +971,7 @@
     <value>Demo</value>
   </data>
   <data name="Mode_ReadOnly" xml:space="preserve">
-    <value>Prüfermodus (nur lesen)</value>
+    <value>Prüfermodus (schreibgeschützt)</value>
   </data>
   <data name="NewPlant_Browse" xml:space="preserve">
     <value>Ordner für die neue Anlage</value>
@@ -1079,7 +1079,7 @@
     <value>Bewusst offen: begründet, freigegeben und an einen Nachweis gebunden</value>
   </data>
   <data name="Page_machines" xml:space="preserve">
-    <value>Maschinen</value>
+    <value>Rechner</value>
   </data>
   <data name="Page_machines_Subtitle" xml:space="preserve">
     <value>Rechner der Anlage mit Gruppe, Rolle, letztem Lauf, Zählungen und Trend</value>
@@ -1700,7 +1700,7 @@
     <value>Anlagenordner</value>
   </data>
   <data name="Start_ReadOnly" xml:space="preserve">
-    <value>Im Prüfermodus öffnen (nur lesen)</value>
+    <value>Im Prüfermodus öffnen (schreibgeschützt)</value>
   </data>
   <data name="Start_ReadOnlyHint" xml:space="preserve">
     <value>Für Prüfer, die den Anlagenordner eines Kunden öffnen: in den Ordner wird nichts geschrieben.</value>
@@ -1712,7 +1712,7 @@
     <value>Härtungsgrad</value>
   </data>
   <data name="Start_Share" xml:space="preserve">
-    <value>Prüfumfang</value>
+    <value>Prüfabdeckung</value>
   </data>
   <data name="Start_ShowResults" xml:space="preserve">
     <value>Ergebnisse anzeigen</value>

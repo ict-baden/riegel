@@ -53,7 +53,7 @@
     <value>Ausnahmen: {0} · Zuschnitt: {1}</value>
   </data>
   <data name="ApprovalDoc_Intro" xml:space="preserve">
-    <value>Neue und geänderte Einträge, die auf Genehmigung warten, mit dem Inhalts-Hash jedes Eintrags und den Prüfsummen der Register zum Zeitpunkt des Blatts. Nach der Unterschrift die Freigabefelder in der App oder mit „exceptions approve“ eintragen und dieses Blatt als Freigabenachweis nennen, zum Beispiel „Freigabeblatt {0} vom {1}“.</value>
+    <value>Neue und geänderte Einträge, die auf Genehmigung warten, mit dem Inhalts-Hash jedes Eintrags und den Prüfsummen der Register zum Zeitpunkt des Blatts. Nach der Unterschrift die Genehmigungsfelder in der App oder mit „exceptions approve“ eintragen und dieses Blatt als Genehmigungsnachweis nennen, zum Beispiel „Genehmigungsblatt {0} vom {1}“.</value>
   </data>
   <data name="ApprovalDoc_KindException" xml:space="preserve">
     <value>Ausnahme</value>
@@ -71,7 +71,7 @@
     <value>Referenz</value>
   </data>
   <data name="ApprovalDoc_Reference" xml:space="preserve">
-    <value>Freigabeblatt {0}, Anlage {1}, {2}.</value>
+    <value>Genehmigungsblatt {0}, Anlage {1}, {2}.</value>
   </data>
   <data name="ApprovalDoc_Scope" xml:space="preserve">
     <value>Geltungsbereich</value>
@@ -170,7 +170,7 @@
     <value>sonstige</value>
   </data>
   <data name="Change_ScopeChanged" xml:space="preserve">
-    <value>Prüfumfang geändert</value>
+    <value>Erhebung geändert</value>
   </data>
   <data name="Change_TailoringAdded" xml:space="preserve">
     <value>Zuschnitt hinzugekommen</value>
@@ -551,7 +551,7 @@
     <value>Keine offenen Befunde.</value>
   </data>
   <data name="Footer_Approval" xml:space="preserve">
-    <value>Freigabeblatt {0}</value>
+    <value>Genehmigungsblatt {0}</value>
   </data>
   <data name="Footer_MachineReport" xml:space="preserve">
     <value>Bericht {0} ({1})</value>
@@ -707,7 +707,7 @@
     <value>Lauf</value>
   </data>
   <data name="Machine_ScoresValue" xml:space="preserve">
-    <value>Härtungsgrad {0} · dokumentiert {1} · Prüfumfang {2}</value>
+    <value>Härtungsgrad {0} · dokumentiert {1} · Prüfabdeckung {2}</value>
   </data>
   <data name="Machine_SnapshotSha" xml:space="preserve">
     <value>Export-SHA-256</value>
@@ -830,7 +830,7 @@
     <value>Herkunft der Sollwerte (Regeln: {0}): ACSC {1}, Microsoft-Windows-Server-Doku (CC BY 4.0) {2}, Microsoft-Learn-Fakten {3}, DISA {4}; zusätzlich in einer Microsoft-Sicherheitsbaseline (nur Bestätigung): {5}.</value>
   </data>
   <data name="Method_Score" xml:space="preserve">
-    <value>Gewichte: hoch 3, mittel 2, niedrig 1, über die prüfbaren Ergebnisse (erfüllt, nicht erfüllt, bewusst offen). Härtungsgrad = gewichtet erfüllt ÷ prüfbar; Dokumentiert = (erfüllt + bewusst offen) ÷ prüfbar. Ausnahmen heben nie den Härtungsgrad; Zuschnitt nimmt die Regel aus beiden Werten. Die Kategorie Überwachung trägt höchstens 12 Gewichtspunkte bei. Prüfumfang = prüfbar ÷ (anwendbar − nicht im Prüfumfang − Bestand). Gerundet wird am Ende, kaufmännisch. Domänencontroller erhalten keinen Härtungsgrad.</value>
+    <value>Gewichte: hoch 3, mittel 2, niedrig 1, über die prüfbaren Ergebnisse (erfüllt, nicht erfüllt, bewusst offen). Härtungsgrad = gewichtet erfüllt ÷ prüfbar; Dokumentiert = (erfüllt + bewusst offen) ÷ prüfbar. Ausnahmen heben nie den Härtungsgrad; Zuschnitt nimmt die Regel aus beiden Werten. Die Kategorie Überwachung trägt höchstens 12 Gewichtspunkte bei. Prüfabdeckung = prüfbar ÷ (anwendbar − nicht im Prüfumfang − Bestand). Gerundet wird am Ende, kaufmännisch; die Prüfabdeckung wird auf ganze Prozent abgeschnitten. Domänencontroller erhalten keinen Härtungsgrad.</value>
   </data>
   <data name="Method_Score_Heading" xml:space="preserve">
     <value>Wertung</value>
@@ -1028,13 +1028,13 @@
     <value>Die Kategorie Überwachung zählt in den Gesamtwerten höchstens 12 Gewichtspunkte (vier hohe Regeln); der Kategoriewert selbst ist ungedeckelt.</value>
   </data>
   <data name="Score_CheckedShare" xml:space="preserve">
-    <value>Prüfumfang</value>
+    <value>Prüfabdeckung</value>
   </data>
   <data name="Score_Documented" xml:space="preserve">
     <value>Dokumentiert</value>
   </data>
   <data name="Score_Explained" xml:space="preserve">
-    <value>Härtungsgrad: gewichteter Anteil erfüllter an den prüfbaren Regeln (hoch 3, mittel 2, niedrig 1). Dokumentiert: erfüllt plus bewusst offen. Prüfumfang: prüfbare an den anwendbaren Regeln im Prüfumfang.</value>
+    <value>Härtungsgrad: gewichteter Anteil erfüllter an den prüfbaren Regeln (hoch 3, mittel 2, niedrig 1). Dokumentiert: erfüllt plus bewusst offen. Prüfabdeckung: prüfbare an den anwendbaren Regeln im Prüfumfang.</value>
   </data>
   <data name="Score_Greyed" xml:space="preserve">
     <value>Unvollständige Prüfung: nur {0} prüfbar – die Werte sind nicht belastbar und grau dargestellt.</value>
@@ -1043,7 +1043,7 @@
     <value>Härtungsgrad</value>
   </data>
   <data name="Scores_Share" xml:space="preserve">
-    <value>Prüfumfang {0}</value>
+    <value>prüfbar {0}</value>
   </data>
   <data name="Scores_Value" xml:space="preserve">
     <value>{0} / {1}</value>
@@ -1151,7 +1151,7 @@
     <value>Einzelheiten je Anlage stehen in den Anlagenberichten. Riegel unterstützt Nachweise und trifft keine Konformitätsaussage.</value>
   </data>
   <data name="SummaryDoc_Legend" xml:space="preserve">
-    <value>Unterstütztes BS: Anteil der Rechner mit Betriebssystem im Support. Verlauf: offene hohe Befunde an den letzten vier Monatsenden, dann heute. Verschl.: Verschlechterungen seit dem letzten Lauf. Werte: Härtungsgrad / dokumentiert, darunter der Prüfumfang; grau = unvollständige Prüfung.</value>
+    <value>Unterstütztes BS: Anteil der Rechner mit Betriebssystem im Support. Verlauf: offene hohe Befunde an den letzten vier Monatsenden, dann heute. Verschl.: Verschlechterungen seit dem letzten Lauf. Werte: Härtungsgrad / dokumentiert, darunter die Prüfabdeckung; grau = unvollständige Prüfung.</value>
   </data>
   <data name="SummaryDoc_NoHighFindings" xml:space="preserve">
     <value>Keine offenen hohen Befunde.</value>

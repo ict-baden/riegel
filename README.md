@@ -109,7 +109,7 @@
   2025 (.NET Framework 3.5.1 or 4.x; older systems through the built-in commands), deterministic builds, AppLocker hash data and a published read-only proof per
   build; `--minimal` for sensitive HMIs starts no other program.
 - **Runtime before configuration:** SMB, VBS/HVCI/Credential Guard, LSA protection, firewall and Defender are read from
-  their running state first; cited OS defaults are flagged "Standardwert angenommen".
+  their running state first; cited OS defaults are flagged "Default value assumed" (*Standardwert angenommen*).
 - **Monitoring that alerts on change:** Nagios exit codes and an Icinga line for regressions, newly open high findings,
   expiring exceptions and overdue measures – not for the standing state.
 - **Auditors on Linux:** `riegel-linux-x64` re-evaluates evidence packs (`verify`) and compares a fresh collection with
@@ -233,7 +233,7 @@ the matching version for `verify`" – once the repository and its tag releases 
 - **Some rules are inventory, not checks**, where no shippable source sets a value (IP forwarding, Remote Registry, RDP
   idle limit, RC4/DES/NULL/MD5); AppLocker enforcement is not recognised by APP-01 yet.
 - **Not checkable is a result:** without administrator rights, with `--minimal` or from built-in commands many rules
-  cannot be decided – the report then says "Unvollständige Prüfung" and greys the score.
+  cannot be decided – the report then says "Incomplete check" (*Unvollständige Prüfung*) and greys the score.
 - **No PDF/A, no electronic signatures**, and the evidence pack is not signed: its hashes prove that files were not
   changed after packing, not where they came from (collection record with a witness and `compare-snapshot` close the
   gap).

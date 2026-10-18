@@ -98,13 +98,13 @@
     <value>{0}: ejecución {1} registrada como estado aprobado: {2}, {3}, {4}</value>
   </data>
   <data name="Cli_ApprovedRunMissing" xml:space="preserve">
-    <value>Nota: la ejecución aprobada {1} de {0} ya no está en la carpeta de la instalación; no hay comparación con el estado aprobado.</value>
+    <value>Nota: la ejecución aprobada {1} de {0} ya no está en la carpeta de la planta; no hay comparación con el estado aprobado.</value>
   </data>
   <data name="Cli_BaselineContentWarning" xml:space="preserve">
     <value>Advertencia: el paquete de evidencias contiene el contenido completo de las líneas base importadas. Compruebe que su licencia permite distribuirlas (las condiciones de Microsoft, BSI y CIS pueden no permitirlo).</value>
   </data>
   <data name="Cli_BaselineLicenceNote" xml:space="preserve">
-    <value>Las líneas base importadas permanecen en esta carpeta de la instalación. Los paquetes de evidencias solo contienen sus metadatos, salvo con report --evidence --include-baseline-content.</value>
+    <value>Las líneas base importadas permanecen en esta carpeta de la planta. Los paquetes de evidencias solo contienen sus metadatos, salvo con report --evidence --include-baseline-content.</value>
   </data>
   <data name="Cli_BaselineNone" xml:space="preserve">
     <value>No hay líneas base importadas.</value>
@@ -149,7 +149,7 @@
     <value>  Ejecución {0}, no guardada</value>
   </data>
   <data name="Cli_CheckRunStored" xml:space="preserve">
-    <value>  Ejecución {0}, guardada en la carpeta de la instalación</value>
+    <value>  Ejecución {0}, guardada en la carpeta de la planta</value>
   </data>
   <data name="Cli_CheckScore" xml:space="preserve">
     <value>  Grado de bastionado: {0} % · documentado: {1} % · alcance verificado: {2} %</value>
@@ -198,7 +198,7 @@ SHA-256: {1}</value>
     <value>{0}: no hay ninguna ejecución anterior para comparar (ejecución más reciente {1}).</value>
   </data>
   <data name="Cli_Description" xml:space="preserve">
-    <value>Comprueba equipos Windows en instalaciones, laboratorios y salas de control frente a una línea base de bastionado, en modo de solo lectura y sin conexión, registra las excepciones justificadas y genera un informe de evidencias para su firma.</value>
+    <value>Comprueba equipos Windows en plantas, laboratorios y salas de control frente a una línea base de bastionado, en modo de solo lectura y sin conexión, registra las excepciones justificadas y genera un informe de evidencias para su firma.</value>
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Cli_DriftLine" xml:space="preserve">
@@ -260,10 +260,10 @@ Datos y privacidad: {4}</value>
     <value>La opción {0} se indicó dos veces.</value>
   </data>
   <data name="Cli_PlantCreated" xml:space="preserve">
-    <value>Carpeta de la instalación creada: {0}</value>
+    <value>Carpeta de la planta creada: {0}</value>
   </data>
   <data name="Cli_PlantInitialized" xml:space="preserve">
-    <value>Instalación {0} ({1}) creada en {2}</value>
+    <value>Planta {0} ({1}) creada en {2}</value>
   </data>
   <data name="Cli_RegisterEmpty" xml:space="preserve">
     <value>{0}: sin entradas.</value>
@@ -275,7 +275,7 @@ Datos y privacidad: {4}</value>
     <value>      {0}</value>
   </data>
   <data name="Cli_RemediationNote" xml:space="preserve">
-    <value>Solo es una propuesta: Riegel no la aplica. Acuerde cada cambio con el fabricante de la instalación antes de aplicarlo.</value>
+    <value>Solo es una propuesta: Riegel no la aplica. Acuerde cada cambio con el fabricante de la planta antes de aplicarlo.</value>
   </data>
   <data name="Cli_RemediationWritten" xml:space="preserve">
     <value>Propuesta de corrección escrita en {0}: {1}, {2}, {3}</value>
@@ -389,19 +389,19 @@ Datos y privacidad: {4}</value>
     <value>Token de traspaso no válido.</value>
   </data>
   <data name="Error_RGL0457" xml:space="preserve">
-    <value>Modo de solo lectura: {0} escribiría en la carpeta de la instalación. Ejecútelo sin --read-only.</value>
+    <value>Modo de solo lectura: {0} escribiría en la carpeta de la planta. Ejecútelo sin --read-only.</value>
   </data>
   <data name="Error_RGL0458" xml:space="preserve">
-    <value>Modo de solo lectura: no se escribe nada en la carpeta de la instalación; indique una carpeta de salida con --out.</value>
+    <value>Modo de solo lectura: no se escribe nada en la carpeta de la planta; indique una carpeta de salida con --out.</value>
   </data>
   <data name="Error_RGL0459" xml:space="preserve">
-    <value>No hay ninguna ejecución para el equipo {0} en esta instalación. Importe o compruebe primero una exportación.</value>
+    <value>No hay ninguna ejecución para el equipo {0} en esta planta. Importe o compruebe primero una exportación.</value>
   </data>
   <data name="Error_RGL0460" xml:space="preserve">
     <value>El equipo {0} no tiene estado aprobado. Apruebe primero una ejecución con approve --machine {0}.</value>
   </data>
   <data name="Error_RGL0461" xml:space="preserve">
-    <value>No hay ningún registro de importación {0} en esta instalación. Importe primero exportaciones: import &lt;archivo&gt; --plant &lt;carpeta&gt;.</value>
+    <value>No hay ningún registro de importación {0} en esta planta. Importe primero exportaciones: import &lt;archivo&gt; --plant &lt;carpeta&gt;.</value>
   </data>
   <data name="Error_RGL0462" xml:space="preserve">
     <value>No está en el registro: {0}. No se ha cambiado nada.</value>
@@ -410,7 +410,7 @@ Datos y privacidad: {4}</value>
     <value>Regla desconocida: {0}.</value>
   </data>
   <data name="Error_RGL0464" xml:space="preserve">
-    <value>La línea base {0} no está en esta carpeta de la instalación.</value>
+    <value>La línea base {0} no está en esta carpeta de la planta.</value>
   </data>
   <data name="Error_RGL0465" xml:space="preserve">
     <value>{0}: el SHA-256 no coincide con su archivo .sha256 (esperado {1}, real {2}). La exportación se modificó o está dañada; Riegel no la utiliza.</value>
@@ -422,7 +422,7 @@ Datos y privacidad: {4}</value>
     <value>La ejecución {0} pertenece al equipo {1}, no a {2}.</value>
   </data>
   <data name="Error_RGL0468" xml:space="preserve">
-    <value>No hay ninguna carpeta de la instalación en {0} (falta riegel-plant.json). Créela con plant init &lt;carpeta&gt; --name &lt;nombre&gt;.</value>
+    <value>No hay ninguna carpeta de la planta en {0} (falta riegel-plant.json). Créela con plant init &lt;carpeta&gt; --name &lt;nombre&gt;.</value>
   </data>
   <data name="Error_RGL0469" xml:space="preserve">
     <value>Cancelado.</value>
@@ -448,9 +448,9 @@ Códigos de salida: 0 correcto, 3 error.</value>
     <value>Uso: {0} check [--plant &lt;carpeta&gt;] [--snapshot &lt;archivo&gt;…|--this-pc] [opciones]
 
 Evalúa exportaciones (o este equipo) frente al catálogo. Sin --plant solo evalúa y muestra el resultado. Con --plant aplica
-los registros de la instalación, guarda la ejecución y la compara con la ejecución anterior y con el estado aprobado.
+los registros de la planta, guarda la ejecución y la compara con la ejecución anterior y con el estado aprobado.
 
-  --plant &lt;carpeta&gt;       carpeta de la instalación; se crea si no existe
+  --plant &lt;carpeta&gt;       carpeta de la planta; se crea si no existe
   --snapshot &lt;archivo&gt;…   exportaciones (.snapshot.json, .json.gz) o carpetas de paquetes de herramientas integradas; se admiten varias
   --this-pc               capturar primero este equipo (Windows; allí es el valor predeterminado sin --snapshot)
   --no-store              con --plant: evaluar y comparar, pero no escribir nada
@@ -516,7 +516,7 @@ Códigos de salida: 0 coherente, 1 difiere, 3 error.</value>
 
   validate [--format text|json]                  comprobar el registro; código 0 válido, 1 advertencias, 2 no válido
   list [--format text|json]                      todas las excepciones con su estado
-  expiring [--days &lt;n&gt;] [--format text|json]     excepciones a punto de caducar y caducadas (predeterminado: warnDays de la instalación)
+  expiring [--days &lt;n&gt;] [--format text|json]     excepciones a punto de caducar y caducadas (predeterminado: warnDays de la planta)
   approval-sheet [--ids &lt;id&gt;…|--pending] [--out &lt;carpeta&gt;] [--language &lt;código&gt;]
                                                  hoja de aprobación (PDF); predeterminado: todas las entradas solicitadas
   approve --ids &lt;id&gt;… --role "&lt;rol&gt;" --record "&lt;referencia&gt;" [--review-by &lt;aaaa-MM-dd&gt;] [--date &lt;aaaa-MM-dd&gt;] [--name "&lt;nombre&gt;"]
@@ -534,13 +534,13 @@ verify: 0 reproducido, 2 diferente · compare-snapshot: 0 coherente, 1 difiere �
   <data name="Help_Import" xml:space="preserve">
     <value>Uso: {0} import &lt;archivo|carpeta&gt;… --plant &lt;carpeta&gt; [--collected-by-role &lt;rol&gt;] [--witness-role &lt;rol&gt;] [--record]
 
-Añade exportaciones o paquetes de herramientas integradas a la carpeta de la instalación: comprueba los archivos .sha256,
+Añade exportaciones o paquetes de herramientas integradas a la carpeta de la planta: comprueba los archivos .sha256,
 escribe el registro de importación, evalúa y guarda las ejecuciones. Un error de suma de comprobación detiene toda la
 importación antes de escribir nada.
 Una carpeta que no es un paquete de herramientas integradas (con nombre *.riegel-builtin o con hostname.txt o secedit.inf)
 equivale a las exportaciones que contiene (*.snapshot.json, *.snapshot.json.gz).
 
-  --plant &lt;carpeta&gt;                 carpeta de la instalación
+  --plant &lt;carpeta&gt;                 carpeta de la planta
   --collected-by-role &lt;rol&gt;         rol de la persona que realizó la captura (registro de importación)
   --witness-role &lt;rol&gt;              rol del testigo del operador (registro de importación)
   --record                          escribir también el acta de captura (PDF)
@@ -567,13 +567,13 @@ Códigos de salida: 0 correcto, 3 error.</value>
 Comprobar y supervisar:
   check              evaluar este equipo o exportaciones; con --plant: guardar, comparar, alertar ante cambios
   collect            Windows: escribir una exportación de este equipo
-  import             añadir exportaciones o paquetes de herramientas integradas a una carpeta de la instalación
+  import             añadir exportaciones o paquetes de herramientas integradas a una carpeta de la planta
   compare            cambios de estado y desviaciones de un equipo
   approve            registrar una ejecución como estado aprobado
 
 Documentos:
-  report             informe de la instalación (PDF, Excel, CSV, JSON) y paquete de evidencias
-  summary            resumen de una página para varias instalaciones
+  report             informe de la planta (PDF, Excel, CSV, JSON) y paquete de evidencias
+  summary            resumen de una página para varias plantas
   target-config      configuración objetivo para su firma (PDF, Excel)
   collection-record  acta de captura de una importación para su firma
   remediate          propuesta de corrección como archivos; nunca se aplica
@@ -589,8 +589,8 @@ Auditores:
   verify             comprobar los hashes de un paquete de evidencias y volver a evaluarlo
   compare-snapshot   comparar una exportación nueva con la empaquetada
 
-Carpeta de la instalación y recopilador:
-  plant init         crear una carpeta de la instalación
+Carpeta de la planta y recopilador:
+  plant init         crear una carpeta de la planta
   collector export   Windows: copiar el recopilador portátil con una nota de entrega
 
 Opciones globales:
@@ -598,12 +598,12 @@ Opciones globales:
   --version                    versión de Riegel, del recopilador y del catálogo
   --info                       producto, licencia, enlaces y carpeta de datos
   --licenses, --lizenzen       textos de licencia
-  --nur-lesen, --read-only     no escribir nada en la carpeta de la instalación (documentos solo en --out)</value>
+  --nur-lesen, --read-only     no escribir nada en la carpeta de la planta (documentos solo en --out)</value>
   </data>
   <data name="Help_Plant" xml:space="preserve">
     <value>Uso: {0} plant init &lt;carpeta&gt; --name &lt;nombre&gt;
 
-Crea una carpeta de la instalación (riegel-plant.json). check --plant también la crea si no existe.
+Crea una carpeta de la planta (riegel-plant.json). check --plant también la crea si no existe.
 
 Códigos de salida: 0 correcto, 3 error.</value>
   </data>
@@ -611,26 +611,26 @@ Códigos de salida: 0 correcto, 3 error.</value>
     <value>Uso: {0} remediate --plant &lt;carpeta&gt; --machine &lt;equipo&gt; [--run &lt;id&gt;] [--out &lt;carpeta&gt;] [--language &lt;código&gt;]
 
 Escribe una propuesta de corrección solo como archivos (.reg con .reg de reversión, GptTmpl.inf, audit.csv, README.txt)
-en remediation/&lt;equipo&gt;/&lt;ejecución&gt;/ dentro de --out o de la carpeta de la instalación. Riegel nunca los aplica; acuerde
-antes cada cambio con el fabricante de la instalación.
+en remediation/&lt;equipo&gt;/&lt;ejecución&gt;/ dentro de --out o de la carpeta de la planta. Riegel nunca los aplica; acuerde
+antes cada cambio con el fabricante de la planta.
 
 Códigos de salida: 0 correcto, 3 error.</value>
   </data>
   <data name="Help_Report" xml:space="preserve">
     <value>Uso: {0} report --plant &lt;carpeta&gt; [opciones]
 
-Escribe el informe de la instalación y las demás salidas a partir de la ejecución más reciente de cada equipo.
+Escribe el informe de la planta y las demás salidas a partir de la ejecución más reciente de cada equipo.
 
   --machine &lt;equipo&gt;…               solo estos equipos
   --format pdf,xlsx,csv,json        formatos (predeterminado: pdf,xlsx); json escribe las ejecuciones (results.json)
   --per-machine                     también un PDF por equipo
   --no-appendix                     sin el anexo por equipo
-  --preset audit|as-delivered       plantilla del informe (predeterminada: la de la instalación)
+  --preset audit|as-delivered       plantilla del informe (predeterminada: la de la planta)
   --evidence                        también el paquete de evidencias (ZIP)
   --include-baseline-content        con --evidence: empaquetar el contenido de las líneas base importadas (compruebe su licencia)
   --pdfa                            PDF/A, si esta versión lo admite
-  --language &lt;código&gt;               en, de, es, fr, zh-Hans (predeterminado: instalación, luego interfaz)
-  --out &lt;carpeta&gt;                   carpeta de destino (predeterminada: reports/&lt;hora&gt;/ en la carpeta de la instalación)
+  --language &lt;código&gt;               en, de, es, fr, zh-Hans (predeterminado: planta, luego interfaz)
+  --out &lt;carpeta&gt;                   carpeta de destino (predeterminada: reports/&lt;hora&gt;/ en la carpeta de la planta)
 
 Códigos de salida: 0 correcto, 3 error.</value>
   </data>
@@ -647,7 +647,7 @@ Códigos de salida: 0 correcto, 3 error.</value>
   <data name="Help_Summary" xml:space="preserve">
     <value>Uso: {0} summary --plant &lt;carpeta&gt; [--plant &lt;carpeta&gt;…] [--out &lt;carpeta&gt;] [--language &lt;código&gt;]
 
-Una página A4 para la dirección con varias instalaciones: equipos, sistemas operativos con soporte, hallazgos altos abiertos
+Una página A4 para la dirección con varias plantas: equipos, sistemas operativos con soporte, hallazgos altos abiertos
 con tendencia, empeoramientos, excepciones a punto de caducar y medidas vencidas. Se escribe en --out o en la carpeta actual.
 
 Códigos de salida: 0 correcto, 3 error.</value>

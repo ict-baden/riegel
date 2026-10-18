@@ -874,7 +874,7 @@
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Score" xml:space="preserve">
-    <value>Poids : élevée 3, moyenne 2, faible 1, sur les résultats vérifiables (conforme, non conforme, ouvert délibérément). Niveau de durcissement = conforme pondéré ÷ vérifiable ; documenté = (conforme + ouvert délibérément) ÷ vérifiable. Les exceptions n'augmentent jamais le niveau de durcissement ; le périmètre retire la règle des deux valeurs. La catégorie audit contribue au plus 12 points de poids. Part vérifiée = vérifiable ÷ (applicable − hors périmètre − inventaire). Arrondi à la fin, demi vers le haut. Les contrôleurs de domaine n'ont pas de niveau de durcissement.</value>
+    <value>Poids : élevée 3, moyenne 2, faible 1, sur les résultats vérifiables (conforme, non conforme, ouvert délibérément). Niveau de durcissement = conforme pondéré ÷ vérifiable ; documenté = (conforme + ouvert délibérément) ÷ vérifiable. Les exceptions n'augmentent jamais le niveau de durcissement ; le périmètre retire la règle des deux valeurs. La catégorie audit contribue au plus 12 points de poids. Part vérifiée = vérifiable ÷ (applicable − hors périmètre − inventaire). Arrondi à la fin, demi vers le haut ; la part vérifiée est tronquée au pour cent entier. Les contrôleurs de domaine n'ont pas de niveau de durcissement.</value>
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Score_Heading" xml:space="preserve">

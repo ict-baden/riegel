@@ -232,11 +232,11 @@ public sealed class ReportPdfTests : IDisposable
         Assert.Contains("NET-01 SMBv1-Server deaktiviert", block);
         Assert.Contains("Erfüllt → Nicht erfüllt", block);
         Assert.Contains("EX-0005", block);
-        // Neue Regel und Prüfumfang sind keine Verschlechterung, sondern „Weitere Änderungen“
+        // Neue Regel und geänderte Erhebung sind keine Verschlechterung, sondern „Weitere Änderungen“
         int other = block.IndexOf(S("Changes_Other"), StringComparison.Ordinal);
         Assert.True(other > 0);
         Assert.Contains("neue Regel", block[other..]);
-        Assert.Contains("Prüfumfang geändert", block[other..]);
+        Assert.Contains("Erhebung geändert", block[other..]);
     }
 
     [PdfFact]

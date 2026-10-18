@@ -83,7 +83,7 @@ These are open tasks for a lab and a real OT environment (gate for version 1.0):
 - `--deep` is needed for the LSASS protection level; without it CRED-06 relies on Wininit event 12 and is *not
   checkable* when the event is not found (the System log may have wrapped).
 - Without administrator rights the security template, audit policy, user rights, BitLocker, TPM, Defender exclusions
-  and `gpresult` are denied; those rules are not checkable and reports carry "Unvollständige Prüfung".
+  and `gpresult` are denied; those rules are not checkable and reports carry "Incomplete check" (*Unvollständige Prüfung*).
 - The Windows Update history date is treated as UTC (**unverified**). Microsoft Learn describes the WSC interfaces as
   derived from `IUnknown`, the SDK header from `IDispatch`; the collector uses the header's dual interface.
 - The Security-log 4688 cross-check of the read-only proof works only where process-creation auditing is on.
@@ -126,7 +126,7 @@ These are open tasks for a lab and a real OT environment (gate for version 1.0):
   used only as heuristic evidence.
 - How `secedit` encodes "password never expires" is unverified (read as a maximum age of 0 or −1).
 - A catalogue older than six months gives a banner; lifecycle and build tables need a new catalogue for new Windows
-  releases (UBR newer than the table: *not checkable*, "Regelwerk zu alt").
+  releases (UBR newer than the table: *not checkable*, "catalogue too old").
 
 ## Reports and outputs
 

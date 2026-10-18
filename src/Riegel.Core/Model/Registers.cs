@@ -18,7 +18,7 @@ public sealed record RegisterScope(IReadOnlyList<string> Machines, IReadOnlyList
 /// Freigabe. Gültig nur mit Rolle, Datum, Prüftermin und Freigabe-Nachweis; <paramref name="ApprovedContentSha256"/>
 /// bindet sie an den Inhalt (SHA-256 des kanonischen Eintrags ohne die Freigabefelder).
 /// </summary>
-/// <param name="ApprovalRecord">Change-, QMS- oder Freigabeblatt-Nummer des Kunden, z. B. „CHG-2026-0042“.</param>
+/// <param name="ApprovalRecord">Change-, QMS- oder Genehmigungsblatt-Nummer des Kunden, z. B. „CHG-2026-0042“.</param>
 /// <param name="ApprovedByName">Optional, Kundendaten.</param>
 public sealed record Approval(string? ApprovedByRole, string? ApprovedByName, DateOnly? ApprovedOn, DateOnly? ReviewBy,
     string? ApprovalRecord, string? ApprovedContentSha256)

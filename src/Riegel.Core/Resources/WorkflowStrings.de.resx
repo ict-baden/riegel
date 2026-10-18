@@ -119,7 +119,7 @@
     <value>Virtualisierungsbasierte Sicherheit</value>
   </data>
   <data name="Error_RGL0401" xml:space="preserve">
-    <value>Der Anlagenordner ist im Prüfermodus (nur lesen) geöffnet: es wird nichts hineingeschrieben. Ausgaben mit --out schreiben.</value>
+    <value>Der Anlagenordner ist im Prüfermodus (schreibgeschützt) geöffnet: es wird nichts hineingeschrieben. Ausgaben mit --out schreiben.</value>
   </data>
   <data name="Error_RGL0402" xml:space="preserve">
     <value>{0} ist kein Anlagenordner (riegel-plant.json fehlt). Mit „plant init“ anlegen.</value>
@@ -140,7 +140,7 @@
     <value>Keine Lauf-ID: {0} (erwartet yyyyMMddTHHmmssZ-xxxxxx).</value>
   </data>
   <data name="Error_RGL0408" xml:space="preserve">
-    <value>Eine Freigabe braucht die freigebende Rolle und den Freigabe-Nachweis (Change-, QMS- oder Freigabeblatt-Nummer).</value>
+    <value>Eine Freigabe braucht die freigebende Rolle und den Freigabe-Nachweis (Change-, QMS- oder Genehmigungsblatt-Nummer).</value>
   </data>
   <data name="Error_RGL0409" xml:space="preserve">
     <value>Im Register {1} gibt es keinen Eintrag {0}.</value>

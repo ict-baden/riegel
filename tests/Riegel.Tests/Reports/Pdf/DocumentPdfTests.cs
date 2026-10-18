@@ -126,11 +126,11 @@ public sealed class DocumentPdfTests : IDisposable
         Assert.Contains("Zugriff auf Port 445 nur aus dem Leitstandnetz", text);
         Assert.Contains("M-0003", text);
         Assert.Contains("[ ] genehmigt · [ ] abgelehnt", text);
-        Assert.Contains("„Freigabeblatt FB-12 vom 2026-10-18“", text.Replace("\n", " "));
-        Assert.Contains("Blatt FB-12 bezieht sich auf das Ausnahmeregister 33333333 und den Zuschnitt 44444444 (Einträge auf diesem Blatt: 3).", text);
+        Assert.Contains("„Genehmigungsblatt GB-12 vom 2026-10-18“", text.Replace("\n", " "));
+        Assert.Contains("Blatt GB-12 bezieht sich auf das Ausnahmeregister 33333333 und den Zuschnitt 44444444 (Einträge auf diesem Blatt: 3).", text);
         Assert.Contains("Freigegeben · Rolle: Informationssicherheitsbeauftragter", text);
         Assert.Contains("Freigegeben · Rolle: Qualitätssicherung", text);
-        Assert.Contains("Freigabeblatt FB-12 · Seite ", PdfDom.Text(Section(built).Footers.Primary));
+        Assert.Contains("Genehmigungsblatt GB-12 · Seite ", PdfDom.Text(Section(built).Footers.Primary));
         var problems = Problems(built);
         Assert.True(problems.Count == 0, string.Join("\n", problems));
     }

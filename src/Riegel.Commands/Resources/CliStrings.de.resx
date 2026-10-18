@@ -80,7 +80,7 @@
     <value>geändert</value>
   </data>
   <data name="Change_ScopeChanged" xml:space="preserve">
-    <value>Prüfumfang geändert</value>
+    <value>Erhebung geändert</value>
   </data>
   <data name="Change_TailoringAdded" xml:space="preserve">
     <value>Zuschnitt hinzugekommen</value>
@@ -152,10 +152,10 @@
     <value>  Lauf {0}, im Anlagenordner gespeichert</value>
   </data>
   <data name="Cli_CheckScore" xml:space="preserve">
-    <value>  Härtungsgrad: {0} % · dokumentiert: {1} % · Prüfumfang: {2} %</value>
+    <value>  Härtungsgrad: {0} % · dokumentiert: {1} % · Prüfabdeckung: {2} %</value>
   </data>
   <data name="Cli_CheckScoreNone" xml:space="preserve">
-    <value>  Härtungsgrad: nicht bewertet (Domänencontroller oder nichts prüfbar) · Prüfumfang: {0} %</value>
+    <value>  Härtungsgrad: nicht bewertet (Domänencontroller oder nichts prüfbar) · Prüfabdeckung: {0} %</value>
   </data>
   <data name="Cli_CheckVsApproved" xml:space="preserve">
     <value>  Verglichen mit dem freigegebenen Stand (Lauf {0})</value>
@@ -519,7 +519,7 @@ Exitcodes: 0 konsistent, 1 abweichend, 3 Fehler.</value>
   approval-sheet [--ids &lt;ID&gt;…|--pending] [--out &lt;Ordner&gt;] [--language &lt;Code&gt;]
                                                  Genehmigungsblatt (PDF); Standard: alle beantragten Einträge
   approve --ids &lt;ID&gt;… --role "&lt;Rolle&gt;" --record "&lt;Nachweis&gt;" [--review-by &lt;JJJJ-MM-TT&gt;] [--date &lt;JJJJ-MM-TT&gt;] [--name "&lt;Name&gt;"]
-                                                 unterschriebene Freigabe eintragen; ein Prüftermin ist Pflicht
+                                                 unterschriebene Genehmigung eintragen; ein Prüftermin ist Pflicht
   import-template &lt;Vorlage.json|Name&gt;            Einträge einer Vorlage als beantragte Ausnahmen aufnehmen
                                                  eingebaut: beispiel-anlagenbau
 
@@ -656,7 +656,7 @@ Exitcodes: 0 Erfolg, 3 Fehler.</value>
   list [--format text|json]                      alle Zuschnitt-Einträge mit Zustand
   validate [--format text|json]                  Register prüfen; Exitcode 0 gültig, 1 Warnungen, 2 ungültig
   approve --ids &lt;ID&gt;… --role "&lt;Rolle&gt;" --record "&lt;Nachweis&gt;" [--review-by &lt;JJJJ-MM-TT&gt;] [--date &lt;JJJJ-MM-TT&gt;] [--name "&lt;Name&gt;"]
-                                                 unterschriebene Freigabe eintragen; ein Prüftermin ist Pflicht
+                                                 unterschriebene Genehmigung eintragen; ein Prüftermin ist Pflicht
   import-template &lt;Vorlage.json|Name&gt;            Einträge einer Rollenvorlage als beantragten Zuschnitt aufnehmen
                                                  eingebaut: hmi, engineering-station, historian-server, jump-host
 

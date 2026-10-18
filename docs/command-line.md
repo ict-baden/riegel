@@ -302,7 +302,7 @@ Riegel.Cli.exe exceptions validate --plant D:\Riegel\Linie3
 Riegel.Cli.exe exceptions expiring --plant D:\Riegel\Linie3 --days 60
 Riegel.Cli.exe exceptions approval-sheet --plant D:\Riegel\Linie3 --pending --out D:\Freigabe
 Riegel.Cli.exe exceptions approve --plant D:\Riegel\Linie3 --ids EX-0002 EX-0005 --role "Informationssicherheitsbeauftragter" ^
-  --record "Freigabeblatt FB-12 vom 2026-10-20" --review-by 2027-10-01
+  --record "Genehmigungsblatt GB-12 vom 2026-10-20" --review-by 2027-10-01
 Riegel.Cli.exe tailoring import-template hmi --plant D:\Riegel\Linie3
 Riegel.Cli.exe measures add --plant D:\Riegel\Linie3 --rule ENC-01 --action "BitLocker im Wartungsfenster aktivieren" ^
   --owner-role "Anlagenverantwortlicher" --due 2026-12-15 --machine ENG-L3-01 --ticket TICKET-311

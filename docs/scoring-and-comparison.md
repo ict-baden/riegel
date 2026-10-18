@@ -3,7 +3,7 @@
 # Scoring and comparison
 
 **Contents:** [Counts first](#counts-first) · [Härtungsgrad and Dokumentiert](#härtungsgrad-and-dokumentiert) ·
-[Audit cap](#audit-cap) · [Category scores and Prüfumfang](#category-scores-and-prüfumfang) · [Plant values](#plant-values) ·
+[Audit cap](#audit-cap) · [Category scores and checked share](#category-scores-and-checked-share) · [Plant values](#plant-values) ·
 [Runs](#runs) · [Regressions, new rules and newly open findings](#regressions-new-rules-and-newly-open-findings) ·
 [Run flags](#run-flags) · [Status changes](#status-changes) · [Raw-value drift](#raw-value-drift) ·
 [Volatile list](#volatile-list) · [Auditor sampling](#auditor-sampling) · [Management summary trend](#management-summary-trend) ·
@@ -25,7 +25,7 @@ Excluded: `info`, `notApplicable`, `outOfScope` (tailoring) and `notCheckable`.
 - **Dokumentiert** = round(100 × Σw(pass + exception) / Σw(pass + fail + exception))
 
 An exception never raises the Härtungsgrad, only "Dokumentiert". Tailoring removes the rule from both. Arithmetic is
-decimal and rounds once at the end, half away from zero (37.5 % → 38 %). The Prüfumfang alone is truncated to whole
+decimal and rounds once at the end, half away from zero (37.5 % → 38 %). The checked share alone is truncated to whole
 percent (89.5 % → 89 %), so that a share below the 90 % threshold never shows as 90 % without the incomplete banner.
 
 Both values cover Riegel's own catalogue (`ruleSetId` `riegel`). Each imported customer baseline has its own section
@@ -45,24 +45,24 @@ Example: 27 audit rules of medium severity fail (54 points), five high rules els
 the Härtungsgrad would be 15 / 69 = 22 %; with the cap the audit rules count 12 points and it is 15 / 27 = 56 %. The
 report marks the audit category as capped and explains it in a footnote.
 
-## Category scores and Prüfumfang
+## Category scores and checked share
 
 - **Category scores** (17 report categories, in report order) are computed within the category, unscaled: round(100 ×
   Σw(pass) / Σw(pass + fail + exception)) of that category. The category weight shown is its contribution to the total
   (capped for `audit`).
-- **Prüfumfang** (checked share) = checkable / (applicable − outOfScope − info), where applicable excludes
+- **Checked share** (German *Prüfabdeckung*) = checkable / (applicable − outOfScope − info), where applicable excludes
   `notApplicable` and checkable means `pass`, `fail` or `exception`, truncated to whole percent. It is shown next to
   every score.
 - Below **90 %**, or when the snapshot was not collected as administrator, the run is `Incomplete`: the PDF carries the
-  banner "Unvollständige Prüfung" with the share and the missing areas (categories with not-checkable results), and the
-  Härtungsgrad is greyed out ("nur X % prüfbar").
+  banner "Incomplete check" (*Unvollständige Prüfung*) with the share and the missing areas (categories with not-checkable results), and the
+  Härtungsgrad is greyed out ("only X % checkable").
 
 ## Plant values
 
 The plant report and the management summary use, per machine, the newest snapshot (by collection time) evaluated on or
 before the report date, and of that snapshot the newest evaluation. Plant values add the machines' weighted sums **after
 capping each machine**, so the audit cap keeps its meaning in a 50-machine plant; domain controllers are left out of the
-values but counted. The plant's Prüfumfang includes every machine. The plant score is greyed out when any machine's run
+values but counted. The plant's checked share includes every machine. The plant score is greyed out when any machine's run
 is incomplete.
 
 ## Runs
@@ -101,10 +101,10 @@ refer to the previous run, a standing deviation alerts once, not on every run (`
 
 | Flag | Condition |
 |---|---|
-| `StaleSnapshot` | evaluation date − collection date > `staleDays` (plant setting, default 30). Results with a decision also carry the flag; the PDF machine header says "Stand der Erfassung: … (vor N Tagen)" |
+| `StaleSnapshot` | evaluation date − collection date > `staleDays` (plant setting, default 30). Results with a decision also carry the flag; the PDF machine header says "Collection status: … (N days ago) – outdated" (*Stand der Erfassung*) |
 | `ClockSuspect` | the target's clock is implausible: collected more than 24 h after the import or the evaluation time, before the machine's last boot, or before the release date of its installed build + UBR (build table of the catalogue); or the engine flagged an age-based result |
 | `MachineIdentityChanged` | the `MachineGuid` differs from the snapshot of the comparison basis: "Rechner neu aufgesetzt?" |
-| `Incomplete` | Prüfumfang below 90 % or not collected as administrator |
+| `Incomplete` | checked share below 90 % or not collected as administrator |
 | `DomainController` | `DomainRole` 4 or 5 |
 
 ## Status changes
@@ -121,7 +121,7 @@ rule:
 | `exceptionExpired` | `exception` → `fail` because the exception expired |
 | `tailoringAdded` / `tailoringRemoved` | → `outOfScope` / `outOfScope` → anything else |
 | `newRule` | the rule has no result in the basis (reports list it when it fails) |
-| `scopeChanged` | "Prüfumfang geändert": a change to or from `notCheckable` while the collection scope differs (administrator vs. not, `--minimal`, `--deep`) |
+| `scopeChanged` | "scope of check changed" (*Erhebung geändert*): a change to or from `notCheckable` while the collection scope differs (administrator vs. not, `--minimal`, `--deep`) |
 | `other` | any other change, e.g. `notCheckable` → `fail` without a scope change, or a rule that is no longer evaluated |
 
 The report shows changes against the previous run first, then against the approved state.

@@ -138,7 +138,7 @@ public sealed class DocumentDataTests
         Assert.Equal("M-0001: Einstellung im Wartungsfenster korrigieren (Anlagenverantwortlicher, fällig 2026-10-28)", first.Measure);
         Assert.Equal(ContentHashes.Of(rig.Services.Registers.Load(rig.Plant.Plant).Exceptions.Exceptions[0]), first.ContentSha256);
         Assert.Equal(RegisterKind.Tailoring, sheet.Entries[2].Kind);
-        Assert.Matches(@"^FB-20261018-[0-9a-f]{6}$", sheet.SheetId);
+        Assert.Matches(@"^GB-20261018-[0-9a-f]{6}$", sheet.SheetId);
         Assert.Equal(sheet.SheetId, rig.Builder.BuildApprovalSheet(rig.Plant.Plant, null, "de").SheetId);
         var hashes = rig.Services.Registers.Load(rig.Plant.Plant).Hashes;
         Assert.Equal((hashes.Exceptions, hashes.Tailoring), (sheet.ExceptionsSha256, sheet.TailoringSha256));

@@ -108,7 +108,7 @@ internal static class Screenshots
         if (pending is not null)
             yield return ("approval-dialog", new ApprovalDialogViewModel(Loc.T("Approval_Title"), Loc.T("Approval_Intro"),
                 [$"{pending.Id} · {pending.RuleId} · {plant.Title(pending.RuleId, AppSession.Language)}"],
-                plant.Plant.Settings.SignOff.Select(s => s.Role), plant.Today, withReview: true, record: "FB-DEMO-0012"));
+                plant.Plant.Settings.SignOff.Select(s => s.Role), plant.Today, withReview: true, record: "GB-DEMO-0012"));
     }
 
     /// <summary>Fenster außerhalb des Bildschirms in fester Größe, ohne Aktivierung und ohne Mica.</summary>

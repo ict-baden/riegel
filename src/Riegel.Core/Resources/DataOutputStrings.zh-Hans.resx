@@ -338,7 +338,7 @@
     <value>补丁月份</value>
   </data>
   <data name="Col_PlantSoftware" xml:space="preserve">
-    <value>设备软件</value>
+    <value>装置软件</value>
   </data>
   <data name="Col_Pseudonymized" xml:space="preserve">
     <value>已假名化</value>
@@ -560,7 +560,7 @@
     <value>证据包条目过多（{0}，上限 {1}）。</value>
   </data>
   <data name="Error_RGL0567" xml:space="preserve">
-    <value>无法打包 {0}：位于设备文件夹之外、系统内置命令原始包、缺失或校验和与运行不符。</value>
+    <value>无法打包 {0}：位于装置文件夹之外、系统内置命令原始包、缺失或校验和与运行不符。</value>
   </data>
   <data name="Error_RGL0568" xml:space="preserve">
     <value>无法打包报告文件 {0}（缺失、过大或名称无效）。</value>
@@ -575,7 +575,7 @@
     <value>包中的运行与清单不符（{0} / {1}）。</value>
   </data>
   <data name="EvidenceReadme_BaselineContentMissing" xml:space="preserve">
-    <value>已请求基线 {0} 的内容，但设备文件夹中没有；仅有元数据。</value>
+    <value>已请求基线 {0} 的内容，但装置文件夹中没有；仅有元数据。</value>
   </data>
   <data name="EvidenceReadme_BaselineHeading" xml:space="preserve">
     <value>导入的客户基线</value>
@@ -629,7 +629,7 @@
     <value>证据包的内容及其生成方式（riegel.evidence/1）</value>
   </data>
   <data name="EvidenceReadme_ContentPlant" xml:space="preserve">
-    <value>设备（组、计算机、设置）</value>
+    <value>装置（组、计算机、设置）</value>
   </data>
   <data name="EvidenceReadme_ContentRegisters" xml:space="preserve">
     <value>运行和报告所用版本的例外、范围裁剪和措施</value>
@@ -672,7 +672,7 @@
     <value>提示</value>
   </data>
   <data name="EvidenceReadme_RegisterMissing" xml:space="preserve">
-    <value>在设备文件夹中未找到版本 {1} 的登记册 {0}；使用它的运行无法复核。</value>
+    <value>在装置文件夹中未找到版本 {1} 的登记册 {0}；使用它的运行无法复核。</value>
   </data>
   <data name="EvidenceReadme_SampleExit" xml:space="preserve">
     <value>退出代码：0 一致，1 不同，3 错误。</value>
@@ -694,7 +694,7 @@
     <value>使用 verify 复核</value>
   </data>
   <data name="EvidenceReadme_VerifyText" xml:space="preserve">
-    <value>verify 无需解压即可读取证据包，校验每个校验和，使用包内的规则目录、设备和登记册重新评估每个导出文件并比较结果。它会报告“已用引擎 X 复现（打包时：Y）”。内容未包含在包中的导入基线的结果无法复核。</value>
+    <value>verify 无需解压即可读取证据包，校验每个校验和，使用包内的规则目录、装置和登记册重新评估每个导出文件并比较结果。它会报告“已用引擎 X 复现（打包时：Y）”。内容未包含在包中的导入基线的结果无法复核。</value>
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Evidence_Baseline" xml:space="preserve">
@@ -824,10 +824,10 @@
     <value>执行方</value>
   </data>
   <data name="Item_PlantId" xml:space="preserve">
-    <value>设备 ID</value>
+    <value>装置 ID</value>
   </data>
   <data name="Item_PlantName" xml:space="preserve">
-    <value>设备</value>
+    <value>装置</value>
   </data>
   <data name="Item_Preset" xml:space="preserve">
     <value>报告类型</value>
@@ -1028,7 +1028,7 @@
     <value>无。</value>
   </data>
   <data name="Remediation_NotExecuted" xml:space="preserve">
-    <value>Riegel 未执行任何操作。这些文件是提供给设备制造商和设备负责人的建议；仅在协商一致后并通过您自己的变更流程应用。</value>
+    <value>Riegel 未执行任何操作。这些文件是提供给设备制造商和装置负责人的建议；仅在协商一致后并通过您自己的变更流程应用。</value>
   </data>
   <data name="Remediation_OtNote" xml:space="preserve">
     <value>OT 提示：{0}</value>
@@ -1097,7 +1097,7 @@
     <value>有 {0} 处不同</value>
   </data>
   <data name="Scope_All" xml:space="preserve">
-    <value>整个设备</value>
+    <value>整个装置</value>
   </data>
   <data name="Scope_Groups" xml:space="preserve">
     <value>组：{0}</value>
@@ -1121,7 +1121,7 @@
     <value>组和角色</value>
   </data>
   <data name="Section_Plant" xml:space="preserve">
-    <value>设备</value>
+    <value>装置</value>
   </data>
   <data name="Section_Provenance" xml:space="preserve">
     <value>目标值来源</value>
