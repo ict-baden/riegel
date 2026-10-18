@@ -1,0 +1,34 @@
+{
+  "schema": "riegel.tailoring-template/1",
+  "plantId": "vorlage-engineering-station",
+  "entries": [
+    {
+      "id": "TL-0001",
+      "ruleId": "DEF-03",
+      "scope": {
+        "machines": [],
+        "groups": [],
+        "allMachines": true
+      },
+      "reason": "Die Engineering-Station arbeitet im Anlagennetz ohne Internetzugang; der Cloud-Schutz (MAPS) kann keine Verbindung aufbauen. Signaturen kommen über Offline-Pakete.",
+      "approval": {},
+      "createdOn": "2026-10-18",
+      "createdByRole": "Vorlage Riegel",
+      "comment": "Vorschlag – vor Übernahme prüfen"
+    },
+    {
+      "id": "TL-0002",
+      "ruleId": "LIFE-03",
+      "scope": {
+        "machines": [],
+        "groups": [],
+        "allMachines": true
+      },
+      "reason": "Updates werden auf der Engineering-Station erst nach Freigabe der Projektierungssoftware im Wartungsfenster eingespielt; der Patchstand bleibt über LIFE-02 im Prüfumfang.",
+      "approval": {},
+      "createdOn": "2026-10-18",
+      "createdByRole": "Vorlage Riegel",
+      "comment": "Vorschlag – vor Übernahme prüfen"
+    }
+  ]
+}

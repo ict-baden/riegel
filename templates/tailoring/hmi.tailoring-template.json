@@ -1,0 +1,48 @@
+{
+  "schema": "riegel.tailoring-template/1",
+  "plantId": "vorlage-hmi",
+  "entries": [
+    {
+      "id": "TL-0001",
+      "ruleId": "LOGON-09",
+      "scope": {
+        "machines": [],
+        "groups": [],
+        "allMachines": true
+      },
+      "reason": "Das Bedienbild am Leitstand muss während der Produktion dauerhaft sichtbar bleiben; eine automatische Sperre würde die Bedienung im Störfall verzögern. Den Zugang schützt der Zutritt zum Leitstand.",
+      "approval": {},
+      "createdOn": "2026-10-18",
+      "createdByRole": "Vorlage Riegel",
+      "comment": "Vorschlag – vor Übernahme prüfen"
+    },
+    {
+      "id": "TL-0002",
+      "ruleId": "DEF-03",
+      "scope": {
+        "machines": [],
+        "groups": [],
+        "allMachines": true
+      },
+      "reason": "Das Bediengerät steht in einem Anlagennetz ohne Internetzugang; der Cloud-Schutz (MAPS) kann dort keine Verbindung aufbauen. Signaturen kommen über Offline-Pakete.",
+      "approval": {},
+      "createdOn": "2026-10-18",
+      "createdByRole": "Vorlage Riegel",
+      "comment": "Vorschlag – vor Übernahme prüfen"
+    },
+    {
+      "id": "TL-0003",
+      "ruleId": "LIFE-03",
+      "scope": {
+        "machines": [],
+        "groups": [],
+        "allMachines": true
+      },
+      "reason": "Das Bediengerät ist validiert; Updates werden nach Freigabe des Herstellers im Wartungsfenster über WSUS oder Offline-Pakete eingespielt. Der Patchstand selbst bleibt über LIFE-02 im Prüfumfang.",
+      "approval": {},
+      "createdOn": "2026-10-18",
+      "createdByRole": "Vorlage Riegel",
+      "comment": "Vorschlag – vor Übernahme prüfen"
+    }
+  ]
+}

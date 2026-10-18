@@ -1,0 +1,71 @@
+{
+  "schema": "riegel.capabilities/1",
+  "capabilities": [
+    {
+      "capability": "credentialGuard",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 10240,
+          "note": "Windows 10 and Windows 11; Microsoft lists Enterprise, Education and Pro Education/SE as supported editions. Editions are not modelled here: on other editions CRED-07 fails as not running."
+        },
+        {
+          "os": "server",
+          "minBuild": 14393,
+          "note": "Windows Server 2016 and later."
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/windows/security/identity-protection/credential-guard/",
+      "seen": "2026-10-18",
+      "note": "Hardware requirements (64-bit CPU with virtualization extensions, SLAT) are not modelled; the runtime state decides."
+    },
+    {
+      "capability": "vbs",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 10240
+        },
+        {
+          "os": "server",
+          "minBuild": 14393
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/windows/security/hardware-security/enable-virtualization-based-protection-of-code-integrity",
+      "seen": "2026-10-18",
+      "note": "Win32_DeviceGuard exists on Windows 10, Windows 11 and Windows Server 2016 and later; hardware readiness is not modelled."
+    },
+    {
+      "capability": "hvci",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 10240
+        },
+        {
+          "os": "server",
+          "minBuild": 14393
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/windows/security/hardware-security/enable-virtualization-based-protection-of-code-integrity",
+      "seen": "2026-10-18",
+      "note": "Memory integrity (hypervisor-protected code integrity) on Windows 10, Windows 11 and Windows Server 2016 and later."
+    },
+    {
+      "capability": "lsaPpl",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 9600
+        },
+        {
+          "os": "server",
+          "minBuild": 9600
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/configuring-additional-lsa-protection",
+      "seen": "2026-10-18",
+      "note": "Added LSA protection exists on Windows 8.1 and Windows Server 2012 R2 and later (build 9600)."
+    }
+  ]
+}
