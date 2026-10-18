@@ -1,5 +1,18 @@
 # Meldungen des Sammlers (spec 7.10): Schlüssel=Text, \n = Zeilenumbruch. Englisch ist die Rückfallsprache.
-# Maschinell vorübersetzt: TODO-übersetzen (Muttersprachler gegenlesen lassen)
-Version=Riegel 采集器 {0}
-Help=读取本机的安全设置，不做任何更改。\n用法：Riegel.Collector.exe [--out <文件夹>] [--gzip] [--minimal] [--deep] [--pseudonymize] [--quiet] [--nur-lesen] [--version] [--help]\n退出代码：0 完整，1 已写入但不完整，3 未写入任何内容。
-Stub=此版本为占位符：不采集任何内容，也不写入任何文件。
+# Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen.
+Version=Riegel 收集器 {0}
+Help=读取此电脑的安全设置，不做任何更改。只写入其导出文件和 .sha256 文件。\n用法: Riegel.Collector.exe [--out <文件夹>] [--gzip] [--minimal] [--deep] [--pseudonymize] [--quiet] [--nur-lesen] [--version] [--help]\n  --out <文件夹>   将导出写入该处（默认：Riegel.Collector.exe 旁边）\n  --gzip           压缩导出文件 (.snapshot.json.gz)\n  --minimal        不启动其他程序（不运行 secedit、gpresult），不查询 Windows 更新，只读取防火墙配置文件\n  --deep           另外查询 LSASS 进程的保护级别\n  --pseudonymize   用假名替换本地用户名（假名化，并非匿名）\n  --quiet          只输出导出文件的路径和 SHA-256\n  --nur-lesen      为脚本而接受；收集器本来就从不写入配置\n退出代码: 0 完整，1 已写入但不完整（非管理员或部分区域被拒绝），3 未写入任何内容。
+Collecting=正在读取此电脑的安全设置（只读）...
+NotAdmin=未以管理员身份启动：需要管理员权限的区域将标记为“无法检查”。要完整收集，请使用“以管理员身份运行”启动命令提示符。
+Summary=条目: {0}，被拒绝或出错: {1}，未收集: {2}。耗时: {3} 秒。
+Written=导出: {0}
+Sha256=SHA-256: {0}
+Complete=完整（退出代码 0）。
+Incomplete=已写入，但不完整（退出代码 1）。
+TargetNotWritable=RGL-0102: 目标不可写 - 请使用 --out 指定共享或其他文件夹。未收集任何内容。({0})
+UnknownOption=RGL-0101: 未知选项: {0}
+MissingValue=RGL-0101: 选项 {0} 需要一个值。
+WriteFailed=RGL-0103: 无法写入导出文件: {0}
+SidecarFailed=RGL-0105: 无法写入校验和文件: {0}
+PlanError=RGL-0104: 嵌入的收集计划无法读取 ({0})。未收集任何内容。
+Fatal=RGL-0100: 意外错误: {0}

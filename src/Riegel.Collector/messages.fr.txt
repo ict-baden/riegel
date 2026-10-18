@@ -1,5 +1,18 @@
 # Meldungen des Sammlers (spec 7.10): Schlüssel=Text, \n = Zeilenumbruch. Englisch ist die Rückfallsprache.
-# Maschinell vorübersetzt: TODO-übersetzen (Muttersprachler gegenlesen lassen)
+# Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen.
 Version=Collecteur Riegel {0}
-Help=Lit les paramètres de sécurité de ce PC et ne modifie rien.\nUtilisation : Riegel.Collector.exe [--out <dossier>] [--gzip] [--minimal] [--deep] [--pseudonymize] [--quiet] [--nur-lesen] [--version] [--help]\nCodes de sortie : 0 complet, 1 écrit mais incomplet, 3 rien n'a été écrit.
-Stub=Cette version est un espace réservé : elle ne collecte rien et n'écrit aucun fichier.
+Help=Lit les paramètres de sécurité de ce PC et ne modifie rien. N'écrit que son export et le fichier .sha256.\nUtilisation : Riegel.Collector.exe [--out <dossier>] [--gzip] [--minimal] [--deep] [--pseudonymize] [--quiet] [--nur-lesen] [--version] [--help]\n  --out <dossier>  écrire l'export à cet endroit (par défaut : à côté de Riegel.Collector.exe)\n  --gzip           compresser l'export (.snapshot.json.gz)\n  --minimal        ne lancer aucun autre programme (ni secedit ni gpresult), pas de requête Windows Update, profils du pare-feu uniquement\n  --deep           interroger aussi le niveau de protection du processus LSASS\n  --pseudonymize   remplacer les noms d'utilisateur locaux par des pseudonymes (pseudonymisé, pas anonyme)\n  --quiet          afficher uniquement le chemin et le SHA-256 de l'export\n  --nur-lesen      accepté pour les scripts ; le collecteur n'écrit de toute façon jamais de configuration\nCodes de sortie : 0 complet, 1 écrit mais incomplet (pas administrateur ou zones refusées), 3 rien écrit.
+Collecting=Lecture des paramètres de sécurité de ce PC (lecture seule) ...
+NotAdmin=Non lancé en tant qu'administrateur : les zones qui nécessitent des droits d'administrateur sont marquées « non vérifiable ». Pour une collecte complète, lancez l'invite de commandes avec « Exécuter en tant qu'administrateur ».
+Summary=Éléments : {0}, refusés ou en erreur : {1}, non collectés : {2}. Durée : {3} s.
+Written=Export : {0}
+Sha256=SHA-256 : {0}
+Complete=Complet (code de sortie 0).
+Incomplete=Écrit, mais incomplet (code de sortie 1).
+TargetNotWritable=RGL-0102 : Destination non accessible en écriture - utilisez --out avec un partage ou un autre dossier. Rien n'a été collecté. ({0})
+UnknownOption=RGL-0101 : Option inconnue : {0}
+MissingValue=RGL-0101 : L'option {0} nécessite une valeur.
+WriteFailed=RGL-0103 : L'export n'a pas pu être écrit : {0}
+SidecarFailed=RGL-0105 : Le fichier de somme de contrôle n'a pas pu être écrit : {0}
+PlanError=RGL-0104 : Le plan de collecte intégré est illisible ({0}). Rien n'a été collecté.
+Fatal=RGL-0100 : Erreur inattendue : {0}

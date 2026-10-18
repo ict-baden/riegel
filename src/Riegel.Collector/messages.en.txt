@@ -1,4 +1,17 @@
 # Meldungen des Sammlers (spec 7.10): Schlüssel=Text, \n = Zeilenumbruch. Englisch ist die Rückfallsprache.
 Version=Riegel collector {0}
-Help=Reads the security settings of this PC and changes nothing.\nUsage: Riegel.Collector.exe [--out <folder>] [--gzip] [--minimal] [--deep] [--pseudonymize] [--quiet] [--nur-lesen] [--version] [--help]\nExit codes: 0 complete, 1 written but incomplete, 3 nothing written.
-Stub=This build is a placeholder: it collects nothing and writes no file.
+Help=Reads the security settings of this PC and changes nothing. Writes only its export and the .sha256 file.\nUsage: Riegel.Collector.exe [--out <folder>] [--gzip] [--minimal] [--deep] [--pseudonymize] [--quiet] [--nur-lesen] [--version] [--help]\n  --out <folder>   write the export there (default: next to Riegel.Collector.exe)\n  --gzip           compress the export (.snapshot.json.gz)\n  --minimal        start no other program (no secedit, no gpresult), no Windows Update query, firewall profiles only\n  --deep           also query the protection level of the LSASS process\n  --pseudonymize   replace local user names with pseudonyms (pseudonymised, not anonymous)\n  --quiet          print only the export path and its SHA-256\n  --nur-lesen      accepted for scripts; the collector never writes configuration anyway\nExit codes: 0 complete, 1 written but incomplete (not administrator or areas denied), 3 nothing written.
+Collecting=Collecting the security settings of this PC (read-only) ...
+NotAdmin=Not started as administrator: areas that need administrator rights are marked "not checkable". For a complete collection, start the command prompt with "Run as administrator".
+Summary=Items: {0}, denied or failed: {1}, not collected: {2}. Duration: {3} s.
+Written=Export: {0}
+Sha256=SHA-256: {0}
+Complete=Complete (exit code 0).
+Incomplete=Written, but incomplete (exit code 1).
+TargetNotWritable=RGL-0102: Target not writable - use --out with a share or another folder. Nothing was collected. ({0})
+UnknownOption=RGL-0101: Unknown option: {0}
+MissingValue=RGL-0101: The option {0} needs a value.
+WriteFailed=RGL-0103: The export could not be written: {0}
+SidecarFailed=RGL-0105: The checksum file could not be written: {0}
+PlanError=RGL-0104: The embedded collection plan is unreadable ({0}). Nothing was collected.
+Fatal=RGL-0100: Unexpected error: {0}

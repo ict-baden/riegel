@@ -1,4 +1,17 @@
 # Meldungen des Sammlers (spec 7.10): Schlüssel=Text, \n = Zeilenumbruch. Englisch ist die Rückfallsprache.
 Version=Riegel-Sammler {0}
-Help=Liest die Sicherheitseinstellungen dieses Rechners und ändert nichts.\nAufruf: Riegel.Collector.exe [--out <Ordner>] [--gzip] [--minimal] [--deep] [--pseudonymize] [--quiet] [--nur-lesen] [--version] [--help]\nExitcodes: 0 vollständig, 1 geschrieben, aber unvollständig, 3 nichts geschrieben.
-Stub=Dieser Stand ist ein Platzhalter: Er erfasst nichts und schreibt keine Datei.
+Help=Liest die Sicherheitseinstellungen dieses Rechners und ändert nichts. Schreibt nur seinen Export und die .sha256-Datei.\nAufruf: Riegel.Collector.exe [--out <Ordner>] [--gzip] [--minimal] [--deep] [--pseudonymize] [--quiet] [--nur-lesen] [--version] [--help]\n  --out <Ordner>   Export dorthin schreiben (Standard: neben Riegel.Collector.exe)\n  --gzip           Export komprimieren (.snapshot.json.gz)\n  --minimal        kein anderes Programm starten (kein secedit, kein gpresult), keine Windows-Update-Abfrage, nur Firewall-Profile\n  --deep           zusätzlich die Schutzstufe des LSASS-Prozesses abfragen\n  --pseudonymize   lokale Benutzernamen durch Pseudonyme ersetzen (pseudonymisiert, nicht anonym)\n  --quiet          nur Pfad und SHA-256 des Exports ausgeben\n  --nur-lesen      für Skripte angenommen; der Sammler schreibt ohnehin nie Konfiguration\nExitcodes: 0 vollständig, 1 geschrieben, aber unvollständig (kein Administrator oder Bereiche verweigert), 3 nichts geschrieben.
+Collecting=Sicherheitseinstellungen dieses Rechners werden gelesen (nur lesend) ...
+NotAdmin=Nicht als Administrator gestartet: Bereiche, die Administratorrechte brauchen, werden als "nicht prüfbar" markiert. Für eine vollständige Erhebung die Eingabeaufforderung mit "Als Administrator ausführen" starten.
+Summary=Einträge: {0}, verweigert oder fehlerhaft: {1}, nicht erhoben: {2}. Dauer: {3} s.
+Written=Export: {0}
+Sha256=SHA-256: {0}
+Complete=Vollständig (Exitcode 0).
+Incomplete=Geschrieben, aber unvollständig (Exitcode 1).
+TargetNotWritable=RGL-0102: Ziel nicht beschreibbar - --out auf eine Freigabe oder einen anderen Ordner verwenden. Es wurde nichts erhoben. ({0})
+UnknownOption=RGL-0101: Unbekannte Option: {0}
+MissingValue=RGL-0101: Die Option {0} braucht einen Wert.
+WriteFailed=RGL-0103: Der Export ließ sich nicht schreiben: {0}
+SidecarFailed=RGL-0105: Die Prüfsummendatei ließ sich nicht schreiben: {0}
+PlanError=RGL-0104: Der eingebettete Erfassungsplan ist nicht lesbar ({0}). Es wurde nichts erhoben.
+Fatal=RGL-0100: Unerwarteter Fehler: {0}

@@ -4,8 +4,74 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Placeholder" xml:space="preserve">
-    <value>(placeholder of the collector texts)</value>
-    <comment>Scaffold placeholder; the owning package replaces it</comment>
+  <data name="Error_RGL0110" xml:space="preserve">
+    <value>Invalid hand-over token. Only letters, digits and "-" (8 to 64 characters) are allowed.</value>
+  </data>
+  <data name="Error_RGL0111" xml:space="preserve">
+    <value>The hand-over folder already exists and is never reused: {0}</value>
+  </data>
+  <data name="Error_RGL0112" xml:space="preserve">
+    <value>Refused: part of the hand-over path is a link or junction (reparse point): {0}</value>
+  </data>
+  <data name="Error_RGL0113" xml:space="preserve">
+    <value>Elevation was cancelled. Nothing was collected.</value>
+  </data>
+  <data name="Error_RGL0114" xml:space="preserve">
+    <value>Riegel could not be started with administrator rights (error {0}).</value>
+  </data>
+  <data name="Error_RGL0115" xml:space="preserve">
+    <value>The elevated collection ended without an export in the hand-over folder.</value>
+  </data>
+  <data name="Error_RGL0116" xml:space="preserve">
+    <value>The elevated collection ran under a different account ("over the shoulder"), so its export landed in that account's profile. Open a command prompt with "Run as administrator" as that account, run Riegel.Cli.exe collect --out &lt;folder&gt; and import the file.</value>
+  </data>
+  <data name="Error_RGL0120" xml:space="preserve">
+    <value>Riegel only opens files it created (PDF, Excel, CSV, JSON, text, ZIP), folders and http/https links: {0}</value>
+  </data>
+  <data name="Error_RGL0121" xml:space="preserve">
+    <value>Could not open {0} (error {1}).</value>
+  </data>
+  <data name="Error_RGL0130" xml:space="preserve">
+    <value>The collector package is missing next to the app ({0}). The single-file Riegel.exe does not contain it: use Riegel-Collector.zip from the release instead.</value>
+  </data>
+  <data name="Error_RGL0131" xml:space="preserve">
+    <value>The target folder already contains {0}. Choose an empty folder.</value>
+  </data>
+  <data name="Error_RGL0140" xml:space="preserve">
+    <value>Collecting this PC failed ({0}).</value>
+  </data>
+  <data name="Handover_Title" xml:space="preserve">
+    <value>Riegel collector - hand-over sheet</value>
+  </data>
+  <data name="Handover_Version" xml:space="preserve">
+    <value>Collector version: {0}</value>
+  </data>
+  <data name="Handover_Copied" xml:space="preserve">
+    <value>Copied: {0}</value>
+  </data>
+  <data name="Handover_Files" xml:space="preserve">
+    <value>Files (SHA-256):</value>
+  </data>
+  <data name="Handover_Check" xml:space="preserve">
+    <value>Check before use: "certutil -hashfile Riegel.Collector.exe SHA256" must show the value above.</value>
+  </data>
+  <data name="Handover_HowTo" xml:space="preserve">
+    <value>How to run (on the machine to be checked):
+1. Open a command prompt with "Run as administrator" (without administrator rights the collection is incomplete).
+2. Run: Riegel.Collector.exe
+   If this drive is write-protected: Riegel.Collector.exe --out \\&lt;server&gt;\&lt;share&gt;
+3. Note the export path and the SHA-256 the collector prints.
+Exit codes: 0 complete, 1 written but incomplete, 3 nothing written.
+Options: --minimal (start no other program), --gzip, --pseudonymize, --deep.
+Machines on which no foreign program may run: collect-builtin.cmd (built-in Windows commands only).</value>
+  </data>
+  <data name="Handover_LeavesBehind" xml:space="preserve">
+    <value>What it leaves behind: it changes no configuration. It writes only its export (and the checksum file) into the chosen folder. Windows itself records that a program ran: temporary files of secedit and gpresult in a fresh %TEMP%\riegel-&lt;random&gt; folder (deleted afterwards), a CLR usage log under %LocalAppData%\Microsoft\CLR_v4.0\UsageLogs, execution traces such as Prefetch and AmCache, and possibly Security log events (4688, 4798, 4799, privilege use). Tell your SOC before a collection round: the collector reads the password policy, local administrators and user rights.</value>
+  </data>
+  <data name="Handover_Record" xml:space="preserve">
+    <value>Record:
+Machine: ____________________   Date and time: ____________________
+Collected by (role): ____________________   Witness (role): ____________________
+Export SHA-256: ________________________________________________________________</value>
   </data>
 </root>

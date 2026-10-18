@@ -1,5 +1,18 @@
 # Meldungen des Sammlers (spec 7.10): Schlüssel=Text, \n = Zeilenumbruch. Englisch ist die Rückfallsprache.
-# Maschinell vorübersetzt: TODO-übersetzen (Muttersprachler gegenlesen lassen)
-Version=Recopilador de Riegel {0}
-Help=Lee la configuración de seguridad de este equipo y no cambia nada.\nUso: Riegel.Collector.exe [--out <carpeta>] [--gzip] [--minimal] [--deep] [--pseudonymize] [--quiet] [--nur-lesen] [--version] [--help]\nCódigos de salida: 0 completo, 1 escrito pero incompleto, 3 no se escribió nada.
-Stub=Esta versión es un marcador de posición: no recopila nada ni escribe ningún archivo.
+# Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen.
+Version=Recolector de Riegel {0}
+Help=Lee la configuración de seguridad de este equipo y no cambia nada. Solo escribe su exportación y el archivo .sha256.\nUso: Riegel.Collector.exe [--out <carpeta>] [--gzip] [--minimal] [--deep] [--pseudonymize] [--quiet] [--nur-lesen] [--version] [--help]\n  --out <carpeta>  escribir la exportación allí (predeterminado: junto a Riegel.Collector.exe)\n  --gzip           comprimir la exportación (.snapshot.json.gz)\n  --minimal        no iniciar ningún otro programa (ni secedit ni gpresult), sin consulta de Windows Update, solo perfiles del firewall\n  --deep           consultar también el nivel de protección del proceso LSASS\n  --pseudonymize   sustituir los nombres de usuario locales por seudónimos (seudonimizado, no anónimo)\n  --quiet          mostrar solo la ruta y el SHA-256 de la exportación\n  --nur-lesen      aceptado para scripts; el recolector nunca escribe configuración\nCódigos de salida: 0 completo, 1 escrito pero incompleto (sin administrador o áreas denegadas), 3 nada escrito.
+Collecting=Leyendo la configuración de seguridad de este equipo (solo lectura) ...
+NotAdmin=No se inició como administrador: las áreas que requieren derechos de administrador se marcan como "no verificable". Para una recopilación completa, inicie el símbolo del sistema con "Ejecutar como administrador".
+Summary=Elementos: {0}, denegados o con error: {1}, no recopilados: {2}. Duración: {3} s.
+Written=Exportación: {0}
+Sha256=SHA-256: {0}
+Complete=Completo (código de salida 0).
+Incomplete=Escrito, pero incompleto (código de salida 1).
+TargetNotWritable=RGL-0102: El destino no admite escritura: use --out con un recurso compartido u otra carpeta. No se recopiló nada. ({0})
+UnknownOption=RGL-0101: Opción desconocida: {0}
+MissingValue=RGL-0101: La opción {0} necesita un valor.
+WriteFailed=RGL-0103: No se pudo escribir la exportación: {0}
+SidecarFailed=RGL-0105: No se pudo escribir el archivo de suma de comprobación: {0}
+PlanError=RGL-0104: El plan de recopilación integrado no se puede leer ({0}). No se recopiló nada.
+Fatal=RGL-0100: Error inesperado: {0}

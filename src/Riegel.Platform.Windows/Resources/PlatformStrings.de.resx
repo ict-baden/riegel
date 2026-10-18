@@ -4,7 +4,74 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Placeholder" xml:space="preserve">
-    <value>(Platzhalter der Texte von collector)</value>
+  <data name="Error_RGL0110" xml:space="preserve">
+    <value>Ungültiges Übergabe-Kennzeichen. Erlaubt sind nur Buchstaben, Ziffern und „-“ (8 bis 64 Zeichen).</value>
+  </data>
+  <data name="Error_RGL0111" xml:space="preserve">
+    <value>Der Übergabeordner existiert schon und wird nie wiederverwendet: {0}</value>
+  </data>
+  <data name="Error_RGL0112" xml:space="preserve">
+    <value>Abgelehnt: Ein Teil des Übergabepfads ist eine Verknüpfung oder Junction (Reparse-Punkt): {0}</value>
+  </data>
+  <data name="Error_RGL0113" xml:space="preserve">
+    <value>Die Rechteerhöhung wurde abgebrochen. Es wurde nichts erhoben.</value>
+  </data>
+  <data name="Error_RGL0114" xml:space="preserve">
+    <value>Riegel ließ sich nicht mit Administratorrechten starten (Fehler {0}).</value>
+  </data>
+  <data name="Error_RGL0115" xml:space="preserve">
+    <value>Die Erhebung mit Administratorrechten endete ohne Export im Übergabeordner.</value>
+  </data>
+  <data name="Error_RGL0116" xml:space="preserve">
+    <value>Die Erhebung lief mit einem anderen Konto („über die Schulter“), ihr Export liegt deshalb im Profil dieses Kontos. Als dieses Konto eine Eingabeaufforderung mit „Als Administrator ausführen“ öffnen, Riegel.Cli.exe collect --out &lt;Ordner&gt; aufrufen und die Datei importieren.</value>
+  </data>
+  <data name="Error_RGL0120" xml:space="preserve">
+    <value>Riegel öffnet nur Dateien, die es selbst erzeugt hat (PDF, Excel, CSV, JSON, Text, ZIP), Ordner und http/https-Links: {0}</value>
+  </data>
+  <data name="Error_RGL0121" xml:space="preserve">
+    <value>{0} ließ sich nicht öffnen (Fehler {1}).</value>
+  </data>
+  <data name="Error_RGL0130" xml:space="preserve">
+    <value>Das Sammler-Paket fehlt neben der App ({0}). Die Einzeldatei Riegel.exe enthält es nicht: stattdessen Riegel-Collector.zip aus dem Release verwenden.</value>
+  </data>
+  <data name="Error_RGL0131" xml:space="preserve">
+    <value>Im Zielordner liegt schon {0}. Bitte einen leeren Ordner wählen.</value>
+  </data>
+  <data name="Error_RGL0140" xml:space="preserve">
+    <value>Die Erhebung dieses Rechners ist fehlgeschlagen ({0}).</value>
+  </data>
+  <data name="Handover_Title" xml:space="preserve">
+    <value>Riegel-Sammler – Übergabeblatt</value>
+  </data>
+  <data name="Handover_Version" xml:space="preserve">
+    <value>Sammler-Version: {0}</value>
+  </data>
+  <data name="Handover_Copied" xml:space="preserve">
+    <value>Kopiert: {0}</value>
+  </data>
+  <data name="Handover_Files" xml:space="preserve">
+    <value>Dateien (SHA-256):</value>
+  </data>
+  <data name="Handover_Check" xml:space="preserve">
+    <value>Vor dem Einsatz prüfen: „certutil -hashfile Riegel.Collector.exe SHA256“ muss den Wert oben zeigen.</value>
+  </data>
+  <data name="Handover_HowTo" xml:space="preserve">
+    <value>Aufruf (auf dem zu prüfenden Rechner):
+1. Eingabeaufforderung mit „Als Administrator ausführen“ öffnen (ohne Administratorrechte bleibt die Erhebung unvollständig).
+2. Aufrufen: Riegel.Collector.exe
+   Ist dieser Datenträger schreibgeschützt: Riegel.Collector.exe --out \\&lt;Server&gt;\&lt;Freigabe&gt;
+3. Pfad und SHA-256 notieren, die der Sammler ausgibt.
+Exitcodes: 0 vollständig, 1 geschrieben, aber unvollständig, 3 nichts geschrieben.
+Optionen: --minimal (kein anderes Programm starten), --gzip, --pseudonymize, --deep.
+Rechner, auf denen kein fremdes Programm laufen darf: collect-builtin.cmd (nur Windows-Bordmittel).</value>
+  </data>
+  <data name="Handover_LeavesBehind" xml:space="preserve">
+    <value>Was er hinterlässt: Er ändert keine Konfiguration. Er schreibt nur seinen Export (und die Prüfsummendatei) in den gewählten Ordner. Windows selbst vermerkt, dass ein Programm lief: temporäre Dateien von secedit und gpresult in einem frischen Ordner %TEMP%\riegel-&lt;zufällig&gt; (danach gelöscht), ein CLR-Nutzungsprotokoll unter %LocalAppData%\Microsoft\CLR_v4.0\UsageLogs, Ausführungsspuren wie Prefetch und AmCache und möglicherweise Ereignisse im Sicherheitsprotokoll (4688, 4798, 4799, Rechteverwendung). Vor einer Erhebungsrunde das SOC informieren: Der Sammler liest Kennwortrichtlinie, lokale Administratoren und Benutzerrechte.</value>
+  </data>
+  <data name="Handover_Record" xml:space="preserve">
+    <value>Protokoll:
+Rechner: ____________________   Datum und Uhrzeit: ____________________
+Erhoben von (Rolle): ____________________   Zeuge (Rolle): ____________________
+SHA-256 des Exports: ________________________________________________________________</value>
   </data>
 </root>
