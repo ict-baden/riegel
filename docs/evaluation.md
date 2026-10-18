@@ -189,7 +189,7 @@ Evidence is read in the order shown; the first source that can decide does so.
 | Check type | Evidence (in order) | Rules of decision |
 |---|---|---|
 | `registry` | `reg:` item | evidence classes, `whenMissing`, strict types |
-| `registryEffective` | the listed sources, e.g. policy before MDM before local | first present source decides; an unavailable source before it → not checkable; all missing → `whenMissing` |
+| `registryEffective` | the listed sources, e.g. policy before MDM before local | first present source decides; an unavailable source before it → not checkable; all missing → `whenMissing`. With `selection: root` (Windows LAPS) the first source key with any value is the active policy and a value missing there goes to `whenMissing`, even if a later key has it |
 | `secedit` | `parsed:secedit` | a key missing from the exported template → `whenMissing`; `[Registry Values]` entries are `type,value` (4 DWORD, 1 SZ, 2 EXPAND_SZ, 7 MULTI_SZ) and strictly typed |
 | `accountPolicy` | `api:netusermodals`, then `parsed:secedit` `[System Access]` | password age "unlimited" (API null, secedit ≤ 0) fails every upper bound; lockout threshold 0 ("never locks") satisfies no bound; lockout duration 0 or unlimited = until an administrator unlocks |
 | `auditSubcategory` | `api:audit-policy` (GUID → 0–3) | numbers only, never localised text; a GUID that is absent from the item was not collected |

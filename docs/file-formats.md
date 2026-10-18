@@ -286,7 +286,7 @@ The closed set of spec 2.3. Every check has `"type"`; the fields are exactly the
 | `type` | Fields |
 |---|---|
 | `registry` | `key`, `value`, `valueType` (`dword qword sz expand_sz multi_sz binary`), `acceptTypes?`, `op`, `expected?`, `whenMissing` (`fail notCheckable osDefault pass`), `osDefaults?` [ `{ minBuild?, maxBuild?, editions?, installationTypes?, domainJoined?, value, source, seen }` ], `missingPass?` `{ source, seen, note }`, `multiSz?` (`set` default, `list`) |
-| `registryEffective` | `sources` [ `{ key, value, origin: policy\|mdm\|local\|other }` ] plus the registry comparison fields |
+| `registryEffective` | `sources` [ `{ key, value, origin: policy\|mdm\|local\|other }` ], `selection?` (`value` default: the first source that has the value; `root`: the first source key that has any value is the active policy and a value missing there is not set, as Windows LAPS selects its policy root) plus the registry comparison fields |
 | `secedit` | `section`, `key`, `op`, `expected?`, `valueKind` (`number string registryValue`), `whenMissing` |
 | `accountPolicy` | `field` (`minPwLen maxPwAgeDays minPwAgeDays pwHistLen lockoutThreshold lockoutDurationMin lockoutWindowMin passwordComplexity clearTextPassword`), `op`, `expected?` |
 | `auditSubcategory` | `guid` (`{…}`), `expected` (`success failure successAndFailure includesSuccess includesFailure noAuditing`) |
@@ -389,8 +389,10 @@ machine's OS kind (`ProductType` 1 = client, 2/3 = server; `BuildTable.Find(buil
 only `os`-specific entries there is no match and the update age is not checkable.
 
 **`rules/capabilities/*.json`** (`riegel.capabilities/1`): `{ schema, capabilities: [ { capability, exists: [ { os?,
-minBuild?, maxBuild?, editions?, installationTypes?, note? } ], source, seen, note? } ] }`. A capability exists on a
-machine when any `exists` entry matches (all of its given conditions hold). Duplicate names across files are a load
+minBuild?, maxBuild?, minUbr?, editions?, installationTypes?, note? } ], source, seen, note? } ] }`. A capability exists
+on a machine when any `exists` entry matches (all of its given conditions hold); `minUbr` requires at least that
+revision (UBR) of the build, for features that arrived with a cumulative update – an unknown UBR makes the entry
+unknown. Duplicate names across files are a load
 error. Every entry cites a Microsoft source.
 
 **`rules/data/*.json`** (`riegel.data/1`): `{ schema, kind: remoteAccessTools|officeDetection, remoteAccessTools?: [ {
@@ -644,7 +646,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 - **BuildRelease** (record): `int Ubr`, `DateOnly Date`, `string? Kb`, `string? Kind`
 - **BuildTable** (record): `string Schema`, `IReadOnlyList<BuildEntry> Builds`, `static BuildTable Empty`, `BuildEntry? Find(int build, string? osKind)`, `static string? OsKindOf(int? productType)`
 - **CanonicalValue** (static class): `const string Redacted`, `const string RedactedEmpty`, `const int BinaryPrefixBytes`, `static string Render(JsonElement? value)`, `static string RenderRegistry(JsonElement registryValue)`, `static string RenderRegistry(string? type, JsonElement v, bool truncated = false)`, `static string Binary(ReadOnlySpan<byte> bytes, bool truncated = false)`, `static bool AreEqual(string? a, string? b)`, `static bool TryParseInteger(string text, out ulong value)`, `static string Display(string? canonical)`
-- **CapabilityCondition** (record): `string? Os`, `int? MinBuild`, `int? MaxBuild`, `IReadOnlyList<string>? Editions`, `IReadOnlyList<string>? InstallationTypes`, `string? Note`
+- **CapabilityCondition** (record): `string? Os`, `int? MinBuild`, `int? MaxBuild`, `IReadOnlyList<string>? Editions`, `IReadOnlyList<string>? InstallationTypes`, `string? Note`, `int? MinUbr`
 - **CapabilityEntry** (record): `string Capability`, `string Source`, `DateOnly Seen`, `string? Note`, `IReadOnlyList<CapabilityCondition> Exists`
 - **CapabilityFile** (record): `string Schema`, `IReadOnlyList<CapabilityEntry> Capabilities`
 - **CapabilityTable** (record): `IReadOnlyList<CapabilityEntry> Capabilities`, `static CapabilityTable Empty`
@@ -672,6 +674,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 - **DeviceGuardService** (enum): CredentialGuard, Hvci, Vbs
 - **DomainScope** (enum): Any, Joined, Standalone
 - **DriftKind** (enum): Added, Removed, Changed
+- **EffectiveSelection** (enum): Value, Root
 - **EffectiveSource** (record): `string Key`, `string Value`, `ValueOrigin Origin`
 - **EvaluationContext** (record): `DateOnly EvaluationDate`, `DateTimeOffset EvaluatedAtUtc`, `DateTimeOffset? ImportedAtUtc`, `int UpdateMaxDays`, `int UnusedAccountDays`, `bool EsuCovered`, `string Language`
 - **EventPlanItem** (record): `string Key`, `string Log`, `string Provider`, `int EventId`, `string Xpath`, `bool AfterLastBoot`, `bool NeedsAdmin`, `PlanMode Mode`, `string? Note`
@@ -751,7 +754,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 - **RegisterSet** (record): `ExceptionFile Exceptions`, `TailoringFile Tailoring`, `MeasureFile Measures`, `RegisterHashes Hashes`
 - **RegistryAction** (record): `string Key`, `string Value`, `RegValueType? Type`, `JsonElement? Data`, `bool Delete`
 - **RegistryCheck** (record : CheckSpec): `string Key`, `string Value`, `RegValueType ValueType`, `IReadOnlyList<RegValueType>? AcceptTypes`, `CheckOperator Op`, `JsonElement? Expected`, `WhenMissing WhenMissing`, `IReadOnlyList<OsDefault>? OsDefaults`, `MissingPass? MissingPass`, `MultiSzMode? MultiSz`
-- **RegistryEffectiveCheck** (record : CheckSpec): `RegValueType ValueType`, `IReadOnlyList<RegValueType>? AcceptTypes`, `CheckOperator Op`, `JsonElement? Expected`, `WhenMissing WhenMissing`, `IReadOnlyList<OsDefault>? OsDefaults`, `MissingPass? MissingPass`, `MultiSzMode? MultiSz`, `IReadOnlyList<EffectiveSource> Sources`
+- **RegistryEffectiveCheck** (record : CheckSpec): `RegValueType ValueType`, `IReadOnlyList<RegValueType>? AcceptTypes`, `CheckOperator Op`, `JsonElement? Expected`, `WhenMissing WhenMissing`, `IReadOnlyList<OsDefault>? OsDefaults`, `MissingPass? MissingPass`, `MultiSzMode? MultiSz`, `IReadOnlyList<EffectiveSource> Sources`, `EffectiveSelection? Selection`
 - **RegistryPlan** (record): `IReadOnlyList<RegistryPlanEntry> Roots`, `IReadOnlyList<RegistryPlanEntry> Keys`
 - **RegistryPlanEntry** (record): `string Path`, `RegistryPlanKind Kind`, `int MaxDepth`, `IReadOnlyList<string>? Values`, `bool NeedsAdmin`, `PlanMode Mode`, `string? Note`
 - **RegistryPlanKind** (enum): Recursive, Key, Children

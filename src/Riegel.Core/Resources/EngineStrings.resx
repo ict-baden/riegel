@@ -475,4 +475,7 @@
   <data name="Detail_FirewallPolicyDecides" xml:space="preserve">
     <value>The Group Policy value decides; the firewall service reports the local setting: {0}</value>
   </data>
+  <data name="Detail_ActiveRoot" xml:space="preserve">
+    <value>Active policy root (the first one with any setting): {0}</value>
+  </data>
 </root>

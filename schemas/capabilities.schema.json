@@ -47,6 +47,10 @@
                 "type": "integer",
                 "minimum": 0
               },
+              "minUbr": {
+                "type": "integer",
+                "minimum": 0
+              },
               "editions": {
                 "type": "array",
                 "items": {

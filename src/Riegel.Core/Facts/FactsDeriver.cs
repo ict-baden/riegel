@@ -82,10 +82,10 @@ internal sealed class FactsDeriver : IFactsDeriver
             // ---- Fähigkeiten (aus der Tabelle, Kopf-Felder wie oben)
             foreach (var entry in catalogue.Capabilities.Capabilities.OrderBy(e => e.Capability, StringComparer.Ordinal))
             {
-                var exists = CapabilityMatcher.Exists(entry, facts.Kind, facts.Build, facts.Edition, facts.InstallationType);
+                var exists = CapabilityMatcher.Exists(entry, facts.Kind, facts.Build, facts.Ubr, facts.Edition, facts.InstallationType);
                 var name = FactNames.CapabilityPrefix + entry.Capability;
                 facts.Values[name] = exists is { } x ? JsonValues.Bool(x) : JsonValues.Null;
-                facts.Sources[name] = facts.SourcesOf(FactNames.OsKind).Union(facts.SourcesOf(FactNames.OsBuild))
+                facts.Sources[name] = facts.SourcesOf(FactNames.OsKind).Union(facts.SourcesOf(FactNames.OsBuild)).Union(facts.SourcesOf(FactNames.OsUbr))
                     .Union(facts.SourcesOf(FactNames.OsEdition)).Union(facts.SourcesOf(FactNames.OsInstallationType));
             }
         }

@@ -1748,8 +1748,8 @@
         "de": "Windows LAPS sichert das lokale Administratorkennwort"
       },
       "rationale": {
-        "en": "With the same local administrator password on many machines, one stolen hash opens all of them. Windows LAPS sets a unique password per machine and backs it up to Active Directory (BackupDirectory 2) or Microsoft Entra ID (1). Riegel reads the policy roots in Microsoft's order (CSP, Group Policy, local configuration); a missing setting means Disabled. Microsoft Entra join is not detected in v1, and the deprecated legacy Microsoft LAPS is not recognised (record it as an exception).",
-        "de": "Mit demselben lokalen Administratorkennwort auf vielen Rechnern öffnet ein gestohlener Hash alle. Windows LAPS setzt je Rechner ein eigenes Kennwort und sichert es in Active Directory (BackupDirectory 2) oder Microsoft Entra ID (1). Riegel liest die Richtlinienbereiche in Microsofts Reihenfolge (CSP, Gruppenrichtlinie, lokale Konfiguration); ein fehlender Wert bedeutet deaktiviert. Ein Microsoft-Entra-Beitritt wird in v1 nicht erkannt, und das abgekündigte alte Microsoft LAPS wird nicht erkannt (als Ausnahme führen)."
+        "en": "With the same local administrator password on many machines, one stolen hash opens all of them. Windows LAPS sets a unique password per machine and backs it up to Active Directory (BackupDirectory 2) or Microsoft Entra ID (1). Like Windows LAPS, Riegel takes the first policy root that contains any setting (CSP, Group Policy, local configuration, legacy Microsoft LAPS) as the active policy; a setting missing there means Disabled, even if another root has it, because settings are never shared across roots. Windows LAPS exists only on Windows 11, Windows 10 and Windows Server 2019/2022 with the April 11, 2023 update and on Windows Server 2025; on older systems such as Windows Server 2016 the rule fails even if a domain-wide LAPS policy arrives. Microsoft Entra join is not detected in v1. If the legacy Microsoft LAPS policy (AdmPwd) is the active root, the rule fails: record it as an exception until the migration to Windows LAPS.",
+        "de": "Mit demselben lokalen Administratorkennwort auf vielen Rechnern öffnet ein gestohlener Hash alle. Windows LAPS setzt je Rechner ein eigenes Kennwort und sichert es in Active Directory (BackupDirectory 2) oder Microsoft Entra ID (1). Wie Windows LAPS nimmt Riegel den ersten Richtlinienbereich, der überhaupt eine Einstellung enthält (CSP, Gruppenrichtlinie, lokale Konfiguration, altes Microsoft LAPS), als aktive Richtlinie; fehlt die Einstellung dort, gilt „deaktiviert“, auch wenn ein anderer Bereich sie hat – Einstellungen werden nie über Bereiche hinweg geteilt. Windows LAPS gibt es nur unter Windows 11, Windows 10 und Windows Server 2019/2022 mit dem Update vom 11. April 2023 und unter Windows Server 2025; auf älteren Systemen wie Windows Server 2016 schlägt die Regel fehl, auch wenn eine domänenweite LAPS-Richtlinie ankommt. Ein Microsoft-Entra-Beitritt wird in v1 nicht erkannt. Ist die Richtlinie des alten Microsoft LAPS (AdmPwd) der aktive Bereich, schlägt die Regel fehl: bis zur Umstellung auf Windows LAPS als Ausnahme führen."
       },
       "otNote": {
         "en": "Machine builders often need the local administrator password for service visits. With LAPS, read the current password from the directory for the visit instead of sharing one fixed password.",
@@ -1767,7 +1767,9 @@
         ],
         "domain": "joined",
         "excludeDc": true,
-        "when": []
+        "when": [],
+        "capability": "windowsLaps",
+        "ifCapabilityAbsent": "fail"
       },
       "needsAdmin": false,
       "check": {
@@ -1787,8 +1789,14 @@
             "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config",
             "value": "BackupDirectory",
             "origin": "local"
+          },
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft Services\\AdmPwd",
+            "value": "BackupDirectory",
+            "origin": "policy"
           }
         ],
+        "selection": "root",
         "valueType": "dword",
         "op": "in",
         "expected": [
@@ -1858,7 +1866,14 @@
           "doc": "MicrosoftDocs/windowsserverdocs (CC BY 4.0)",
           "url": "https://learn.microsoft.com/en-us/windows-server/identity/laps/laps-management-policy-settings",
           "date": "2026-10-18",
-          "note": "Policy roots in order: CSP HKLM\\Software\\Microsoft\\Policies\\LAPS, Group Policy ...\\CurrentVersion\\Policies\\LAPS, local ...\\CurrentVersion\\LAPS\\Config; BackupDirectory 0 Disabled (default), 1 Microsoft Entra, 2 Active Directory."
+          "note": "Policy roots in order: CSP HKLM\\Software\\Microsoft\\Policies\\LAPS, Group Policy ...\\CurrentVersion\\Policies\\LAPS, local ...\\CurrentVersion\\LAPS\\Config, legacy Microsoft LAPS HKLM\\Software\\Policies\\Microsoft Services\\AdmPwd. 'When a root that has at least one explicitly defined setting is found, that root is used as the active policy. If the chosen root is missing any settings, the settings are assigned their default values. Policy settings are never shared or inherited across policy key roots.' BackupDirectory 0 Disabled (default), 1 Microsoft Entra, 2 Active Directory."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "MicrosoftDocs/windowsserverdocs (CC BY 4.0): Windows LAPS overview",
+          "url": "https://learn.microsoft.com/en-us/windows-server/identity/laps/laps-overview",
+          "date": "2026-10-18",
+          "note": "Windows LAPS supported platforms: Windows 11 23H2 and later, other Windows client versions with the April 11, 2023 update (Windows 11 22H2, 21H2, Windows 10), Windows Server 2025 and later, Windows Server 2022 and 2019 with the April 11, 2023 update."
         }
       ],
       "tests": [
@@ -2013,6 +2028,230 @@
               }
             },
             "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Group Policy root has only other settings, BackupDirectory only in the local configuration (Disabled)",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Policies\\LAPS": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\LAPS": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "PasswordComplexity": {
+                    "t": "dword",
+                    "v": 4
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "BackupDirectory": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft Services\\AdmPwd": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "legacy Microsoft LAPS policy is the active root",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Policies\\LAPS": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\LAPS": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft Services\\AdmPwd": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AdmPwdEnabled": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows Server 2016 receives the domain-wide Windows LAPS policy (no Windows LAPS)",
+          "machine": {
+            "build": 14393,
+            "ubr": 7428,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Policies\\LAPS": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\LAPS": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "BackupDirectory": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft Services\\AdmPwd": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows Server 2022 before the April 2023 update (no Windows LAPS)",
+          "machine": {
+            "build": 20348,
+            "ubr": 1607,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Policies\\LAPS": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\LAPS": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "BackupDirectory": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft Services\\AdmPwd": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows Server 2022 with the April 2023 update, Group Policy backs up to Active Directory",
+          "machine": {
+            "build": 20348,
+            "ubr": 1668,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Policies\\LAPS": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\LAPS": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "BackupDirectory": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft Services\\AdmPwd": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Windows 10 22H2 without a known revision (applicability unknown)",
+          "machine": {
+            "build": 19045,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Policies\\LAPS": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\LAPS": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "BackupDirectory": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\LAPS\\Config": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft Services\\AdmPwd": {
               "status": "keyMissing"
             }
           },

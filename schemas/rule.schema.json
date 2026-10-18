@@ -972,6 +972,13 @@
           },
           "minItems": 1
         },
+        "selection": {
+          "type": "string",
+          "enum": [
+            "value",
+            "root"
+          ]
+        },
         "valueType": {
           "$ref": "#/$defs/regValueType"
         },

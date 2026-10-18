@@ -475,4 +475,7 @@
   <data name="Detail_FirewallPolicyDecides" xml:space="preserve">
     <value>Der Wert der Gruppenrichtlinie entscheidet; der Firewall-Dienst meldet als lokale Einstellung: {0}</value>
   </data>
+  <data name="Detail_ActiveRoot" xml:space="preserve">
+    <value>Aktiver Richtlinienbereich (der erste mit einer Einstellung): {0}</value>
+  </data>
 </root>
