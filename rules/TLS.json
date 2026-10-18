@@ -1,0 +1,5062 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "TLS",
+  "rules": [
+    {
+      "id": "TLS-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "tls",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "SSL 2.0 is disabled (client and server)",
+        "de": "SSL 2.0 ist abgeschaltet (Client und Server)"
+      },
+      "rationale": {
+        "en": "SSL 2.0 is broken and must not be negotiated. Windows 7 and Server 2008 R2 still accept it on the server side by default. From Windows 10 version 1607 and Windows Server 2016 Schannel no longer supports it, so the rule does not apply there.",
+        "de": "SSL 2.0 ist gebrochen und darf nicht ausgehandelt werden. Windows 7 und Server 2008 R2 akzeptieren es serverseitig noch standardmäßig. Ab Windows 10 Version 1607 und Windows Server 2016 unterstützt Schannel es nicht mehr; dort gilt die Regel nicht."
+      },
+      "otNote": {
+        "en": "Old OPC servers, historians, printers and license servers sometimes only speak old protocol versions. Find them first (the Schannel event log helps), then switch off; keep any exception narrow.",
+        "de": "Alte OPC-Server, Historians, Drucker und Lizenzserver sprechen manchmal nur alte Protokollversionen. Diese zuerst finden (das Schannel-Ereignisprotokoll hilft), dann abschalten; Ausnahmen eng halten."
+      },
+      "remedy": {
+        "en": "Set Enabled = 0 and DisabledByDefault = 1 under SCHANNEL\\Protocols\\SSL 2.0\\Server and \\Client and restart.",
+        "de": "Unter SCHANNEL\\Protocols\\SSL 2.0\\Server und \\Client Enabled = 0 und DisabledByDefault = 1 setzen und neu starten."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "schannelSsl2",
+        "ifCapabilityAbsent": "notApplicable"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Server",
+            "value": "Enabled",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 0,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 6000,
+                "maxBuild": 6001,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 6002,
+                "maxBuild": 6002,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 7101,
+                "maxBuild": 9199,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9200,
+                "maxBuild": 9599,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9600,
+                "maxBuild": 10239,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10240,
+                "maxBuild": 10240,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10586,
+                "maxBuild": 10586,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              }
+            ]
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Client",
+            "value": "Enabled",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 0,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 6000,
+                "maxBuild": 6001,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 6002,
+                "maxBuild": 6002,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 7101,
+                "maxBuild": 9199,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9200,
+                "maxBuild": 9599,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9600,
+                "maxBuild": 10239,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10240,
+                "maxBuild": 10240,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10586,
+                "maxBuild": 10586,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              }
+            ]
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Server",
+            "value": "Enabled",
+            "type": "dword",
+            "data": 0
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Server",
+            "value": "DisabledByDefault",
+            "type": "dword",
+            "data": 1
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Client",
+            "value": "Enabled",
+            "type": "dword",
+            "data": 0
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Client",
+            "value": "DisabledByDefault",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "id": "KONF.2.2"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0808"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Transport Layer Security (TLS) registry settings (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/tls/tls-registry-settings",
+          "date": "2026-10-18",
+          "note": "Per-protocol subkeys Protocols\\SSL 2.0\\Client and \\Server; DWORD Enabled = 1 sets the version to Enabled, Enabled = 0 to Disabled (Schannel then never negotiates it)."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Manage SSL/TLS protocols and cipher suites for AD FS (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-fs/operations/manage-ssl-protocols-in-ad-fs",
+          "date": "2026-10-18",
+          "note": "Disabling a protocol: Enabled = 0 and DisabledByDefault = 1 for Server and Client; enabling: Enabled = 1 and DisabledByDefault = 0."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Protocols in TLS/SSL (Schannel SSP)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+          "date": "2026-10-18",
+          "note": "Default state per Windows version and side, listed up to Windows 11 24H2 and Windows Server 2025; Windows 11 25H2 is not listed, so no default is assumed there."
+        }
+      ],
+      "tests": [
+        {
+          "name": "disabled explicitly",
+          "machine": {
+            "build": 9600,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Server": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  },
+                  "DisabledByDefault": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Client": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  },
+                  "DisabledByDefault": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Windows 8.1 defaults: both sides disabled",
+          "machine": {
+            "build": 9600,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "Windows 7 default: server side enabled",
+          "machine": {
+            "build": 7601,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "server side enabled explicitly",
+          "machine": {
+            "build": 9600,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 2,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Server": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Client": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Schannel keys not collected",
+          "machine": {
+            "build": 9600,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Server": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Client": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "SSL 2.0 not supported on Windows 10 1607 and later",
+          "machine": {
+            "build": 17763,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 2.0\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TLS-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "tls",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "SSL 3.0 is disabled (client and server)",
+        "de": "SSL 3.0 ist abgeschaltet (Client und Server)"
+      },
+      "rationale": {
+        "en": "SSL 3.0 is broken (POODLE) and must not be negotiated. Windows enables it by default up to Windows 10 version 1511 and Windows Server 2012 R2; later versions disable it by default, which Riegel accepts as a documented default.",
+        "de": "SSL 3.0 ist gebrochen (POODLE) und darf nicht ausgehandelt werden. Windows schaltet es bis Windows 10 Version 1511 und Windows Server 2012 R2 standardmäßig ein; spätere Versionen schalten es standardmäßig ab, was Riegel als belegten Standardwert anerkennt."
+      },
+      "otNote": {
+        "en": "Old OPC servers, historians, printers and license servers sometimes only speak old protocol versions. Find them first (the Schannel event log helps), then switch off; keep any exception narrow.",
+        "de": "Alte OPC-Server, Historians, Drucker und Lizenzserver sprechen manchmal nur alte Protokollversionen. Diese zuerst finden (das Schannel-Ereignisprotokoll hilft), dann abschalten; Ausnahmen eng halten."
+      },
+      "remedy": {
+        "en": "Set Enabled = 0 and DisabledByDefault = 1 under SCHANNEL\\Protocols\\SSL 3.0\\Server and \\Client and restart.",
+        "de": "Unter SCHANNEL\\Protocols\\SSL 3.0\\Server und \\Client Enabled = 0 und DisabledByDefault = 1 setzen und neu starten."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Server",
+            "value": "Enabled",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 0,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 6000,
+                "maxBuild": 6001,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 6002,
+                "maxBuild": 6002,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 7101,
+                "maxBuild": 9199,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9200,
+                "maxBuild": 9599,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9600,
+                "maxBuild": 10239,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10240,
+                "maxBuild": 10240,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10586,
+                "maxBuild": 10586,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 14393,
+                "maxBuild": 14393,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 15063,
+                "maxBuild": 15063,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17134,
+                "maxBuild": 17134,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17763,
+                "maxBuild": 17763,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18362,
+                "maxBuild": 18362,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18363,
+                "maxBuild": 18363,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19041,
+                "maxBuild": 19041,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19042,
+                "maxBuild": 19042,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19043,
+                "maxBuild": 19043,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 20348,
+                "maxBuild": 20348,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22000,
+                "maxBuild": 22000,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22621,
+                "maxBuild": 22621,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22631,
+                "maxBuild": 22631,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              }
+            ]
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Client",
+            "value": "Enabled",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 0,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 6000,
+                "maxBuild": 6001,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 6002,
+                "maxBuild": 6002,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 7101,
+                "maxBuild": 9199,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9200,
+                "maxBuild": 9599,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9600,
+                "maxBuild": 10239,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10240,
+                "maxBuild": 10240,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10586,
+                "maxBuild": 10586,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 14393,
+                "maxBuild": 14393,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 15063,
+                "maxBuild": 15063,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17134,
+                "maxBuild": 17134,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17763,
+                "maxBuild": 17763,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18362,
+                "maxBuild": 18362,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18363,
+                "maxBuild": 18363,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19041,
+                "maxBuild": 19041,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19042,
+                "maxBuild": 19042,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19043,
+                "maxBuild": 19043,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 20348,
+                "maxBuild": 20348,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22000,
+                "maxBuild": 22000,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22621,
+                "maxBuild": 22621,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22631,
+                "maxBuild": 22631,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              }
+            ]
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Server",
+            "value": "Enabled",
+            "type": "dword",
+            "data": 0
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Server",
+            "value": "DisabledByDefault",
+            "type": "dword",
+            "data": 1
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Client",
+            "value": "Enabled",
+            "type": "dword",
+            "data": 0
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Client",
+            "value": "DisabledByDefault",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "id": "KONF.2.2"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0808"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Transport Layer Security (TLS) registry settings (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/tls/tls-registry-settings",
+          "date": "2026-10-18",
+          "note": "Per-protocol subkeys Protocols\\SSL 3.0\\Client and \\Server; DWORD Enabled = 1 sets the version to Enabled, Enabled = 0 to Disabled (Schannel then never negotiates it)."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Manage SSL/TLS protocols and cipher suites for AD FS (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-fs/operations/manage-ssl-protocols-in-ad-fs",
+          "date": "2026-10-18",
+          "note": "Disabling a protocol: Enabled = 0 and DisabledByDefault = 1 for Server and Client; enabling: Enabled = 1 and DisabledByDefault = 0."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Protocols in TLS/SSL (Schannel SSP)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+          "date": "2026-10-18",
+          "note": "Default state per Windows version and side, listed up to Windows 11 24H2 and Windows Server 2025; Windows 11 25H2 is not listed, so no default is assumed there."
+        }
+      ],
+      "tests": [
+        {
+          "name": "disabled explicitly",
+          "machine": {
+            "build": 7601,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Server": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  },
+                  "DisabledByDefault": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Client": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  },
+                  "DisabledByDefault": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Windows 10 1809 default: disabled",
+          "machine": {
+            "build": 17763,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "Windows 8.1 default: enabled",
+          "machine": {
+            "build": 9600,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "client side enabled explicitly",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Server": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Client": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows 11 25H2: default not documented",
+          "machine": {
+            "build": 26200,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Schannel keys not collected",
+          "machine": {
+            "build": 17763,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Server": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Client": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TLS-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "tls",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "TLS 1.0 is disabled (client and server)",
+        "de": "TLS 1.0 ist abgeschaltet (Client und Server)"
+      },
+      "rationale": {
+        "en": "TLS 1.0 is outdated and deprecated by Microsoft; current clients and servers use TLS 1.2 or 1.3. All released Windows versions listed by Microsoft enable TLS 1.0 by default, so it stays available until it is switched off. Where Microsoft does not document the default (Windows 11 25H2), the result is “not checkable” until the value is set explicitly.",
+        "de": "TLS 1.0 ist veraltet und von Microsoft abgekündigt; aktuelle Clients und Server nutzen TLS 1.2 oder 1.3. Alle von Microsoft aufgeführten Windows-Versionen schalten TLS 1.0 standardmäßig ein; es bleibt also verfügbar, bis es abgeschaltet wird. Wo Microsoft den Standardwert nicht dokumentiert (Windows 11 25H2), lautet das Ergebnis „nicht prüfbar“, bis der Wert ausdrücklich gesetzt ist."
+      },
+      "otNote": {
+        "en": "Old OPC servers, historians, printers and license servers sometimes only speak old protocol versions. Find them first (the Schannel event log helps), then switch off; keep any exception narrow.",
+        "de": "Alte OPC-Server, Historians, Drucker und Lizenzserver sprechen manchmal nur alte Protokollversionen. Diese zuerst finden (das Schannel-Ereignisprotokoll hilft), dann abschalten; Ausnahmen eng halten."
+      },
+      "remedy": {
+        "en": "Set Enabled = 0 and DisabledByDefault = 1 under SCHANNEL\\Protocols\\TLS 1.0\\Server and \\Client and restart.",
+        "de": "Unter SCHANNEL\\Protocols\\TLS 1.0\\Server und \\Client Enabled = 0 und DisabledByDefault = 1 setzen und neu starten."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Server",
+            "value": "Enabled",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 0,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 6000,
+                "maxBuild": 6001,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 6002,
+                "maxBuild": 6002,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 7101,
+                "maxBuild": 9199,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9200,
+                "maxBuild": 9599,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9600,
+                "maxBuild": 10239,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10240,
+                "maxBuild": 10240,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10586,
+                "maxBuild": 10586,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 14393,
+                "maxBuild": 14393,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 15063,
+                "maxBuild": 15063,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 16299,
+                "maxBuild": 16299,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17134,
+                "maxBuild": 17134,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17763,
+                "maxBuild": 17763,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18362,
+                "maxBuild": 18362,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18363,
+                "maxBuild": 18363,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19041,
+                "maxBuild": 19041,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19042,
+                "maxBuild": 19042,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19043,
+                "maxBuild": 19043,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19044,
+                "maxBuild": 19044,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19045,
+                "maxBuild": 19045,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 20348,
+                "maxBuild": 20348,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22000,
+                "maxBuild": 22000,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22621,
+                "maxBuild": 22621,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22631,
+                "maxBuild": 22631,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              }
+            ]
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Client",
+            "value": "Enabled",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 0,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 6000,
+                "maxBuild": 6001,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 6002,
+                "maxBuild": 6002,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 7101,
+                "maxBuild": 9199,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9200,
+                "maxBuild": 9599,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9600,
+                "maxBuild": 10239,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10240,
+                "maxBuild": 10240,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10586,
+                "maxBuild": 10586,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 14393,
+                "maxBuild": 14393,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 15063,
+                "maxBuild": 15063,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 16299,
+                "maxBuild": 16299,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17134,
+                "maxBuild": 17134,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17763,
+                "maxBuild": 17763,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18362,
+                "maxBuild": 18362,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18363,
+                "maxBuild": 18363,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19041,
+                "maxBuild": 19041,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19042,
+                "maxBuild": 19042,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19043,
+                "maxBuild": 19043,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19044,
+                "maxBuild": 19044,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19045,
+                "maxBuild": 19045,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 20348,
+                "maxBuild": 20348,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22000,
+                "maxBuild": 22000,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22621,
+                "maxBuild": 22621,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22631,
+                "maxBuild": 22631,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              }
+            ]
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Server",
+            "value": "Enabled",
+            "type": "dword",
+            "data": 0
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Server",
+            "value": "DisabledByDefault",
+            "type": "dword",
+            "data": 1
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Client",
+            "value": "Enabled",
+            "type": "dword",
+            "data": 0
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Client",
+            "value": "DisabledByDefault",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "id": "KONF.2.2"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0808"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Transport Layer Security (TLS) registry settings (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/tls/tls-registry-settings",
+          "date": "2026-10-18",
+          "note": "Per-protocol subkeys Protocols\\TLS 1.0\\Client and \\Server; DWORD Enabled = 1 sets the version to Enabled, Enabled = 0 to Disabled (Schannel then never negotiates it)."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Manage SSL/TLS protocols and cipher suites for AD FS (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-fs/operations/manage-ssl-protocols-in-ad-fs",
+          "date": "2026-10-18",
+          "note": "Disabling a protocol: Enabled = 0 and DisabledByDefault = 1 for Server and Client; enabling: Enabled = 1 and DisabledByDefault = 0."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Protocols in TLS/SSL (Schannel SSP)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+          "date": "2026-10-18",
+          "note": "Default state per Windows version and side, listed up to Windows 11 24H2 and Windows Server 2025; Windows 11 25H2 is not listed, so no default is assumed there."
+        }
+      ],
+      "tests": [
+        {
+          "name": "disabled explicitly",
+          "machine": {
+            "build": 26200,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Server": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  },
+                  "DisabledByDefault": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Client": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  },
+                  "DisabledByDefault": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Windows 11 23H2 default: enabled",
+          "machine": {
+            "build": 22631,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "server disabled, client still enabled",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Server": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows 11 25H2: default not documented",
+          "machine": {
+            "build": 26200,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Schannel keys not collected",
+          "machine": {
+            "build": 22631,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Server": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Client": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TLS-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "tls",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "TLS 1.1 is disabled (client and server)",
+        "de": "TLS 1.1 ist abgeschaltet (Client und Server)"
+      },
+      "rationale": {
+        "en": "TLS 1.1 is outdated and deprecated by Microsoft; current clients and servers use TLS 1.2 or 1.3. All released Windows versions listed by Microsoft enable TLS 1.1 by default (Windows 7 and Server 2008 R2: disabled), so it stays available until it is switched off. Where Microsoft does not document the default (Windows 11 25H2), the result is “not checkable” until the value is set explicitly.",
+        "de": "TLS 1.1 ist veraltet und von Microsoft abgekündigt; aktuelle Clients und Server nutzen TLS 1.2 oder 1.3. Alle von Microsoft aufgeführten Windows-Versionen schalten TLS 1.1 standardmäßig ein (Windows 7 und Server 2008 R2: aus); es bleibt also verfügbar, bis es abgeschaltet wird. Wo Microsoft den Standardwert nicht dokumentiert (Windows 11 25H2), lautet das Ergebnis „nicht prüfbar“, bis der Wert ausdrücklich gesetzt ist."
+      },
+      "otNote": {
+        "en": "Old OPC servers, historians, printers and license servers sometimes only speak old protocol versions. Find them first (the Schannel event log helps), then switch off; keep any exception narrow.",
+        "de": "Alte OPC-Server, Historians, Drucker und Lizenzserver sprechen manchmal nur alte Protokollversionen. Diese zuerst finden (das Schannel-Ereignisprotokoll hilft), dann abschalten; Ausnahmen eng halten."
+      },
+      "remedy": {
+        "en": "Set Enabled = 0 and DisabledByDefault = 1 under SCHANNEL\\Protocols\\TLS 1.1\\Server and \\Client and restart.",
+        "de": "Unter SCHANNEL\\Protocols\\TLS 1.1\\Server und \\Client Enabled = 0 und DisabledByDefault = 1 setzen und neu starten."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "schannelTls11",
+        "ifCapabilityAbsent": "notApplicable"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Server",
+            "value": "Enabled",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 0,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 6002,
+                "maxBuild": 6002,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 7101,
+                "maxBuild": 9199,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9200,
+                "maxBuild": 9599,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9600,
+                "maxBuild": 10239,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10240,
+                "maxBuild": 10240,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10586,
+                "maxBuild": 10586,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 14393,
+                "maxBuild": 14393,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 15063,
+                "maxBuild": 15063,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 16299,
+                "maxBuild": 16299,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17134,
+                "maxBuild": 17134,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17763,
+                "maxBuild": 17763,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18362,
+                "maxBuild": 18362,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18363,
+                "maxBuild": 18363,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19041,
+                "maxBuild": 19041,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19042,
+                "maxBuild": 19042,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19043,
+                "maxBuild": 19043,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19044,
+                "maxBuild": 19044,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19045,
+                "maxBuild": 19045,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 20348,
+                "maxBuild": 20348,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22000,
+                "maxBuild": 22000,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22621,
+                "maxBuild": 22621,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22631,
+                "maxBuild": 22631,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              }
+            ]
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Client",
+            "value": "Enabled",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 0,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 6002,
+                "maxBuild": 6002,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 7101,
+                "maxBuild": 9199,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9200,
+                "maxBuild": 9599,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9600,
+                "maxBuild": 10239,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10240,
+                "maxBuild": 10240,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10586,
+                "maxBuild": 10586,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 14393,
+                "maxBuild": 14393,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 15063,
+                "maxBuild": 15063,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 16299,
+                "maxBuild": 16299,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17134,
+                "maxBuild": 17134,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17763,
+                "maxBuild": 17763,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18362,
+                "maxBuild": 18362,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18363,
+                "maxBuild": 18363,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19041,
+                "maxBuild": 19041,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19042,
+                "maxBuild": 19042,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19043,
+                "maxBuild": 19043,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19044,
+                "maxBuild": 19044,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19045,
+                "maxBuild": 19045,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 20348,
+                "maxBuild": 20348,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22000,
+                "maxBuild": 22000,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22621,
+                "maxBuild": 22621,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22631,
+                "maxBuild": 22631,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              }
+            ]
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Server",
+            "value": "Enabled",
+            "type": "dword",
+            "data": 0
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Server",
+            "value": "DisabledByDefault",
+            "type": "dword",
+            "data": 1
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Client",
+            "value": "Enabled",
+            "type": "dword",
+            "data": 0
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Client",
+            "value": "DisabledByDefault",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "id": "KONF.2.2"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0808"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Transport Layer Security (TLS) registry settings (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/tls/tls-registry-settings",
+          "date": "2026-10-18",
+          "note": "Per-protocol subkeys Protocols\\TLS 1.1\\Client and \\Server; DWORD Enabled = 1 sets the version to Enabled, Enabled = 0 to Disabled (Schannel then never negotiates it)."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Manage SSL/TLS protocols and cipher suites for AD FS (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-fs/operations/manage-ssl-protocols-in-ad-fs",
+          "date": "2026-10-18",
+          "note": "Disabling a protocol: Enabled = 0 and DisabledByDefault = 1 for Server and Client; enabling: Enabled = 1 and DisabledByDefault = 0."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Protocols in TLS/SSL (Schannel SSP)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+          "date": "2026-10-18",
+          "note": "Default state per Windows version and side, listed up to Windows 11 24H2 and Windows Server 2025; Windows 11 25H2 is not listed, so no default is assumed there."
+        }
+      ],
+      "tests": [
+        {
+          "name": "disabled explicitly",
+          "machine": {
+            "build": 26200,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Server": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  },
+                  "DisabledByDefault": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Client": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  },
+                  "DisabledByDefault": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Windows 11 23H2 default: enabled",
+          "machine": {
+            "build": 22631,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "server disabled, client still enabled",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Server": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows 11 25H2: default not documented",
+          "machine": {
+            "build": 26200,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Schannel keys not collected",
+          "machine": {
+            "build": 22631,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Server": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Client": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Windows 7 default: disabled",
+          "machine": {
+            "build": 7601,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "not supported on Windows Server 2008",
+          "machine": {
+            "build": 6001,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 2,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "TLS-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "tls",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "TLS 1.2 is enabled (client and server)",
+        "de": "TLS 1.2 ist eingeschaltet (Client und Server)"
+      },
+      "rationale": {
+        "en": "Once older versions are switched off, TLS 1.2 is what most plant software, remote access and update channels rely on. Windows 8 and Server 2012 and later enable it by default; Windows 7 and Server 2008 R2 need it switched on; Vista and Server 2008 (without SP2) do not support it at all, which counts as a gap.",
+        "de": "Sind ältere Versionen abgeschaltet, stützen sich die meiste Anlagensoftware, Fernzugänge und Update-Kanäle auf TLS 1.2. Ab Windows 8 und Server 2012 ist es standardmäßig eingeschaltet; unter Windows 7 und Server 2008 R2 muss es eingeschaltet werden; Vista und Server 2008 (ohne SP2) unterstützen es gar nicht, was als Lücke zählt."
+      },
+      "remedy": {
+        "en": "Set Enabled = 1 and DisabledByDefault = 0 under SCHANNEL\\Protocols\\TLS 1.2\\Server and \\Client (Windows 7 / Server 2008 R2: after installing the updates for TLS 1.2) and restart.",
+        "de": "Unter SCHANNEL\\Protocols\\TLS 1.2\\Server und \\Client Enabled = 1 und DisabledByDefault = 0 setzen (Windows 7 / Server 2008 R2: nach Installation der Updates für TLS 1.2) und neu starten."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "schannelTls12",
+        "ifCapabilityAbsent": "fail"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Server",
+            "value": "Enabled",
+            "valueType": "dword",
+            "op": "ne",
+            "expected": 0,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 6002,
+                "maxBuild": 6002,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 7101,
+                "maxBuild": 9199,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9200,
+                "maxBuild": 9599,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9600,
+                "maxBuild": 10239,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10240,
+                "maxBuild": 10240,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10586,
+                "maxBuild": 10586,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 14393,
+                "maxBuild": 14393,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 15063,
+                "maxBuild": 15063,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 16299,
+                "maxBuild": 16299,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17134,
+                "maxBuild": 17134,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17763,
+                "maxBuild": 17763,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18362,
+                "maxBuild": 18362,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18363,
+                "maxBuild": 18363,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19041,
+                "maxBuild": 19041,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19042,
+                "maxBuild": 19042,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19043,
+                "maxBuild": 19043,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19044,
+                "maxBuild": 19044,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19045,
+                "maxBuild": 19045,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 20348,
+                "maxBuild": 20348,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22000,
+                "maxBuild": 22000,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22621,
+                "maxBuild": 22621,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22631,
+                "maxBuild": 22631,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              }
+            ]
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Server",
+            "value": "DisabledByDefault",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 0,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 9200,
+                "maxBuild": 9599,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9600,
+                "maxBuild": 10239,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10240,
+                "maxBuild": 10240,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10586,
+                "maxBuild": 10586,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 14393,
+                "maxBuild": 14393,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 15063,
+                "maxBuild": 15063,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 16299,
+                "maxBuild": 16299,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17134,
+                "maxBuild": 17134,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17763,
+                "maxBuild": 17763,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18362,
+                "maxBuild": 18362,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18363,
+                "maxBuild": 18363,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19041,
+                "maxBuild": 19041,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19042,
+                "maxBuild": 19042,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19043,
+                "maxBuild": 19043,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19044,
+                "maxBuild": 19044,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19045,
+                "maxBuild": 19045,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 20348,
+                "maxBuild": 20348,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22000,
+                "maxBuild": 22000,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22621,
+                "maxBuild": 22621,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22631,
+                "maxBuild": 22631,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              }
+            ]
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Client",
+            "value": "Enabled",
+            "valueType": "dword",
+            "op": "ne",
+            "expected": 0,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 6002,
+                "maxBuild": 6002,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 7101,
+                "maxBuild": 9199,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9200,
+                "maxBuild": 9599,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9600,
+                "maxBuild": 10239,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10240,
+                "maxBuild": 10240,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10586,
+                "maxBuild": 10586,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 14393,
+                "maxBuild": 14393,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 15063,
+                "maxBuild": 15063,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 16299,
+                "maxBuild": 16299,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17134,
+                "maxBuild": 17134,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17763,
+                "maxBuild": 17763,
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18362,
+                "maxBuild": 18362,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18363,
+                "maxBuild": 18363,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19041,
+                "maxBuild": 19041,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19042,
+                "maxBuild": 19042,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19043,
+                "maxBuild": 19043,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19044,
+                "maxBuild": 19044,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19045,
+                "maxBuild": 19045,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 20348,
+                "maxBuild": 20348,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22000,
+                "maxBuild": 22000,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22621,
+                "maxBuild": 22621,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22631,
+                "maxBuild": 22631,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 1,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              }
+            ]
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Client",
+            "value": "DisabledByDefault",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 0,
+            "whenMissing": "osDefault",
+            "osDefaults": [
+              {
+                "minBuild": 9200,
+                "maxBuild": 9599,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 9600,
+                "maxBuild": 10239,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10240,
+                "maxBuild": 10240,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 10586,
+                "maxBuild": 10586,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 14393,
+                "maxBuild": 14393,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 15063,
+                "maxBuild": 15063,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 16299,
+                "maxBuild": 16299,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17134,
+                "maxBuild": 17134,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 17763,
+                "maxBuild": 17763,
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18362,
+                "maxBuild": 18362,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 18363,
+                "maxBuild": 18363,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19041,
+                "maxBuild": 19041,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19042,
+                "maxBuild": 19042,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19043,
+                "maxBuild": 19043,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19044,
+                "maxBuild": 19044,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 19045,
+                "maxBuild": 19045,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 20348,
+                "maxBuild": 20348,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22000,
+                "maxBuild": 22000,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22621,
+                "maxBuild": 22621,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 22631,
+                "maxBuild": 22631,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Server",
+                  "Server Core"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              },
+              {
+                "minBuild": 26100,
+                "maxBuild": 26100,
+                "installationTypes": [
+                  "Client"
+                ],
+                "value": 0,
+                "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+                "seen": "2026-10-18"
+              }
+            ]
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Server",
+            "value": "Enabled",
+            "type": "dword",
+            "data": 1
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Server",
+            "value": "DisabledByDefault",
+            "type": "dword",
+            "data": 0
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Client",
+            "value": "Enabled",
+            "type": "dword",
+            "data": 1
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Client",
+            "value": "DisabledByDefault",
+            "type": "dword",
+            "data": 0
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "id": "KONF.2.2"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0808"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Transport Layer Security (TLS) registry settings (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/tls/tls-registry-settings",
+          "date": "2026-10-18",
+          "note": "Per-protocol subkeys Protocols\\TLS 1.2\\Client and \\Server; DWORD Enabled = 1 sets the version to Enabled, Enabled = 0 to Disabled (Schannel then never negotiates it)."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Manage SSL/TLS protocols and cipher suites for AD FS (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-fs/operations/manage-ssl-protocols-in-ad-fs",
+          "date": "2026-10-18",
+          "note": "Disabling a protocol: Enabled = 0 and DisabledByDefault = 1 for Server and Client; enabling: Enabled = 1 and DisabledByDefault = 0."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Protocols in TLS/SSL (Schannel SSP)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+          "date": "2026-10-18",
+          "note": "Default state per Windows version and side, listed up to Windows 11 24H2 and Windows Server 2025; Windows 11 25H2 is not listed, so no default is assumed there."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Windows 11 23H2 defaults: enabled",
+          "machine": {
+            "build": 22631,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "enabled explicitly on Windows 7",
+          "machine": {
+            "build": 7601,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Server": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "DisabledByDefault": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Client": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "DisabledByDefault": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "enabled with the legacy value 0xffffffff",
+          "machine": {
+            "build": 26200,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Server": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 4294967295
+                  },
+                  "DisabledByDefault": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Client": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 4294967295
+                  },
+                  "DisabledByDefault": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Windows 7 default: disabled",
+          "machine": {
+            "build": 7601,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "client disabled by default",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Client": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DisabledByDefault": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "server disabled explicitly",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Server": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Enabled": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows 11 25H2: default not documented",
+          "machine": {
+            "build": 26200,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Schannel keys not collected",
+          "machine": {
+            "build": 22631,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Server": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Client": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not supported on Windows Server 2008",
+          "machine": {
+            "build": 6001,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 2,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Server": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Client": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        }
+      ]
+    },
+    {
+      "id": "TLS-06",
+      "since": "2026.10",
+      "state": "active",
+      "category": "tls",
+      "severity": "medium",
+      "kind": "inventory",
+      "title": {
+        "en": "RC4 in TLS (inventory)",
+        "de": "RC4 in TLS (Bestand)"
+      },
+      "rationale": {
+        "en": "Microsoft states that ciphers and hash algorithms are controlled through the TLS cipher suite order (Group Policy “SSL Cipher Suite Order”, MDM or PowerShell) and that controlling them through the SCHANNEL registry is not supported. The default list of enabled cipher suites depends on the Windows version. Riegel 0.1 cannot read the effective cipher suite list, so it lists the cipher suite policy and any legacy SCHANNEL values instead of judging them. RC4 is broken; current Windows versions no longer enable RC4 cipher suites by default.",
+        "de": "Laut Microsoft werden Verschlüsselungsverfahren und Hashverfahren über die Reihenfolge der TLS-Cipher-Suites gesteuert (Gruppenrichtlinie „SSL Cipher Suite Order“, MDM oder PowerShell); die Steuerung über die SCHANNEL-Registry wird nicht unterstützt. Welche Cipher Suites standardmäßig aktiv sind, hängt von der Windows-Version ab. Riegel 0.1 kann die wirksame Liste nicht auslesen und listet deshalb die Cipher-Suite-Richtlinie und etwaige alte SCHANNEL-Werte auf, statt sie zu bewerten. RC4 ist gebrochen; aktuelle Windows-Versionen schalten RC4-Cipher-Suites nicht mehr standardmäßig ein."
+      },
+      "otNote": {
+        "en": "Before changing the cipher suite order, find the oldest TLS peers in the plant (historians, OPC UA servers, printers, license servers).",
+        "de": "Vor einer Änderung der Cipher-Suite-Reihenfolge die ältesten TLS-Gegenstellen der Anlage ermitteln (Historians, OPC-UA-Server, Drucker, Lizenzserver)."
+      },
+      "remedy": {
+        "en": "Configure the cipher suite order (Group Policy Network > SSL Configuration Settings > SSL Cipher Suite Order) without these suites, after testing.",
+        "de": "Die Cipher-Suite-Reihenfolge (Gruppenrichtlinie „Network > SSL Configuration Settings > SSL Cipher Suite Order“) nach einem Test ohne diese Suites festlegen."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "networkFacts",
+        "items": [
+          "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Cryptography\\Configuration\\SSL\\00010002",
+          "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Ciphers\\RC4 128/128",
+          "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Ciphers\\RC4 56/128",
+          "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Ciphers\\RC4 40/128"
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "id": "KONF.2.2"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0808"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Transport Layer Security (TLS) registry settings (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/tls/tls-registry-settings",
+          "date": "2026-10-18",
+          "note": "Ciphers and Hashes: should be controlled by configuring the cipher suite order."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Manage SSL/TLS protocols and cipher suites for AD FS (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-fs/operations/manage-ssl-protocols-in-ad-fs",
+          "date": "2026-10-18",
+          "note": "Controlling ciphers, hashes and key exchange algorithms, other than key size, via the registry isn't supported."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Manage Transport Layer Security (TLS) (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/tls/manage-tls",
+          "date": "2026-10-18",
+          "note": "Cipher suite order by Group Policy, MDM or TLS PowerShell cmdlets."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – ADMX_CipherSuiteOrder",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-ciphersuiteorder",
+          "date": "2026-10-18",
+          "note": "SSL Cipher Suite Order under SOFTWARE\\Policies\\Microsoft\\Cryptography\\Configuration\\SSL\\00010002."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Cipher Suites in TLS/SSL (Schannel SSP)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/secauthn/cipher-suites-in-schannel",
+          "date": "2026-10-18",
+          "note": "Per-version pages list which cipher suites are enabled by default."
+        }
+      ],
+      "tests": [
+        {
+          "name": "cipher configuration listed",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Cryptography\\Configuration\\SSL\\00010002": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "info"
+        }
+      ]
+    },
+    {
+      "id": "TLS-07",
+      "since": "2026.10",
+      "state": "active",
+      "category": "tls",
+      "severity": "medium",
+      "kind": "inventory",
+      "title": {
+        "en": "DES and Triple DES in TLS (inventory)",
+        "de": "DES und Triple-DES in TLS (Bestand)"
+      },
+      "rationale": {
+        "en": "Microsoft states that ciphers and hash algorithms are controlled through the TLS cipher suite order (Group Policy “SSL Cipher Suite Order”, MDM or PowerShell) and that controlling them through the SCHANNEL registry is not supported. The default list of enabled cipher suites depends on the Windows version. Riegel 0.1 cannot read the effective cipher suite list, so it lists the cipher suite policy and any legacy SCHANNEL values instead of judging them. DES is broken and Triple DES is weak (64-bit blocks); Microsoft's lists show when a Windows version stopped enabling Triple DES by default.",
+        "de": "Laut Microsoft werden Verschlüsselungsverfahren und Hashverfahren über die Reihenfolge der TLS-Cipher-Suites gesteuert (Gruppenrichtlinie „SSL Cipher Suite Order“, MDM oder PowerShell); die Steuerung über die SCHANNEL-Registry wird nicht unterstützt. Welche Cipher Suites standardmäßig aktiv sind, hängt von der Windows-Version ab. Riegel 0.1 kann die wirksame Liste nicht auslesen und listet deshalb die Cipher-Suite-Richtlinie und etwaige alte SCHANNEL-Werte auf, statt sie zu bewerten. DES ist gebrochen und Triple-DES schwach (64-Bit-Blöcke); Microsofts Listen zeigen, ab welcher Windows-Version Triple-DES nicht mehr standardmäßig aktiv ist."
+      },
+      "otNote": {
+        "en": "Before changing the cipher suite order, find the oldest TLS peers in the plant (historians, OPC UA servers, printers, license servers).",
+        "de": "Vor einer Änderung der Cipher-Suite-Reihenfolge die ältesten TLS-Gegenstellen der Anlage ermitteln (Historians, OPC-UA-Server, Drucker, Lizenzserver)."
+      },
+      "remedy": {
+        "en": "Configure the cipher suite order (Group Policy Network > SSL Configuration Settings > SSL Cipher Suite Order) without these suites, after testing.",
+        "de": "Die Cipher-Suite-Reihenfolge (Gruppenrichtlinie „Network > SSL Configuration Settings > SSL Cipher Suite Order“) nach einem Test ohne diese Suites festlegen."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "networkFacts",
+        "items": [
+          "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Cryptography\\Configuration\\SSL\\00010002",
+          "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Ciphers\\DES 56/56",
+          "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Ciphers\\Triple DES 168"
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "id": "KONF.2.2"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0808"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Transport Layer Security (TLS) registry settings (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/tls/tls-registry-settings",
+          "date": "2026-10-18",
+          "note": "Ciphers and Hashes: should be controlled by configuring the cipher suite order."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Manage SSL/TLS protocols and cipher suites for AD FS (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-fs/operations/manage-ssl-protocols-in-ad-fs",
+          "date": "2026-10-18",
+          "note": "Controlling ciphers, hashes and key exchange algorithms, other than key size, via the registry isn't supported."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Manage Transport Layer Security (TLS) (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/tls/manage-tls",
+          "date": "2026-10-18",
+          "note": "Cipher suite order by Group Policy, MDM or TLS PowerShell cmdlets."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – ADMX_CipherSuiteOrder",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-ciphersuiteorder",
+          "date": "2026-10-18",
+          "note": "SSL Cipher Suite Order under SOFTWARE\\Policies\\Microsoft\\Cryptography\\Configuration\\SSL\\00010002."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Cipher Suites in TLS/SSL (Schannel SSP)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/secauthn/cipher-suites-in-schannel",
+          "date": "2026-10-18",
+          "note": "Per-version pages list which cipher suites are enabled by default."
+        }
+      ],
+      "tests": [
+        {
+          "name": "cipher configuration listed",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Cryptography\\Configuration\\SSL\\00010002": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "info"
+        }
+      ]
+    },
+    {
+      "id": "TLS-08",
+      "since": "2026.10",
+      "state": "active",
+      "category": "tls",
+      "severity": "low",
+      "kind": "inventory",
+      "title": {
+        "en": "NULL ciphers in TLS (inventory)",
+        "de": "NULL-Verschlüsselung in TLS (Bestand)"
+      },
+      "rationale": {
+        "en": "Microsoft states that ciphers and hash algorithms are controlled through the TLS cipher suite order (Group Policy “SSL Cipher Suite Order”, MDM or PowerShell) and that controlling them through the SCHANNEL registry is not supported. The default list of enabled cipher suites depends on the Windows version. Riegel 0.1 cannot read the effective cipher suite list, so it lists the cipher suite policy and any legacy SCHANNEL values instead of judging them. NULL cipher suites do not encrypt; Microsoft lists them as used only when an application explicitly requests them.",
+        "de": "Laut Microsoft werden Verschlüsselungsverfahren und Hashverfahren über die Reihenfolge der TLS-Cipher-Suites gesteuert (Gruppenrichtlinie „SSL Cipher Suite Order“, MDM oder PowerShell); die Steuerung über die SCHANNEL-Registry wird nicht unterstützt. Welche Cipher Suites standardmäßig aktiv sind, hängt von der Windows-Version ab. Riegel 0.1 kann die wirksame Liste nicht auslesen und listet deshalb die Cipher-Suite-Richtlinie und etwaige alte SCHANNEL-Werte auf, statt sie zu bewerten. NULL-Cipher-Suites verschlüsseln nicht; Microsoft führt sie als nur auf ausdrückliche Anforderung einer Anwendung genutzt."
+      },
+      "otNote": {
+        "en": "Before changing the cipher suite order, find the oldest TLS peers in the plant (historians, OPC UA servers, printers, license servers).",
+        "de": "Vor einer Änderung der Cipher-Suite-Reihenfolge die ältesten TLS-Gegenstellen der Anlage ermitteln (Historians, OPC-UA-Server, Drucker, Lizenzserver)."
+      },
+      "remedy": {
+        "en": "Configure the cipher suite order (Group Policy Network > SSL Configuration Settings > SSL Cipher Suite Order) without these suites, after testing.",
+        "de": "Die Cipher-Suite-Reihenfolge (Gruppenrichtlinie „Network > SSL Configuration Settings > SSL Cipher Suite Order“) nach einem Test ohne diese Suites festlegen."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "networkFacts",
+        "items": [
+          "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Cryptography\\Configuration\\SSL\\00010002",
+          "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Ciphers\\NULL"
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "id": "KONF.2.2"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0808"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Transport Layer Security (TLS) registry settings (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/tls/tls-registry-settings",
+          "date": "2026-10-18",
+          "note": "Ciphers and Hashes: should be controlled by configuring the cipher suite order."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Manage SSL/TLS protocols and cipher suites for AD FS (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-fs/operations/manage-ssl-protocols-in-ad-fs",
+          "date": "2026-10-18",
+          "note": "Controlling ciphers, hashes and key exchange algorithms, other than key size, via the registry isn't supported."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Manage Transport Layer Security (TLS) (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/tls/manage-tls",
+          "date": "2026-10-18",
+          "note": "Cipher suite order by Group Policy, MDM or TLS PowerShell cmdlets."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – ADMX_CipherSuiteOrder",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-ciphersuiteorder",
+          "date": "2026-10-18",
+          "note": "SSL Cipher Suite Order under SOFTWARE\\Policies\\Microsoft\\Cryptography\\Configuration\\SSL\\00010002."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Cipher Suites in TLS/SSL (Schannel SSP)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/secauthn/cipher-suites-in-schannel",
+          "date": "2026-10-18",
+          "note": "Per-version pages list which cipher suites are enabled by default."
+        }
+      ],
+      "tests": [
+        {
+          "name": "cipher configuration listed",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Cryptography\\Configuration\\SSL\\00010002": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "info"
+        }
+      ]
+    },
+    {
+      "id": "TLS-09",
+      "since": "2026.10",
+      "state": "active",
+      "category": "tls",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": ".NET Framework uses strong cryptography (all four registry keys)",
+        "de": ".NET Framework nutzt starke Kryptografie (alle vier Registry-Schlüssel)"
+      },
+      "rationale": {
+        "en": "Applications built for .NET Framework 4.5.2 or earlier, and .NET 3.5 applications, use weak protocol defaults unless SchUseStrongCrypto is set. The value must be set for .NET 4 and .NET 3.5 and in the 32-bit registry view (WOW6432Node), because 32-bit applications read that view.",
+        "de": "Anwendungen für .NET Framework 4.5.2 oder älter sowie .NET-3.5-Anwendungen nutzen schwache Protokoll-Voreinstellungen, solange SchUseStrongCrypto nicht gesetzt ist. Der Wert muss für .NET 4 und .NET 3.5 und auch in der 32-Bit-Ansicht der Registry (WOW6432Node) gesetzt sein, weil 32-Bit-Anwendungen diese Ansicht lesen."
+      },
+      "otNote": {
+        "en": "Plant software built for old .NET Framework versions is exactly what this setting affects. A service that only works with weak protocols will fail after the change; test it first and document an exception if needed.",
+        "de": "Genau Anlagensoftware, die für alte .NET-Framework-Versionen gebaut ist, betrifft diese Einstellung. Ein Dienst, der nur mit schwachen Protokollen funktioniert, scheitert nach der Änderung; vorher testen und bei Bedarf eine Ausnahme dokumentieren."
+      },
+      "remedy": {
+        "en": "Set SchUseStrongCrypto = 1 (DWORD) under SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319 and \\v2.0.50727, in the 64-bit and the WOW6432Node view, and restart the affected applications.",
+        "de": "SchUseStrongCrypto = 1 (DWORD) unter SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319 und \\v2.0.50727 setzen, in der 64-Bit- und der WOW6432Node-Ansicht, und die betroffenen Anwendungen neu starten."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319",
+            "value": "SchUseStrongCrypto",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319",
+            "value": "SchUseStrongCrypto",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727",
+            "value": "SchUseStrongCrypto",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727",
+            "value": "SchUseStrongCrypto",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319",
+            "value": "SchUseStrongCrypto",
+            "type": "dword",
+            "data": 1
+          },
+          {
+            "key": "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319",
+            "value": "SchUseStrongCrypto",
+            "type": "dword",
+            "data": 1
+          },
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727",
+            "value": "SchUseStrongCrypto",
+            "type": "dword",
+            "data": 1
+          },
+          {
+            "key": "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727",
+            "value": "SchUseStrongCrypto",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.10.2",
+            "KONF.2.2"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0808"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Transport Layer Security (TLS) best practices with .NET Framework",
+          "url": "https://learn.microsoft.com/en-us/dotnet/framework/network-programming/tls",
+          "date": "2026-10-18",
+          "note": "SchUseStrongCrypto under HKLM\\SOFTWARE\\[Wow6432Node\\]Microsoft\\.NETFramework\\v4.0.30319 and v2.0.50727, DWORD; 1 = strong cryptography; the keys don't exist by default; the documented .REG file sets all four to 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "set in all four keys",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SchUseStrongCrypto": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SchUseStrongCrypto": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SchUseStrongCrypto": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SchUseStrongCrypto": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "32-bit view not set",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SchUseStrongCrypto": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SchUseStrongCrypto": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SchUseStrongCrypto": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "set to 0 for .NET 4",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SchUseStrongCrypto": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SchUseStrongCrypto": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SchUseStrongCrypto": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SchUseStrongCrypto": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not set anywhere",
+          "machine": {
+            "build": 19045,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": ".NET keys not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TLS-10",
+      "since": "2026.10",
+      "state": "active",
+      "category": "tls",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": ".NET Framework lets Windows choose the TLS version (all four registry keys)",
+        "de": ".NET Framework überlässt Windows die Wahl der TLS-Version (alle vier Registry-Schlüssel)"
+      },
+      "rationale": {
+        "en": "Applications built for .NET Framework 4.6.1 or earlier, and .NET 3.5 applications, choose their own, older protocol versions unless SystemDefaultTlsVersions is set; with it they follow the Windows (Schannel) settings checked by TLS-01 to TLS-05. The value must be set for .NET 4 and .NET 3.5 and in the 32-bit registry view.",
+        "de": "Anwendungen für .NET Framework 4.6.1 oder älter sowie .NET-3.5-Anwendungen wählen selbst ältere Protokollversionen, solange SystemDefaultTlsVersions nicht gesetzt ist; mit dem Wert folgen sie den Windows-(Schannel-)Einstellungen aus TLS-01 bis TLS-05. Der Wert muss für .NET 4 und .NET 3.5 und auch in der 32-Bit-Ansicht der Registry gesetzt sein."
+      },
+      "otNote": {
+        "en": "Plant software built for old .NET Framework versions is exactly what this setting affects. A service that only works with weak protocols will fail after the change; test it first and document an exception if needed.",
+        "de": "Genau Anlagensoftware, die für alte .NET-Framework-Versionen gebaut ist, betrifft diese Einstellung. Ein Dienst, der nur mit schwachen Protokollen funktioniert, scheitert nach der Änderung; vorher testen und bei Bedarf eine Ausnahme dokumentieren."
+      },
+      "remedy": {
+        "en": "Set SystemDefaultTlsVersions = 1 (DWORD) under SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319 and \\v2.0.50727, in the 64-bit and the WOW6432Node view, and restart the affected applications.",
+        "de": "SystemDefaultTlsVersions = 1 (DWORD) unter SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319 und \\v2.0.50727 setzen, in der 64-Bit- und der WOW6432Node-Ansicht, und die betroffenen Anwendungen neu starten."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319",
+            "value": "SystemDefaultTlsVersions",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319",
+            "value": "SystemDefaultTlsVersions",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727",
+            "value": "SystemDefaultTlsVersions",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727",
+            "value": "SystemDefaultTlsVersions",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319",
+            "value": "SystemDefaultTlsVersions",
+            "type": "dword",
+            "data": 1
+          },
+          {
+            "key": "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319",
+            "value": "SystemDefaultTlsVersions",
+            "type": "dword",
+            "data": 1
+          },
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727",
+            "value": "SystemDefaultTlsVersions",
+            "type": "dword",
+            "data": 1
+          },
+          {
+            "key": "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727",
+            "value": "SystemDefaultTlsVersions",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.10.2",
+            "KONF.2.2"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0808"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Transport Layer Security (TLS) best practices with .NET Framework",
+          "url": "https://learn.microsoft.com/en-us/dotnet/framework/network-programming/tls",
+          "date": "2026-10-18",
+          "note": "SystemDefaultTlsVersions under HKLM\\SOFTWARE\\[Wow6432Node\\]Microsoft\\.NETFramework\\v4.0.30319 and v2.0.50727, DWORD; 1 = the OS chooses the protocol; the keys don't exist by default; the documented .REG file sets all four to 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "set in all four keys",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SystemDefaultTlsVersions": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SystemDefaultTlsVersions": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SystemDefaultTlsVersions": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SystemDefaultTlsVersions": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "32-bit view not set",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SystemDefaultTlsVersions": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SystemDefaultTlsVersions": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SystemDefaultTlsVersions": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "set to 0 for .NET 4",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SystemDefaultTlsVersions": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SystemDefaultTlsVersions": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SystemDefaultTlsVersions": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SystemDefaultTlsVersions": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not set anywhere",
+          "machine": {
+            "build": 19045,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": ".NET keys not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v4.0.30319": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\.NETFramework\\v2.0.50727": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "TLS-11",
+      "since": "2026.10",
+      "state": "active",
+      "category": "tls",
+      "severity": "low",
+      "kind": "inventory",
+      "title": {
+        "en": "MD5-based cipher suites in TLS (inventory)",
+        "de": "MD5-basierte Cipher Suites in TLS (Bestand)"
+      },
+      "rationale": {
+        "en": "Microsoft states that ciphers and hash algorithms are controlled through the TLS cipher suite order (Group Policy “SSL Cipher Suite Order”, MDM or PowerShell) and that controlling them through the SCHANNEL registry is not supported. The default list of enabled cipher suites depends on the Windows version. Riegel 0.1 cannot read the effective cipher suite list, so it lists the cipher suite policy and any legacy SCHANNEL values instead of judging them. MD5 is broken as a hash; cipher suites with MD5 are not enabled by default on current Windows versions.",
+        "de": "Laut Microsoft werden Verschlüsselungsverfahren und Hashverfahren über die Reihenfolge der TLS-Cipher-Suites gesteuert (Gruppenrichtlinie „SSL Cipher Suite Order“, MDM oder PowerShell); die Steuerung über die SCHANNEL-Registry wird nicht unterstützt. Welche Cipher Suites standardmäßig aktiv sind, hängt von der Windows-Version ab. Riegel 0.1 kann die wirksame Liste nicht auslesen und listet deshalb die Cipher-Suite-Richtlinie und etwaige alte SCHANNEL-Werte auf, statt sie zu bewerten. MD5 ist als Hashverfahren gebrochen; Cipher Suites mit MD5 sind auf aktuellen Windows-Versionen nicht standardmäßig aktiv."
+      },
+      "otNote": {
+        "en": "Before changing the cipher suite order, find the oldest TLS peers in the plant (historians, OPC UA servers, printers, license servers).",
+        "de": "Vor einer Änderung der Cipher-Suite-Reihenfolge die ältesten TLS-Gegenstellen der Anlage ermitteln (Historians, OPC-UA-Server, Drucker, Lizenzserver)."
+      },
+      "remedy": {
+        "en": "Configure the cipher suite order (Group Policy Network > SSL Configuration Settings > SSL Cipher Suite Order) without these suites, after testing.",
+        "de": "Die Cipher-Suite-Reihenfolge (Gruppenrichtlinie „Network > SSL Configuration Settings > SSL Cipher Suite Order“) nach einem Test ohne diese Suites festlegen."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "networkFacts",
+        "items": [
+          "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Cryptography\\Configuration\\SSL\\00010002",
+          "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Hashes\\MD5"
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "id": "KONF.2.2"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0808"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Transport Layer Security (TLS) registry settings (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/tls/tls-registry-settings",
+          "date": "2026-10-18",
+          "note": "Ciphers and Hashes: should be controlled by configuring the cipher suite order."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Manage SSL/TLS protocols and cipher suites for AD FS (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/identity/ad-fs/operations/manage-ssl-protocols-in-ad-fs",
+          "date": "2026-10-18",
+          "note": "Controlling ciphers, hashes and key exchange algorithms, other than key size, via the registry isn't supported."
+        },
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Manage Transport Layer Security (TLS) (Windows Server documentation)",
+          "url": "https://learn.microsoft.com/en-us/windows-server/security/tls/manage-tls",
+          "date": "2026-10-18",
+          "note": "Cipher suite order by Group Policy, MDM or TLS PowerShell cmdlets."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – ADMX_CipherSuiteOrder",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-ciphersuiteorder",
+          "date": "2026-10-18",
+          "note": "SSL Cipher Suite Order under SOFTWARE\\Policies\\Microsoft\\Cryptography\\Configuration\\SSL\\00010002."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Cipher Suites in TLS/SSL (Schannel SSP)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/secauthn/cipher-suites-in-schannel",
+          "date": "2026-10-18",
+          "note": "Per-version pages list which cipher suites are enabled by default."
+        }
+      ],
+      "tests": [
+        {
+          "name": "cipher configuration listed",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Cryptography\\Configuration\\SSL\\00010002": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "info"
+        }
+      ]
+    }
+  ]
+}

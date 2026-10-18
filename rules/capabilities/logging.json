@@ -1,0 +1,99 @@
+{
+  "schema": "riegel.capabilities/1",
+  "capabilities": [
+    {
+      "capability": "ps2Engine",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 7101,
+          "maxBuild": 26099,
+          "note": "Windows 7 to Windows 11 23H2; removed from Windows 11 24H2 (build 26100) and all later releases"
+        },
+        {
+          "os": "server",
+          "minBuild": 7101,
+          "maxBuild": 26099,
+          "note": "Windows Server 2008 R2 to 2022; removed from Windows Server 2025 (build 26100)"
+        }
+      ],
+      "source": "https://support.microsoft.com/help/5065506",
+      "seen": "2026-10-18",
+      "note": "Windows PowerShell 2.0 engine ships with the OS (KB5065506). On Windows 8, 8.1, Server 2012 and 2012 R2 it is an optional feature; on Windows 7 and Server 2008 R2 it is part of the OS (https://learn.microsoft.com/en-us/previous-versions/powershell/scripting/windows-powershell/install/installing-the-windows-powershell-2.0-engine). Build bounds: Windows 7 > 7100 per https://learn.microsoft.com/en-us/windows/win32/msi/operating-system-property-values; 26100 per the Windows release information pages."
+    },
+    {
+      "capability": "schannelSsl2",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 6000,
+          "maxBuild": 10586,
+          "note": "Windows Vista to Windows 10 1511"
+        },
+        {
+          "os": "server",
+          "minBuild": 6000,
+          "maxBuild": 10239,
+          "note": "Windows Server 2008 to 2012 R2"
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+      "seen": "2026-10-18",
+      "note": "Schannel supports SSL 2.0 up to Windows 10 1511 / Server 2012 R2; 'Not supported' from Windows 10 1607 and Windows Server 2016."
+    },
+    {
+      "capability": "schannelTls11",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 7101,
+          "note": "from Windows 7 (disabled by default on Windows 7)"
+        },
+        {
+          "os": "server",
+          "minBuild": 6002,
+          "note": "from Windows Server 2008 SP2 (disabled by default up to 2008 R2)"
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+      "seen": "2026-10-18",
+      "note": "Windows Vista and Windows Server 2008 without SP2: TLS 1.1 not supported."
+    },
+    {
+      "capability": "schannelTls12",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 7101,
+          "note": "from Windows 7 (disabled by default on Windows 7)"
+        },
+        {
+          "os": "server",
+          "minBuild": 6002,
+          "note": "from Windows Server 2008 SP2 (disabled by default up to 2008 R2)"
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/windows/win32/secauthn/protocols-in-tls-ssl--schannel-ssp-",
+      "seen": "2026-10-18",
+      "note": "Windows Vista and Windows Server 2008 without SP2: TLS 1.2 not supported."
+    },
+    {
+      "capability": "auditPnpActivity",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 10240,
+          "note": "Windows 10 and later"
+        },
+        {
+          "os": "server",
+          "minBuild": 14393,
+          "note": "Windows Server 2016 and later"
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gpac/5e1c7528-62d1-4613-a4a2-e1b028ecc521",
+      "seen": "2026-10-18",
+      "note": "[MS-GPAC] Appendix A note <4>: the PNP Activity audit subcategory is not implemented in Windows 7, Server 2008 R2, Windows 8, Server 2012, Windows 8.1 and Server 2012 R2; the later releases covered by the specification implement it."
+    }
+  ]
+}

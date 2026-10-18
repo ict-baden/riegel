@@ -1,0 +1,555 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "PS",
+  "rules": [
+    {
+      "id": "PS-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "powershell",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Windows PowerShell 2.0 engine is not available",
+        "de": "Windows-PowerShell-2.0-Engine ist nicht verfügbar"
+      },
+      "rationale": {
+        "en": "The PowerShell 2.0 engine predates script block logging and the other protections of current PowerShell. An attacker who can start it (powershell.exe -Version 2) bypasses them. Microsoft deprecated the engine in 2017 and removed it from Windows 11 24H2 and Windows Server 2025; there the rule does not apply.",
+        "de": "Die PowerShell-2.0-Engine stammt aus der Zeit vor der Skriptblockprotokollierung und den übrigen Schutzfunktionen der aktuellen PowerShell. Wer sie starten kann (powershell.exe -Version 2), umgeht diese. Microsoft hat die Engine 2017 abgekündigt und aus Windows 11 24H2 und Windows Server 2025 entfernt; dort gilt die Regel nicht."
+      },
+      "otNote": {
+        "en": "Old vendor scripts and installers sometimes call PowerShell 2.0 explicitly. Microsoft documents that such calls fall back to PowerShell 5.1; test them before removing the engine.",
+        "de": "Alte Herstellerskripte und Installationsprogramme rufen manchmal ausdrücklich PowerShell 2.0 auf. Laut Microsoft fallen solche Aufrufe auf PowerShell 5.1 zurück; vor dem Entfernen der Engine testen."
+      },
+      "remedy": {
+        "en": "Turn off the Windows feature “Windows PowerShell 2.0 Engine” (on servers: remove the feature “Windows PowerShell 2.0 Engine” in Server Manager).",
+        "de": "Das Windows-Feature „Windows PowerShell 2.0 Engine“ abschalten (auf Servern im Server-Manager das Feature „Windows PowerShell 2.0 Engine“ entfernen)."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "ps2Engine",
+        "ifCapabilityAbsent": "notApplicable"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "feature",
+        "name": "MicrosoftWindowsPowerShellV2",
+        "installState": [
+          2,
+          3
+        ],
+        "ifAbsent": "fail"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Turn off the optional Windows feature MicrosoftWindowsPowerShellV2 (Windows PowerShell 2.0 Engine) and restart if Windows asks for it.",
+          "de": "Das optionale Windows-Feature MicrosoftWindowsPowerShellV2 (Windows PowerShell 2.0 Engine) abschalten und neu starten, wenn Windows es verlangt."
+        }
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "id": "KONF.2.4"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1042",
+            "M0942"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "KB5065506: PowerShell 2.0 removal from Windows",
+          "url": "https://support.microsoft.com/help/5065506",
+          "date": "2026-10-18",
+          "note": "PowerShell 2.0 remained an optional feature until its removal starting August 2025 (Windows 11 24H2) and September 2025 (Windows Server 2025); all later releases do not include it."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Installing the Windows PowerShell 2.0 Engine",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/powershell/scripting/windows-powershell/install/installing-the-windows-powershell-2.0-engine",
+          "date": "2026-10-18",
+          "note": "Optional feature of Windows 8, 8.1, Server 2012 and 2012 R2; on earlier versions the engine is retained when WMF 3.0 is installed; requires .NET Framework 3.5."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Disable multiple features (PSDscResources WindowsOptionalFeatureSet)",
+          "url": "https://learn.microsoft.com/en-us/powershell/dsc/reference/psdscresources/resources/windowsoptionalfeatureset/disable?view=dsc-2.0",
+          "date": "2026-10-18",
+          "note": "Optional feature name MicrosoftWindowsPowerShellV2."
+        }
+      ],
+      "tests": [
+        {
+          "name": "engine feature disabled",
+          "machine": {
+            "build": 19045,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "MicrosoftWindowsPowerShellV2Root",
+                    "InstallState": 2
+                  },
+                  {
+                    "Name": "MicrosoftWindowsPowerShellV2",
+                    "InstallState": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "engine payload removed",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "MicrosoftWindowsPowerShellV2",
+                    "InstallState": 3
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "engine feature enabled",
+          "machine": {
+            "build": 17763,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "MicrosoftWindowsPowerShellV2Root",
+                    "InstallState": 1
+                  },
+                  {
+                    "Name": "MicrosoftWindowsPowerShellV2",
+                    "InstallState": 1
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Windows 7: engine is part of the OS",
+          "machine": {
+            "build": 7601,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "TelnetClient",
+                    "InstallState": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "removed from Windows 11 24H2",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "TelnetClient",
+                    "InstallState": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "removed from Windows Server 2025",
+          "machine": {
+            "build": 26100,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "feature list not collected",
+          "machine": {
+            "build": 19045,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "feature list missing",
+          "machine": {
+            "build": 19045,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_OptionalFeature": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "PS-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "powershell",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": "PowerShell runs only signed scripts (set by policy)",
+        "de": "PowerShell führt nur signierte Skripte aus (per Richtlinie)"
+      },
+      "rationale": {
+        "en": "The execution policy set by Group Policy keeps users and vendor tools from running unsigned PowerShell scripts by accident. It is not a security boundary – an attacker can bypass it – but it makes deliberate, signed scripts the norm. Only the machine policy counts, because local and per-user settings can be changed by users.",
+        "de": "Die per Gruppenrichtlinie gesetzte Ausführungsrichtlinie verhindert, dass Benutzer oder Herstellerwerkzeuge versehentlich unsignierte PowerShell-Skripte starten. Sie ist keine Sicherheitsgrenze – ein Angreifer kann sie umgehen –, macht aber signierte Skripte zur Regel. Gewertet wird nur die Computerrichtlinie, weil lokale und benutzerbezogene Einstellungen von Benutzern geändert werden können."
+      },
+      "otNote": {
+        "en": "Vendor maintenance scripts are often unsigned. Signing them, or an exception for the vendor's script folder process, keeps maintenance possible.",
+        "de": "Wartungsskripte von Herstellern sind oft nicht signiert. Sie zu signieren oder eine Ausnahme für den Wartungsablauf des Herstellers erhält die Wartbarkeit."
+      },
+      "remedy": {
+        "en": "Enable Administrative Templates > Windows Components > Windows PowerShell > Turn on Script Execution with “Allow only signed scripts”.",
+        "de": "Die Gruppenrichtlinie „Administrative Templates > Windows Components > Windows PowerShell > Turn on Script Execution“ mit „Allow only signed scripts“ aktivieren."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "anyOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell",
+            "value": "EnableScripts",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 0,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "allOf",
+            "checks": [
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell",
+                "value": "EnableScripts",
+                "valueType": "dword",
+                "op": "eq",
+                "expected": 1,
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell",
+                "value": "ExecutionPolicy",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "AllSigned",
+                "whenMissing": "fail"
+              }
+            ]
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell",
+            "value": "EnableScripts",
+            "type": "dword",
+            "data": 1
+          },
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell",
+            "value": "ExecutionPolicy",
+            "type": "sz",
+            "data": "AllSigned"
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "PowerShell"
+        },
+        {
+          "src": "GSPP",
+          "id": "KONF.7.12"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1045",
+            "M1038",
+            "M0945",
+            "M0938"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "PowerShell",
+          "note": "Turn on Script Execution: Enabled, Execution Policy: Allow only signed scripts."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "about_Execution_Policies (PowerShell 5.1)",
+          "url": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-5.1",
+          "date": "2026-10-18",
+          "note": "Turn on Script Execution: disabled = scripts don't run; enabled with 'Allow only signed scripts' = AllSigned; the execution policy is not a security system."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – ADMX_PowerShellExecutionPolicy",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-powershellexecutionpolicy",
+          "date": "2026-10-18",
+          "note": "ADMX mapping EnableScripts: Software\\Policies\\Microsoft\\Windows\\PowerShell, value EnableScripts; element ExecutionPolicy with AllSigned, RemoteSigned or Unrestricted (PowerShellExecutionPolicy.admx)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "only signed scripts",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableScripts": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "ExecutionPolicy": {
+                    "t": "sz",
+                    "v": "AllSigned"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "script execution turned off",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableScripts": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "local and remote signed scripts",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableScripts": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "ExecutionPolicy": {
+                    "t": "sz",
+                    "v": "RemoteSigned"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "all scripts allowed",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableScripts": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "ExecutionPolicy": {
+                    "t": "sz",
+                    "v": "Unrestricted"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not configured by policy",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policies root not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\PowerShell": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    }
+  ]
+}
