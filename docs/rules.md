@@ -183,7 +183,7 @@ Baseline references name the document and the setting only, never a value.
 
 | ID | Title | Titel (de) | Severity | Kind | References | Sources |
 |---|---|---|---|---|---|---|
-| SVC-01 | Print Spooler does not run on servers | Druckwarteschlange läuft nicht auf Servern | medium | check | GS++: KONF.2.4<br>ATT&CK: M1042, M0942 | MSDOCS-CCBY |
+| SVC-01 | Print Spooler is disabled on servers | Druckwarteschlange ist auf Servern deaktiviert | medium | check | GS++: KONF.2.4<br>ATT&CK: M1042, M0942 | MSDOCS-CCBY |
 | SVC-02 | Point and Print driver installation is limited to administrators | Druckertreiber über Point and Print installieren nur Administratoren | medium | check | ACSC: Printers<br>MSB: Limits print driver installation to Administrators; Limits print driver installation to Administrators<br>GS++: KONF.7.9, KONF.6.4<br>ATT&CK: M1026, M0926 | ACSC, MSLEARN-FACT |
 | SVC-04 | Remote Registry service (inventory) | Dienst Remoteregistrierung (Bestandsliste) | low | inventory | GS++: KONF.2.4, KONF.4.4<br>ATT&CK: M1042, M1024, M0942, M0924 | MSDOCS-CCBY |
 
