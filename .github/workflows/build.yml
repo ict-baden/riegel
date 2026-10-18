@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-dotnet@v4
         with:
@@ -116,7 +116,7 @@ jobs:
       id-token: write # Anmeldung bei Azure Artifact Signing (OIDC) und Herkunftsnachweis
       attestations: write # Herkunftsnachweis
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-dotnet@v4
         with:
