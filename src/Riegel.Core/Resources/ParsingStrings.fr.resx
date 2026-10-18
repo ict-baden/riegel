@@ -4,7 +4,104 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Placeholder" xml:space="preserve">
-    <value>(espace réservé des textes de parsing)</value>
+  <data name="Baseline_Rationale" xml:space="preserve">
+    <value>Exigence de la référence importée « {0} ».</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0250" xml:space="preserve">
+    <value>{0} n'est pas un JSON valide (position {1}) ; le fichier est peut-être tronqué.</value>
+  </data>
+  <data name="Error_RGL0251" xml:space="preserve">
+    <value>Version d'instantané non prise en charge {0} (cette version lit {1}).</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0252" xml:space="preserve">
+    <value>{0} dépasse la taille autorisée (maximum {1} octets).</value>
+  </data>
+  <data name="Error_RGL0253" xml:space="preserve">
+    <value>{0} contient trop d'entrées (maximum {1}).</value>
+  </data>
+  <data name="Error_RGL0254" xml:space="preserve">
+    <value>{0} contient un texte trop long (maximum {1} caractères).</value>
+  </data>
+  <data name="Error_RGL0255" xml:space="preserve">
+    <value>{0} est imbriqué trop profondément (profondeur maximale {1}).</value>
+  </data>
+  <data name="Error_RGL0256" xml:space="preserve">
+    <value>{0} n'est pas un fichier gzip lisible.</value>
+  </data>
+  <data name="Error_RGL0257" xml:space="preserve">
+    <value>{0} n'est pas un instantané valide ({1}).</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0258" xml:space="preserve">
+    <value>{0} entrées dérivées (parsed:*) d'un instantané collecté ont été rejetées et recalculées à partir des données brutes.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0259" xml:space="preserve">
+    <value>Les données brutes {0} ne sont pas disponibles ; l'entrée dérivée n'a pas pu être calculée.</value>
+  </data>
+  <data name="Error_RGL0260" xml:space="preserve">
+    <value>Ce n'est pas un paquet de commandes intégrées valide ({0}).</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0261" xml:space="preserve">
+    <value>{0} dépasse la taille autorisée (maximum {1} octets).</value>
+  </data>
+  <data name="Error_RGL0262" xml:space="preserve">
+    <value>{0} n'est pas un texte {1} valide.</value>
+  </data>
+  <data name="Error_RGL0263" xml:space="preserve">
+    <value>{0} : la ligne {1} n'est pas une ligne valide d'exportation du registre.</value>
+  </data>
+  <data name="Error_RGL0264" xml:space="preserve">
+    <value>{0} : la ligne {1} n'est pas valide dans un modèle de sécurité.</value>
+  </data>
+  <data name="Error_RGL0265" xml:space="preserve">
+    <value>{0} : la ligne {1} n'est pas une ligne valide de la stratégie d'audit.</value>
+  </data>
+  <data name="Error_RGL0266" xml:space="preserve">
+    <value>{0} : la ligne {1} n'est pas une sortie valide de reg query.</value>
+  </data>
+  <data name="Error_RGL0267" xml:space="preserve">
+    <value>L'étape {0} s'est terminée avec le code de sortie {1} ; ses données ne sont pas utilisées.</value>
+  </data>
+  <data name="Error_RGL0268" xml:space="preserve">
+    <value>{0} ne fait pas partie de ce paquet de commandes intégrées.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0270" xml:space="preserve">
+    <value>{0} n'est pas un fichier Registry.pol valide (à l'octet {1}).</value>
+  </data>
+  <data name="Error_RGL0271" xml:space="preserve">
+    <value>Le SHA-256 de {0} ne correspond pas à son contenu.</value>
+  </data>
+  <data name="Error_RGL0272" xml:space="preserve">
+    <value>{0} n'est pas un XML gpresult valide ({1}).</value>
+  </data>
+  <data name="Error_RGL0280" xml:space="preserve">
+    <value>{0} : format de référence non reconnu (attendu : dossier de sauvegarde de GPO, fichier .json ou .csv).</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0281" xml:space="preserve">
+    <value>Référence non valide à {0} ({1}).</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0282" xml:space="preserve">
+    <value>Identifiant de référence ou de règle non valide : {0}</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0283" xml:space="preserve">
+    <value>L'identifiant de règle {0} apparaît deux fois dans la référence (la deuxième fois à {1}).</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0284" xml:space="preserve">
+    <value>{0} : la ligne {1}, colonne {2} n'est pas valide.</value>
+  </data>
+  <data name="Error_RGL0285" xml:space="preserve">
+    <value>{0} est trop volumineux (maximum {1}).</value>
+  </data>
+  <data name="Error_RGL0286" xml:space="preserve">
+    <value>{0} ne contient aucun paramètre d'ordinateur (registry.pol, GptTmpl.inf ou audit.csv).</value>
   </data>
 </root>
