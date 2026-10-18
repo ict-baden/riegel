@@ -4,13 +4,483 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Absent_Fail" xml:space="preserve">
+    <value>必须存在</value>
+  </data>
+  <data name="Absent_NotApplicable" xml:space="preserve">
+    <value>不存在：不适用</value>
+  </data>
+  <data name="Absent_Pass" xml:space="preserve">
+    <value>不存在视为满足</value>
+  </data>
+  <data name="AccountPolicy_ClearTextPassword" xml:space="preserve">
+    <value>用可还原的加密来储存密码</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_LockoutDurationMin" xml:space="preserve">
+    <value>帐户锁定时间（分钟）</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_LockoutThreshold" xml:space="preserve">
+    <value>帐户锁定阈值（0 = 从不）</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_LockoutWindowMin" xml:space="preserve">
+    <value>重置帐户锁定计数器（分钟）</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_MaxPwAgeDays" xml:space="preserve">
+    <value>密码最长使用期限（天）</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_MinPwAgeDays" xml:space="preserve">
+    <value>密码最短使用期限（天）</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_MinPwLen" xml:space="preserve">
+    <value>密码长度最小值</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_PasswordComplexity" xml:space="preserve">
+    <value>密码必须符合复杂性要求</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_PwHistLen" xml:space="preserve">
+    <value>强制密码历史（记住的密码数）</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AppliesTo_Capability" xml:space="preserve">
+    <value>操作系统具备 {0} 时</value>
+  </data>
+  <data name="AppliesTo_Clients" xml:space="preserve">
+    <value>仅客户端</value>
+  </data>
+  <data name="AppliesTo_Fact" xml:space="preserve">
+    <value>{0} {1} {2}</value>
+  </data>
+  <data name="AppliesTo_Joined" xml:space="preserve">
+    <value>仅已加入域的计算机</value>
+  </data>
+  <data name="AppliesTo_MaxBuild" xml:space="preserve">
+    <value>最高内部版本 {0}</value>
+  </data>
+  <data name="AppliesTo_MinBuild" xml:space="preserve">
+    <value>内部版本 {0} 或更高</value>
+  </data>
+  <data name="AppliesTo_NotDc" xml:space="preserve">
+    <value>不适用于域控制器</value>
+  </data>
+  <data name="AppliesTo_Servers" xml:space="preserve">
+    <value>仅服务器</value>
+  </data>
+  <data name="AppliesTo_Standalone" xml:space="preserve">
+    <value>仅工作组计算机</value>
+  </data>
+  <data name="ApprovalSheet_Measure" xml:space="preserve">
+    <value>{0}：{1}（{2}，截止 {3}）</value>
+  </data>
+  <data name="Asr_Block" xml:space="preserve">
+    <value>阻止</value>
+  </data>
+  <data name="Asr_BlockOrAudit" xml:space="preserve">
+    <value>阻止或审核</value>
+  </data>
+  <data name="Asr_BlockOrWarn" xml:space="preserve">
+    <value>阻止或警告</value>
+  </data>
+  <data name="Audit_Failure" xml:space="preserve">
+    <value>失败</value>
+  </data>
+  <data name="Audit_IncludesFailure" xml:space="preserve">
+    <value>至少失败</value>
+  </data>
+  <data name="Audit_IncludesSuccess" xml:space="preserve">
+    <value>至少成功</value>
+  </data>
+  <data name="Audit_NoAuditing" xml:space="preserve">
+    <value>不审核</value>
+  </data>
+  <data name="Audit_Success" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="Audit_SuccessAndFailure" xml:space="preserve">
+    <value>成功和失败</value>
+  </data>
+  <data name="Bool_False" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="Bool_True" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="Conj_And" xml:space="preserve">
+    <value>且</value>
+  </data>
+  <data name="Conj_Or" xml:space="preserve">
+    <value>或</value>
+  </data>
+  <data name="DeviceGuard_CredentialGuard" xml:space="preserve">
+    <value>Credential Guard</value>
+  </data>
+  <data name="DeviceGuard_Hvci" xml:space="preserve">
+    <value>内存完整性 (HVCI)</value>
+  </data>
+  <data name="DeviceGuard_Vbs" xml:space="preserve">
+    <value>基于虚拟化的安全性</value>
+  </data>
+  <data name="Error_RGL0401" xml:space="preserve">
+    <value>工厂文件夹以审核员模式（只读）打开：不会向其中写入任何内容。请使用 --out 输出结果。</value>
+  </data>
+  <data name="Error_RGL0402" xml:space="preserve">
+    <value>{0} 不是工厂文件夹（缺少 riegel-plant.json）。请使用“plant init”创建。</value>
+  </data>
   <data name="Error_RGL0403" xml:space="preserve">
-    <value>在此期间已被其他人更改。请重新加载后重试。</value>
+    <value>{0} 在此期间已被他人更改。请重新加载后再试。</value>
   </data>
   <data name="Error_RGL0404" xml:space="preserve">
-    <value>设备文件夹已被另一个进程锁定（已等待 10 秒）。</value>
+    <value>工厂文件夹被另一个进程锁定（已等待 10 秒）。</value>
   </data>
-  <data name="Placeholder" xml:space="preserve">
-    <value>（workflow 文本的占位符）</value>
+  <data name="Error_RGL0405" xml:space="preserve">
+    <value>工厂文件夹中已存在同名的其他导出：{0}。未覆盖任何内容。</value>
+  </data>
+  <data name="Error_RGL0406" xml:space="preserve">
+    <value>校验和文件与导出 {0} 不符（预期 {1}，实际 {2}）。未导入任何内容。</value>
+  </data>
+  <data name="Error_RGL0407" xml:space="preserve">
+    <value>不是运行 ID：{0}（应为 yyyyMMddTHHmmssZ-xxxxxx）。</value>
+  </data>
+  <data name="Error_RGL0408" xml:space="preserve">
+    <value>批准需要批准角色和批准记录（变更、质量管理体系或批准单编号）。</value>
+  </data>
+  <data name="Error_RGL0409" xml:space="preserve">
+    <value>登记册 {1} 中没有条目 {0}。</value>
+  </data>
+  <data name="Error_RGL0410" xml:space="preserve">
+    <value>已批准状态与运行 {0} 不符（{1}）。</value>
+  </data>
+  <data name="Error_RGL0411" xml:space="preserve">
+    <value>不是导入 ID：{0}（应为 yyyyMMddTHHmmssZ-xxxxxx 或“latest”）。</value>
+  </data>
+  <data name="Error_RGL0412" xml:space="preserve">
+    <value>riegel-plant.json 在 {0} 处无效（条目缺失、重复或未知）。</value>
+  </data>
+  <data name="Error_RGL0413" xml:space="preserve">
+    <value>措施无需批准；工厂报告的签署涵盖该计划。</value>
+  </data>
+  <data name="Error_RGL0414" xml:space="preserve">
+    <value>裁剪已不再有效且原始结果未知：请重新评估导出。</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0420" xml:space="preserve">
+    <value>ID {0} 被多次使用。</value>
+  </data>
+  <data name="Error_RGL0421" xml:space="preserve">
+    <value>ID {0} 的格式不是 {1}。</value>
+  </data>
+  <data name="Error_RGL0422" xml:space="preserve">
+    <value>规则 {0} 不在目录或已导入的基线中。</value>
+  </data>
+  <data name="Error_RGL0423" xml:space="preserve">
+    <value>规则 {0} 已停用；该条目保留并标记。</value>
+  </data>
+  <data name="Error_RGL0424" xml:space="preserve">
+    <value>范围为空：请指定计算机、组或所有计算机。</value>
+  </data>
+  <data name="Error_RGL0425" xml:space="preserve">
+    <value>工厂中不存在组 {0}。</value>
+  </data>
+  <data name="Error_RGL0426" xml:space="preserve">
+    <value>工厂中未知计算机 {0}（无条目，无运行）。</value>
+  </data>
+  <data name="Error_RGL0427" xml:space="preserve">
+    <value>{0} 至少需要 {1} 个字符。</value>
+  </data>
+  <data name="Error_RGL0428" xml:space="preserve">
+    <value>类别 vendorRequirement 需要参考（供应商文档或工单）。</value>
+  </data>
+  <data name="Error_RGL0429" xml:space="preserve">
+    <value>类别 compensatingControl 需要补偿措施。</value>
+  </data>
+  <data name="Error_RGL0430" xml:space="preserve">
+    <value>检查规则必须填写 acceptedValue：规范的实际值，或 * 表示任意值。</value>
+  </data>
+  <data name="Error_RGL0431" xml:space="preserve">
+    <value>acceptedValue * 接受任意值：之后的值变化将不会被发现。</value>
+  </data>
+  <data name="Error_RGL0432" xml:space="preserve">
+    <value>尚未批准（缺少：{0}）。该发现保持未解决，标记为待批准。</value>
+  </data>
+  <data name="Error_RGL0433" xml:space="preserve">
+    <value>已填写批准字段，但未与内容绑定（缺少 approvedContentSha256）。请使用“exceptions approve”或在应用中录入批准。</value>
+  </data>
+  <data name="Error_RGL0434" xml:space="preserve">
+    <value>条目在批准后被修改（内容哈希不一致）。在重新批准之前，它再次处于待批准状态。</value>
+  </data>
+  <data name="Error_RGL0435" xml:space="preserve">
+    <value>reviewBy {0} 晚于 approvedOn {2} 超过 {1} 个月：该条目无效。</value>
+  </data>
+  <data name="Error_RGL0436" xml:space="preserve">
+    <value>reviewBy {0} 晚于 approvedOn {2} 超过 {1} 个月；建议每年复核。</value>
+  </data>
+  <data name="Error_RGL0437" xml:space="preserve">
+    <value>reviewBy {0} 早于 approvedOn {1}。</value>
+  </data>
+  <data name="Error_RGL0438" xml:space="preserve">
+    <value>已过期：复核日期 {0} 已过。该发现再次未解决。</value>
+  </data>
+  <data name="Error_RGL0439" xml:space="preserve">
+    <value>将于 {0} 过期（{1} 天后）。</value>
+  </data>
+  <data name="Error_RGL0440" xml:space="preserve">
+    <value>接受高严重性规则的风险需要以下角色之一：{0}；批准者为 {1}。</value>
+  </data>
+  <data name="Error_RGL0441" xml:space="preserve">
+    <value>与同一规则的 {0} 重叠：最具体的范围优先，同等情况下以最新批准为准。</value>
+  </data>
+  <data name="Error_RGL0442" xml:space="preserve">
+    <value>裁剪高严重性规则：是否改为有理由的例外更合适？</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0443" xml:space="preserve">
+    <value>该措施自 {0} 起已逾期。</value>
+  </data>
+  <data name="Error_RGL0444" xml:space="preserve">
+    <value>{0} 为必填项。</value>
+  </data>
+  <data name="Error_RGL0445" xml:space="preserve">
+    <value>文件中的 plantId {0} 与工厂 {1} 不符。</value>
+  </data>
+  <data name="Error_RGL0446" xml:space="preserve">
+    <value>approvedOn {0} 在将来：批准尚未生效。</value>
+  </data>
+  <data name="Error_RGL0447" xml:space="preserve">
+    <value>规则 {0} 是清单规则，永远不会不合格：该例外无效。</value>
+  </data>
+  <data name="Expect_AllowedSids" xml:space="preserve">
+    <value>仅 {0}</value>
+  </data>
+  <data name="Expect_Asr" xml:space="preserve">
+    <value>攻击面减少规则 {0}：{1}</value>
+  </data>
+  <data name="Expect_Audit" xml:space="preserve">
+    <value>审核 {0}：{1}</value>
+  </data>
+  <data name="Expect_AvStatus" xml:space="preserve">
+    <value>防病毒软件处于活动状态，签名不超过 {0} 天</value>
+  </data>
+  <data name="Expect_DefaultValue" xml:space="preserve">
+    <value>（默认值）</value>
+  </data>
+  <data name="Expect_Defender" xml:space="preserve">
+    <value>Microsoft Defender：{0} {1}</value>
+  </data>
+  <data name="Expect_DeviceGuard" xml:space="preserve">
+    <value>{0} 正在运行</value>
+  </data>
+  <data name="Expect_EffectiveSources" xml:space="preserve">
+    <value>以下来源中首个已设置的值：{0}</value>
+  </data>
+  <data name="Expect_ExceptRids" xml:space="preserve">
+    <value>RID {0} 除外</value>
+  </data>
+  <data name="Expect_Exposure" xml:space="preserve">
+    <value>没有入站规则允许来自任意地址的 {0}（配置文件：{1}）</value>
+  </data>
+  <data name="Expect_Feature" xml:space="preserve">
+    <value>Windows 功能 {0}：{1}</value>
+  </data>
+  <data name="Expect_Firewall" xml:space="preserve">
+    <value>防火墙，{0}配置文件：{1}：{2}</value>
+  </data>
+  <data name="Expect_FirstOf" xml:space="preserve">
+    <value>以第一个证据为准：{0}</value>
+  </data>
+  <data name="Expect_Inventory" xml:space="preserve">
+    <value>清单：{0}</value>
+  </data>
+  <data name="Expect_Lifecycle" xml:space="preserve">
+    <value>操作系统在 Microsoft 支持期内（或由扩展安全更新覆盖）</value>
+  </data>
+  <data name="Expect_LocalAccount" xml:space="preserve">
+    <value>RID 为 {0} 的本地帐户已禁用</value>
+  </data>
+  <data name="Expect_LocalAccounts_PasswordNeverExpires" xml:space="preserve">
+    <value>没有密码永不过期的已启用本地帐户</value>
+  </data>
+  <data name="Expect_LocalAccounts_PasswordNotRequired" xml:space="preserve">
+    <value>没有不需要密码的已启用本地帐户</value>
+  </data>
+  <data name="Expect_LocalAccounts_UnusedDays" xml:space="preserve">
+    <value>没有超过 {0} 天未使用的已启用本地帐户</value>
+  </data>
+  <data name="Expect_LocalGroup" xml:space="preserve">
+    <value>本地组 {0} 的成员</value>
+  </data>
+  <data name="Expect_LsaProtection" xml:space="preserve">
+    <value>LSA 保护正在运行（运行时已证实，而不仅是已配置）</value>
+  </data>
+  <data name="Expect_MaxMembers" xml:space="preserve">
+    <value>最多 {0} 个成员</value>
+  </data>
+  <data name="Expect_NoneOf" xml:space="preserve">
+    <value>以下均不：{0}</value>
+  </data>
+  <data name="Expect_Not" xml:space="preserve">
+    <value>非：{0}</value>
+  </data>
+  <data name="Expect_RowFilter" xml:space="preserve">
+    <value>其中 {0} {1}</value>
+  </data>
+  <data name="Expect_Service" xml:space="preserve">
+    <value>服务 {0}：{1}</value>
+  </data>
+  <data name="Expect_UpdateAge" xml:space="preserve">
+    <value>最新累积更新不超过 {0} 天</value>
+  </data>
+  <data name="Expect_Wmi" xml:space="preserve">
+    <value>{0}.{1} {2}</value>
+  </data>
+  <data name="Feature_1" xml:space="preserve">
+    <value>已启用</value>
+  </data>
+  <data name="Feature_2" xml:space="preserve">
+    <value>已禁用</value>
+  </data>
+  <data name="Feature_3" xml:space="preserve">
+    <value>不存在</value>
+  </data>
+  <data name="FwProp_AllowLocalRules" xml:space="preserve">
+    <value>应用本地规则</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="FwProp_DefaultInboundBlock" xml:space="preserve">
+    <value>默认阻止入站连接</value>
+  </data>
+  <data name="FwProp_Enabled" xml:space="preserve">
+    <value>已启用</value>
+  </data>
+  <data name="FwProp_LogDropped" xml:space="preserve">
+    <value>记录被丢弃的数据包</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="InsurerFacts_NotFromMachine" xml:space="preserve">
+    <value>无法从计算机读取：MFA（多重身份验证）、数据备份、网络分段</value>
+  </data>
+  <data name="Missing_OsDefault" xml:space="preserve">
+    <value>未设置时：采用有据可查的 Windows 默认值</value>
+  </data>
+  <data name="Missing_Pass" xml:space="preserve">
+    <value>未设置视为满足</value>
+  </data>
+  <data name="Op_AgeDaysGt" xml:space="preserve">
+    <value>超过 {0} 天</value>
+  </data>
+  <data name="Op_AgeDaysLe" xml:space="preserve">
+    <value>不超过 {0} 天</value>
+  </data>
+  <data name="Op_BitsClear" xml:space="preserve">
+    <value>已清除位 {0}</value>
+  </data>
+  <data name="Op_BitsSet" xml:space="preserve">
+    <value>已设置位 {0}</value>
+  </data>
+  <data name="Op_ContainsAll" xml:space="preserve">
+    <value>包含 {0} 的全部</value>
+  </data>
+  <data name="Op_ContainsNone" xml:space="preserve">
+    <value>不包含 {0} 中的任何一项</value>
+  </data>
+  <data name="Op_Exists" xml:space="preserve">
+    <value>已设置</value>
+  </data>
+  <data name="Op_In" xml:space="preserve">
+    <value>为 {0} 之一</value>
+  </data>
+  <data name="Op_NotExists" xml:space="preserve">
+    <value>未设置</value>
+  </data>
+  <data name="Op_NotIn" xml:space="preserve">
+    <value>不属于 {0}</value>
+  </data>
+  <data name="Origin_Local" xml:space="preserve">
+    <value>本地</value>
+  </data>
+  <data name="Origin_Mdm" xml:space="preserve">
+    <value>MDM</value>
+  </data>
+  <data name="Origin_Other" xml:space="preserve">
+    <value>其他</value>
+  </data>
+  <data name="Origin_Policy" xml:space="preserve">
+    <value>策略</value>
+  </data>
+  <data name="Profile_Domain" xml:space="preserve">
+    <value>域</value>
+  </data>
+  <data name="Profile_Private" xml:space="preserve">
+    <value>专用</value>
+  </data>
+  <data name="Profile_Public" xml:space="preserve">
+    <value>公用</value>
+  </data>
+  <data name="Renderer_AdminShares" xml:space="preserve">
+    <value>管理共享</value>
+  </data>
+  <data name="Renderer_AppControlState" xml:space="preserve">
+    <value>应用程序控制状态</value>
+  </data>
+  <data name="Renderer_DefenderExclusions" xml:space="preserve">
+    <value>Defender 排除项</value>
+  </data>
+  <data name="Renderer_LocalAdmins" xml:space="preserve">
+    <value>本地管理员</value>
+  </data>
+  <data name="Renderer_NetworkFacts" xml:space="preserve">
+    <value>网络连接</value>
+  </data>
+  <data name="Renderer_RdpState" xml:space="preserve">
+    <value>远程桌面状态</value>
+  </data>
+  <data name="Renderer_RemoteAccessTools" xml:space="preserve">
+    <value>远程访问工具</value>
+  </data>
+  <data name="Renderer_Shares" xml:space="preserve">
+    <value>共享</value>
+  </data>
+  <data name="Renderer_Wireless" xml:space="preserve">
+    <value>无线适配器</value>
+  </data>
+  <data name="Right_Empty" xml:space="preserve">
+    <value>{0} 未分配给任何人</value>
+  </data>
+  <data name="Right_MustInclude" xml:space="preserve">
+    <value>{0} 包含 {1}</value>
+  </data>
+  <data name="Right_MustNotInclude" xml:space="preserve">
+    <value>{0} 不包含 {1}</value>
+  </data>
+  <data name="Right_OnlyFrom" xml:space="preserve">
+    <value>{0} 仅授予 {1}</value>
+  </data>
+  <data name="Role_Builder" xml:space="preserve">
+    <value>设备制造商</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Role_Operator" xml:space="preserve">
+    <value>运营方</value>
+  </data>
+  <data name="Rows_All" xml:space="preserve">
+    <value>每个条目</value>
+  </data>
+  <data name="Scope_Active" xml:space="preserve">
+    <value>活动</value>
+  </data>
+  <data name="Scope_All" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="Service_StartMode" xml:space="preserve">
+    <value>启动类型 {0}</value>
+  </data>
+  <data name="Service_State" xml:space="preserve">
+    <value>状态 {0}</value>
   </data>
 </root>

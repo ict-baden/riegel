@@ -4,13 +4,483 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Absent_Fail" xml:space="preserve">
+    <value>debe existir</value>
+  </data>
+  <data name="Absent_NotApplicable" xml:space="preserve">
+    <value>si no existe: no aplicable</value>
+  </data>
+  <data name="Absent_Pass" xml:space="preserve">
+    <value>si no existe, se cumple</value>
+  </data>
+  <data name="AccountPolicy_ClearTextPassword" xml:space="preserve">
+    <value>Almacenar contraseñas con cifrado reversible</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_LockoutDurationMin" xml:space="preserve">
+    <value>Duración del bloqueo de cuenta (minutos)</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_LockoutThreshold" xml:space="preserve">
+    <value>Umbral de bloqueo de cuenta (0 = nunca)</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_LockoutWindowMin" xml:space="preserve">
+    <value>Restablecer el contador de bloqueo de cuenta tras (minutos)</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_MaxPwAgeDays" xml:space="preserve">
+    <value>Vigencia máxima de la contraseña (días)</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_MinPwAgeDays" xml:space="preserve">
+    <value>Vigencia mínima de la contraseña (días)</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_MinPwLen" xml:space="preserve">
+    <value>Longitud mínima de la contraseña</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_PasswordComplexity" xml:space="preserve">
+    <value>La contraseña debe cumplir los requisitos de complejidad</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AccountPolicy_PwHistLen" xml:space="preserve">
+    <value>Historial de contraseñas (contraseñas recordadas)</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="AppliesTo_Capability" xml:space="preserve">
+    <value>donde el sistema operativo dispone de {0}</value>
+  </data>
+  <data name="AppliesTo_Clients" xml:space="preserve">
+    <value>solo clientes</value>
+  </data>
+  <data name="AppliesTo_Fact" xml:space="preserve">
+    <value>{0} {1} {2}</value>
+  </data>
+  <data name="AppliesTo_Joined" xml:space="preserve">
+    <value>solo equipos unidos a un dominio</value>
+  </data>
+  <data name="AppliesTo_MaxBuild" xml:space="preserve">
+    <value>hasta la compilación {0}</value>
+  </data>
+  <data name="AppliesTo_MinBuild" xml:space="preserve">
+    <value>compilación {0} o posterior</value>
+  </data>
+  <data name="AppliesTo_NotDc" xml:space="preserve">
+    <value>no en controladores de dominio</value>
+  </data>
+  <data name="AppliesTo_Servers" xml:space="preserve">
+    <value>solo servidores</value>
+  </data>
+  <data name="AppliesTo_Standalone" xml:space="preserve">
+    <value>solo equipos de grupo de trabajo</value>
+  </data>
+  <data name="ApprovalSheet_Measure" xml:space="preserve">
+    <value>{0}: {1} ({2}, vence {3})</value>
+  </data>
+  <data name="Asr_Block" xml:space="preserve">
+    <value>bloquear</value>
+  </data>
+  <data name="Asr_BlockOrAudit" xml:space="preserve">
+    <value>bloquear o auditar</value>
+  </data>
+  <data name="Asr_BlockOrWarn" xml:space="preserve">
+    <value>bloquear o advertir</value>
+  </data>
+  <data name="Audit_Failure" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Audit_IncludesFailure" xml:space="preserve">
+    <value>al menos error</value>
+  </data>
+  <data name="Audit_IncludesSuccess" xml:space="preserve">
+    <value>al menos correcto</value>
+  </data>
+  <data name="Audit_NoAuditing" xml:space="preserve">
+    <value>Sin auditoría</value>
+  </data>
+  <data name="Audit_Success" xml:space="preserve">
+    <value>Correcto</value>
+  </data>
+  <data name="Audit_SuccessAndFailure" xml:space="preserve">
+    <value>Correcto y error</value>
+  </data>
+  <data name="Bool_False" xml:space="preserve">
+    <value>no</value>
+  </data>
+  <data name="Bool_True" xml:space="preserve">
+    <value>sí</value>
+  </data>
+  <data name="Conj_And" xml:space="preserve">
+    <value>y</value>
+  </data>
+  <data name="Conj_Or" xml:space="preserve">
+    <value>o</value>
+  </data>
+  <data name="DeviceGuard_CredentialGuard" xml:space="preserve">
+    <value>Credential Guard</value>
+  </data>
+  <data name="DeviceGuard_Hvci" xml:space="preserve">
+    <value>Integridad de memoria (HVCI)</value>
+  </data>
+  <data name="DeviceGuard_Vbs" xml:space="preserve">
+    <value>Seguridad basada en virtualización</value>
+  </data>
+  <data name="Error_RGL0401" xml:space="preserve">
+    <value>La carpeta de la planta está abierta en modo auditor (solo lectura): no se escribe nada en ella. Escriba los resultados con --out.</value>
+  </data>
+  <data name="Error_RGL0402" xml:space="preserve">
+    <value>{0} no es una carpeta de planta (falta riegel-plant.json). Créela con 'plant init'.</value>
+  </data>
   <data name="Error_RGL0403" xml:space="preserve">
-    <value>Otra persona lo modificó entretanto. Vuelva a cargar e inténtelo de nuevo.</value>
+    <value>{0} ha sido modificado por otra persona entretanto. Vuelva a cargar e inténtelo de nuevo.</value>
   </data>
   <data name="Error_RGL0404" xml:space="preserve">
-    <value>La carpeta de la instalación está bloqueada por otro proceso (se esperó 10 s).</value>
+    <value>La carpeta de la planta está bloqueada por otro proceso (se esperó 10 s).</value>
   </data>
-  <data name="Placeholder" xml:space="preserve">
-    <value>(marcador de posición de los textos de workflow)</value>
+  <data name="Error_RGL0405" xml:space="preserve">
+    <value>Ya existe en la carpeta de la planta otra exportación con el mismo nombre: {0}. No se ha sobrescrito nada.</value>
+  </data>
+  <data name="Error_RGL0406" xml:space="preserve">
+    <value>El archivo de suma de comprobación no coincide con la exportación {0} (esperado {1}, real {2}). No se ha importado nada.</value>
+  </data>
+  <data name="Error_RGL0407" xml:space="preserve">
+    <value>No es un ID de ejecución: {0} (se esperaba yyyyMMddTHHmmssZ-xxxxxx).</value>
+  </data>
+  <data name="Error_RGL0408" xml:space="preserve">
+    <value>Una aprobación necesita el rol que aprueba y el registro de aprobación (referencia de cambio, SGC o de la hoja de aprobación).</value>
+  </data>
+  <data name="Error_RGL0409" xml:space="preserve">
+    <value>No existe la entrada {0} en el registro {1}.</value>
+  </data>
+  <data name="Error_RGL0410" xml:space="preserve">
+    <value>El estado aprobado no coincide con la ejecución {0} ({1}).</value>
+  </data>
+  <data name="Error_RGL0411" xml:space="preserve">
+    <value>No es un ID de importación: {0} (se esperaba yyyyMMddTHHmmssZ-xxxxxx o 'latest').</value>
+  </data>
+  <data name="Error_RGL0412" xml:space="preserve">
+    <value>riegel-plant.json no es válido en {0} (entrada ausente, duplicada o desconocida).</value>
+  </data>
+  <data name="Error_RGL0413" xml:space="preserve">
+    <value>Las medidas no necesitan aprobación; la firma del informe de la planta cubre el plan.</value>
+  </data>
+  <data name="Error_RGL0414" xml:space="preserve">
+    <value>La adaptación ya no está en vigor y se desconoce el resultado original: evalúe de nuevo la exportación.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0420" xml:space="preserve">
+    <value>El ID {0} se usa más de una vez.</value>
+  </data>
+  <data name="Error_RGL0421" xml:space="preserve">
+    <value>El ID {0} no tiene la forma {1}.</value>
+  </data>
+  <data name="Error_RGL0422" xml:space="preserve">
+    <value>La regla {0} no está en el catálogo ni en una línea base importada.</value>
+  </data>
+  <data name="Error_RGL0423" xml:space="preserve">
+    <value>La regla {0} está retirada; la entrada se conserva y se marca.</value>
+  </data>
+  <data name="Error_RGL0424" xml:space="preserve">
+    <value>El ámbito está vacío: indique equipos, grupos o todos los equipos.</value>
+  </data>
+  <data name="Error_RGL0425" xml:space="preserve">
+    <value>El grupo {0} no existe en la planta.</value>
+  </data>
+  <data name="Error_RGL0426" xml:space="preserve">
+    <value>El equipo {0} no es conocido en la planta (sin entrada ni ejecuciones).</value>
+  </data>
+  <data name="Error_RGL0427" xml:space="preserve">
+    <value>{0} necesita al menos {1} caracteres.</value>
+  </data>
+  <data name="Error_RGL0428" xml:space="preserve">
+    <value>La categoría vendorRequirement necesita una referencia (documento del fabricante o ticket).</value>
+  </data>
+  <data name="Error_RGL0429" xml:space="preserve">
+    <value>La categoría compensatingControl necesita la medida compensatoria.</value>
+  </data>
+  <data name="Error_RGL0430" xml:space="preserve">
+    <value>acceptedValue es obligatorio en las reglas de comprobación: el valor real canónico o * para cualquier valor.</value>
+  </data>
+  <data name="Error_RGL0431" xml:space="preserve">
+    <value>acceptedValue * acepta cualquier valor: no se detectará un cambio posterior del valor.</value>
+  </data>
+  <data name="Error_RGL0432" xml:space="preserve">
+    <value>Aún no aprobado (falta: {0}). El hallazgo sigue abierto, marcado como pendiente.</value>
+  </data>
+  <data name="Error_RGL0433" xml:space="preserve">
+    <value>Los campos de aprobación están rellenados pero no vinculados al contenido (falta approvedContentSha256). Registre la aprobación con 'exceptions approve' o en la aplicación.</value>
+  </data>
+  <data name="Error_RGL0434" xml:space="preserve">
+    <value>La entrada se modificó después de la aprobación (el hash del contenido difiere). Vuelve a estar pendiente hasta que se apruebe de nuevo.</value>
+  </data>
+  <data name="Error_RGL0435" xml:space="preserve">
+    <value>reviewBy {0} es más de {1} meses posterior a approvedOn {2}: la entrada no es válida.</value>
+  </data>
+  <data name="Error_RGL0436" xml:space="preserve">
+    <value>reviewBy {0} es más de {1} meses posterior a approvedOn {2}; se recomienda una revisión anual.</value>
+  </data>
+  <data name="Error_RGL0437" xml:space="preserve">
+    <value>reviewBy {0} es anterior a approvedOn {1}.</value>
+  </data>
+  <data name="Error_RGL0438" xml:space="preserve">
+    <value>Caducada: la fecha de revisión {0} ha pasado. El hallazgo vuelve a estar abierto.</value>
+  </data>
+  <data name="Error_RGL0439" xml:space="preserve">
+    <value>Caduca el {0} (en {1} días).</value>
+  </data>
+  <data name="Error_RGL0440" xml:space="preserve">
+    <value>Aceptar el riesgo de una regla de gravedad alta requiere uno de los roles {0}; aprobado por {1}.</value>
+  </data>
+  <data name="Error_RGL0441" xml:space="preserve">
+    <value>Se solapa con {0} para la misma regla: gana el ámbito más específico y, en caso de empate, la aprobación más reciente.</value>
+  </data>
+  <data name="Error_RGL0442" xml:space="preserve">
+    <value>Se adapta una regla de gravedad alta: ¿no sería mejor una excepción justificada?</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0443" xml:space="preserve">
+    <value>La medida está vencida desde el {0}.</value>
+  </data>
+  <data name="Error_RGL0444" xml:space="preserve">
+    <value>{0} es obligatorio.</value>
+  </data>
+  <data name="Error_RGL0445" xml:space="preserve">
+    <value>El plantId {0} del archivo no coincide con la planta {1}.</value>
+  </data>
+  <data name="Error_RGL0446" xml:space="preserve">
+    <value>approvedOn {0} está en el futuro: la aprobación aún no está en vigor.</value>
+  </data>
+  <data name="Error_RGL0447" xml:space="preserve">
+    <value>La regla {0} es una regla de inventario y nunca falla: la excepción no tiene efecto.</value>
+  </data>
+  <data name="Expect_AllowedSids" xml:space="preserve">
+    <value>solo {0}</value>
+  </data>
+  <data name="Expect_Asr" xml:space="preserve">
+    <value>Regla de reducción de la superficie de ataque {0}: {1}</value>
+  </data>
+  <data name="Expect_Audit" xml:space="preserve">
+    <value>Auditoría {0}: {1}</value>
+  </data>
+  <data name="Expect_AvStatus" xml:space="preserve">
+    <value>Hay un antivirus activo con firmas de como máximo {0} días</value>
+  </data>
+  <data name="Expect_DefaultValue" xml:space="preserve">
+    <value>(valor predeterminado)</value>
+  </data>
+  <data name="Expect_Defender" xml:space="preserve">
+    <value>Microsoft Defender: {0} {1}</value>
+  </data>
+  <data name="Expect_DeviceGuard" xml:space="preserve">
+    <value>{0} en ejecución</value>
+  </data>
+  <data name="Expect_EffectiveSources" xml:space="preserve">
+    <value>primer valor definido en: {0}</value>
+  </data>
+  <data name="Expect_ExceptRids" xml:space="preserve">
+    <value>excepto RID {0}</value>
+  </data>
+  <data name="Expect_Exposure" xml:space="preserve">
+    <value>Ninguna regla de entrada permite {0} desde cualquier dirección (perfiles: {1})</value>
+  </data>
+  <data name="Expect_Feature" xml:space="preserve">
+    <value>Característica de Windows {0}: {1}</value>
+  </data>
+  <data name="Expect_Firewall" xml:space="preserve">
+    <value>Firewall, perfil {0}: {1}: {2}</value>
+  </data>
+  <data name="Expect_FirstOf" xml:space="preserve">
+    <value>decide la primera evidencia: {0}</value>
+  </data>
+  <data name="Expect_Inventory" xml:space="preserve">
+    <value>Inventario: {0}</value>
+  </data>
+  <data name="Expect_Lifecycle" xml:space="preserve">
+    <value>Sistema operativo con soporte de Microsoft (o cubierto por Extended Security Updates)</value>
+  </data>
+  <data name="Expect_LocalAccount" xml:space="preserve">
+    <value>Cuenta local con RID {0} deshabilitada</value>
+  </data>
+  <data name="Expect_LocalAccounts_PasswordNeverExpires" xml:space="preserve">
+    <value>Ninguna cuenta local habilitada con contraseña que nunca caduca</value>
+  </data>
+  <data name="Expect_LocalAccounts_PasswordNotRequired" xml:space="preserve">
+    <value>Ninguna cuenta local habilitada sin contraseña obligatoria</value>
+  </data>
+  <data name="Expect_LocalAccounts_UnusedDays" xml:space="preserve">
+    <value>Ninguna cuenta local habilitada sin usar durante más de {0} días</value>
+  </data>
+  <data name="Expect_LocalGroup" xml:space="preserve">
+    <value>Miembros del grupo local {0}</value>
+  </data>
+  <data name="Expect_LsaProtection" xml:space="preserve">
+    <value>Protección LSA en ejecución (demostrada en tiempo de ejecución, no solo configurada)</value>
+  </data>
+  <data name="Expect_MaxMembers" xml:space="preserve">
+    <value>como máximo {0} miembros</value>
+  </data>
+  <data name="Expect_NoneOf" xml:space="preserve">
+    <value>ninguno de: {0}</value>
+  </data>
+  <data name="Expect_Not" xml:space="preserve">
+    <value>no: {0}</value>
+  </data>
+  <data name="Expect_RowFilter" xml:space="preserve">
+    <value>donde {0} {1}</value>
+  </data>
+  <data name="Expect_Service" xml:space="preserve">
+    <value>Servicio {0}: {1}</value>
+  </data>
+  <data name="Expect_UpdateAge" xml:space="preserve">
+    <value>Última actualización acumulativa de como máximo {0} días</value>
+  </data>
+  <data name="Expect_Wmi" xml:space="preserve">
+    <value>{0}.{1} {2}</value>
+  </data>
+  <data name="Feature_1" xml:space="preserve">
+    <value>habilitada</value>
+  </data>
+  <data name="Feature_2" xml:space="preserve">
+    <value>deshabilitada</value>
+  </data>
+  <data name="Feature_3" xml:space="preserve">
+    <value>no presente</value>
+  </data>
+  <data name="FwProp_AllowLocalRules" xml:space="preserve">
+    <value>reglas locales aplicadas</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="FwProp_DefaultInboundBlock" xml:space="preserve">
+    <value>conexiones entrantes bloqueadas de forma predeterminada</value>
+  </data>
+  <data name="FwProp_Enabled" xml:space="preserve">
+    <value>activado</value>
+  </data>
+  <data name="FwProp_LogDropped" xml:space="preserve">
+    <value>registrar paquetes descartados</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="InsurerFacts_NotFromMachine" xml:space="preserve">
+    <value>No legible desde el equipo: MFA, copia de seguridad de datos, segmentación de red</value>
+  </data>
+  <data name="Missing_OsDefault" xml:space="preserve">
+    <value>si no está definido: valor predeterminado documentado de Windows</value>
+  </data>
+  <data name="Missing_Pass" xml:space="preserve">
+    <value>si no está definido, se cumple</value>
+  </data>
+  <data name="Op_AgeDaysGt" xml:space="preserve">
+    <value>más de {0} días de antigüedad</value>
+  </data>
+  <data name="Op_AgeDaysLe" xml:space="preserve">
+    <value>como máximo {0} días de antigüedad</value>
+  </data>
+  <data name="Op_BitsClear" xml:space="preserve">
+    <value>tiene los bits {0} desactivados</value>
+  </data>
+  <data name="Op_BitsSet" xml:space="preserve">
+    <value>tiene los bits {0} activados</value>
+  </data>
+  <data name="Op_ContainsAll" xml:space="preserve">
+    <value>contiene todos los de {0}</value>
+  </data>
+  <data name="Op_ContainsNone" xml:space="preserve">
+    <value>no contiene ninguno de {0}</value>
+  </data>
+  <data name="Op_Exists" xml:space="preserve">
+    <value>está definido</value>
+  </data>
+  <data name="Op_In" xml:space="preserve">
+    <value>es uno de {0}</value>
+  </data>
+  <data name="Op_NotExists" xml:space="preserve">
+    <value>no está definido</value>
+  </data>
+  <data name="Op_NotIn" xml:space="preserve">
+    <value>no es ninguno de {0}</value>
+  </data>
+  <data name="Origin_Local" xml:space="preserve">
+    <value>local</value>
+  </data>
+  <data name="Origin_Mdm" xml:space="preserve">
+    <value>MDM</value>
+  </data>
+  <data name="Origin_Other" xml:space="preserve">
+    <value>otra</value>
+  </data>
+  <data name="Origin_Policy" xml:space="preserve">
+    <value>directiva</value>
+  </data>
+  <data name="Profile_Domain" xml:space="preserve">
+    <value>dominio</value>
+  </data>
+  <data name="Profile_Private" xml:space="preserve">
+    <value>privado</value>
+  </data>
+  <data name="Profile_Public" xml:space="preserve">
+    <value>público</value>
+  </data>
+  <data name="Renderer_AdminShares" xml:space="preserve">
+    <value>recursos compartidos administrativos</value>
+  </data>
+  <data name="Renderer_AppControlState" xml:space="preserve">
+    <value>estado del control de aplicaciones</value>
+  </data>
+  <data name="Renderer_DefenderExclusions" xml:space="preserve">
+    <value>exclusiones de Defender</value>
+  </data>
+  <data name="Renderer_LocalAdmins" xml:space="preserve">
+    <value>administradores locales</value>
+  </data>
+  <data name="Renderer_NetworkFacts" xml:space="preserve">
+    <value>conexión de red</value>
+  </data>
+  <data name="Renderer_RdpState" xml:space="preserve">
+    <value>estado de Escritorio remoto</value>
+  </data>
+  <data name="Renderer_RemoteAccessTools" xml:space="preserve">
+    <value>herramientas de acceso remoto</value>
+  </data>
+  <data name="Renderer_Shares" xml:space="preserve">
+    <value>recursos compartidos</value>
+  </data>
+  <data name="Renderer_Wireless" xml:space="preserve">
+    <value>adaptadores inalámbricos</value>
+  </data>
+  <data name="Right_Empty" xml:space="preserve">
+    <value>{0} no asignado a nadie</value>
+  </data>
+  <data name="Right_MustInclude" xml:space="preserve">
+    <value>{0} incluye {1}</value>
+  </data>
+  <data name="Right_MustNotInclude" xml:space="preserve">
+    <value>{0} no incluye {1}</value>
+  </data>
+  <data name="Right_OnlyFrom" xml:space="preserve">
+    <value>{0} solo para {1}</value>
+  </data>
+  <data name="Role_Builder" xml:space="preserve">
+    <value>Fabricante de la máquina</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Role_Operator" xml:space="preserve">
+    <value>Operador</value>
+  </data>
+  <data name="Rows_All" xml:space="preserve">
+    <value>en cada entrada</value>
+  </data>
+  <data name="Scope_Active" xml:space="preserve">
+    <value>activos</value>
+  </data>
+  <data name="Scope_All" xml:space="preserve">
+    <value>todos</value>
+  </data>
+  <data name="Service_StartMode" xml:space="preserve">
+    <value>tipo de inicio {0}</value>
+  </data>
+  <data name="Service_State" xml:space="preserve">
+    <value>estado {0}</value>
   </data>
 </root>

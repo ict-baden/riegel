@@ -4,16 +4,489 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Error_RGL0403" xml:space="preserve">
-    <value>Changed by someone else in the meantime. Reload and try again.</value>
+  <data name="Absent_Fail" xml:space="preserve">
+    <value>must be present</value>
+  </data>
+  <data name="Absent_NotApplicable" xml:space="preserve">
+    <value>absent: not applicable</value>
+  </data>
+  <data name="Absent_Pass" xml:space="preserve">
+    <value>absent counts as met</value>
+  </data>
+  <data name="AccountPolicy_ClearTextPassword" xml:space="preserve">
+    <value>Store passwords using reversible encryption</value>
+  </data>
+  <data name="AccountPolicy_LockoutDurationMin" xml:space="preserve">
+    <value>Account lockout duration (minutes)</value>
+  </data>
+  <data name="AccountPolicy_LockoutThreshold" xml:space="preserve">
+    <value>Account lockout threshold (0 = never)</value>
+  </data>
+  <data name="AccountPolicy_LockoutWindowMin" xml:space="preserve">
+    <value>Reset account lockout counter after (minutes)</value>
+  </data>
+  <data name="AccountPolicy_MaxPwAgeDays" xml:space="preserve">
+    <value>Maximum password age (days)</value>
+  </data>
+  <data name="AccountPolicy_MinPwAgeDays" xml:space="preserve">
+    <value>Minimum password age (days)</value>
+  </data>
+  <data name="AccountPolicy_MinPwLen" xml:space="preserve">
+    <value>Minimum password length</value>
+  </data>
+  <data name="AccountPolicy_PasswordComplexity" xml:space="preserve">
+    <value>Password must meet complexity requirements</value>
+  </data>
+  <data name="AccountPolicy_PwHistLen" xml:space="preserve">
+    <value>Password history (remembered passwords)</value>
+  </data>
+  <data name="AppliesTo_Capability" xml:space="preserve">
+    <value>where the operating system has {0}</value>
+  </data>
+  <data name="AppliesTo_Clients" xml:space="preserve">
+    <value>clients only</value>
+  </data>
+  <data name="AppliesTo_Fact" xml:space="preserve">
+    <value>{0} {1} {2}</value>
+    <comment>{0} = fact, {1} = operator, {2} = value</comment>
+  </data>
+  <data name="AppliesTo_Joined" xml:space="preserve">
+    <value>domain-joined machines only</value>
+  </data>
+  <data name="AppliesTo_MaxBuild" xml:space="preserve">
+    <value>up to build {0}</value>
+  </data>
+  <data name="AppliesTo_MinBuild" xml:space="preserve">
+    <value>build {0} or later</value>
+  </data>
+  <data name="AppliesTo_NotDc" xml:space="preserve">
+    <value>not on domain controllers</value>
+  </data>
+  <data name="AppliesTo_Servers" xml:space="preserve">
+    <value>servers only</value>
+  </data>
+  <data name="AppliesTo_Standalone" xml:space="preserve">
+    <value>workgroup machines only</value>
+  </data>
+  <data name="ApprovalSheet_Measure" xml:space="preserve">
+    <value>{0}: {1} ({2}, due {3})</value>
+    <comment>{0} = measure ID, {1} = action, {2} = owner role, {3} = due date</comment>
+  </data>
+  <data name="Asr_Block" xml:space="preserve">
+    <value>block</value>
+  </data>
+  <data name="Asr_BlockOrAudit" xml:space="preserve">
+    <value>block or audit</value>
+  </data>
+  <data name="Asr_BlockOrWarn" xml:space="preserve">
+    <value>block or warn</value>
+  </data>
+  <data name="Audit_Failure" xml:space="preserve">
+    <value>Failure</value>
+  </data>
+  <data name="Audit_IncludesFailure" xml:space="preserve">
+    <value>at least Failure</value>
+  </data>
+  <data name="Audit_IncludesSuccess" xml:space="preserve">
+    <value>at least Success</value>
+  </data>
+  <data name="Audit_NoAuditing" xml:space="preserve">
+    <value>No auditing</value>
+  </data>
+  <data name="Audit_Success" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="Audit_SuccessAndFailure" xml:space="preserve">
+    <value>Success and Failure</value>
+  </data>
+  <data name="Bool_False" xml:space="preserve">
+    <value>no</value>
+  </data>
+  <data name="Bool_True" xml:space="preserve">
+    <value>yes</value>
+  </data>
+  <data name="Conj_And" xml:space="preserve">
+    <value>and</value>
+  </data>
+  <data name="Conj_Or" xml:space="preserve">
+    <value>or</value>
+  </data>
+  <data name="DeviceGuard_CredentialGuard" xml:space="preserve">
+    <value>Credential Guard</value>
+  </data>
+  <data name="DeviceGuard_Hvci" xml:space="preserve">
+    <value>Memory integrity (HVCI)</value>
+  </data>
+  <data name="DeviceGuard_Vbs" xml:space="preserve">
+    <value>Virtualization-based security</value>
+  </data>
+  <data name="Error_RGL0401" xml:space="preserve">
+    <value>The plant folder is open in auditor mode (read-only): nothing is written into it. Write outputs with --out.</value>
     <comment>spec 7.6</comment>
+  </data>
+  <data name="Error_RGL0402" xml:space="preserve">
+    <value>{0} is not a plant folder (riegel-plant.json is missing). Create one with 'plant init'.</value>
+    <comment>{0} = folder</comment>
+  </data>
+  <data name="Error_RGL0403" xml:space="preserve">
+    <value>{0} was changed by someone else in the meantime. Reload and try again.</value>
+    <comment>spec 7.6; {0} = file</comment>
   </data>
   <data name="Error_RGL0404" xml:space="preserve">
     <value>The plant folder is locked by another process (waited 10 s).</value>
     <comment>spec 7.6</comment>
   </data>
-  <data name="Placeholder" xml:space="preserve">
-    <value>(placeholder of the workflow texts)</value>
-    <comment>Scaffold placeholder; the owning package replaces it</comment>
+  <data name="Error_RGL0405" xml:space="preserve">
+    <value>A different export with the same name already exists in the plant folder: {0}. Nothing was overwritten.</value>
+    <comment>{0} = path in the plant folder</comment>
+  </data>
+  <data name="Error_RGL0406" xml:space="preserve">
+    <value>The checksum file does not match the export {0} (expected {1}, actual {2}). Nothing was imported.</value>
+  </data>
+  <data name="Error_RGL0407" xml:space="preserve">
+    <value>Not a run ID: {0} (expected yyyyMMddTHHmmssZ-xxxxxx).</value>
+  </data>
+  <data name="Error_RGL0408" xml:space="preserve">
+    <value>An approval needs the approving role and the approval record (change, QMS or approval-sheet reference).</value>
+  </data>
+  <data name="Error_RGL0409" xml:space="preserve">
+    <value>There is no entry {0} in the register {1}.</value>
+  </data>
+  <data name="Error_RGL0410" xml:space="preserve">
+    <value>The approved state does not match run {0} ({1}).</value>
+    <comment>{1} = field</comment>
+  </data>
+  <data name="Error_RGL0411" xml:space="preserve">
+    <value>Not an import ID: {0} (expected yyyyMMddTHHmmssZ-xxxxxx or 'latest').</value>
+  </data>
+  <data name="Error_RGL0412" xml:space="preserve">
+    <value>riegel-plant.json is invalid at {0} (missing, duplicate or unknown entry).</value>
+  </data>
+  <data name="Error_RGL0413" xml:space="preserve">
+    <value>Measures need no approval; the sign-off of the plant report covers the plan.</value>
+    <comment>spec 2.13</comment>
+  </data>
+  <data name="Error_RGL0414" xml:space="preserve">
+    <value>The tailoring is no longer in force and the original result is unknown: evaluate the export again.</value>
+    <comment>reason code on a result</comment>
+  </data>
+  <data name="Error_RGL0420" xml:space="preserve">
+    <value>ID {0} is used more than once.</value>
+  </data>
+  <data name="Error_RGL0421" xml:space="preserve">
+    <value>ID {0} does not have the form {1}.</value>
+  </data>
+  <data name="Error_RGL0422" xml:space="preserve">
+    <value>Rule {0} is not in the catalogue or in an imported baseline.</value>
+  </data>
+  <data name="Error_RGL0423" xml:space="preserve">
+    <value>Rule {0} is retired; the entry is kept and marked.</value>
+  </data>
+  <data name="Error_RGL0424" xml:space="preserve">
+    <value>The scope is empty: name machines, groups or all machines.</value>
+  </data>
+  <data name="Error_RGL0425" xml:space="preserve">
+    <value>Group {0} does not exist in the plant.</value>
+  </data>
+  <data name="Error_RGL0426" xml:space="preserve">
+    <value>Machine {0} is not known in the plant (no entry, no runs).</value>
+  </data>
+  <data name="Error_RGL0427" xml:space="preserve">
+    <value>{0} needs at least {1} characters.</value>
+    <comment>{0} = field name</comment>
+  </data>
+  <data name="Error_RGL0428" xml:space="preserve">
+    <value>Category vendorRequirement needs a reference (vendor document or ticket).</value>
+  </data>
+  <data name="Error_RGL0429" xml:space="preserve">
+    <value>Category compensatingControl needs the compensating measure.</value>
+  </data>
+  <data name="Error_RGL0430" xml:space="preserve">
+    <value>acceptedValue is required for check rules: the canonical actual value, or * for any value.</value>
+  </data>
+  <data name="Error_RGL0431" xml:space="preserve">
+    <value>acceptedValue * accepts any value: a later change of the value will not be noticed.</value>
+  </data>
+  <data name="Error_RGL0432" xml:space="preserve">
+    <value>Not approved yet (missing: {0}). The finding stays open, flagged as pending.</value>
+    <comment>{0} = missing fields</comment>
+  </data>
+  <data name="Error_RGL0433" xml:space="preserve">
+    <value>The approval fields are filled in but not bound to the content (approvedContentSha256 is missing). Enter the approval with 'exceptions approve' or in the app.</value>
+  </data>
+  <data name="Error_RGL0434" xml:space="preserve">
+    <value>The entry was changed after approval (the content hash differs). It is pending again until it is approved anew.</value>
+  </data>
+  <data name="Error_RGL0435" xml:space="preserve">
+    <value>reviewBy {0} is more than {1} months after approvedOn {2}: the entry is invalid.</value>
+  </data>
+  <data name="Error_RGL0436" xml:space="preserve">
+    <value>reviewBy {0} is more than {1} months after approvedOn {2}; a yearly review is recommended.</value>
+  </data>
+  <data name="Error_RGL0437" xml:space="preserve">
+    <value>reviewBy {0} is before approvedOn {1}.</value>
+  </data>
+  <data name="Error_RGL0438" xml:space="preserve">
+    <value>Expired: the review date {0} has passed. The finding is open again.</value>
+  </data>
+  <data name="Error_RGL0439" xml:space="preserve">
+    <value>Expires on {0} (in {1} days).</value>
+  </data>
+  <data name="Error_RGL0440" xml:space="preserve">
+    <value>Accepting the risk of a high-severity rule needs one of the roles {0}; approved by {1}.</value>
+    <comment>spec 2.11 riskAcceptanceRoles</comment>
+  </data>
+  <data name="Error_RGL0441" xml:space="preserve">
+    <value>Overlaps with {0} for the same rule: the most specific scope wins, among equals the latest approval.</value>
+  </data>
+  <data name="Error_RGL0442" xml:space="preserve">
+    <value>Tailoring a high-severity rule: would a justified exception be the better choice?</value>
+    <comment>spec 2.12</comment>
+  </data>
+  <data name="Error_RGL0443" xml:space="preserve">
+    <value>The measure is overdue since {0}.</value>
+  </data>
+  <data name="Error_RGL0444" xml:space="preserve">
+    <value>{0} is required.</value>
+    <comment>{0} = field name</comment>
+  </data>
+  <data name="Error_RGL0445" xml:space="preserve">
+    <value>plantId {0} in the file does not match the plant {1}.</value>
+  </data>
+  <data name="Error_RGL0446" xml:space="preserve">
+    <value>approvedOn {0} lies in the future: the approval is not in force yet.</value>
+  </data>
+  <data name="Error_RGL0447" xml:space="preserve">
+    <value>Rule {0} is an inventory rule and never fails: the exception has no effect.</value>
+  </data>
+  <data name="Expect_AllowedSids" xml:space="preserve">
+    <value>only {0}</value>
+  </data>
+  <data name="Expect_Asr" xml:space="preserve">
+    <value>Attack surface reduction rule {0}: {1}</value>
+  </data>
+  <data name="Expect_Audit" xml:space="preserve">
+    <value>Audit {0}: {1}</value>
+    <comment>{0} = subcategory, {1} = setting</comment>
+  </data>
+  <data name="Expect_AvStatus" xml:space="preserve">
+    <value>An antivirus is active with signatures at most {0} days old</value>
+  </data>
+  <data name="Expect_DefaultValue" xml:space="preserve">
+    <value>(default value)</value>
+  </data>
+  <data name="Expect_Defender" xml:space="preserve">
+    <value>Microsoft Defender: {0} {1}</value>
+  </data>
+  <data name="Expect_DeviceGuard" xml:space="preserve">
+    <value>{0} running</value>
+  </data>
+  <data name="Expect_EffectiveSources" xml:space="preserve">
+    <value>first value set in: {0}</value>
+  </data>
+  <data name="Expect_ExceptRids" xml:space="preserve">
+    <value>except RIDs {0}</value>
+  </data>
+  <data name="Expect_Exposure" xml:space="preserve">
+    <value>No inbound rule allows {0} from any address ({1} profiles)</value>
+  </data>
+  <data name="Expect_Feature" xml:space="preserve">
+    <value>Windows feature {0}: {1}</value>
+  </data>
+  <data name="Expect_Firewall" xml:space="preserve">
+    <value>Firewall, {0} profile: {1}: {2}</value>
+  </data>
+  <data name="Expect_FirstOf" xml:space="preserve">
+    <value>first proof decides: {0}</value>
+  </data>
+  <data name="Expect_Inventory" xml:space="preserve">
+    <value>Inventory: {0}</value>
+  </data>
+  <data name="Expect_Lifecycle" xml:space="preserve">
+    <value>Operating system within Microsoft support (or covered by Extended Security Updates)</value>
+  </data>
+  <data name="Expect_LocalAccount" xml:space="preserve">
+    <value>Local account with RID {0} disabled</value>
+  </data>
+  <data name="Expect_LocalAccounts_PasswordNeverExpires" xml:space="preserve">
+    <value>No enabled local account with a password that never expires</value>
+  </data>
+  <data name="Expect_LocalAccounts_PasswordNotRequired" xml:space="preserve">
+    <value>No enabled local account without a required password</value>
+  </data>
+  <data name="Expect_LocalAccounts_UnusedDays" xml:space="preserve">
+    <value>No enabled local account unused for more than {0} days</value>
+  </data>
+  <data name="Expect_LocalGroup" xml:space="preserve">
+    <value>Members of the local group {0}</value>
+  </data>
+  <data name="Expect_LsaProtection" xml:space="preserve">
+    <value>LSA protection running (proven at runtime, not only configured)</value>
+  </data>
+  <data name="Expect_MaxMembers" xml:space="preserve">
+    <value>at most {0} members</value>
+  </data>
+  <data name="Expect_NoneOf" xml:space="preserve">
+    <value>none of: {0}</value>
+  </data>
+  <data name="Expect_Not" xml:space="preserve">
+    <value>not: {0}</value>
+  </data>
+  <data name="Expect_RowFilter" xml:space="preserve">
+    <value>where {0} {1}</value>
+  </data>
+  <data name="Expect_Service" xml:space="preserve">
+    <value>Service {0}: {1}</value>
+  </data>
+  <data name="Expect_UpdateAge" xml:space="preserve">
+    <value>Latest cumulative update at most {0} days old</value>
+  </data>
+  <data name="Expect_Wmi" xml:space="preserve">
+    <value>{0}.{1} {2}</value>
+    <comment>{0} = WMI class, {1} = property, {2} = expectation</comment>
+  </data>
+  <data name="Feature_1" xml:space="preserve">
+    <value>enabled</value>
+  </data>
+  <data name="Feature_2" xml:space="preserve">
+    <value>disabled</value>
+  </data>
+  <data name="Feature_3" xml:space="preserve">
+    <value>absent</value>
+  </data>
+  <data name="FwProp_AllowLocalRules" xml:space="preserve">
+    <value>local rules applied</value>
+  </data>
+  <data name="FwProp_DefaultInboundBlock" xml:space="preserve">
+    <value>inbound connections blocked by default</value>
+  </data>
+  <data name="FwProp_Enabled" xml:space="preserve">
+    <value>on</value>
+  </data>
+  <data name="FwProp_LogDropped" xml:space="preserve">
+    <value>log dropped packets</value>
+  </data>
+  <data name="InsurerFacts_NotFromMachine" xml:space="preserve">
+    <value>Not readable from the machine: MFA, data backup, network segmentation</value>
+    <comment>Line of the insurer sheet (spec 5 O7)</comment>
+  </data>
+  <data name="Missing_OsDefault" xml:space="preserve">
+    <value>if not set: documented Windows default</value>
+  </data>
+  <data name="Missing_Pass" xml:space="preserve">
+    <value>not set counts as met</value>
+  </data>
+  <data name="Op_AgeDaysGt" xml:space="preserve">
+    <value>older than {0} days</value>
+  </data>
+  <data name="Op_AgeDaysLe" xml:space="preserve">
+    <value>at most {0} days old</value>
+  </data>
+  <data name="Op_BitsClear" xml:space="preserve">
+    <value>has bits {0} cleared</value>
+  </data>
+  <data name="Op_BitsSet" xml:space="preserve">
+    <value>has bits {0} set</value>
+  </data>
+  <data name="Op_ContainsAll" xml:space="preserve">
+    <value>contains all of {0}</value>
+  </data>
+  <data name="Op_ContainsNone" xml:space="preserve">
+    <value>contains none of {0}</value>
+  </data>
+  <data name="Op_Exists" xml:space="preserve">
+    <value>is set</value>
+  </data>
+  <data name="Op_In" xml:space="preserve">
+    <value>is one of {0}</value>
+  </data>
+  <data name="Op_NotExists" xml:space="preserve">
+    <value>is not set</value>
+  </data>
+  <data name="Op_NotIn" xml:space="preserve">
+    <value>is none of {0}</value>
+  </data>
+  <data name="Origin_Local" xml:space="preserve">
+    <value>local</value>
+  </data>
+  <data name="Origin_Mdm" xml:space="preserve">
+    <value>MDM</value>
+  </data>
+  <data name="Origin_Other" xml:space="preserve">
+    <value>other</value>
+  </data>
+  <data name="Origin_Policy" xml:space="preserve">
+    <value>policy</value>
+  </data>
+  <data name="Profile_Domain" xml:space="preserve">
+    <value>domain</value>
+  </data>
+  <data name="Profile_Private" xml:space="preserve">
+    <value>private</value>
+  </data>
+  <data name="Profile_Public" xml:space="preserve">
+    <value>public</value>
+  </data>
+  <data name="Renderer_AdminShares" xml:space="preserve">
+    <value>administrative shares</value>
+  </data>
+  <data name="Renderer_AppControlState" xml:space="preserve">
+    <value>application control state</value>
+  </data>
+  <data name="Renderer_DefenderExclusions" xml:space="preserve">
+    <value>Defender exclusions</value>
+  </data>
+  <data name="Renderer_LocalAdmins" xml:space="preserve">
+    <value>local administrators</value>
+  </data>
+  <data name="Renderer_NetworkFacts" xml:space="preserve">
+    <value>network connection</value>
+  </data>
+  <data name="Renderer_RdpState" xml:space="preserve">
+    <value>Remote Desktop state</value>
+  </data>
+  <data name="Renderer_RemoteAccessTools" xml:space="preserve">
+    <value>remote access tools</value>
+  </data>
+  <data name="Renderer_Shares" xml:space="preserve">
+    <value>shares</value>
+  </data>
+  <data name="Renderer_Wireless" xml:space="preserve">
+    <value>wireless adapters</value>
+  </data>
+  <data name="Right_Empty" xml:space="preserve">
+    <value>{0} assigned to nobody</value>
+  </data>
+  <data name="Right_MustInclude" xml:space="preserve">
+    <value>{0} includes {1}</value>
+  </data>
+  <data name="Right_MustNotInclude" xml:space="preserve">
+    <value>{0} does not include {1}</value>
+  </data>
+  <data name="Right_OnlyFrom" xml:space="preserve">
+    <value>{0} only for {1}</value>
+  </data>
+  <data name="Role_Builder" xml:space="preserve">
+    <value>Machine builder</value>
+    <comment>Sign-off role of the preset asDelivered (spec 2.17)</comment>
+  </data>
+  <data name="Role_Operator" xml:space="preserve">
+    <value>Operator</value>
+    <comment>Sign-off role of the preset asDelivered (spec 2.17)</comment>
+  </data>
+  <data name="Rows_All" xml:space="preserve">
+    <value>on every entry</value>
+  </data>
+  <data name="Scope_Active" xml:space="preserve">
+    <value>active</value>
+  </data>
+  <data name="Scope_All" xml:space="preserve">
+    <value>all</value>
+  </data>
+  <data name="Service_StartMode" xml:space="preserve">
+    <value>start type {0}</value>
+  </data>
+  <data name="Service_State" xml:space="preserve">
+    <value>state {0}</value>
   </data>
 </root>
