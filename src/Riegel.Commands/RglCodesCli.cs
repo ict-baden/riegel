@@ -74,12 +74,19 @@ public static class RglCodesCli
     /// <summary>Mit Strg+C abgebrochen.</summary>
     public const string Cancelled = "RGL-0469";
 
+    /// <summary>Ein Ordner für import ist weder ein Bordmittel-Paket noch enthält er Exporte.</summary>
+    public const string NoExportsInFolder = "RGL-0470";
+
+    /// <summary>Unbekannte eingebaute Rollenvorlage für tailoring import-template.</summary>
+    public const string UnknownTemplate = "RGL-0471";
+
     /// <summary>Alle Codes dieses Bereichs (für docs/error-codes.md und Tests).</summary>
     public static IReadOnlyList<string> All { get; } =
     [
         UsageError, MissingValue, InvalidValue, MissingOption, ConflictingOptions, WindowsOnly, InvalidHandoffToken,
         ReadOnlyRefused, ReadOnlyNeedsOut, NoRuns, NoApprovedState, NoImports, UnknownEntries, UnknownRule,
         BaselineNotFound, SidecarMismatch, ReviewDateMissing, RunOfOtherMachine, PlantNotFound, Cancelled,
+        NoExportsInFolder, UnknownTemplate,
     ];
 
     /// <summary>Text zu einem Code dieses Bereichs in der aktuellen Sprache, mit Platzhaltern.</summary>

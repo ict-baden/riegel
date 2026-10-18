@@ -38,7 +38,7 @@
     <value>Raw data {0} is not available; the derived entry could not be computed.</value>
   </data>
   <data name="Error_RGL0260" xml:space="preserve">
-    <value>Not a valid built-in-commands bundle ({0}).</value>
+    <value>Not a valid built-in-commands bundle ({0}). A folder named *.riegel-builtin or holding hostname.txt or secedit.inf is read as such a bundle.</value>
   </data>
   <data name="Error_RGL0261" xml:space="preserve">
     <value>{0} is larger than allowed (maximum {1} bytes).</value>

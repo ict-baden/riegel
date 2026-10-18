@@ -124,7 +124,7 @@ Parsing (snapshots, built-in bundles, baselines).
 | `RGL-0257` | SnapshotInvalid | {0} is not a valid snapshot ({1}). |
 | `RGL-0258` | ParsedItemRecomputed | {0} derived entries (parsed:*) in a collected snapshot were discarded and recomputed from the raw data. |
 | `RGL-0259` | RawSourceUnavailable | Raw data {0} is not available; the derived entry could not be computed. |
-| `RGL-0260` | BundleInvalid | Not a valid built-in-commands bundle ({0}). |
+| `RGL-0260` | BundleInvalid | Not a valid built-in-commands bundle ({0}). A folder named *.riegel-builtin or holding hostname.txt or secedit.inf is read as such a bundle. |
 | `RGL-0261` | BundleFileTooLarge | {0} is larger than allowed (maximum {1} bytes). |
 | `RGL-0262` | InvalidEncoding | {0} is not valid {1} text. |
 | `RGL-0263` | RegFileInvalid | {0}: line {1} is not a valid registry export line. |
@@ -237,6 +237,8 @@ Command line.
 | `RGL-0467` | RunOfOtherMachine | Run {0} belongs to machine {1}, not to {2}. |
 | `RGL-0468` | PlantNotFound | No plant folder at {0} (riegel-plant.json is missing). Create one with plant init <folder> --name <name>. |
 | `RGL-0469` | Cancelled | Cancelled. |
+| `RGL-0470` | NoExportsInFolder | The folder {0} is not a built-in-commands bundle and contains no exports (*.snapshot.json, *.snapshot.json.gz). |
+| `RGL-0471` | UnknownTemplate | No template file and no built-in template named {0}. Built-in: {1}. |
 
 ## RGL-0500–0549
 

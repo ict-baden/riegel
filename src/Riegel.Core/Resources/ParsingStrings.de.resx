@@ -38,7 +38,7 @@
     <value>Rohdaten {0} sind nicht verfügbar; der abgeleitete Eintrag ließ sich nicht berechnen.</value>
   </data>
   <data name="Error_RGL0260" xml:space="preserve">
-    <value>Kein gültiges Bordmittel-Paket ({0}).</value>
+    <value>Kein gültiges Bordmittel-Paket ({0}). Ein Ordner mit dem Namen *.riegel-builtin oder mit hostname.txt bzw. secedit.inf wird als Bordmittel-Paket gelesen.</value>
   </data>
   <data name="Error_RGL0261" xml:space="preserve">
     <value>{0} ist größer als erlaubt (höchstens {1} Bytes).</value>

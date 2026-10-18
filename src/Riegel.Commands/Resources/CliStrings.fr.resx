@@ -546,7 +546,8 @@ Codes de sortie : 0 cohérent, 1 diffère, 3 erreur.</value>
                                                  feuille d'approbation (PDF) ; par défaut : toutes les entrées demandées
   approve --ids &lt;id&gt;… --role "&lt;rôle&gt;" --record "&lt;référence&gt;" [--review-by &lt;aaaa-MM-jj&gt;] [--date &lt;aaaa-MM-jj&gt;] [--name "&lt;nom&gt;"]
                                                  saisir une approbation signée ; une date de revue est obligatoire
-  import-template &lt;modèle.json&gt;                  ajouter les entrées d'un modèle comme exceptions demandées
+  import-template &lt;modèle.json|nom&gt;              ajouter les entrées d'un modèle comme exceptions demandées
+                                                 intégrés: beispiel-anlagenbau
 
 Codes de sortie : 0 succès, 3 erreur ; validate comme ci-dessus.</value>
   </data>
@@ -561,6 +562,8 @@ verify : 0 reproduit, 2 divergent · compare-snapshot : 0 cohérent, 1 diffère 
 Ajoute des exports ou des paquets d'outils intégrés au dossier de l'installation : vérifie les fichiers .sha256, écrit
 l'enregistrement d'import, évalue et enregistre les exécutions. Une somme de contrôle incorrecte arrête tout l'import
 avant toute écriture.
+Un dossier qui n'est pas un paquet d'outils intégrés (nommé *.riegel-builtin ou contenant hostname.txt ou secedit.inf)
+vaut pour les exports qu'il contient (*.snapshot.json, *.snapshot.json.gz).
 
   --plant &lt;dossier&gt;                 dossier de l'installation
   --collected-by-role &lt;rôle&gt;        rôle de la personne qui a collecté (enregistrement d'import)
@@ -682,7 +685,8 @@ Codes de sortie : 0 succès, 3 erreur.</value>
   validate [--format text|json]                  vérifier le registre ; code 0 valide, 1 avertissements, 2 non valide
   approve --ids &lt;id&gt;… --role "&lt;rôle&gt;" --record "&lt;référence&gt;" [--review-by &lt;aaaa-MM-jj&gt;] [--date &lt;aaaa-MM-jj&gt;] [--name "&lt;nom&gt;"]
                                                  saisir une approbation signée ; une date de revue est obligatoire
-  import-template &lt;modèle.json&gt;                  ajouter les entrées d'un modèle de rôle comme ajustements demandés
+  import-template &lt;modèle.json|nom&gt;              ajouter les entrées d'un modèle de rôle comme ajustements demandés
+                                                 intégrés: hmi, engineering-station, historian-server, jump-host
 
 Codes de sortie : 0 succès, 3 erreur ; validate comme ci-dessus.</value>
   </data>
@@ -752,5 +756,11 @@ Codes de sortie : 0 reproduit, 2 divergent, 3 erreur.</value>
   </data>
   <data name="Cli_RunSnapshotSkipped" xml:space="preserve">
     <value>Remarque : l'export de l'exécution {0} n'est pas utilisé – {1}</value>
+  </data>
+  <data name="Error_RGL0470" xml:space="preserve">
+    <value>Le dossier {0} n'est pas un paquet de commandes intégrées et ne contient aucun export (*.snapshot.json, *.snapshot.json.gz).</value>
+  </data>
+  <data name="Error_RGL0471" xml:space="preserve">
+    <value>Aucun fichier de modèle ni aucun modèle intégré nommé {0}. Intégrés : {1}.</value>
   </data>
 </root>

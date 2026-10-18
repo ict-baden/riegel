@@ -42,7 +42,7 @@
     <value>Les données brutes {0} ne sont pas disponibles ; l'entrée dérivée n'a pas pu être calculée.</value>
   </data>
   <data name="Error_RGL0260" xml:space="preserve">
-    <value>Ce n'est pas un paquet de commandes intégrées valide ({0}).</value>
+    <value>Ce n'est pas un paquet de commandes intégrées valide ({0}). Un dossier nommé *.riegel-builtin ou contenant hostname.txt ou secedit.inf est lu comme un tel paquet.</value>
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0261" xml:space="preserve">

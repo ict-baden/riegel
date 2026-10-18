@@ -154,13 +154,17 @@ console does not wait for it.
 Riegel.Cli.exe collect --out D:\Exporte
 
 # Evaluate a snapshot without a plant (exit code 0 OK, 1 warning, 2 critical, 3 error)
-Riegel.Cli.exe check --snapshot D:\Exporte\HMI-01_20261018T080000Z.snapshot.json --brief
+Riegel.Cli.exe check --snapshot D:\Exporte\HMI-01_20261018T080000Z.snapshot.json
 
-# A plant: import with collection record, report, evidence pack – and verify it like an auditor
+# A plant: import every export in D:\Exporte with collection record, report, evidence pack – and verify it like an auditor
 Riegel.Cli.exe plant init D:\Riegel\Linie3 --name "Linie 3"
 Riegel.Cli.exe import D:\Exporte --plant D:\Riegel\Linie3 --collected-by-role Servicetechniker --witness-role Anlagenverantwortlicher --record
 Riegel.Cli.exe report --plant D:\Riegel\Linie3 --format pdf,xlsx --evidence --out D:\Berichte
 riegel-linux-x64 verify Riegel-Evidence_Linie-3_2026-10-18.zip
+
+# Monitoring against the plant (scheduled task, Icinga): one line; with --plant the alert mode is "change", so the
+# exit code reports what got worse, expiring exceptions and overdue measures – not the permanent state
+Riegel.Cli.exe check --snapshot D:\Exporte\HMI-01_20261019T080000Z.snapshot.json --plant D:\Riegel\Linie3 --brief
 ```
 
 ```text

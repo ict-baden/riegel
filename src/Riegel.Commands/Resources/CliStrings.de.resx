@@ -544,7 +544,8 @@ Exitcodes: 0 konsistent, 1 abweichend, 3 Fehler.</value>
                                                  Genehmigungsblatt (PDF); Standard: alle beantragten Einträge
   approve --ids &lt;ID&gt;… --role "&lt;Rolle&gt;" --record "&lt;Nachweis&gt;" [--review-by &lt;JJJJ-MM-TT&gt;] [--date &lt;JJJJ-MM-TT&gt;] [--name "&lt;Name&gt;"]
                                                  unterschriebene Freigabe eintragen; ein Prüftermin ist Pflicht
-  import-template &lt;Vorlage.json&gt;                 Einträge einer Vorlage als beantragte Ausnahmen aufnehmen
+  import-template &lt;Vorlage.json|Name&gt;            Einträge einer Vorlage als beantragte Ausnahmen aufnehmen
+                                                 eingebaut: beispiel-anlagenbau
 
 Exitcodes: 0 Erfolg, 3 Fehler; validate wie oben.</value>
   </data>
@@ -558,6 +559,8 @@ verify: 0 reproduziert, 2 abweichend · compare-snapshot: 0 konsistent, 1 abweic
 
 Nimmt Exporte oder Bordmittel-Pakete in den Anlagenordner auf: prüft die .sha256-Dateien, schreibt den Importnachweis,
 wertet aus und speichert die Läufe. Ein Prüfsummenfehler stoppt den ganzen Import, bevor etwas geschrieben wird.
+Ein Ordner, der kein Bordmittel-Paket ist (Name *.riegel-builtin oder mit hostname.txt bzw. secedit.inf), steht für die
+Exporte darin (*.snapshot.json, *.snapshot.json.gz).
 
   --plant &lt;Ordner&gt;                  Anlagenordner
   --collected-by-role &lt;Rolle&gt;       Rolle der Person, die erfasst hat (Importnachweis)
@@ -678,7 +681,8 @@ Exitcodes: 0 Erfolg, 3 Fehler.</value>
   validate [--format text|json]                  Register prüfen; Exitcode 0 gültig, 1 Warnungen, 2 ungültig
   approve --ids &lt;ID&gt;… --role "&lt;Rolle&gt;" --record "&lt;Nachweis&gt;" [--review-by &lt;JJJJ-MM-TT&gt;] [--date &lt;JJJJ-MM-TT&gt;] [--name "&lt;Name&gt;"]
                                                  unterschriebene Freigabe eintragen; ein Prüftermin ist Pflicht
-  import-template &lt;Vorlage.json&gt;                 Einträge einer Rollenvorlage als beantragten Zuschnitt aufnehmen
+  import-template &lt;Vorlage.json|Name&gt;            Einträge einer Rollenvorlage als beantragten Zuschnitt aufnehmen
+                                                 eingebaut: hmi, engineering-station, historian-server, jump-host
 
 Exitcodes: 0 Erfolg, 3 Fehler; validate wie oben.</value>
   </data>
@@ -748,5 +752,11 @@ Exitcodes: 0 reproduziert, 2 abweichend, 3 Fehler.</value>
   </data>
   <data name="Cli_RunSnapshotSkipped" xml:space="preserve">
     <value>Hinweis: Der Export des Laufs {0} wird nicht verwendet – {1}</value>
+  </data>
+  <data name="Error_RGL0470" xml:space="preserve">
+    <value>Der Ordner {0} ist kein Bordmittel-Paket und enthält keine Exporte (*.snapshot.json, *.snapshot.json.gz).</value>
+  </data>
+  <data name="Error_RGL0471" xml:space="preserve">
+    <value>Keine Vorlagendatei und keine eingebaute Vorlage mit dem Namen {0}. Eingebaut: {1}.</value>
   </data>
 </root>

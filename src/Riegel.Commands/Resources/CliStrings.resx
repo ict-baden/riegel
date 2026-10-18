@@ -556,7 +556,8 @@ Exit codes: 0 consistent, 1 differs, 3 error.</value>
                                                  approval sheet (PDF); default: all pending entries
   approve --ids &lt;id&gt;… --role "&lt;role&gt;" --record "&lt;reference&gt;" [--review-by &lt;yyyy-MM-dd&gt;] [--date &lt;yyyy-MM-dd&gt;] [--name "&lt;name&gt;"]
                                                  enter a signed approval; a review date is required
-  import-template &lt;template.json&gt;                add a template's entries as pending exceptions
+  import-template &lt;template.json|name&gt;           add a template's entries as pending exceptions
+                                                 built-in: beispiel-anlagenbau
 
 Exit codes: 0 success, 3 error; validate as above.</value>
   </data>
@@ -570,6 +571,8 @@ verify: 0 reproduced, 2 mismatch · compare-snapshot: 0 consistent, 1 differs ·
 
 Adds exports or builtin bundles to the plant folder: checks the .sha256 files, writes the import record, evaluates and
 stores the runs. A checksum mismatch stops the whole import before anything is written.
+A folder that is not a builtin bundle (named *.riegel-builtin or holding hostname.txt or secedit.inf) stands for the
+exports in it (*.snapshot.json, *.snapshot.json.gz).
 
   --plant &lt;folder&gt;                  plant folder
   --collected-by-role &lt;role&gt;        role of the person who collected (import record)
@@ -691,7 +694,8 @@ Exit codes: 0 success, 3 error.</value>
   validate [--format text|json]                  check the register; exit 0 valid, 1 warnings, 2 invalid
   approve --ids &lt;id&gt;… --role "&lt;role&gt;" --record "&lt;reference&gt;" [--review-by &lt;yyyy-MM-dd&gt;] [--date &lt;yyyy-MM-dd&gt;] [--name "&lt;name&gt;"]
                                                  enter a signed approval; a review date is required
-  import-template &lt;template.json&gt;                add a role template's entries as pending tailoring
+  import-template &lt;template.json|name&gt;           add a role template's entries as pending tailoring
+                                                 built-in: hmi, engineering-station, historian-server, jump-host
 
 Exit codes: 0 success, 3 error; validate as above.</value>
   </data>
@@ -762,5 +766,11 @@ Exit codes: 0 reproduced, 2 mismatch, 3 error.</value>
   <data name="Cli_RunSnapshotSkipped" xml:space="preserve">
     <value>Note: the export of run {0} is not used – {1}</value>
     <comment>stderr note; {1} is the RGL-0415/0416 message</comment>
+  </data>
+  <data name="Error_RGL0470" xml:space="preserve">
+    <value>The folder {0} is not a built-in-commands bundle and contains no exports (*.snapshot.json, *.snapshot.json.gz).</value>
+  </data>
+  <data name="Error_RGL0471" xml:space="preserve">
+    <value>No template file and no built-in template named {0}. Built-in: {1}.</value>
   </data>
 </root>

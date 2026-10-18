@@ -547,7 +547,8 @@ SHA-256：{1}</value>
                                                  批准单（PDF）；默认：所有已申请的条目
   approve --ids &lt;ID&gt;… --role "&lt;角色&gt;" --record "&lt;参考编号&gt;" [--review-by &lt;yyyy-MM-dd&gt;] [--date &lt;yyyy-MM-dd&gt;] [--name "&lt;姓名&gt;"]
                                                  录入已签署的批准；必须提供复审日期
-  import-template &lt;模板.json&gt;                    将模板中的条目作为已申请的例外添加
+  import-template &lt;模板.json|名称&gt;                   将模板中的条目作为已申请的例外添加
+                                                 内置：beispiel-anlagenbau
 
 退出代码：0 成功，3 错误；validate 见上。</value>
     <comment>TODO-übersetzen</comment>
@@ -562,6 +563,8 @@ verify：0 已重现，2 不一致 · compare-snapshot：0 一致，1 不同 · 
 
 将导出文件或内置工具包添加到设备文件夹：检查 .sha256 文件，写入导入记录，评估并保存运行。
 校验和不符时，在写入任何内容之前停止整个导入。
+不是内置工具包的文件夹（名称不是 *.riegel-builtin，也不含 hostname.txt 或 secedit.inf）代表其中的导出文件
+（*.snapshot.json、*.snapshot.json.gz）。
 
   --plant &lt;文件夹&gt;                  设备文件夹
   --collected-by-role &lt;角色&gt;        执行采集人员的角色（导入记录）
@@ -687,7 +690,8 @@ remediation/&lt;计算机&gt;/&lt;运行&gt;/ 下。Riegel 从不执行这些文
   validate [--format text|json]                  检查登记册；退出代码 0 有效，1 有警告，2 无效
   approve --ids &lt;ID&gt;… --role "&lt;角色&gt;" --record "&lt;参考编号&gt;" [--review-by &lt;yyyy-MM-dd&gt;] [--date &lt;yyyy-MM-dd&gt;] [--name "&lt;姓名&gt;"]
                                                  录入已签署的批准；必须提供复审日期
-  import-template &lt;模板.json&gt;                    将角色模板中的条目作为已申请的范围裁剪添加
+  import-template &lt;模板.json|名称&gt;                   将角色模板中的条目作为已申请的范围裁剪添加
+                                                 内置：hmi, engineering-station, historian-server, jump-host
 
 退出代码：0 成功，3 错误；validate 见上。</value>
     <comment>TODO-übersetzen</comment>
@@ -758,5 +762,11 @@ remediation/&lt;计算机&gt;/&lt;运行&gt;/ 下。Riegel 从不执行这些文
   </data>
   <data name="Cli_RunSnapshotSkipped" xml:space="preserve">
     <value>提示：不使用运行 {0} 的导出 – {1}</value>
+  </data>
+  <data name="Error_RGL0470" xml:space="preserve">
+    <value>文件夹 {0} 不是内置命令包，也不含导出文件（*.snapshot.json、*.snapshot.json.gz）。</value>
+  </data>
+  <data name="Error_RGL0471" xml:space="preserve">
+    <value>没有名为 {0} 的模板文件或内置模板。内置模板：{1}。</value>
   </data>
 </root>

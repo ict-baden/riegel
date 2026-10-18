@@ -545,7 +545,8 @@ Códigos de salida: 0 coherente, 1 difiere, 3 error.</value>
                                                  hoja de aprobación (PDF); predeterminado: todas las entradas solicitadas
   approve --ids &lt;id&gt;… --role "&lt;rol&gt;" --record "&lt;referencia&gt;" [--review-by &lt;aaaa-MM-dd&gt;] [--date &lt;aaaa-MM-dd&gt;] [--name "&lt;nombre&gt;"]
                                                  registrar una aprobación firmada; la fecha de revisión es obligatoria
-  import-template &lt;plantilla.json&gt;               añadir las entradas de una plantilla como excepciones solicitadas
+  import-template &lt;plantilla.json|nombre&gt;        añadir las entradas de una plantilla como excepciones solicitadas
+                                                 integradas: beispiel-anlagenbau
 
 Códigos de salida: 0 correcto, 3 error; validate como arriba.</value>
   </data>
@@ -560,6 +561,8 @@ verify: 0 reproducido, 2 diferente · compare-snapshot: 0 coherente, 1 difiere �
 Añade exportaciones o paquetes de herramientas integradas a la carpeta de la instalación: comprueba los archivos .sha256,
 escribe el registro de importación, evalúa y guarda las ejecuciones. Un error de suma de comprobación detiene toda la
 importación antes de escribir nada.
+Una carpeta que no es un paquete de herramientas integradas (con nombre *.riegel-builtin o con hostname.txt o secedit.inf)
+equivale a las exportaciones que contiene (*.snapshot.json, *.snapshot.json.gz).
 
   --plant &lt;carpeta&gt;                 carpeta de la instalación
   --collected-by-role &lt;rol&gt;         rol de la persona que realizó la captura (registro de importación)
@@ -680,7 +683,8 @@ Códigos de salida: 0 correcto, 3 error.</value>
   validate [--format text|json]                  comprobar el registro; código 0 válido, 1 advertencias, 2 no válido
   approve --ids &lt;id&gt;… --role "&lt;rol&gt;" --record "&lt;referencia&gt;" [--review-by &lt;aaaa-MM-dd&gt;] [--date &lt;aaaa-MM-dd&gt;] [--name "&lt;nombre&gt;"]
                                                  registrar una aprobación firmada; la fecha de revisión es obligatoria
-  import-template &lt;plantilla.json&gt;               añadir las entradas de una plantilla de rol como ajustes solicitados
+  import-template &lt;plantilla.json|nombre&gt;        añadir las entradas de una plantilla de rol como ajustes solicitados
+                                                 integradas: hmi, engineering-station, historian-server, jump-host
 
 Códigos de salida: 0 correcto, 3 error; validate como arriba.</value>
   </data>
@@ -750,5 +754,11 @@ Códigos de salida: 0 reproducido, 2 diferente, 3 error.</value>
   </data>
   <data name="Cli_RunSnapshotSkipped" xml:space="preserve">
     <value>Nota: no se usa la exportación de la ejecución {0} – {1}</value>
+  </data>
+  <data name="Error_RGL0470" xml:space="preserve">
+    <value>La carpeta {0} no es un paquete de comandos integrados y no contiene exportaciones (*.snapshot.json, *.snapshot.json.gz).</value>
+  </data>
+  <data name="Error_RGL0471" xml:space="preserve">
+    <value>No hay ningún archivo de plantilla ni ninguna plantilla integrada llamada {0}. Integradas: {1}.</value>
   </data>
 </root>

@@ -39,7 +39,7 @@ internal static class ImportCommand
 
         // Erst alles prüfen, dann importieren: eine verfälschte Datei verhindert den ganzen Import (nichts halb aufgenommen)
         var pipeline = new Pipeline(ctx);
-        var paths = a.Positional.Select(Path.GetFullPath).ToList();
+        var paths = Expand(a.Positional);
         foreach (var path in paths)
         {
             if (!File.Exists(path) && !Directory.Exists(path)) throw RiegelException.Common(RglCodesCommon.NotFound, path);
@@ -79,4 +79,36 @@ internal static class ImportCommand
         }
         return assessments.Count == 0 ? CommandApp.Ok : assessments.Max(x => x.Outcome.ExitCode);
     }
+
+    /// <summary>
+    /// Argumente zu Pfaden (Review docs-ui-1): ein Ordner, dessen Name auf .riegel-builtin endet oder der hostname.txt
+    /// bzw. secedit.inf enthält, ist ein Bordmittel-Paket (wie in der Oberfläche); jeder andere Ordner steht für die
+    /// Exporte darin (*.snapshot.json, *.snapshot.json.gz, nicht rekursiv, nach Namen sortiert) – so funktioniert
+    /// <c>import D:\Exporte --plant …</c> mit dem Ordner von <c>collect --out</c>, und cmd braucht keine Platzhalter.
+    /// </summary>
+    internal static List<string> Expand(IEnumerable<string> arguments)
+    {
+        var paths = new List<string>();
+        foreach (var argument in arguments)
+        {
+            var path = Path.GetFullPath(argument);
+            if (!Directory.Exists(path) || IsBuiltinBundle(path))
+            {
+                paths.Add(path);
+                continue;
+            }
+            var exports = Directory.EnumerateFiles(path)
+                .Where(f => f.EndsWith(SnapshotFile.Extension, StringComparison.OrdinalIgnoreCase) || f.EndsWith(SnapshotFile.GzipExtension, StringComparison.OrdinalIgnoreCase))
+                .Order(StringComparer.Ordinal)
+                .ToList();
+            if (exports.Count == 0) throw RglCodesCli.Error(RglCodesCli.NoExportsInFolder, path);
+            paths.AddRange(exports);
+        }
+        return paths;
+    }
+
+    /// <summary>Bordmittel-Paket statt Ordner mit Exporten.</summary>
+    internal static bool IsBuiltinBundle(string folder) =>
+        Path.TrimEndingDirectorySeparator(folder).EndsWith(".riegel-builtin", StringComparison.OrdinalIgnoreCase)
+        || File.Exists(Path.Combine(folder, "hostname.txt")) || File.Exists(Path.Combine(folder, "secedit.inf"));
 }
