@@ -330,6 +330,13 @@ Line '== Differences of the measured runs'
 $open = @($measured | Where-Object { -not (Test-Runtime $_.Key) -or $_.Key -notin $excluded2 })
 foreach ($m in $measured) {
     if ($m.Key -like 'svc:wuauserv:*' -and $open -contains $m) { $wuChanged = $true }
+    # Dienst mit Starttrigger (StartMode unveraendert): Windows startet ihn bei Bedarf (z. B. gpsvc oder RemoteRegistry,
+    # wenn gpresult sie anspricht) und beendet ihn im Leerlauf - kein Eingriff des Sammlers; wuauserv bleibt streng (V1)
+    $service = if ($m.Key -like 'svc:*:State') { $m.Key.Split(':')[1] } else { $null }
+    if ($open -contains $m -and $service -and $service -ne 'wuauserv' -and (Test-TriggerStart $service)) {
+        Line "  on-demand start/stop by Windows (service has a start trigger, StartMode unchanged): $($m.Target): $($m.Text)"
+        continue
+    }
     if ($open -contains $m) { Fail "$($m.Target) changed: $($m.Text)" }
     else { Line "  background (also changed on its own in the second calibration): $($m.Target): $($m.Text)" }
 }

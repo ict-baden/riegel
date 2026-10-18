@@ -161,7 +161,9 @@ selbst vermerkt, dass ein Programm lief." In detail:
   `%windir%\security\logs\scesrv.log` stays untouched.
 - `gpresult` calls the Group Policy Client service. Where that service is trigger-started (Windows 11, for example),
   **Windows starts it on demand**, and it stops again when idle; its start mode does not change. The read-only proof
-  lists such on-demand starts. `--minimal` avoids it.
+  lists such on-demand starts. `--minimal` avoids it. On the Server 2025 runner the trigger-started Remote Registry
+  service was running after full collections and stopped again on idle; that `gpresult` is what makes Windows start
+  it is likely but **unverified**. Its start mode does not change either.
 - The .NET runtime (CLR 4) writes a usage log under `%LocalAppData%\Microsoft\CLR_v4.0\UsageLogs\`.
 - Windows records that a program ran: Prefetch, AmCache/ShimCache and similar execution artefacts, and event 4688
   for the collector and its child processes if process-creation auditing is on.
