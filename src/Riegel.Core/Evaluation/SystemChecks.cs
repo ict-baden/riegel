@@ -164,7 +164,7 @@ internal sealed partial class EvaluationSession
     /// <summary>Vergleich einer Eigenschaft in einer Zeile (auch für defenderSetting).</summary>
     private (Verdict Verdict, string? Actual) RowVerdict(JsonElement row, string property, CheckOperator op, JsonElement? expected)
     {
-        if (!JsonRead.TryGet(row, property, out var value))
+        if (!JsonRead.TryGetPath(row, property, out var value))
             return (Verdict.TypeMismatch, null);
         if (value.ValueKind == JsonValueKind.Null)
             return op switch

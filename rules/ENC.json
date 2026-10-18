@@ -926,8 +926,8 @@
         "de": "BitLocker verlangt auf Mobilgeräten eine Start-PIN"
       },
       "rationale": {
-        "en": "A notebook that unlocks its disk with the TPM alone is exposed to attacks on the running or sleeping machine when it is lost or stolen. A pre-boot PIN adds a second factor. The rule applies to mobile devices (PCSystemType 2) and checks the BitLocker policy that requires a PIN at startup. The policy applies when BitLocker is turned on; the key protectors in use are not yet collected.",
-        "de": "Ein Notebook, das seinen Datenträger nur mit dem TPM entsperrt, ist bei Verlust oder Diebstahl Angriffen auf das laufende oder schlafende Gerät ausgesetzt. Eine PIN vor dem Start ergänzt einen zweiten Faktor. Die Regel gilt für Mobilgeräte (PCSystemType 2) und prüft die BitLocker-Richtlinie, die beim Start eine PIN verlangt. Die Richtlinie wirkt beim Einschalten von BitLocker; die tatsächlich genutzten Schlüsselschutz-vorrichtungen werden noch nicht erhoben."
+        "en": "A notebook that unlocks its disk with the TPM alone is exposed to attacks on the running or sleeping machine when it is lost or stolen. A pre-boot PIN adds a second factor. The rule applies to mobile devices (PCSystemType 2) and checks both the BitLocker policy that requires a PIN at startup and the key protectors of the operating system volume at runtime: the policy applies only when BitLocker is turned on, so a volume encrypted earlier with the TPM alone keeps starting without a PIN. A TPM and PIN protector (type 4, or 6 with a startup key) must exist. Without the protector list (no administrator rights) the rule is not checkable.",
+        "de": "Ein Notebook, das seinen Datenträger nur mit dem TPM entsperrt, ist bei Verlust oder Diebstahl Angriffen auf das laufende oder schlafende Gerät ausgesetzt. Eine PIN vor dem Start ergänzt einen zweiten Faktor. Die Regel gilt für Mobilgeräte (PCSystemType 2) und prüft die BitLocker-Richtlinie, die beim Start eine PIN verlangt, und zur Laufzeit die Schlüsselschutzvorrichtungen des Betriebssystemlaufwerks: die Richtlinie wirkt erst beim Einschalten von BitLocker, ein früher nur mit dem TPM verschlüsseltes Laufwerk startet weiter ohne PIN. Es muss eine Schutzvorrichtung TPM und PIN geben (Typ 4, oder 6 mit Systemstartschlüssel). Ohne die Liste der Schutzvorrichtungen (keine Administratorrechte) ist die Regel nicht prüfbar."
       },
       "otNote": {
         "en": "Mobile service notebooks used in the plant are the typical case. A PIN at every start is not possible on unattended panel PCs; those are not mobile devices and are not covered by this rule.",
@@ -987,6 +987,43 @@
                 "op": "eq",
                 "expected": 1,
                 "whenMissing": "fail"
+              }
+            ]
+          },
+          {
+            "type": "anyOf",
+            "checks": [
+              {
+                "type": "wmiProperty",
+                "item": "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume",
+                "property": "GetKeyProtectors.KeyProtectorTypes",
+                "rowFilter": {
+                  "property": "VolumeType",
+                  "op": "eq",
+                  "value": 0
+                },
+                "rows": "first",
+                "op": "containsAll",
+                "expected": [
+                  4
+                ],
+                "ifNoRows": "notCheckable"
+              },
+              {
+                "type": "wmiProperty",
+                "item": "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume",
+                "property": "GetKeyProtectors.KeyProtectorTypes",
+                "rowFilter": {
+                  "property": "VolumeType",
+                  "op": "eq",
+                  "value": 0
+                },
+                "rows": "first",
+                "op": "containsAll",
+                "expected": [
+                  6
+                ],
+                "ifNoRows": "notCheckable"
               }
             ]
           }
@@ -1065,6 +1102,12 @@
           "date": "2026-10-18",
           "section": "V-253260 (WN11-00-000031)",
           "note": "UseAdvancedStartup REG_DWORD 1 and UseTPMPIN or UseTPMKeyPIN REG_DWORD 1 (2 only with BitLocker Network Unlock); missing values are a finding."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/secprov/getkeyprotectors-win32-encryptablevolume",
+          "date": "2026-10-18",
+          "note": "GetKeyProtectors KeyProtectorType: 1 TPM, 2 external key, 3 numeric password, 4 TPM And PIN, 5 TPM And Startup Key, 6 TPM And PIN And Startup Key, 7 public key, 8 passphrase, 9 TPM certificate, 10 SID."
         }
       ],
       "tests": [
@@ -1107,6 +1150,279 @@
                     "PCSystemTypeEx": 2,
                     "PartOfDomain": true,
                     "DomainRole": 1
+                  }
+                ]
+              }
+            },
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "C:",
+                    "VolumeType": 0,
+                    "ProtectionStatus": 1,
+                    "GetKeyProtectors": {
+                      "ReturnValue": 0,
+                      "VolumeKeyProtectorID": [
+                        "{00000000-0000-0000-0000-000000000000}",
+                        "{00000000-0000-0000-0000-000000000001}"
+                      ],
+                      "KeyProtectorTypes": [
+                        4,
+                        3
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "PIN policy set, but the volume was encrypted earlier with the TPM alone",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "machine.mobile": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UseAdvancedStartup": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "UseTPMPIN": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_ComputerSystem": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "PCSystemType": 2,
+                    "PCSystemTypeEx": 2,
+                    "PartOfDomain": true,
+                    "DomainRole": 1
+                  }
+                ]
+              }
+            },
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "C:",
+                    "VolumeType": 0,
+                    "ProtectionStatus": 1,
+                    "GetKeyProtectors": {
+                      "ReturnValue": 0,
+                      "VolumeKeyProtectorID": [
+                        "{00000000-0000-0000-0000-000000000000}",
+                        "{00000000-0000-0000-0000-000000000001}"
+                      ],
+                      "KeyProtectorTypes": [
+                        1,
+                        3
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "PIN policy set, operating system volume not protected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "machine.mobile": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UseAdvancedStartup": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "UseTPMPIN": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_ComputerSystem": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "PCSystemType": 2,
+                    "PCSystemTypeEx": 2,
+                    "PartOfDomain": true,
+                    "DomainRole": 1
+                  }
+                ]
+              }
+            },
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "C:",
+                    "VolumeType": 0,
+                    "ProtectionStatus": 0,
+                    "GetKeyProtectors": {
+                      "ReturnValue": 2150694920,
+                      "VolumeKeyProtectorID": [],
+                      "KeyProtectorTypes": []
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "PIN policy set, protector list not readable (standard token)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "machine.mobile": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UseAdvancedStartup": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "UseTPMPIN": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_ComputerSystem": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "PCSystemType": 2,
+                    "PCSystemTypeEx": 2,
+                    "PartOfDomain": true,
+                    "DomainRole": 1
+                  }
+                ]
+              }
+            },
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "PIN policy set, TPM, PIN and startup key",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "machine.mobile": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UseAdvancedStartup": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "UseTPMPIN": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_ComputerSystem": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "PCSystemType": 2,
+                    "PCSystemTypeEx": 2,
+                    "PartOfDomain": true,
+                    "DomainRole": 1
+                  }
+                ]
+              }
+            },
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "C:",
+                    "VolumeType": 0,
+                    "ProtectionStatus": 1,
+                    "GetKeyProtectors": {
+                      "ReturnValue": 0,
+                      "VolumeKeyProtectorID": [
+                        "{00000000-0000-0000-0000-000000000000}",
+                        "{00000000-0000-0000-0000-000000000001}"
+                      ],
+                      "KeyProtectorTypes": [
+                        6,
+                        3
+                      ]
+                    }
                   }
                 ]
               }
@@ -1153,6 +1469,29 @@
                     "PCSystemTypeEx": 2,
                     "PartOfDomain": true,
                     "DomainRole": 1
+                  }
+                ]
+              }
+            },
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "C:",
+                    "VolumeType": 0,
+                    "ProtectionStatus": 1,
+                    "GetKeyProtectors": {
+                      "ReturnValue": 0,
+                      "VolumeKeyProtectorID": [
+                        "{00000000-0000-0000-0000-000000000000}",
+                        "{00000000-0000-0000-0000-000000000001}"
+                      ],
+                      "KeyProtectorTypes": [
+                        4,
+                        3
+                      ]
+                    }
                   }
                 ]
               }

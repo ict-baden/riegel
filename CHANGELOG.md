@@ -13,6 +13,7 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 - Bordmittel-Weg: `collect-builtin.cmd` startet sich aus einem 32-Bit-`cmd` über `Sysnative` als 64-Bit-`cmd` neu und vermerkt `wow64` in `exitcodes.txt`; ein fehlendes Winlogon\AutoAdminLogon gilt nur bei `wow64=0` und errorlevel 1 als „nicht gesetzt“. Vorher ergab ein Lauf in der 32-Bit-Ansicht LOGON-10 (hoch) „erfüllt“.
 - LIFE-02: ohne Eintrag in der Build-Tabelle (z. B. Windows 7, 8.1, Server 2012 R2) belegt der neueste Hotfix nur noch einen Befund (seit mehr als `updateMaxDays` nichts installiert); ein junges Installationsdatum (auch eines Wartungsstapel- oder .NET-Updates) ergibt „nicht prüfbar“ statt „erfüllt“.
 - ASR-08 und DEF-09: die drei ASR-Regeln, die laut Microsoft den Cloud-Schutz brauchen (Verbreitung/Alter, verschleierte Skripte, erweiterter Ransomware-Schutz), sind nur mit MAPSReporting 1 oder 2 „erfüllt“; mit 0 „konfiguriert, aber nicht wirksam“.
+- ENC-04: verlangt neben der PIN-Richtlinie eine Schutzvorrichtung TPM und PIN (Typ 4 oder 6) auf dem Betriebssystemlaufwerk (`GetKeyProtectors`); ein früher nur mit dem TPM verschlüsseltes oder unverschlüsseltes Laufwerk war vorher „erfüllt“. Ohne Liste der Schutzvorrichtungen (ohne Admin) „nicht prüfbar“.
 
 ## [0.1.0] – 2026-10-18
 

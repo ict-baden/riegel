@@ -293,7 +293,7 @@ The closed set of spec 2.3. Every check has `"type"`; the fields are exactly the
 | `userRight` | `right`, `mode` (`mustInclude mustNotInclude onlyFrom empty`), `sids` (well-known SIDs or `*-<RID>`) |
 | `service` | `name`, `startMode?` (`Boot System Auto Manual Disabled`), `state?`, `ifAbsent` (`fail pass notApplicable`) |
 | `feature` | `name`, `installState` (1 enabled, 2 disabled, 3 absent), `ifAbsent` |
-| `wmiProperty` | `item`, `property`, `rowFilter?` `{ property, op, value }`, `rows` (`any all first`), `op`, `expected?`, `ifNoRows` (`notCheckable fail notApplicable pass`) |
+| `wmiProperty` | `item`, `property` (a per-row method output as `<Method>.<Output>`, e.g. `GetKeyProtectors.KeyProtectorTypes`), `rowFilter?` `{ property, op, value }`, `rows` (`any all first`), `op`, `expected?`, `ifNoRows` (`notCheckable fail notApplicable pass`) |
 | `defenderSetting` | `source` (`status preference`), `property`, `op`, `expected?` |
 | `asrRule` | `guid`, `accept?` (`block` default, `blockOrWarn`, `blockOrAudit`) |
 | `firewallProfile` | `profile` (`domain private public`), `property` (`enabled defaultInboundBlock logDropped allowLocalRules`), `expected` (bool) |
