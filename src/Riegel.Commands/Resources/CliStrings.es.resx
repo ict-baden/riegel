@@ -4,28 +4,226 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Cli_CheckIncomplete" xml:space="preserve">
-    <value>Comprobación incompleta: se pudo verificar menos del 90 % de las reglas o la captura no se ejecutó como administrador.</value>
+  <data name="Brief_Clock" xml:space="preserve">
+    <value>reloj inverosímil</value>
   </data>
-  <data name="Cli_CheckNeedsSnapshot" xml:space="preserve">
-    <value>En esta versión, check necesita --snapshot &lt;archivo&gt;.</value>
+  <data name="Brief_Expired_one" xml:space="preserve">
+    <value>{0} excepción caducada</value>
+  </data>
+  <data name="Brief_Expired_other" xml:space="preserve">
+    <value>{0} excepciones caducadas</value>
+  </data>
+  <data name="Brief_Expiring_one" xml:space="preserve">
+    <value>{0} excepción a punto de caducar</value>
+  </data>
+  <data name="Brief_Expiring_other" xml:space="preserve">
+    <value>{0} excepciones a punto de caducar</value>
+  </data>
+  <data name="Brief_High_one" xml:space="preserve">
+    <value>{0} alto</value>
+  </data>
+  <data name="Brief_High_other" xml:space="preserve">
+    <value>{0} altos</value>
+  </data>
+  <data name="Brief_Incomplete" xml:space="preserve">
+    <value>comprobación incompleta</value>
+  </data>
+  <data name="Brief_NewHigh_one" xml:space="preserve">
+    <value>{0} alto recién abierto</value>
+  </data>
+  <data name="Brief_NewHigh_other" xml:space="preserve">
+    <value>{0} altos recién abiertos</value>
+  </data>
+  <data name="Brief_Open_one" xml:space="preserve">
+    <value>{0} abierto ({1})</value>
+  </data>
+  <data name="Brief_Open_other" xml:space="preserve">
+    <value>{0} abiertos ({1})</value>
+  </data>
+  <data name="Brief_Overdue_one" xml:space="preserve">
+    <value>{0} medida vencida</value>
+  </data>
+  <data name="Brief_Overdue_other" xml:space="preserve">
+    <value>{0} medidas vencidas</value>
+  </data>
+  <data name="Brief_Pending_one" xml:space="preserve">
+    <value>{0} aprobación pendiente</value>
+  </data>
+  <data name="Brief_Pending_other" xml:space="preserve">
+    <value>{0} aprobaciones pendientes</value>
+  </data>
+  <data name="Brief_Stale" xml:space="preserve">
+    <value>captura obsoleta</value>
+  </data>
+  <data name="Brief_Worse_one" xml:space="preserve">
+    <value>{0} empeorado</value>
+  </data>
+  <data name="Brief_Worse_other" xml:space="preserve">
+    <value>{0} empeorados</value>
+  </data>
+  <data name="Change_Better" xml:space="preserve">
+    <value>mejor</value>
+  </data>
+  <data name="Change_ExceptionAdded" xml:space="preserve">
+    <value>excepción añadida</value>
+  </data>
+  <data name="Change_ExceptionExpired" xml:space="preserve">
+    <value>excepción caducada</value>
+  </data>
+  <data name="Change_ExceptionRemoved" xml:space="preserve">
+    <value>excepción eliminada</value>
+  </data>
+  <data name="Change_NewRule" xml:space="preserve">
+    <value>regla nueva</value>
+  </data>
+  <data name="Change_Other" xml:space="preserve">
+    <value>cambiado</value>
+  </data>
+  <data name="Change_ScopeChanged" xml:space="preserve">
+    <value>alcance de la comprobación cambiado</value>
+  </data>
+  <data name="Change_TailoringAdded" xml:space="preserve">
+    <value>ajuste del alcance añadido</value>
+  </data>
+  <data name="Change_TailoringRemoved" xml:space="preserve">
+    <value>ajuste del alcance eliminado</value>
+  </data>
+  <data name="Change_Worse" xml:space="preserve">
+    <value>peor</value>
+  </data>
+  <data name="Cli_AndMore" xml:space="preserve">
+    <value>… y {0} más</value>
+  </data>
+  <data name="Cli_Approved" xml:space="preserve">
+    <value>{0}: ejecución {1} registrada como estado aprobado: {2}, {3}, {4}</value>
+  </data>
+  <data name="Cli_ApprovedRunMissing" xml:space="preserve">
+    <value>Nota: la ejecución aprobada {1} de {0} ya no está en la carpeta de la instalación; no hay comparación con el estado aprobado.</value>
+  </data>
+  <data name="Cli_BaselineContentWarning" xml:space="preserve">
+    <value>Advertencia: el paquete de evidencias contiene el contenido completo de las líneas base importadas. Compruebe que su licencia permite distribuirlas (las condiciones de Microsoft, BSI y CIS pueden no permitirlo).</value>
+  </data>
+  <data name="Cli_BaselineImported" xml:space="preserve">
+    <value>Línea base {0} ({1}) importada: {2} reglas, SHA-256 de la fuente {3}</value>
+  </data>
+  <data name="Cli_BaselineLicenceNote" xml:space="preserve">
+    <value>Las líneas base importadas permanecen en esta carpeta de la instalación. Los paquetes de evidencias solo contienen sus metadatos, salvo con report --evidence --include-baseline-content.</value>
+  </data>
+  <data name="Cli_BaselineLine" xml:space="preserve">
+    <value>{0}  {1}  {2} reglas  importada {3}  fuente {4}</value>
+  </data>
+  <data name="Cli_BaselineNone" xml:space="preserve">
+    <value>No hay líneas base importadas.</value>
+  </data>
+  <data name="Cli_BaselineRemoved" xml:space="preserve">
+    <value>Línea base {0} eliminada.</value>
+  </data>
+  <data name="Cli_CheckCounts" xml:space="preserve">
+    <value>  {0} reglas: {1} cumplidas, {2} no cumplidas, {3} abiertas deliberadamente, {4} fuera del alcance, {5} no aplicables, {6} no verificables, {7} información</value>
+  </data>
+  <data name="Cli_CheckFlags" xml:space="preserve">
+    <value>  Indicadores de la ejecución: {0}</value>
+  </data>
+  <data name="Cli_CheckHost" xml:space="preserve">
+    <value>{0} ({1})</value>
+  </data>
+  <data name="Cli_CheckIncomplete" xml:space="preserve">
+    <value>  Comprobación incompleta: se pudo verificar menos del 90 % de las reglas o la captura no se ejecutó como administrador.</value>
+  </data>
+  <data name="Cli_CheckNewHigh" xml:space="preserve">
+    <value>  Nuevos abiertos de gravedad alta: {0} ({1})</value>
+  </data>
+  <data name="Cli_CheckNoPrevious" xml:space="preserve">
+    <value>  Todavía no hay ninguna ejecución anterior de este equipo; aún no hay nada que comparar</value>
   </data>
   <data name="Cli_CheckOpen" xml:space="preserve">
-    <value>Hallazgos abiertos: {0} altos, {1} medios, {2} bajos</value>
+    <value>  Hallazgos abiertos: {0} altos, {1} medios, {2} bajos</value>
   </data>
-  <data name="Cli_CheckShare" xml:space="preserve">
-    <value>Alcance verificado: {0} %</value>
+  <data name="Cli_CheckOverall" xml:space="preserve">
+    <value>En total: {0} (código de salida {1}) para {2} equipos</value>
   </data>
-  <data name="Cli_CheckSummary" xml:space="preserve">
-    <value>{0}: {1} reglas – {2} cumplidas, {3} no cumplidas, {4} abiertas deliberadamente, {5} fuera del alcance, {6} no aplicables, {7} no verificables, {8} información</value>
+  <data name="Cli_CheckPolicy" xml:space="preserve">
+    <value>Modo de alerta {0}: crítico {1}; advertencia {2}</value>
+  </data>
+  <data name="Cli_CheckRegisters" xml:space="preserve">
+    <value>  Excepciones: {0} a punto de caducar, {1} caducadas, {2} solicitadas · medidas vencidas: {3}</value>
+  </data>
+  <data name="Cli_CheckResult" xml:space="preserve">
+    <value>  Resultado: {0} (código de salida {1}): {2}</value>
+  </data>
+  <data name="Cli_CheckResultOk" xml:space="preserve">
+    <value>  Resultado: {0} (código de salida {1})</value>
+  </data>
+  <data name="Cli_CheckRunNotStored" xml:space="preserve">
+    <value>  Ejecución {0}, no guardada</value>
+  </data>
+  <data name="Cli_CheckRunStored" xml:space="preserve">
+    <value>  Ejecución {0}, guardada en la carpeta de la instalación</value>
+  </data>
+  <data name="Cli_CheckScore" xml:space="preserve">
+    <value>  Grado de bastionado: {0} % · documentado: {1} % · alcance verificado: {2} %</value>
+  </data>
+  <data name="Cli_CheckScoreNone" xml:space="preserve">
+    <value>  Grado de bastionado: sin valorar (controlador de dominio o nada verificable) · alcance verificado: {0} %</value>
+  </data>
+  <data name="Cli_CheckVsApproved" xml:space="preserve">
+    <value>  Comparado con el estado aprobado (ejecución {0})</value>
+  </data>
+  <data name="Cli_CheckVsPrevious" xml:space="preserve">
+    <value>  Comparado con la ejecución anterior {0} (capturada {1})</value>
+  </data>
+  <data name="Cli_CheckWorse" xml:space="preserve">
+    <value>  Empeorado desde la ejecución anterior o el estado aprobado: {0} ({1})</value>
+  </data>
+  <data name="Cli_CollectIncomplete" xml:space="preserve">
+    <value>Incompleta: no se ejecutó como administrador o se denegaron algunos elementos. Para una exportación completa, ejecútelo en una consola con privilegios elevados.</value>
   </data>
   <data name="Cli_CollectWritten" xml:space="preserve">
     <value>Exportación escrita: {0}
 SHA-256: {1}</value>
   </data>
+  <data name="Cli_CollectorExported" xml:space="preserve">
+    <value>Paquete del recopilador copiado en {0} (con UEBERGABE.txt).</value>
+  </data>
+  <data name="Cli_CompareChangeLine" xml:space="preserve">
+    <value>  {0}  {1}: {2} → {3}</value>
+  </data>
+  <data name="Cli_CompareChanges" xml:space="preserve">
+    <value>Cambios de estado: {0}</value>
+  </data>
+  <data name="Cli_CompareDrift" xml:space="preserve">
+    <value>Desviaciones de los valores brutos: {0}</value>
+  </data>
+  <data name="Cli_CompareHeaderApproved" xml:space="preserve">
+    <value>{0}: ejecución {2} comparada con el estado aprobado (ejecución {1})</value>
+  </data>
+  <data name="Cli_CompareHeaderPrevious" xml:space="preserve">
+    <value>{0}: ejecución {2} comparada con la ejecución anterior {1}</value>
+  </data>
+  <data name="Cli_CompareIdentityChanged" xml:space="preserve">
+    <value>La identidad del equipo (MachineGuid) ha cambiado: ¿se reinstaló el equipo?</value>
+  </data>
+  <data name="Cli_CompareNoPrevious" xml:space="preserve">
+    <value>{0}: no hay ninguna ejecución anterior para comparar (ejecución más reciente {1}).</value>
+  </data>
   <data name="Cli_Description" xml:space="preserve">
     <value>Comprueba equipos Windows en instalaciones, laboratorios y salas de control frente a una línea base de bastionado, en modo de solo lectura y sin conexión, registra las excepciones justificadas y genera un informe de evidencias para su firma.</value>
     <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Cli_DriftLine" xml:space="preserve">
+    <value>  {0}  {1}: {2} → {3}</value>
+  </data>
+  <data name="Cli_EntryApproved" xml:space="preserve">
+    <value>{0} aprobada: {1}, {2}, {3}; revisión antes del {4}</value>
+  </data>
+  <data name="Cli_GuiOnly" xml:space="preserve">
+    <value>{0} solo está disponible en Riegel.exe (la ventana), no en la línea de comandos.</value>
+  </data>
+  <data name="Cli_ImportDone" xml:space="preserve">
+    <value>Importación {0}: {1} exportaciones añadidas a {2}</value>
+  </data>
+  <data name="Cli_ImportNoSidecar" xml:space="preserve">
+    <value>  {0}: no hay un archivo .sha256 correspondiente; integridad no demostrada</value>
   </data>
   <data name="Cli_InfoCatalogue" xml:space="preserve">
     <value>Catálogo: {0} {1}</value>
@@ -46,35 +244,508 @@ Código fuente: {2}
 Ayuda y soporte: {3}
 Datos y privacidad: {4}</value>
   </data>
+  <data name="Cli_InfoThirdParty" xml:space="preserve">
+    <value>Licencias de terceros y atribuciones de las fuentes de reglas: {0} --licenses</value>
+  </data>
   <data name="Cli_InfoVersion" xml:space="preserve">
     <value>Versión: {0}</value>
+  </data>
+  <data name="Cli_IssueLine" xml:space="preserve">
+    <value>  {0} {1} {2}: {3}</value>
   </data>
   <data name="Cli_LicensesMissing" xml:space="preserve">
     <value>Faltan los textos de licencia en esta versión.</value>
   </data>
-  <data name="Cli_MissingValue" xml:space="preserve">
-    <value>La opción {0} necesita un valor.</value>
+  <data name="Cli_MeasureAdded" xml:space="preserve">
+    <value>{0} planificada para {1}: vence el {2}, responsable {3}</value>
   </data>
-  <data name="Cli_UnknownArgument" xml:space="preserve">
-    <value>Comando u opción desconocidos: {0}. Consulte --help.</value>
+  <data name="Cli_MeasureClosed" xml:space="preserve">
+    <value>{0} cerrada: {1}</value>
   </data>
-  <data name="Cli_Usage" xml:space="preserve">
-    <value>Uso: {0} &lt;comando&gt; [opciones]
-
-Comandos de esta versión:
-  check --snapshot &lt;archivo&gt; [--format text|json]   evaluar una exportación y mostrar un resumen
-  collect [--out &lt;carpeta&gt;]                          Windows: exportación de este equipo
-
-Opciones globales:
-  --help, --hilfe           esta ayuda
-  --version                 versión
-  --info                    producto, licencia y enlaces
-  --licenses, --lizenzen    textos de licencia
-
-Códigos de salida de check: 0 OK, 1 advertencia, 2 crítico, 3 desconocido (error de uso, exportación ilegible).
-En scripts use Riegel.Cli.exe: la consola no espera a Riegel.exe.</value>
+  <data name="Cli_MeasureLine" xml:space="preserve">
+    <value>{0}  {1}  {2}  vence el {3}  {4}  {5}</value>
+  </data>
+  <data name="Cli_MeasuresNoneOverdue" xml:space="preserve">
+    <value>{0}: nada vencido.</value>
+  </data>
+  <data name="Cli_OptionTwice" xml:space="preserve">
+    <value>La opción {0} se indicó dos veces.</value>
+  </data>
+  <data name="Cli_PlantCreated" xml:space="preserve">
+    <value>Carpeta de la instalación creada: {0}</value>
+  </data>
+  <data name="Cli_PlantInitialized" xml:space="preserve">
+    <value>Instalación {0} ({1}) creada en {2}</value>
+  </data>
+  <data name="Cli_RegisterEmpty" xml:space="preserve">
+    <value>{0}: sin entradas.</value>
+  </data>
+  <data name="Cli_RegisterLine" xml:space="preserve">
+    <value>{0}  {1}  {2}  revisión antes del {3}  {4}</value>
+  </data>
+  <data name="Cli_RegisterNoneExpiring" xml:space="preserve">
+    <value>{0}: nada caduca en los próximos {1} días.</value>
+  </data>
+  <data name="Cli_RegisterText" xml:space="preserve">
+    <value>      {0}</value>
+  </data>
+  <data name="Cli_RemediationNote" xml:space="preserve">
+    <value>Solo es una propuesta: Riegel no la aplica. Acuerde cada cambio con el fabricante de la instalación antes de aplicarlo.</value>
+  </data>
+  <data name="Cli_RemediationWritten" xml:space="preserve">
+    <value>Propuesta de corrección escrita en {0}: {1} reglas en los archivos, {2} omitidas, {3} pasos manuales</value>
+  </data>
+  <data name="Cli_RuleLine" xml:space="preserve">
+    <value>{0}  {1}  {2}  {3}</value>
+  </data>
+  <data name="Cli_RuleMeta" xml:space="preserve">
+    <value>Gravedad {0} · categoría {1} · comprobación {2} · desde {3} · {4}</value>
+  </data>
+  <data name="Cli_RuleNeedsAdmin" xml:space="preserve">
+    <value>Necesita una exportación capturada como administrador.</value>
+  </data>
+  <data name="Cli_RuleOtNote" xml:space="preserve">
+    <value>Nota OT: {0}</value>
+  </data>
+  <data name="Cli_RuleReferences" xml:space="preserve">
+    <value>Referencias:</value>
+  </data>
+  <data name="Cli_RuleRemedy" xml:space="preserve">
+    <value>Corrección: {0}</value>
+  </data>
+  <data name="Cli_RulesHeader" xml:space="preserve">
+    <value>Catálogo {0} {1}: {2} reglas</value>
+  </data>
+  <data name="Cli_SampleConsistent" xml:space="preserve">
+    <value>{0}: coherente; la exportación nueva coincide con la empaquetada.</value>
+  </data>
+  <data name="Cli_SampleDifferent" xml:space="preserve">
+    <value>{0}: difiere en {1} puntos:</value>
+  </data>
+  <data name="Cli_SampleHashes" xml:space="preserve">
+    <value>Exportación empaquetada {0} (capturada {1}) · exportación nueva {2} (capturada {3})</value>
+  </data>
+  <data name="Cli_SidecarMissing" xml:space="preserve">
+    <value>Nota: junto a {0} no hay ningún archivo .sha256; no se comprobó su integridad.</value>
+  </data>
+  <data name="Cli_SourceThisPc" xml:space="preserve">
+    <value>este equipo</value>
+  </data>
+  <data name="Cli_TemplateImported" xml:space="preserve">
+    <value>{0} entradas añadidas a {1} como solicitadas; solo cuentan tras una aprobación.</value>
+  </data>
+  <data name="Cli_ValidateInvalid" xml:space="preserve">
+    <value>{0}: {1} entradas, {2} errores, {3} advertencias: no válido.</value>
+  </data>
+  <data name="Cli_ValidateOk" xml:space="preserve">
+    <value>{0}: {1} entradas, válido.</value>
+  </data>
+  <data name="Cli_ValidateWarnings" xml:space="preserve">
+    <value>{0}: {1} entradas, {2} errores, {3} advertencias.</value>
+  </data>
+  <data name="Cli_VerifyCounts" xml:space="preserve">
+    <value>Exportaciones comprobadas: {0} · resultados comparados: {1}</value>
+  </data>
+  <data name="Cli_VerifyError" xml:space="preserve">
+    <value>No se pudo verificar el paquete de evidencias.</value>
+  </data>
+  <data name="Cli_VerifyMismatch" xml:space="preserve">
+    <value>No reproducido con el motor {0} (empaquetado: {1}): {2} hallazgos.</value>
+  </data>
+  <data name="Cli_VerifyNotVerifiable" xml:space="preserve">
+    <value>No verificable (contenido de la línea base no incluido): {0} resultados ({1})</value>
+  </data>
+  <data name="Cli_VerifyReproduced" xml:space="preserve">
+    <value>Reproducido con el motor {0} (empaquetado: {1}).</value>
   </data>
   <data name="Cli_VersionLine" xml:space="preserve">
     <value>Riegel {0} · recopilador {1} · catálogo {2}</value>
+  </data>
+  <data name="Cli_Written" xml:space="preserve">
+    <value>Escrito: {0}</value>
+  </data>
+  <data name="Drift_Added" xml:space="preserve">
+    <value>añadido</value>
+  </data>
+  <data name="Drift_Changed" xml:space="preserve">
+    <value>cambiado</value>
+  </data>
+  <data name="Drift_Removed" xml:space="preserve">
+    <value>eliminado</value>
+  </data>
+  <data name="EntryState_ChangedAfterApproval" xml:space="preserve">
+    <value>cambiada tras la aprobación</value>
+  </data>
+  <data name="EntryState_Expired" xml:space="preserve">
+    <value>caducada</value>
+  </data>
+  <data name="EntryState_Expiring" xml:space="preserve">
+    <value>a punto de caducar</value>
+  </data>
+  <data name="EntryState_Invalid" xml:space="preserve">
+    <value>no válida</value>
+  </data>
+  <data name="EntryState_Pending" xml:space="preserve">
+    <value>solicitada</value>
+  </data>
+  <data name="EntryState_Valid" xml:space="preserve">
+    <value>válida</value>
+  </data>
+  <data name="Error_RGL0450" xml:space="preserve">
+    <value>Comando u opción desconocidos: {0}. Consulte --help.</value>
+  </data>
+  <data name="Error_RGL0451" xml:space="preserve">
+    <value>La opción {0} necesita un valor.</value>
+  </data>
+  <data name="Error_RGL0452" xml:space="preserve">
+    <value>Valor no válido para {0}: {1}. Permitido: {2}.</value>
+  </data>
+  <data name="Error_RGL0453" xml:space="preserve">
+    <value>{0} necesita {1}.</value>
+  </data>
+  <data name="Error_RGL0454" xml:space="preserve">
+    <value>{0} y {1} no se pueden combinar.</value>
+  </data>
+  <data name="Error_RGL0455" xml:space="preserve">
+    <value>{0} solo funciona en Windows. En este sistema, evalúe exportaciones: {1}</value>
+  </data>
+  <data name="Error_RGL0456" xml:space="preserve">
+    <value>Token de traspaso no válido.</value>
+  </data>
+  <data name="Error_RGL0457" xml:space="preserve">
+    <value>Modo de solo lectura: {0} escribiría en la carpeta de la instalación. Ejecútelo sin --read-only.</value>
+  </data>
+  <data name="Error_RGL0458" xml:space="preserve">
+    <value>Modo de solo lectura: no se escribe nada en la carpeta de la instalación; indique una carpeta de salida con --out.</value>
+  </data>
+  <data name="Error_RGL0459" xml:space="preserve">
+    <value>No hay ninguna ejecución para el equipo {0} en esta instalación. Importe o compruebe primero una exportación.</value>
+  </data>
+  <data name="Error_RGL0460" xml:space="preserve">
+    <value>El equipo {0} no tiene estado aprobado. Apruebe primero una ejecución con approve --machine {0}.</value>
+  </data>
+  <data name="Error_RGL0461" xml:space="preserve">
+    <value>No hay ningún registro de importación {0} en esta instalación. Importe primero exportaciones: import &lt;archivo&gt; --plant &lt;carpeta&gt;.</value>
+  </data>
+  <data name="Error_RGL0462" xml:space="preserve">
+    <value>No está en el registro: {0}. No se ha cambiado nada.</value>
+  </data>
+  <data name="Error_RGL0463" xml:space="preserve">
+    <value>Regla desconocida: {0}.</value>
+  </data>
+  <data name="Error_RGL0464" xml:space="preserve">
+    <value>La línea base {0} no está en esta carpeta de la instalación.</value>
+  </data>
+  <data name="Error_RGL0465" xml:space="preserve">
+    <value>{0}: el SHA-256 no coincide con su archivo .sha256 (esperado {1}, real {2}). La exportación se modificó o está dañada; Riegel no la utiliza.</value>
+  </data>
+  <data name="Error_RGL0466" xml:space="preserve">
+    <value>{0} no tiene fecha de revisión. Indíquela con --review-by &lt;aaaa-MM-dd&gt;.</value>
+  </data>
+  <data name="Error_RGL0467" xml:space="preserve">
+    <value>La ejecución {0} pertenece al equipo {1}, no a {2}.</value>
+  </data>
+  <data name="Error_RGL0468" xml:space="preserve">
+    <value>No hay ninguna carpeta de la instalación en {0} (falta riegel-plant.json). Créela con plant init &lt;carpeta&gt; --name &lt;nombre&gt;.</value>
+  </data>
+  <data name="Error_RGL0469" xml:space="preserve">
+    <value>Cancelado.</value>
+  </data>
+  <data name="Help_Approve" xml:space="preserve">
+    <value>Uso: {0} approve --plant &lt;carpeta&gt; --machine &lt;equipo&gt;… [--run &lt;id&gt;] --role "&lt;rol&gt;" --record "&lt;referencia&gt;" [--name "&lt;nombre&gt;"] [--date &lt;aaaa-MM-dd&gt;]
+
+Registra una ejecución (predeterminada: la más reciente) como estado aprobado de cada equipo, por ejemplo tras la puesta
+en marcha, la prueba de aceptación o la visita del fabricante. --record es su referencia de cambio, de QMS o de aprobación.
+
+Códigos de salida: 0 correcto, 3 error.</value>
+  </data>
+  <data name="Help_Baseline" xml:space="preserve">
+    <value>Uso: {0} baseline &lt;subcomando&gt; --plant &lt;carpeta&gt; …
+
+  import &lt;ruta&gt; --name &lt;nombre&gt;    importar una línea base del cliente (carpeta de copia de seguridad de GPO, riegel.baseline/1 en JSON o CSV)
+  list [--format text|json]        líneas base importadas
+  remove &lt;id&gt;                      eliminar una línea base importada
+
+Códigos de salida: 0 correcto, 3 error.</value>
+  </data>
+  <data name="Help_Check" xml:space="preserve">
+    <value>Uso: {0} check [--plant &lt;carpeta&gt;] [--snapshot &lt;archivo&gt;…|--this-pc] [opciones]
+
+Evalúa exportaciones (o este equipo) frente al catálogo. Sin --plant solo evalúa y muestra el resultado. Con --plant aplica
+los registros de la instalación, guarda la ejecución y la compara con la ejecución anterior y con el estado aprobado.
+
+  --plant &lt;carpeta&gt;       carpeta de la instalación; se crea si no existe
+  --snapshot &lt;archivo&gt;…   exportaciones (.snapshot.json, .json.gz) o carpetas de paquetes de herramientas integradas; se admiten varias
+  --this-pc               capturar primero este equipo (Windows; allí es el valor predeterminado sin --snapshot)
+  --no-store              con --plant: evaluar y comparar, pero no escribir nada
+  --brief                 una línea por equipo para Icinga/Nagios, con datos de rendimiento
+  --format text|json      formato de salida (predeterminado: text)
+  --alert change|state    cambio (predeterminado con --plant) o estado (predeterminado sin él)
+  --critical &lt;lista&gt;      tokens para el código de salida 2, separados por comas; sustituye la lista; none = ninguno
+  --warning &lt;lista&gt;       tokens para el código de salida 1; sustituye la lista
+
+Tokens: regression, newhigh, high, medium, low, expired, expiring, pending, overdue, incomplete, stale, clock
+  change: crítico regression,newhigh · advertencia expired,expiring,pending,overdue,incomplete,stale,clock
+  state:  crítico regression,high · advertencia medium,low,expired,expiring,pending,overdue,incomplete,stale,clock
+Códigos de salida: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN.</value>
+  </data>
+  <data name="Help_Collect" xml:space="preserve">
+    <value>Uso: {0} collect [--out &lt;carpeta&gt;] [--gzip] [--minimal] [--deep] [--pseudonymize]
+
+Solo Windows. Escribe una exportación de este equipo (&lt;HOST&gt;_&lt;hora&gt;.snapshot.json y .sha256). Solo lee y no cambia nada;
+para una exportación completa, ejecútelo en una consola con privilegios elevados.
+
+  --out &lt;carpeta&gt;    carpeta de destino (predeterminada: carpeta actual)
+  --gzip             escribir .snapshot.json.gz
+  --minimal          sin procesos secundarios (ni secedit ni gpresult), sin consulta de Windows Update, solo perfiles de firewall
+  --deep             consultar también la protección del proceso LSASS
+  --pseudonymize     sustituir nombres de equipo, de cuenta y de ruta
+
+Códigos de salida: 0 completa, 1 escrita pero incompleta (sin privilegios elevados o elementos denegados), 3 no se escribió nada.</value>
+  </data>
+  <data name="Help_CollectionRecord" xml:space="preserve">
+    <value>Uso: {0} collection-record --plant &lt;carpeta&gt; [--import &lt;id&gt;|--latest] [--out &lt;carpeta&gt;] [--language &lt;código&gt;]
+
+Escribe el acta de captura de una importación (predeterminada: la más reciente) para su firma: exportaciones con hashes,
+recopilador, opciones, roles de quien captura y del testigo, y líneas de firma.
+
+Códigos de salida: 0 correcto, 3 error.</value>
+  </data>
+  <data name="Help_Collector" xml:space="preserve">
+    <value>Uso: {0} collector export &lt;carpeta&gt;
+
+Solo Windows. Copia el paquete del recopilador portátil con una nota de entrega (UEBERGABE.txt: hashes, versión, fecha,
+cómo ejecutarlo, qué deja en el equipo) en una memoria USB o un recurso compartido.
+
+Códigos de salida: 0 correcto, 3 error.</value>
+  </data>
+  <data name="Help_Compare" xml:space="preserve">
+    <value>Uso: {0} compare --plant &lt;carpeta&gt; --machine &lt;equipo&gt; [--against previous|approved] [--format text|json]
+
+Muestra los cambios de estado y las desviaciones de los valores brutos entre la ejecución más reciente de un equipo y su
+ejecución anterior (predeterminado) o su estado aprobado.
+
+Códigos de salida: 0 correcto, 3 error (por ejemplo, sin estado aprobado).</value>
+  </data>
+  <data name="Help_CompareSnapshot" xml:space="preserve">
+    <value>Uso: {0} compare-snapshot &lt;exportación-nueva&gt; --evidence &lt;zip&gt; [--host &lt;equipo&gt;] [--format text|json]
+
+Muestreo del auditor: compara una exportación recién capturada con la exportación empaquetada del mismo equipo en un
+paquete de evidencias, sin los valores volátiles.
+
+Códigos de salida: 0 coherente, 1 difiere, 3 error.</value>
+  </data>
+  <data name="Help_Exceptions" xml:space="preserve">
+    <value>Uso: {0} exceptions &lt;subcomando&gt; --plant &lt;carpeta&gt; …
+
+  validate [--format text|json]                  comprobar el registro; código 0 válido, 1 advertencias, 2 no válido
+  list [--format text|json]                      todas las excepciones con su estado
+  expiring [--days &lt;n&gt;] [--format text|json]     excepciones a punto de caducar y caducadas (predeterminado: warnDays de la instalación)
+  approval-sheet [--ids &lt;id&gt;…|--pending] [--out &lt;carpeta&gt;] [--language &lt;código&gt;]
+                                                 hoja de aprobación (PDF); predeterminado: todas las entradas solicitadas
+  approve --ids &lt;id&gt;… --role "&lt;rol&gt;" --record "&lt;referencia&gt;" [--review-by &lt;aaaa-MM-dd&gt;] [--date &lt;aaaa-MM-dd&gt;] [--name "&lt;nombre&gt;"]
+                                                 registrar una aprobación firmada; la fecha de revisión es obligatoria
+  import-template &lt;plantilla.json&gt;               añadir las entradas de una plantilla como excepciones solicitadas
+
+Códigos de salida: 0 correcto, 3 error; validate como arriba.</value>
+  </data>
+  <data name="Help_ExitCodes" xml:space="preserve">
+    <value>Códigos de salida: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN (error de uso, exportación ilegible o dañada, error de suma de comprobación, error de E/S).
+check e import alertan ante cambios con --plant (crítico: regression,newhigh) y sobre el estado sin él (crítico: regression,high).
+verify: 0 reproducido, 2 diferente · compare-snapshot: 0 coherente, 1 difiere · validate: 0 válido, 1 advertencias, 2 no válido.</value>
+  </data>
+  <data name="Help_Import" xml:space="preserve">
+    <value>Uso: {0} import &lt;archivo|carpeta&gt;… --plant &lt;carpeta&gt; [--collected-by-role &lt;rol&gt;] [--witness-role &lt;rol&gt;] [--record]
+
+Añade exportaciones o paquetes de herramientas integradas a la carpeta de la instalación: comprueba los archivos .sha256,
+escribe el registro de importación, evalúa y guarda las ejecuciones. Un error de suma de comprobación detiene toda la
+importación antes de escribir nada.
+
+  --plant &lt;carpeta&gt;                 carpeta de la instalación
+  --collected-by-role &lt;rol&gt;         rol de la persona que realizó la captura (registro de importación)
+  --witness-role &lt;rol&gt;              rol del testigo del operador (registro de importación)
+  --record                          escribir también el acta de captura (PDF)
+  --brief, --format, --alert, --critical, --warning    como en check (modo de alerta predeterminado: change)
+
+Códigos de salida como en check.</value>
+  </data>
+  <data name="Help_Measures" xml:space="preserve">
+    <value>Uso: {0} measures &lt;subcomando&gt; --plant &lt;carpeta&gt; …
+
+  list [--format text|json]                      el plan de medidas
+  overdue [--format text|json]                   medidas planificadas que han superado su fecha de vencimiento
+  add --rule &lt;id&gt; --action "&lt;texto&gt;" --owner-role "&lt;rol&gt;" --due &lt;aaaa-MM-dd&gt;
+      [--machine &lt;equipo&gt;…|--group &lt;id&gt;…|--all-machines] [--ticket &lt;ref&gt;] [--comment "&lt;texto&gt;"] [--created-by-role "&lt;rol&gt;"]
+                                                 planificar una medida (alcance predeterminado: todos los equipos)
+  close &lt;id&gt; [--state done|dropped] [--comment "&lt;texto&gt;"]
+                                                 cerrar una medida (predeterminado: realizada)
+
+Códigos de salida: 0 correcto, 3 error.</value>
+  </data>
+  <data name="Help_Overview" xml:space="preserve">
+    <value>Uso: {0} &lt;comando&gt; [opciones]        {0} &lt;comando&gt; --help muestra las opciones de un comando
+
+Comprobar y supervisar:
+  check              evaluar este equipo o exportaciones; con --plant: guardar, comparar, alertar ante cambios
+  collect            Windows: escribir una exportación de este equipo
+  import             añadir exportaciones o paquetes de herramientas integradas a una carpeta de la instalación
+  compare            cambios de estado y desviaciones de un equipo
+  approve            registrar una ejecución como estado aprobado
+
+Documentos:
+  report             informe de la instalación (PDF, Excel, CSV, JSON) y paquete de evidencias
+  summary            resumen de una página para varias instalaciones
+  target-config      configuración objetivo para su firma (PDF, Excel)
+  collection-record  acta de captura de una importación para su firma
+  remediate          propuesta de corrección como archivos; nunca se aplica
+
+Registros y catálogo:
+  exceptions         validate | list | expiring | approval-sheet | approve | import-template
+  tailoring          list | validate | approve | import-template
+  measures           list | overdue | add | close
+  baseline           import | list | remove
+  rules              el catálogo de reglas
+
+Auditores:
+  verify             comprobar los hashes de un paquete de evidencias y volver a evaluarlo
+  compare-snapshot   comparar una exportación nueva con la empaquetada
+
+Carpeta de la instalación y recopilador:
+  plant init         crear una carpeta de la instalación
+  collector export   Windows: copiar el recopilador portátil con una nota de entrega
+
+Opciones globales:
+  --help, --hilfe              esta ayuda
+  --version                    versión de Riegel, del recopilador y del catálogo
+  --info                       producto, licencia, enlaces y carpeta de datos
+  --licenses, --lizenzen       textos de licencia
+  --nur-lesen, --read-only     no escribir nada en la carpeta de la instalación (documentos solo en --out)</value>
+  </data>
+  <data name="Help_Plant" xml:space="preserve">
+    <value>Uso: {0} plant init &lt;carpeta&gt; --name &lt;nombre&gt;
+
+Crea una carpeta de la instalación (riegel-plant.json). check --plant también la crea si no existe.
+
+Códigos de salida: 0 correcto, 3 error.</value>
+  </data>
+  <data name="Help_Remediate" xml:space="preserve">
+    <value>Uso: {0} remediate --plant &lt;carpeta&gt; --machine &lt;equipo&gt; [--run &lt;id&gt;] [--out &lt;carpeta&gt;] [--language &lt;código&gt;]
+
+Escribe una propuesta de corrección solo como archivos (.reg con .reg de reversión, GptTmpl.inf, audit.csv, README.txt)
+en remediation/&lt;equipo&gt;/&lt;ejecución&gt;/ dentro de --out o de la carpeta de la instalación. Riegel nunca los aplica; acuerde
+antes cada cambio con el fabricante de la instalación.
+
+Códigos de salida: 0 correcto, 3 error.</value>
+  </data>
+  <data name="Help_Report" xml:space="preserve">
+    <value>Uso: {0} report --plant &lt;carpeta&gt; [opciones]
+
+Escribe el informe de la instalación y las demás salidas a partir de la ejecución más reciente de cada equipo.
+
+  --machine &lt;equipo&gt;…               solo estos equipos
+  --format pdf,xlsx,csv,json        formatos (predeterminado: pdf,xlsx); json escribe las ejecuciones (results.json)
+  --per-machine                     también un PDF por equipo
+  --no-appendix                     sin el anexo por equipo
+  --preset audit|as-delivered       plantilla del informe (predeterminada: la de la instalación)
+  --evidence                        también el paquete de evidencias (ZIP)
+  --include-baseline-content        con --evidence: empaquetar el contenido de las líneas base importadas (compruebe su licencia)
+  --pdfa                            PDF/A, si esta versión lo admite
+  --language &lt;código&gt;               en, de, es, fr, zh-Hans (predeterminado: instalación, luego interfaz)
+  --out &lt;carpeta&gt;                   carpeta de destino (predeterminada: reports/&lt;hora&gt;/ en la carpeta de la instalación)
+
+Códigos de salida: 0 correcto, 3 error.</value>
+  </data>
+  <data name="Help_Rules" xml:space="preserve">
+    <value>Uso: {0} rules [--id &lt;ID&gt;] [--format text|json|md]
+
+Muestra el catálogo de reglas, o una regla con su justificación, nota OT, corrección y referencias.
+
+Códigos de salida: 0 correcto, 3 error.</value>
+  </data>
+  <data name="Help_ScriptsNote" xml:space="preserve">
+    <value>En scripts y tareas programadas use Riegel.Cli.exe: cmd y PowerShell no esperan a Riegel.exe (si no, start /wait Riegel.exe … o Riegel.exe … | Out-Default).</value>
+  </data>
+  <data name="Help_Summary" xml:space="preserve">
+    <value>Uso: {0} summary --plant &lt;carpeta&gt; [--plant &lt;carpeta&gt;…] [--out &lt;carpeta&gt;] [--language &lt;código&gt;]
+
+Una página A4 para la dirección con varias instalaciones: equipos, sistemas operativos con soporte, hallazgos altos abiertos
+con tendencia, empeoramientos, excepciones a punto de caducar y medidas vencidas. Se escribe en --out o en la carpeta actual.
+
+Códigos de salida: 0 correcto, 3 error.</value>
+  </data>
+  <data name="Help_Tailoring" xml:space="preserve">
+    <value>Uso: {0} tailoring &lt;subcomando&gt; --plant &lt;carpeta&gt; …
+
+  list [--format text|json]                      todas las entradas de ajuste del alcance con su estado
+  validate [--format text|json]                  comprobar el registro; código 0 válido, 1 advertencias, 2 no válido
+  approve --ids &lt;id&gt;… --role "&lt;rol&gt;" --record "&lt;referencia&gt;" [--review-by &lt;aaaa-MM-dd&gt;] [--date &lt;aaaa-MM-dd&gt;] [--name "&lt;nombre&gt;"]
+                                                 registrar una aprobación firmada; la fecha de revisión es obligatoria
+  import-template &lt;plantilla.json&gt;               añadir las entradas de una plantilla de rol como ajustes solicitados
+
+Códigos de salida: 0 correcto, 3 error; validate como arriba.</value>
+  </data>
+  <data name="Help_TargetConfig" xml:space="preserve">
+    <value>Uso: {0} target-config --plant &lt;carpeta&gt; [--group &lt;id&gt;] [--out &lt;carpeta&gt;] [--language &lt;código&gt;]
+
+Escribe la configuración objetivo para su firma en PDF y Excel: por grupo y rol, las reglas del alcance con sus valores
+esperados, las decisiones de ajuste del alcance, las líneas base importadas y el origen de los valores esperados.
+
+Códigos de salida: 0 correcto, 3 error.</value>
+  </data>
+  <data name="Help_Verify" xml:space="preserve">
+    <value>Uso: {0} verify &lt;paquete.zip&gt; [--format text|json]
+
+Comprueba cada hash de un paquete de evidencias, vuelve a evaluar las exportaciones empaquetadas con el catálogo y los
+registros empaquetados y compara los resultados con los empaquetados.
+
+Códigos de salida: 0 reproducido, 2 diferente, 3 error.</value>
+  </data>
+  <data name="Issue_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Issue_Warning" xml:space="preserve">
+    <value>Advertencia</value>
+  </data>
+  <data name="MeasureState_Done" xml:space="preserve">
+    <value>realizada</value>
+  </data>
+  <data name="MeasureState_Dropped" xml:space="preserve">
+    <value>descartada</value>
+  </data>
+  <data name="MeasureState_Overdue" xml:space="preserve">
+    <value>vencida</value>
+  </data>
+  <data name="MeasureState_Planned" xml:space="preserve">
+    <value>planificada</value>
+  </data>
+  <data name="Rule_Active" xml:space="preserve">
+    <value>activa</value>
+  </data>
+  <data name="Rule_Retired" xml:space="preserve">
+    <value>retirada</value>
+  </data>
+  <data name="Rules_MdHeader" xml:space="preserve">
+    <value>| ID | Gravedad | Categoría | Título |</value>
+  </data>
+  <data name="Scope_All" xml:space="preserve">
+    <value>todos los equipos</value>
+  </data>
+  <data name="Scope_Groups" xml:space="preserve">
+    <value>grupos {0}</value>
+  </data>
+  <data name="Scope_Machines" xml:space="preserve">
+    <value>equipos {0}</value>
+  </data>
+  <data name="State_Critical" xml:space="preserve">
+    <value>CRÍTICO</value>
+  </data>
+  <data name="State_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="State_Unknown" xml:space="preserve">
+    <value>DESCONOCIDO</value>
+  </data>
+  <data name="State_Warning" xml:space="preserve">
+    <value>ADVERTENCIA</value>
   </data>
 </root>
