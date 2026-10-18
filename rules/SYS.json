@@ -1,0 +1,236 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "SYS",
+  "rules": [
+    {
+      "id": "SYS-07",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "low",
+      "kind": "inventory",
+      "title": {
+        "en": "Administrative shares (inventory)",
+        "de": "Administrative Freigaben (Bestandsliste)"
+      },
+      "rationale": {
+        "en": "Windows creates hidden administrative shares (C$, ADMIN$) that administrators and attackers with administrator credentials use to copy and start programs remotely. Many management tools depend on them, so Riegel does not fix a target state; the rule lists the shares and the AutoShareWks/AutoShareServer settings for review.",
+        "de": "Windows legt versteckte administrative Freigaben an (C$, ADMIN$), über die Administratoren – und Angreifer mit Administratorkennungen – Programme aus der Ferne kopieren und starten. Viele Verwaltungswerkzeuge hängen davon ab; Riegel legt daher keinen Sollzustand fest. Die Regel listet die Freigaben und die Einstellungen AutoShareWks/AutoShareServer zur Prüfung."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "adminShares",
+        "items": [
+          "wmi:root\\cimv2:Win32_Share",
+          "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters"
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.6.2",
+            "KONF.2.4"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1035",
+            "M1026",
+            "M0935",
+            "M0926"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "administrative shares listed",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Share": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "ADMIN$",
+                    "Path": "C:\\Windows",
+                    "Type": 2147483648
+                  },
+                  {
+                    "Name": "C$",
+                    "Path": "C:\\",
+                    "Type": 2147483648
+                  },
+                  {
+                    "Name": "IPC$",
+                    "Path": "",
+                    "Type": 2147483651
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RequireSecuritySignature": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "info"
+        }
+      ]
+    },
+    {
+      "id": "SYS-08",
+      "since": "2026.10",
+      "state": "active",
+      "category": "system",
+      "severity": "medium",
+      "kind": "inventory",
+      "title": {
+        "en": "Shares with access for Everyone or anonymous users (inventory)",
+        "de": "Freigaben mit Zugriff für Jeder oder anonyme Benutzer (Bestandsliste)"
+      },
+      "rationale": {
+        "en": "Shares created for data exchange are often left with permissions for Everyone, which lets any user or infected machine on the network read or plant files. The rule lists non-default shares whose share permissions grant access to Everyone or Anonymous Logon, so each can be restricted or justified; it never fails on its own.",
+        "de": "Für den Datenaustausch angelegte Freigaben behalten oft Berechtigungen für „Jeder“; damit kann jeder Benutzer oder infizierte Rechner im Netz Dateien lesen oder ablegen. Die Regel listet nicht standardmäßige Freigaben, deren Freigabeberechtigungen „Jeder“ oder „Anonymous Logon“ Zugriff geben, damit jede eingeschränkt oder begründet werden kann; sie schlägt nie allein fehl."
+      },
+      "otNote": {
+        "en": "Exchange folders between HMI, engineering station and historian are common. Limit them to the accounts that need them and prefer read-only access where possible.",
+        "de": "Austauschordner zwischen Bediengerät, Engineering-Station und Historian sind üblich. Sie auf die Konten beschränken, die sie brauchen, und wo möglich nur Lesezugriff geben."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "shares",
+        "items": [
+          "wmi:root\\cimv2:Win32_Share"
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "File and print sharing"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-253267",
+            "WN11-00-000060"
+          ]
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-254260",
+            "WN22-00-000230"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.6.2"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1022",
+            "M1035",
+            "M0922",
+            "M0935"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-253267 (WN11-00-000060)",
+          "note": "Non-system-created shares must limit access to the groups that require it."
+        }
+      ],
+      "tests": [
+        {
+          "name": "share open to Everyone",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Share": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Austausch",
+                    "Path": "D:\\Austausch",
+                    "Type": 0,
+                    "GetSecurityDescriptor": {
+                      "ReturnValue": 0,
+                      "Aces": [
+                        {
+                          "Sid": "S-1-1-0",
+                          "AccessMask": 1179817,
+                          "AceType": 0
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "info"
+        }
+      ]
+    }
+  ]
+}

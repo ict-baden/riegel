@@ -1,0 +1,2043 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "ENC",
+  "rules": [
+    {
+      "id": "ENC-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "encryption",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "BitLocker protects the operating system volume",
+        "de": "BitLocker schützt das Betriebssystemlaufwerk"
+      },
+      "rationale": {
+        "en": "Without drive encryption, anyone with physical access, a stolen disk or a disposed machine can read configuration, recipes and stored credentials, or change system files offline. The rule reads the protection status of the operating system volume at runtime: 1 means fully encrypted with the key protected. Where the operating system has no BitLocker at all, the gap is a finding with an exception route.",
+        "de": "Ohne Laufwerksverschlüsselung kann jeder mit physischem Zugang, einer gestohlenen Festplatte oder einem ausgesonderten Rechner Konfiguration, Rezepturen und gespeicherte Anmeldedaten lesen oder Systemdateien offline verändern. Die Regel liest den Schutzstatus des Betriebssystemlaufwerks zur Laufzeit: 1 bedeutet vollständig verschlüsselt mit geschütztem Schlüssel. Hat das Betriebssystem gar kein BitLocker, ist die Lücke ein Befund mit Weg über eine Ausnahme."
+      },
+      "otNote": {
+        "en": "Older industrial PCs often lack a TPM, and an encrypted HMI needs a plan for recovery keys and unattended restarts. A third-party encryption product or a physically secured cabinet can be documented as a compensating control.",
+        "de": "Ältere Industrie-PCs haben oft kein TPM, und ein verschlüsseltes Bediengerät braucht einen Plan für Wiederherstellungsschlüssel und unbeaufsichtigte Neustarts. Ein Verschlüsselungsprodukt eines Drittherstellers oder ein physisch gesicherter Schrank kann als kompensierende Maßnahme dokumentiert werden."
+      },
+      "remedy": {
+        "en": "Turn on BitLocker for the operating system volume and store the recovery key in a controlled place (Active Directory, Entra ID or the plant's key register).",
+        "de": "BitLocker für das Betriebssystemlaufwerk einschalten und den Wiederherstellungsschlüssel an einem kontrollierten Ort ablegen (Active Directory, Entra ID oder das Schlüsselverzeichnis der Anlage)."
+      },
+      "suggestedReason": "compensatingControl",
+      "appliesTo": {
+        "os": [
+          "client"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "bitlocker",
+        "ifCapabilityAbsent": "fail"
+      },
+      "needsAdmin": true,
+      "check": {
+        "type": "wmiProperty",
+        "item": "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume",
+        "property": "ProtectionStatus",
+        "rowFilter": {
+          "property": "VolumeType",
+          "op": "eq",
+          "value": 0
+        },
+        "rows": "first",
+        "op": "eq",
+        "expected": 1,
+        "ifNoRows": "notCheckable"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Turn on BitLocker for drive C: (Control Panel > BitLocker Drive Encryption, or manage-bde -on C: as administrator) after the recovery-key storage is settled. Riegel never runs this command.",
+          "de": "BitLocker für Laufwerk C: einschalten (Systemsteuerung > BitLocker-Laufwerkverschlüsselung oder manage-bde -on C: als Administrator), nachdem die Ablage des Wiederherstellungsschlüssels geklärt ist. Riegel führt diesen Befehl nie aus."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Drive encryption"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-253259",
+            "WN11-00-000030"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.3.2",
+            "KONF.11.8"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0941"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Drive encryption",
+          "note": "AES-based full disk encryption should be used; BitLocker Group Policy settings listed."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Win32_EncryptableVolume class",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/secprov/win32-encryptablevolume",
+          "date": "2026-10-18",
+          "note": "ProtectionStatus: 0 protection off, 1 protection on, 2 unknown; VolumeType: 0 system (operating system) volume, 1 fixed disk, 2 removable."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-253259 (WN11-00-000030)",
+          "note": "BitLocker must be turned on for the operating system drive and fixed data drives; an alternate full-disk encryption product is acceptable."
+        }
+      ],
+      "tests": [
+        {
+          "name": "operating system volume protected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "C:",
+                    "VolumeType": 0,
+                    "ProtectionStatus": 1,
+                    "ConversionStatus": 1,
+                    "EncryptionMethod": 6
+                  },
+                  {
+                    "DriveLetter": "D:",
+                    "VolumeType": 1,
+                    "ProtectionStatus": 0,
+                    "ConversionStatus": 0,
+                    "EncryptionMethod": 0
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "operating system volume not encrypted",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "C:",
+                    "VolumeType": 0,
+                    "ProtectionStatus": 0,
+                    "ConversionStatus": 0,
+                    "EncryptionMethod": 0
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "encrypted but protection suspended",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "C:",
+                    "VolumeType": 0,
+                    "ProtectionStatus": 0,
+                    "ConversionStatus": 1,
+                    "EncryptionMethod": 6
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no operating system volume reported",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "D:",
+                    "VolumeType": 1,
+                    "ProtectionStatus": 1,
+                    "ConversionStatus": 1,
+                    "EncryptionMethod": 6
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "standard token (access denied)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": false
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Windows 7 Professional has no BitLocker",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Home edition with device encryption",
+          "machine": {
+            "build": 26100,
+            "edition": "Core",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "C:",
+                    "VolumeType": 0,
+                    "ProtectionStatus": 1,
+                    "ConversionStatus": 1,
+                    "EncryptionMethod": 6
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "server is out of scope of this rule",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "C:",
+                    "VolumeType": 0,
+                    "ProtectionStatus": 1,
+                    "ConversionStatus": 1,
+                    "EncryptionMethod": 6
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "ENC-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "encryption",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": "BitLocker volumes use XTS-AES",
+        "de": "BitLocker-Laufwerke verwenden XTS-AES"
+      },
+      "rationale": {
+        "en": "XTS-AES is the encryption mode recommended for BitLocker since Windows 10 version 1511; the older AES-CBC modes give weaker protection against targeted manipulation of encrypted data. The rule checks every protected volume; machines without a protected volume are covered by ENC-01.",
+        "de": "XTS-AES ist der für BitLocker empfohlene Verschlüsselungsmodus seit Windows 10 Version 1511; die älteren AES-CBC-Modi schützen schwächer gegen gezielte Manipulation verschlüsselter Daten. Die Regel prüft jedes geschützte Laufwerk; Rechner ohne geschütztes Laufwerk deckt ENC-01 ab."
+      },
+      "remedy": {
+        "en": "Set the policy 'Choose drive encryption method and cipher strength (Windows 10 [Version 1511] and later)' to XTS-AES; existing volumes keep their method until they are decrypted and encrypted again.",
+        "de": "Richtlinie „Choose drive encryption method and cipher strength (Windows 10 [Version 1511] and later)“ auf XTS-AES setzen; vorhandene Laufwerke behalten ihr Verfahren, bis sie entschlüsselt und neu verschlüsselt werden."
+      },
+      "appliesTo": {
+        "os": [
+          "client"
+        ],
+        "minBuild": 10586,
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "bitlocker",
+        "ifCapabilityAbsent": "notApplicable"
+      },
+      "needsAdmin": true,
+      "check": {
+        "type": "wmiProperty",
+        "item": "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume",
+        "property": "EncryptionMethod",
+        "rowFilter": {
+          "property": "ProtectionStatus",
+          "op": "eq",
+          "value": 1
+        },
+        "rows": "all",
+        "op": "in",
+        "expected": [
+          6,
+          7
+        ],
+        "ifNoRows": "notApplicable"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Configure the encryption method policy, then decrypt and re-encrypt the affected volumes in a maintenance window.",
+          "de": "Die Richtlinie für das Verschlüsselungsverfahren setzen und die betroffenen Laufwerke in einem Wartungsfenster entschlüsseln und neu verschlüsseln."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Drive encryption"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.3.2",
+            "KONF.2.2"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0941"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Drive encryption",
+          "note": "Choose drive encryption method and cipher strength (Windows 10 [Version 1511] and later): XTS-AES 128-bit for operating system, fixed and removable data drives."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "GetEncryptionMethod method of Win32_EncryptableVolume",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/secprov/getencryptionmethod-win32-encryptablevolume",
+          "date": "2026-10-18",
+          "note": "XTS_AES_128 = 6 and XTS_AES_256 = 7, available on Windows 10 version 1511 or higher."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Win32_EncryptableVolume class",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/secprov/win32-encryptablevolume",
+          "date": "2026-10-18",
+          "note": "EncryptionMethod 1-4 are AES(-CBC) variants, 6 XTS-AES 128, 7 XTS-AES 256."
+        }
+      ],
+      "tests": [
+        {
+          "name": "protected volume with XTS-AES 128",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "C:",
+                    "VolumeType": 0,
+                    "ProtectionStatus": 1,
+                    "ConversionStatus": 1,
+                    "EncryptionMethod": 6
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "protected volumes with XTS-AES 256",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "C:",
+                    "VolumeType": 0,
+                    "ProtectionStatus": 1,
+                    "ConversionStatus": 1,
+                    "EncryptionMethod": 7
+                  },
+                  {
+                    "DriveLetter": "D:",
+                    "VolumeType": 1,
+                    "ProtectionStatus": 1,
+                    "ConversionStatus": 1,
+                    "EncryptionMethod": 7
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "one protected volume with AES-CBC 256",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "C:",
+                    "VolumeType": 0,
+                    "ProtectionStatus": 1,
+                    "ConversionStatus": 1,
+                    "EncryptionMethod": 6
+                  },
+                  {
+                    "DriveLetter": "D:",
+                    "VolumeType": 1,
+                    "ProtectionStatus": 1,
+                    "ConversionStatus": 1,
+                    "EncryptionMethod": 4
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no protected volume",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "C:",
+                    "VolumeType": 0,
+                    "ProtectionStatus": 0,
+                    "ConversionStatus": 0,
+                    "EncryptionMethod": 0
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Windows 8.1 (XTS not available)",
+          "machine": {
+            "build": 9600,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "DriveLetter": "C:",
+                    "VolumeType": 0,
+                    "ProtectionStatus": 1,
+                    "ConversionStatus": 1,
+                    "EncryptionMethod": 4
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "ENC-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "encryption",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "A TPM is present and ready",
+        "de": "Ein TPM ist vorhanden und einsatzbereit"
+      },
+      "rationale": {
+        "en": "The Trusted Platform Module protects BitLocker keys and measures the boot process; Credential Guard and Windows Hello also rely on it. The rule expects a TPM that is enabled, activated and owned. No TPM at all is a finding with an exception route, typically for older industrial PCs.",
+        "de": "Das Trusted Platform Module schützt BitLocker-Schlüssel und misst den Startvorgang; auch Credential Guard und Windows Hello stützen sich darauf. Die Regel erwartet ein TPM, das aktiviert, eingeschaltet und in Besitz genommen ist. Gar kein TPM ist ein Befund mit Weg über eine Ausnahme – typisch bei älteren Industrie-PCs."
+      },
+      "otNote": {
+        "en": "Industrial PCs that are several years old often have no TPM or one switched off in the firmware. Switching it on needs a firmware visit on site; plan it with the next maintenance or document the exception.",
+        "de": "Mehrere Jahre alte Industrie-PCs haben oft kein TPM oder eines, das in der Firmware abgeschaltet ist. Das Einschalten erfordert einen Firmware-Eingriff vor Ort; mit der nächsten Wartung einplanen oder die Ausnahme dokumentieren."
+      },
+      "remedy": {
+        "en": "Enable the TPM in the firmware and let Windows take ownership; tpm.msc then reports that the TPM is ready for use.",
+        "de": "Das TPM in der Firmware einschalten und von Windows in Besitz nehmen lassen; tpm.msc meldet dann, dass das TPM einsatzbereit ist."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": true,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "wmiProperty",
+            "item": "wmi:root\\cimv2\\Security\\MicrosoftTpm:Win32_Tpm",
+            "property": "IsEnabled_InitialValue",
+            "rows": "first",
+            "op": "eq",
+            "expected": true,
+            "ifNoRows": "fail"
+          },
+          {
+            "type": "wmiProperty",
+            "item": "wmi:root\\cimv2\\Security\\MicrosoftTpm:Win32_Tpm",
+            "property": "IsActivated_InitialValue",
+            "rows": "first",
+            "op": "eq",
+            "expected": true,
+            "ifNoRows": "fail"
+          },
+          {
+            "type": "wmiProperty",
+            "item": "wmi:root\\cimv2\\Security\\MicrosoftTpm:Win32_Tpm",
+            "property": "IsOwned_InitialValue",
+            "rows": "first",
+            "op": "eq",
+            "expected": true,
+            "ifNoRows": "fail"
+          }
+        ]
+      },
+      "remediation": {
+        "manual": {
+          "en": "Enable the TPM (or fTPM/PTT) in the UEFI setup, restart and check tpm.msc. Hardware without a TPM needs replacement or a documented exception.",
+          "de": "Das TPM (bzw. fTPM/PTT) im UEFI-Setup einschalten, neu starten und tpm.msc prüfen. Hardware ohne TPM braucht Ersatz oder eine dokumentierte Ausnahme."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Drive encryption"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-253255",
+            "WN11-00-000010"
+          ]
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-254246",
+            "WN22-00-000090"
+          ]
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG V1R4 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-277993",
+            "WN25-00-000090"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.3.1"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1046",
+            "M0946"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Drive encryption",
+          "note": "BitLocker 'Require additional authentication at startup' with settings for computers with a TPM."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Win32_Tpm class",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/secprov/win32-tpm",
+          "date": "2026-10-18",
+          "note": "IsEnabled_InitialValue, IsActivated_InitialValue, IsOwned_InitialValue (boolean); not available on Windows Vista and Server 2008."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-253255 (WN11-00-000010)",
+          "note": "A TPM must be present and ready for use; no TPM or not ready is a finding."
+        }
+      ],
+      "tests": [
+        {
+          "name": "TPM ready",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftTpm:Win32_Tpm": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "IsEnabled_InitialValue": true,
+                    "IsActivated_InitialValue": true,
+                    "IsOwned_InitialValue": true,
+                    "SpecVersion": "2.0, 0, 1.59"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "TPM present but not owned",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftTpm:Win32_Tpm": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "IsEnabled_InitialValue": true,
+                    "IsActivated_InitialValue": true,
+                    "IsOwned_InitialValue": false,
+                    "SpecVersion": "2.0, 0, 1.59"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "TPM disabled in firmware",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftTpm:Win32_Tpm": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "IsEnabled_InitialValue": false,
+                    "IsActivated_InitialValue": false,
+                    "IsOwned_InitialValue": false,
+                    "SpecVersion": "2.0, 0, 1.59"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no TPM",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftTpm:Win32_Tpm": {
+              "status": "ok",
+              "value": {
+                "rows": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "standard token (access denied)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": false
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftTpm:Win32_Tpm": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2\\Security\\MicrosoftTpm:Win32_Tpm": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "ENC-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "encryption",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "BitLocker requires a startup PIN on mobile devices",
+        "de": "BitLocker verlangt auf Mobilgeräten eine Start-PIN"
+      },
+      "rationale": {
+        "en": "A notebook that unlocks its disk with the TPM alone is exposed to attacks on the running or sleeping machine when it is lost or stolen. A pre-boot PIN adds a second factor. The rule applies to mobile devices (PCSystemType 2) and checks the BitLocker policy that requires a PIN at startup. The policy applies when BitLocker is turned on; the key protectors in use are not yet collected.",
+        "de": "Ein Notebook, das seinen Datenträger nur mit dem TPM entsperrt, ist bei Verlust oder Diebstahl Angriffen auf das laufende oder schlafende Gerät ausgesetzt. Eine PIN vor dem Start ergänzt einen zweiten Faktor. Die Regel gilt für Mobilgeräte (PCSystemType 2) und prüft die BitLocker-Richtlinie, die beim Start eine PIN verlangt. Die Richtlinie wirkt beim Einschalten von BitLocker; die tatsächlich genutzten Schlüsselschutz-vorrichtungen werden noch nicht erhoben."
+      },
+      "otNote": {
+        "en": "Mobile service notebooks used in the plant are the typical case. A PIN at every start is not possible on unattended panel PCs; those are not mobile devices and are not covered by this rule.",
+        "de": "Typischer Fall sind mobile Service-Notebooks in der Anlage. Eine PIN bei jedem Start ist an unbeaufsichtigten Bedien-PCs nicht möglich; diese sind keine Mobilgeräte und fallen nicht unter die Regel."
+      },
+      "remedy": {
+        "en": "Enable 'Require additional authentication at startup' with 'Require startup PIN with TPM', then add a TPM+PIN protector to the operating system volume.",
+        "de": "„Require additional authentication at startup“ mit „Require startup PIN with TPM“ aktivieren und dem Betriebssystemlaufwerk danach eine Schutzvorrichtung TPM+PIN hinzufügen."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [
+          {
+            "fact": "machine.mobile",
+            "op": "eq",
+            "value": true
+          }
+        ],
+        "capability": "bitlocker",
+        "ifCapabilityAbsent": "fail"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE",
+            "value": "UseAdvancedStartup",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "anyOf",
+            "checks": [
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE",
+                "value": "UseTPMPIN",
+                "valueType": "dword",
+                "op": "eq",
+                "expected": 1,
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE",
+                "value": "UseTPMKeyPIN",
+                "valueType": "dword",
+                "op": "eq",
+                "expected": 1,
+                "whenMissing": "fail"
+              }
+            ]
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE",
+            "value": "UseAdvancedStartup",
+            "type": "dword",
+            "data": 1
+          },
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE",
+            "value": "UseTPMPIN",
+            "type": "dword",
+            "data": 1
+          }
+        ],
+        "manual": {
+          "en": "After the policy is set, add the PIN protector as administrator (manage-bde -protectors -add C: -TPMAndPIN); Riegel never runs this command.",
+          "de": "Nach dem Setzen der Richtlinie die PIN-Schutzvorrichtung als Administrator hinzufügen (manage-bde -protectors -add C: -TPMAndPIN); Riegel führt diesen Befehl nie aus."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Drive encryption"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-253260",
+            "WN11-00-000031"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.5.1.2"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0941"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Drive encryption",
+          "note": "Require additional authentication at startup: Enabled, with 'Configure TPM startup: Do not allow TPM' (TPM-only not allowed)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "BitLocker CSP (ms.date 2025-11-06)",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/bitlocker-csp",
+          "date": "2026-10-18",
+          "note": "SystemDrivesRequireStartupAuthentication maps to SOFTWARE\\Policies\\Microsoft\\FVE UseAdvancedStartup; TPM options 2 optional, 1 required, 0 disallowed."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-253260 (WN11-00-000031)",
+          "note": "UseAdvancedStartup REG_DWORD 1 and UseTPMPIN or UseTPMKeyPIN REG_DWORD 1 (2 only with BitLocker Network Unlock); missing values are a finding."
+        }
+      ],
+      "tests": [
+        {
+          "name": "PIN with TPM required",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "machine.mobile": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UseAdvancedStartup": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "UseTPMPIN": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_ComputerSystem": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "PCSystemType": 2,
+                    "PCSystemTypeEx": 2,
+                    "PartOfDomain": true,
+                    "DomainRole": 1
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "startup key and PIN required",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "machine.mobile": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UseAdvancedStartup": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "UseTPMKeyPIN": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_ComputerSystem": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "PCSystemType": 2,
+                    "PCSystemTypeEx": 2,
+                    "PartOfDomain": true,
+                    "DomainRole": 1
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "PIN only allowed, not required",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "machine.mobile": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UseAdvancedStartup": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "UseTPMPIN": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "wmi:root\\cimv2:Win32_ComputerSystem": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "PCSystemType": 2,
+                    "PCSystemTypeEx": 2,
+                    "PartOfDomain": true,
+                    "DomainRole": 1
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no BitLocker policy",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "machine.mobile": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE": {
+              "status": "keyMissing"
+            },
+            "wmi:root\\cimv2:Win32_ComputerSystem": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "PCSystemType": 2,
+                    "PCSystemTypeEx": 2,
+                    "PartOfDomain": true,
+                    "DomainRole": 1
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "machine.mobile": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE": {
+              "status": "notCollected"
+            },
+            "wmi:root\\cimv2:Win32_ComputerSystem": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "PCSystemType": 2,
+                    "PCSystemTypeEx": 2,
+                    "PartOfDomain": true,
+                    "DomainRole": 1
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "desktop machine",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "machine.mobile": false
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE": {
+              "status": "keyMissing"
+            },
+            "wmi:root\\cimv2:Win32_ComputerSystem": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "PCSystemType": 1,
+                    "PCSystemTypeEx": 1,
+                    "PartOfDomain": true,
+                    "DomainRole": 1
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "device type unknown",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "machine.mobile": null
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\FVE": {
+              "status": "keyMissing"
+            },
+            "wmi:root\\cimv2:Win32_ComputerSystem": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "ENC-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "encryption",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Secure Boot is on",
+        "de": "Secure Boot ist aktiv"
+      },
+      "rationale": {
+        "en": "Secure Boot lets the firmware start only signed boot loaders, which blocks boot kits that hide below Windows. The rule reads the state that Windows records at startup (UEFISecureBootEnabled). A machine in legacy BIOS mode has no Secure Boot; that is a finding with an exception route.",
+        "de": "Secure Boot lässt die Firmware nur signierte Bootloader starten und blockiert so Bootkits, die sich unterhalb von Windows verstecken. Die Regel liest den Zustand, den Windows beim Start ablegt (UEFISecureBootEnabled). Ein Rechner im Legacy-BIOS-Modus hat kein Secure Boot; das ist ein Befund mit Weg über eine Ausnahme."
+      },
+      "otNote": {
+        "en": "Older industrial PCs and some boot media of plant software run in legacy BIOS mode. Switching to UEFI usually needs a new installation (GPT partitioning); plan it with the next system renewal or document the exception.",
+        "de": "Ältere Industrie-PCs und manche Startmedien von Anlagensoftware laufen im Legacy-BIOS-Modus. Der Wechsel auf UEFI erfordert meist eine Neuinstallation (GPT-Partitionierung); mit der nächsten Systemerneuerung einplanen oder die Ausnahme dokumentieren."
+      },
+      "remedy": {
+        "en": "Switch the firmware to UEFI mode and enable Secure Boot in the firmware setup.",
+        "de": "Die Firmware auf UEFI umstellen und Secure Boot im Firmware-Setup einschalten."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecureBoot\\State",
+        "value": "UEFISecureBootEnabled",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Enable Secure Boot in the UEFI setup. A system installed in legacy BIOS mode must first be converted to GPT (mbr2gpt) or reinstalled; check the plant vendor's approval first.",
+          "de": "Secure Boot im UEFI-Setup einschalten. Ein im Legacy-BIOS-Modus installiertes System muss zuerst auf GPT umgestellt (mbr2gpt) oder neu installiert werden; vorher die Freigabe des Anlagenherstellers prüfen."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Secure Boot"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-253257",
+            "WN11-00-000020"
+          ]
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-254284",
+            "WN22-00-000470"
+          ]
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2025 STIG V1R4 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-278032",
+            "WN25-00-000470"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.9"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1046",
+            "M0946"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Secure Boot",
+          "note": "Motherboards with Secure Boot functionality should be used."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Sample Secure Boot Inventory Data Collection script (Microsoft Support, 2025-12-05)",
+          "url": "https://support.microsoft.com/topic/d02971d2-d4b5-42c9-b58a-8527f0ffa30b",
+          "date": "2026-10-18",
+          "note": "Reads HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecureBoot\\State UEFISecureBootEnabled; absent value means the system may not support UEFI/Secure Boot."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-253257 (WN11-00-000020)",
+          "note": "Secure Boot State must be On."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Secure Boot on",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecureBoot\\State": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UEFISecureBootEnabled": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "UEFI with Secure Boot off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecureBoot\\State": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UEFISecureBootEnabled": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "legacy BIOS (state key missing)",
+          "machine": {
+            "build": 14393,
+            "edition": "EnterpriseS",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecureBoot\\State": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "wrong value type",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecureBoot\\State": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UEFISecureBootEnabled": {
+                    "t": "sz",
+                    "v": "1"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\SecureBoot\\State": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "ENC-06",
+      "since": "2026.10",
+      "state": "active",
+      "category": "encryption",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": "External DMA devices incompatible with Kernel DMA Protection are blocked",
+        "de": "Externe DMA-Geräte ohne Unterstützung für Kernel-DMA-Schutz werden blockiert"
+      },
+      "rationale": {
+        "en": "Thunderbolt, USB4 and similar ports allow direct memory access. With Kernel DMA Protection, Windows blocks devices whose drivers do not support DMA remapping; by default only until a user signs in. The rule expects the enumeration policy 'Block all', as ACSC and DISA recommend. The policy works only on hardware that supports Kernel DMA Protection; that runtime state is not collected yet.",
+        "de": "Thunderbolt-, USB4- und ähnliche Anschlüsse erlauben direkten Speicherzugriff. Mit dem Kernel-DMA-Schutz blockiert Windows Geräte, deren Treiber kein DMA-Remapping unterstützen – standardmäßig nur bis zur Anmeldung eines Benutzers. Die Regel erwartet die Aufzählungsrichtlinie „Block all“, wie ACSC und DISA empfehlen. Die Richtlinie wirkt nur auf Hardware mit Kernel-DMA-Schutz; dieser Laufzeitzustand wird noch nicht erhoben."
+      },
+      "otNote": {
+        "en": "Industrial PCs without Thunderbolt or USB4 ports are hardly exposed. Where such ports exist but are needed for docking stations, check that the docks' drivers support DMA remapping before blocking.",
+        "de": "Industrie-PCs ohne Thunderbolt- oder USB4-Anschluss sind kaum betroffen. Wo solche Anschlüsse für Dockingstationen gebraucht werden, vor dem Blockieren prüfen, ob deren Treiber DMA-Remapping unterstützen."
+      },
+      "remedy": {
+        "en": "Set 'Enumeration policy for external devices incompatible with Kernel DMA Protection' to 'Block all'.",
+        "de": "„Enumeration policy for external devices incompatible with Kernel DMA Protection“ auf „Block all“ setzen."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "kernelDmaProtection",
+        "ifCapabilityAbsent": "fail"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Kernel DMA Protection",
+        "value": "DeviceEnumerationPolicy",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 0,
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 17763,
+            "value": 1,
+            "source": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-dmaguard",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Kernel DMA Protection",
+            "value": "DeviceEnumerationPolicy",
+            "type": "dword",
+            "data": 0
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Direct Memory Access"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Enumeration policy for external devices incompatible with Kernel DMA Protection"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-253426",
+            "WN11-EP-000310"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.3.7"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1034",
+            "M0934"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Direct Memory Access",
+          "note": "Enumeration policy for external devices incompatible with Kernel DMA Protection: Enabled, Block All."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP - DmaGuard (updated 2025-03-12)",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-dmaguard",
+          "date": "2026-10-18",
+          "note": "DeviceEnumerationPolicy: 0 block all, 1 only after log in/screen unlock (default), 2 allow all; Windows 10 1809 [10.0.17763] and later; registry key Software\\Policies\\Microsoft\\Windows\\Kernel DMA Protection."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-253426 (WN11-EP-000310)",
+          "note": "DeviceEnumerationPolicy REG_DWORD 0; missing is a finding."
+        }
+      ],
+      "tests": [
+        {
+          "name": "block all",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Kernel DMA Protection": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DeviceEnumerationPolicy": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "only after sign-in",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Kernel DMA Protection": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DeviceEnumerationPolicy": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no policy (default: only after sign-in)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Kernel DMA Protection": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Kernel DMA Protection": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Windows 10 1607 has no such policy",
+          "machine": {
+            "build": 14393,
+            "edition": "EnterpriseS",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Kernel DMA Protection": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "server is out of scope of this rule",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Kernel DMA Protection": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "ENC-07",
+      "since": "2026.10",
+      "state": "active",
+      "category": "encryption",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": "Writing to removable drives requires BitLocker",
+        "de": "Schreiben auf Wechseldatenträger setzt BitLocker voraus"
+      },
+      "rationale": {
+        "en": "Unencrypted USB drives carry data out of the plant and are lost easily. With this policy Windows mounts removable drives without BitLocker read-only. The policy value lives under SYSTEM\\CurrentControlSet\\Policies, which the collection plan of collector 0.1 does not read yet; until then the rule is 'nicht prüfbar'.",
+        "de": "Unverschlüsselte USB-Datenträger tragen Daten aus der Anlage und gehen leicht verloren. Mit dieser Richtlinie bindet Windows Wechseldatenträger ohne BitLocker nur lesend ein. Der Richtlinienwert liegt unter SYSTEM\\CurrentControlSet\\Policies, das der Erhebungsplan des Sammlers 0.1 noch nicht liest; bis dahin ist die Regel „nicht prüfbar“."
+      },
+      "otNote": {
+        "en": "Engineering data is often exchanged with machines on USB sticks. Encrypted sticks (BitLocker To Go) keep working; for machine controllers that cannot read encrypted media, document a controlled data carrier as an exception.",
+        "de": "Engineering-Daten werden oft per USB-Stick mit Maschinen ausgetauscht. Verschlüsselte Sticks (BitLocker To Go) funktionieren weiter; für Steuerungen, die verschlüsselte Medien nicht lesen können, einen kontrollierten Datenträger als Ausnahme dokumentieren."
+      },
+      "remedy": {
+        "en": "Enable 'Deny write access to removable drives not protected by BitLocker'.",
+        "de": "„Deny write access to removable drives not protected by BitLocker“ aktivieren."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "bitlocker",
+        "ifCapabilityAbsent": "fail"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SYSTEM\\CurrentControlSet\\Policies\\Microsoft\\FVE",
+        "value": "RDVDenyWriteAccess",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Policies\\Microsoft\\FVE",
+            "value": "RDVDenyWriteAccess",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Drive encryption"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Deny write access to removable drives not protected by BitLocker"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.3.8",
+            "KONF.3.2"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1057",
+            "M0803"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Drive encryption",
+          "note": "Deny write access to removable drives not protected by BitLocker: Enabled."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "BitLocker CSP (ms.date 2025-11-06)",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/bitlocker-csp",
+          "date": "2026-10-18",
+          "note": "RemovableDrivesRequireEncryption: ADMX RDVDenyWriteAccess_Name, registry key System\\CurrentControlSet\\Policies\\Microsoft\\FVE, value RDVDenyWriteAccess."
+        }
+      ],
+      "tests": [
+        {
+          "name": "write access denied",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Policies\\Microsoft\\FVE": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RDVDenyWriteAccess": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "policy disabled",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Policies\\Microsoft\\FVE": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RDVDenyWriteAccess": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no policy (key covered)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "coverage": [
+            {
+              "root": "HKLM\\SYSTEM\\CurrentControlSet\\Policies\\Microsoft\\FVE",
+              "recursive": false,
+              "maxDepth": 0,
+              "complete": true,
+              "deniedSubkeys": []
+            }
+          ],
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Policies\\Microsoft\\FVE": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "key outside the current collection plan",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {},
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Policies\\Microsoft\\FVE": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "server is out of scope of this rule",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Policies\\Microsoft\\FVE": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RDVDenyWriteAccess": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    }
+  ]
+}

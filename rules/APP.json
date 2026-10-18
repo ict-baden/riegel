@@ -1,0 +1,702 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "APP",
+  "rules": [
+    {
+      "id": "APP-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "appControl",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Application control (App Control for Business) is enforced",
+        "de": "Anwendungssteuerung (App Control for Business) wird durchgesetzt"
+      },
+      "rationale": {
+        "en": "Application control lets only approved programs run, which stops most malware and unapproved tools even if they reach the machine. Riegel reads the user-mode code integrity enforcement status of Windows: 2 means an App Control for Business policy is enforced. The kernel-mode status is not enough, because Windows already enforces Microsoft's own driver policies without any application allow-list. AppLocker cannot be confirmed from the collected data yet.",
+        "de": "Anwendungssteuerung lässt nur freigegebene Programme laufen und stoppt so die meiste Schadsoftware und nicht freigegebene Werkzeuge, selbst wenn sie auf den Rechner gelangen. Riegel liest den Durchsetzungsstatus der Codeintegrität im Benutzermodus: 2 bedeutet, eine Richtlinie von App Control for Business wird durchgesetzt. Der Status im Kernelmodus reicht nicht, weil Windows Microsofts eigene Treiberrichtlinien auch ohne Anwendungs-Freigabeliste durchsetzt. AppLocker lässt sich aus den erhobenen Daten noch nicht bestätigen."
+      },
+      "otNote": {
+        "en": "Many plants use a third-party allow-listing product or AppLocker instead. Riegel cannot confirm those from the snapshot; record them as an exception with the reason 'compensating control' and the product's own evidence.",
+        "de": "Viele Anlagen nutzen stattdessen ein Allow-Listing-Produkt eines Drittherstellers oder AppLocker. Das kann Riegel aus dem Snapshot nicht bestätigen; als Ausnahme mit dem Grund „kompensierende Maßnahme“ und dem Nachweis aus dem Produkt selbst erfassen."
+      },
+      "remedy": {
+        "en": "Deploy an App Control for Business policy in enforced mode (after an audit phase), or document the allow-listing product in use as an exception.",
+        "de": "Eine Richtlinie von App Control for Business im Durchsetzungsmodus verteilen (nach einer Überwachungsphase) oder das eingesetzte Allow-Listing-Produkt als Ausnahme dokumentieren."
+      },
+      "suggestedReason": "compensatingControl",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "appControl",
+        "ifCapabilityAbsent": "fail"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "wmiProperty",
+        "item": "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard",
+        "property": "UsermodeCodeIntegrityPolicyEnforcementStatus",
+        "rows": "first",
+        "op": "eq",
+        "expected": 2,
+        "ifNoRows": "notCheckable"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Create an App Control for Business policy (for example with the App Control Wizard), run it in audit mode on a reference machine, then deploy it enforced through Group Policy, Intune or a policy file.",
+          "de": "Eine Richtlinie für App Control for Business erstellen (etwa mit dem App Control Wizard), auf einem Referenzrechner im Überwachungsmodus betreiben und dann durchgesetzt über Gruppenrichtlinie, Intune oder eine Richtliniendatei verteilen."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Application control"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-253262",
+            "WN11-00-000035"
+          ]
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-254245",
+            "WN22-00-000080"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.9",
+            "KONF.7.10"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1038",
+            "M0938"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Application control",
+          "note": "Application control should be implemented so that only approved applications can run."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Enable memory integrity (Win32_DeviceGuard properties, ms.date 2026-08-14)",
+          "url": "https://learn.microsoft.com/en-us/windows/security/hardware-security/enable-virtualization-based-protection-of-code-integrity",
+          "date": "2026-10-18",
+          "note": "UsermodeCodeIntegrityPolicyEnforcementStatus and CodeIntegrityPolicyEnforcementStatus: 0 off, 1 audit, 2 enforced."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Application Control for Windows (ms.date 2026-08-18)",
+          "url": "https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/appcontrol",
+          "date": "2026-10-18",
+          "note": "App Control for Business applies to Windows 10/11 and Windows Server 2016 and later."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Microsoft recommended driver block rules (ms.date 2026-05-01)",
+          "url": "https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/design/microsoft-recommended-driver-block-rules",
+          "date": "2026-10-18",
+          "note": "Since the Windows 11 2022 update the vulnerable driver blocklist is enabled by default for all devices; it is also enforced with memory integrity (HVCI). Kernel-mode enforcement therefore does not show an application allow-list."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-253262 (WN11-00-000035)",
+          "note": "A deny-all, permit-by-exception policy must allow only authorized software."
+        }
+      ],
+      "tests": [
+        {
+          "name": "user-mode policy enforced",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesConfigured": [
+                      2
+                    ],
+                    "SecurityServicesRunning": [
+                      2
+                    ],
+                    "CodeIntegrityPolicyEnforcementStatus": 2,
+                    "UsermodeCodeIntegrityPolicyEnforcementStatus": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "only kernel-mode policies enforced",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesConfigured": [
+                      2
+                    ],
+                    "SecurityServicesRunning": [
+                      2
+                    ],
+                    "CodeIntegrityPolicyEnforcementStatus": 2,
+                    "UsermodeCodeIntegrityPolicyEnforcementStatus": 0
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\SrpV2": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "user-mode policy in audit mode",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesConfigured": [
+                      2
+                    ],
+                    "SecurityServicesRunning": [
+                      2
+                    ],
+                    "CodeIntegrityPolicyEnforcementStatus": 2,
+                    "UsermodeCodeIntegrityPolicyEnforcementStatus": 1
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Device Guard class missing on Windows 11",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Windows 7: App Control for Business does not exist",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Server 2022, policy enforced",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "VirtualizationBasedSecurityStatus": 2,
+                    "SecurityServicesConfigured": [
+                      2
+                    ],
+                    "SecurityServicesRunning": [
+                      2
+                    ],
+                    "CodeIntegrityPolicyEnforcementStatus": 2,
+                    "UsermodeCodeIntegrityPolicyEnforcementStatus": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        }
+      ]
+    },
+    {
+      "id": "APP-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "appControl",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "Windows Installer does not always install with elevated privileges",
+        "de": "Windows Installer installiert nicht immer mit erhöhten Rechten"
+      },
+      "rationale": {
+        "en": "With AlwaysInstallElevated set, any user can install a Windows Installer package with SYSTEM rights, for example one that adds a new administrator. Windows elevates only when the value is 1 under both the machine and the user policy key; Riegel collects machine settings, so a machine value other than 1 already prevents it. A missing machine value is safe by Microsoft's documentation and is flagged 'Standardwert angenommen'.",
+        "de": "Ist AlwaysInstallElevated gesetzt, kann jeder Benutzer ein Windows-Installer-Paket mit SYSTEM-Rechten installieren – etwa eines, das einen neuen Administrator anlegt. Windows erhöht nur, wenn der Wert sowohl im Computer- als auch im Benutzer-Richtlinienschlüssel 1 ist; Riegel erhebt Computereinstellungen, und ein Computerwert ungleich 1 verhindert es bereits. Ein fehlender Computerwert ist laut Microsoft-Dokumentation sicher und wird als „Standardwert angenommen“ markiert."
+      },
+      "remedy": {
+        "en": "Set 'Always install with elevated privileges' to Disabled (machine and user policy) or remove the value.",
+        "de": "„Always install with elevated privileges“ auf Disabled setzen (Computer- und Benutzerrichtlinie) oder den Wert entfernen."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer",
+        "value": "AlwaysInstallElevated",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 0,
+        "whenMissing": "pass",
+        "missingPass": {
+          "source": "https://learn.microsoft.com/en-us/windows/win32/msi/alwaysinstallelevated",
+          "seen": "2026-10-18",
+          "note": "If AlwaysInstallElevated is not set to 1 under both HKCU and HKLM Software\\Policies\\Microsoft\\Windows\\Installer, Windows Installer does not elevate unmanaged installations."
+        }
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer",
+            "value": "AlwaysInstallElevated",
+            "type": "dword",
+            "data": 0
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Installing applications"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Always install with elevated privileges"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Always install with elevated privileges"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-253411",
+            "WN11-CC-000315"
+          ]
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Server 2022 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-254374",
+            "WN22-CC-000430"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.9",
+            "KONF.6.4"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1026",
+            "M1042",
+            "M0926"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Installing applications",
+          "note": "Windows Installer > Always install with elevated privileges: Disabled."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "AlwaysInstallElevated (Windows Installer)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/msi/alwaysinstallelevated",
+          "date": "2026-10-18",
+          "note": "Elevation only if the value is 1 under both HKCU and HKLM Software\\Policies\\Microsoft\\Windows\\Installer; REG_DWORD."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-253411 (WN11-CC-000315)",
+          "note": "AlwaysInstallElevated REG_DWORD 0."
+        }
+      ],
+      "tests": [
+        {
+          "name": "policy disabled",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AlwaysInstallElevated": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "policy enabled",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AlwaysInstallElevated": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no Installer policy key",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "key without the value",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DisableMSI": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "wrong value type",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AlwaysInstallElevated": {
+                    "t": "sz",
+                    "v": "1"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "APP-06",
+      "since": "2026.10",
+      "state": "active",
+      "category": "appControl",
+      "severity": "medium",
+      "kind": "inventory",
+      "title": {
+        "en": "Remote access tools (inventory)",
+        "de": "Fernwartungswerkzeuge (Bestandsliste)"
+      },
+      "rationale": {
+        "en": "Remote access tools such as TeamViewer, AnyDesk, VNC servers or industrial remote-maintenance clients are a frequent way into plant networks, often installed once by a vendor and forgotten. This rule lists the services and installed programs that match the product list in rules/data/remote-access-tools.json, so each can be justified or removed; it never fails on its own.",
+        "de": "Fernwartungswerkzeuge wie TeamViewer, AnyDesk, VNC-Server oder industrielle Fernwartungsclients sind ein häufiger Weg in Anlagennetze – oft einmal vom Hersteller installiert und vergessen. Die Regel listet Dienste und installierte Programme, die zur Produktliste in rules/data/remote-access-tools.json passen, damit jedes begründet oder entfernt werden kann; sie schlägt nie allein fehl."
+      },
+      "otNote": {
+        "en": "Vendor remote maintenance is often contractually required. Keep the tool only where an approved access process exists (on-demand activation, logging, named accounts) and document it as an exception.",
+        "de": "Fernwartung durch den Hersteller ist oft vertraglich vorgesehen. Das Werkzeug nur dort behalten, wo ein freigegebener Zugangsprozess besteht (Freischaltung bei Bedarf, Protokollierung, persönliche Konten), und als Ausnahme dokumentieren."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "remoteAccessTools",
+        "items": [
+          "wmi:root\\cimv2:Win32_Service",
+          "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
+          "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.4.3",
+            "KONF.4.4"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1038",
+            "M1042",
+            "M0938",
+            "M0942"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [],
+      "tests": [
+        {
+          "name": "tools listed",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "TeamViewer",
+                    "DisplayName": "TeamViewer",
+                    "State": "Running",
+                    "StartMode": "Auto"
+                  },
+                  {
+                    "Name": "Spooler",
+                    "DisplayName": "Print Spooler",
+                    "State": "Running",
+                    "StartMode": "Auto"
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": [
+                  "TeamViewer"
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "info"
+        }
+      ]
+    }
+  ]
+}
