@@ -227,6 +227,12 @@ reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Defaul
 ```
 
 - Skip `auditpol` on Windows XP and Server 2003; they have no `auditpol /backup`.
+- Run the commands in a **64-bit** command prompt on 64-bit Windows. A 32-bit `cmd` (started from a 32-bit
+  remote-maintenance tool or file manager) runs the 32-bit `reg.exe`, which reads `HKLM\SOFTWARE\WOW6432Node` – there
+  `Winlogon\AutoAdminLogon` is missing, and a machine with automatic logon would look clean. `collect-builtin.cmd`
+  therefore restarts itself through `%SystemRoot%\Sysnative\cmd.exe` and writes `wow64=0` (or `wow64=1` when that is
+  not possible) to `exitcodes.txt`; typed by hand, add `wow64=0` only after checking that `%PROCESSOR_ARCHITEW6432%` is
+  not set. Without `wow64=0`, a Winlogon value missing from `winlogon.txt` is "not collected", never "not set".
 - **Never** `reg export` the whole `Services` tree or `Windows NT\CurrentVersion`: they contain vendor service
   credentials, SNMP community strings and, under `Winlogon`, a cleartext `DefaultPassword`. That is why services come
   only as their `Start` values and `CurrentVersion` only with its version values (`CurrentBuild`, `UBR`, `EditionID`,

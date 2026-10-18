@@ -112,22 +112,35 @@ internal static class BuiltinBundleReader
             AddCoverage(coverage, new CoverageEntry(ServicesKey, true, 1, true, [], null));
         }
 
-        // ---- Winlogon
-        if (bundle.Has("winlogon.txt") && !StepFailed(exitCodes, "winlogon") && !keys.ContainsKey(WinlogonKey))
+        // ---- Winlogon (Review evidence-3): ein 32-Bit-cmd auf 64-Bit-Windows liest WOW6432Node, wo z. B. AutoAdminLogon
+        // fehlt – Winlogon aus einem solchen Lauf (wow64=1) wird nicht verwendet. Ein fehlender Wert gilt nur als „nicht
+        // gesetzt“, wenn seine Abfrage errorlevel 1 („Wert fehlt“) meldet und der Lauf nachweislich in der 64-Bit-Ansicht
+        // lief (wow64=0); sonst ist er nicht erfasst (Wertfilter ohne ihn).
+        if (bundle.Has("winlogon.txt") && !StepFailed(exitCodes, "winlogon") && !keys.ContainsKey(WinlogonKey)
+            && !(exitCodes.TryGetValue("wow64", out var wow64) && wow64 != 0))
         {
             var text = TextFiles.DecodeConsoleText(bundle.Bytes("winlogon.txt"), "winlogon.txt");
-            var winlogon = new RegKeyData(WinlogonKey) { Subkeys = null, ValueFilter = [.. WinlogonValues] };
+            var winlogon = new RegKeyData(WinlogonKey) { Subkeys = null, ValueFilter = [] };
             var lines = TextFiles.Lines(text);
             var queryText = string.Join("\n", lines.Where(line => !line.StartsWith("DefaultPassword=", StringComparison.OrdinalIgnoreCase)));
+            var found = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             foreach (var queried in RegQueryParser.Parse(queryText, "winlogon.txt", 64))
             {
                 if (!queried.Path.Equals(WinlogonKey, StringComparison.OrdinalIgnoreCase)) continue;
                 foreach (var v in queried.Values)
                 {
                     if (!WinlogonValues.Contains(v.Name, StringComparer.OrdinalIgnoreCase)) continue;
-                    if (RegQueryParser.ToRegValue(v, "winlogon.txt") is { } value) winlogon.Set(v.Name, value);
+                    if (RegQueryParser.ToRegValue(v, "winlogon.txt") is { } value)
+                    {
+                        winlogon.Set(v.Name, value);
+                        found.Add(v.Name);
+                    }
                 }
             }
+            bool nativeView = exitCodes.TryGetValue("wow64", out var view) && view == 0;
+            foreach (var name in WinlogonValues)
+                if (found.Contains(name) || (nativeView && exitCodes.TryGetValue("winlogon-" + name.ToLowerInvariant(), out var rc) && rc == 1))
+                    winlogon.ValueFilter!.Add(name);
             var marker = lines.Select(x => x.Trim()).FirstOrDefault(x => x.StartsWith("DefaultPassword=", StringComparison.OrdinalIgnoreCase));
             if (marker is not null)
             {

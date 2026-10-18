@@ -13,7 +13,18 @@ rem Aufruf:   collect-builtin.cmd [Zielordner]
 rem Exitcode: 0 alles gelesen, 1 geschrieben, aber unvollstaendig, 3 nichts geschrieben
 rem Dieselben Befehle zum Abtippen: docs/collector.md, Abschnitt "Built-in commands".
 rem ---------------------------------------------------------------------------------------------
+rem 32-Bit-cmd auf 64-Bit-Windows (z. B. aus einem 32-Bit-Fernwartungs- oder Dateiprogramm gestartet): reg.exe
+rem saehe die 32-Bit-Ansicht HKLM\SOFTWARE\WOW6432Node, dort fehlt z. B. Winlogon\AutoAdminLogon. Daher mit dem
+rem 64-Bit-cmd aus Sysnative neu starten; ohne Sysnative (Windows XP x64 ohne Hotfix) vermerkt exitcodes.txt
+rem "wow64=1", und Riegel verwendet Winlogon dann nicht.
+if not defined PROCESSOR_ARCHITEW6432 goto native
+if not exist "%SystemRoot%\Sysnative\cmd.exe" goto native
+"%SystemRoot%\Sysnative\cmd.exe" /d /c call "%~f0" %*
+exit /b
+:native
 setlocal EnableExtensions DisableDelayedExpansion
+set "WOW64=0"
+if defined PROCESSOR_ARCHITEW6432 set "WOW64=1"
 
 set "TARGET=%~1"
 if "%TARGET%"=="" set "TARGET=%~dp0"
@@ -44,6 +55,7 @@ set "CODES=%BUNDLE%\exitcodes.txt"
 set "FAILED=0"
 >"%CODES%" echo date=%DATESOURCE%
 if not exist "%CODES%" goto notwritable
+>>"%CODES%" echo wow64=%WOW64%
 
 echo Riegel built-in collection (read-only) / Bordmittel-Erhebung (nur lesend)
 echo Folder / Ordner: %BUNDLE%
@@ -109,7 +121,8 @@ rem Herstellerdiensten und SNMP-Communities
 reg query "HKLM\SYSTEM\CurrentControlSet\Services" /s /v Start >"%BUNDLE%\services-start.txt" 2>nul
 call :rec services-start %ERRORLEVEL% required
 
-rem Winlogon: drei Werte einzeln; von DefaultPassword nur "present" oder "absent", nie der Wert
+rem Winlogon: drei Werte einzeln; von DefaultPassword nur "present" oder "absent", nie der Wert. errorlevel 1 heisst
+rem "Wert fehlt" (Winlogon ist fuer jeden Benutzer lesbar); Riegel wertet das nur bei wow64=0 als "nicht gesetzt".
 set "WL=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 reg query "%WL%" /v AutoAdminLogon >"%BUNDLE%\winlogon.txt" 2>nul
 call :rec winlogon-autoadminlogon %ERRORLEVEL%

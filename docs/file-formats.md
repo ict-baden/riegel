@@ -211,7 +211,7 @@ Folder `<HOST>_<yyyyMMdd>.riegel-builtin\`, written by `collect-builtin.cmd` or 
 | `services-start.txt` | `reg query HKLM\SYSTEM\CurrentControlSet\Services /s /v Start` (console code page, CRLF); type tokens like `REG_DWORD` are not localised; the localised footer line is ignored |
 | `winlogon.txt` | `reg query … /v AutoAdminLogon`, `/v DefaultUserName`, `/v DefaultDomainName`, then one line `DefaultPassword=present` or `DefaultPassword=absent` – never the value |
 | `hostname.txt`, `ver.txt` | outputs of `hostname` and `ver` |
-| `exitcodes.txt` | one line `<step>=<errorlevel>` per command, e.g. `secedit=0`, `reg-03=0`, `currentversion=0`, `services-start=0`; `reg-NN=1` means the key is missing or unreadable, and that file is skipped |
+| `exitcodes.txt` | one line `<step>=<errorlevel>` per command, e.g. `secedit=0`, `reg-03=0`, `currentversion=0`, `services-start=0`; `reg-NN=1` means the key is missing or unreadable, and that file is skipped. `wow64=0` records that the commands ran in the 64-bit registry view (`wow64=1`: a 32-bit `cmd` on 64-bit Windows without `Sysnative`, whose `reg` sees `WOW6432Node`; Winlogon is then not used). A Winlogon value missing from `winlogon.txt` counts as not set only with `wow64=0` and `winlogon-<value>=1` (`reg query` "value not found"); otherwise it is not collected |
 
 The reader converts a bundle into a snapshot with `origin: builtin`, a coverage list for exactly the exported keys
 (everything else `notCollected`), redaction re-applied and per-file size limits:
