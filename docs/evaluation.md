@@ -159,7 +159,9 @@ values **Normal**, **Passive** and **EDR Block Mode** ("Microsoft Defender Antiv
 products", https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-antivirus-compatibility, seen
 2026-10-18). Without a readable mode the engine derives it, flagged **Derived**: antivirus or the antimalware service
 disabled → off; antivirus and real-time protection on and no other antivirus registered → active; anything else
-unknown. A missing Defender WMI namespace means Defender is absent.
+unknown. A derived "off" is unknown when the documented Windows Security Center API reports Microsoft Defender as on:
+with a restricted token `MSFT_MpComputerStatus` returns placeholders (`AMRunningMode` "Not running", every switch
+false, signature age 65535) for a Defender that is running. A missing Defender WMI namespace means Defender is absent.
 
 | Defender mode | Third-party antivirus active | Defender settings (DEF-01/02/03/12, LIFE-04) | ASR rules and "ASR configured" (DEF-09) |
 |---|---|---|---|

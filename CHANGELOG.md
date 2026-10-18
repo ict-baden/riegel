@@ -19,6 +19,7 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 - SVC-01: verlangt den Starttyp „Deaktiviert“ der Druckwarteschlange statt nur „beendet“; eine beendete Warteschlange mit Starttyp Automatisch war „erfüllt“, startet aber beim nächsten Neustart wieder. Auch auf Bordmittel-Paketen damit prüfbar.
 - AUD-23: der lokale Wert der Protokollgröße zählt nur, wo die Größe der Gruppenrichtlinie nachweislich nicht gesetzt ist; ein nicht lesbarer Richtlinienschlüssel ergibt „nicht prüfbar“ statt „erfüllt“ aus dem lokalen Wert. Der Mutationstest prüft jetzt auch den Vorrang zwischen Konfigurationsquellen.
 - Prüfumfang: wird auf ganze Prozent abgeschnitten statt gerundet; 89,5 % erschienen vorher als 90 % ohne Hinweis „Unvollständige Prüfung“, ohne Graustufe und ohne Lauf-Flag `Incomplete`.
+- Defender ohne Admin: meldet die WSC-API Microsoft Defender als eingeschaltet, wird aus den Platzhaltern von MSFT_MpComputerStatus (eingeschränktes Token) nicht mehr „aus“ hergeleitet; DEF-01/02/12, LIFE-04 und ASR-xx sind dann „nicht prüfbar“ statt „kein aktiver Virenschutz“.
 
 ## [0.1.0] – 2026-10-18
 
