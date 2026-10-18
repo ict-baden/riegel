@@ -12,8 +12,9 @@
 ## What it is
 
 `Riegel.Collector.exe` is a small program (about 125 KB) that reads the security configuration of one Windows
-machine and writes one snapshot file next to itself or into the folder you name. It installs nothing, starts no
-service, changes no setting and opens no network connection. The snapshot is evaluated later, on another PC, with
+machine and writes one snapshot file next to itself or into the folder you name. It installs nothing, changes no
+configuration and opens no network connection; Windows itself records that a program ran, and `gpresult` can make
+Windows start the Group Policy Client service on demand ([What it leaves behind](#what-it-leaves-behind)). The snapshot is evaluated later, on another PC, with
 Riegel (`Riegel-x64.msi`, `Riegel.exe` or the command line).
 
 - **Runs on** Windows 7 SP1 to Windows 11 and Windows Server 2008 R2 SP1 to 2025, x86, x64 and Arm64, with the .NET

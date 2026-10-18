@@ -28,13 +28,14 @@
 
 <p align="center">
   <b>Evidence of hardening for the Windows machines nobody manages centrally.</b><br>
-  Riegel reads the security configuration of plant, lab and control-room PCs without changing anything, checks it
+  Riegel reads the security configuration of plant, lab and control-room PCs without changing their configuration, checks it
   against 153 rules,<br>keeps what is deliberately open as justified and approved exceptions, and writes a report to sign.
 </p>
 
 > [!IMPORTANT]
 > **The MSI is not the way onto OT or validated machines.** Installing software there is a change in itself. On plant
-> PCs run the **portable collector** (`Riegel-Collector.zip`, installs nothing, changes nothing) or Windows' own
+> PCs run the **portable collector** (`Riegel-Collector.zip`: installs nothing, changes no configuration and writes only
+> its export; Windows itself records that a program ran – [what it leaves behind](docs/collector.md#what-it-leaves-behind)) or Windows' own
 > **built-in commands**, and evaluate the snapshot on an analysis PC. The MSI is for admin, engineering and auditor
 > PCs. **Not code-signed yet:** no customer pilot on OT or validated machines with this unsigned 0.1 version.
 
@@ -43,7 +44,8 @@
 > gegen ein eigenes Härtungs-Regelwerk mit 153 Regeln. Was nicht gehärtet werden kann, wird als begründete Ausnahme mit
 > Freigabe festgehalten, Zuschnitt und Maßnahmenplan inklusive; am Ende stehen ein Bericht zum Abzeichnen (PDF), Excel,
 > ein Nachweispaket mit `verify` und Abhilfe-Dateien für den Anlagenbauer. Riegel ändert auf den geprüften Rechnern
-> nichts. **Die MSI ist nicht der Weg auf OT-Rechner:** dort läuft nur der portable Sammler ohne Installation.
+> keine Konfiguration; der Sammler schreibt nur seinen Export, und Windows selbst vermerkt, dass ein Programm lief
+> ([was bleibt](docs/collector.md#what-it-leaves-behind)). **Die MSI ist nicht der Weg auf OT-Rechner:** dort läuft nur der portable Sammler ohne Installation.
 > Oberfläche und Berichte gibt es auf Deutsch, Englisch, Spanisch, Französisch und Chinesisch (die letzten drei
 > maschinell vorübersetzt); diese Dokumentation ist englisch.
 
