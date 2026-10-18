@@ -12,6 +12,7 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 - ACCT-14 (Windows LAPS): wie Windows LAPS gilt der erste Richtlinienbereich mit irgendeiner Einstellung als aktiv (CSP, Gruppenrichtlinie, lokale Konfiguration, altes Microsoft LAPS); ein dort fehlendes BackupDirectory heißt „deaktiviert“. Neue Fähigkeit `windowsLaps` (Windows 11/10 und Server 2019/2022 mit dem Update vom 11.04.2023, Server 2025): auf Windows Server 2016 und älter schlägt die Regel fehl statt „erfüllt“. Dafür `registryEffective` mit `selection: root` und `minUbr` in den Fähigkeitstabellen.
 - Bordmittel-Weg: `collect-builtin.cmd` startet sich aus einem 32-Bit-`cmd` über `Sysnative` als 64-Bit-`cmd` neu und vermerkt `wow64` in `exitcodes.txt`; ein fehlendes Winlogon\AutoAdminLogon gilt nur bei `wow64=0` und errorlevel 1 als „nicht gesetzt“. Vorher ergab ein Lauf in der 32-Bit-Ansicht LOGON-10 (hoch) „erfüllt“.
 - LIFE-02: ohne Eintrag in der Build-Tabelle (z. B. Windows 7, 8.1, Server 2012 R2) belegt der neueste Hotfix nur noch einen Befund (seit mehr als `updateMaxDays` nichts installiert); ein junges Installationsdatum (auch eines Wartungsstapel- oder .NET-Updates) ergibt „nicht prüfbar“ statt „erfüllt“.
+- ASR-08 und DEF-09: die drei ASR-Regeln, die laut Microsoft den Cloud-Schutz brauchen (Verbreitung/Alter, verschleierte Skripte, erweiterter Ransomware-Schutz), sind nur mit MAPSReporting 1 oder 2 „erfüllt“; mit 0 „konfiguriert, aber nicht wirksam“.
 
 ## [0.1.0] – 2026-10-18
 

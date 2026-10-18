@@ -637,4 +637,10 @@
   <data name="Detail_HotfixNotProof" xml:space="preserve">
     <value>Correctif le plus récent installé le {0} – la date d'installation d'une mise à jour quelconque (aussi pile de maintenance ou .NET) ne prouve pas quand la mise à jour cumulative installée a été publiée</value>
   </data>
+  <data name="Detail_AsrCloudOff" xml:space="preserve">
+    <value>Règle ASR configurée mais pas effective : Microsoft exige pour elle la protection cloud, et MAPSReporting vaut 0</value>
+  </data>
+  <data name="Detail_AsrCloudUnknown" xml:space="preserve">
+    <value>Cette règle ASR nécessite la protection cloud ; MAPSReporting n'a pas pu être lu</value>
+  </data>
 </root>

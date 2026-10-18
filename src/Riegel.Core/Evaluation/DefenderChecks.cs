@@ -187,9 +187,44 @@ internal sealed partial class EvaluationSession
         outcome = outcome.WithDeciding(Facts.SourcesOf(FactNames.DefenderRtp));
         return rtp switch
         {
-            true => outcome with { Status = ResultStatus.Pass },
+            true => CloudDependentAsr.Contains(c.Guid.Trim().Trim('{', '}')) ? AsrCloud(outcome) : outcome with { Status = ResultStatus.Pass },
             false => outcome.With(T["Detail_AsrNotEffective"]),
             _ => outcome with { Status = ResultStatus.NotCheckable, ReasonCode = RglCodesEngine.DefenderStateUnknown },
+        };
+    }
+
+    /// <summary>
+    /// ASR-Regeln, die laut Microsoft den Cloud-Schutz brauchen („Dependencies: … Cloud Protection“, „To use this ASR
+    /// rule, you must enable cloud-delivered protection“; ASR rules reference, gesehen 2026-10-18,
+    /// https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference): Ausführbare
+    /// Dateien nach Verbreitung/Alter/Vertrauensliste, verschleierte Skripte, erweiterter Ransomware-Schutz.
+    /// </summary>
+    internal static readonly HashSet<string> CloudDependentAsr = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "01443614-cd74-433a-b99e-2ecdc07bfc25",
+        "5beb7efe-fd9a-4556-801d-275e5ffc04cc",
+        "c1db55ab-c21a-4637-bb3f-a12568109d35",
+    };
+
+    /// <summary>
+    /// Review evidence-5: eine cloudabhängige ASR-Regel wirkt nur mit Cloud-Schutz – MAPSReporting 1 oder 2 aus
+    /// MSFT_MpPreference (wie DEF-03); 0 → „konfiguriert, aber nicht wirksam“, nicht lesbar → nicht prüfbar.
+    /// </summary>
+    private Outcome AsrCloud(Outcome outcome)
+    {
+        var pref = Store.Item(Known.MpPreference);
+        outcome = outcome.DecidedBy(Known.MpPreference);
+        if (!pref.IsPresent || JsonRead.Rows(pref.Value) is not { Count: > 0 } rows)
+            return (outcome with { Status = ResultStatus.NotCheckable, ReasonCode = pref.Reason ?? RglCodesEngine.ItemNotCollected })
+                .With(T["Detail_AsrCloudUnknown"]);
+        var maps = JsonRead.Get(rows[0], "MAPSReporting");
+        if (maps is { } v && IsAdminOnlyNotice(v))
+            return (outcome with { Status = ResultStatus.NotCheckable, ReasonCode = RglCodesEngine.ItemDenied }).With(T["Detail_AsrCloudUnknown"]);
+        return (maps is { } m ? JsonRead.Integer(m) : null) switch
+        {
+            1 or 2 => outcome with { Status = ResultStatus.Pass },
+            0 => outcome.With(T["Detail_AsrCloudOff"]),
+            _ => (outcome with { Status = ResultStatus.NotCheckable, ReasonCode = RglCodesEngine.UnexpectedValue }).With(T["Detail_AsrCloudUnknown"]),
         };
     }
 

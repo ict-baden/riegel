@@ -481,4 +481,10 @@
   <data name="Detail_HotfixNotProof" xml:space="preserve">
     <value>Newest hotfix installed on {0} – the installation date of any update (also servicing stack or .NET) does not prove when the installed cumulative update was released</value>
   </data>
+  <data name="Detail_AsrCloudOff" xml:space="preserve">
+    <value>ASR rule configured but not effective: Microsoft requires cloud-delivered protection for it, and MAPSReporting is 0</value>
+  </data>
+  <data name="Detail_AsrCloudUnknown" xml:space="preserve">
+    <value>This ASR rule needs cloud-delivered protection; MAPSReporting could not be read</value>
+  </data>
 </root>

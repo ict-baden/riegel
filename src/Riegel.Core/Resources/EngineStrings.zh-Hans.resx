@@ -637,4 +637,10 @@
   <data name="Detail_HotfixNotProof" xml:space="preserve">
     <value>最新修补程序安装于 {0}——任何更新（包括服务堆栈或 .NET）的安装日期都不能证明已安装的累积更新的发布时间</value>
   </data>
+  <data name="Detail_AsrCloudOff" xml:space="preserve">
+    <value>ASR 规则已配置但未生效：Microsoft 要求为其启用云保护，而 MAPSReporting 为 0</value>
+  </data>
+  <data name="Detail_AsrCloudUnknown" xml:space="preserve">
+    <value>此 ASR 规则需要云保护；无法读取 MAPSReporting</value>
+  </data>
 </root>
