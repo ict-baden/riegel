@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 using System.Globalization;
 using System.Text.Json;
+using Riegel.Core.Facts;
 using Riegel.Core.Model;
 
 namespace Riegel.Core.Evaluation;
@@ -14,11 +15,23 @@ internal sealed partial class EvaluationSession
 
     private Outcome Registry(RegistryCheck c)
     {
+        // Ein 32-Bit-Windows hat keine 32-Bit-Ansicht HKLM\SOFTWARE\WOW6432Node: dieser Teil ist dort nicht anwendbar
+        // (statt „fehlt“ und damit fail, z. B. TLS-09/10 auf Windows 7 x86)
+        if (Is32BitWowKey(c.Key))
+            return new Outcome(ResultStatus.NotApplicable, RglCodesEngine.NotApplicableOs).DecidedBy(ItemKeys.Registry(c.Key));
         var rule = new RegistryRule(c.ValueType, c.AcceptTypes, c.Op, c.Expected, c.WhenMissing, c.OsDefaults, c.MissingPass, c.MultiSz);
         var evidence = Store.RegistryValue(c.Key, c.Value);
         var outcome = evidence.Class == EvidenceClass.NotSet ? Missing(rule, evidence) : CompareRegistry(rule, evidence, null);
         return AutoLogonTrap(c, outcome);
     }
+
+    /// <summary>
+    /// Schlüssel unter HKLM\SOFTWARE\WOW6432Node auf einem 32-Bit-Windows (os.arch x86 oder ARM laut Rechnerkopf).
+    /// Unbekannte Architektur: nein – dann gilt der Schlüssel wie jeder andere.
+    /// </summary>
+    private bool Is32BitWowKey(string key) =>
+        key.StartsWith(@"HKLM\SOFTWARE\WOW6432Node\", StringComparison.OrdinalIgnoreCase)
+        && Facts.Text(FactNames.OsArch) is { } arch && (arch.Equals("x86", StringComparison.OrdinalIgnoreCase) || arch.Equals("ARM", StringComparison.OrdinalIgnoreCase));
 
     /// <summary>Die erste vorhandene Quelle gewinnt; eine nicht verfügbare Quelle davor macht die Prüfung „nicht prüfbar“.</summary>
     private Outcome RegistryEffective(RegistryEffectiveCheck c)

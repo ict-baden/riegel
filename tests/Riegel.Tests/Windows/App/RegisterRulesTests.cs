@@ -36,7 +36,7 @@ public sealed class RegisterRulesTests
     public void Ausnahme_Pflichtfelder()
     {
         var rule = RuleBuilder.Check("NET-01", "network").Build();
-        Assert.Empty(Codes(RegisterRules.IssuesFor(Exception(), rule, PlantSettings.Default)).Where(c => c != RglCodesApp.UnknownRule));
+        Assert.DoesNotContain(Codes(RegisterRules.IssuesFor(Exception(), rule, PlantSettings.Default)), c => c != RglCodesApp.UnknownRule);
         Assert.Contains(RglCodesApp.JustificationTooShort, Codes(RegisterRules.IssuesFor(Exception(justification: "zu kurz"), rule, PlantSettings.Default)));
         Assert.Contains(RglCodesApp.ReferenceRequired, Codes(RegisterRules.IssuesFor(Exception(ReasonCategory.VendorRequirement), rule, PlantSettings.Default)));
         Assert.DoesNotContain(RglCodesApp.ReferenceRequired, Codes(RegisterRules.IssuesFor(Exception(ReasonCategory.VendorRequirement, reference: "HD-4711"), rule, PlantSettings.Default)));

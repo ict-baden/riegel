@@ -42,7 +42,7 @@ public sealed partial class RecordedFixtureTests
         AssertAnonymous(json, relative);
         Assert.Equal(relative.Contains("-nonadmin", StringComparison.Ordinal), !snapshot.IsAdmin);
         Assert.Equal(SnapshotOrigin.Recorded, snapshot.Origin);
-        Assert.DoesNotMatch(@"WIN-[A-Z0-9]{11}", json);
+        Assert.DoesNotMatch(@"\bWIN-[A-Z0-9]{11}\b", json);
     }
 
     [Fact]

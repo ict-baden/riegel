@@ -46,7 +46,10 @@
 
       <Component Id="StartMenu" Directory="ProgramMenuFolder" Guid="577DFE8C-6CB0-4127-9B0A-F86608882BE5">
         <Shortcut Id="RiegelShortcut" Name="Riegel" Description="Härtungs-Check für Windows-Rechner in Anlagen, Laboren und Leitständen"
-                  Target="[INSTALLFOLDER]Riegel.exe" WorkingDirectory="INSTALLFOLDER" Icon="RiegelIcon" />
+                  Target="[INSTALLFOLDER]Riegel.exe" WorkingDirectory="INSTALLFOLDER" Icon="RiegelIcon">
+          <!-- Dieselbe AppUserModelID wie Riegel.exe (spec 6): angeheftete Verknüpfung und laufendes Fenster gruppieren sich -->
+          <ShortcutProperty Key="System.AppUserModel.ID" Value="ICT-Baden.Riegel" />
+        </Shortcut>
         <RegistryValue Root="HKLM" Key="SOFTWARE\ICT-Baden\Riegel" Name="StartMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
       </Component>
     </Feature>

@@ -58,6 +58,18 @@
     <None Include="..\..\LICENSE" Link="LICENSE" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <!-- Entwicklung: das Sammler-Paket als collector\ neben Riegel.exe im Build-Ordner (für O15 und den Demo-Bericht). Nie
+       im Publish (sonst steckte die Exe in der Einzeldatei, spec 14); MSI und ZIP bekommen collector\ aus der CI. -->
+  <ItemGroup>
+    <ProjectReference Include="..\Riegel.Collector\Riegel.Collector.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=net35" Private="false" />
+    <None Include="..\Riegel.Collector\bin\$(Configuration)\net35\Riegel.Collector.exe" Link="collector\Riegel.Collector.exe" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never" />
+    <None Include="..\Riegel.Collector\bin\$(Configuration)\net35\Riegel.Collector.exe.config" Link="collector\Riegel.Collector.exe.config" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never" />
+    <None Include="..\..\tools\collect-builtin\collect-builtin.cmd" Link="collector\collect-builtin.cmd" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never" />
+    <None Include="..\Riegel.Collector\README.txt" Link="collector\README.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never" />
+    <None Include="..\..\LICENSE" Link="collector\LICENSE" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never" />
+    <None Include="..\..\THIRD-PARTY-NOTICES.txt" Link="collector\THIRD-PARTY-NOTICES.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never" />
+  </ItemGroup>
+
   <ItemGroup>
     <InternalsVisibleTo Include="Riegel.Tests" />
   </ItemGroup>

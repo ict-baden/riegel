@@ -43,18 +43,12 @@ jobs:
           global-json-file: global.json
 
       - name: Schriften für die PDF-Tests
-        # Segoe UI gibt es unter Linux nicht: freie Schriften für die PDF-Dokumente (Liberation ist metrisch gleich Arial)
-        # und Noto CJK für zh-Hans (laut spec 7.10 womöglich CFF-Konturen – das prüft das Paket pdf)
+        # Segoe UI gibt es unter Linux nicht: freie Schriften für die PDF-Dokumente (Liberation ist metrisch gleich Arial).
+        # zh-Hans: WenQuanYi Micro Hei (TrueType-Fläche aus der .ttc, die PDFsharp 6.2.4 einbetten kann); Noto CJK hat
+        # CFF-Konturen und dient dem Test, dass der Schriftsucher sie ablehnt (Paket pdf, docs/reports.md).
         run: |
           sudo apt-get update -q
-          sudo apt-get install -y -q --no-install-recommends fonts-dejavu-core fonts-liberation fonts-noto-cjk
-
-      - name: CJK-Schrift mit TrueType-Konturen (Kandidat)
-        # Für PDFsharp, falls es keine CFF-Konturen einbettet (spec 7.10). Fehlt das Paket im Ubuntu-Image, läuft der Build weiter.
-        continue-on-error: true
-        run: |
-          apt-cache policy fonts-wqy-microhei
-          sudo apt-get install -y -q --no-install-recommends fonts-wqy-microhei
+          sudo apt-get install -y -q --no-install-recommends fonts-dejavu-core fonts-liberation fonts-noto-cjk fonts-wqy-microhei
           fc-list :lang=zh | head -n 20
 
       - name: Build
@@ -65,19 +59,41 @@ jobs:
         # Sammler testet der Job „windows“.
         run: dotnet test tests/Riegel.Tests -c Release -f net10.0 --no-build --logger "trx;LogFileName=tests-linux.trx" --results-directory TestResults
 
-      - name: Rauchtest Linux-Befehlszeile
-        # riegel check --snapshot auf einem synthetischen Export: Exitcode 0–2 ist ein Ergebnis, 3 oder ein Absturz nicht
+      - name: Linux-Befehlszeile veröffentlichen (linux-x64, eine Datei)
+        # Dieselben Schalter wie das Release (dort auf dem Windows-Runner übersetzt); hier, damit die Linux-Datei
+        # unter Linux läuft – ohne Umweg über Artefakte
+        run: >
+          dotnet publish src/Riegel.Cli/Riegel.Cli.csproj -c Release -f net10.0 -r linux-x64 --self-contained true
+          -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true
+          -p:DebugType=none -o out/linux-x64
+
+      - name: Linux-Befehlszeile prüft und verifiziert Fixtures
+        # check auf synthetischen Exporten (Exitcode 0–2 ist ein Ergebnis, 3 oder ein Absturz nicht), dann ein Anlagenordner
+        # aus zwei Fixtures, ein Nachweispaket und verify (muss reproduzieren: Exitcode 0)
         shell: bash
         run: |
-          fixture=tests/Riegel.Tests/Fixtures/synthetic/win11-24h2-workgroup-admin.snapshot.json
-          if [ ! -f "$fixture" ]; then echo "::notice::$fixture fehlt – Rauchtest übersprungen"; exit 0; fi
+          cli=out/linux-x64/Riegel.Cli
+          fixtures=tests/Riegel.Tests/Fixtures/synthetic
+          "$cli" --version
           set +e
-          dotnet run --project src/Riegel.Cli -c Release -f net10.0 -- check --snapshot "$fixture" --format json > smoke.json
+          "$cli" check --snapshot "$fixtures/win11-24h2-workgroup-admin.snapshot.json" --brief
+          code=$?
+          "$cli" check --snapshot "$fixtures/win11-24h2-workgroup-admin.snapshot.json" --format json > smoke.json
+          json=$?
+          set -e
+          echo "check --brief: $code, check --format json: $json"
+          head -c 600 smoke.json; echo
+          if [ "$code" -gt 2 ] || [ "$json" -gt 2 ]; then echo "::error::riegel check endete mit $code/$json"; exit 1; fi
+          work="$RUNNER_TEMP/riegel-linux"
+          "$cli" plant init "$work/plant" --name "CI Linux"
+          set +e
+          "$cli" import "$fixtures/win11-24h2-workgroup-admin.snapshot.json" "$fixtures/server2022-domain-member.snapshot.json" --plant "$work/plant"
           code=$?
           set -e
-          echo "Exitcode: $code"
-          head -c 600 smoke.json; echo
-          if [ "$code" -gt 2 ]; then echo "::error::riegel check endete mit $code"; exit 1; fi
+          if [ "$code" -gt 2 ]; then echo "::error::riegel import endete mit $code"; exit 1; fi
+          "$cli" report --plant "$work/plant" --evidence --format pdf,csv --out "$work/out"
+          "$cli" verify "$work"/out/Riegel-Evidence_*.zip
+          echo "verify: reproduziert"
 
       - name: Testergebnisse
         if: always()
@@ -295,6 +311,15 @@ jobs:
             Copy-Item "$bundle/*" "$dir/collector/"
           }
 
+      - name: Nur-Lesen-Nachweis des Sammlers
+        # spec 4.3/8.9: vor dem MSI-Test, der Dienste und den Windows Installer weckt (sonst wartet der Nachweis lange auf
+        # TiWorker/TrustedInstaller); Ergebnis als Release-Datei
+        shell: pwsh
+        run: |
+          $out = "dist/Riegel-Collector-ReadOnlyProof${{ steps.version.outputs.suffix }}.txt"
+          ./tools/readonly-proof/Invoke-ReadOnlyProof.ps1 -Target collector -Exe out/collector-bundle/Riegel.Collector.exe -Out $out
+          if ($LASTEXITCODE -ne 0) { throw "Nur-Lesen-Nachweis fehlgeschlagen ($LASTEXITCODE)" }
+
       - name: Pakete schnüren
         shell: pwsh
         run: |
@@ -351,22 +376,6 @@ jobs:
           if (Test-Path $dir) { Get-ChildItem $dir -Recurse | Select-Object -First 20; throw "$dir ist nach der Deinstallation noch da" }
           Write-Host 'MSI: installiert, Riegel.Cli.exe --version = 0, Sammler vorhanden, deinstalliert, Ordner entfernt.'
 
-      - name: Nur-Lesen-Nachweis des Sammlers
-        shell: pwsh
-        run: |
-          # spec 4.3/8.9: das Skript bringt das Paket collector; bis dahin ein ehrlicher Platzhalter
-          $out = "dist/Riegel-Collector-ReadOnlyProof${{ steps.version.outputs.suffix }}.txt"
-          if (Test-Path tools/readonly-proof/Invoke-ReadOnlyProof.ps1) {
-            ./tools/readonly-proof/Invoke-ReadOnlyProof.ps1 -Target collector -Exe out/collector-bundle/Riegel.Collector.exe -Out $out
-            if ($LASTEXITCODE -ne 0) { throw "Nur-Lesen-Nachweis fehlgeschlagen ($LASTEXITCODE)" }
-          } else {
-            $text = "Riegel collector ${{ steps.version.outputs.collector }} (SHA-256 unsigned: ${{ steps.collector.outputs.sha256 }})`n" +
-                    "Read-only proof: not yet available in this build (tools/readonly-proof/Invoke-ReadOnlyProof.ps1 is delivered by a later work package).`n" +
-                    "Nur-Lesen-Nachweis: in diesem Stand noch nicht vorhanden.`n"
-            [IO.File]::WriteAllText("$PWD/$out", $text, [Text.UTF8Encoding]::new($false))
-            Write-Host "::notice::tools/readonly-proof/Invoke-ReadOnlyProof.ps1 fehlt – Platzhalter geschrieben"
-          }
-
       - name: AppLocker-Daten des Sammlers
         # Nur auf dem Runner: liest Dateiinformationen und gibt eine Hash-Regel als XML aus – wendet nichts an (spec 4.3)
         shell: powershell
@@ -399,14 +408,15 @@ jobs:
       - name: Demo-Bericht
         shell: pwsh
         run: |
-          # Riegel.exe --demo-report schreibt jedes Dokument aus spec 5 (bis zum Paket app als Platzhalter); kein Upload
+          # Riegel.exe --demo-report schreibt jedes Dokument O1–O15 aus spec 5 über die echte Engine; kein Upload
           $exe = (Resolve-Path out/self-contained/Riegel.exe).Path
           $target = Join-Path $PWD 'out/demo'
           $p = Start-Process -FilePath $exe -ArgumentList '--demo-report', "`"$target`"" -Wait -PassThru
           if ($p.ExitCode -ne 0) { throw "Riegel.exe --demo-report endete mit $($p.ExitCode)" }
           $expected = 'Riegel-Report_*.pdf', 'Riegel-Summary_*.pdf', 'Riegel-Overview_*.xlsx', 'results.csv', 'Riegel-Evidence_*.zip',
                       'Riegel-Soll-Konfiguration_*.pdf', 'Riegel-Soll-Konfiguration_*.xlsx', 'Riegel-Ausnahmen-zur-Genehmigung_*.pdf',
-                      'Riegel-Erhebungsprotokoll_*.pdf', 'riegel-remediation.reg', 'riegel-rollback.reg', 'GptTmpl.inf', 'audit.csv'
+                      'Riegel-Erhebungsprotokoll_*.pdf', 'riegel-remediation.reg', 'riegel-rollback.reg', 'GptTmpl.inf', 'audit.csv',
+                      'UEBERGABE.txt', '*.snapshot.json', '*.results.json', 'exceptions.json', 'tailoring.json', 'measures.json', 'check.txt'
           foreach ($pattern in $expected) {
             if (-not (Get-ChildItem $target -Recurse -Filter $pattern)) { throw "Demo-Bericht: $pattern fehlt" }
           }

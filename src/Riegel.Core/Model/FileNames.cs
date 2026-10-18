@@ -21,11 +21,32 @@ public static class FileNames
     /// <summary>Hostname als Datei- und Ordnername; leer oder nur Sonderzeichen ergibt „unknown“.</summary>
     public static string Host(string hostName) => Token(hostName, "unknown");
 
+    private static string WithoutLoneSurrogates(string text)
+    {
+        StringBuilder? sb = null;
+        for (int i = 0; i < text.Length; i++)
+        {
+            char c = text[i];
+            bool paired = char.IsHighSurrogate(c) ? i + 1 < text.Length && char.IsLowSurrogate(text[i + 1])
+                : !char.IsLowSurrogate(c) || (i > 0 && char.IsHighSurrogate(text[i - 1]));
+            if (!paired)
+            {
+                sb ??= new StringBuilder(text, 0, i, text.Length);
+                sb.Append('\uFFFD');
+                continue;
+            }
+            sb?.Append(c);
+        }
+        return sb?.ToString() ?? text;
+    }
+
     /// <summary>Freier Text (z. B. Anlagenname) als Namensteil; Leerzeichen und Sonderzeichen werden zu „-“.</summary>
     public static string Token(string? text, string fallback = "x")
     {
         var sb = new StringBuilder();
-        foreach (var c in (text ?? "").Normalize(NormalizationForm.FormC))
+        // Einzelne Surrogate (z. B. aus einem JSON-Escape \uD800) ließen Normalize mit einer Ausnahme scheitern –
+        // vorher ersetzen; sie würden ohnehin zu „-“ (spec 7.12: feindliche Eingabe ist ein RGL-Code, kein Absturz)
+        foreach (var c in WithoutLoneSurrogates(text ?? "").Normalize(NormalizationForm.FormC))
         {
             string part = c switch
             {

@@ -126,6 +126,7 @@ public sealed class EvidenceBaselineTests
         Assert.DoesNotContain(EvidenceLayout.BaselineLicenseNote, entries.Keys);
         var metadata = Encoding.UTF8.GetString(entries["baselines/kunde.metadata.json"]);
         Assert.Contains("\"schema\": \"riegel.evidence-baseline/1\"", metadata, StringComparison.Ordinal);
+        SchemaValidator.AssertValid(metadata, "baselines/kunde.metadata.json");
         Assert.Contains(baseline.SourceSha256, metadata, StringComparison.Ordinal);
         Assert.Contains("hklm\\\\software\\\\policies\\\\beispiel\\\\opcua|port", metadata, StringComparison.Ordinal);
         // Titel und Texte der Vorgaben gehören nicht in die Metadaten

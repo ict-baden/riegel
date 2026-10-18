@@ -167,4 +167,11 @@ public sealed class ModelHelperTests
         Assert.Contains("S-1-5-32-544", text);
         Assert.Contains("HOST-1", text);
     }
+
+    [Theory]
+    [InlineData("Linie\uD8003", "Linie-3")]
+    [InlineData("\uDC00Anlage", "Anlage")]
+    [InlineData("Werk \uD83D\uDE00 Nord", "Werk-Nord")]
+    public void Dateiname_aus_Text_mit_einzelnen_Surrogaten_stuerzt_nicht_ab(string text, string expected) =>
+        Assert.Equal(expected, FileNames.Token(text));
 }

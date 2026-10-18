@@ -106,7 +106,13 @@ internal static class DemoReport
             var snapshot = services.Snapshots.Read(System.IO.Path.Combine(plant.Folder!, run.Snapshot.Path), ReadLimits.Default);
             Do($"O10 {machine.HostName}", () => services.Remediation.Write(run, snapshot, catalogue, registers, folder, language).Directory);
         }
-        Do("O15", () => services.Platform.ExportCollectorBundle(System.IO.Path.Combine(folder, "collector")));
+        try { entries.Add(new Entry("O15", services.Platform.ExportCollectorBundle(System.IO.Path.Combine(folder, "collector")), null)); }
+        catch (RiegelException e) when (e.Code is RglCodesCommon.NotImplemented or "RGL-0130")
+        {
+            // RGL-0130: kein Sammler-Paket neben der App (z. B. die Einzeldatei Riegel.exe) – nennen, nicht vortäuschen
+            entries.Add(new Entry("O15", null, e.ToString()));
+            Log.Warning($"Demo-Bericht: O15 übersprungen ({e.Code})");
+        }
 
         // O1, O2, O8: Exporte, Läufe, Register und Importnachweise liegen im Anlagenordner – als Kopie dazu
         var copy = System.IO.Path.Combine(folder, "plant");
@@ -119,10 +125,13 @@ internal static class DemoReport
         {
             var run = services.Plants.LoadRun(plant, hmi.Id);
             var snapshotPath = System.IO.Path.Combine(plant.Folder!, run.Snapshot.Path);
+            // O11 ist die Icinga-Zeile (check --brief); darunter dieselbe Prüfung als Text
+            using var brief = new StringWriter(CultureInfo.InvariantCulture);
+            int briefExit = CommandApp.Run(["check", "--snapshot", snapshotPath, "--brief"], platform, brief, brief);
             using var text = new StringWriter(CultureInfo.InvariantCulture);
             int exit = CommandApp.Run(["check", "--snapshot", snapshotPath], platform, text, text);
             var path = System.IO.Path.Combine(folder, "check.txt");
-            File.WriteAllText(path, text + $"exit code {exit}\n", new UTF8Encoding(false));
+            File.WriteAllText(path, brief + $"exit code {briefExit}\n\n" + text + $"exit code {exit}\n", new UTF8Encoding(false));
             entries.Add(new Entry("O11", path, null));
         }
         return entries;

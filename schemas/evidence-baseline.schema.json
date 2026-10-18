@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ict-baden:riegel:schema:evidence-baseline",
+  "title": "riegel.evidence-baseline/1 – metadata of an imported customer baseline in the evidence pack (baselines/<id>.metadata.json)",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "riegel.evidence-baseline/1"
+    },
+    "baseline": {
+      "$ref": "#/$defs/baselineRef"
+    },
+    "contentIncluded": {
+      "type": "boolean",
+      "description": "true only with --include-baseline-content; then baselines/<id>.json and <id>.rules.json are in the pack"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^IMP-"
+          },
+          "type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "key": {
+            "type": "string",
+            "minLength": 1,
+            "description": "what the rule checks (identity), never the expected value"
+          }
+        },
+        "required": [
+          "id",
+          "key"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "host": {
+            "type": "string",
+            "minLength": 1
+          },
+          "runId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ruleId": {
+            "type": "string",
+            "pattern": "^IMP-"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail",
+              "exception",
+              "outOfScope",
+              "notApplicable",
+              "notCheckable",
+              "info"
+            ]
+          },
+          "expected": {
+            "type": "string"
+          },
+          "actual": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "host",
+          "runId",
+          "ruleId",
+          "status"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "baseline",
+    "contentIncluded",
+    "rules",
+    "results"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "baselineRef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "gpoBackup",
+            "riegelJson",
+            "csv"
+          ]
+        },
+        "sourceSha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "sourceFileName": {
+          "type": "string"
+        },
+        "importedAtUtc": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?(Z|[+-]\\d{2}:\\d{2})$"
+        },
+        "ruleCount": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "sourceSha256",
+        "importedAtUtc",
+        "ruleCount"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

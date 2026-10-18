@@ -37,6 +37,7 @@ public static class SchemaValidator
         "riegel.collection-plan/1" => "collection-plan",
         "riegel.exceptions-template/1" => "exceptions-template",
         "riegel.tailoring-template/1" => "tailoring-template",
+        "riegel.evidence-baseline/1" => "evidence-baseline",
         _ => throw new ArgumentOutOfRangeException(nameof(schemaId), schemaId, "unbekanntes Format"),
     };
 
