@@ -1,0 +1,2174 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "RDP",
+  "rules": [
+    {
+      "id": "RDP-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "rdp",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "Remote Desktop requires Network Level Authentication",
+        "de": "Remotedesktop verlangt Authentifizierung auf Netzwerkebene (NLA)"
+      },
+      "rationale": {
+        "en": "With Network Level Authentication a user must authenticate before a Remote Desktop session is created. Without it, anyone who reaches port 3389 gets the logon screen and the session code is exposed to pre-authentication attacks. The Group Policy value takes precedence over the local setting.",
+        "de": "Mit Authentifizierung auf Netzwerkebene muss sich ein Benutzer anmelden, bevor eine Remotedesktop-Sitzung entsteht. Ohne sie erhält jeder, der Port 3389 erreicht, den Anmeldebildschirm, und der Sitzungscode ist Angriffen vor der Anmeldung ausgesetzt. Der Wert aus der Gruppenrichtlinie hat Vorrang vor der lokalen Einstellung."
+      },
+      "otNote": {
+        "en": "Old thin clients and some remote-maintenance tools cannot do NLA. Replace them, or record the exception with the compensating measures (network restriction, gateway).",
+        "de": "Alte Thin Clients und manche Fernwartungswerkzeuge beherrschen NLA nicht. Ersetzen oder die Ausnahme mit den ausgleichenden Maßnahmen (Netzbeschränkung, Gateway) festhalten."
+      },
+      "remedy": {
+        "en": "Enable Administrative Templates > Windows Components > Remote Desktop Services > Remote Desktop Session Host > Security > Require user authentication for remote connections by using Network Level Authentication.",
+        "de": "Die Gruppenrichtlinie „… > Remote Desktop Session Host > Security > Require user authentication for remote connections by using Network Level Authentication“ aktivieren."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [
+          {
+            "fact": "rdp.enabled",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registryEffective",
+        "sources": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+            "value": "UserAuthentication",
+            "origin": "policy"
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp",
+            "value": "UserAuthentication",
+            "origin": "local"
+          }
+        ],
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "notCheckable"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+            "value": "UserAuthentication",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Remote Desktop Services"
+        },
+        {
+          "src": "GSPP",
+          "id": "KONF.4.3"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1035",
+            "M1028",
+            "M0935",
+            "M0928"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Remote Desktop Services",
+          "note": "Require user authentication for remote connections by using Network Level Authentication: Enabled."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – ADMX_TerminalServer",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-terminalserver",
+          "date": "2026-10-18",
+          "note": "TS_USER_AUTHENTICATION_POLICY: SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services, value UserAuthentication. Element value names and values also checked in TerminalServer.admx (Windows 11 25H2 PolicyDefinitions, read-only)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Troubleshoot authentication errors when you use RDP to connect to Azure VM",
+          "url": "https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-machines/windows/cannot-connect-rdp-azure-vm",
+          "date": "2026-10-18",
+          "note": "Local value UserAuthentication under HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp: 1 = NLA on, 0 = off."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Azure Policy guest configuration baseline for Windows Server 2025",
+          "url": "https://learn.microsoft.com/en-us/azure/governance/policy/samples/guest-configuration-baseline-windows-server-2025",
+          "date": "2026-10-18",
+          "note": "UserAuthentication, REG_DWORD, expected 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "required by policy",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UserAuthentication": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UserAuthentication": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "set locally, no policy",
+          "machine": {
+            "build": 17763,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UserAuthentication": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "weak local value, no policy",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UserAuthentication": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policy overrides a good local value",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UserAuthentication": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UserAuthentication": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "value set nowhere",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "PortNumber": {
+                    "t": "dword",
+                    "v": 3389
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "policy key not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UserAuthentication": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Remote Desktop is off",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": false
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "UserAuthentication": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "RDP-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "rdp",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Remote Desktop encryption level is “High Level”",
+        "de": "Verschlüsselungsstufe von Remotedesktop ist „High Level“"
+      },
+      "rationale": {
+        "en": "The encryption level protects sessions that use the native RDP security layer. “High Level” encrypts both directions with 128-bit keys; “Client Compatible” and “Low Level” accept weaker encryption. The level also matters as a fallback when TLS is not enforced (RDP-03).",
+        "de": "Die Verschlüsselungsstufe schützt Sitzungen, die die native RDP-Sicherheitsschicht nutzen. „High Level“ verschlüsselt beide Richtungen mit 128-Bit-Schlüsseln; „Client Compatible“ und „Low Level“ akzeptieren schwächere Verschlüsselung. Die Stufe zählt auch als Rückfall, wenn TLS nicht erzwungen ist (RDP-03)."
+      },
+      "remedy": {
+        "en": "Set … > Remote Desktop Session Host > Security > Set client connection encryption level to High Level.",
+        "de": "Die Gruppenrichtlinie „… > Remote Desktop Session Host > Security > Set client connection encryption level“ auf „High Level“ setzen."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [
+          {
+            "fact": "rdp.enabled",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registryEffective",
+        "sources": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+            "value": "MinEncryptionLevel",
+            "origin": "policy"
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp",
+            "value": "MinEncryptionLevel",
+            "origin": "local"
+          }
+        ],
+        "valueType": "dword",
+        "op": "in",
+        "expected": [
+          3,
+          4
+        ],
+        "whenMissing": "notCheckable"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+            "value": "MinEncryptionLevel",
+            "type": "dword",
+            "data": 3
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Remote Desktop Services"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 26H2 v2",
+          "setting": "Set client connection encryption level"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 v2602",
+          "setting": "Set client connection encryption level"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.2",
+            "KONF.4.3"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0808"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Remote Desktop Services",
+          "note": "Set client connection encryption level: Enabled, Encryption Level: High Level."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – RemoteDesktopServices (ClientConnectionEncryptionLevel)",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-remotedesktopservices",
+          "date": "2026-10-18",
+          "note": "Applies to native RDP encryption; levels High, Client Compatible, Low. ADMX element MinEncryptionLevel: 1 Low, 2 Client Compatible, 3 High (TerminalServer.admx, read-only)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Troubleshoot authentication errors when you use RDP to connect to Azure VM",
+          "url": "https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-machines/windows/cannot-connect-rdp-azure-vm",
+          "date": "2026-10-18",
+          "note": "Local value MinEncryptionLevel under ...\\WinStations\\RDP-Tcp."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Azure Policy guest configuration baseline for Windows Server 2025",
+          "url": "https://learn.microsoft.com/en-us/azure/governance/policy/samples/guest-configuration-baseline-windows-server-2025",
+          "date": "2026-10-18",
+          "note": "MinEncryptionLevel, REG_DWORD, expected range 3 to 4."
+        }
+      ],
+      "tests": [
+        {
+          "name": "required by policy",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "MinEncryptionLevel": {
+                    "t": "dword",
+                    "v": 3
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "MinEncryptionLevel": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "set locally, no policy",
+          "machine": {
+            "build": 17763,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "MinEncryptionLevel": {
+                    "t": "dword",
+                    "v": 3
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "weak local value, no policy",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "MinEncryptionLevel": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policy overrides a good local value",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "MinEncryptionLevel": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "MinEncryptionLevel": {
+                    "t": "dword",
+                    "v": 3
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "value set nowhere",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "PortNumber": {
+                    "t": "dword",
+                    "v": 3389
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "policy key not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "MinEncryptionLevel": {
+                    "t": "dword",
+                    "v": 3
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Remote Desktop is off",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": false
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "MinEncryptionLevel": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "RDP-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "rdp",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Remote Desktop uses the TLS security layer",
+        "de": "Remotedesktop nutzt die TLS-Sicherheitsschicht"
+      },
+      "rationale": {
+        "en": "With the TLS (“SSL”) security layer the server authenticates itself with a certificate and the session is protected by TLS. With “Negotiate” or the RDP layer, a client can be talked into the weaker native RDP security.",
+        "de": "Mit der TLS-Sicherheitsschicht („SSL“) weist sich der Server mit einem Zertifikat aus und die Sitzung ist per TLS geschützt. Bei „Negotiate“ oder der RDP-Schicht lässt sich ein Client auf die schwächere native RDP-Sicherheit herunterhandeln."
+      },
+      "otNote": {
+        "en": "Old RDP clients on panel PCs may not support TLS; replace them or document the exception.",
+        "de": "Alte RDP-Clients auf Panel-PCs unterstützen TLS eventuell nicht; ersetzen oder die Ausnahme dokumentieren."
+      },
+      "remedy": {
+        "en": "Set … > Remote Desktop Session Host > Security > Require use of specific security layer for remote (RDP) connections to SSL.",
+        "de": "Die Gruppenrichtlinie „… > Remote Desktop Session Host > Security > Require use of specific security layer for remote (RDP) connections“ auf „SSL“ setzen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [
+          {
+            "fact": "rdp.enabled",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registryEffective",
+        "sources": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+            "value": "SecurityLayer",
+            "origin": "policy"
+          },
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp",
+            "value": "SecurityLayer",
+            "origin": "local"
+          }
+        ],
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 2,
+        "whenMissing": "notCheckable"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+            "value": "SecurityLayer",
+            "type": "dword",
+            "data": 2
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Remote Desktop Services"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.2",
+            "KONF.4.3"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0808"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Remote Desktop Services",
+          "note": "Require use of specific security layer for remote (RDP) connections: Enabled, Security Layer: SSL."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – ADMX_TerminalServer",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-terminalserver",
+          "date": "2026-10-18",
+          "note": "TS_SECURITY_LAYER_POLICY under SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services; element SecurityLayer: 0 RDP, 1 Negotiate, 2 SSL. Element value names and values also checked in TerminalServer.admx (Windows 11 25H2 PolicyDefinitions, read-only)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Remote Desktop disconnects frequently in Azure VM",
+          "url": "https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-machines/windows/troubleshoot-rdp-intermittent-connectivity",
+          "date": "2026-10-18",
+          "note": "Local value SecurityLayer under HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\Winstations\\RDP-Tcp."
+        }
+      ],
+      "tests": [
+        {
+          "name": "required by policy",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SecurityLayer": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SecurityLayer": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "set locally, no policy",
+          "machine": {
+            "build": 17763,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SecurityLayer": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "weak local value, no policy",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SecurityLayer": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policy overrides a good local value",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SecurityLayer": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SecurityLayer": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "value set nowhere",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "PortNumber": {
+                    "t": "dword",
+                    "v": 3389
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "policy key not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SecurityLayer": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Remote Desktop is off",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": false
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SecurityLayer": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "RDP-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "rdp",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Remote Desktop always prompts for the password",
+        "de": "Remotedesktop fragt immer nach dem Kennwort"
+      },
+      "rationale": {
+        "en": "Without this policy a client can pass saved credentials and the session starts without the server asking for a password. Always prompting ensures the person connecting knows the password.",
+        "de": "Ohne diese Richtlinie kann ein Client gespeicherte Anmeldedaten übergeben, und die Sitzung beginnt, ohne dass der Server nach einem Kennwort fragt. Mit der ständigen Abfrage muss die verbindende Person das Kennwort kennen."
+      },
+      "remedy": {
+        "en": "Enable … > Remote Desktop Session Host > Security > Always prompt for password upon connection.",
+        "de": "Die Gruppenrichtlinie „… > Remote Desktop Session Host > Security > Always prompt for password upon connection“ aktivieren."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [
+          {
+            "fact": "rdp.enabled",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+        "value": "fPromptForPassword",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+            "value": "fPromptForPassword",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Remote Desktop Services"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 26H2 v2",
+          "setting": "Always prompt for password upon connection"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 v2602",
+          "setting": "Always prompt for password upon connection"
+        },
+        {
+          "src": "GSPP",
+          "id": "KONF.4.3"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1028",
+            "M0928"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Remote Desktop Services",
+          "note": "Always prompt for password upon connection: Enabled."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – ADMX_TerminalServer",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-terminalserver",
+          "date": "2026-10-18",
+          "note": "TS_PASSWORD: value fPromptForPassword."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Azure Policy guest configuration baseline for Windows Server 2025",
+          "url": "https://learn.microsoft.com/en-us/azure/governance/policy/samples/guest-configuration-baseline-windows-server-2025",
+          "date": "2026-10-18",
+          "note": "fPromptForPassword, REG_DWORD, expected 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "enabled by policy",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "fPromptForPassword": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "disabled by policy",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "fPromptForPassword": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not configured",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policies root not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Remote Desktop is off",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": false
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "RDP-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "rdp",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Remote Desktop client may not save passwords",
+        "de": "Remotedesktop-Client darf keine Kennwörter speichern"
+      },
+      "rationale": {
+        "en": "Passwords saved in the Remote Desktop client can be reused by anyone who uses the machine or takes over the user's session – a direct path to the next machine. This setting applies to the machine as an RDP client, so it is checked whether or not Remote Desktop is enabled.",
+        "de": "Im Remotedesktop-Client gespeicherte Kennwörter kann jeder nutzen, der den Rechner bedient oder die Sitzung des Benutzers übernimmt – ein direkter Weg zum nächsten Rechner. Die Einstellung betrifft den Rechner als RDP-Client und wird deshalb unabhängig davon geprüft, ob Remotedesktop eingeschaltet ist."
+      },
+      "otNote": {
+        "en": "Shared operator stations often keep saved connections to HMIs; replace them with a documented logon procedure.",
+        "de": "Gemeinsam genutzte Bedienplätze haben oft gespeicherte Verbindungen zu HMIs; diese durch ein dokumentiertes Anmeldeverfahren ersetzen."
+      },
+      "remedy": {
+        "en": "Enable … > Remote Desktop Services > Remote Desktop Connection Client > Do not allow passwords to be saved.",
+        "de": "Die Gruppenrichtlinie „… > Remote Desktop Services > Remote Desktop Connection Client > Do not allow passwords to be saved“ aktivieren."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+        "value": "DisablePasswordSaving",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+            "value": "DisablePasswordSaving",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Remote Desktop Services"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 26H2 v2",
+          "setting": "Do not allow passwords to be saved"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 v2602",
+          "setting": "Do not allow passwords to be saved"
+        },
+        {
+          "src": "GSPP",
+          "id": "KONF.4.3"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1028",
+            "M0928"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Remote Desktop Services",
+          "note": "Remote Desktop Connection Client: Do not allow passwords to be saved: Enabled."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – ADMX_TerminalServer",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-terminalserver",
+          "date": "2026-10-18",
+          "note": "TS_CLIENT_DISABLE_PASSWORD_SAVING_2: value DisablePasswordSaving."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Azure Policy guest configuration baseline for Windows Server 2025",
+          "url": "https://learn.microsoft.com/en-us/azure/governance/policy/samples/guest-configuration-baseline-windows-server-2025",
+          "date": "2026-10-18",
+          "note": "DisablePasswordSaving, REG_DWORD, expected 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "enabled by policy",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DisablePasswordSaving": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "disabled by policy",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DisablePasswordSaving": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not configured",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policies root not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "RDP-06",
+      "since": "2026.10",
+      "state": "active",
+      "category": "rdp",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": "Remote Desktop does not redirect client drives",
+        "de": "Remotedesktop leitet keine Client-Laufwerke um"
+      },
+      "rationale": {
+        "en": "Drive redirection maps the drives of the connecting computer into the session. Files – and malware – can then be copied onto the plant PC past any USB restriction.",
+        "de": "Die Laufwerksumleitung bindet die Laufwerke des verbindenden Rechners in die Sitzung ein. So lassen sich Dateien – und Schadsoftware – an jeder USB-Sperre vorbei auf den Anlagenrechner kopieren."
+      },
+      "otNote": {
+        "en": "Vendors often use drive redirection to bring updates and recipes to the machine. A controlled transfer path (scanned share or kiosk) is the alternative; otherwise document the exception.",
+        "de": "Hersteller bringen Updates und Rezepte oft per Laufwerksumleitung auf die Maschine. Die Alternative ist ein kontrollierter Übertragungsweg (geprüfte Freigabe oder Schleuse); sonst die Ausnahme dokumentieren."
+      },
+      "remedy": {
+        "en": "Enable … > Remote Desktop Session Host > Device and Resource Redirection > Do not allow drive redirection.",
+        "de": "Die Gruppenrichtlinie „… > Remote Desktop Session Host > Device and Resource Redirection > Do not allow drive redirection“ aktivieren."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [
+          {
+            "fact": "rdp.enabled",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+        "value": "fDisableCdm",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+            "value": "fDisableCdm",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Remote Desktop Services"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 26H2 v2",
+          "setting": "Do not allow drive redirection"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 v2602",
+          "setting": "Do not allow drive redirection"
+        },
+        {
+          "src": "GSPP",
+          "id": "KONF.4.4"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1042",
+            "M0942"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Remote Desktop Services",
+          "note": "Do not allow drive redirection: Enabled."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – ADMX_TerminalServer",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-terminalserver",
+          "date": "2026-10-18",
+          "note": "TS_CLIENT_DRIVE_M: value fDisableCdm."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Azure Policy guest configuration baseline for Windows Server 2025",
+          "url": "https://learn.microsoft.com/en-us/azure/governance/policy/samples/guest-configuration-baseline-windows-server-2025",
+          "date": "2026-10-18",
+          "note": "fDisableCdm, REG_DWORD, expected 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "enabled by policy",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "fDisableCdm": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "disabled by policy",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "fDisableCdm": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not configured",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policies root not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Remote Desktop is off",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": false
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "RDP-07",
+      "since": "2026.10",
+      "state": "active",
+      "category": "rdp",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Remote Desktop requires secure RPC communication",
+        "de": "Remotedesktop verlangt sichere RPC-Kommunikation"
+      },
+      "rationale": {
+        "en": "Remote Desktop servers are also administered over RPC. Requiring secure RPC rejects unauthenticated and unencrypted RPC requests to the session host.",
+        "de": "Remotedesktop-Server werden auch über RPC verwaltet. Mit sicherer RPC-Kommunikation werden unauthentifizierte und unverschlüsselte RPC-Anfragen an den Sitzungshost abgewiesen."
+      },
+      "remedy": {
+        "en": "Enable … > Remote Desktop Session Host > Security > Require secure RPC communication.",
+        "de": "Die Gruppenrichtlinie „… > Remote Desktop Session Host > Security > Require secure RPC communication“ aktivieren."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": [
+          {
+            "fact": "rdp.enabled",
+            "op": "eq",
+            "value": true
+          }
+        ]
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+        "value": "fEncryptRPCTraffic",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+            "value": "fEncryptRPCTraffic",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Remote Desktop Services"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 26H2 v2",
+          "setting": "Require secure RPC communication"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 v2602",
+          "setting": "Require secure RPC communication"
+        },
+        {
+          "src": "GSPP",
+          "id": "KONF.4.3"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1041",
+            "M0808"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Remote Desktop Services",
+          "note": "Require secure RPC communication: Enabled."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – ADMX_TerminalServer",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-terminalserver",
+          "date": "2026-10-18",
+          "note": "TS_RPC_ENCRYPTION: value fEncryptRPCTraffic."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Azure Policy guest configuration baseline for Windows Server 2025",
+          "url": "https://learn.microsoft.com/en-us/azure/governance/policy/samples/guest-configuration-baseline-windows-server-2025",
+          "date": "2026-10-18",
+          "note": "fEncryptRPCTraffic, REG_DWORD, expected 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "enabled by policy",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "fEncryptRPCTraffic": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "disabled by policy",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "fEncryptRPCTraffic": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not configured",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policies root not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "Remote Desktop is off",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": false
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "RDP-08",
+      "since": "2026.10",
+      "state": "active",
+      "category": "rdp",
+      "severity": "low",
+      "kind": "inventory",
+      "title": {
+        "en": "Idle time limit for Remote Desktop sessions (inventory)",
+        "de": "Leerlaufgrenze für Remotedesktop-Sitzungen (Bestand)"
+      },
+      "rationale": {
+        "en": "An idle limit ends forgotten remote sessions that someone else could take over. No shippable source recommends a specific value, so Riegel lists the configured limit (policy and local) instead of judging it.",
+        "de": "Eine Leerlaufgrenze beendet vergessene Fernsitzungen, die sonst jemand anderes übernehmen könnte. Keine auslieferbare Quelle empfiehlt einen bestimmten Wert; Riegel listet daher die eingestellte Grenze (Richtlinie und lokal) auf, statt sie zu bewerten."
+      },
+      "otNote": {
+        "en": "Control-room displays that must stay connected need a long or no limit; record that decision in the tailoring.",
+        "de": "Leitstandanzeigen, die verbunden bleiben müssen, brauchen eine lange oder keine Grenze; diese Entscheidung im Zuschnitt festhalten."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "rdpState",
+        "items": [
+          "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+          "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp"
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "id": "BER.3.12"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1028",
+            "M0928"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – ADMX_TerminalServer",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-terminalserver",
+          "date": "2026-10-18",
+          "note": "TS_SESSIONS_Idle_Limit_2 under SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services; element MaxIdleTime in milliseconds (TerminalServer.admx, read-only)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "idle limit listed",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "MaxIdleTime": {
+                    "t": "dword",
+                    "v": 900000
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "MaxIdleTime": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "info"
+        }
+      ]
+    },
+    {
+      "id": "RDP-09",
+      "since": "2026.10",
+      "state": "active",
+      "category": "rdp",
+      "severity": "low",
+      "kind": "inventory",
+      "title": {
+        "en": "Remote Desktop enabled (inventory)",
+        "de": "Remotedesktop eingeschaltet (Bestand)"
+      },
+      "rationale": {
+        "en": "Lists whether Remote Desktop accepts connections (policy and local setting), the state of the Remote Desktop service and the members of the local Remote Desktop Users group. Remote access to plant PCs should be a documented decision.",
+        "de": "Listet auf, ob Remotedesktop Verbindungen annimmt (Richtlinie und lokale Einstellung), den Zustand des Remotedesktopdienstes und die Mitglieder der lokalen Gruppe „Remotedesktopbenutzer“. Fernzugriff auf Anlagenrechner sollte eine dokumentierte Entscheidung sein."
+      },
+      "otNote": {
+        "en": "Vendor remote maintenance is a common reason for Remote Desktop on plant PCs; record who may connect and how.",
+        "de": "Fernwartung durch Hersteller ist ein häufiger Grund für Remotedesktop auf Anlagenrechnern; festhalten, wer sich wie verbinden darf."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "inventory",
+        "renderer": "rdpState",
+        "items": [
+          "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server",
+          "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
+          "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp",
+          "wmi:root\\cimv2:Win32_Service",
+          "api:localgroup:S-1-5-32-555"
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Remote Desktop Services"
+        },
+        {
+          "src": "GSPP",
+          "id": "KONF.4.4"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1035",
+            "M1042",
+            "M0935",
+            "M0942"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – ADMX_TerminalServer",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-terminalserver",
+          "date": "2026-10-18",
+          "note": "TS_DISABLE_CONNECTIONS: fDenyTSConnections under SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services (0 = connections allowed, 1 = denied; TerminalServer.admx, read-only)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "Remote Desktop listed",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "rdp.enabled": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "fDenyTSConnections": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "PortNumber": {
+                    "t": "dword",
+                    "v": 3389
+                  },
+                  "UserAuthentication": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "info"
+        }
+      ]
+    }
+  ]
+}

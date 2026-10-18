@@ -1,0 +1,2 @@
+# Regelpaket rules-c (AUD, PS, RDP, MED, TLS): Regeln mit whenMissing "pass" (je Zeile eine Regel-ID).
+# Derzeit keine: Fehlende Werte ergeben in diesem Paket fail, notCheckable oder einen belegten osDefault.

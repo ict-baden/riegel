@@ -1,0 +1,1833 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "MED",
+  "rules": [
+    {
+      "id": "MED-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "media",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "AutoRun commands are never executed",
+        "de": "AutoRun-Befehle werden nie ausgeführt"
+      },
+      "rationale": {
+        "en": "AutoRun executes commands from an autorun.inf file on inserted media without user interaction. Malware has used it to spread from USB drives to air-gapped systems. With this policy Windows ignores autorun commands.",
+        "de": "AutoRun führt Befehle aus einer autorun.inf-Datei auf eingelegten Medien ohne Zutun des Benutzers aus. Schadsoftware hat so den Weg von USB-Sticks auf abgeschottete Systeme gefunden. Mit dieser Richtlinie ignoriert Windows AutoRun-Befehle."
+      },
+      "remedy": {
+        "en": "Enable Administrative Templates > Windows Components > AutoPlay Policies > Set the default behavior for AutoRun with “Do not execute any autorun commands”.",
+        "de": "Die Gruppenrichtlinie „Administrative Templates > Windows Components > AutoPlay Policies > Set the default behavior for AutoRun“ mit „Do not execute any autorun commands“ aktivieren."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+        "value": "NoAutorun",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+            "value": "NoAutorun",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Autoplay and AutoRun"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 26H2 v2",
+          "setting": "Set the default behavior for AutoRun"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 v2602",
+          "setting": "Set the default behavior for AutoRun"
+        },
+        {
+          "src": "GSPP",
+          "id": "KONF.3.8"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1042",
+            "M0942"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Autoplay and AutoRun",
+          "note": "Set the default behavior for AutoRun: Enabled, Default AutoRun Behavior: Do not execute any autorun commands."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – Autoplay (SetDefaultAutoRunBehavior)",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-autoplay",
+          "date": "2026-10-18",
+          "note": "ADMX mapping NoAutorun under Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer; element NoAutorun: 1 = do not execute any autorun commands, 2 = automatically execute (AutoPlay.admx, read-only)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Azure Policy guest configuration baseline for Windows Server 2025",
+          "url": "https://learn.microsoft.com/en-us/azure/governance/policy/samples/guest-configuration-baseline-windows-server-2025",
+          "date": "2026-10-18",
+          "note": "NoAutorun, REG_DWORD, expected 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "set as required",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NoAutorun": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "weaker value",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NoAutorun": {
+                    "t": "dword",
+                    "v": 2
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not configured",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "key not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "MED-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "media",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "AutoPlay is off for all drives",
+        "de": "Automatische Wiedergabe ist für alle Laufwerke aus"
+      },
+      "rationale": {
+        "en": "AutoPlay starts reading inserted media as soon as it is connected and offers to run programs from it. Turning it off for all drive types stops an inserted drive from doing anything until a user acts deliberately.",
+        "de": "Die automatische Wiedergabe beginnt sofort mit dem Lesen eingelegter Medien und bietet an, Programme davon zu starten. Für alle Laufwerkstypen abgeschaltet, passiert mit einem eingesteckten Datenträger nichts, bis ein Benutzer bewusst handelt."
+      },
+      "remedy": {
+        "en": "Enable Administrative Templates > Windows Components > AutoPlay Policies > Turn off Autoplay for “All drives”.",
+        "de": "Die Gruppenrichtlinie „Administrative Templates > Windows Components > AutoPlay Policies > Turn off Autoplay“ für „All drives“ aktivieren."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+        "value": "NoDriveTypeAutoRun",
+        "valueType": "dword",
+        "op": "bitsSet",
+        "expected": 255,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+            "value": "NoDriveTypeAutoRun",
+            "type": "dword",
+            "data": 255
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Autoplay and AutoRun"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 26H2 v2",
+          "setting": "Turn off Autoplay"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 v2602",
+          "setting": "Turn off Autoplay"
+        },
+        {
+          "src": "GSPP",
+          "id": "KONF.3.8"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1042",
+            "M0942"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Autoplay and AutoRun",
+          "note": "Turn off Autoplay: Enabled, Turn off Autoplay on: All drives."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – Autoplay (TurnOffAutoPlay)",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-autoplay",
+          "date": "2026-10-18",
+          "note": "ADMX mapping Autorun under Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer; element NoDriveTypeAutoRun: 181 = CD-ROM and removable media, 255 = all drives (AutoPlay.admx, read-only)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Enabling and Disabling AutoRun (Win32)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/shell/autoplay-reg",
+          "date": "2026-10-18",
+          "note": "NoDriveTypeAutoRun disables AutoRun per drive type through the bits of its first byte."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Azure Policy guest configuration baseline for Windows Server 2025",
+          "url": "https://learn.microsoft.com/en-us/azure/governance/policy/samples/guest-configuration-baseline-windows-server-2025",
+          "date": "2026-10-18",
+          "note": "NoDriveTypeAutoRun, REG_DWORD, expected 255."
+        }
+      ],
+      "tests": [
+        {
+          "name": "set as required",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NoDriveTypeAutoRun": {
+                    "t": "dword",
+                    "v": 255
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "weaker value",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NoDriveTypeAutoRun": {
+                    "t": "dword",
+                    "v": 181
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not configured",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "key not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "MED-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "media",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": "AutoPlay is off for non-volume devices",
+        "de": "Automatische Wiedergabe ist für Geräte ohne Volume aus"
+      },
+      "rationale": {
+        "en": "Devices without a drive letter, such as phones and cameras (MTP devices), have their own AutoPlay handling. This policy switches it off as well.",
+        "de": "Geräte ohne Laufwerksbuchstaben wie Telefone und Kameras (MTP-Geräte) haben eine eigene automatische Wiedergabe. Diese Richtlinie schaltet auch sie ab."
+      },
+      "remedy": {
+        "en": "Enable Administrative Templates > Windows Components > AutoPlay Policies > Disallow Autoplay for non-volume devices.",
+        "de": "Die Gruppenrichtlinie „Administrative Templates > Windows Components > AutoPlay Policies > Disallow Autoplay for non-volume devices“ aktivieren."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
+        "value": "NoAutoplayfornonVolume",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
+            "value": "NoAutoplayfornonVolume",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Autoplay and AutoRun"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 26H2 v2",
+          "setting": "Disallow Autoplay for non-volume devices"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 v2602",
+          "setting": "Disallow Autoplay for non-volume devices"
+        },
+        {
+          "src": "GSPP",
+          "id": "KONF.3.8"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1042",
+            "M0942"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Autoplay and AutoRun",
+          "note": "Disallow Autoplay for non-volume devices: Enabled."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – Autoplay (DisallowAutoplayForNonVolumeDevices)",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-autoplay",
+          "date": "2026-10-18",
+          "note": "ADMX mapping NoAutoplayfornonVolume under Software\\Policies\\Microsoft\\Windows\\Explorer."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Azure Policy guest configuration baseline for Windows Server 2025",
+          "url": "https://learn.microsoft.com/en-us/azure/governance/policy/samples/guest-configuration-baseline-windows-server-2025",
+          "date": "2026-10-18",
+          "note": "NoAutoplayfornonVolume, REG_DWORD, expected 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "set as required",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NoAutoplayfornonVolume": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "weaker value",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "NoAutoplayfornonVolume": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not configured",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "key not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "MED-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "media",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Removable storage is blocked or read-only by policy",
+        "de": "Wechseldatenträger sind per Richtlinie gesperrt oder nur lesbar"
+      },
+      "rationale": {
+        "en": "USB drives and portable devices are a main route for malware into isolated networks and for data out of them. The check passes if all removable storage classes are denied, or if removable disks may only be read (no write, no execute) and portable devices (WPD) may not be written to.",
+        "de": "USB-Sticks und tragbare Geräte sind ein Hauptweg, auf dem Schadsoftware in abgeschottete Netze und Daten aus ihnen gelangen. Die Prüfung ist erfüllt, wenn alle Wechseldatenträgerklassen gesperrt sind oder wenn Wechseldatenträger nur gelesen (nicht beschrieben, nicht ausgeführt) und tragbare Geräte (WPD) nicht beschrieben werden dürfen."
+      },
+      "otNote": {
+        "en": "Engineering data, recipes and vendor updates often travel on USB drives. Keep a controlled path – a dedicated, scanned transfer station or a read-only exception for a named device class – and document it.",
+        "de": "Engineering-Daten, Rezepte und Hersteller-Updates kommen oft per USB-Stick. Einen kontrollierten Weg vorsehen – eine eigene, geprüfte Datenschleuse oder eine Nur-Lesen-Ausnahme für eine benannte Geräteklasse – und dokumentieren."
+      },
+      "remedy": {
+        "en": "Enable Administrative Templates > System > Removable Storage Access > All Removable Storage classes: Deny all access, or deny write and execute access for Removable Disks and write access for WPD Devices.",
+        "de": "Die Gruppenrichtlinie „Administrative Templates > System > Removable Storage Access > All Removable Storage classes: Deny all access“ aktivieren oder für „Removable Disks“ Schreib- und Ausführungszugriff sowie für „WPD Devices“ Schreibzugriff verweigern."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "anyOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices",
+            "value": "Deny_All",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "allOf",
+            "checks": [
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}",
+                "value": "Deny_Write",
+                "valueType": "dword",
+                "op": "eq",
+                "expected": 1,
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}",
+                "value": "Deny_Execute",
+                "valueType": "dword",
+                "op": "eq",
+                "expected": 1,
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{6AC27878-A6FA-4155-BA85-F98F491D4F33}",
+                "value": "Deny_Write",
+                "valueType": "dword",
+                "op": "eq",
+                "expected": 1,
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{F33FDC04-D1AC-4E8E-9A30-19BBD4B108AE}",
+                "value": "Deny_Write",
+                "valueType": "dword",
+                "op": "eq",
+                "expected": 1,
+                "whenMissing": "fail"
+              }
+            ]
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices",
+            "value": "Deny_All",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Endpoint device control"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.3.7",
+            "ASST.3.11.1"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1034",
+            "M0934"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Endpoint device control",
+          "note": "All Removable Storage classes: Deny all access: Enabled; alternatively per class, e.g. Removable Disks: Deny execute access and Deny write access Enabled, WPD Devices: Deny write access Enabled."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – ADMX_RemovableStorage",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-removablestorage",
+          "date": "2026-10-18",
+          "note": "Deny_All under Software\\Policies\\Microsoft\\Windows\\RemovableStorageDevices; Removable Disks {53f5630d-b6bf-11d0-94f2-00a0c91efb8b} Deny_Write/Deny_Execute; WPD Devices {6AC27878-A6FA-4155-BA85-F98F491D4F33} Deny_Write (RemovableStorage.admx also writes {F33FDC04-D1AC-4E8E-9A30-19BBD4B108AE}, read-only)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "all removable storage denied",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Deny_All": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "removable disks and portable devices read-only",
+          "machine": {
+            "build": 17763,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": [
+                  "{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}",
+                  "{6AC27878-A6FA-4155-BA85-F98F491D4F33}",
+                  "{F33FDC04-D1AC-4E8E-9A30-19BBD4B108AE}"
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Deny_Write": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "Deny_Execute": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{6AC27878-A6FA-4155-BA85-F98F491D4F33}": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Deny_Write": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{F33FDC04-D1AC-4E8E-9A30-19BBD4B108AE}": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Deny_Write": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "removable disks read-only, portable devices writable",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices": {
+              "status": "ok",
+              "value": {
+                "values": {},
+                "subkeys": [
+                  "{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}"
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Deny_Write": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "Deny_Execute": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{6AC27878-A6FA-4155-BA85-F98F491D4F33}": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{F33FDC04-D1AC-4E8E-9A30-19BBD4B108AE}": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "deny all switched off",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Deny_All": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{6AC27878-A6FA-4155-BA85-F98F491D4F33}": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{F33FDC04-D1AC-4E8E-9A30-19BBD4B108AE}": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not configured",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{6AC27878-A6FA-4155-BA85-F98F491D4F33}": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{F33FDC04-D1AC-4E8E-9A30-19BBD4B108AE}": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policies root not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{6AC27878-A6FA-4155-BA85-F98F491D4F33}": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\RemovableStorageDevices\\{F33FDC04-D1AC-4E8E-9A30-19BBD4B108AE}": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "MED-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "media",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": "USB mass storage driver is disabled",
+        "de": "USB-Massenspeichertreiber ist deaktiviert"
+      },
+      "rationale": {
+        "en": "With the USB mass storage driver (usbstor.sys) disabled, Windows does not mount USB drives at all. It is a machine-wide switch that works without Group Policy, which matters on stand-alone plant PCs.",
+        "de": "Ist der USB-Massenspeichertreiber (usbstor.sys) deaktiviert, bindet Windows USB-Sticks gar nicht erst ein. Das ist ein rechnerweiter Schalter, der ohne Gruppenrichtlinie wirkt – wichtig auf alleinstehenden Anlagenrechnern."
+      },
+      "otNote": {
+        "en": "Engineering data, recipes and vendor updates often travel on USB drives. Keep a controlled path – a dedicated, scanned transfer station or a read-only exception for a named device class – and document it.",
+        "de": "Engineering-Daten, Rezepte und Hersteller-Updates kommen oft per USB-Stick. Einen kontrollierten Weg vorsehen – eine eigene, geprüfte Datenschleuse oder eine Nur-Lesen-Ausnahme für eine benannte Geräteklasse – und dokumentieren."
+      },
+      "remedy": {
+        "en": "Set HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR\\Start to 4, or prefer the removable storage policy (MED-04).",
+        "de": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR\\Start auf 4 setzen oder besser die Richtlinie für Wechseldatenträger nutzen (MED-04)."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR",
+        "value": "Start",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 4,
+        "whenMissing": "fail"
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR",
+            "value": "Start",
+            "type": "dword",
+            "data": 4
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "id": "KONF.3.7"
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1034",
+            "M0934"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Use Group Policy to disable USB, CD-ROM, Floppy Disk, and LS-120 drivers",
+          "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/group-policy/adm-template-disable-drivers",
+          "date": "2026-10-18",
+          "note": "SYSTEM\\CurrentControlSet\\Services\\USBSTOR, value Start: 4 disables the usbstor.sys driver, 3 is the default."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Managing Removable Devices Through Group Policy Troubleshooting Guidance",
+          "url": "https://learn.microsoft.com/en-us/troubleshoot/windows-server/group-policy/removable-devices-group-policy-troubleshooting-guidance",
+          "date": "2026-10-18",
+          "note": "Registry-only method: HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR, Start REG_DWORD 4."
+        }
+      ],
+      "tests": [
+        {
+          "name": "set as required",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Start": {
+                    "t": "dword",
+                    "v": 4
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "weaker value",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "Start": {
+                    "t": "dword",
+                    "v": 3
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not configured",
+          "machine": {
+            "build": 14393,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 2,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "key not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\USBSTOR": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "MED-06",
+      "since": "2026.10",
+      "state": "active",
+      "category": "media",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": "Device installation restrictions block FireWire and Thunderbolt controllers",
+        "de": "Geräteinstallation sperrt FireWire- und Thunderbolt-Controller"
+      },
+      "rationale": {
+        "en": "FireWire and Thunderbolt allow direct memory access: a device plugged into such a port can read and write the memory of a running PC. Following ACSC, Windows is told not to install the FireWire and Thunderbolt controller classes and the SBP-2 driver class, also for devices already installed.",
+        "de": "FireWire und Thunderbolt erlauben direkten Speicherzugriff: Ein an solch einen Anschluss gestecktes Gerät kann den Speicher eines laufenden PCs lesen und schreiben. Wie vom ACSC empfohlen, darf Windows die FireWire- und Thunderbolt-Controllerklassen und die SBP-2-Treiberklasse nicht installieren, auch nicht für bereits installierte Geräte."
+      },
+      "otNote": {
+        "en": "Some industrial cameras and measuring devices use FireWire. Where they are needed, allow exactly those device IDs and document the exception.",
+        "de": "Manche Industriekameras und Messgeräte nutzen FireWire. Wo sie gebraucht werden, genau diese Geräte-IDs zulassen und die Ausnahme dokumentieren."
+      },
+      "remedy": {
+        "en": "Under Administrative Templates > System > Device Installation > Device Installation Restrictions, enable “Prevent installation of devices that match any of these device IDs” with PCI\\CC_0C0010 and PCI\\CC_0C0A and “Prevent installation of devices using drivers that match these device setup classes” with {d48179be-ec20-11d1-b6b8-00c04fa372a7}, both also for installed devices.",
+        "de": "Unter „Administrative Templates > System > Device Installation > Device Installation Restrictions“ die Richtlinien „Prevent installation of devices that match any of these device IDs“ mit PCI\\CC_0C0010 und PCI\\CC_0C0A sowie „Prevent installation of devices using drivers that match these device setup classes“ mit {d48179be-ec20-11d1-b6b8-00c04fa372a7} aktivieren, jeweils auch für bereits installierte Geräte."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "allOf",
+        "checks": [
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions",
+            "value": "DenyDeviceIDs",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions",
+            "value": "DenyDeviceIDsRetroactive",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "anyOf",
+            "checks": [
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "1",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0010",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "2",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0010",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "3",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0010",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "4",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0010",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "5",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0010",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "6",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0010",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "7",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0010",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "8",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0010",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "9",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0010",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "10",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0010",
+                "whenMissing": "fail"
+              }
+            ]
+          },
+          {
+            "type": "anyOf",
+            "checks": [
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "1",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0A",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "2",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0A",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "3",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0A",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "4",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0A",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "5",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0A",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "6",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0A",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "7",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0A",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "8",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0A",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "9",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0A",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs",
+                "value": "10",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "PCI\\CC_0C0A",
+                "whenMissing": "fail"
+              }
+            ]
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions",
+            "value": "DenyDeviceClasses",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "registry",
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions",
+            "value": "DenyDeviceClassesRetroactive",
+            "valueType": "dword",
+            "op": "eq",
+            "expected": 1,
+            "whenMissing": "fail"
+          },
+          {
+            "type": "anyOf",
+            "checks": [
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses",
+                "value": "1",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "{d48179be-ec20-11d1-b6b8-00c04fa372a7}",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses",
+                "value": "2",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "{d48179be-ec20-11d1-b6b8-00c04fa372a7}",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses",
+                "value": "3",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "{d48179be-ec20-11d1-b6b8-00c04fa372a7}",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses",
+                "value": "4",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "{d48179be-ec20-11d1-b6b8-00c04fa372a7}",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses",
+                "value": "5",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "{d48179be-ec20-11d1-b6b8-00c04fa372a7}",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses",
+                "value": "6",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "{d48179be-ec20-11d1-b6b8-00c04fa372a7}",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses",
+                "value": "7",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "{d48179be-ec20-11d1-b6b8-00c04fa372a7}",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses",
+                "value": "8",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "{d48179be-ec20-11d1-b6b8-00c04fa372a7}",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses",
+                "value": "9",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "{d48179be-ec20-11d1-b6b8-00c04fa372a7}",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses",
+                "value": "10",
+                "valueType": "sz",
+                "op": "eq",
+                "expected": "{d48179be-ec20-11d1-b6b8-00c04fa372a7}",
+                "whenMissing": "fail"
+              }
+            ]
+          }
+        ]
+      },
+      "remediation": {
+        "manual": {
+          "en": "Add PCI\\CC_0C0010 and PCI\\CC_0C0A to the device ID deny list and {d48179be-ec20-11d1-b6b8-00c04fa372a7} to the setup class deny list (Device Installation Restrictions), with 'Also apply to matching devices that are already installed'. Existing list entries are kept.",
+          "de": "PCI\\CC_0C0010 und PCI\\CC_0C0A in die Sperrliste der Geräte-IDs und {d48179be-ec20-11d1-b6b8-00c04fa372a7} in die Sperrliste der Setupklassen eintragen (Device Installation Restrictions), jeweils mit „Also apply to matching devices that are already installed“. Vorhandene Einträge bleiben erhalten."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Direct Memory Access"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 26H2 v2",
+          "setting": "Prevent installation of devices using drivers that match these device setup classes"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.3.7",
+            "ASST.3.11.1"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1034",
+            "M0934"
+          ]
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Direct Memory Access",
+          "note": "Prevent installation of devices that match any of these device IDs: PCI\\CC_0C0010, PCI\\CC_0C0A, also apply to installed devices; Prevent installation of devices using drivers that match these device setup classes: {d48179be-ec20-11d1-b6b8-00c04fa372a7}, also apply to installed devices."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Policy CSP – DeviceInstallation",
+          "url": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-deviceinstallation",
+          "date": "2026-10-18",
+          "note": "DeviceInstall_IDs_Deny: Software\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions, value DenyDeviceIDs; DeviceInstall_Classes_Deny: value DenyDeviceClasses. Lists in the subkeys DenyDeviceIDs and DenyDeviceClasses with numbered values; retroactive flags DenyDeviceIDsRetroactive and DenyDeviceClassesRetroactive (DeviceInstallation.admx, valuePrefix empty, read-only)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "list Element (ADMX schema)",
+          "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-r2-and-2008/cc725892(v=ws.10)",
+          "date": "2026-10-18",
+          "note": "valuePrefix=\"\" names the list values with incremental integers. The check looks at the values 1 to 10."
+        }
+      ],
+      "tests": [
+        {
+          "name": "FireWire, Thunderbolt and SBP-2 blocked",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DenyDeviceIDs": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "DenyDeviceIDsRetroactive": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "DenyDeviceClasses": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "DenyDeviceClassesRetroactive": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": [
+                  "DenyDeviceClasses",
+                  "DenyDeviceIDs"
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "1": {
+                    "t": "sz",
+                    "v": "PCI\\CC_0C0010"
+                  },
+                  "2": {
+                    "t": "sz",
+                    "v": "PCI\\CC_0C0A"
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "1": {
+                    "t": "sz",
+                    "v": "{d48179be-ec20-11d1-b6b8-00c04fa372a7}"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "other entries first, case differs",
+          "machine": {
+            "build": 19045,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DenyDeviceIDs": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "DenyDeviceIDsRetroactive": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "DenyDeviceClasses": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "DenyDeviceClassesRetroactive": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": [
+                  "DenyDeviceClasses",
+                  "DenyDeviceIDs"
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "1": {
+                    "t": "sz",
+                    "v": "USB\\VID_0000&PID_0000"
+                  },
+                  "2": {
+                    "t": "sz",
+                    "v": "pci\\cc_0c0a"
+                  },
+                  "3": {
+                    "t": "sz",
+                    "v": "PCI\\CC_0C0010"
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "1": {
+                    "t": "sz",
+                    "v": "{d48179be-ec20-11d1-b6b8-00c04fa372a7}"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Thunderbolt controller class missing",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DenyDeviceIDs": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "DenyDeviceIDsRetroactive": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "DenyDeviceClasses": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "DenyDeviceClassesRetroactive": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": [
+                  "DenyDeviceClasses",
+                  "DenyDeviceIDs"
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "1": {
+                    "t": "sz",
+                    "v": "PCI\\CC_0C0010"
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "1": {
+                    "t": "sz",
+                    "v": "{d48179be-ec20-11d1-b6b8-00c04fa372a7}"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not applied to installed devices",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DenyDeviceIDs": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "DenyDeviceIDsRetroactive": {
+                    "t": "dword",
+                    "v": 0
+                  },
+                  "DenyDeviceClasses": {
+                    "t": "dword",
+                    "v": 1
+                  },
+                  "DenyDeviceClassesRetroactive": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": [
+                  "DenyDeviceClasses",
+                  "DenyDeviceIDs"
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "1": {
+                    "t": "sz",
+                    "v": "PCI\\CC_0C0010"
+                  },
+                  "2": {
+                    "t": "sz",
+                    "v": "PCI\\CC_0C0A"
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "1": {
+                    "t": "sz",
+                    "v": "{d48179be-ec20-11d1-b6b8-00c04fa372a7}"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "not configured",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policies root not collected",
+          "machine": {
+            "build": 26100,
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceIDs": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceInstall\\Restrictions\\DenyDeviceClasses": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    }
+  ]
+}
