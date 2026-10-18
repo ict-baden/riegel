@@ -1,0 +1,3991 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "FW",
+  "rules": [
+    {
+      "id": "FW-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "Windows Firewall is on for the Domain profile",
+        "de": "Windows-Firewall ist für das Profil „Domäne“ eingeschaltet"
+      },
+      "rationale": {
+        "en": "A host firewall limits which services of the machine can be reached from the network and slows down the spread of malware between machines. The rule reads the runtime state of the Domain profile from the firewall service, not only the policy. The Domain profile is used only on domain members, so the rule applies only there.",
+        "de": "Eine Host-Firewall begrenzt, welche Dienste des Rechners aus dem Netz erreichbar sind, und bremst die Ausbreitung von Schadsoftware zwischen Rechnern. Die Regel liest den Laufzeitzustand des Profils „Domäne“ vom Firewall-Dienst, nicht nur die Richtlinie. Das Domänenprofil wird nur auf Domänenmitgliedern verwendet; die Regel gilt daher nur dort."
+      },
+      "otNote": {
+        "en": "Plant vendors sometimes ask to switch the firewall off or to allow all inbound traffic for OPC DA/DCOM or proprietary ports. Open only the required ports for the required remote addresses, and document vendor requirements as exceptions.",
+        "de": "Anlagenhersteller verlangen manchmal, die Firewall abzuschalten oder allen eingehenden Verkehr für OPC DA/DCOM oder eigene Ports zu erlauben. Nur die nötigen Ports für die nötigen Gegenstellen öffnen und Herstellervorgaben als Ausnahme dokumentieren."
+      },
+      "remedy": {
+        "en": "Turn the firewall on for the Domain profile and open only the ports that are needed.",
+        "de": "Die Firewall für das Profil „Domäne“ einschalten und nur die benötigten Ports öffnen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "joined",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallProfile",
+        "profile": "domain",
+        "property": "enabled",
+        "expected": true
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
+            "value": "EnableFirewall",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Software-based firewalls"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Domain Profile: Firewall State"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Domain Profile: Firewall State"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "ids": [
+            "V-241989",
+            "WNFWA-000001"
+          ]
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-253281",
+            "WN11-00-000135"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.15"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1037",
+            "M0937"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Software-based firewalls",
+          "note": "Software-based firewalls that filter incoming and outgoing traffic should be implemented; the in-built Windows firewall can be used."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Defender_Firewall_V2R2_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-241989 (WNFWA-000001)",
+          "note": "Windows Defender Firewall must be enabled for the Domain profile (EnableFirewall 1, policy value before local value); NA if the system is not a domain member."
+        }
+      ],
+      "tests": [
+        {
+          "name": "domain profile on",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "domain profile off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": false,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "runtime off although the policy says on",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": false,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableFirewall": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no firewall policy (runtime decides)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "firewall status not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "workgroup machine (domain profile never active)",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": false
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": false,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "FW-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "Windows Firewall is on for the Private profile",
+        "de": "Windows-Firewall ist für das Profil „Privat“ eingeschaltet"
+      },
+      "rationale": {
+        "en": "A host firewall limits which services of the machine can be reached from the network and slows down the spread of malware between machines. The rule reads the runtime state of the Private profile from the firewall service, not only the policy.",
+        "de": "Eine Host-Firewall begrenzt, welche Dienste des Rechners aus dem Netz erreichbar sind, und bremst die Ausbreitung von Schadsoftware zwischen Rechnern. Die Regel liest den Laufzeitzustand des Profils „Privat“ vom Firewall-Dienst, nicht nur die Richtlinie."
+      },
+      "otNote": {
+        "en": "Plant vendors sometimes ask to switch the firewall off or to allow all inbound traffic for OPC DA/DCOM or proprietary ports. Open only the required ports for the required remote addresses, and document vendor requirements as exceptions.",
+        "de": "Anlagenhersteller verlangen manchmal, die Firewall abzuschalten oder allen eingehenden Verkehr für OPC DA/DCOM oder eigene Ports zu erlauben. Nur die nötigen Ports für die nötigen Gegenstellen öffnen und Herstellervorgaben als Ausnahme dokumentieren."
+      },
+      "remedy": {
+        "en": "Turn the firewall on for the Private profile and open only the ports that are needed.",
+        "de": "Die Firewall für das Profil „Privat“ einschalten und nur die benötigten Ports öffnen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallProfile",
+        "profile": "private",
+        "property": "enabled",
+        "expected": true
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
+            "value": "EnableFirewall",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Software-based firewalls"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Private Profile: Firewall State"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Private Profile: Firewall State"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "ids": [
+            "V-241990",
+            "WNFWA-000002"
+          ]
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-253281",
+            "WN11-00-000135"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.15"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1037",
+            "M0937"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Software-based firewalls",
+          "note": "Software-based firewalls that filter incoming and outgoing traffic should be implemented; the in-built Windows firewall can be used."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Defender_Firewall_V2R2_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-241990 (WNFWA-000002)",
+          "note": "Windows Defender Firewall must be enabled for the Private profile (EnableFirewall 1, policy value before local value)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "private profile on",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "private profile off",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": false,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "runtime off although the policy says on",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": false,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableFirewall": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no firewall policy (runtime decides)",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "firewall status not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "server",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "pass"
+        }
+      ]
+    },
+    {
+      "id": "FW-03",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "Windows Firewall is on for the Public profile",
+        "de": "Windows-Firewall ist für das Profil „Öffentlich“ eingeschaltet"
+      },
+      "rationale": {
+        "en": "A host firewall limits which services of the machine can be reached from the network and slows down the spread of malware between machines. The rule reads the runtime state of the Public profile from the firewall service, not only the policy.",
+        "de": "Eine Host-Firewall begrenzt, welche Dienste des Rechners aus dem Netz erreichbar sind, und bremst die Ausbreitung von Schadsoftware zwischen Rechnern. Die Regel liest den Laufzeitzustand des Profils „Öffentlich“ vom Firewall-Dienst, nicht nur die Richtlinie."
+      },
+      "otNote": {
+        "en": "Plant vendors sometimes ask to switch the firewall off or to allow all inbound traffic for OPC DA/DCOM or proprietary ports. Open only the required ports for the required remote addresses, and document vendor requirements as exceptions.",
+        "de": "Anlagenhersteller verlangen manchmal, die Firewall abzuschalten oder allen eingehenden Verkehr für OPC DA/DCOM oder eigene Ports zu erlauben. Nur die nötigen Ports für die nötigen Gegenstellen öffnen und Herstellervorgaben als Ausnahme dokumentieren."
+      },
+      "remedy": {
+        "en": "Turn the firewall on for the Public profile and open only the ports that are needed.",
+        "de": "Die Firewall für das Profil „Öffentlich“ einschalten und nur die benötigten Ports öffnen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallProfile",
+        "profile": "public",
+        "property": "enabled",
+        "expected": true
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
+            "value": "EnableFirewall",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Software-based firewalls"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Public Profile: Firewall State"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Public Profile: Firewall State"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "ids": [
+            "V-241991",
+            "WNFWA-000003"
+          ]
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-253281",
+            "WN11-00-000135"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.15"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1037",
+            "M0937"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Software-based firewalls",
+          "note": "Software-based firewalls that filter incoming and outgoing traffic should be implemented; the in-built Windows firewall can be used."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Defender_Firewall_V2R2_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-241991 (WNFWA-000003)",
+          "note": "Windows Defender Firewall must be enabled for the Public profile (EnableFirewall 1, policy value before local value)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "public profile on",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "public profile off",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": false,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "runtime off although the policy says on",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": false,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableFirewall": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no firewall policy (runtime decides)",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "firewall status not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "server",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "pass"
+        }
+      ]
+    },
+    {
+      "id": "FW-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "Windows Firewall blocks unsolicited inbound connections (Domain profile)",
+        "de": "Windows-Firewall blockiert unaufgeforderte eingehende Verbindungen (Profil „Domäne“)"
+      },
+      "rationale": {
+        "en": "With inbound connections allowed by default, every listening service is reachable from the network, including ones nobody intended to expose. Microsoft's default and recommendation is to block inbound traffic and allow it only through explicit rules. The rule reads the runtime state of the Domain profile. It applies only to domain members.",
+        "de": "Sind eingehende Verbindungen standardmäßig erlaubt, ist jeder lauschende Dienst aus dem Netz erreichbar – auch solche, die niemand freigeben wollte. Standard und Empfehlung von Microsoft ist, eingehenden Verkehr zu blockieren und nur über ausdrückliche Regeln zu erlauben. Die Regel liest den Laufzeitzustand des Profils „Domäne“. Sie gilt nur für Domänenmitglieder."
+      },
+      "otNote": {
+        "en": "Plant vendors sometimes ask to switch the firewall off or to allow all inbound traffic for OPC DA/DCOM or proprietary ports. Open only the required ports for the required remote addresses, and document vendor requirements as exceptions.",
+        "de": "Anlagenhersteller verlangen manchmal, die Firewall abzuschalten oder allen eingehenden Verkehr für OPC DA/DCOM oder eigene Ports zu erlauben. Nur die nötigen Ports für die nötigen Gegenstellen öffnen und Herstellervorgaben als Ausnahme dokumentieren."
+      },
+      "remedy": {
+        "en": "Set inbound connections of the Domain profile to 'Block (default)' and add explicit allow rules for the services that are needed.",
+        "de": "Eingehende Verbindungen im Profil „Domäne“ auf „Block (default)“ setzen und für benötigte Dienste ausdrückliche Zulassungsregeln anlegen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "joined",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallProfile",
+        "profile": "domain",
+        "property": "defaultInboundBlock",
+        "expected": true
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile",
+            "value": "DefaultInboundAction",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Software-based firewalls"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Domain Profile: Inbound Connections"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Domain Profile: Inbound Connections"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "ids": [
+            "V-241992",
+            "WNFWA-000004"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.15"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1037",
+            "M0937"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows Firewall rules (ms.date 2025-06-06)",
+          "url": "https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/rules",
+          "date": "2026-10-18",
+          "note": "Windows Firewall has a default block action for inbound connections; keep the default settings, the inbound configuration should never allow all traffic by default."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Defender_Firewall_V2R2_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-241992 (WNFWA-000004)",
+          "note": "Unsolicited inbound connections must be blocked for the Domain profile (DefaultInboundAction 1)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "inbound default block",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "inbound default allow",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "allow",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no firewall policy (runtime decides)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "firewall status not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "workgroup machine",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": false
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "allow",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "FW-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "Windows Firewall blocks unsolicited inbound connections (Private profile)",
+        "de": "Windows-Firewall blockiert unaufgeforderte eingehende Verbindungen (Profil „Privat“)"
+      },
+      "rationale": {
+        "en": "With inbound connections allowed by default, every listening service is reachable from the network, including ones nobody intended to expose. Microsoft's default and recommendation is to block inbound traffic and allow it only through explicit rules. The rule reads the runtime state of the Private profile.",
+        "de": "Sind eingehende Verbindungen standardmäßig erlaubt, ist jeder lauschende Dienst aus dem Netz erreichbar – auch solche, die niemand freigeben wollte. Standard und Empfehlung von Microsoft ist, eingehenden Verkehr zu blockieren und nur über ausdrückliche Regeln zu erlauben. Die Regel liest den Laufzeitzustand des Profils „Privat“."
+      },
+      "otNote": {
+        "en": "Plant vendors sometimes ask to switch the firewall off or to allow all inbound traffic for OPC DA/DCOM or proprietary ports. Open only the required ports for the required remote addresses, and document vendor requirements as exceptions.",
+        "de": "Anlagenhersteller verlangen manchmal, die Firewall abzuschalten oder allen eingehenden Verkehr für OPC DA/DCOM oder eigene Ports zu erlauben. Nur die nötigen Ports für die nötigen Gegenstellen öffnen und Herstellervorgaben als Ausnahme dokumentieren."
+      },
+      "remedy": {
+        "en": "Set inbound connections of the Private profile to 'Block (default)' and add explicit allow rules for the services that are needed.",
+        "de": "Eingehende Verbindungen im Profil „Privat“ auf „Block (default)“ setzen und für benötigte Dienste ausdrückliche Zulassungsregeln anlegen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallProfile",
+        "profile": "private",
+        "property": "defaultInboundBlock",
+        "expected": true
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile",
+            "value": "DefaultInboundAction",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Software-based firewalls"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Private Profile: Inbound Connections"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Private Profile: Inbound Connections"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "ids": [
+            "V-241997",
+            "WNFWA-000012"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.15"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1037",
+            "M0937"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows Firewall rules (ms.date 2025-06-06)",
+          "url": "https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/rules",
+          "date": "2026-10-18",
+          "note": "Windows Firewall has a default block action for inbound connections; keep the default settings, the inbound configuration should never allow all traffic by default."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Defender_Firewall_V2R2_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-241997 (WNFWA-000012)",
+          "note": "Unsolicited inbound connections must be blocked for the Private profile (DefaultInboundAction 1)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "inbound default block",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "inbound default allow",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "allow",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no firewall policy (runtime decides)",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "firewall status not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "FW-06",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "Windows Firewall blocks unsolicited inbound connections (Public profile)",
+        "de": "Windows-Firewall blockiert unaufgeforderte eingehende Verbindungen (Profil „Öffentlich“)"
+      },
+      "rationale": {
+        "en": "With inbound connections allowed by default, every listening service is reachable from the network, including ones nobody intended to expose. Microsoft's default and recommendation is to block inbound traffic and allow it only through explicit rules. The rule reads the runtime state of the Public profile.",
+        "de": "Sind eingehende Verbindungen standardmäßig erlaubt, ist jeder lauschende Dienst aus dem Netz erreichbar – auch solche, die niemand freigeben wollte. Standard und Empfehlung von Microsoft ist, eingehenden Verkehr zu blockieren und nur über ausdrückliche Regeln zu erlauben. Die Regel liest den Laufzeitzustand des Profils „Öffentlich“."
+      },
+      "otNote": {
+        "en": "Plant vendors sometimes ask to switch the firewall off or to allow all inbound traffic for OPC DA/DCOM or proprietary ports. Open only the required ports for the required remote addresses, and document vendor requirements as exceptions.",
+        "de": "Anlagenhersteller verlangen manchmal, die Firewall abzuschalten oder allen eingehenden Verkehr für OPC DA/DCOM oder eigene Ports zu erlauben. Nur die nötigen Ports für die nötigen Gegenstellen öffnen und Herstellervorgaben als Ausnahme dokumentieren."
+      },
+      "remedy": {
+        "en": "Set inbound connections of the Public profile to 'Block (default)' and add explicit allow rules for the services that are needed.",
+        "de": "Eingehende Verbindungen im Profil „Öffentlich“ auf „Block (default)“ setzen und für benötigte Dienste ausdrückliche Zulassungsregeln anlegen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallProfile",
+        "profile": "public",
+        "property": "defaultInboundBlock",
+        "expected": true
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
+            "value": "DefaultInboundAction",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Software-based firewalls"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Public Profile: Inbound Connections"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Public Profile: Inbound Connections"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "ids": [
+            "V-242002",
+            "WNFWA-000020"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.15"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1037",
+            "M0937"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows Firewall rules (ms.date 2025-06-06)",
+          "url": "https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/rules",
+          "date": "2026-10-18",
+          "note": "Windows Firewall has a default block action for inbound connections; keep the default settings, the inbound configuration should never allow all traffic by default."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Defender_Firewall_V2R2_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-242002 (WNFWA-000020)",
+          "note": "Unsolicited inbound connections must be blocked for the Public profile (DefaultInboundAction 1)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "inbound default block",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "inbound default allow",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "allow",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no firewall policy (runtime decides)",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "firewall status not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "FW-07",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": "Windows Firewall logs dropped packets (Domain profile)",
+        "de": "Windows-Firewall protokolliert verworfene Pakete (Profil „Domäne“)"
+      },
+      "rationale": {
+        "en": "A log of dropped packets shows scans and blocked connection attempts and helps to analyse incidents and to find missing rules after a plant change. The rule reads the policy value first and the local setting only when no policy is set (Domain profile). It applies only to domain members.",
+        "de": "Ein Protokoll verworfener Pakete zeigt Scans und blockierte Verbindungsversuche und hilft bei der Analyse von Vorfällen und beim Finden fehlender Regeln nach Anlagenänderungen. Die Regel liest zuerst den Richtlinienwert und die lokale Einstellung nur, wenn keine Richtlinie gesetzt ist (Profil „Domäne“). Sie gilt nur für Domänenmitglieder."
+      },
+      "remedy": {
+        "en": "Set 'Log dropped packets' to Yes for the Domain profile and give the log at least 16 MB.",
+        "de": "„Log dropped packets“ für das Profil „Domäne“ auf Yes setzen und dem Protokoll mindestens 16 MB geben."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "joined",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallProfile",
+        "profile": "domain",
+        "property": "logDropped",
+        "expected": true
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging",
+            "value": "LogDroppedPackets",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Domain Profile: Log dropped packets"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Domain Profile: Log dropped packets"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "ids": [
+            "V-241995",
+            "WNFWA-000010"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.15",
+            "DET.3.1"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1037",
+            "M0937"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Configure Windows Firewall logging (ms.date 2025-04-07)",
+          "url": "https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/configure-logging",
+          "date": "2026-10-18",
+          "note": "Recommendation: for each profile set Log dropped packets to Yes."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Defender_Firewall_V2R2_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-241995 (WNFWA-000010)",
+          "note": "Dropped packets must be logged for the Domain profile (LogDroppedPackets 1; policy value before local value)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "policy logs dropped packets",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "no policy, local setting logs dropped packets",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\DomainProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "policy switches logging off (local on)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\DomainProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no policy, local setting off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\DomainProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policy key not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\DomainProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "workgroup machine",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": false
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\Logging": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "FW-08",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": "Windows Firewall logs dropped packets (Private profile)",
+        "de": "Windows-Firewall protokolliert verworfene Pakete (Profil „Privat“)"
+      },
+      "rationale": {
+        "en": "A log of dropped packets shows scans and blocked connection attempts and helps to analyse incidents and to find missing rules after a plant change. The rule reads the policy value first and the local setting only when no policy is set (Private profile).",
+        "de": "Ein Protokoll verworfener Pakete zeigt Scans und blockierte Verbindungsversuche und hilft bei der Analyse von Vorfällen und beim Finden fehlender Regeln nach Anlagenänderungen. Die Regel liest zuerst den Richtlinienwert und die lokale Einstellung nur, wenn keine Richtlinie gesetzt ist (Profil „Privat“)."
+      },
+      "remedy": {
+        "en": "Set 'Log dropped packets' to Yes for the Private profile and give the log at least 16 MB.",
+        "de": "„Log dropped packets“ für das Profil „Privat“ auf Yes setzen und dem Protokoll mindestens 16 MB geben."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallProfile",
+        "profile": "private",
+        "property": "logDropped",
+        "expected": true
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile\\Logging",
+            "value": "LogDroppedPackets",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Private Profile: Log dropped packets"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Private Profile: Log dropped packets"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "ids": [
+            "V-242000",
+            "WNFWA-000018"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.15",
+            "DET.3.1"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1037",
+            "M0937"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Configure Windows Firewall logging (ms.date 2025-04-07)",
+          "url": "https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/configure-logging",
+          "date": "2026-10-18",
+          "note": "Recommendation: for each profile set Log dropped packets to Yes."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Defender_Firewall_V2R2_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-242000 (WNFWA-000018)",
+          "note": "Dropped packets must be logged for the Private profile (LogDroppedPackets 1; policy value before local value)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "policy logs dropped packets",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "no policy, local setting logs dropped packets",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile\\Logging": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\StandardProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "policy switches logging off (local on)",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\StandardProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no policy, local setting off",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile\\Logging": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\StandardProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policy key not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile\\Logging": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\StandardProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "FW-09",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "low",
+      "kind": "check",
+      "title": {
+        "en": "Windows Firewall logs dropped packets (Public profile)",
+        "de": "Windows-Firewall protokolliert verworfene Pakete (Profil „Öffentlich“)"
+      },
+      "rationale": {
+        "en": "A log of dropped packets shows scans and blocked connection attempts and helps to analyse incidents and to find missing rules after a plant change. The rule reads the policy value first and the local setting only when no policy is set (Public profile).",
+        "de": "Ein Protokoll verworfener Pakete zeigt Scans und blockierte Verbindungsversuche und hilft bei der Analyse von Vorfällen und beim Finden fehlender Regeln nach Anlagenänderungen. Die Regel liest zuerst den Richtlinienwert und die lokale Einstellung nur, wenn keine Richtlinie gesetzt ist (Profil „Öffentlich“)."
+      },
+      "remedy": {
+        "en": "Set 'Log dropped packets' to Yes for the Public profile and give the log at least 16 MB.",
+        "de": "„Log dropped packets“ für das Profil „Öffentlich“ auf Yes setzen und dem Protokoll mindestens 16 MB geben."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallProfile",
+        "profile": "public",
+        "property": "logDropped",
+        "expected": true
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging",
+            "value": "LogDroppedPackets",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Public Profile: Log dropped packets"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Public Profile: Log dropped packets"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "ids": [
+            "V-242007",
+            "WNFWA-000028"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.15",
+            "DET.3.1"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1037",
+            "M0937"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Configure Windows Firewall logging (ms.date 2025-04-07)",
+          "url": "https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/configure-logging",
+          "date": "2026-10-18",
+          "note": "Recommendation: for each profile set Log dropped packets to Yes."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Defender_Firewall_V2R2_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-242007 (WNFWA-000028)",
+          "note": "Dropped packets must be logged for the Public profile (LogDroppedPackets 1; policy value before local value)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "policy logs dropped packets",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "no policy, local setting logs dropped packets",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "policy switches logging off (local on)",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no policy, local setting off",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policy key not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\\Logging": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LogDroppedPackets": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "FW-10",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Local firewall rules are not merged on the Public profile",
+        "de": "Lokale Firewall-Regeln werden im öffentlichen Profil nicht übernommen"
+      },
+      "rationale": {
+        "en": "On a domain member, firewall rules should come from central policy. If local rules are merged on the Public profile, any program installed with administrator rights can open ports while the machine is on an untrusted network. The rule applies only to domain members, because on a workgroup machine the local rules are the only rules.",
+        "de": "Auf einem Domänenmitglied sollen Firewall-Regeln aus der zentralen Richtlinie kommen. Werden im öffentlichen Profil lokale Regeln übernommen, kann jedes mit Administratorrechten installierte Programm Ports öffnen, während der Rechner in einem nicht vertrauenswürdigen Netz hängt. Die Regel gilt nur für Domänenmitglieder, weil auf einem Rechner in einer Arbeitsgruppe die lokalen Regeln die einzigen sind."
+      },
+      "otNote": {
+        "en": "Plant software installers often create their own local firewall rules. With merging switched off they stop working on the Public profile; deploy the needed rules centrally first.",
+        "de": "Installationsprogramme von Anlagensoftware legen oft eigene lokale Firewall-Regeln an. Ohne Übernahme funktionieren sie im öffentlichen Profil nicht mehr; die benötigten Regeln vorher zentral verteilen."
+      },
+      "remedy": {
+        "en": "Set 'Apply local firewall rules' to No for the Public profile in the domain policy.",
+        "de": "„Apply local firewall rules“ für das öffentliche Profil in der Domänenrichtlinie auf No setzen."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "joined",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallProfile",
+        "profile": "public",
+        "property": "allowLocalRules",
+        "expected": false
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile",
+            "value": "AllowLocalPolicyMerge",
+            "type": "dword",
+            "data": 0
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Public Profile: Apply local firewall rules"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Public Profile: Apply local firewall rules"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "ids": [
+            "V-242004",
+            "WNFWA-000024"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.15"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1037",
+            "M0937"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows Firewall rules (ms.date 2025-06-06)",
+          "url": "https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/rules",
+          "date": "2026-10-18",
+          "note": "Rule-merging policy AllowLocalPolicyMerge per profile; administrators may disable local policy merge in high-security environments."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Defender_Firewall_V2R2_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-242004 (WNFWA-000024)",
+          "note": "PublicProfile AllowLocalPolicyMerge REG_DWORD 0; NA if the system is not a domain member."
+        }
+      ],
+      "tests": [
+        {
+          "name": "local rules not merged",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowLocalPolicyMerge": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "local rules merged",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "AllowLocalPolicyMerge": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policy key not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "workgroup machine",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": false
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "FW-11",
+      "since": "2026.10",
+      "state": "active",
+      "category": "firewall",
+      "severity": "high",
+      "kind": "check",
+      "title": {
+        "en": "No inbound allow rule opens RDP, SMB or WinRM to any address",
+        "de": "Keine eingehende Regel öffnet RDP, SMB oder WinRM für beliebige Adressen"
+      },
+      "rationale": {
+        "en": "Remote Desktop (TCP 3389), SMB (TCP 445) and WinRM (TCP 5985, 5986) are the usual paths for lateral movement and ransomware. An enabled inbound allow rule for these ports should name the management or engineering hosts that need it, not every address. The rule evaluates the effective rule set of the active profiles (firewall service plus Group Policy and local rule stores) and lists the rules it finds.",
+        "de": "Remotedesktop (TCP 3389), SMB (TCP 445) und WinRM (TCP 5985, 5986) sind die üblichen Wege für die seitliche Ausbreitung von Angreifern und Ransomware. Eine aktive eingehende Zulassungsregel für diese Ports soll die Verwaltungs- oder Engineering-Rechner nennen, die sie brauchen – nicht jede Adresse. Die Regel bewertet den wirksamen Regelsatz der aktiven Profile (Firewall-Dienst sowie Gruppenrichtlinien- und lokale Regelablage) und listet die gefundenen Regeln."
+      },
+      "otNote": {
+        "en": "Vendor remote maintenance and HMI data exchange often rely on RDP or file shares. Restrict the remote addresses to the engineering or jump hosts; where a vendor needs wider access, document it as an exception.",
+        "de": "Fernwartung durch Hersteller und Datenaustausch mit Bediengeräten nutzen oft RDP oder Dateifreigaben. Die Gegenstellen auf Engineering- oder Sprungrechner beschränken; wo ein Hersteller weiteren Zugang braucht, als Ausnahme dokumentieren."
+      },
+      "remedy": {
+        "en": "Restrict the remote address scope of each listed rule to the management or engineering hosts, or disable rules that are not needed.",
+        "de": "Den Bereich der Remoteadressen jeder aufgeführten Regel auf die Verwaltungs- oder Engineering-Rechner beschränken oder nicht benötigte Regeln deaktivieren."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "firewallExposure",
+        "ports": [
+          {
+            "protocol": "tcp",
+            "port": 3389
+          },
+          {
+            "protocol": "tcp",
+            "port": 445
+          },
+          {
+            "protocol": "tcp",
+            "port": 5985
+          },
+          {
+            "protocol": "tcp",
+            "port": 5986
+          }
+        ],
+        "profiles": "active"
+      },
+      "remediation": {
+        "manual": {
+          "en": "For each listed rule: Windows Defender Firewall with Advanced Security > Inbound Rules > Properties > Scope > Remote IP address = the required hosts or subnets (or through the Group Policy that owns the rule).",
+          "de": "Für jede aufgeführte Regel: Windows Defender Firewall mit erweiterter Sicherheit > Eingehende Regeln > Eigenschaften > Bereich > Remote-IP-Adresse = die benötigten Rechner oder Netze (bzw. in der Gruppenrichtlinie, der die Regel gehört)."
+        }
+      },
+      "references": [
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-253282",
+            "WN11-00-000140"
+          ]
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "ids": [
+            "V-242009",
+            "WNFWA-000100"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.15",
+            "KONF.4.4",
+            "ARCH.5.1.6"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1037",
+            "M1035",
+            "M0937",
+            "M0935"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows 11 STIG V2R11 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_11_V2R11_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-253282 (WN11-00-000140)",
+          "note": "Inbound exceptions must only allow authorized remote management hosts; the remote IP address scope must be restricted."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Windows Defender Firewall with Advanced Security STIG V2R2 (benchmark date 2023-11-09, newest release found)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Windows_Defender_Firewall_V2R2_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-242009 (WNFWA-000100)",
+          "note": "Inbound exceptions on domain workstations must only allow authorized remote management hosts (NA for servers and non-domain workstations in the STIG; Riegel applies it to all machines except domain controllers)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows Firewall rules (ms.date 2025-06-06)",
+          "url": "https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/rules",
+          "date": "2026-10-18",
+          "note": "Inbound rules should be as specific as possible; restrict remote addresses, for example to Local Subnet."
+        }
+      ],
+      "tests": [
+        {
+          "name": "RDP rule limited to an engineering subnet",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "RDP Engineering",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "3389",
+                    "remoteAddresses": "192.0.2.0/255.255.255.0",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RDP-Engineering": {
+                    "t": "sz",
+                    "v": "v2.33|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=3389|RA4=192.0.2.0/24|Name=Beispielregel|"
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "RDP open to any address",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "RDP",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "3389",
+                    "remoteAddresses": "*",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RDP": {
+                    "t": "sz",
+                    "v": "v2.33|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=3389|Name=Beispielregel|"
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "WinRM HTTPS open to any address",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "WinRM HTTPS",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "5986",
+                    "remoteAddresses": "*",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "WinRM-HTTPS": {
+                    "t": "sz",
+                    "v": "v2.33|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=5986|Name=Beispielregel|"
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "SMB rule open to any address but disabled",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "SMB",
+                    "enabled": false,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "445",
+                    "remoteAddresses": "*",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SMB": {
+                    "t": "sz",
+                    "v": "v2.33|Action=Allow|Active=FALSE|Dir=In|Protocol=6|LPort=445|Name=Beispielregel|"
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "block rule for SMB from any address",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "SMB block",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "block",
+                    "protocol": 6,
+                    "localPorts": "445",
+                    "remoteAddresses": "*",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "SMB-Block": {
+                    "t": "sz",
+                    "v": "v2.33|Action=Block|Active=TRUE|Dir=In|Protocol=6|LPort=445|Name=Beispielregel|"
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "rule only on the inactive Domain profile",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "WinRM",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "5985",
+                    "remoteAddresses": "*",
+                    "profiles": 1,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "WinRM": {
+                    "t": "sz",
+                    "v": "v2.33|Action=Allow|Active=TRUE|Dir=In|Protocol=6|Profile=Domain|LPort=5985|Name=Beispielregel|"
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "rule list not collected (--minimal)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": false,
+                "rules": []
+              }
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "firewall not collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "domain controller",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "SMB",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "445",
+                    "remoteAddresses": "*",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    }
+  ]
+}

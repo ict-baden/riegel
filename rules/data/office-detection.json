@@ -1,0 +1,54 @@
+{
+  "schema": "riegel.data/1",
+  "kind": "officeDetection",
+  "officeDetection": {
+    "clickToRunKeys": [
+      {
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\Configuration",
+        "source": "https://learn.microsoft.com/en-us/microsoft-365-apps/licensing-activation/overview-shared-computer-activation",
+        "seen": "2026-10-18",
+        "note": "Configuration key of Click-to-Run Office (Microsoft 365 Apps and later perpetual versions); Microsoft documents values such as SharedComputerLicensing, UpdateUrl and CDNBaseUrl here. Presence of the key counts."
+      }
+    ],
+    "installRootKeys": [
+      {
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Office\\16.0\\Common\\InstallRoot",
+        "note": "No Microsoft page found that names this key for version 16.0; same layout as the documented 14.0 and 15.0 keys (unverified for 16.0)."
+      },
+      {
+        "key": "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\Office\\16.0\\Common\\InstallRoot",
+        "note": "No Microsoft page found that names this key for version 16.0; same layout as the documented 14.0 and 15.0 keys (unverified for 16.0)."
+      },
+      {
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Office\\15.0\\Common\\InstallRoot",
+        "source": "https://learn.microsoft.com/en-us/office/vba/outlook/concepts/getting-started/verify-if-outlook-is-a-click-to-run-application-on-a-computer",
+        "seen": "2026-10-18",
+        "note": "Office 2013 (path ...\\15.0\\Common\\InstallRoot\\Virtual\\VirtualOutlook named by Microsoft)."
+      },
+      {
+        "key": "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\Office\\15.0\\Common\\InstallRoot",
+        "source": "https://learn.microsoft.com/en-us/office/client-developer/outlook/pia/how-to-determine-whether-outlook-is-a-click-to-run-application-on-a-computer",
+        "seen": "2026-10-18",
+        "note": "Office 2013, 32-bit view."
+      },
+      {
+        "key": "HKLM\\SOFTWARE\\Microsoft\\Office\\14.0\\Common\\InstallRoot",
+        "source": "https://learn.microsoft.com/en-us/office/client-developer/outlook/social-connector/installation-checklist",
+        "seen": "2026-10-18",
+        "note": "Office 2010 (path ...\\14.0\\Common\\InstallRoot\\Virtual\\VirtualOutlook named by Microsoft)."
+      },
+      {
+        "key": "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\Office\\14.0\\Common\\InstallRoot",
+        "note": "Office 2010, 32-bit view; Microsoft names only the 64-bit-view path for 14.0 (unverified for the 32-bit view)."
+      }
+    ],
+    "uninstallDisplayNamePrefixes": [
+      {
+        "pattern": "Microsoft 365 Apps",
+        "source": "https://learn.microsoft.com/en-us/troubleshoot/microsoft-365-apps/office-suite-issues/product-ids-supported-office-deployment-click-to-run",
+        "seen": "2026-10-18",
+        "note": "Product names 'Microsoft 365 Apps for enterprise' and 'Microsoft 365 Apps for business'. Display names of perpetual Office versions are not documented by Microsoft and are therefore not listed."
+      }
+    ]
+  }
+}

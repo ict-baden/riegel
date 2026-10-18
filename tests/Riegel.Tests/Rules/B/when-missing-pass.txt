@@ -1,0 +1,6 @@
+# Regeln von rules-b mit whenMissing: pass (spec 2.4 Punkt 2). Je Zeile eine Regel-ID, # = Kommentar.
+# Jede Regel hier braucht missingPass mit Quelle und Datum; RulesBTests prüft beide Richtungen.
+
+# AlwaysInstallElevated: Windows Installer erhöht nur, wenn der Wert unter HKCU und HKLM 1 ist
+# (https://learn.microsoft.com/en-us/windows/win32/msi/alwaysinstallelevated, gesehen 2026-10-18).
+APP-02

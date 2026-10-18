@@ -1,0 +1,5310 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "ASR",
+  "rules": [
+    {
+      "id": "ASR-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "defender",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "ASR: block abuse of exploited vulnerable signed drivers",
+        "de": "ASR: Missbrauch verwundbarer signierter Treiber blockieren"
+      },
+      "rationale": {
+        "en": "Attackers with administrator rights load old, signed but vulnerable drivers to reach the kernel and switch off security software. This rule stops applications from writing such drivers to disk; it does not stop drivers that are already present. Riegel counts the rule only in block mode and only while Microsoft Defender is the active antivirus with real-time protection on.",
+        "de": "Angreifer mit Administratorrechten laden alte, signierte, aber verwundbare Treiber, um in den Kernel zu gelangen und Schutzsoftware abzuschalten. Die Regel verhindert, dass Anwendungen solche Treiber auf den Datenträger schreiben; bereits vorhandene Treiber hält sie nicht auf. Riegel zählt die Regel nur im Blockiermodus und nur, solange Microsoft Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist."
+      },
+      "otNote": {
+        "en": "Dongle, fieldbus and measurement-card drivers of older plant hardware can be on Microsoft's list of vulnerable drivers. The rule blocks only new copies of such drivers; check vendor updates before reinstalling a machine.",
+        "de": "Treiber für Dongles, Feldbus- und Messkarten älterer Anlagenhardware können auf der Microsoft-Liste verwundbarer Treiber stehen. Die Regel blockiert nur neue Kopien solcher Treiber; vor einer Neuinstallation Herstellerupdates prüfen."
+      },
+      "remedy": {
+        "en": "Set the ASR rule 56a863a9-875e-4185-98a7-b882c64b5ce5 to block (1) in the policy 'Configure Attack Surface Reduction rules', after a test in audit mode.",
+        "de": "Die ASR-Regel 56a863a9-875e-4185-98a7-b882c64b5ce5 in der Richtlinie „Configure Attack Surface Reduction rules“ auf Blockieren (1) setzen, nach einem Test im Überwachungsmodus."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "minBuild": 16299,
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "asr",
+        "ifCapabilityAbsent": "notApplicable"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "asrRule",
+        "guid": "56a863a9-875e-4185-98a7-b882c64b5ce5",
+        "accept": "block"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Group Policy 'Configure Attack Surface Reduction rules' = Enabled, value name 56a863a9-875e-4185-98a7-b882c64b5ce5, value 1. Alternatively Intune or the Defender CSP. Riegel counts the rule only while Defender is the active antivirus with real-time protection on.",
+          "de": "Gruppenrichtlinie „Configure Attack Surface Reduction rules“ = Enabled, Wertname 56a863a9-875e-4185-98a7-b882c64b5ce5, Wert 1. Alternativ über Intune oder den Defender-CSP. Riegel zählt die Regel nur, solange Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Attack surface reduction"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Configure Attack Surface Reduction rules"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Configure Attack Surface Reduction rules"
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Attack surface reduction rules reference",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-278655",
+            "WNDF-AV-000051"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.14",
+            "KONF.7.16"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1040",
+            "M1038"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Attack surface reduction",
+          "note": "GUID 56a863a9-875e-4185-98a7-b882c64b5ce5, recommended state 1 (block)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Attack surface reduction rules reference (ms.date 2026-09-09)",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference",
+          "date": "2026-10-18",
+          "note": "GUID 56a863a9-875e-4185-98a7-b882c64b5ce5; Windows 10 1709 or later, Windows Server 1803 (SAC) or later; no Warn-mode restriction listed; does not prevent loading drivers already on the computer."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Enable attack surface reduction rules (ms.date 2026-09-08)",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/enable-attack-surface-reduction",
+          "date": "2026-10-18",
+          "note": "Rule modes: 0 off, 1 block, 2 audit, 5 not configured, 6 warn."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 10 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/release-information",
+          "date": "2026-10-18",
+          "note": "Version 1709 = OS build 16299."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Defender_Antivirus_V2R10_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-278655 (WNDF-AV-000051)",
+          "note": "Rule 56a863a9-875e-4185-98a7-b882c64b5ce5 must be set to 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "active, rule in block mode",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "56a863a9-875e-4185-98a7-b882c64b5ce5"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "active, rule only in audit mode",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "56a863a9-875e-4185-98a7-b882c64b5ce5"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      2
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "56a863a9-875e-4185-98a7-b882c64b5ce5"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      0
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule in warn mode (block required)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "56a863a9-875e-4185-98a7-b882c64b5ce5"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      6
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule not configured anywhere",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": null,
+                    "AttackSurfaceReductionRules_Actions": null,
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, preference not collected, policy sets block",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "56A863A9-875E-4185-98A7-B882C64B5CE5": {
+                    "t": "sz",
+                    "v": "1"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "block mode but real-time protection off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": false,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "56a863a9-875e-4185-98a7-b882c64b5ce5"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "passive with third-party antivirus",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "passive",
+            "defender.rtp": false,
+            "av.thirdPartyActive": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Passive",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": false,
+                    "IsTamperProtected": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-10T04:00:00Z",
+                    "AntivirusSignatureAge": 5
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "56a863a9-875e-4185-98a7-b882c64b5ce5"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "off without antivirus",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "off",
+            "defender.rtp": false,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": false,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": false,
+                    "IsTamperProtected": false,
+                    "AntivirusSignatureLastUpdated": "2026-09-15T04:00:00Z",
+                    "AntivirusSignatureAge": 30
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "56a863a9-875e-4185-98a7-b882c64b5ce5"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "absent (Windows 7: no ASR)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "absent",
+            "defender.rtp": null,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "Defender mode unknown",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "unknown",
+            "defender.rtp": null,
+            "av.thirdPartyActive": null
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "error"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "error"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "nothing collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "notCollected"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\PolicyManager\\current\\device\\Defender": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "operating system older than the rule supports",
+          "machine": {
+            "build": 14393,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "56a863a9-875e-4185-98a7-b882c64b5ce5"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "ASR-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "defender",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "ASR: block credential stealing from LSASS",
+        "de": "ASR: Diebstahl von Anmeldedaten aus LSASS blockieren"
+      },
+      "rationale": {
+        "en": "Tools such as credential dumpers read the memory of the Local Security Authority process (lsass.exe) to steal password hashes and use them for lateral movement. This rule blocks such access. Microsoft states that the rule adds no protection when LSA protection is on; then LSA protection (CRED-06) is the stronger measure and an exception with a compensating control is the right record, not a silent pass. Riegel counts the rule only in block mode and only while Microsoft Defender is the active antivirus with real-time protection on.",
+        "de": "Werkzeuge zum Auslesen von Anmeldedaten lesen den Speicher des LSA-Prozesses (lsass.exe), um Kennwort-Hashes zu stehlen und damit im Netz weiterzuwandern. Die Regel blockiert solche Zugriffe. Laut Microsoft bringt sie keinen zusätzlichen Schutz, wenn der LSA-Schutz aktiv ist; dann ist der LSA-Schutz (CRED-06) die stärkere Maßnahme und eine Ausnahme mit kompensierender Maßnahme der richtige Nachweis – kein stilles „erfüllt“. Riegel zählt die Regel nur im Blockiermodus und nur, solange Microsoft Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist."
+      },
+      "otNote": {
+        "en": "Microsoft calls this rule redundant when LSA protection is on. If CRED-06 passes on this machine, record an exception with the reason 'compensating control' and reference CRED-06 instead of enabling the rule.",
+        "de": "Microsoft bezeichnet diese Regel bei aktivem LSA-Schutz als überflüssig. Ist CRED-06 auf diesem Rechner erfüllt, eine Ausnahme mit dem Grund „kompensierende Maßnahme“ und Verweis auf CRED-06 erfassen, statt die Regel einzuschalten."
+      },
+      "remedy": {
+        "en": "Set the ASR rule 9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2 to block (1) in the policy 'Configure Attack Surface Reduction rules', after a test in audit mode.",
+        "de": "Die ASR-Regel 9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2 in der Richtlinie „Configure Attack Surface Reduction rules“ auf Blockieren (1) setzen, nach einem Test im Überwachungsmodus."
+      },
+      "suggestedReason": "compensatingControl",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "minBuild": 17134,
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "asr",
+        "ifCapabilityAbsent": "notApplicable"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "asrRule",
+        "guid": "9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2",
+        "accept": "block"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Group Policy 'Configure Attack Surface Reduction rules' = Enabled, value name 9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2, value 1. Alternatively Intune or the Defender CSP. Riegel counts the rule only while Defender is the active antivirus with real-time protection on.",
+          "de": "Gruppenrichtlinie „Configure Attack Surface Reduction rules“ = Enabled, Wertname 9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2, Wert 1. Alternativ über Intune oder den Defender-CSP. Riegel zählt die Regel nur, solange Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Attack surface reduction"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Configure Attack Surface Reduction rules"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Configure Attack Surface Reduction rules"
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Attack surface reduction rules reference",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-278648",
+            "WNDF-AV-000044"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.16"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1040",
+            "M1043",
+            "M1025"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Attack surface reduction",
+          "note": "GUID 9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2, recommended state 1 (block)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Attack surface reduction rules reference (ms.date 2026-09-09)",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference",
+          "date": "2026-10-18",
+          "note": "GUID 9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2; Windows 10 1803 or later, Windows Server 2019 or later; no Warn mode; not required and no extra protection when LSA protection is enabled."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Enable attack surface reduction rules (ms.date 2026-09-08)",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/enable-attack-surface-reduction",
+          "date": "2026-10-18",
+          "note": "Rule modes: 0 off, 1 block, 2 audit, 5 not configured, 6 warn."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 10 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/release-information",
+          "date": "2026-10-18",
+          "note": "Version 1803 = OS build 17134."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Defender_Antivirus_V2R10_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-278648 (WNDF-AV-000044)",
+          "note": "Rule 9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2 must be set to 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "active, rule in block mode",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "active, rule only in audit mode",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      2
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      0
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule not configured anywhere",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": null,
+                    "AttackSurfaceReductionRules_Actions": null,
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, preference not collected, policy sets block",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "9E6C4E1F-7D60-472F-BA1A-A39EF669E4B2": {
+                    "t": "sz",
+                    "v": "1"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "block mode but real-time protection off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": false,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "passive with third-party antivirus",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "passive",
+            "defender.rtp": false,
+            "av.thirdPartyActive": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Passive",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": false,
+                    "IsTamperProtected": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-10T04:00:00Z",
+                    "AntivirusSignatureAge": 5
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "off without antivirus",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "off",
+            "defender.rtp": false,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": false,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": false,
+                    "IsTamperProtected": false,
+                    "AntivirusSignatureLastUpdated": "2026-09-15T04:00:00Z",
+                    "AntivirusSignatureAge": 30
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "absent (Windows 7: no ASR)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "absent",
+            "defender.rtp": null,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "Defender mode unknown",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "unknown",
+            "defender.rtp": null,
+            "av.thirdPartyActive": null
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "error"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "error"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "nothing collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "notCollected"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\PolicyManager\\current\\device\\Defender": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "operating system older than the rule supports",
+          "machine": {
+            "build": 16299,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "active, rule in warn mode (not supported, block required)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      6
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "EDR block mode with third-party antivirus",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "edrBlock",
+            "defender.rtp": false,
+            "av.thirdPartyActive": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "EDR Block Mode",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": false,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "9e6c4e1f-7d60-472f-ba1a-a39ef669e4b2"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "ASR-05",
+      "since": "2026.10",
+      "state": "active",
+      "category": "defender",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "ASR: block Office applications from creating child processes",
+        "de": "ASR: Office-Anwendungen am Starten von Kindprozessen hindern"
+      },
+      "rationale": {
+        "en": "Malicious documents use macros or exploits in Word, Excel or PowerPoint to start PowerShell, the command prompt or downloaded programs. This rule stops Office applications from starting child processes. It applies only where Office is installed. Riegel counts the rule only in block mode and only while Microsoft Defender is the active antivirus with real-time protection on.",
+        "de": "Schädliche Dokumente starten über Makros oder Lücken in Word, Excel oder PowerPoint die PowerShell, die Eingabeaufforderung oder heruntergeladene Programme. Die Regel hindert Office-Anwendungen daran, Kindprozesse zu starten. Sie gilt nur, wo Office installiert ist. Riegel zählt die Regel nur im Blockiermodus und nur, solange Microsoft Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist."
+      },
+      "otNote": {
+        "en": "Excel workbooks for shift reports or recipe exchange sometimes start external programs. Check in audit mode first and keep such macros signed and documented.",
+        "de": "Excel-Mappen für Schichtberichte oder Rezepturaustausch starten manchmal externe Programme. Zuerst im Überwachungsmodus prüfen und solche Makros signiert und dokumentiert halten."
+      },
+      "remedy": {
+        "en": "Set the ASR rule d4f940ab-401b-4efc-aadc-ad5f3c50688a to block (1) in the policy 'Configure Attack Surface Reduction rules', after a test in audit mode.",
+        "de": "Die ASR-Regel d4f940ab-401b-4efc-aadc-ad5f3c50688a in der Richtlinie „Configure Attack Surface Reduction rules“ auf Blockieren (1) setzen, nach einem Test im Überwachungsmodus."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "minBuild": 16299,
+        "domain": "any",
+        "excludeDc": false,
+        "when": [
+          {
+            "fact": "office.installed",
+            "op": "eq",
+            "value": true
+          }
+        ],
+        "capability": "asr",
+        "ifCapabilityAbsent": "notApplicable"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "asrRule",
+        "guid": "d4f940ab-401b-4efc-aadc-ad5f3c50688a",
+        "accept": "block"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Group Policy 'Configure Attack Surface Reduction rules' = Enabled, value name d4f940ab-401b-4efc-aadc-ad5f3c50688a, value 1. Alternatively Intune or the Defender CSP. Riegel counts the rule only while Defender is the active antivirus with real-time protection on.",
+          "de": "Gruppenrichtlinie „Configure Attack Surface Reduction rules“ = Enabled, Wertname d4f940ab-401b-4efc-aadc-ad5f3c50688a, Wert 1. Alternativ über Intune oder den Defender-CSP. Riegel zählt die Regel nur, solange Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Attack surface reduction"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Configure Attack Surface Reduction rules"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Configure Attack Surface Reduction rules"
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Attack surface reduction rules reference",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-213457",
+            "WNDF-AV-000033"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.10",
+            "KONF.7.16"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1040"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Attack surface reduction",
+          "note": "GUID d4f940ab-401b-4efc-aadc-ad5f3c50688a, recommended state 1 (block)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Attack surface reduction rules reference (ms.date 2026-09-09)",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference",
+          "date": "2026-10-18",
+          "note": "GUID d4f940ab-401b-4efc-aadc-ad5f3c50688a; Windows 10 1709 or later, Windows Server 2019 or later."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Enable attack surface reduction rules (ms.date 2026-09-08)",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/enable-attack-surface-reduction",
+          "date": "2026-10-18",
+          "note": "Rule modes: 0 off, 1 block, 2 audit, 5 not configured, 6 warn."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 10 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/release-information",
+          "date": "2026-10-18",
+          "note": "Version 1709 = OS build 16299."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Defender_Antivirus_V2R10_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-213457 (WNDF-AV-000033)",
+          "note": "Rule D4F940AB-401B-4EFC-AADC-AD5F3C50688A must be set to 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "active, rule in block mode",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false,
+            "office.installed": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d4f940ab-401b-4efc-aadc-ad5f3c50688a"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "active, rule only in audit mode",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false,
+            "office.installed": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d4f940ab-401b-4efc-aadc-ad5f3c50688a"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      2
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false,
+            "office.installed": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d4f940ab-401b-4efc-aadc-ad5f3c50688a"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      0
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule in warn mode (block required)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false,
+            "office.installed": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d4f940ab-401b-4efc-aadc-ad5f3c50688a"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      6
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule not configured anywhere",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false,
+            "office.installed": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": null,
+                    "AttackSurfaceReductionRules_Actions": null,
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, preference not collected, policy sets block",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false,
+            "office.installed": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "D4F940AB-401B-4EFC-AADC-AD5F3C50688A": {
+                    "t": "sz",
+                    "v": "1"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "block mode but real-time protection off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": false,
+            "av.thirdPartyActive": false,
+            "office.installed": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d4f940ab-401b-4efc-aadc-ad5f3c50688a"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "passive with third-party antivirus",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "passive",
+            "defender.rtp": false,
+            "av.thirdPartyActive": true,
+            "office.installed": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Passive",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": false,
+                    "IsTamperProtected": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-10T04:00:00Z",
+                    "AntivirusSignatureAge": 5
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d4f940ab-401b-4efc-aadc-ad5f3c50688a"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "off without antivirus",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "off",
+            "defender.rtp": false,
+            "av.thirdPartyActive": false,
+            "office.installed": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": false,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": false,
+                    "IsTamperProtected": false,
+                    "AntivirusSignatureLastUpdated": "2026-09-15T04:00:00Z",
+                    "AntivirusSignatureAge": 30
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d4f940ab-401b-4efc-aadc-ad5f3c50688a"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "absent (Windows 7: no ASR)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "absent",
+            "defender.rtp": null,
+            "av.thirdPartyActive": false,
+            "office.installed": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "Defender mode unknown",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "unknown",
+            "defender.rtp": null,
+            "av.thirdPartyActive": null,
+            "office.installed": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "error"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "error"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "nothing collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false,
+            "office.installed": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "notCollected"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\PolicyManager\\current\\device\\Defender": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "operating system older than the rule supports",
+          "machine": {
+            "build": 14393,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false,
+            "office.installed": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d4f940ab-401b-4efc-aadc-ad5f3c50688a"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "Office not installed",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false,
+            "office.installed": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": null,
+                    "AttackSurfaceReductionRules_Actions": null,
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\Configuration": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "Office detection unknown",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false,
+            "office.installed": null
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": null,
+                    "AttackSurfaceReductionRules_Actions": null,
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\Configuration": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "ASR-08",
+      "since": "2026.10",
+      "state": "active",
+      "category": "defender",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "ASR: block execution of potentially obfuscated scripts",
+        "de": "ASR: Ausführung möglicherweise verschleierter Skripte blockieren"
+      },
+      "rationale": {
+        "en": "Attackers hide the purpose of PowerShell, JavaScript and VBScript code by obfuscation so that signatures do not match. This rule uses the Antimalware Scan Interface and cloud protection to block scripts that look obfuscated. Riegel counts the rule only in block mode and only while Microsoft Defender is the active antivirus with real-time protection on.",
+        "de": "Angreifer verschleiern PowerShell-, JavaScript- und VBScript-Code, damit Signaturen nicht greifen. Die Regel nutzt die Antimalware-Scan-Schnittstelle (AMSI) und den Cloud-Schutz, um verschleiert wirkende Skripte zu blockieren. Riegel zählt die Regel nur im Blockiermodus und nur, solange Microsoft Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist."
+      },
+      "remedy": {
+        "en": "Set the ASR rule 5beb7efe-fd9a-4556-801d-275e5ffc04cc to block (1) in the policy 'Configure Attack Surface Reduction rules', after a test in audit mode.",
+        "de": "Die ASR-Regel 5beb7efe-fd9a-4556-801d-275e5ffc04cc in der Richtlinie „Configure Attack Surface Reduction rules“ auf Blockieren (1) setzen, nach einem Test im Überwachungsmodus."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "minBuild": 16299,
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "asr",
+        "ifCapabilityAbsent": "notApplicable"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "asrRule",
+        "guid": "5beb7efe-fd9a-4556-801d-275e5ffc04cc",
+        "accept": "block"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Group Policy 'Configure Attack Surface Reduction rules' = Enabled, value name 5beb7efe-fd9a-4556-801d-275e5ffc04cc, value 1. Alternatively Intune or the Defender CSP. Riegel counts the rule only while Defender is the active antivirus with real-time protection on.",
+          "de": "Gruppenrichtlinie „Configure Attack Surface Reduction rules“ = Enabled, Wertname 5beb7efe-fd9a-4556-801d-275e5ffc04cc, Wert 1. Alternativ über Intune oder den Defender-CSP. Riegel zählt die Regel nur, solange Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Attack surface reduction"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Configure Attack Surface Reduction rules"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Configure Attack Surface Reduction rules"
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Attack surface reduction rules reference",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-213461",
+            "WNDF-AV-000037"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.12",
+            "KONF.7.16"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1040",
+            "M1038",
+            "M0938"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Attack surface reduction",
+          "note": "GUID 5beb7efe-fd9a-4556-801d-275e5ffc04cc, recommended state 1 (block)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Attack surface reduction rules reference (ms.date 2026-09-09)",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference",
+          "date": "2026-10-18",
+          "note": "GUID 5beb7efe-fd9a-4556-801d-275e5ffc04cc; Windows 10 1709 or later, Windows Server 2019 or later; depends on AMSI and cloud protection."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Enable attack surface reduction rules (ms.date 2026-09-08)",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/enable-attack-surface-reduction",
+          "date": "2026-10-18",
+          "note": "Rule modes: 0 off, 1 block, 2 audit, 5 not configured, 6 warn."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 10 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/release-information",
+          "date": "2026-10-18",
+          "note": "Version 1709 = OS build 16299."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Defender_Antivirus_V2R10_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-213461 (WNDF-AV-000037)",
+          "note": "Rule 5BEB7EFE-FD9A-4556-801D-275E5FFC04CC must be set to 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "active, rule in block mode",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "5beb7efe-fd9a-4556-801d-275e5ffc04cc"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "active, rule only in audit mode",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "5beb7efe-fd9a-4556-801d-275e5ffc04cc"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      2
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "5beb7efe-fd9a-4556-801d-275e5ffc04cc"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      0
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule in warn mode (block required)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "5beb7efe-fd9a-4556-801d-275e5ffc04cc"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      6
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule not configured anywhere",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": null,
+                    "AttackSurfaceReductionRules_Actions": null,
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, preference not collected, policy sets block",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "5BEB7EFE-FD9A-4556-801D-275E5FFC04CC": {
+                    "t": "sz",
+                    "v": "1"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "block mode but real-time protection off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": false,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "5beb7efe-fd9a-4556-801d-275e5ffc04cc"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "passive with third-party antivirus",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "passive",
+            "defender.rtp": false,
+            "av.thirdPartyActive": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Passive",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": false,
+                    "IsTamperProtected": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-10T04:00:00Z",
+                    "AntivirusSignatureAge": 5
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "5beb7efe-fd9a-4556-801d-275e5ffc04cc"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "off without antivirus",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "off",
+            "defender.rtp": false,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": false,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": false,
+                    "IsTamperProtected": false,
+                    "AntivirusSignatureLastUpdated": "2026-09-15T04:00:00Z",
+                    "AntivirusSignatureAge": 30
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "5beb7efe-fd9a-4556-801d-275e5ffc04cc"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "absent (Windows 7: no ASR)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "absent",
+            "defender.rtp": null,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "Defender mode unknown",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "unknown",
+            "defender.rtp": null,
+            "av.thirdPartyActive": null
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "error"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "error"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "nothing collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "notCollected"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\PolicyManager\\current\\device\\Defender": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "operating system older than the rule supports",
+          "machine": {
+            "build": 14393,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "5beb7efe-fd9a-4556-801d-275e5ffc04cc"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "ASR-09",
+      "since": "2026.10",
+      "state": "active",
+      "category": "defender",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "ASR: block JavaScript or VBScript from launching downloaded executable content",
+        "de": "ASR: JavaScript und VBScript am Starten heruntergeladener ausführbarer Inhalte hindern"
+      },
+      "rationale": {
+        "en": "Script droppers written in JavaScript or VBScript download a program and start it. This rule blocks scripts from launching executable content that was downloaded from the internet. Riegel counts the rule only in block mode and only while Microsoft Defender is the active antivirus with real-time protection on.",
+        "de": "Skript-Dropper in JavaScript oder VBScript laden ein Programm herunter und starten es. Die Regel hindert Skripte daran, aus dem Internet heruntergeladene ausführbare Inhalte zu starten. Riegel zählt die Regel nur im Blockiermodus und nur, solange Microsoft Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist."
+      },
+      "remedy": {
+        "en": "Set the ASR rule d3e037e1-3eb8-44c8-a917-57927947596d to block (1) in the policy 'Configure Attack Surface Reduction rules', after a test in audit mode.",
+        "de": "Die ASR-Regel d3e037e1-3eb8-44c8-a917-57927947596d in der Richtlinie „Configure Attack Surface Reduction rules“ auf Blockieren (1) setzen, nach einem Test im Überwachungsmodus."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "minBuild": 16299,
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "asr",
+        "ifCapabilityAbsent": "notApplicable"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "asrRule",
+        "guid": "d3e037e1-3eb8-44c8-a917-57927947596d",
+        "accept": "block"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Group Policy 'Configure Attack Surface Reduction rules' = Enabled, value name d3e037e1-3eb8-44c8-a917-57927947596d, value 1. Alternatively Intune or the Defender CSP. Riegel counts the rule only while Defender is the active antivirus with real-time protection on.",
+          "de": "Gruppenrichtlinie „Configure Attack Surface Reduction rules“ = Enabled, Wertname d3e037e1-3eb8-44c8-a917-57927947596d, Wert 1. Alternativ über Intune oder den Defender-CSP. Riegel zählt die Regel nur, solange Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Attack surface reduction"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Configure Attack Surface Reduction rules"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Configure Attack Surface Reduction rules"
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Attack surface reduction rules reference",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-213460",
+            "WNDF-AV-000036"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.12",
+            "KONF.7.16"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1040",
+            "M1038",
+            "M0938"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Attack surface reduction",
+          "note": "GUID d3e037e1-3eb8-44c8-a917-57927947596d, recommended state 1 (block)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Attack surface reduction rules reference (ms.date 2026-09-09)",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference",
+          "date": "2026-10-18",
+          "note": "GUID d3e037e1-3eb8-44c8-a917-57927947596d; Windows 10 1709 or later, Windows Server 2019 or later (not Windows Server 2016 or 2012 R2)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Enable attack surface reduction rules (ms.date 2026-09-08)",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/enable-attack-surface-reduction",
+          "date": "2026-10-18",
+          "note": "Rule modes: 0 off, 1 block, 2 audit, 5 not configured, 6 warn."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 10 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/release-information",
+          "date": "2026-10-18",
+          "note": "Version 1709 = OS build 16299."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Defender_Antivirus_V2R10_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-213460 (WNDF-AV-000036)",
+          "note": "Rule D3E037E1-3EB8-44C8-A917-57927947596D must be set to 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "active, rule in block mode",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d3e037e1-3eb8-44c8-a917-57927947596d"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "active, rule only in audit mode",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d3e037e1-3eb8-44c8-a917-57927947596d"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      2
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d3e037e1-3eb8-44c8-a917-57927947596d"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      0
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule in warn mode (block required)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d3e037e1-3eb8-44c8-a917-57927947596d"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      6
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule not configured anywhere",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": null,
+                    "AttackSurfaceReductionRules_Actions": null,
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, preference not collected, policy sets block",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "D3E037E1-3EB8-44C8-A917-57927947596D": {
+                    "t": "sz",
+                    "v": "1"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "block mode but real-time protection off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": false,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d3e037e1-3eb8-44c8-a917-57927947596d"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "passive with third-party antivirus",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "passive",
+            "defender.rtp": false,
+            "av.thirdPartyActive": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Passive",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": false,
+                    "IsTamperProtected": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-10T04:00:00Z",
+                    "AntivirusSignatureAge": 5
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d3e037e1-3eb8-44c8-a917-57927947596d"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "off without antivirus",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "off",
+            "defender.rtp": false,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": false,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": false,
+                    "IsTamperProtected": false,
+                    "AntivirusSignatureLastUpdated": "2026-09-15T04:00:00Z",
+                    "AntivirusSignatureAge": 30
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d3e037e1-3eb8-44c8-a917-57927947596d"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "absent (Windows 7: no ASR)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "absent",
+            "defender.rtp": null,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "Defender mode unknown",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "unknown",
+            "defender.rtp": null,
+            "av.thirdPartyActive": null
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "error"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "error"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "nothing collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "notCollected"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\PolicyManager\\current\\device\\Defender": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "operating system older than the rule supports",
+          "machine": {
+            "build": 14393,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d3e037e1-3eb8-44c8-a917-57927947596d"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "ASR-13",
+      "since": "2026.10",
+      "state": "active",
+      "category": "defender",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "ASR: block process creations originating from PsExec and WMI commands",
+        "de": "ASR: Prozessstarts über PsExec- und WMI-Befehle blockieren"
+      },
+      "rationale": {
+        "en": "PsExec and WMI can run code on remote machines. Malware and attackers use them to spread through a network. This rule blocks processes created through PsExec and WMI. Riegel counts the rule only in block mode and only while Microsoft Defender is the active antivirus with real-time protection on.",
+        "de": "PsExec und WMI können Code auf entfernten Rechnern ausführen. Schadsoftware und Angreifer nutzen das, um sich im Netz auszubreiten. Die Regel blockiert Prozesse, die über PsExec oder WMI gestartet werden. Riegel zählt die Regel nur im Blockiermodus und nur, solange Microsoft Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist."
+      },
+      "otNote": {
+        "en": "Software distribution and some vendor service tools start processes through WMI or PsExec; Microsoft warns that the Configuration Manager client relies heavily on WMI. DISA's Defender STIG asks only for audit mode. Test first and document an exception where a required tool breaks.",
+        "de": "Softwareverteilung und manche Service-Werkzeuge von Herstellern starten Prozesse über WMI oder PsExec; Microsoft warnt, dass der Configuration-Manager-Client stark auf WMI angewiesen ist. Der Defender-STIG von DISA verlangt nur den Überwachungsmodus. Zuerst testen und eine Ausnahme dokumentieren, wo ein benötigtes Werkzeug nicht mehr funktioniert."
+      },
+      "remedy": {
+        "en": "Set the ASR rule d1e49aac-8f56-4280-b9ba-993a6d77406c to block (1) in the policy 'Configure Attack Surface Reduction rules', after a test in audit mode.",
+        "de": "Die ASR-Regel d1e49aac-8f56-4280-b9ba-993a6d77406c in der Richtlinie „Configure Attack Surface Reduction rules“ auf Blockieren (1) setzen, nach einem Test im Überwachungsmodus."
+      },
+      "suggestedReason": "vendorRequirement",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "minBuild": 17134,
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "asr",
+        "ifCapabilityAbsent": "notApplicable"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "asrRule",
+        "guid": "d1e49aac-8f56-4280-b9ba-993a6d77406c",
+        "accept": "block"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Group Policy 'Configure Attack Surface Reduction rules' = Enabled, value name d1e49aac-8f56-4280-b9ba-993a6d77406c, value 1. Alternatively Intune or the Defender CSP. Riegel counts the rule only while Defender is the active antivirus with real-time protection on.",
+          "de": "Gruppenrichtlinie „Configure Attack Surface Reduction rules“ = Enabled, Wertname d1e49aac-8f56-4280-b9ba-993a6d77406c, Wert 1. Alternativ über Intune oder den Defender-CSP. Riegel zählt die Regel nur, solange Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Attack surface reduction"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Configure Attack Surface Reduction rules"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Configure Attack Surface Reduction rules"
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Attack surface reduction rules reference",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-278651",
+            "WNDF-AV-000047"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.4.4",
+            "KONF.7.16"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1040"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Attack surface reduction",
+          "note": "GUID d1e49aac-8f56-4280-b9ba-993a6d77406c, recommended state 1 (block)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Attack surface reduction rules reference (ms.date 2026-09-09)",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference",
+          "date": "2026-10-18",
+          "note": "GUID d1e49aac-8f56-4280-b9ba-993a6d77406c; Windows 10 1803 or later, Windows Server 2019 or later; Microsoft warns not to combine it with Configuration Manager, whose client relies heavily on WMI."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Enable attack surface reduction rules (ms.date 2026-09-08)",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/enable-attack-surface-reduction",
+          "date": "2026-10-18",
+          "note": "Rule modes: 0 off, 1 block, 2 audit, 5 not configured, 6 warn."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 10 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/release-information",
+          "date": "2026-10-18",
+          "note": "Version 1803 = OS build 17134."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Defender_Antivirus_V2R10_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-278651 (WNDF-AV-000047)",
+          "note": "DISA requires audit mode (2) for this rule; Riegel follows ACSC and expects block (1)."
+        }
+      ],
+      "tests": [
+        {
+          "name": "active, rule in block mode",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d1e49aac-8f56-4280-b9ba-993a6d77406c"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "active, rule only in audit mode",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d1e49aac-8f56-4280-b9ba-993a6d77406c"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      2
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d1e49aac-8f56-4280-b9ba-993a6d77406c"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      0
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule in warn mode (block required)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d1e49aac-8f56-4280-b9ba-993a6d77406c"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      6
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule not configured anywhere",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": null,
+                    "AttackSurfaceReductionRules_Actions": null,
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, preference not collected, policy sets block",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "D1E49AAC-8F56-4280-B9BA-993A6D77406C": {
+                    "t": "sz",
+                    "v": "1"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "block mode but real-time protection off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": false,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d1e49aac-8f56-4280-b9ba-993a6d77406c"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "passive with third-party antivirus",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "passive",
+            "defender.rtp": false,
+            "av.thirdPartyActive": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Passive",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": false,
+                    "IsTamperProtected": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-10T04:00:00Z",
+                    "AntivirusSignatureAge": 5
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d1e49aac-8f56-4280-b9ba-993a6d77406c"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "off without antivirus",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "off",
+            "defender.rtp": false,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": false,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": false,
+                    "IsTamperProtected": false,
+                    "AntivirusSignatureLastUpdated": "2026-09-15T04:00:00Z",
+                    "AntivirusSignatureAge": 30
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d1e49aac-8f56-4280-b9ba-993a6d77406c"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "absent (Windows 7: no ASR)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "absent",
+            "defender.rtp": null,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "Defender mode unknown",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "unknown",
+            "defender.rtp": null,
+            "av.thirdPartyActive": null
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "error"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "error"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "nothing collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "notCollected"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\PolicyManager\\current\\device\\Defender": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "operating system older than the rule supports",
+          "machine": {
+            "build": 16299,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "d1e49aac-8f56-4280-b9ba-993a6d77406c"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "ASR-15",
+      "since": "2026.10",
+      "state": "active",
+      "category": "defender",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "ASR: block untrusted and unsigned processes that run from USB",
+        "de": "ASR: nicht vertrauenswürdige und unsignierte Prozesse von USB blockieren"
+      },
+      "rationale": {
+        "en": "Removable drives are a common way into isolated plant networks. This rule blocks unsigned or untrusted executable files that run from USB drives and SD cards; copying files is still possible. Riegel counts the rule only in block mode and only while Microsoft Defender is the active antivirus with real-time protection on.",
+        "de": "Wechseldatenträger sind ein häufiger Weg in abgeschottete Anlagennetze. Die Regel blockiert unsignierte oder nicht vertrauenswürdige ausführbare Dateien, die von USB-Datenträgern oder SD-Karten laufen; Kopieren bleibt möglich. Riegel zählt die Regel nur im Blockiermodus und nur, solange Microsoft Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist."
+      },
+      "otNote": {
+        "en": "Service technicians often start tools directly from a USB stick. Signed tools keep working; unsigned ones have to be copied, checked and approved first, or an exception documented.",
+        "de": "Servicetechniker starten Werkzeuge oft direkt vom USB-Stick. Signierte Werkzeuge laufen weiter; unsignierte müssen erst kopiert, geprüft und freigegeben werden, oder es wird eine Ausnahme dokumentiert."
+      },
+      "remedy": {
+        "en": "Set the ASR rule b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4 to block (1) in the policy 'Configure Attack Surface Reduction rules', after a test in audit mode.",
+        "de": "Die ASR-Regel b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4 in der Richtlinie „Configure Attack Surface Reduction rules“ auf Blockieren (1) setzen, nach einem Test im Überwachungsmodus."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "minBuild": 16299,
+        "domain": "any",
+        "excludeDc": false,
+        "when": [],
+        "capability": "asr",
+        "ifCapabilityAbsent": "notApplicable"
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "asrRule",
+        "guid": "b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4",
+        "accept": "block"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Group Policy 'Configure Attack Surface Reduction rules' = Enabled, value name b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4, value 1. Alternatively Intune or the Defender CSP. Riegel counts the rule only while Defender is the active antivirus with real-time protection on.",
+          "de": "Gruppenrichtlinie „Configure Attack Surface Reduction rules“ = Enabled, Wertname b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4, Wert 1. Alternativ über Intune oder den Defender-CSP. Riegel zählt die Regel nur, solange Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist."
+        }
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Attack surface reduction"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Configure Attack Surface Reduction rules"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Configure Attack Surface Reduction rules"
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Attack surface reduction rules reference",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference"
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
+          "ids": [
+            "V-278649",
+            "WNDF-AV-000045"
+          ]
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.3.8",
+            "KONF.7.16"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1040",
+            "M1034",
+            "M0934"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Attack surface reduction",
+          "note": "GUID b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4, recommended state 1 (block)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Attack surface reduction rules reference (ms.date 2026-09-09)",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference",
+          "date": "2026-10-18",
+          "note": "GUID b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4; Windows 10 1709 or later, Windows Server 2019 or later; does not block copying files from the USB drive."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Enable attack surface reduction rules (ms.date 2026-09-08)",
+          "url": "https://learn.microsoft.com/en-us/defender-endpoint/enable-attack-surface-reduction",
+          "date": "2026-10-18",
+          "note": "Rule modes: 0 off, 1 block, 2 audit, 5 not configured, 6 warn."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 10 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/release-information",
+          "date": "2026-10-18",
+          "note": "Version 1709 = OS build 16299."
+        },
+        {
+          "src": "DISA",
+          "doc": "Microsoft Defender Antivirus STIG V2R10 (benchmark date 2026-09-30)",
+          "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_Defender_Antivirus_V2R10_STIG.zip",
+          "date": "2026-10-18",
+          "section": "V-278649 (WNDF-AV-000045)",
+          "note": "Rule b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4 must be set to 1."
+        }
+      ],
+      "tests": [
+        {
+          "name": "active, rule in block mode",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "active, rule only in audit mode",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      2
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      0
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule in warn mode (block required)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      6
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, rule not configured anywhere",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": null,
+                    "AttackSurfaceReductionRules_Actions": null,
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active, preference not collected, policy sets block",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "B2B3F03D-6A65-4F7B-A9C7-1C7EF74A9BA4": {
+                    "t": "sz",
+                    "v": "1"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "block mode but real-time protection off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": false,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "passive with third-party antivirus",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "passive",
+            "defender.rtp": false,
+            "av.thirdPartyActive": true
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Passive",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": false,
+                    "IsTamperProtected": false,
+                    "AntivirusSignatureLastUpdated": "2026-10-10T04:00:00Z",
+                    "AntivirusSignatureAge": 5
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "off without antivirus",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "off",
+            "defender.rtp": false,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMServiceEnabled": false,
+                    "AntivirusEnabled": false,
+                    "RealTimeProtectionEnabled": false,
+                    "BehaviorMonitorEnabled": false,
+                    "IsTamperProtected": false,
+                    "AntivirusSignatureLastUpdated": "2026-09-15T04:00:00Z",
+                    "AntivirusSignatureAge": 30
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "absent (Windows 7: no ASR)",
+          "machine": {
+            "build": 7601,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "absent",
+            "defender.rtp": null,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "namespaceMissing"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "namespaceMissing"
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "Defender mode unknown",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "unknown",
+            "defender.rtp": null,
+            "av.thirdPartyActive": null
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "error"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "error"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "nothing collected",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "notCollected"
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules": {
+              "status": "notCollected"
+            },
+            "reg:HKLM\\SOFTWARE\\Microsoft\\PolicyManager\\current\\device\\Defender": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "operating system older than the rule supports",
+          "machine": {
+            "build": 14393,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "b2b3f03d-6a65-4f7b-a9c7-1c7ef74a9ba4"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 2
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    }
+  ]
+}

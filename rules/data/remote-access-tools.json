@@ -1,0 +1,187 @@
+{
+  "schema": "riegel.data/1",
+  "kind": "remoteAccessTools",
+  "remoteAccessTools": [
+    {
+      "product": "TeamViewer",
+      "serviceNames": [],
+      "displayNameContains": [
+        "TeamViewer"
+      ],
+      "source": "https://www.teamviewer.com/en/global/support/knowledge-base/teamviewer-remote/for-developers/command-line-parameters/",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "AnyDesk",
+      "serviceNames": [],
+      "displayNameContains": [
+        "AnyDesk"
+      ],
+      "source": "https://support.anydesk.com/command-line-interface-for-windows",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "RustDesk",
+      "serviceNames": [],
+      "displayNameContains": [
+        "RustDesk"
+      ],
+      "source": "https://rustdesk.com/docs/en/client/windows/",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "RealVNC Server",
+      "serviceNames": [],
+      "displayNameContains": [
+        "RealVNC"
+      ],
+      "source": "https://help.realvnc.com/hc/en-us/articles/360002253238",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "TightVNC",
+      "serviceNames": [],
+      "displayNameContains": [
+        "TightVNC"
+      ],
+      "source": "https://www.tightvnc.com/",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "UltraVNC",
+      "serviceNames": [],
+      "displayNameContains": [
+        "UltraVNC"
+      ],
+      "source": "https://uvnc.com/",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "TigerVNC",
+      "serviceNames": [],
+      "displayNameContains": [
+        "TigerVNC"
+      ],
+      "source": "https://tigervnc.org/",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "Chrome Remote Desktop",
+      "serviceNames": [],
+      "displayNameContains": [
+        "Chrome Remote Desktop"
+      ],
+      "source": "https://support.google.com/chrome/answer/1649523",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "Splashtop",
+      "serviceNames": [],
+      "displayNameContains": [
+        "Splashtop"
+      ],
+      "source": "https://www.splashtop.com/",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "ConnectWise ScreenConnect",
+      "serviceNames": [],
+      "displayNameContains": [
+        "ScreenConnect"
+      ],
+      "source": "https://www.screenconnect.com/",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "LogMeIn",
+      "serviceNames": [],
+      "displayNameContains": [
+        "LogMeIn"
+      ],
+      "source": "https://support.logmein.com/",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "Radmin",
+      "serviceNames": [],
+      "displayNameContains": [
+        "Radmin"
+      ],
+      "source": "https://www.radmin.com/",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "NetSupport Manager",
+      "serviceNames": [],
+      "displayNameContains": [
+        "NetSupport"
+      ],
+      "source": "https://www.netsupportmanager.com/",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "Zoho Assist",
+      "serviceNames": [],
+      "displayNameContains": [
+        "Zoho Assist"
+      ],
+      "source": "https://www.zoho.com/assist/",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "Ewon eCatcher (Talk2M)",
+      "serviceNames": [],
+      "displayNameContains": [
+        "eCatcher"
+      ],
+      "source": "https://www.hms-networks.com/sw/ecatcher",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "Secomea LinkManager",
+      "serviceNames": [],
+      "displayNameContains": [
+        "LinkManager"
+      ],
+      "source": "https://cdn.document360.io/88f49507-a7a0-4636-b297-13c4d0065310/Images/Documentation/Secomea%20Security%20FAQ%20Whitepaper%201.5.pdf",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "SINEMA Remote Connect Client",
+      "serviceNames": [],
+      "displayNameContains": [
+        "SINEMA RC",
+        "SINEMA Remote Connect"
+      ],
+      "source": "https://assets.new.siemens.com/siemens/assets/api/uuid:fb0c32ab-da87-470b-afe4-046c24e6a53a/sinema-rc-client.pdf",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    },
+    {
+      "product": "TOSIBOX",
+      "serviceNames": [],
+      "displayNameContains": [
+        "TOSIBOX"
+      ],
+      "source": "https://www.tosibox.com/",
+      "seen": "2026-10-18",
+      "note": "The vendor page names the product; no service name is documented there, so the entry matches display names that contain the product name."
+    }
+  ]
+}

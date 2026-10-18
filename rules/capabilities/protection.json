@@ -1,0 +1,127 @@
+{
+  "schema": "riegel.capabilities/1",
+  "capabilities": [
+    {
+      "capability": "appControl",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 10240,
+          "note": "Windows 10 and 11; Microsoft lists Pro, Enterprise, Pro Education/SE and Education"
+        },
+        {
+          "os": "server",
+          "minBuild": 14393,
+          "note": "Windows Server 2016 and later"
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/appcontrol",
+      "seen": "2026-10-18",
+      "note": "App Control for Business (user-mode code integrity). AppLocker is not part of this capability."
+    },
+    {
+      "capability": "asr",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 16299,
+          "note": "Windows 10 1709 and later; some rules need 1803 (17134), set per rule as minBuild"
+        },
+        {
+          "os": "server",
+          "minBuild": 17763,
+          "note": "Windows Server 2019 and later"
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/defender-endpoint/attack-surface-reduction-rules-reference",
+      "seen": "2026-10-18",
+      "note": "Windows Server 2012 R2 and 2016 support ASR only after onboarding with the modern unified solution of Defender for Endpoint, which the OS build does not show; they are treated as without ASR."
+    },
+    {
+      "capability": "bitlocker",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 10240,
+          "note": "BitLocker in Pro, Enterprise and Education; BitLocker-based device encryption on all editions (https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/)"
+        },
+        {
+          "os": "client",
+          "maxBuild": 9600,
+          "editions": [
+            "Enterprise",
+            "Ultimate"
+          ],
+          "note": "Windows Vista to 8.1: Win32_EncryptableVolume is documented from Windows Vista Enterprise and Ultimate; other editions of these versions count as without BitLocker"
+        },
+        {
+          "os": "server",
+          "minBuild": 6001,
+          "note": "optional server feature; the WMI class is installed with the feature"
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/windows/win32/secprov/win32-encryptablevolume",
+      "seen": "2026-10-18"
+    },
+    {
+      "capability": "defender",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 10240,
+          "note": "Microsoft Defender Antivirus in Windows 10 and 11"
+        },
+        {
+          "os": "server",
+          "minBuild": 14393,
+          "note": "Windows Server 2016 and later"
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-antivirus-compatibility",
+      "seen": "2026-10-18",
+      "note": "Whether Defender is the active antivirus comes from the fact defender.mode, not from this table. Windows Server 2012 R2 runs Defender only with the modern unified solution."
+    },
+    {
+      "capability": "kernelDmaProtection",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 17763,
+          "note": "enumeration policy from Windows 10 1809; the protection itself needs firmware support"
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-dmaguard",
+      "seen": "2026-10-18",
+      "note": "Applies to Windows 10 and 11 (https://learn.microsoft.com/en-us/windows/security/hardware-security/kernel-dma-protection-for-thunderbolt)."
+    },
+    {
+      "capability": "smartScreen",
+      "exists": [
+        {
+          "minBuild": 15063,
+          "note": "SmartScreen policies EnableSmartScreenInShell and PreventOverrideForFilesInShell from Windows 10 1703"
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-smartscreen",
+      "seen": "2026-10-18"
+    },
+    {
+      "capability": "tamperProtection",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 10240,
+          "note": "Windows 10 or later"
+        },
+        {
+          "os": "server",
+          "minBuild": 14393,
+          "note": "Windows Server 2016 and later"
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/defender-endpoint/prevent-changes-to-security-settings-with-tamper-protection",
+      "seen": "2026-10-18",
+      "note": "Windows Server 2012 R2 only with the modern unified solution."
+    }
+  ]
+}

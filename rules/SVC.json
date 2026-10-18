@@ -1,0 +1,555 @@
+{
+  "schema": "riegel.rules/1",
+  "prefix": "SVC",
+  "rules": [
+    {
+      "id": "SVC-01",
+      "since": "2026.10",
+      "state": "active",
+      "category": "services",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Print Spooler does not run on servers",
+        "de": "Druckwarteschlange läuft nicht auf Servern"
+      },
+      "rationale": {
+        "en": "The Print Spooler service has had several severe vulnerabilities that allowed remote code execution with SYSTEM rights. On servers that are not print servers it is not needed. Whether a server prints cannot be collected, so the rule fails where the service runs; print servers record an exception with the reason 'technical necessity'. Domain controllers are excluded because Microsoft's service guidance treats them differently.",
+        "de": "Der Dienst Druckwarteschlange hatte mehrere schwere Schwachstellen, die Codeausführung aus der Ferne mit SYSTEM-Rechten erlaubten. Auf Servern, die keine Druckserver sind, wird er nicht gebraucht. Ob ein Server druckt, lässt sich nicht erheben; die Regel schlägt daher fehl, wo der Dienst läuft, und Druckserver erfassen eine Ausnahme mit dem Grund „technische Notwendigkeit“. Domänencontroller sind ausgenommen, weil die Dienst-Empfehlungen von Microsoft sie gesondert behandeln."
+      },
+      "otNote": {
+        "en": "Servers that print labels, batch records or reports for the line are print servers in this sense; record an exception with the reason 'technical necessity' and keep the spooler patched and its remote endpoint restricted.",
+        "de": "Server, die Etiketten, Chargenprotokolle oder Berichte für die Linie drucken, sind in diesem Sinne Druckserver; eine Ausnahme mit dem Grund „technische Notwendigkeit“ erfassen und die Druckwarteschlange aktuell halten und ihren Fernzugriff einschränken."
+      },
+      "remedy": {
+        "en": "Stop the Print Spooler service and set its startup type to Disabled on servers that do not print.",
+        "de": "Den Dienst Druckwarteschlange auf Servern ohne Druckaufgaben beenden und auf Starttyp „Deaktiviert“ setzen."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": true,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "service",
+        "name": "Spooler",
+        "state": [
+          "Stopped"
+        ],
+        "ifAbsent": "pass"
+      },
+      "remediation": {
+        "manual": {
+          "en": "Services console or Group Policy (System Services > Print Spooler = Disabled); a restart is not needed. Riegel only writes this instruction.",
+          "de": "Dienstekonsole oder Gruppenrichtlinie (Systemdienste > Druckwarteschlange = Deaktiviert); ein Neustart ist nicht nötig. Riegel schreibt nur diese Anleitung."
+        }
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.4"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1042",
+            "M0942"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Guidance on disabling system services on Windows Server 2016 with Desktop Experience (ms.date 2024-08-22)",
+          "url": "https://github.com/MicrosoftDocs/windowsserverdocs/blob/main/WindowsServerDocs/security/windows-services/security-guidelines-for-disabling-system-services-in-windows-server.md",
+          "date": "2026-10-18",
+          "section": "Print Spooler",
+          "note": "Print Spooler (service name Spooler): startup type Automatic; recommendation: OK to disable if not a print server or a DC."
+        }
+      ],
+      "tests": [
+        {
+          "name": "spooler stopped",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Spooler",
+                    "DisplayName": "Print Spooler",
+                    "State": "Stopped",
+                    "StartMode": "Disabled"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "spooler running",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Spooler",
+                    "DisplayName": "Print Spooler",
+                    "State": "Running",
+                    "StartMode": "Auto"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "spooler not installed",
+          "machine": {
+            "build": 26100,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "WinRM",
+                    "DisplayName": "Windows Remote Management",
+                    "State": "Running",
+                    "StartMode": "Auto"
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "service list not collected",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "client",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Spooler",
+                    "DisplayName": "Print Spooler",
+                    "State": "Running",
+                    "StartMode": "Auto"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        },
+        {
+          "name": "domain controller",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 2,
+            "domainRole": 5,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Spooler",
+                    "DisplayName": "Print Spooler",
+                    "State": "Running",
+                    "StartMode": "Auto"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notApplicable"
+        }
+      ]
+    },
+    {
+      "id": "SVC-02",
+      "since": "2026.10",
+      "state": "active",
+      "category": "services",
+      "severity": "medium",
+      "kind": "check",
+      "title": {
+        "en": "Point and Print driver installation is limited to administrators",
+        "de": "Druckertreiber über Point and Print installieren nur Administratoren"
+      },
+      "rationale": {
+        "en": "Point and Print lets users install printer drivers from a print server. Attackers abused this to load malicious drivers with SYSTEM rights (PrintNightmare). With RestrictDriverInstallationToAdministrators = 1 only administrators can install such drivers. Microsoft made this the behaviour for a missing value with the updates of 10 August 2021; Riegel assumes it only on builds first released after that date (Windows 11 and later) and otherwise reports 'nicht prüfbar' when the value is missing.",
+        "de": "Point and Print erlaubt Benutzern, Druckertreiber von einem Druckserver zu installieren. Angreifer nutzten das, um schädliche Treiber mit SYSTEM-Rechten zu laden (PrintNightmare). Mit RestrictDriverInstallationToAdministrators = 1 können nur Administratoren solche Treiber installieren. Microsoft hat dieses Verhalten mit den Updates vom 10. August 2021 zum Standard für einen fehlenden Wert gemacht; Riegel nimmt es nur bei Builds an, die erst danach erschienen sind (Windows 11 und neuer), und meldet sonst bei fehlendem Wert „nicht prüfbar“."
+      },
+      "otNote": {
+        "en": "Line PCs that connect to label or report printers sometimes rely on users installing drivers. Pre-install the drivers in the machine image instead of allowing non-administrators to install them.",
+        "de": "Linien-PCs, die Etiketten- oder Berichtsdrucker verbinden, verlassen sich manchmal darauf, dass Benutzer Treiber installieren. Die Treiber stattdessen im Rechner-Image vorinstallieren, statt Nicht-Administratoren die Installation zu erlauben."
+      },
+      "remedy": {
+        "en": "Enable 'Limits print driver installation to Administrators' (sets RestrictDriverInstallationToAdministrators = 1).",
+        "de": "„Limits print driver installation to Administrators“ aktivieren (setzt RestrictDriverInstallationToAdministrators = 1)."
+      },
+      "suggestedReason": "technicalNecessity",
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "registry",
+        "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers\\PointAndPrint",
+        "value": "RestrictDriverInstallationToAdministrators",
+        "valueType": "dword",
+        "op": "eq",
+        "expected": 1,
+        "whenMissing": "osDefault",
+        "osDefaults": [
+          {
+            "minBuild": 22000,
+            "value": 1,
+            "source": "https://support.microsoft.com/help/5005652",
+            "seen": "2026-10-18"
+          }
+        ]
+      },
+      "remediation": {
+        "registry": [
+          {
+            "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers\\PointAndPrint",
+            "value": "RestrictDriverInstallationToAdministrators",
+            "type": "dword",
+            "data": 1
+          }
+        ]
+      },
+      "references": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01)",
+          "section": "Printers"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows 11 v26H2 Security Baseline v2",
+          "setting": "Limits print driver installation to Administrators"
+        },
+        {
+          "src": "MSB",
+          "doc": "Windows Server 2025 Security Baseline 2602",
+          "setting": "Limits print driver installation to Administrators"
+        },
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.7.9",
+            "KONF.6.4"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1026",
+            "M0926"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "ACSC",
+          "doc": "Hardening Microsoft Windows 11 workstations (2026-01), last reviewed 2026-01-23",
+          "url": "https://www.cyber.gov.au/publication/hardening-microsoft-windows-11-workstations",
+          "date": "2026-10-18",
+          "section": "Printers",
+          "note": "Limits printer driver installation to Administrators: Enabled."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "KB5005652 - Manage new Point and Print default driver installation behavior (2024-08-03)",
+          "url": "https://support.microsoft.com/help/5005652",
+          "date": "2026-10-18",
+          "note": "HKLM\\Software\\Policies\\Microsoft\\Windows NT\\Printers\\PointAndPrint RestrictDriverInstallationToAdministrators (DWORD): 1 or not defined requires administrator privilege, for updates released August 10, 2021 or later."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "Windows 11 release information (ms.date 2026-10-13)",
+          "url": "https://learn.microsoft.com/en-us/windows/release-health/windows11-release-information",
+          "date": "2026-10-18",
+          "note": "Build 22000 (21H2) was first released on 2021-10-04 (22000.194), after the change of 2021-08-10."
+        }
+      ],
+      "tests": [
+        {
+          "name": "restricted to administrators",
+          "machine": {
+            "build": 19045,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers\\PointAndPrint": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictDriverInstallationToAdministrators": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "non-administrators may install drivers",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers\\PointAndPrint": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictDriverInstallationToAdministrators": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "no value on Windows 11 (default applies)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers\\PointAndPrint": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "pass",
+          "expectFlags": [
+            "fromDefault"
+          ]
+        },
+        {
+          "name": "no value on Windows 10 (depends on patch level)",
+          "machine": {
+            "build": 19045,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers\\PointAndPrint": {
+              "status": "keyMissing"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
+          "name": "not collected",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Printers\\PointAndPrint": {
+              "status": "notCollected"
+            }
+          },
+          "expect": "notCheckable"
+        }
+      ]
+    },
+    {
+      "id": "SVC-04",
+      "since": "2026.10",
+      "state": "active",
+      "category": "services",
+      "severity": "low",
+      "kind": "inventory",
+      "title": {
+        "en": "Remote Registry service (inventory)",
+        "de": "Dienst Remoteregistrierung (Bestandsliste)"
+      },
+      "rationale": {
+        "en": "The Remote Registry service lets authorised users read and change the registry over the network; attackers use it for reconnaissance and lateral movement. No shippable source fixes a target state for all machines (Microsoft's server guidance says not to disable it on Windows Server 2016), so the rule only reports the start mode and state for review.",
+        "de": "Der Dienst Remoteregistrierung erlaubt berechtigten Benutzern, die Registrierung über das Netz zu lesen und zu ändern; Angreifer nutzen ihn zur Erkundung und seitlichen Ausbreitung. Keine weitergebbare Quelle legt einen Sollzustand für alle Rechner fest (die Server-Empfehlung von Microsoft rät, ihn unter Windows Server 2016 nicht zu deaktivieren); die Regel meldet daher nur Starttyp und Zustand zur Prüfung."
+      },
+      "appliesTo": {
+        "os": [
+          "client",
+          "server"
+        ],
+        "domain": "any",
+        "excludeDc": false,
+        "when": []
+      },
+      "needsAdmin": false,
+      "check": {
+        "type": "service",
+        "name": "RemoteRegistry",
+        "ifAbsent": "notApplicable"
+      },
+      "references": [
+        {
+          "src": "GSPP",
+          "ids": [
+            "KONF.2.4",
+            "KONF.4.4"
+          ]
+        },
+        {
+          "src": "ATTACK",
+          "ids": [
+            "M1042",
+            "M1024",
+            "M0942",
+            "M0924"
+          ],
+          "version": "v20.0"
+        }
+      ],
+      "textSources": [],
+      "verified": [
+        {
+          "src": "MSDOCS-CCBY",
+          "doc": "Guidance on disabling system services on Windows Server 2016 with Desktop Experience (ms.date 2024-08-22)",
+          "url": "https://github.com/MicrosoftDocs/windowsserverdocs/blob/main/WindowsServerDocs/security/windows-services/security-guidelines-for-disabling-system-services-in-windows-server.md",
+          "date": "2026-10-18",
+          "section": "Remote Registry",
+          "note": "Remote Registry (service name RemoteRegistry): startup type Automatic; recommendation: Do not disable."
+        }
+      ],
+      "tests": [
+        {
+          "name": "service listed",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "RemoteRegistry",
+                    "DisplayName": "Remote Registry",
+                    "State": "Stopped",
+                    "StartMode": "Disabled"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "info"
+        }
+      ]
+    }
+  ]
+}
