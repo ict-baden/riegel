@@ -1,0 +1,55 @@
+<UserControl x:Class="Riegel.UI.Dialogs.ExceptionDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:Riegel.UI">
+  <StackPanel>
+    <TextBlock Style="{StaticResource Body}" FontSize="13">
+      <Run Text="{Binding RuleId, Mode=OneWay}" FontWeight="SemiBold"/><Run Text=" · "/><Run Text="{Binding RuleTitle, Mode=OneWay}"/><Run Text=" · "/><Run Text="{Binding Severity, Mode=OneWay}"/>
+    </TextBlock>
+    <Border Style="{StaticResource InfoBox}" Margin="0,10,0,0" Visibility="{Binding Prefilled, Converter={StaticResource BoolToVisible}}">
+      <TextBlock Text="{ui:T ExceptionDialog_Prefilled}" Style="{StaticResource Body}" FontSize="13"/>
+    </Border>
+    <Border Style="{StaticResource InfoBox}" Margin="0,10,0,0" Visibility="{Binding WasApproved, Converter={StaticResource BoolToVisible}}">
+      <TextBlock Text="{ui:T Dialog_ChangeResetsApproval}" Style="{StaticResource Body}" FontSize="13"/>
+    </Border>
+
+    <TextBlock Text="{ui:T Register_Scope}" Style="{StaticResource Label}"/>
+    <ComboBox ItemsSource="{Binding Scopes}" SelectedItem="{Binding Scope}" AutomationProperties.Name="{ui:T Register_Scope}"/>
+    <TextBlock Text="{ui:T Exceptions_Category}" Style="{StaticResource Label}"/>
+    <ComboBox ItemsSource="{Binding Categories}" SelectedItem="{Binding Category}" AutomationProperties.Name="{ui:T Exceptions_Category}"/>
+    <DockPanel>
+      <TextBlock DockPanel.Dock="Right" Text="{Binding JustificationCounter}" Style="{StaticResource Caption}" Margin="0,10,0,3"/>
+      <TextBlock Text="{ui:T Exceptions_Justification}" Style="{StaticResource Label}"/>
+    </DockPanel>
+    <TextBox Style="{DynamicResource MultiLineBox}" Text="{Binding Justification, UpdateSourceTrigger=PropertyChanged}" MinHeight="84" AutomationProperties.Name="{ui:T Exceptions_Justification}"/>
+    <StackPanel Visibility="{Binding NeedsReference, Converter={StaticResource BoolToVisible}}">
+      <TextBlock Text="{ui:T ExceptionDialog_ReferenceRequired}" Style="{StaticResource Label}"/>
+    </StackPanel>
+    <TextBlock Text="{ui:T Exceptions_Reference}" Style="{StaticResource Label}" Visibility="{Binding NeedsReference, Converter={StaticResource BoolToVisible}, ConverterParameter=invert}"/>
+    <TextBox Text="{Binding Reference, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Exceptions_Reference}"/>
+    <TextBlock Text="{ui:T ExceptionDialog_CompensatingRequired}" Style="{StaticResource Label}" Visibility="{Binding NeedsCompensating, Converter={StaticResource BoolToVisible}}"/>
+    <TextBlock Text="{ui:T Exceptions_Compensating}" Style="{StaticResource Label}" Visibility="{Binding NeedsCompensating, Converter={StaticResource BoolToVisible}, ConverterParameter=invert}"/>
+    <TextBox Style="{DynamicResource MultiLineBox}" MinHeight="52" Text="{Binding CompensatingMeasure, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Exceptions_Compensating}"/>
+    <TextBlock Text="{ui:T Exceptions_Accepted}" Style="{StaticResource Label}"/>
+    <TextBox Text="{Binding AcceptedValue, UpdateSourceTrigger=PropertyChanged}" FontFamily="{StaticResource MonoFont}" AutomationProperties.Name="{ui:T Exceptions_Accepted}"/>
+    <TextBlock Text="{ui:T ExceptionDialog_AcceptedHint}" Style="{StaticResource Caption}" Margin="0,3,0,0"/>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="12"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <StackPanel>
+        <TextBlock Text="{ui:T Register_CreatedBy}" Style="{StaticResource Label}"/>
+        <TextBox Text="{Binding CreatedByRole, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Register_CreatedBy}"/>
+      </StackPanel>
+      <StackPanel Grid.Column="2">
+        <TextBlock Text="{ui:T Register_Comment}" Style="{StaticResource Label}"/>
+        <TextBox Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Register_Comment}"/>
+      </StackPanel>
+    </Grid>
+    <CheckBox IsChecked="{Binding Confirmed}" Content="{ui:T ExceptionDialog_Confirm}" Margin="0,14,0,0" Visibility="{Binding Prefilled, Converter={StaticResource BoolToVisible}}"/>
+    <TextBlock Text="{ui:T ExceptionDialog_PendingNote}" Style="{StaticResource Caption}" Margin="0,10,0,0"/>
+    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource DialogIssues}" Focusable="False" IsTabStop="False"/>
+  </StackPanel>
+</UserControl>

@@ -4,22 +4,1826 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="About_Anonymize" xml:space="preserve">
+    <value>Sin nombres ni direcciones</value>
+  </data>
+  <data name="About_CommandExample" xml:space="preserve">
+    <value>Ejemplo de línea de comandos</value>
+  </data>
+  <data name="About_CommandLine" xml:space="preserve">
+    <value>Línea de comandos y tareas programadas</value>
+  </data>
+  <data name="About_CommandLineHint" xml:space="preserve">
+    <value>Todos los comandos: Riegel.Cli.exe --help · estos datos como texto: Riegel.Cli.exe --info · Riegel.exe &lt;comando&gt; también funciona, pero la consola no espera.</value>
+  </data>
+  <data name="About_CommandLineText" xml:space="preserve">
+    <value>Riegel.Cli.exe ejecuta las mismas comprobaciones sin ventana, para tareas programadas, supervisión (Icinga) y canalizaciones FAT. Los códigos de salida avisan de cambios, no de hallazgos permanentes:</value>
+  </data>
+  <data name="About_Components" xml:space="preserve">
+    <value>Recolector {0} · catálogo de reglas {1}</value>
+  </data>
+  <data name="About_Create" xml:space="preserve">
+    <value>Crear…</value>
+  </data>
+  <data name="About_DataFolder" xml:space="preserve">
+    <value>Carpeta de datos</value>
+  </data>
+  <data name="About_Description" xml:space="preserve">
+    <value>Comprueba equipos Windows en plantas, laboratorios y salas de control frente a una línea base de bastionado, en solo lectura y sin conexión; registra excepciones justificadas y genera un informe de evidencias para firmar.</value>
+  </data>
+  <data name="About_Diagnostics" xml:space="preserve">
+    <value>Crear paquete de diagnóstico</value>
+  </data>
+  <data name="About_DiagnosticsAnonymous" xml:space="preserve">
+    <value>Paquete de diagnóstico guardado: {0}, sin nombres, rutas ni direcciones.</value>
+  </data>
+  <data name="About_DiagnosticsFilter" xml:space="preserve">
+    <value>Archivo ZIP (*.zip)|*.zip</value>
+  </data>
+  <data name="About_DiagnosticsNamed" xml:space="preserve">
+    <value>Paquete de diagnóstico guardado: {0}, con nombres y rutas; compártalo solo de forma confidencial.</value>
+  </data>
+  <data name="About_DiagnosticsSave" xml:space="preserve">
+    <value>Guardar paquete de diagnóstico</value>
+  </data>
+  <data name="About_DiagnosticsText" xml:space="preserve">
+    <value>Versión, datos del sistema y el registro de los últimos 7 días en un ZIP para el soporte; nunca exportaciones, registros ni informes.</value>
+  </data>
+  <data name="About_Exit0" xml:space="preserve">
+    <value>nada nuevo</value>
+  </data>
+  <data name="About_Exit1" xml:space="preserve">
+    <value>p. ej., excepción por vencer, medida vencida, recopilación desactualizada o incompleta</value>
+  </data>
+  <data name="About_Exit2" xml:space="preserve">
+    <value>peor que antes o un nuevo hallazgo abierto de gravedad alta</value>
+  </data>
+  <data name="About_Exit3" xml:space="preserve">
+    <value>error (uso, exportación ilegible, suma de verificación, E/S)</value>
+  </data>
+  <data name="About_Help" xml:space="preserve">
+    <value>Documentación</value>
+  </data>
+  <data name="About_HelpText" xml:space="preserve">
+    <value>Cómo usar Riegel, página a página (F1).</value>
+  </data>
+  <data name="About_Impressum" xml:space="preserve">
+    <value>Aviso legal (Impressum)</value>
+  </data>
+  <data name="About_Keyboard" xml:space="preserve">
+    <value>Teclado</value>
+  </data>
+  <data name="About_KeyboardText" xml:space="preserve">
+    <value>Ctrl+O abrir planta · Ctrl+I importar · F5 comprobar este PC · Ctrl+E justificar como abierto · Ctrl+R informe · Ctrl+F buscar · Ctrl+1 … Ctrl+9 páginas · F1 documentación · Espacio marca entradas en los registros, Intro edita</value>
+  </data>
+  <data name="About_License" xml:space="preserve">
+    <value>Licencia</value>
+  </data>
+  <data name="About_LicenseSection" xml:space="preserve">
+    <value>Licencia</value>
+  </data>
+  <data name="About_LicenseText" xml:space="preserve">
+    <value>Uso, modificación y distribución libres siempre que se conserven el copyright y el texto de la licencia.</value>
+  </data>
+  <data name="About_Links" xml:space="preserve">
+    <value>Ayuda y enlaces</value>
+  </data>
+  <data name="About_MitLicense" xml:space="preserve">
+    <value>Licencia MIT</value>
+  </data>
+  <data name="About_Notices" xml:space="preserve">
+    <value>Licencias de terceros</value>
+  </data>
+  <data name="About_NoticesText" xml:space="preserve">
+    <value>Bibliotecas que incluye Riegel, con versión, origen, copyright y texto de licencia, y las atribuciones de las fuentes de reglas.</value>
+  </data>
+  <data name="About_Open" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="About_OpenFolder" xml:space="preserve">
+    <value>Abrir carpeta</value>
+  </data>
+  <data name="About_Privacy" xml:space="preserve">
+    <value>Privacidad</value>
+  </data>
+  <data name="About_PrivacyText" xml:space="preserve">
+    <value>Qué datos guarda Riegel y dónde, qué conexiones abre (ninguna) y cómo borrarlo todo.</value>
+  </data>
+  <data name="About_ProductName" xml:space="preserve">
+    <value>Riegel (Härtungs-Check)</value>
+  </data>
+  <data name="About_ReadOnly" xml:space="preserve">
+    <value>Riegel lee la configuración y solo escribe en la carpeta de la planta, la carpeta de salida elegida y su carpeta de datos. No cambia ninguna configuración ni abre conexiones de red.</value>
+  </data>
+  <data name="About_ReadOnlyTitle" xml:space="preserve">
+    <value>Solo lectura, los datos se quedan aquí</value>
+  </data>
+  <data name="About_RuleSources" xml:space="preserve">
+    <value>Fuentes de reglas</value>
+  </data>
+  <data name="About_RuleSourcesHint" xml:space="preserve">
+    <value>Detalles en la página Catálogo de reglas.</value>
+  </data>
+  <data name="About_Show" xml:space="preserve">
+    <value>Mostrar</value>
+  </data>
+  <data name="About_ShowLicense" xml:space="preserve">
+    <value>Mostrar texto de la licencia</value>
+  </data>
+  <data name="About_Source" xml:space="preserve">
+    <value>Código fuente (GitHub)</value>
+  </data>
+  <data name="About_Support" xml:space="preserve">
+    <value>Ayuda y soporte</value>
+  </data>
+  <data name="About_SupportText" xml:space="preserve">
+    <value>Informe de errores y haga preguntas en GitHub; con compromiso mediante un contrato de soporte.</value>
+  </data>
+  <data name="About_Tagline" xml:space="preserve">
+    <value>Bastionado donde se puede. Documentado donde no.</value>
+  </data>
+  <data name="About_TextMissing" xml:space="preserve">
+    <value>El texto falta en esta versión de Riegel; consulte {0}.</value>
+  </data>
+  <data name="About_Version" xml:space="preserve">
+    <value>Versión {0} · compilación {1} · .NET {2}</value>
+  </data>
+  <data name="About_Website" xml:space="preserve">
+    <value>Sitio web</value>
+  </data>
+  <data name="About_WebsiteText" xml:space="preserve">
+    <value>ICT-Baden en GitHub</value>
+  </data>
   <data name="App_DemoReportWritten" xml:space="preserve">
-    <value>Archivos de marcador de posición escritos en {0}</value>
+    <value>Todos los documentos de la planta de demostración se escribieron en {0}</value>
   </data>
-  <data name="App_NotImplemented" xml:space="preserve">
-    <value>{0}: aún no implementado</value>
+  <data name="App_Subtitle" xml:space="preserve">
+    <value>Comprobación de bastionado</value>
   </data>
-  <data name="Info_Title" xml:space="preserve">
-    <value>Acerca de Riegel</value>
+  <data name="App_UnknownArgument" xml:space="preserve">
+    <value>Argumento desconocido o incompleto: {0}</value>
   </data>
-  <data name="MainWindow_Body" xml:space="preserve">
-    <value>Esta versión solo contiene la estructura básica. Las páginas llegarán con el paquete de la aplicación.</value>
+  <data name="App_UseCliInScripts" xml:space="preserve">
+    <value>Riegel.exe es un programa de ventana: en scripts y tareas programadas use Riegel.Cli.exe (códigos de salida fiables); si no, start /wait o | Out-Default.</value>
   </data>
-  <data name="MainWindow_Info" xml:space="preserve">
-    <value>Información</value>
+  <data name="Approval_Date" xml:space="preserve">
+    <value>Aprobado el</value>
   </data>
-  <data name="MainWindow_Title" xml:space="preserve">
-    <value>Riegel: en construcción</value>
+  <data name="Approval_Intro" xml:space="preserve">
+    <value>Registre lo que indica la hoja de aprobación firmada (o el registro de cambio). La aprobación queda vinculada al contenido actual de cada entrada.</value>
+  </data>
+  <data name="Approval_Name" xml:space="preserve">
+    <value>Nombre (opcional)</value>
+  </data>
+  <data name="Approval_NameHint" xml:space="preserve">
+    <value>Opcional, datos del cliente; los documentos indican la función.</value>
+  </data>
+  <data name="Approval_Record" xml:space="preserve">
+    <value>Registro de aprobación</value>
+  </data>
+  <data name="Approval_RecordHint" xml:space="preserve">
+    <value>Número de cambio, QMS u hoja, p. ej. «CHG-2026-0042» u «hoja de aprobación FB-12».</value>
+  </data>
+  <data name="Approval_ReviewBy" xml:space="preserve">
+    <value>Revisar antes de</value>
+  </data>
+  <data name="Approval_Role" xml:space="preserve">
+    <value>Aprobado por (función)</value>
+  </data>
+  <data name="Approval_Title" xml:space="preserve">
+    <value>Registrar aprobación</value>
+  </data>
+  <data name="ApproveRun_Intro" xml:space="preserve">
+    <value>Tras la puesta en marcha, la SAT o una visita del fabricante: las ejecuciones posteriores se comparan con este estado aprobado («empeorado desde la aprobación»).</value>
+  </data>
+  <data name="ApproveRun_Item" xml:space="preserve">
+    <value>{0} · recopilado {1} · ejecución {2}</value>
+  </data>
+  <data name="ApproveRun_Title" xml:space="preserve">
+    <value>Aprobar esta ejecución de {0}</value>
+  </data>
+  <data name="Busy_Collecting" xml:space="preserve">
+    <value>Recopilando este PC (solo lectura)…</value>
+  </data>
+  <data name="Busy_Copying" xml:space="preserve">
+    <value>Copiando el recolector…</value>
+  </data>
+  <data name="Busy_Creating" xml:space="preserve">
+    <value>Creando la planta…</value>
+  </data>
+  <data name="Busy_Demo" xml:space="preserve">
+    <value>Creando la planta de demostración a través de los servicios…</value>
+  </data>
+  <data name="Busy_Diagnostics" xml:space="preserve">
+    <value>Creando el paquete de diagnóstico…</value>
+  </data>
+  <data name="Busy_Evaluating" xml:space="preserve">
+    <value>Evaluando de nuevo…</value>
+  </data>
+  <data name="Busy_Importing" xml:space="preserve">
+    <value>Importando y evaluando…</value>
+  </data>
+  <data name="Busy_Loading" xml:space="preserve">
+    <value>Cargando…</value>
+  </data>
+  <data name="Busy_Opening" xml:space="preserve">
+    <value>Abriendo la planta…</value>
+  </data>
+  <data name="Busy_Report" xml:space="preserve">
+    <value>Escribiendo documentos…</value>
+  </data>
+  <data name="Busy_Saving" xml:space="preserve">
+    <value>Guardando…</value>
+  </data>
+  <data name="Catalogue_AppliesTo" xml:space="preserve">
+    <value>Se aplica a</value>
+  </data>
+  <data name="Catalogue_BaselineFilter" xml:space="preserve">
+    <value>Líneas base (*.json;*.csv)|*.json;*.csv</value>
+  </data>
+  <data name="Catalogue_Baselines" xml:space="preserve">
+    <value>Líneas base de clientes importadas</value>
+  </data>
+  <data name="Catalogue_BaselinesText" xml:space="preserve">
+    <value>Copias de seguridad de GPO o riegel.baseline/1 propias (JSON, CSV); cada una tiene su propia sección.</value>
+  </data>
+  <data name="Catalogue_CheckType" xml:space="preserve">
+    <value>Tipo de comprobación: {0}</value>
+  </data>
+  <data name="Catalogue_ColKind" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="Catalogue_Counts" xml:space="preserve">
+    <value>{0} reglas: {1} comprobaciones, {2} de inventario, {3} retiradas</value>
+  </data>
+  <data name="Catalogue_Domain_Joined" xml:space="preserve">
+    <value>solo miembros del dominio</value>
+  </data>
+  <data name="Catalogue_Domain_Standalone" xml:space="preserve">
+    <value>solo equipos de grupo de trabajo</value>
+  </data>
+  <data name="Catalogue_Empty" xml:space="preserve">
+    <value>Esta versión aún no contiene reglas. El catálogo 2026.10 llega con los paquetes de reglas; hasta entonces, ningún resultado es comprobable.</value>
+  </data>
+  <data name="Catalogue_ExcludeDc" xml:space="preserve">
+    <value>no en controladores de dominio</value>
+  </data>
+  <data name="Catalogue_Header" xml:space="preserve">
+    <value>Catálogo {0} {1} · publicado {2} · SHA-256 {3}</value>
+  </data>
+  <data name="Catalogue_ImportBaseline" xml:space="preserve">
+    <value>Importar línea base (JSON o CSV)</value>
+  </data>
+  <data name="Catalogue_ImportBaselineButton" xml:space="preserve">
+    <value>Importar línea base…</value>
+  </data>
+  <data name="Catalogue_ImportGpo" xml:space="preserve">
+    <value>Carpeta de copia de seguridad de GPO</value>
+  </data>
+  <data name="Catalogue_ImportGpoButton" xml:space="preserve">
+    <value>Importar copia de GPO…</value>
+  </data>
+  <data name="Catalogue_KindCheck" xml:space="preserve">
+    <value>comprobación</value>
+  </data>
+  <data name="Catalogue_KindInventory" xml:space="preserve">
+    <value>inventario</value>
+  </data>
+  <data name="Catalogue_Meta" xml:space="preserve">
+    <value>{0} · {1} · {2} · {3} · desde {4}</value>
+  </data>
+  <data name="Catalogue_MinBuild" xml:space="preserve">
+    <value>desde la compilación {0}</value>
+  </data>
+  <data name="Catalogue_NeedsAdmin" xml:space="preserve">
+    <value>requiere derechos de administrador</value>
+  </data>
+  <data name="Catalogue_NoBaselines" xml:space="preserve">
+    <value>No se han importado líneas base.</value>
+  </data>
+  <data name="Catalogue_RemoveBaseline" xml:space="preserve">
+    <value>Quitar</value>
+  </data>
+  <data name="Catalogue_RemoveText" xml:space="preserve">
+    <value>¿Quitar la línea base «{0}» de la planta? Las ejecuciones anteriores conservan sus resultados.</value>
+  </data>
+  <data name="Catalogue_RemoveTitle" xml:space="preserve">
+    <value>Quitar línea base</value>
+  </data>
+  <data name="Catalogue_Search" xml:space="preserve">
+    <value>Regla o título</value>
+  </data>
+  <data name="Catalogue_Sources" xml:space="preserve">
+    <value>Fuentes y licencias</value>
+  </data>
+  <data name="Catalogue_Suggested" xml:space="preserve">
+    <value>Tipo de justificación sugerido para excepciones</value>
+  </data>
+  <data name="Catalogue_Verified" xml:space="preserve">
+    <value>Valor esperado verificado frente a</value>
+  </data>
+  <data name="Change_Better" xml:space="preserve">
+    <value>mejorado</value>
+  </data>
+  <data name="Change_ExceptionAdded" xml:space="preserve">
+    <value>excepción añadida</value>
+  </data>
+  <data name="Change_ExceptionExpired" xml:space="preserve">
+    <value>excepción vencida</value>
+  </data>
+  <data name="Change_ExceptionRemoved" xml:space="preserve">
+    <value>excepción eliminada</value>
+  </data>
+  <data name="Change_NewRule" xml:space="preserve">
+    <value>regla nueva</value>
+  </data>
+  <data name="Change_Other" xml:space="preserve">
+    <value>modificado</value>
+  </data>
+  <data name="Change_ScopeChanged" xml:space="preserve">
+    <value>alcance comprobado modificado</value>
+  </data>
+  <data name="Change_TailoringAdded" xml:space="preserve">
+    <value>ajuste del alcance añadido</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Change_TailoringRemoved" xml:space="preserve">
+    <value>ajuste del alcance eliminado</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Change_Worse" xml:space="preserve">
+    <value>empeorado</value>
+  </data>
+  <data name="Common_Browse" xml:space="preserve">
+    <value>Examinar…</value>
+  </data>
+  <data name="Common_No" xml:space="preserve">
+    <value>no</value>
+  </data>
+  <data name="Common_Yes" xml:space="preserve">
+    <value>sí</value>
+  </data>
+  <data name="Comparison_Approved" xml:space="preserve">
+    <value>Estado aprobado: {0}, {1}, registro {2}</value>
+  </data>
+  <data name="Comparison_ApprovedState" xml:space="preserve">
+    <value>Estado aprobado</value>
+  </data>
+  <data name="Comparison_ApproveRun" xml:space="preserve">
+    <value>Aprobar esta ejecución…</value>
+  </data>
+  <data name="Comparison_ColFrom" xml:space="preserve">
+    <value>Antes</value>
+  </data>
+  <data name="Comparison_ColItem" xml:space="preserve">
+    <value>Elemento</value>
+  </data>
+  <data name="Comparison_ColKind" xml:space="preserve">
+    <value>Cambio</value>
+  </data>
+  <data name="Comparison_ColTo" xml:space="preserve">
+    <value>Después</value>
+  </data>
+  <data name="Comparison_Drift" xml:space="preserve">
+    <value>Valores brutos modificados ({0})</value>
+  </data>
+  <data name="Comparison_DriftHint" xml:space="preserve">
+    <value>Valores del registro, servicios, características, cuentas y software, sin valores volátiles como la antigüedad de firmas y marcas de tiempo.</value>
+  </data>
+  <data name="Comparison_FromApproved" xml:space="preserve">
+    <value>Comparado con el estado aprobado: recopilado {0} ({1})</value>
+  </data>
+  <data name="Comparison_FromPrevious" xml:space="preserve">
+    <value>Comparado con la ejecución anterior: recopilada {0} ({1})</value>
+  </data>
+  <data name="Comparison_IdentityChanged" xml:space="preserve">
+    <value>¿Equipo reinstalado? El MachineGuid es distinto.</value>
+  </data>
+  <data name="Comparison_NoApprovedRun" xml:space="preserve">
+    <value>No se encontró la ejecución aprobada.</value>
+  </data>
+  <data name="Comparison_NoChanges" xml:space="preserve">
+    <value>Sin cambios: el estado y los valores brutos son iguales.</value>
+  </data>
+  <data name="Comparison_NoneOther" xml:space="preserve">
+    <value>No hay otros cambios.</value>
+  </data>
+  <data name="Comparison_NoneWorse" xml:space="preserve">
+    <value>Nada ha empeorado.</value>
+  </data>
+  <data name="Comparison_NoPrevious" xml:space="preserve">
+    <value>Aún no hay una ejecución anterior de otra exportación.</value>
+  </data>
+  <data name="Comparison_NoRun" xml:space="preserve">
+    <value>Este equipo aún no tiene ejecuciones.</value>
+  </data>
+  <data name="Comparison_NotApproved" xml:space="preserve">
+    <value>Aún no hay estado aprobado: use «Aprobar esta ejecución…» tras la puesta en marcha o una visita del fabricante.</value>
+  </data>
+  <data name="Comparison_OtherChanges" xml:space="preserve">
+    <value>Otros cambios de estado ({0})</value>
+  </data>
+  <data name="Comparison_Previous" xml:space="preserve">
+    <value>Ejecución anterior</value>
+  </data>
+  <data name="Comparison_To" xml:space="preserve">
+    <value>Ejecución actual: recopilada {0} ({1})</value>
+  </data>
+  <data name="Comparison_WorseSinceApproval" xml:space="preserve">
+    <value>Empeorado desde la aprobación ({0})</value>
+  </data>
+  <data name="Comparison_WorseSincePrevious" xml:space="preserve">
+    <value>Empeorado desde la última ejecución ({0})</value>
+  </data>
+  <data name="Dialog_Accept" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="Dialog_Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Dialog_ChangeResetsApproval" xml:space="preserve">
+    <value>Esta entrada está aprobada. Cambiar su contenido la deja de nuevo pendiente hasta que se registre otra vez la aprobación.</value>
+  </data>
+  <data name="Dialog_Characters" xml:space="preserve">
+    <value>{0} caracteres (al menos {1})</value>
+  </data>
+  <data name="Dialog_Close" xml:space="preserve">
+    <value>Cerrar</value>
+  </data>
+  <data name="Drift_Added" xml:space="preserve">
+    <value>añadido</value>
+  </data>
+  <data name="Drift_Changed" xml:space="preserve">
+    <value>modificado</value>
+  </data>
+  <data name="Drift_Removed" xml:space="preserve">
+    <value>eliminado</value>
+  </data>
+  <data name="EntryState_ChangedAfterApproval" xml:space="preserve">
+    <value>modificada tras la aprobación</value>
+  </data>
+  <data name="EntryState_Expired" xml:space="preserve">
+    <value>vencida</value>
+  </data>
+  <data name="EntryState_Expiring" xml:space="preserve">
+    <value>vence pronto</value>
+  </data>
+  <data name="EntryState_Invalid" xml:space="preserve">
+    <value>no válida</value>
+  </data>
+  <data name="EntryState_Pending" xml:space="preserve">
+    <value>solicitada</value>
+  </data>
+  <data name="EntryState_Valid" xml:space="preserve">
+    <value>válida</value>
+  </data>
+  <data name="Error_RGL0600" xml:space="preserve">
+    <value>Error inesperado en la interfaz. Cree un paquete de diagnóstico y póngase en contacto con el soporte.</value>
+  </data>
+  <data name="Error_RGL0601" xml:space="preserve">
+    <value>No se pudo crear la planta de demostración.</value>
+  </data>
+  <data name="Error_RGL0602" xml:space="preserve">
+    <value>WPF dibujó una imagen vacía o el tamaño de la ventana es incorrecto. Inicie las capturas en una sesión de Windows iniciada y conectada.</value>
+  </data>
+  <data name="Error_RGL0603" xml:space="preserve">
+    <value>No hay ninguna planta abierta.</value>
+  </data>
+  <data name="Error_RGL0604" xml:space="preserve">
+    <value>No disponible en la demostración ni al crear capturas.</value>
+  </data>
+  <data name="Error_RGL0605" xml:space="preserve">
+    <value>La comprobación con derechos de administrador falló o se canceló.</value>
+  </data>
+  <data name="Error_RGL0606" xml:space="preserve">
+    <value>La elevación usó otra cuenta: su exportación está en el perfil de esa cuenta. Ejecute Riegel.Cli.exe collect en una consola elevada e importe la exportación.</value>
+  </data>
+  <data name="Error_RGL0607" xml:space="preserve">
+    <value>No se pudo importar una exportación: {0}</value>
+  </data>
+  <data name="Error_RGL0608" xml:space="preserve">
+    <value>No se pudo escribir un documento: {0}</value>
+  </data>
+  <data name="Error_RGL0609" xml:space="preserve">
+    <value>Nada que importar: elija exportaciones (.snapshot.json, .json.gz) o paquetes integrados.</value>
+  </data>
+  <data name="Error_RGL0610" xml:space="preserve">
+    <value>La justificación necesita al menos 20 caracteres.</value>
+  </data>
+  <data name="Error_RGL0611" xml:space="preserve">
+    <value>Un requisito del fabricante necesita una referencia (documento o ticket).</value>
+  </data>
+  <data name="Error_RGL0612" xml:space="preserve">
+    <value>Un control compensatorio necesita la medida compensatoria.</value>
+  </data>
+  <data name="Error_RGL0613" xml:space="preserve">
+    <value>El valor aceptado es obligatorio para las reglas de comprobación.</value>
+  </data>
+  <data name="Error_RGL0614" xml:space="preserve">
+    <value>«*» acepta cualquier valor: un cambio posterior pasaría inadvertido.</value>
+  </data>
+  <data name="Error_RGL0615" xml:space="preserve">
+    <value>La aprobación necesita función, fecha, fecha de revisión y registro.</value>
+  </data>
+  <data name="Error_RGL0616" xml:space="preserve">
+    <value>La fecha de revisión puede ser como máximo 36 meses después de la aprobación.</value>
+  </data>
+  <data name="Error_RGL0617" xml:space="preserve">
+    <value>La fecha de revisión es más de 12 meses posterior a la aprobación.</value>
+  </data>
+  <data name="Error_RGL0618" xml:space="preserve">
+    <value>La fecha de revisión es anterior a la de aprobación.</value>
+  </data>
+  <data name="Error_RGL0619" xml:space="preserve">
+    <value>La regla no está en el catálogo de reglas.</value>
+  </data>
+  <data name="Error_RGL0620" xml:space="preserve">
+    <value>El motivo necesita al menos 20 caracteres.</value>
+  </data>
+  <data name="Error_RGL0621" xml:space="preserve">
+    <value>¿Ajustar el alcance de una regla de gravedad alta en lugar de justificar una excepción?</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Error_RGL0622" xml:space="preserve">
+    <value>La medida necesita una acción.</value>
+  </data>
+  <data name="Error_RGL0623" xml:space="preserve">
+    <value>Falta la función responsable.</value>
+  </data>
+  <data name="Error_RGL0624" xml:space="preserve">
+    <value>El ámbito está vacío: elija un equipo, un grupo o toda la planta.</value>
+  </data>
+  <data name="Error_RGL0625" xml:space="preserve">
+    <value>«Riesgo aceptado» en una regla de gravedad alta solo pueden aprobarlo las funciones definidas en la planta.</value>
+  </data>
+  <data name="Error_RGL0626" xml:space="preserve">
+    <value>Falta la función que aprueba.</value>
+  </data>
+  <data name="Error_RGL0627" xml:space="preserve">
+    <value>Falta el registro de aprobación (número de cambio, QMS u hoja).</value>
+  </data>
+  <data name="Error_RGL0628" xml:space="preserve">
+    <value>La entrada se solapa con otra de la misma regla.</value>
+  </data>
+  <data name="Error_RGL0630" xml:space="preserve">
+    <value>No se pudo guardar o quitar la línea base.</value>
+  </data>
+  <data name="Error_RGL0631" xml:space="preserve">
+    <value>Elija una carpeta de salida (obligatoria en modo auditor).</value>
+  </data>
+  <data name="Error_RGL0632" xml:space="preserve">
+    <value>No se pudo abrir: {0}</value>
+  </data>
+  <data name="Error_RGL0633" xml:space="preserve">
+    <value>Nombre de equipo no válido o duplicado: {0}</value>
+  </data>
+  <data name="Error_RGL0634" xml:space="preserve">
+    <value>No es un número de días válido (1–3650): {0}</value>
+  </data>
+  <data name="ExceptionDialog_AcceptedHint" xml:space="preserve">
+    <value>El valor real canónico; un valor distinto más adelante anula la excepción. «*» acepta cualquier valor (advertencia).</value>
+  </data>
+  <data name="ExceptionDialog_CompensatingRequired" xml:space="preserve">
+    <value>Medida compensatoria (obligatoria)</value>
+  </data>
+  <data name="ExceptionDialog_Confirm" xml:space="preserve">
+    <value>He comprobado la justificación y el tipo</value>
+  </data>
+  <data name="ExceptionDialog_PendingNote" xml:space="preserve">
+    <value>La excepción queda pendiente hasta que «Registrar aprobación» registre función, fecha, fecha de revisión y registro.</value>
+  </data>
+  <data name="ExceptionDialog_Prefilled" xml:space="preserve">
+    <value>Sugerencia del catálogo de reglas (nota OT y tipo de justificación propuesto): compruébela y adáptela a esta planta.</value>
+  </data>
+  <data name="ExceptionDialog_ReferenceRequired" xml:space="preserve">
+    <value>Referencia (obligatoria para un requisito del fabricante)</value>
+  </data>
+  <data name="ExceptionDialog_TitleEdit" xml:space="preserve">
+    <value>Editar excepción {0} ({1})</value>
+  </data>
+  <data name="ExceptionDialog_TitleNew" xml:space="preserve">
+    <value>Justificar {0} como abierto deliberadamente</value>
+  </data>
+  <data name="Exceptions_Accepted" xml:space="preserve">
+    <value>Valor aceptado</value>
+  </data>
+  <data name="Exceptions_Category" xml:space="preserve">
+    <value>Tipo de justificación</value>
+  </data>
+  <data name="Exceptions_Compensating" xml:space="preserve">
+    <value>Medida compensatoria</value>
+  </data>
+  <data name="Exceptions_Empty" xml:space="preserve">
+    <value>No hay excepciones en esta vista. Las excepciones se crean a partir de un hallazgo en la página Resultados (Ctrl+E).</value>
+  </data>
+  <data name="Exceptions_Justification" xml:space="preserve">
+    <value>Justificación</value>
+  </data>
+  <data name="Exceptions_NewHint" xml:space="preserve">
+    <value>Elija un hallazgo no cumplido y pulse Ctrl+E: se adoptan la regla, el equipo y el valor real.</value>
+  </data>
+  <data name="Exceptions_Reference" xml:space="preserve">
+    <value>Referencia (documento del fabricante o ticket)</value>
+  </data>
+  <data name="Filter_All" xml:space="preserve">
+    <value>Todos</value>
+  </data>
+  <data name="Filter_AllCategories" xml:space="preserve">
+    <value>Todas las categorías</value>
+  </data>
+  <data name="Filter_AllFlags" xml:space="preserve">
+    <value>Todas las marcas</value>
+  </data>
+  <data name="Filter_AllSeverities" xml:space="preserve">
+    <value>Todas las gravedades</value>
+  </data>
+  <data name="Filter_WithCount" xml:space="preserve">
+    <value>{0} ({1})</value>
+  </data>
+  <data name="Format_DaysAgo" xml:space="preserve">
+    <value>hace {0} días</value>
+  </data>
+  <data name="Format_Percent" xml:space="preserve">
+    <value>{0} %</value>
+  </data>
+  <data name="Groups_Add" xml:space="preserve">
+    <value>Añadir grupo</value>
+  </data>
+  <data name="Groups_Intro" xml:space="preserve">
+    <value>El ajuste del alcance y la configuración objetivo se aplican por función. Los equipos sin grupo quedan en «Sin grupo».</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Groups_Name" xml:space="preserve">
+    <value>Nombre del grupo</value>
+  </data>
+  <data name="Groups_NewName" xml:space="preserve">
+    <value>Grupo nuevo</value>
+  </data>
+  <data name="Groups_Remove" xml:space="preserve">
+    <value>Quitar grupo</value>
+  </data>
+  <data name="Groups_Role" xml:space="preserve">
+    <value>Función</value>
+  </data>
+  <data name="Groups_Title" xml:space="preserve">
+    <value>Grupos y funciones</value>
+  </data>
+  <data name="Identity_Builder" xml:space="preserve">
+    <value>Fabricante de la máquina</value>
+  </data>
+  <data name="Identity_DeliveryDate" xml:space="preserve">
+    <value>Fecha de entrega</value>
+  </data>
+  <data name="Identity_Location" xml:space="preserve">
+    <value>Ubicación</value>
+  </data>
+  <data name="Identity_MachineType" xml:space="preserve">
+    <value>Tipo de máquina</value>
+  </data>
+  <data name="Identity_OrderNumber" xml:space="preserve">
+    <value>Pedido / proyecto</value>
+  </data>
+  <data name="Identity_PlantSoftware" xml:space="preserve">
+    <value>Software de la planta</value>
+  </data>
+  <data name="Identity_SerialNumber" xml:space="preserve">
+    <value>Número de serie</value>
+  </data>
+  <data name="Import_AddBundle" xml:space="preserve">
+    <value>Añadir paquete integrado (carpeta)…</value>
+  </data>
+  <data name="Import_AddFiles" xml:space="preserve">
+    <value>Añadir exportaciones…</value>
+  </data>
+  <data name="Import_CollectedBy" xml:space="preserve">
+    <value>Recopilado por (función)</value>
+  </data>
+  <data name="Import_Files" xml:space="preserve">
+    <value>Archivos que se importarán</value>
+  </data>
+  <data name="Import_Filter" xml:space="preserve">
+    <value>Exportaciones de Riegel (*.snapshot.json;*.snapshot.json.gz)|*.snapshot.json;*.snapshot.json.gz|Todos los archivos (*.*)|*.*</value>
+  </data>
+  <data name="Import_Intro" xml:space="preserve">
+    <value>Las exportaciones se copian en la carpeta de la planta, se comprueba su archivo de suma de verificación y se evalúa cada una.</value>
+  </data>
+  <data name="Import_PickBundle" xml:space="preserve">
+    <value>Elegir paquete de comandos integrados</value>
+  </data>
+  <data name="Import_PickFiles" xml:space="preserve">
+    <value>Elegir exportaciones</value>
+  </data>
+  <data name="Import_Remove" xml:space="preserve">
+    <value>Quitar</value>
+  </data>
+  <data name="Import_RolesHint" xml:space="preserve">
+    <value>Funciones, no nombres: aparecen en el acta de recopilación (cadena de custodia).</value>
+  </data>
+  <data name="Import_SidecarHint" xml:space="preserve">
+    <value>Un archivo .sha256 ausente o incorrecto se registra, no se oculta.</value>
+  </data>
+  <data name="Import_Title" xml:space="preserve">
+    <value>Importar exportaciones</value>
+  </data>
+  <data name="Import_Witness" xml:space="preserve">
+    <value>Testigo (función)</value>
+  </data>
+  <data name="Import_WriteRecord" xml:space="preserve">
+    <value>Escribir también el acta de recopilación (PDF para firmar)</value>
+  </data>
+  <data name="List_SortedAscending" xml:space="preserve">
+    <value>{0}, orden ascendente</value>
+  </data>
+  <data name="List_SortedDescending" xml:space="preserve">
+    <value>{0}, orden descendente</value>
+  </data>
+  <data name="Machine_Esu" xml:space="preserve">
+    <value>Actualizaciones de seguridad extendidas (ESU) adquiridas</value>
+  </data>
+  <data name="Machine_EsuHint" xml:space="preserve">
+    <value>Cuenta para la regla de sistema operativo compatible (LIFE-01).</value>
+  </data>
+  <data name="Machine_IdentityText" xml:space="preserve">
+    <value>Para el informe de estado de entrega de los fabricantes; en la demostración, valores claramente ficticios.</value>
+  </data>
+  <data name="Machine_Label" xml:space="preserve">
+    <value>Etiqueta</value>
+  </data>
+  <data name="Machine_Notes" xml:space="preserve">
+    <value>Notas</value>
+  </data>
+  <data name="Machine_Title" xml:space="preserve">
+    <value>Equipo {0}</value>
+  </data>
+  <data name="MachineRole_EngineeringStation" xml:space="preserve">
+    <value>Estación de ingeniería</value>
+  </data>
+  <data name="MachineRole_Historian" xml:space="preserve">
+    <value>Historiador / servidor</value>
+  </data>
+  <data name="MachineRole_Hmi" xml:space="preserve">
+    <value>Estación de operador (HMI)</value>
+  </data>
+  <data name="MachineRole_JumpHost" xml:space="preserve">
+    <value>Servidor de salto</value>
+  </data>
+  <data name="MachineRole_Office" xml:space="preserve">
+    <value>PC de oficina</value>
+  </data>
+  <data name="MachineRole_Other" xml:space="preserve">
+    <value>Otro</value>
+  </data>
+  <data name="MachineRole_Server" xml:space="preserve">
+    <value>Servidor</value>
+  </data>
+  <data name="Machines_Admin" xml:space="preserve">
+    <value>Como administrador</value>
+  </data>
+  <data name="Machines_Approved" xml:space="preserve">
+    <value>Estado aprobado: {0}, {1}, registro {2}</value>
+  </data>
+  <data name="Machines_Checked" xml:space="preserve">
+    <value>{0} comprobado</value>
+  </data>
+  <data name="Machines_ColCollected" xml:space="preserve">
+    <value>Recopilado</value>
+  </data>
+  <data name="Machines_ColGroup" xml:space="preserve">
+    <value>Grupo / función</value>
+  </data>
+  <data name="Machines_ColHost" xml:space="preserve">
+    <value>Equipo</value>
+  </data>
+  <data name="Machines_CollectedAt" xml:space="preserve">
+    <value>Recopilado</value>
+  </data>
+  <data name="Machines_Collection" xml:space="preserve">
+    <value>Última recopilación</value>
+  </data>
+  <data name="Machines_Collector" xml:space="preserve">
+    <value>Recolector</value>
+  </data>
+  <data name="Machines_ColOpen" xml:space="preserve">
+    <value>Abiertos</value>
+  </data>
+  <data name="Machines_ColOs" xml:space="preserve">
+    <value>Sistema operativo</value>
+  </data>
+  <data name="Machines_ColScore" xml:space="preserve">
+    <value>Bastionado</value>
+  </data>
+  <data name="Machines_ColTrend" xml:space="preserve">
+    <value>Tendencia</value>
+  </data>
+  <data name="Machines_DcNotScored" xml:space="preserve">
+    <value>sin valorar</value>
+  </data>
+  <data name="Machines_Edit" xml:space="preserve">
+    <value>Editar…</value>
+  </data>
+  <data name="Machines_EsuNo" xml:space="preserve">
+    <value>No hay actualizaciones de seguridad extendidas (ESU) registradas</value>
+  </data>
+  <data name="Machines_EsuYes" xml:space="preserve">
+    <value>Actualizaciones de seguridad extendidas (ESU) registradas</value>
+  </data>
+  <data name="Machines_Groups" xml:space="preserve">
+    <value>Grupos y funciones…</value>
+  </data>
+  <data name="Machines_HasIdentity" xml:space="preserve">
+    <value>Identidad de la máquina registrada (estado de entrega)</value>
+  </data>
+  <data name="Machines_Identity" xml:space="preserve">
+    <value>Identidad de la máquina</value>
+  </data>
+  <data name="Machines_ImportedAt" xml:space="preserve">
+    <value>Importado</value>
+  </data>
+  <data name="Machines_NoRun" xml:space="preserve">
+    <value>aún sin ejecución</value>
+  </data>
+  <data name="Machines_NotApproved" xml:space="preserve">
+    <value>Aún no hay estado aprobado</value>
+  </data>
+  <data name="Machines_Note" xml:space="preserve">
+    <value>Nota</value>
+  </data>
+  <data name="Machines_OpenHint" xml:space="preserve">
+    <value>Hallazgos abiertos: altos · medios · bajos</value>
+  </data>
+  <data name="Machines_Options" xml:space="preserve">
+    <value>Opciones</value>
+  </data>
+  <data name="Machines_Origin" xml:space="preserve">
+    <value>Origen</value>
+  </data>
+  <data name="Machines_ReEvaluate" xml:space="preserve">
+    <value>Evaluar de nuevo</value>
+  </data>
+  <data name="Machines_ReEvaluateHint" xml:space="preserve">
+    <value>Vuelve a evaluar la exportación más reciente con los registros actuales (la exportación no cambia).</value>
+  </data>
+  <data name="Machines_Runs" xml:space="preserve">
+    <value>Ejecuciones</value>
+  </data>
+  <data name="Machines_ShowComparison" xml:space="preserve">
+    <value>Comparación</value>
+  </data>
+  <data name="Machines_ShowResults" xml:space="preserve">
+    <value>Resultados</value>
+  </data>
+  <data name="Machines_Stale" xml:space="preserve">
+    <value>desactualizado</value>
+  </data>
+  <data name="Machines_Summary" xml:space="preserve">
+    <value>{0} equipos · {1} con recopilación desactualizada · {2} hallazgos empeorados</value>
+  </data>
+  <data name="Machines_TrendBetter" xml:space="preserve">
+    <value>mejor que la ejecución anterior</value>
+  </data>
+  <data name="Machines_TrendNone" xml:space="preserve">
+    <value>sin ejecución anterior</value>
+  </data>
+  <data name="Machines_TrendSame" xml:space="preserve">
+    <value>igual que la ejecución anterior</value>
+  </data>
+  <data name="Machines_TrendWorse" xml:space="preserve">
+    <value>peor que la ejecución anterior</value>
+  </data>
+  <data name="Machines_WorseHint" xml:space="preserve">
+    <value>Hallazgos peores que en la ejecución anterior o en el estado aprobado</value>
+  </data>
+  <data name="Main_CloseNotice" xml:space="preserve">
+    <value>Cerrar mensaje</value>
+  </data>
+  <data name="Main_DemoBanner" xml:space="preserve">
+    <value>Planta de demostración «Musterwerk – Linie 3»: todos los equipos y valores son ficticios. «Comprobar este PC» no está disponible en la demostración.</value>
+  </data>
+  <data name="Main_DemoDetail" xml:space="preserve">
+    <value>Demostración · al {0}</value>
+  </data>
+  <data name="Main_Navigation" xml:space="preserve">
+    <value>Páginas</value>
+  </data>
+  <data name="Main_NoPlant" xml:space="preserve">
+    <value>Ninguna planta abierta</value>
+  </data>
+  <data name="Main_NoPlantHint" xml:space="preserve">
+    <value>Abra una planta o la demostración</value>
+  </data>
+  <data name="Main_NoPlantText" xml:space="preserve">
+    <value>Abra una carpeta de planta, cree una planta nueva o explore la planta de demostración.</value>
+  </data>
+  <data name="Main_NoPlantTitle" xml:space="preserve">
+    <value>Esta página necesita una planta abierta</value>
+  </data>
+  <data name="Main_PlantDetail" xml:space="preserve">
+    <value>{0} equipos</value>
+  </data>
+  <data name="Main_ReadOnlyBanner" xml:space="preserve">
+    <value>Modo auditor: no se escribe nada en la carpeta de la planta. Los documentos solo van a una carpeta elegida.</value>
+  </data>
+  <data name="MeasureDialog_Intro" xml:space="preserve">
+    <value>El hallazgo sigue abierto y se marca como «corrección planificada» hasta que se cumpla la regla. Una fecha superada cuenta como vencida.</value>
+  </data>
+  <data name="MeasureDialog_TitleEdit" xml:space="preserve">
+    <value>Editar medida {0} ({1})</value>
+  </data>
+  <data name="MeasureDialog_TitleNew" xml:space="preserve">
+    <value>Planificar medida para {0}</value>
+  </data>
+  <data name="Measures_ColAction" xml:space="preserve">
+    <value>Acción</value>
+  </data>
+  <data name="Measures_ColDue" xml:space="preserve">
+    <value>Vence</value>
+  </data>
+  <data name="Measures_ColOwner" xml:space="preserve">
+    <value>Responsable (función)</value>
+  </data>
+  <data name="Measures_ColTicket" xml:space="preserve">
+    <value>Ticket</value>
+  </data>
+  <data name="Measures_Done" xml:space="preserve">
+    <value>Marcar como hecha</value>
+  </data>
+  <data name="Measures_Drop" xml:space="preserve">
+    <value>Descartar</value>
+  </data>
+  <data name="Measures_Empty" xml:space="preserve">
+    <value>No hay medidas en esta vista. Las medidas se planifican desde un hallazgo en la página Resultados.</value>
+  </data>
+  <data name="Measures_OpenOnly" xml:space="preserve">
+    <value>Solo planificadas</value>
+  </data>
+  <data name="Measures_Overdue" xml:space="preserve">
+    <value>vencida</value>
+  </data>
+  <data name="Measures_OverdueOnly" xml:space="preserve">
+    <value>Solo vencidas</value>
+  </data>
+  <data name="Measures_StillOpen" xml:space="preserve">
+    <value>Aún abierta en equipos:</value>
+  </data>
+  <data name="Measures_Summary" xml:space="preserve">
+    <value>{0} planificadas · {1} vencidas</value>
+  </data>
+  <data name="MeasureState_Done" xml:space="preserve">
+    <value>hecha</value>
+  </data>
+  <data name="MeasureState_Dropped" xml:space="preserve">
+    <value>descartada</value>
+  </data>
+  <data name="MeasureState_Planned" xml:space="preserve">
+    <value>planificada</value>
+  </data>
+  <data name="Mode_Demo" xml:space="preserve">
+    <value>Demostración</value>
+  </data>
+  <data name="Mode_ReadOnly" xml:space="preserve">
+    <value>Modo auditor (solo lectura)</value>
+  </data>
+  <data name="NewPlant_Browse" xml:space="preserve">
+    <value>Carpeta para la nueva planta</value>
+  </data>
+  <data name="NewPlant_Folder" xml:space="preserve">
+    <value>Carpeta</value>
+  </data>
+  <data name="NewPlant_FolderHint" xml:space="preserve">
+    <value>Una carpeta vacía en una memoria, un recurso compartido o una unidad local.</value>
+  </data>
+  <data name="NewPlant_Intro" xml:space="preserve">
+    <value>Riegel crea riegel-plant.json en la carpeta. Allí se guardarán exportaciones, ejecuciones y registros.</value>
+  </data>
+  <data name="NewPlant_Name" xml:space="preserve">
+    <value>Nombre de la planta</value>
+  </data>
+  <data name="NewPlant_Title" xml:space="preserve">
+    <value>Nueva planta</value>
+  </data>
+  <data name="Notice_Approved" xml:space="preserve">
+    <value>Aprobación registrada para {0} entradas (registro {1}).</value>
+  </data>
+  <data name="Notice_BaselineImported" xml:space="preserve">
+    <value>Línea base {0} importada.</value>
+  </data>
+  <data name="Notice_BaselineRemoved" xml:space="preserve">
+    <value>Línea base {0} eliminada.</value>
+  </data>
+  <data name="Notice_CollectorCopied" xml:space="preserve">
+    <value>Recolector copiado en {0}.</value>
+  </data>
+  <data name="Notice_DocumentWritten" xml:space="preserve">
+    <value>{0} archivo(s) escrito(s) en {1}.</value>
+  </data>
+  <data name="Notice_ExceptionSaved" xml:space="preserve">
+    <value>Excepción {0} guardada: queda pendiente hasta que se registre la aprobación.</value>
+  </data>
+  <data name="Notice_GroupsSaved" xml:space="preserve">
+    <value>Grupos y funciones guardados.</value>
+  </data>
+  <data name="Notice_Imported" xml:space="preserve">
+    <value>{0} exportación(es) importada(s) y evaluada(s).</value>
+  </data>
+  <data name="Notice_ImportedWithRecord" xml:space="preserve">
+    <value>{0} exportación(es) importada(s) y evaluada(s); acta de recopilación {1} escrita.</value>
+  </data>
+  <data name="Notice_LogoSaved" xml:space="preserve">
+    <value>Logotipo guardado en la carpeta de la planta.</value>
+  </data>
+  <data name="Notice_MachineSaved" xml:space="preserve">
+    <value>Equipo {0} guardado.</value>
+  </data>
+  <data name="Notice_MeasureSaved" xml:space="preserve">
+    <value>Medida {0} guardada.</value>
+  </data>
+  <data name="Notice_PlantSettingsSaved" xml:space="preserve">
+    <value>Configuración de la planta guardada.</value>
+  </data>
+  <data name="Notice_Reevaluated" xml:space="preserve">
+    <value>{0} equipo(s) evaluado(s) de nuevo.</value>
+  </data>
+  <data name="Notice_ReportSettingsSaved" xml:space="preserve">
+    <value>Datos del informe guardados en la planta.</value>
+  </data>
+  <data name="Notice_Retired" xml:space="preserve">
+    <value>{0} retirada. El historial conserva la versión anterior.</value>
+  </data>
+  <data name="Notice_RunApproved" xml:space="preserve">
+    <value>Ejecución de {0} aprobada (registro {1}). Las ejecuciones posteriores se comparan con ella.</value>
+  </data>
+  <data name="Notice_TailoringSaved" xml:space="preserve">
+    <value>Ajuste del alcance {0} guardado: queda pendiente hasta que se registre la aprobación.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Notice_TemplateImported" xml:space="preserve">
+    <value>Plantilla importada. Las entradas nuevas quedan pendientes hasta su aprobación.</value>
+  </data>
+  <data name="Origin_App" xml:space="preserve">
+    <value>aplicación Riegel</value>
+  </data>
+  <data name="Origin_Builtin" xml:space="preserve">
+    <value>paquete de comandos integrados</value>
+  </data>
+  <data name="Origin_Collector" xml:space="preserve">
+    <value>recolector portátil</value>
+  </data>
+  <data name="Origin_Recorded" xml:space="preserve">
+    <value>grabado</value>
+  </data>
+  <data name="Origin_Synthetic" xml:space="preserve">
+    <value>sintético (demostración)</value>
+  </data>
+  <data name="OsKind_client" xml:space="preserve">
+    <value>Cliente</value>
+  </data>
+  <data name="OsKind_server" xml:space="preserve">
+    <value>Servidor</value>
+  </data>
+  <data name="Page_about" xml:space="preserve">
+    <value>Acerca de</value>
+  </data>
+  <data name="Page_about_Subtitle" xml:space="preserve">
+    <value>Versión, licencias, privacidad, soporte y diagnóstico</value>
+  </data>
+  <data name="Page_catalogue" xml:space="preserve">
+    <value>Catálogo de reglas</value>
+  </data>
+  <data name="Page_catalogue_Subtitle" xml:space="preserve">
+    <value>Reglas, referencias, fuentes y licencias; líneas base de clientes importadas</value>
+  </data>
+  <data name="Page_comparison" xml:space="preserve">
+    <value>Comparación</value>
+  </data>
+  <data name="Page_comparison_Subtitle" xml:space="preserve">
+    <value>Qué ha cambiado desde la última ejecución o desde el estado aprobado</value>
+  </data>
+  <data name="Page_exceptions" xml:space="preserve">
+    <value>Excepciones</value>
+  </data>
+  <data name="Page_exceptions_Subtitle" xml:space="preserve">
+    <value>Abierto deliberadamente: justificado, aprobado y vinculado a un registro</value>
+  </data>
+  <data name="Page_machines" xml:space="preserve">
+    <value>Equipos</value>
+  </data>
+  <data name="Page_machines_Subtitle" xml:space="preserve">
+    <value>Equipos de la planta con grupo, función, última ejecución, recuentos y tendencia</value>
+  </data>
+  <data name="Page_measures" xml:space="preserve">
+    <value>Medidas</value>
+  </data>
+  <data name="Page_measures_Subtitle" xml:space="preserve">
+    <value>Plan de medidas con función responsable, fecha límite y ticket</value>
+  </data>
+  <data name="Page_reports" xml:space="preserve">
+    <value>Informes</value>
+  </data>
+  <data name="Page_reports_Subtitle" xml:space="preserve">
+    <value>PDF para firmar, Excel para trabajar, paquete de evidencias para auditores</value>
+  </data>
+  <data name="Page_results" xml:space="preserve">
+    <value>Resultados</value>
+  </data>
+  <data name="Page_results_Subtitle" xml:space="preserve">
+    <value>Cada regla en un equipo, con evidencia, origen del valor y qué hacer</value>
+  </data>
+  <data name="Page_settings" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+  <data name="Page_settings_Subtitle" xml:space="preserve">
+    <value>Idioma, tema, carpetas y valores predeterminados para plantas nuevas</value>
+  </data>
+  <data name="Page_start" xml:space="preserve">
+    <value>Inicio</value>
+  </data>
+  <data name="Page_start_Subtitle" xml:space="preserve">
+    <value>Abra una planta, compruebe este PC o importe exportaciones</value>
+  </data>
+  <data name="Page_tailoring" xml:space="preserve">
+    <value>Ajuste del alcance</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Page_tailoring_Subtitle" xml:space="preserve">
+    <value>Reglas que no forman parte de la configuración objetivo de una función</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Register_Approval" xml:space="preserve">
+    <value>Aprobación</value>
+  </data>
+  <data name="Register_Approve" xml:space="preserve">
+    <value>Registrar aprobación…</value>
+  </data>
+  <data name="Register_ApprovedBy" xml:space="preserve">
+    <value>{0} el {1}, registro {2}, revisar antes del {3}</value>
+  </data>
+  <data name="Register_ApproveHint" xml:space="preserve">
+    <value>Tras firmar la hoja de aprobación: función, fecha, fecha de revisión y registro de las entradas marcadas.</value>
+  </data>
+  <data name="Register_ColId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="Register_ColScope" xml:space="preserve">
+    <value>Ámbito</value>
+  </data>
+  <data name="Register_ColState" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="Register_ColTitle" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="Register_Comment" xml:space="preserve">
+    <value>Comentario</value>
+  </data>
+  <data name="Register_ContentHash" xml:space="preserve">
+    <value>Hash del contenido</value>
+  </data>
+  <data name="Register_Created" xml:space="preserve">
+    <value>Creado el {0} por {1}</value>
+  </data>
+  <data name="Register_CreatedBy" xml:space="preserve">
+    <value>Creado por (función)</value>
+  </data>
+  <data name="Register_Edit" xml:space="preserve">
+    <value>Editar…</value>
+  </data>
+  <data name="Register_Filter" xml:space="preserve">
+    <value>Filtrar por estado</value>
+  </data>
+  <data name="Register_ImportTemplate" xml:space="preserve">
+    <value>Importar plantilla…</value>
+  </data>
+  <data name="Register_MarkHint" xml:space="preserve">
+    <value>Marcar para la aprobación y la hoja de aprobación (Espacio)</value>
+  </data>
+  <data name="Register_Modified" xml:space="preserve">
+    <value>modificado el {0}</value>
+  </data>
+  <data name="Register_New" xml:space="preserve">
+    <value>Nuevo…</value>
+  </data>
+  <data name="Register_NoHosts" xml:space="preserve">
+    <value>no se aplica a ningún equipo de la planta</value>
+  </data>
+  <data name="Register_NotApproved" xml:space="preserve">
+    <value>Aún no aprobada: la entrada está pendiente.</value>
+  </data>
+  <data name="Register_Renew" xml:space="preserve">
+    <value>Renovar…</value>
+  </data>
+  <data name="Register_Retire" xml:space="preserve">
+    <value>Retirar</value>
+  </data>
+  <data name="Register_RetireText" xml:space="preserve">
+    <value>¿Retirar {0}? Se elimina del registro; el historial conserva la versión anterior.</value>
+  </data>
+  <data name="Register_RetireTitle" xml:space="preserve">
+    <value>Retirar entrada</value>
+  </data>
+  <data name="Register_ReviewByLine" xml:space="preserve">
+    <value>revisar antes del {0}</value>
+  </data>
+  <data name="Register_Scope" xml:space="preserve">
+    <value>Ámbito</value>
+  </data>
+  <data name="Register_Search" xml:space="preserve">
+    <value>ID, regla, título o ámbito</value>
+  </data>
+  <data name="Register_Sheet" xml:space="preserve">
+    <value>Crear hoja de aprobación</value>
+  </data>
+  <data name="Register_SheetHint" xml:space="preserve">
+    <value>PDF con las entradas marcadas o, si no, con todas las pendientes y modificadas, para firmar.</value>
+  </data>
+  <data name="Register_TemplateFilter" xml:space="preserve">
+    <value>Plantillas (*.exceptions-template.json;*.tailoring-template.json)|*.exceptions-template.json;*.tailoring-template.json|JSON (*.json)|*.json</value>
+  </data>
+  <data name="Register_TemplateTitle" xml:space="preserve">
+    <value>Importar plantilla</value>
+  </data>
+  <data name="Renew_Intro" xml:space="preserve">
+    <value>Aprobar de nuevo la entrada sin cambios con nueva fecha de revisión y registro.</value>
+  </data>
+  <data name="Renew_Title" xml:space="preserve">
+    <value>Renovar {0}</value>
+  </data>
+  <data name="Reports_All" xml:space="preserve">
+    <value>Todos</value>
+  </data>
+  <data name="Reports_Appendix" xml:space="preserve">
+    <value>Anexo con detalles por equipo</value>
+  </data>
+  <data name="Reports_ApprovalSheet" xml:space="preserve">
+    <value>Excepciones para aprobación</value>
+  </data>
+  <data name="Reports_ApprovalSheetText" xml:space="preserve">
+    <value>Entradas pendientes y modificadas con hash de contenido y líneas de firma.</value>
+  </data>
+  <data name="Reports_BaselineContent" xml:space="preserve">
+    <value>Incluir el contenido de las líneas base importadas</value>
+  </data>
+  <data name="Reports_BaselineContentHint" xml:space="preserve">
+    <value>Las condiciones de licencia de SCT, BSI o CIS pueden prohibir su difusión. Por defecto solo se incluyen metadatos.</value>
+  </data>
+  <data name="Reports_CollectionRecord" xml:space="preserve">
+    <value>Acta de recopilación</value>
+  </data>
+  <data name="Reports_CollectionRecordText" xml:space="preserve">
+    <value>Por importación: quién recopiló, testigo, versión del recolector y sumas de verificación, para firmar (cadena de custodia).</value>
+  </data>
+  <data name="Reports_Confidentiality" xml:space="preserve">
+    <value>Marca de confidencialidad</value>
+  </data>
+  <data name="Reports_Create" xml:space="preserve">
+    <value>Crear</value>
+  </data>
+  <data name="Reports_CreatePlantReport" xml:space="preserve">
+    <value>Crear informe de planta</value>
+  </data>
+  <data name="Reports_Evidence" xml:space="preserve">
+    <value>Paquete de evidencias</value>
+  </data>
+  <data name="Reports_EvidenceText" xml:space="preserve">
+    <value>ZIP con manifiesto, sumas de verificación, ejecuciones, exportaciones, registros y catálogo; los auditores lo reevalúan con «verify».</value>
+  </data>
+  <data name="Reports_Formats" xml:space="preserve">
+    <value>Formatos</value>
+  </data>
+  <data name="Reports_Handover" xml:space="preserve">
+    <value>Entrega del recolector</value>
+  </data>
+  <data name="Reports_HandoverText" xml:space="preserve">
+    <value>Paquete del recolector con UEBERGABE.txt (sumas de verificación, versión, ejecución, qué deja).</value>
+  </data>
+  <data name="Reports_ImportItem" xml:space="preserve">
+    <value>Importación del {0} ({1} archivo(s))</value>
+  </data>
+  <data name="Reports_Language" xml:space="preserve">
+    <value>Idioma del informe</value>
+  </data>
+  <data name="Reports_LatestImport" xml:space="preserve">
+    <value>Última importación</value>
+  </data>
+  <data name="Reports_Logo" xml:space="preserve">
+    <value>Logotipo en la portada (PNG/JPEG, máximo 1 MB, permanece en la carpeta de la planta)</value>
+  </data>
+  <data name="Reports_LogoFilter" xml:space="preserve">
+    <value>Imágenes (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg</value>
+  </data>
+  <data name="Reports_Machines" xml:space="preserve">
+    <value>Equipos</value>
+  </data>
+  <data name="Reports_NoLogo" xml:space="preserve">
+    <value>sin logotipo</value>
+  </data>
+  <data name="Reports_OpenFolder" xml:space="preserve">
+    <value>Abrir carpeta</value>
+  </data>
+  <data name="Reports_Other" xml:space="preserve">
+    <value>Más documentos</value>
+  </data>
+  <data name="Reports_Output" xml:space="preserve">
+    <value>Carpeta de salida</value>
+  </data>
+  <data name="Reports_OutputDefault" xml:space="preserve">
+    <value>Cada generación obtiene su propia subcarpeta con marca de tiempo (por defecto: reports en la carpeta de la planta).</value>
+  </data>
+  <data name="Reports_OutputReadOnly" xml:space="preserve">
+    <value>Modo auditor: elija una carpeta fuera de la carpeta de la planta.</value>
+  </data>
+  <data name="Reports_PendingEntries" xml:space="preserve">
+    <value>{0} excepción(es) pendiente(s) o modificada(s)</value>
+  </data>
+  <data name="Reports_PerformedBy" xml:space="preserve">
+    <value>Realizado por (portada)</value>
+  </data>
+  <data name="Reports_PerMachine" xml:space="preserve">
+    <value>También un PDF por equipo</value>
+  </data>
+  <data name="Reports_PickFolder" xml:space="preserve">
+    <value>Carpeta de salida para documentos</value>
+  </data>
+  <data name="Reports_PickLogo" xml:space="preserve">
+    <value>Logotipo para la portada</value>
+  </data>
+  <data name="Reports_PickLogoButton" xml:space="preserve">
+    <value>Elegir logotipo…</value>
+  </data>
+  <data name="Reports_PlantReport" xml:space="preserve">
+    <value>Informe de planta para firmar</value>
+  </data>
+  <data name="Reports_PlantReportText" xml:space="preserve">
+    <value>Hallazgos de todos los equipos, registros, medidas, método y firma, además de Excel, CSV y JSON de resultados.</value>
+  </data>
+  <data name="Reports_Preset" xml:space="preserve">
+    <value>Plantilla</value>
+  </data>
+  <data name="Reports_PresetAsDelivered" xml:space="preserve">
+    <value>Estado de entrega (fabricante)</value>
+  </data>
+  <data name="Reports_PresetAudit" xml:space="preserve">
+    <value>Auditoría</value>
+  </data>
+  <data name="Reports_PreTranslated" xml:space="preserve">
+    <value>Traducción automática previa: el documento lo indica en la portada y en cada pie de página.</value>
+  </data>
+  <data name="Reports_Remediation" xml:space="preserve">
+    <value>Propuesta de corrección</value>
+  </data>
+  <data name="Reports_RemediationText" xml:space="preserve">
+    <value>.reg con reversión, GptTmpl.inf, audit.csv y README por equipo: solo archivos; Riegel nunca aplica nada.</value>
+  </data>
+  <data name="Reports_SaveToPlant" xml:space="preserve">
+    <value>Guardar estos datos en la planta</value>
+  </data>
+  <data name="Reports_Shortcut" xml:space="preserve">
+    <value>Ctrl+R salta aquí</value>
+  </data>
+  <data name="Reports_SignApproved" xml:space="preserve">
+    <value>Aprobado</value>
+  </data>
+  <data name="Reports_SignCreated" xml:space="preserve">
+    <value>Elaborado</value>
+  </data>
+  <data name="Reports_SignOff" xml:space="preserve">
+    <value>Firma (funciones)</value>
+  </data>
+  <data name="Reports_SignReviewed" xml:space="preserve">
+    <value>Revisado</value>
+  </data>
+  <data name="Reports_Summary" xml:space="preserve">
+    <value>Resumen de una página para la dirección</value>
+  </data>
+  <data name="Reports_SummaryText" xml:space="preserve">
+    <value>Una página A4 para varias plantas: recuentos, tendencia, empeoramientos, excepciones por vencer, medidas vencidas.</value>
+  </data>
+  <data name="Reports_TargetConfig" xml:space="preserve">
+    <value>Configuración objetivo</value>
+  </data>
+  <data name="Reports_TargetConfigText" xml:space="preserve">
+    <value>Reglas en alcance por grupo y función con valores esperados y ajuste del alcance: PDF y Excel para adoptar y firmar.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Reports_WithEvidence" xml:space="preserve">
+    <value>También el paquete de evidencias (ZIP)</value>
+  </data>
+  <data name="Reports_Written" xml:space="preserve">
+    <value>Escrito:</value>
+  </data>
+  <data name="Results_Actual" xml:space="preserve">
+    <value>Real</value>
+  </data>
+  <data name="Results_ColCategory" xml:space="preserve">
+    <value>Categoría</value>
+  </data>
+  <data name="Results_ColRule" xml:space="preserve">
+    <value>Regla</value>
+  </data>
+  <data name="Results_ColStatus" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="Results_ColTitle" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="Results_Details" xml:space="preserve">
+    <value>Detalles</value>
+  </data>
+  <data name="Results_Empty" xml:space="preserve">
+    <value>No hay resultados para este filtro.</value>
+  </data>
+  <data name="Results_Evidence" xml:space="preserve">
+    <value>Evidencias leídas</value>
+  </data>
+  <data name="Results_Exception" xml:space="preserve">
+    <value>Justificar como abierto deliberadamente…</value>
+  </data>
+  <data name="Results_ExceptionShortcut" xml:space="preserve">
+    <value>Ctrl+E</value>
+  </data>
+  <data name="Results_Expected" xml:space="preserve">
+    <value>Esperado</value>
+  </data>
+  <data name="Results_Machine" xml:space="preserve">
+    <value>Equipo</value>
+  </data>
+  <data name="Results_Measure" xml:space="preserve">
+    <value>Planificar medida…</value>
+  </data>
+  <data name="Results_OtNote" xml:space="preserve">
+    <value>Nota para plantas (OT)</value>
+  </data>
+  <data name="Results_Rationale" xml:space="preserve">
+    <value>Por qué es importante</value>
+  </data>
+  <data name="Results_References" xml:space="preserve">
+    <value>Referencias</value>
+  </data>
+  <data name="Results_RegisterException" xml:space="preserve">
+    <value>Excepción {0}: {1} ({2})</value>
+  </data>
+  <data name="Results_RegisterMeasure" xml:space="preserve">
+    <value>Medida {0}: vence {1}, {2}</value>
+  </data>
+  <data name="Results_RegisterTailoring" xml:space="preserve">
+    <value>Ajuste del alcance {0}: {1}</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Results_Remedy" xml:space="preserve">
+    <value>Qué hacer</value>
+  </data>
+  <data name="Results_RuleInventory" xml:space="preserve">
+    <value>{0} · inventario</value>
+  </data>
+  <data name="Results_Run" xml:space="preserve">
+    <value>Recopilado {0} · evaluado {1} · {2} reglas</value>
+  </data>
+  <data name="Results_Search" xml:space="preserve">
+    <value>Regla, título o valor</value>
+  </data>
+  <data name="Results_Share" xml:space="preserve">
+    <value>solo el {0} % comprobable</value>
+  </data>
+  <data name="Results_Source" xml:space="preserve">
+    <value>Origen</value>
+  </data>
+  <data name="Results_StatusFilter" xml:space="preserve">
+    <value>Filtrar por estado</value>
+  </data>
+  <data name="Results_Tailor" xml:space="preserve">
+    <value>Ajustar alcance…</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Role_BuilderCreated" xml:space="preserve">
+    <value>Fabricante (elaborado)</value>
+  </data>
+  <data name="Role_BuilderReviewed" xml:space="preserve">
+    <value>Fabricante (revisado)</value>
+  </data>
+  <data name="Role_OperatorAccepted" xml:space="preserve">
+    <value>Operador (aceptado)</value>
+  </data>
+  <data name="Role_ThisPc" xml:space="preserve">
+    <value>este PC (aplicación Riegel)</value>
+  </data>
+  <data name="Scope_All" xml:space="preserve">
+    <value>Toda la planta</value>
+  </data>
+  <data name="Scope_GroupNamed" xml:space="preserve">
+    <value>grupo {0}</value>
+  </data>
+  <data name="Scope_None" xml:space="preserve">
+    <value>(ninguno)</value>
+  </data>
+  <data name="Scope_ThisGroup" xml:space="preserve">
+    <value>Grupo «{0}» ({1})</value>
+  </data>
+  <data name="Scope_ThisMachine" xml:space="preserve">
+    <value>Este equipo ({0})</value>
+  </data>
+  <data name="Settings_App" xml:space="preserve">
+    <value>Riegel</value>
+  </data>
+  <data name="Settings_DefaultFolder" xml:space="preserve">
+    <value>Carpeta predeterminada de plantas</value>
+  </data>
+  <data name="Settings_DefaultFolderText" xml:space="preserve">
+    <value>Dónde empiezan «Abrir planta» y «Nueva planta».</value>
+  </data>
+  <data name="Settings_Defaults" xml:space="preserve">
+    <value>Valores predeterminados para plantas nuevas</value>
+  </data>
+  <data name="Settings_DefaultsText" xml:space="preserve">
+    <value>Cada planta guarda sus propios valores en riegel-plant.json; estos se usan al crear una planta.</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="Settings_LanguageSystem" xml:space="preserve">
+    <value>Como Windows</value>
+  </data>
+  <data name="Settings_LanguageText" xml:space="preserve">
+    <value>Idioma de la interfaz. Sin elección, Riegel sigue a Windows.</value>
+  </data>
+  <data name="Settings_OperatorRole" xml:space="preserve">
+    <value>Función del operador</value>
+  </data>
+  <data name="Settings_PlantText" xml:space="preserve">
+    <value>Solo se escriben en riegel-plant.json al guardar. Los valores nuevos cuentan desde la siguiente evaluación.</value>
+  </data>
+  <data name="Settings_PlantTitle" xml:space="preserve">
+    <value>Configuración de «{0}»</value>
+  </data>
+  <data name="Settings_Preset" xml:space="preserve">
+    <value>predefinido</value>
+  </data>
+  <data name="Settings_PresetsIn" xml:space="preserve">
+    <value>Los valores predefinidos para todos los usuarios (GPO/Intune) se leen de</value>
+  </data>
+  <data name="Settings_ReportLanguage" xml:space="preserve">
+    <value>Idioma de los informes</value>
+  </data>
+  <data name="Settings_ReportLanguageText" xml:space="preserve">
+    <value>Idioma predeterminado de los documentos PDF y Excel.</value>
+  </data>
+  <data name="Settings_ReportLanguageUi" xml:space="preserve">
+    <value>Como la interfaz</value>
+  </data>
+  <data name="Settings_SavePlant" xml:space="preserve">
+    <value>Guardar en la planta</value>
+  </data>
+  <data name="Settings_StaleDays" xml:space="preserve">
+    <value>Recopilación «desactualizada» tras (días)</value>
+  </data>
+  <data name="Settings_StaleDaysText" xml:space="preserve">
+    <value>Las exportaciones más antiguas llevan un aviso en cada informe (30).</value>
+  </data>
+  <data name="Settings_StoredIn" xml:space="preserve">
+    <value>Guardado en</value>
+  </data>
+  <data name="Settings_Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="Settings_ThemeDark" xml:space="preserve">
+    <value>Oscuro</value>
+  </data>
+  <data name="Settings_ThemeLight" xml:space="preserve">
+    <value>Claro</value>
+  </data>
+  <data name="Settings_ThemeSystem" xml:space="preserve">
+    <value>Como Windows</value>
+  </data>
+  <data name="Settings_ThemeText" xml:space="preserve">
+    <value>Claro, oscuro o como Windows.</value>
+  </data>
+  <data name="Settings_UnusedDays" xml:space="preserve">
+    <value>Cuenta local «sin uso» tras (días)</value>
+  </data>
+  <data name="Settings_UnusedDaysText" xml:space="preserve">
+    <value>Se enumeran las cuentas locales activas sin inicio de sesión durante este tiempo (90).</value>
+  </data>
+  <data name="Settings_UpdateDays" xml:space="preserve">
+    <value>Máximo de días desde la última actualización acumulativa</value>
+  </data>
+  <data name="Settings_UpdateDaysText" xml:space="preserve">
+    <value>Lo usa la regla de antigüedad de actualizaciones (35).</value>
+  </data>
+  <data name="Settings_WarnDays" xml:space="preserve">
+    <value>Excepciones «vence pronto» (días)</value>
+  </data>
+  <data name="Settings_WarnDaysText" xml:space="preserve">
+    <value>Días antes de la fecha de revisión (30).</value>
+  </data>
+  <data name="Source_DirectlySet" xml:space="preserve">
+    <value>establecido directamente</value>
+  </data>
+  <data name="Source_DomainGpo" xml:space="preserve">
+    <value>GPO de dominio (experimental)</value>
+  </data>
+  <data name="Source_DomainGpoNamed" xml:space="preserve">
+    <value>GPO de dominio «{0}» (no probado en un dominio real)</value>
+  </data>
+  <data name="Source_LocalPolicy" xml:space="preserve">
+    <value>directiva local</value>
+  </data>
+  <data name="Source_Mdm" xml:space="preserve">
+    <value>MDM</value>
+  </data>
+  <data name="Source_NotSet" xml:space="preserve">
+    <value>no establecido</value>
+  </data>
+  <data name="Source_OsDefault" xml:space="preserve">
+    <value>valor predeterminado del sistema</value>
+  </data>
+  <data name="Source_Runtime" xml:space="preserve">
+    <value>estado en tiempo de ejecución</value>
+  </data>
+  <data name="Source_Unknown" xml:space="preserve">
+    <value>desconocido (sin administrador, sin RSoP)</value>
+  </data>
+  <data name="Start_Actions" xml:space="preserve">
+    <value>Empezar</value>
+  </data>
+  <data name="Start_CheckAsAdmin" xml:space="preserve">
+    <value>Comprobar como administrador</value>
+  </data>
+  <data name="Start_CheckCardTitle" xml:space="preserve">
+    <value>Comprobar este PC</value>
+  </data>
+  <data name="Start_CheckElevated" xml:space="preserve">
+    <value>Lee este PC e importa la exportación en la planta abierta. No se cambia nada.</value>
+  </data>
+  <data name="Start_CheckLimited" xml:space="preserve">
+    <value>Comprobar sin derechos de administrador</value>
+  </data>
+  <data name="Start_CheckNeedsPlant" xml:space="preserve">
+    <value>Abra o cree primero una planta: allí se guarda la exportación de este PC.</value>
+  </data>
+  <data name="Start_CheckNotElevated" xml:space="preserve">
+    <value>Riegel se ejecuta sin derechos de administrador. «Comprobar como administrador» solicita elevación a Windows (UAC); sin ella, algunas reglas no se pueden comprobar.</value>
+  </data>
+  <data name="Start_CheckNotInDemo" xml:space="preserve">
+    <value>No disponible en la demostración ni al crear capturas de pantalla.</value>
+  </data>
+  <data name="Start_CheckReadOnly" xml:space="preserve">
+    <value>No disponible en modo auditor.</value>
+  </data>
+  <data name="Start_CheckThisPc" xml:space="preserve">
+    <value>Comprobar este PC</value>
+  </data>
+  <data name="Start_ClosePlant" xml:space="preserve">
+    <value>Cerrar planta</value>
+  </data>
+  <data name="Start_CollectorCardText" xml:space="preserve">
+    <value>Copie el recolector portátil en una memoria para equipos OT (allí no se instala nada) o abra la planta de demostración ficticia.</value>
+  </data>
+  <data name="Start_CollectorCardTitle" xml:space="preserve">
+    <value>Recolector y demostración</value>
+  </data>
+  <data name="Start_CopyCollector" xml:space="preserve">
+    <value>Copiar el recolector a una unidad…</value>
+  </data>
+  <data name="Start_CopyCollectorTitle" xml:space="preserve">
+    <value>Carpeta de destino del recolector</value>
+  </data>
+  <data name="Start_Create" xml:space="preserve">
+    <value>Nueva planta…</value>
+  </data>
+  <data name="Start_Demo" xml:space="preserve">
+    <value>Abrir demostración</value>
+  </data>
+  <data name="Start_Documented" xml:space="preserve">
+    <value>Documentado</value>
+  </data>
+  <data name="Start_DropHint" xml:space="preserve">
+    <value>o arrastre las exportaciones a la ventana</value>
+  </data>
+  <data name="Start_ForgetRecent" xml:space="preserve">
+    <value>Quitar de la lista</value>
+  </data>
+  <data name="Start_Import" xml:space="preserve">
+    <value>Importar…</value>
+  </data>
+  <data name="Start_ImportCardText" xml:space="preserve">
+    <value>Exportaciones del recolector portátil (.snapshot.json, .json.gz) o paquetes de comandos integrados, con función de recopilación y testigo.</value>
+  </data>
+  <data name="Start_ImportCardTitle" xml:space="preserve">
+    <value>Importar exportaciones</value>
+  </data>
+  <data name="Start_ImportShortcut" xml:space="preserve">
+    <value>Ctrl+I</value>
+  </data>
+  <data name="Start_Incomplete" xml:space="preserve">
+    <value>Comprobación incompleta: solo el {0} % es comprobable; el valor se muestra en gris.</value>
+  </data>
+  <data name="Start_Machines" xml:space="preserve">
+    <value>{0} equipos, {1} con ejecución</value>
+  </data>
+  <data name="Start_Open" xml:space="preserve">
+    <value>Abrir planta…</value>
+  </data>
+  <data name="Start_OpenCounts" xml:space="preserve">
+    <value>Hallazgos abiertos: {0} altos, {1} medios, {2} bajos</value>
+  </data>
+  <data name="Start_OpenRecent" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="Start_OpenShortcut" xml:space="preserve">
+    <value>Ctrl+O</value>
+  </data>
+  <data name="Start_OpenTitle" xml:space="preserve">
+    <value>Abrir carpeta de la planta</value>
+  </data>
+  <data name="Start_PlantCardText" xml:space="preserve">
+    <value>Una carpeta de planta contiene exportaciones, ejecuciones, registros e informes como archivos JSON legibles, en una memoria USB o un recurso compartido.</value>
+  </data>
+  <data name="Start_PlantCardTitle" xml:space="preserve">
+    <value>Carpeta de la planta</value>
+  </data>
+  <data name="Start_ReadOnly" xml:space="preserve">
+    <value>Abrir en modo auditor (solo lectura)</value>
+  </data>
+  <data name="Start_ReadOnlyHint" xml:space="preserve">
+    <value>Para auditores que abren la carpeta de planta de un cliente: no se escribe nada en la carpeta.</value>
+  </data>
+  <data name="Start_Recent" xml:space="preserve">
+    <value>Plantas recientes</value>
+  </data>
+  <data name="Start_Score" xml:space="preserve">
+    <value>Grado de bastionado</value>
+  </data>
+  <data name="Start_Share" xml:space="preserve">
+    <value>Proporción comprobada</value>
+  </data>
+  <data name="Start_ShowResults" xml:space="preserve">
+    <value>Mostrar resultados</value>
+  </data>
+  <data name="Start_TileExpiring" xml:space="preserve">
+    <value>excepciones por vencer</value>
+  </data>
+  <data name="Start_TileHigh" xml:space="preserve">
+    <value>abiertos, altos</value>
+  </data>
+  <data name="Start_TileLow" xml:space="preserve">
+    <value>abiertos, bajos</value>
+  </data>
+  <data name="Start_TileMedium" xml:space="preserve">
+    <value>abiertos, medios</value>
+  </data>
+  <data name="Start_TileOverdue" xml:space="preserve">
+    <value>medidas vencidas</value>
+  </data>
+  <data name="Start_TilePending" xml:space="preserve">
+    <value>excepciones pendientes</value>
+  </data>
+  <data name="Start_TileRegressions" xml:space="preserve">
+    <value>empeorados</value>
+  </data>
+  <data name="Start_WelcomeText" xml:space="preserve">
+    <value>Riegel comprueba equipos Windows en plantas, laboratorios y salas de control frente a una línea base de bastionado, en solo lectura y sin conexión. Excepciones, ajustes del alcance y medidas se registran por planta; el informe está listo para firmar.</value>
+  </data>
+  <data name="Start_WelcomeTitle" xml:space="preserve">
+    <value>Bastionado donde se puede. Documentado donde no.</value>
+  </data>
+  <data name="Tailoring_Empty" xml:space="preserve">
+    <value>No hay ajustes del alcance en esta vista. Se crean desde un resultado («Ajustar alcance…») o desde una plantilla de función.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Tailoring_NewHint" xml:space="preserve">
+    <value>Elija un resultado y use «Ajustar alcance…», o importe abajo una plantilla de función.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Tailoring_NoTemplates" xml:space="preserve">
+    <value>Este catálogo de reglas aún no contiene plantillas de función.</value>
+  </data>
+  <data name="Tailoring_Reason" xml:space="preserve">
+    <value>Motivo</value>
+  </data>
+  <data name="Tailoring_Templates" xml:space="preserve">
+    <value>Plantillas de función</value>
+  </data>
+  <data name="Tailoring_TemplatesText" xml:space="preserve">
+    <value>Sugerencias por función (HMI, estación de ingeniería, historiador/servidor, servidor de salto). Las entradas importadas quedan pendientes: compruébelas antes de adoptarlas.</value>
+  </data>
+  <data name="TailoringDialog_Intro" xml:space="preserve">
+    <value>Ajustar el alcance significa que esta regla no forma parte de la configuración objetivo de esta función. Sale de ambos valores; para riesgos aceptados use una excepción.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="TailoringDialog_PendingNote" xml:space="preserve">
+    <value>El ajuste del alcance queda pendiente hasta que se registre la aprobación.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="TailoringDialog_TitleEdit" xml:space="preserve">
+    <value>Editar ajuste del alcance {0} ({1})</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="TailoringDialog_TitleNew" xml:space="preserve">
+    <value>Ajustar el alcance de {0}</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Toggle_Off" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Toggle_On" xml:space="preserve">
+    <value>Sí</value>
   </data>
 </root>

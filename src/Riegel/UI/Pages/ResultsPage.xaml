@@ -1,0 +1,226 @@
+<UserControl x:Class="Riegel.UI.Pages.ResultsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:Riegel.UI">
+  <Grid Margin="32,0,32,20">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="14"/>
+      <ColumnDefinition Width="390"/>
+    </Grid.ColumnDefinitions>
+
+    <!-- Rechner und Lauf -->
+    <DockPanel Grid.ColumnSpan="3" Margin="0,0,0,8" LastChildFill="True">
+      <TextBlock DockPanel.Dock="Left" Text="{ui:T Results_Machine}" Style="{StaticResource Caption}" FontSize="13" VerticalAlignment="Center" Margin="0,0,8,0"/>
+      <ComboBox DockPanel.Dock="Left" ItemsSource="{Binding Hosts}" SelectedItem="{Binding Host}" MinWidth="260" AutomationProperties.Name="{ui:T Results_Machine}"/>
+      <Button DockPanel.Dock="Right" Command="{Binding ReEvaluateCommand}" Content="{ui:T Machines_ReEvaluate}" ToolTip="{ui:T Machines_ReEvaluateHint}"/>
+      <TextBlock Text="{Binding RunText}" Style="{StaticResource Caption}" VerticalAlignment="Center" Margin="14,0,12,0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
+    </DockPanel>
+
+    <!-- Status-Chips -->
+    <ItemsControl Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding Statuses}" Focusable="False" Margin="0,0,0,2"
+                  KeyboardNavigation.TabNavigation="Local" AutomationProperties.Name="{ui:T Results_StatusFilter}">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <RadioButton Style="{StaticResource ChoiceChip}" GroupName="status" Content="{Binding Label}" IsChecked="{Binding IsChecked, Mode=OneWay}"
+                       Command="{Binding DataContext.StatusCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+
+    <!-- Weitere Filter und Suche -->
+    <Grid Grid.Row="2" Grid.ColumnSpan="3" Margin="0,0,0,10">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="1.3*"/>
+      </Grid.ColumnDefinitions>
+      <ComboBox ItemsSource="{Binding Categories}" SelectedItem="{Binding Category}" Margin="0,0,8,0" AutomationProperties.Name="{ui:T Filter_AllCategories}"/>
+      <ComboBox Grid.Column="1" ItemsSource="{Binding Severities}" SelectedItem="{Binding SeverityFilter}" Margin="0,0,8,0" AutomationProperties.Name="{ui:T Filter_AllSeverities}"/>
+      <ComboBox Grid.Column="2" ItemsSource="{Binding FlagChoices}" SelectedItem="{Binding Flag}" Margin="0,0,8,0" AutomationProperties.Name="{ui:T Filter_AllFlags}"/>
+      <Grid Grid.Column="3">
+        <TextBox x:Name="SearchBox" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged, Delay=200}" Padding="10,5,30,6" AutomationProperties.Name="{ui:T Results_Search}"/>
+        <TextBlock Style="{StaticResource Placeholder}" Text="{ui:T Results_Search}" Visibility="{Binding Text, ElementName=SearchBox, Converter={StaticResource EmptyToVisible}}"/>
+        <TextBlock Text="&#xE721;" Style="{StaticResource Icon}" FontSize="13" HorizontalAlignment="Right" Margin="0,0,11,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" IsHitTestVisible="False"/>
+      </Grid>
+    </Grid>
+
+    <!-- Liste -->
+    <Grid Grid.Row="3">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+      </Grid.RowDefinitions>
+      <Border Style="{StaticResource InfoBox}" Visibility="{Binding HasRunWarning, Converter={StaticResource BoolToVisible}}">
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Text="&#xE7BA;" Style="{StaticResource Icon}" FontSize="13" Margin="0,0,8,0" Foreground="{DynamicResource Caution}"/>
+          <TextBlock Text="{Binding RunWarning}" Style="{StaticResource Body}" FontSize="13"/>
+        </StackPanel>
+      </Border>
+      <Border Grid.Row="1" Style="{StaticResource Card}" Padding="0" Margin="0">
+        <Grid>
+          <ListView x:Name="List" Style="{DynamicResource ListTable}" ItemsSource="{Binding Rows}" SelectedItem="{Binding Selected}"
+                    ui:ListTable.Columns="100, 1*:180, 136" AutomationProperties.Name="{ui:T Page_results}">
+            <ListView.View>
+              <GridView AllowsColumnReorder="False">
+                <GridViewColumn Header="{ui:T Results_ColRule}" ui:ListTable.SortBy="RuleId">
+                  <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                      <StackPanel Orientation="Horizontal" ToolTip="{Binding SeverityText}">
+                        <Ellipse Style="{StaticResource SeverityDot}"/>
+                        <TextBlock Text="{Binding RuleId}" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                      </StackPanel>
+                    </DataTemplate>
+                  </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <GridViewColumn Header="{ui:T Results_ColTitle}" ui:ListTable.SortBy="Title">
+                  <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                      <StackPanel>
+                        <TextBlock Text="{Binding Title}" Style="{StaticResource CellText}"/>
+                        <TextBlock Style="{StaticResource CellCaption}" ToolTip="{Binding FlagsText}">
+                          <Run Text="{Binding CategoryText, Mode=OneWay}"/><Run Text="{Binding FlagsSuffix, Mode=OneWay}" Foreground="{DynamicResource Caution}"/>
+                        </TextBlock>
+                      </StackPanel>
+                    </DataTemplate>
+                  </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <GridViewColumn Header="{ui:T Results_ColStatus}" ui:ListTable.SortBy="Order">
+                  <GridViewColumn.CellTemplate>
+                    <DataTemplate><ui:StatusPill Status="{Binding Status}"/></DataTemplate>
+                  </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+              </GridView>
+            </ListView.View>
+          </ListView>
+          <TextBlock Text="{ui:T Results_Empty}" Style="{StaticResource Caption}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                     Margin="24" Visibility="{Binding HasRows, Converter={StaticResource BoolToVisible}, ConverterParameter=invert}"/>
+        </Grid>
+      </Border>
+    </Grid>
+
+    <!-- Detail -->
+    <Border Grid.Row="3" Grid.Column="2" Style="{StaticResource Card}" Padding="0" Margin="0">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="18,16" Focusable="False">
+          <StackPanel Visibility="{Binding HasSelection, Converter={StaticResource BoolToVisible}}">
+            <WrapPanel>
+              <ui:SeverityPill Severity="{Binding Selected.Severity}" Margin="0,0,6,4"/>
+              <ui:StatusPill Status="{Binding Selected.Status}" Margin="0,0,8,4"/>
+              <TextBlock Text="{Binding DetailRule}" Style="{StaticResource Caption}" FontSize="13" VerticalAlignment="Center" Margin="0,0,0,4"/>
+            </WrapPanel>
+            <TextBlock Text="{Binding DetailTitle}" Style="{StaticResource SubtitleText}" FontSize="17" Margin="0,6,0,0"/>
+
+            <ItemsControl ItemsSource="{Binding DetailFlags}" Focusable="False" Margin="0,8,0,0" Visibility="{Binding HasFlags, Converter={StaticResource BoolToVisible}}">
+              <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Border Style="{StaticResource TagBorder}" Background="{DynamicResource CautionBg}">
+                    <TextBlock Text="{Binding}" Style="{StaticResource TagText}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Grid Margin="0,10,0,0" Visibility="{Binding HasExpected, Converter={StaticResource BoolToVisible}}">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+              </Grid.RowDefinitions>
+              <TextBlock Text="{ui:T Results_Expected}" Style="{StaticResource Caption}" Margin="0,0,14,4"/>
+              <TextBlock Grid.Column="1" Text="{Binding DetailExpected}" Style="{StaticResource Mono}" Margin="0,0,0,4"/>
+              <TextBlock Grid.Row="1" Text="{ui:T Results_Actual}" Style="{StaticResource Caption}" Margin="0,0,14,4"/>
+              <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DetailActual}" Style="{StaticResource Mono}" Margin="0,0,0,4"/>
+              <TextBlock Grid.Row="2" Text="{ui:T Results_Source}" Style="{StaticResource Caption}" Margin="0,0,14,0"/>
+              <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding DetailSource}" Style="{StaticResource Body}" FontSize="13"/>
+            </Grid>
+
+            <ItemsControl ItemsSource="{Binding DetailRegisters}" Focusable="False" Margin="0,10,0,0" Visibility="{Binding HasRegisters, Converter={StaticResource BoolToVisible}}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
+                    <TextBlock Text="&#xE8A1;" Style="{StaticResource Icon}" FontSize="12" Margin="0,1,8,0" VerticalAlignment="Top" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}"/>
+                    <TextBlock Text="{Binding}" Style="{StaticResource Body}" FontSize="13" MaxWidth="310"/>
+                  </StackPanel>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <StackPanel Visibility="{Binding HasDetails, Converter={StaticResource BoolToVisible}}" Margin="0,10,0,0">
+              <TextBlock Text="{ui:T Results_Details}" Style="{StaticResource Caption}" Margin="0,0,0,3"/>
+              <ItemsControl ItemsSource="{Binding DetailDetails}" Focusable="False">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate><TextBlock Text="{Binding StringFormat=· {0}}" Style="{StaticResource Body}" FontSize="13"/></DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+            <TextBlock Text="{Binding DetailReason}" Style="{StaticResource Caption}" Margin="0,6,0,0" Visibility="{Binding HasReason, Converter={StaticResource BoolToVisible}}"/>
+
+            <TextBlock Text="{ui:T Results_Rationale}" Style="{StaticResource BodyStrong}" FontSize="13" Margin="0,14,0,3"/>
+            <TextBlock Text="{Binding DetailRationale}" Style="{StaticResource Body}" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+
+            <Border Style="{StaticResource InfoBox}" Margin="0,12,0,0" Visibility="{Binding HasOtNote, Converter={StaticResource BoolToVisible}}">
+              <StackPanel>
+                <TextBlock Text="{ui:T Results_OtNote}" Style="{StaticResource BodyStrong}" FontSize="13"/>
+                <TextBlock Text="{Binding DetailOtNote}" Style="{StaticResource Body}" FontSize="13" Margin="0,3,0,0"/>
+              </StackPanel>
+            </Border>
+
+            <StackPanel Visibility="{Binding HasRemedy, Converter={StaticResource BoolToVisible}}">
+              <TextBlock Text="{ui:T Results_Remedy}" Style="{StaticResource BodyStrong}" FontSize="13" Margin="0,12,0,3"/>
+              <TextBlock Text="{Binding DetailRemedy}" Style="{StaticResource Body}" FontSize="13"/>
+            </StackPanel>
+
+            <StackPanel Visibility="{Binding HasReferences, Converter={StaticResource BoolToVisible}}">
+              <TextBlock Text="{ui:T Results_References}" Style="{StaticResource Caption}" Margin="0,12,0,3"/>
+              <ItemsControl ItemsSource="{Binding DetailReferences}" Focusable="False">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate><TextBlock Text="{Binding}" Style="{StaticResource Body}" FontSize="12.5"/></DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+
+            <StackPanel Visibility="{Binding HasEvidence, Converter={StaticResource BoolToVisible}}">
+              <TextBlock Text="{ui:T Results_Evidence}" Style="{StaticResource Caption}" Margin="0,12,0,3"/>
+              <ItemsControl ItemsSource="{Binding DetailEvidence}" Focusable="False">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate><TextBlock Text="{Binding}" Style="{StaticResource Mono}" FontSize="11.5" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/></DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+          </StackPanel>
+        </ScrollViewer>
+
+        <!-- Register: Strg+E, Zuschnitt, Maßnahme -->
+        <Border Grid.Row="1" BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}" BorderThickness="0,1,0,0" Padding="14,10">
+          <WrapPanel>
+            <Button Style="{DynamicResource AccentButton}" Command="{Binding ExceptionCommand}" Margin="0,0,8,6" ToolTip="{ui:T Results_ExceptionShortcut}">
+              <TextBlock Text="{ui:T Results_Exception}"/>
+            </Button>
+            <Button Command="{Binding TailorCommand}" Content="{ui:T Results_Tailor}" Margin="0,0,8,6"/>
+            <Button Command="{Binding MeasureCommand}" Content="{ui:T Results_Measure}" Margin="0,0,8,6"/>
+          </WrapPanel>
+        </Border>
+      </Grid>
+    </Border>
+  </Grid>
+</UserControl>

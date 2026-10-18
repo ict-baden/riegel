@@ -1,0 +1,123 @@
+<UserControl x:Class="Riegel.UI.Pages.ComparisonPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:Riegel.UI">
+  <UserControl.Resources>
+    <DataTemplate x:Key="ChangeTemplate">
+      <Grid Margin="0,0,0,6">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="92"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,2,0,0">
+          <Ellipse Style="{StaticResource SeverityDot}"/>
+          <TextBlock Text="{Binding RuleId}" Margin="8,0,0,0" FontWeight="SemiBold"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+          <TextBlock Text="{Binding Title}" Style="{StaticResource Body}" FontSize="13"/>
+          <TextBlock Style="{StaticResource Caption}">
+            <Run Text="{Binding FromText, Mode=OneWay}"/><Run Text=" → "/><Run Text="{Binding ToText, Mode=OneWay}"/>
+          </TextBlock>
+        </StackPanel>
+        <ui:TonePill Grid.Column="2" Text="{Binding KindText}" Tone="{Binding KindTone}" VerticalAlignment="Top" Margin="8,0,0,0"/>
+      </Grid>
+    </DataTemplate>
+  </UserControl.Resources>
+  <Grid Margin="32,0,32,20">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <DockPanel Margin="0,0,0,8" LastChildFill="False">
+      <TextBlock DockPanel.Dock="Left" Text="{ui:T Results_Machine}" Style="{StaticResource Caption}" FontSize="13" VerticalAlignment="Center" Margin="0,0,8,0"/>
+      <ComboBox DockPanel.Dock="Left" ItemsSource="{Binding Hosts}" SelectedItem="{Binding Host}" MinWidth="200" AutomationProperties.Name="{ui:T Results_Machine}"/>
+      <RadioButton DockPanel.Dock="Left" Style="{StaticResource ChoiceChip}" GroupName="basis" Content="{ui:T Comparison_Previous}" IsChecked="{Binding AgainstPrevious, Mode=OneWay}"
+                   Command="{Binding PreviousCommand}" Margin="16,6,6,0"/>
+      <RadioButton DockPanel.Dock="Left" Style="{StaticResource ChoiceChip}" GroupName="basis" Content="{ui:T Comparison_ApprovedState}" IsChecked="{Binding AgainstApproved, Mode=OneWay}"
+                   Command="{Binding ApprovedCommand}" Margin="0,6,6,0"/>
+      <Button DockPanel.Dock="Right" Style="{DynamicResource AccentButton}" Command="{Binding ApproveRunCommand}">
+        <TextBlock Text="{ui:T Comparison_ApproveRun}"/>
+      </Button>
+    </DockPanel>
+
+    <Border Grid.Row="1" Style="{StaticResource Card}" Margin="0,0,0,10" Padding="16,10">
+      <StackPanel>
+        <TextBlock Text="{Binding FromText}" Style="{StaticResource Body}" FontSize="13"/>
+        <TextBlock Text="{Binding ToText}" Style="{StaticResource Body}" FontSize="13"/>
+        <TextBlock Text="{Binding ApprovedText}" Style="{StaticResource Caption}" Margin="0,4,0,0"/>
+        <TextBlock Text="{ui:T Comparison_IdentityChanged}" Style="{StaticResource BodyStrong}" FontSize="13" Foreground="{DynamicResource Caution}" Margin="0,4,0,0"
+                   Visibility="{Binding IdentityChanged, Converter={StaticResource BoolToVisible}}"/>
+        <TextBlock Text="{Binding EmptyText}" Style="{StaticResource Caption}" Margin="0,4,0,0" Visibility="{Binding EmptyText, Converter={StaticResource NullToCollapsed}}"/>
+      </StackPanel>
+    </Border>
+
+    <Grid Grid.Row="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="14"/>
+        <ColumnDefinition Width="1.15*"/>
+      </Grid.ColumnDefinitions>
+      <!-- Verschlechtert zuerst (spec 2.14), dann übrige Änderungen -->
+      <Border Style="{StaticResource Card}" Padding="0" Margin="0">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="16,12" Focusable="False">
+          <StackPanel>
+            <TextBlock Text="{Binding WorseHeader}" Style="{StaticResource BodyStrong}" Foreground="{DynamicResource Critical}" Margin="0,0,0,8"/>
+            <ItemsControl ItemsSource="{Binding Worse}" ItemTemplate="{StaticResource ChangeTemplate}" Focusable="False"/>
+            <TextBlock Text="{ui:T Comparison_NoneWorse}" Style="{StaticResource Caption}" Visibility="{Binding HasWorse, Converter={StaticResource BoolToVisible}, ConverterParameter=invert}"/>
+            <TextBlock Text="{Binding OtherHeader}" Style="{StaticResource BodyStrong}" Margin="0,16,0,8"/>
+            <ItemsControl ItemsSource="{Binding Other}" ItemTemplate="{StaticResource ChangeTemplate}" Focusable="False"/>
+            <TextBlock Text="{ui:T Comparison_NoneOther}" Style="{StaticResource Caption}" Visibility="{Binding HasOther, Converter={StaticResource BoolToVisible}, ConverterParameter=invert}"/>
+          </StackPanel>
+        </ScrollViewer>
+      </Border>
+      <!-- Abweichungen der Rohwerte -->
+      <Border Grid.Column="2" Style="{StaticResource Card}" Padding="0" Margin="0">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+          <StackPanel Margin="16,12,16,6">
+            <TextBlock Text="{Binding DriftHeader}" Style="{StaticResource BodyStrong}"/>
+            <TextBlock Text="{ui:T Comparison_DriftHint}" Style="{StaticResource Caption}"/>
+          </StackPanel>
+          <ListView Grid.Row="1" Style="{DynamicResource ListTable}" ItemsSource="{Binding Drift}" ui:ListTable.Columns="2*:190, 1*:80, 1*:80, 100"
+                    AutomationProperties.Name="{Binding DriftHeader}">
+            <ListView.View>
+              <GridView AllowsColumnReorder="False">
+                <GridViewColumn Header="{ui:T Comparison_ColItem}">
+                  <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                      <StackPanel ToolTip="{Binding Tooltip}">
+                        <TextBlock Text="{Binding Path}" Style="{StaticResource CellText}"/>
+                        <TextBlock Text="{Binding Item}" Style="{StaticResource CellCaption}" FontFamily="{DynamicResource MonoFont}" FontSize="11.5"/>
+                      </StackPanel>
+                    </DataTemplate>
+                  </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <GridViewColumn Header="{ui:T Comparison_ColFrom}">
+                  <GridViewColumn.CellTemplate>
+                    <DataTemplate><TextBlock Text="{Binding From}" Style="{StaticResource CellMono}" ToolTip="{Binding From}"/></DataTemplate>
+                  </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <GridViewColumn Header="{ui:T Comparison_ColTo}">
+                  <GridViewColumn.CellTemplate>
+                    <DataTemplate><TextBlock Text="{Binding To}" Style="{StaticResource CellMono}" ToolTip="{Binding To}"/></DataTemplate>
+                  </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <GridViewColumn Header="{ui:T Comparison_ColKind}">
+                  <GridViewColumn.CellTemplate>
+                    <DataTemplate><TextBlock Text="{Binding KindText}" Style="{StaticResource CellCaption}"/></DataTemplate>
+                  </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+              </GridView>
+            </ListView.View>
+          </ListView>
+        </Grid>
+      </Border>
+    </Grid>
+  </Grid>
+</UserControl>

@@ -1,0 +1,110 @@
+<UserControl x:Class="Riegel.UI.Pages.MeasuresPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:Riegel.UI">
+  <Grid Margin="32,0,32,20">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="14"/>
+      <ColumnDefinition Width="340"/>
+    </Grid.ColumnDefinitions>
+
+    <DockPanel Grid.ColumnSpan="3" Margin="0,0,0,10" LastChildFill="False">
+      <TextBlock DockPanel.Dock="Left" Text="{Binding Summary}" Style="{StaticResource Caption}" FontSize="13" VerticalAlignment="Center" Margin="0,0,16,0"/>
+      <CheckBox DockPanel.Dock="Left" IsChecked="{Binding OverdueOnly}" Content="{ui:T Measures_OverdueOnly}" VerticalAlignment="Center" Margin="0,0,16,0"/>
+      <CheckBox DockPanel.Dock="Left" IsChecked="{Binding OpenOnly}" Content="{ui:T Measures_OpenOnly}" VerticalAlignment="Center"/>
+      <Button DockPanel.Dock="Right" Command="{Binding DropCommand}" Content="{ui:T Measures_Drop}" Margin="8,0,0,0"/>
+      <Button DockPanel.Dock="Right" Command="{Binding DoneCommand}" Content="{ui:T Measures_Done}" Margin="8,0,0,0"/>
+      <Button DockPanel.Dock="Right" Command="{Binding EditCommand}" Content="{ui:T Register_Edit}" Margin="8,0,0,0"/>
+    </DockPanel>
+
+    <Border Grid.Row="1" Style="{StaticResource Card}" Padding="0" Margin="0">
+      <Grid>
+        <ListView x:Name="List" Style="{DynamicResource ListTable}" ItemsSource="{Binding Rows}" SelectedItem="{Binding Selected}"
+                  ui:ListTable.Columns="100, 2*:160, 1*:120, 1*:110" AutomationProperties.Name="{ui:T Page_measures}">
+          <ListView.View>
+            <GridView AllowsColumnReorder="False">
+              <GridViewColumn Header="{ui:T Register_ColId}" ui:ListTable.SortBy="Id">
+                <GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                    <StackPanel>
+                      <TextBlock Text="{Binding Id}" FontWeight="SemiBold"/>
+                      <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                        <Ellipse Style="{StaticResource SeverityDot}"/>
+                        <TextBlock Text="{Binding RuleId}" Style="{StaticResource CellCaption}" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                      </StackPanel>
+                    </StackPanel>
+                  </DataTemplate>
+                </GridViewColumn.CellTemplate>
+              </GridViewColumn>
+              <GridViewColumn Header="{ui:T Measures_ColAction}">
+                <GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                    <StackPanel ToolTip="{Binding Action}">
+                      <TextBlock Text="{Binding Action}" Style="{StaticResource CellText}"/>
+                      <TextBlock Text="{Binding Title}" Style="{StaticResource CellCaption}"/>
+                    </StackPanel>
+                  </DataTemplate>
+                </GridViewColumn.CellTemplate>
+              </GridViewColumn>
+              <GridViewColumn Header="{ui:T Measures_ColOwner}" ui:ListTable.SortBy="Owner">
+                <GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                    <StackPanel ToolTip="{Binding Owner}">
+                      <TextBlock Text="{Binding Owner}" Style="{StaticResource CellText}"/>
+                      <TextBlock Text="{Binding Ticket}" Style="{StaticResource CellCaption}"/>
+                    </StackPanel>
+                  </DataTemplate>
+                </GridViewColumn.CellTemplate>
+              </GridViewColumn>
+              <GridViewColumn Header="{ui:T Measures_ColDue}" ui:ListTable.SortBy="DueDate">
+                <GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                    <StackPanel>
+                      <TextBlock Text="{Binding Due}" Style="{StaticResource CellText}"/>
+                      <ui:TonePill Text="{Binding StateText}" Tone="{Binding StateTone}" HorizontalAlignment="Left" Margin="0,2,0,0"/>
+                    </StackPanel>
+                  </DataTemplate>
+                </GridViewColumn.CellTemplate>
+              </GridViewColumn>
+            </GridView>
+          </ListView.View>
+        </ListView>
+        <TextBlock Text="{ui:T Measures_Empty}" Style="{StaticResource Caption}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                   Margin="24" MaxWidth="420" Visibility="{Binding HasRows, Converter={StaticResource BoolToVisible}, ConverterParameter=invert}"/>
+      </Grid>
+    </Border>
+
+    <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource Card}" Padding="0" Margin="0">
+      <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="18,16" Focusable="False">
+        <StackPanel Visibility="{Binding HasSelection, Converter={StaticResource BoolToVisible}}">
+          <WrapPanel>
+            <ui:TonePill Text="{Binding Selected.StateText}" Tone="{Binding Selected.StateTone}" Margin="0,0,8,4"/>
+            <TextBlock Style="{StaticResource Caption}" FontSize="13" VerticalAlignment="Center" Margin="0,0,0,4">
+              <Run Text="{Binding Selected.Id, Mode=OneWay}"/><Run Text=" · "/><Run Text="{Binding Selected.RuleId, Mode=OneWay}"/>
+            </TextBlock>
+          </WrapPanel>
+          <TextBlock Text="{Binding Selected.Action}" Style="{StaticResource SubtitleText}" FontSize="17" Margin="0,6,0,0"/>
+          <TextBlock Text="{Binding Selected.Title}" Style="{StaticResource Caption}" Margin="0,2,0,0"/>
+          <TextBlock Text="{ui:T Measures_ColOwner}" Style="{StaticResource Label}"/>
+          <TextBlock Text="{Binding Selected.Owner}" Style="{StaticResource DetailValue}"/>
+          <TextBlock Text="{ui:T Measures_ColDue}" Style="{StaticResource Label}"/>
+          <TextBlock Text="{Binding Selected.Due}" Style="{StaticResource DetailValue}"/>
+          <TextBlock Text="{ui:T Measures_ColTicket}" Style="{StaticResource Label}"/>
+          <TextBlock Text="{Binding Selected.Ticket}" Style="{StaticResource Mono}"/>
+          <TextBlock Text="{ui:T Register_Scope}" Style="{StaticResource Label}"/>
+          <TextBlock Text="{Binding Selected.ScopeText}" Style="{StaticResource DetailValue}"/>
+          <TextBlock Text="{Binding SelectedHosts}" Style="{StaticResource Caption}" Visibility="{Binding SelectedHosts, Converter={StaticResource NullToCollapsed}}"/>
+          <TextBlock Style="{StaticResource Caption}" Margin="0,8,0,0">
+            <Run Text="{ui:T Measures_StillOpen}"/><Run Text=" "/><Run Text="{Binding Selected.OpenCount, Mode=OneWay}" FontWeight="SemiBold"/>
+          </TextBlock>
+          <TextBlock Text="{Binding Selected.FlagsText}" Style="{StaticResource Caption}" Foreground="{DynamicResource Caution}"/>
+        </StackPanel>
+      </ScrollViewer>
+    </Border>
+  </Grid>
+</UserControl>

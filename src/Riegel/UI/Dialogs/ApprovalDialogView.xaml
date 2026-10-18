@@ -1,0 +1,37 @@
+<UserControl x:Class="Riegel.UI.Dialogs.ApprovalDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:Riegel.UI">
+  <StackPanel>
+    <TextBlock Text="{Binding Intro}" Style="{StaticResource Body}" FontSize="13"/>
+    <Border Style="{StaticResource Card}" Margin="0,10,0,0" Padding="12,8">
+      <ItemsControl ItemsSource="{Binding Items}" Focusable="False">
+        <ItemsControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding}" Style="{StaticResource Body}" FontSize="13" Margin="0,0,0,2"/></DataTemplate></ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </Border>
+    <TextBlock Text="{ui:T Approval_Role}" Style="{StaticResource Label}"/>
+    <ComboBox ItemsSource="{Binding Roles}" Text="{Binding Role, UpdateSourceTrigger=PropertyChanged}" IsEditable="True" AutomationProperties.Name="{ui:T Approval_Role}"/>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="12"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <StackPanel>
+        <TextBlock Text="{ui:T Approval_Date}" Style="{StaticResource Label}"/>
+        <DatePicker SelectedDate="{Binding ApprovedOn}" AutomationProperties.Name="{ui:T Approval_Date}"/>
+      </StackPanel>
+      <StackPanel Grid.Column="2" Visibility="{Binding WithReview, Converter={StaticResource BoolToVisible}}">
+        <TextBlock Text="{ui:T Approval_ReviewBy}" Style="{StaticResource Label}"/>
+        <DatePicker SelectedDate="{Binding ReviewBy}" AutomationProperties.Name="{ui:T Approval_ReviewBy}"/>
+      </StackPanel>
+    </Grid>
+    <TextBlock Text="{ui:T Approval_Record}" Style="{StaticResource Label}"/>
+    <TextBox Text="{Binding Record, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Approval_Record}"/>
+    <TextBlock Text="{ui:T Approval_RecordHint}" Style="{StaticResource Caption}" Margin="0,3,0,0"/>
+    <TextBlock Text="{ui:T Approval_Name}" Style="{StaticResource Label}"/>
+    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Approval_Name}"/>
+    <TextBlock Text="{ui:T Approval_NameHint}" Style="{StaticResource Caption}" Margin="0,3,0,0"/>
+    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource DialogIssues}" Focusable="False" IsTabStop="False"/>
+  </StackPanel>
+</UserControl>

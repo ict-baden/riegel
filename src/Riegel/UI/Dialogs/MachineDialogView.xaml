@@ -1,0 +1,69 @@
+<UserControl x:Class="Riegel.UI.Dialogs.MachineDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:Riegel.UI">
+  <StackPanel>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="12"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <StackPanel>
+        <TextBlock Text="{ui:T Machine_Label}" Style="{StaticResource Label}"/>
+        <TextBox Text="{Binding Label, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Machine_Label}"/>
+      </StackPanel>
+      <StackPanel Grid.Column="2">
+        <TextBlock Text="{ui:T Machines_ColGroup}" Style="{StaticResource Label}"/>
+        <ComboBox ItemsSource="{Binding Groups}" SelectedItem="{Binding Group}" AutomationProperties.Name="{ui:T Machines_ColGroup}"/>
+      </StackPanel>
+    </Grid>
+    <CheckBox Content="{ui:T Machine_Esu}" IsChecked="{Binding EsuCovered}" Margin="0,12,0,0" ToolTip="{ui:T Machine_EsuHint}"/>
+    <TextBlock Text="{ui:T Machine_Notes}" Style="{StaticResource Label}"/>
+    <TextBox Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Machine_Notes}"/>
+
+    <TextBlock Text="{ui:T Machines_Identity}" Style="{StaticResource SectionText}" Margin="2,16,0,0"/>
+    <TextBlock Text="{ui:T Machine_IdentityText}" Style="{StaticResource Caption}"/>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="12"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <StackPanel>
+        <TextBlock Text="{ui:T Identity_MachineType}" Style="{StaticResource Label}"/>
+        <TextBox Text="{Binding MachineType, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Identity_MachineType}"/>
+      </StackPanel>
+      <StackPanel Grid.Column="2">
+        <TextBlock Text="{ui:T Identity_SerialNumber}" Style="{StaticResource Label}"/>
+        <TextBox Text="{Binding SerialNumber, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Identity_SerialNumber}"/>
+      </StackPanel>
+      <StackPanel Grid.Row="1">
+        <TextBlock Text="{ui:T Identity_OrderNumber}" Style="{StaticResource Label}"/>
+        <TextBox Text="{Binding OrderNumber, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Identity_OrderNumber}"/>
+      </StackPanel>
+      <StackPanel Grid.Row="1" Grid.Column="2">
+        <TextBlock Text="{ui:T Identity_DeliveryDate}" Style="{StaticResource Label}"/>
+        <DatePicker SelectedDate="{Binding DeliveryDate}" AutomationProperties.Name="{ui:T Identity_DeliveryDate}"/>
+      </StackPanel>
+      <StackPanel Grid.Row="2">
+        <TextBlock Text="{ui:T Identity_PlantSoftware}" Style="{StaticResource Label}"/>
+        <TextBox Text="{Binding PlantSoftware, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Identity_PlantSoftware}"/>
+      </StackPanel>
+      <StackPanel Grid.Row="2" Grid.Column="2">
+        <TextBlock Text="{ui:T Identity_Builder}" Style="{StaticResource Label}"/>
+        <TextBox Text="{Binding Builder, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Identity_Builder}"/>
+      </StackPanel>
+      <StackPanel Grid.Row="3">
+        <TextBlock Text="{ui:T Identity_Location}" Style="{StaticResource Label}"/>
+        <TextBox Text="{Binding Location, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{ui:T Identity_Location}"/>
+      </StackPanel>
+    </Grid>
+  </StackPanel>
+</UserControl>
