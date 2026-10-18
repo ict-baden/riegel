@@ -97,10 +97,12 @@ call :rec reg-12 %ERRORLEVEL%
 reg export "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "%BUNDLE%\reg\13-tcpip.reg" >nul 2>&1
 call :rec reg-13 %ERRORLEVEL%
 
-rem CurrentVersion (Build, UBR, Edition) nur als Werte dieses einen Schluessels: "reg export" waere
-rem rekursiv und enthielte Winlogon mit DefaultPassword im Klartext
-reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" >"%BUNDLE%\currentversion.txt" 2>nul
+rem CurrentVersion nur mit den Versionswerten (Build, UBR, Edition, Installationstyp), einzeln abgefragt:
+rem "reg export" waere rekursiv und enthielte Winlogon mit DefaultPassword im Klartext; RegisteredOwner,
+rem ProductId und DigitalProductId braucht Riegel nicht. Fehlt ein Wert (aeltere Versionen), zaehlt das nicht.
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentBuild >"%BUNDLE%\currentversion.txt" 2>nul
 call :rec currentversion %ERRORLEVEL% required
+for %%V in (CurrentBuildNumber CurrentMajorVersionNumber CurrentMinorVersionNumber CurrentVersion UBR EditionID InstallationType DisplayVersion ReleaseId ProductName CSDVersion) do reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v %%V >>"%BUNDLE%\currentversion.txt" 2>nul
 
 rem Dienste: nur der Wert Start jedes Dienstes - der ganze Services-Baum enthielte Zugangsdaten von
 rem Herstellerdiensten und SNMP-Communities

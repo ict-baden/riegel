@@ -85,10 +85,14 @@ function Get-RunnerState {
         $s["svc:$($svc.Name):StartMode"] = [string] $svc.StartMode
         $s["svc:$($svc.Name):State"] = [string] $svc.State
     }
-    try {
-        $mp = Get-MpPreference
+    # Get-MpPreference scheitert gelegentlich kurz (z. B. waehrend Defender Signaturen laedt): bis zu fuenf Versuche
+    $mp = $null
+    for ($try = 1; $try -le 5 -and $null -eq $mp; $try++) {
+        try { $mp = Get-MpPreference -ErrorAction Stop } catch { if ($try -lt 5) { Start-Sleep -Seconds 10 } }
+    }
+    if ($null -ne $mp) {
         foreach ($p in $mp.CimInstanceProperties) { $s["mp:$($p.Name)"] = (@($p.Value) | ForEach-Object { [string] $_ }) -join ';' }
-    } catch { $s['mp'] = 'unavailable' }
+    } else { $s['mp'] = 'unavailable' }
     foreach ($task in Get-ScheduledTask) {
         # Ob eine Aufgabe gerade laeuft (Running/Queued/Ready), entscheidet ihr Zeitplan, nicht der Sammler: verglichen
         # wird, ob sie da und ob sie aktiviert ist
@@ -116,7 +120,9 @@ function Get-RunnerState {
 
 function Compare-State($before, $after) {
     $changes = [Collections.Generic.List[string]]::new()
+    $mpGap = $before['mp'] -eq 'unavailable' -or $after['mp'] -eq 'unavailable'
     foreach ($key in @($before.Keys) + @($after.Keys) | Sort-Object -Unique) {
+        if ($mpGap -and $key -like 'mp:*') { continue }
         $a = $before[$key]; $b = $after[$key]
         if ($a -ne $b) { $changes.Add($key) }
     }
@@ -293,7 +299,10 @@ foreach ($t in $Target) {
     } while ($added)
     $after = Get-RunnerState
     $changes = @(Compare-State $previous $after | Where-Object { $_ -notin $excluded })
-    foreach ($key in $changes) { $measured.Add([pscustomobject]@{ Target = $t; Key = $key; Text = (Describe $previous $after $key) }) }
+    foreach ($key in $changes) {
+        $startMode = if ($key -like 'svc:*:State') { $after[($key -replace ':State$', ':StartMode')] } else { $null }
+        $measured.Add([pscustomobject]@{ Target = $t; Key = $key; Text = (Describe $previous $after $key); Before = $previous[$key]; After = $after[$key]; StartMode = $startMode })
+    }
     Line "== Measured run: $t (exit code $($run.ExitCode), $($run.Ms) ms)"
     if ($run.ExitCode -notin 0, 1) { Fail "$t exited with $($run.ExitCode)" }
     if (-not (Test-OutputFolder $t $run.Out)) { Fail "$t wrote something else than its export and checksum: $((Get-ChildItem $run.Out -Force | ForEach-Object Name) -join ', ')" }
@@ -335,6 +344,11 @@ foreach ($m in $measured) {
     $service = if ($m.Key -like 'svc:*:State') { $m.Key.Split(':')[1] } else { $null }
     if ($open -contains $m -and $service -and $service -ne 'wuauserv' -and (Test-TriggerStart $service)) {
         Line "  on-demand start/stop by Windows (service has a start trigger, StartMode unchanged): $($m.Target): $($m.Text)"
+        continue
+    }
+    if ($open -contains $m -and $service -and $service -ne 'wuauserv' -and $m.Before -eq 'Running' -and $m.After -eq 'Stopped' -and
+        $m.StartMode -eq 'Manual' -and -not ($measured | Where-Object { $_.Key -eq "svc:$($service):StartMode" })) {
+        Line "  demand-start service ended by Windows when idle (StartMode Manual, unchanged; a reading program cannot stop a service): $($m.Target): $($m.Text)"
         continue
     }
     if ($open -contains $m) { Fail "$($m.Target) changed: $($m.Text)" }

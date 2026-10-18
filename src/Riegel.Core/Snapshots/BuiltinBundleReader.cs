@@ -41,6 +41,10 @@ internal static class BuiltinBundleReader
     private const int MaxRegFiles = 64;
     private static readonly string[] WinlogonValues = ["AutoAdminLogon", "DefaultUserName", "DefaultDomainName"];
 
+    /// <summary>Wertefilter von CurrentVersion wie im Erfassungsplan (nur Versionswerte; PlanItemsTests vergleicht).</summary>
+    internal static readonly string[] CurrentVersionValues =
+        ["CurrentBuild", "CurrentBuildNumber", "CurrentMajorVersionNumber", "CurrentMinorVersionNumber", "CurrentVersion", "UBR", "EditionID", "InstallationType", "DisplayVersion", "ReleaseId", "ProductName", "CSDVersion"];
+
     internal static Snapshot Read(string folder, ReadLimits l)
     {
         ArgumentNullException.ThrowIfNull(l);
@@ -76,7 +80,7 @@ internal static class BuiltinBundleReader
         }
 
         // ---- Dienste: reg query … /s /v Start
-        if (bundle.Has("services-start.txt") && !StepFailed(exitCodes, "services"))
+        if (bundle.Has("services-start.txt") && !StepFailed(exitCodes, "services") && !StepFailed(exitCodes, "services-start"))
         {
             var text = TextFiles.DecodeConsoleText(bundle.Bytes("services-start.txt"), "services-start.txt");
             var root = keys.TryGetValue(ServicesKey, out var existingRoot) ? existingRoot : null;
@@ -140,6 +144,23 @@ internal static class BuiltinBundleReader
             }
             keys[WinlogonKey] = winlogon;
             AddCoverage(coverage, new CoverageEntry(WinlogonKey, false, 0, true, [], null));
+        }
+
+        // ---- CurrentVersion: reg query ohne /s (collect-builtin.cmd). Ein reg export wäre rekursiv und enthielte
+        // Winlogon\DefaultPassword im Klartext; deshalb nur die Werte genau dieses Schlüssels, Unterschlüssel unbekannt.
+        if (bundle.Has("currentversion.txt") && !StepFailed(exitCodes, "currentversion") && !keys.ContainsKey(CurrentVersionKey))
+        {
+            var text = TextFiles.DecodeConsoleText(bundle.Bytes("currentversion.txt"), "currentversion.txt");
+            var currentVersionKey = new RegKeyData(CurrentVersionKey) { Subkeys = null, ValueFilter = [.. CurrentVersionValues] };
+            foreach (var queried in RegQueryParser.Parse(text, "currentversion.txt", l.MaxItems))
+            {
+                if (!queried.Path.Equals(CurrentVersionKey, StringComparison.OrdinalIgnoreCase)) continue;
+                foreach (var v in queried.Values)
+                    if (CurrentVersionValues.Contains(v.Name, StringComparer.OrdinalIgnoreCase) && RegQueryParser.ToRegValue(v, "currentversion.txt") is { } value)
+                        currentVersionKey.Set(v.Name, value);
+            }
+            keys[CurrentVersionKey] = currentVersionKey;
+            AddCoverage(coverage, new CoverageEntry(CurrentVersionKey, false, 0, true, [], null));
         }
 
         AddImplicitAncestors(keys, coverage);

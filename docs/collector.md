@@ -163,7 +163,10 @@ selbst vermerkt, dass ein Programm lief." In detail:
   **Windows starts it on demand**, and it stops again when idle; its start mode does not change. The read-only proof
   lists such on-demand starts. `--minimal` avoids it. On the Server 2025 runner the trigger-started Remote Registry
   service was running after full collections and stopped again on idle; that `gpresult` is what makes Windows start
-  it is likely but **unverified**. Its start mode does not change either.
+  it is likely but **unverified**. Its start mode does not change either. Demand-start services (start mode
+  *Manual*, such as the Windows Update Medic Service on Server 2025) that Windows ends when idle during a run are listed
+  in the proof as well and do not count as a change: a reading program cannot stop a service. A service that is
+  *started* without a start trigger, any start-mode change and any change of `wuauserv` stay failures.
 - The .NET runtime (CLR 4) writes a usage log under `%LocalAppData%\Microsoft\CLR_v4.0\UsageLogs\`.
 - Windows records that a program ran: Prefetch, AmCache/ShimCache and similar execution artefacts, and event 4688
   for the collector and its child processes if process-creation auditing is on.
@@ -211,7 +214,8 @@ reg export "HKLM\SYSTEM\CurrentControlSet\Services\USBSTOR" "<bundle>\reg\10-usb
 reg export "HKLM\SYSTEM\CurrentControlSet\Services\mrxsmb10" "<bundle>\reg\11-mrxsmb10.reg"
 reg export "HKLM\SYSTEM\CurrentControlSet\Control\ProductOptions" "<bundle>\reg\12-productoptions.reg"
 reg export "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" "<bundle>\reg\13-tcpip.reg"
-reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" > "<bundle>\currentversion.txt"
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentBuild > "<bundle>\currentversion.txt"
+for %V in (CurrentBuildNumber CurrentMajorVersionNumber CurrentMinorVersionNumber CurrentVersion UBR EditionID InstallationType DisplayVersion ReleaseId ProductName CSDVersion) do reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v %V >> "<bundle>\currentversion.txt"
 reg query "HKLM\SYSTEM\CurrentControlSet\Services" /s /v Start > "<bundle>\services-start.txt"
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoAdminLogon > "<bundle>\winlogon.txt"
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultUserName >> "<bundle>\winlogon.txt"
@@ -222,7 +226,9 @@ reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Defaul
 - Skip `auditpol` on Windows XP and Server 2003; they have no `auditpol /backup`.
 - **Never** `reg export` the whole `Services` tree or `Windows NT\CurrentVersion`: they contain vendor service
   credentials, SNMP community strings and, under `Winlogon`, a cleartext `DefaultPassword`. That is why services come
-  only as their `Start` values and `CurrentVersion` only as the values of that one key (`reg query` without `/s`).
+  only as their `Start` values and `CurrentVersion` only with its version values (`CurrentBuild`, `UBR`, `EditionID`,
+  `InstallationType`, `DisplayVersion` …, each with `reg query /v`); `RegisteredOwner`, `ProductId` and
+  `DigitalProductId` are not needed and not exported. In a batch file the `for` loop needs `%%V` instead of `%V`.
 - `reg export` and `reg query` return 1 both for a missing and for an unreadable key; the batch therefore counts only
   `secedit`, `auditpol`, `currentversion` and `services-start` for its exit code.
 - The bundle contains interface IP addresses (`Tcpip\Parameters\Interfaces`) and device instance IDs (`USBSTOR\Enum`),

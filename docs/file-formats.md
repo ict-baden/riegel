@@ -137,6 +137,40 @@ then carries `"valueFilter": [ … ]`; a value outside the filter is **not colle
 The constants for these keys are in `ItemKeys` (`ItemKeys.Registry(path)`, `ItemKeys.Wmi(ns, class)`,
 `ItemKeys.WmiMethod(ns, class, method)`, `ItemKeys.LocalGroup(sid)`).
 
+**Encoding details** (as the collector writes them and the engine reads them; fixed in the integration step):
+
+- **Absent means not collected.** A WMI property that is missing from a row, a subcategory GUID missing from
+  `api:audit-policy` and a right missing from `api:lsa-rights` are **not collected** (Unavailable, spec 2.4.1) – never
+  "no auditing", "nobody" or "no value". An admin-only WMI property that could not be read is left out and marked
+  `"<Prop>@denied": true` (for example `ExclusionPath@denied` in `MSFT_MpPreference` without admin); the engine never
+  reads that as "no exclusions". WMI properties that an older OS does not have are left out as well. A right the OS
+  does not know gives an empty list in `api:lsa-rights`.
+- **Denied subkeys** inside a recursive root appear only in `coverage.deniedSubkeys`, without an item.
+- **Per-row WMI methods:** a failed call is written as `{ "ReturnValue": null, "ErrorCode": <HRESULT> }`;
+  `"Aces": null` in `GetSecurityDescriptor` means the share has no DACL. `GetKeyProtectors.KeyProtectorTypes` is aligned
+  with `VolumeKeyProtectorID` (derived through `GetKeyProtectors(KeyProtectorType = 1…10)`; 0 = unknown).
+- **Dates:** `Win32_QuickFixEngineering.InstalledOn` is converted to ISO 8601 (raw text under `InstalledOn@raw`);
+  `api:netusermodals.lockoutDurationMin` `null` means "until an administrator unlocks".
+- **Values:** `api:firewall` `defaultInbound`/`defaultOutbound` are `"block"` or `"allow"`; firewall rules also carry
+  `group` (the unresolved grouping resource). `api:lsass-protection.signer` is the signer number (4 = Lsa,
+  `protectionByte >> 4`). `evt:system:wininit-12.eventData` is the event's data as an array of strings (`["4"]`).
+- **Secrets:** DWORD and QWORD values with a secret-like name (`LimitBlankPasswordUse`, `EnablePlainTextPassword`,
+  `DisablePasswordSaving`, `fPromptForPassword` …) stay readable – they are switches that rules check, not secrets
+  (decision of the integration step on the parsing and collector requests; a deviation from the literal rule of spec
+  7.3). `DefaultPassword` and `AltDefaultPassword` are always redacted, whatever their type. Under
+  `…\SNMP\Parameters\TrapConfiguration` the subkey names become `redacted-<n>` as the value names under
+  `ValidCommunities` do.
+- **Derived items** (`parsed:*`, computed by the reader): `parsed:gpresult` may carry `policies: [ { name, gpo } ]`
+  (administrative-template settings by name; gpresult gives no registry path for them); `parsed:firewall-rules-registry`
+  entries carry `id` (the registry value name, which is the rule ID) and `invalid: true` for rule strings that break the
+  [MS-GPFAS] grammar; `parsed:registry-pol` lists only value entries; `[Registry Values]` entries of `parsed:secedit`
+  with a secret-like name are `{ type, value: "redacted", redacted: true }`. `raw:registry-pol` may carry
+  `redacted: true` (base64 without the secret data, `sha256` of the original file). The reader also derives missing
+  `parsed:*` items in synthetic files and passes the raw item's status on (a denied `raw:secedit-inf` gives a denied
+  `parsed:secedit`).
+- **Limits:** `raw:*` item strings may be up to `ReadLimits.MaxTextFileBytes` (16 MB); every other string is limited
+  to 1 MB.
+
 ## Collection plan (`riegel.collection-plan/1`)
 
 [`contracts/collection-plan.json`](../contracts/collection-plan.json) is the contract between collector and rules. It
@@ -173,16 +207,29 @@ Folder `<HOST>_<yyyyMMdd>.riegel-builtin\`, written by `collect-builtin.cmd` or 
 | `secedit.inf`, `secedit.log` | `secedit /export /cfg … /log … /quiet`; UTF-16 LE with BOM, CRLF |
 | `auditpol.csv` | `auditpol /backup /file:…` (not on XP); ANSI CSV with header `Machine Name,Policy Target,Subcategory,Subcategory GUID,Inclusion Setting,Exclusion Setting,Setting Value`; numeric `Setting Value`; `Option:*` rows ignored |
 | `reg\<nn>-<name>.reg` | `reg export` of the fixed key list in `docs/collector.md`; UTF-16 LE with BOM, `Windows Registry Editor Version 5.00` (REGEDIT4 is accepted too) |
+| `currentversion.txt` | `reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion"` without `/s`: the values of exactly this key (build, UBR, edition). A `reg export` of the key would be recursive and contain `Winlogon\DefaultPassword` in clear text. Older bundles with `reg\10-currentversion.reg` are still read. |
 | `services-start.txt` | `reg query HKLM\SYSTEM\CurrentControlSet\Services /s /v Start` (console code page, CRLF); type tokens like `REG_DWORD` are not localised; the localised footer line is ignored |
 | `winlogon.txt` | `reg query … /v AutoAdminLogon`, `/v DefaultUserName`, `/v DefaultDomainName`, then one line `DefaultPassword=present` or `DefaultPassword=absent` – never the value |
 | `hostname.txt`, `ver.txt` | outputs of `hostname` and `ver` |
-| `exitcodes.txt` | one line `<step>=<errorlevel>` per command, e.g. `secedit=0`, `reg-03=0` |
+| `exitcodes.txt` | one line `<step>=<errorlevel>` per command, e.g. `secedit=0`, `reg-03=0`, `currentversion=0`, `services-start=0`; `reg-NN=1` means the key is missing or unreadable, and that file is skipped |
 
 The reader converts a bundle into a snapshot with `origin: builtin`, a coverage list for exactly the exported keys
-(everything else `notCollected`), redaction re-applied and per-file size limits. The raw bundle never goes into an
+(everything else `notCollected`), redaction re-applied and per-file size limits:
+
+- **Coverage:** the top keys of each `.reg` file are recursive roots without a depth limit (`maxDepth` 512);
+  `Services` is covered one level deep from `services-start.txt` with the value filter `[Start]`; `Winlogon` and
+  `CurrentVersion` are single keys (Winlogon with a value filter); parent keys that a file leaves out become items with
+  `valueFilter: []` (the key exists, its values are unknown).
+- **Header:** collector `collect-builtin/1`; `collectedAtUtc` is the date in the folder name at 00:00Z (the time of day
+  is unknown); `isAdmin` is true when `secedit` or `auditpol` succeeded; `productType` only from `WinNT` (client) or the
+  installation type; `domainRole` is always `null` (rules that need it are not checkable).
+- **Errors:** a step with a non-zero exit code is skipped (its items become errors with `RGL-0267`); everything the
+  bundle does not contain is not collected (`RGL-0268`); a file that cannot be decoded or parsed completely is an
+  `RGL` error, never a partial read. The raw bundle never goes into an
 evidence pack. The synthetic fixtures `PG-ALT-01_20261010.riegel-builtin` (Windows 7) and
 `XP-HMI-01_20261010.riegel-builtin` (Windows XP) are handcrafted; the XP `reg query` format (header
-`! REG.EXE VERSION 3.0`, tab separators) is written from memory and **unverified**.
+`! REG.EXE VERSION 3.0`, tab separators) is written from memory and **unverified**. `collect-builtin.cmd` reports
+`RGL-0106` when the bundle folder already exists.
 
 ## Rule catalogue
 
@@ -275,10 +322,21 @@ coverage?, facts?, items: { "<key>": { status, value?, truncated? } }, expect, e
 - `items` use the snapshot item encoding above; the key is the item key (`reg:HKLM\…`, `wmi:…`).
 - Without `coverage`, a vector has full plan coverage, so a key that is absent from `items` but inside a plan root is
   `keyMissing`. With `coverage`, only those entries count.
+- Like an import, the reader derives the `parsed:*` items from the raw items a vector lists (for example the
+  registry rule stores for FW-11) and redacts secret-named values.
+- **Time base:** a vector is collected at `2026-10-15T08:00:00Z` (the `SnapshotBuilder` default) and evaluated at
+  `2026-10-18T09:00:00Z` with evaluation date 2026-10-18, plant defaults `updateMaxDays` 35 and `unusedAccountDays` 90,
+  no ESU, origin `synthetic`. Age vectors (LIFE-02, LIFE-04, ACCT-17, DEF-18) use this base. The machine header has
+  architecture `AMD64`.
 - `facts` override derived facts (`{ "defender.mode": "passive" }`); unknown = `null`.
 - `expect` is a result status; `expectFlags` are result flag names (`fromDefault`, `configuredOnly` …).
 - Every active check rule has vectors for pass, fail, missing (`keyMissing` or `valueMissing`) and not collected,
   plus n/a where the rule has applicability conditions.
+- **Proven absence that passes** must be listed in the package's allow-list `tests/Riegel.Tests/Rules/{A,B,C}/
+  when-missing-pass.txt`: `whenMissing: pass` (with `missingPass`), and every rule that may pass because something is
+  proven absent – `notExists`, a `service`/`feature` with `ifAbsent: pass` reached through registry absence, and
+  `not`/`noneOf` over a part that fails when missing. The mutation test (spec 8.3) allows a pass from a `keyMissing`
+  item only for these rules or with a cited OS default.
 
 ## Canonical value rendering
 
@@ -427,7 +485,8 @@ Authorable JSON: `{ schema, id ([a-z0-9-], ≤ 40), name, description?, sourceFi
 rules: [ { id?, title, severity?, category?, check, rationale?, reference? } ] }`. `check` uses the closed vocabulary
 above. On import the rules get IDs `IMP-<id>-<authorId>` or `IMP-<id>-<sha1-8 of normalised key + check type>` (spec
 2.15) and `ruleSetId` = baseline id; the stored copy under `baselines/<id>.json` records the source SHA-256 and the
-import time. The CSV template (`docs/assets/baseline-template.csv`) is defined by the parsing package.
+import time. The CSV template (`docs/assets/baseline-template.csv`) and the GPO-backup mapping are described in
+[Customer baselines](baselines.md).
 
 ## Evidence manifest (`riegel.evidence/1`)
 
@@ -436,6 +495,15 @@ evaluationDate, tool, catalogue, catalogueFile: { path, sha256 }, baselines: [ {
 registers, runs: [ { runId, hostName, results: FileRef, snapshot: FileRef } ], operatorRole?, files: [ FileRef ] }`.
 `files` lists every file of the pack except `manifest.json` and `SHA256SUMS.txt` (LF, sha256sum format). Paths inside
 the pack use `/`.
+
+Layout: the report documents at the root, `README.txt`, `runs/<host>/<runId>.results.json`,
+`snapshots/<host>/<file>.snapshot.json` (+ `.sha256`; never a raw built-in bundle), `registers/<kind>_<sha8>.json` (the
+register versions the runs used, from the current file or the history), `plant/riegel-plant.json`,
+`catalogue/riegel-catalogue-<version>.json`, `comparison/<host>.<previous|approved>.json`, `imports/<id>.import.json`
+and per customer baseline `baselines/<id>.metadata.json` (`riegel.evidence-baseline/1`,
+[schema](../schemas/evidence-baseline.schema.json): baseline reference, `contentIncluded`, the rule identities and the
+results); with `--include-baseline-content` also `baselines/<id>.json`, `baselines/<id>.rules.json` and
+`baselines/LICENSE-WARNING.txt`. Details: [Evidence pack](evidence.md).
 
 ## Output file names
 
@@ -483,28 +551,28 @@ placeholders in every language and no empty text.
 
 All services are interfaces in `Riegel.Core.Services` and reachable through `RiegelServices.CreateDefault(IPlatform)`
 (or `RiegelServices.Create(IPlatform, TimeProvider)` with a fixed clock). Each implementation is created by the
-factory in its area folder, `public static I… Create(RiegelServices services)`, so a service can use the others. The
-package that owns the folder replaces the scaffold's placeholder body and keeps the signature.
+factory in its area folder, `public static I… Create(RiegelServices services)`, so a service can use the others; the
+signatures stay fixed.
 
-| Factory (folder) | Interface | Owner | Scaffold placeholder behaviour |
+| Factory (folder) | Interface | Owner | Behaviour |
 |---|---|---|---|
-| `CatalogueFactory` (Catalogue/) | `ICatalogueProvider` | engine | reads the embedded `rules/**` by the formats above; SHA-256 over the canonical document; no semantic validation |
-| `FactsFactory` (Facts/) | `IFactsDeriver` | engine | `os.*` and `domain.*` from the machine header, everything else unknown |
-| `EvaluationFactory` (Evaluation/) | `IEvaluator` | engine | every rule `notCheckable` with `RGL-0003` – never a pass |
-| `SnapshotsFactory` (Snapshots/) | `ISnapshotReader` | parsing | reads `.snapshot.json`/`.json.gz` with schema and size checks; builtin bundles → `RGL-0003` |
-| `AttributionFactory` (Attribution/) | `IValueSourceAttributor` | parsing | empty map (all `unknown`) |
-| `BaselinesFactory` (Baselines/) | `IBaselineImporter` | parsing | `riegel.baseline/1` JSON only, simple IDs |
-| `PlantsFactory` (Plants/) | `IPlantStore` | workflow | reads and writes the plant folder JSON files; no lock, no history |
-| `RegistersFactory` (Registers/) | `IRegisterService` | workflow | load/save; `Apply` returns the raw results; `Validate` empty; `Approve` sets approval and content hash |
-| `ComparisonFactory` (Comparison/) | `IRunComparer` | workflow | worse/better/new rule; item-level differences for sampling |
-| `ScoringFactory` (Scoring/) | `IScoring` | workflow | counts, Härtungsgrad, Dokumentiert, audit cap, Prüfumfang (simple form) |
-| `RunsFactory` (Runs/) | `IRunService` | workflow | read → facts → evaluate → registers → score → store |
-| `ReportDataFactory` (ReportData/, namespace `Riegel.Core.ReportBuilding`) | `IReportDataBuilder` | workflow | header, counts, machines and findings from stored runs |
-| `PdfFactory` (Reports/Pdf/) | `IPdfWriter` | pdf | one-page placeholder PDFs under the real file names |
-| `TabularFactory` (Reports/Tabular/) | `ITabularWriter` | data-outputs | placeholder workbooks; `results.csv` with the header row |
-| `EvidenceFactory` (Evidence/) | `IEvidencePack` | data-outputs | ZIP with `README.txt`; `Verify`/`CompareSample` report `RGL-0003` (exit 3) |
-| `RemediationFactory` (Remediation/) | `IRemediationWriter` | data-outputs | the five O10 files with the mandatory header line only |
-| `PlatformFactory` (Riegel.Platform.Windows) | `IPlatform` | collector | `IsElevated` only; collection, hand-off, shell and bundle export → `RGL-0003` |
+| `CatalogueFactory` (Catalogue/) | `ICatalogueProvider` | engine | loads the embedded `rules/**` (and a `riegel.catalogue/1` stream) with size and depth limits, checks the closed vocabulary and the semantics (RGL-0201–0212), combines customer baselines; SHA-256 over the canonical document |
+| `FactsFactory` (Facts/) | `IFactsDeriver` | engine | every fact of spec 2.5; unknown is `null`; `defender.mode`, `av.thirdPartyActive` (WSC before SecurityCenter2, then flag Heuristic), `rdp.enabled` (policy before the local value), network and capability facts |
+| `EvaluationFactory` (Evaluation/) | `IEvaluator` | engine | all 27 check types, evidence classes, three-valued logic, Defender gating, value source, flags; never crashes – a program error makes that rule not checkable (RGL-0239) |
+| `SnapshotsFactory` (Snapshots/) | `ISnapshotReader` | parsing | reads `.snapshot.json`/`.json.gz` with every limit of spec 7.12, checks the sidecar, redacts again, recomputes `parsed:*`, reads built-in bundles |
+| `AttributionFactory` (Attribution/) | `IValueSourceAttributor` | parsing | `domainGpo` (experimental), `localPolicy`, `mdm`, `directlySet` (only as admin with gpresult), otherwise `unknown` |
+| `BaselinesFactory` (Baselines/) | `IBaselineImporter` | parsing | GPO backups, `riegel.baseline/1` JSON and the CSV template; stable `IMP-` IDs, collision detection, source SHA-256 |
+| `PlantsFactory` (Plants/) | `IPlantStore` | workflow | plant folder with atomic writes, `.riegel.lock`, optimistic concurrency, history, import records, read-only mode |
+| `RegistersFactory` (Registers/) | `IRegisterService` | workflow | load/save sorted with history, validation RGL-0420–0447, apply (most specific scope wins), approve, templates |
+| `ComparisonFactory` (Comparison/) | `IRunComparer` | workflow | status changes of every kind, raw-value drift without the volatile list, sampling |
+| `ScoringFactory` (Scoring/) | `IScoring` | workflow | spec 2.6 with the audit cap, no score for domain controllers |
+| `RunsFactory` (Runs/) | `IRunService` | workflow | read → facts → evaluate → registers → score → flags → store; byte-identical results for the same inputs |
+| `ReportDataFactory` (ReportData/, namespace `Riegel.Core.ReportBuilding`) | `IReportDataBuilder` | workflow | report, summary, target configuration, approval sheet and collection record data |
+| `PdfFactory` (Reports/Pdf/) | `IPdfWriter` | pdf | O4/O5, O6, O12, O13, O14 with PDFsharp-MigraDoc 6.2.4; CJK from a system TrueType face or English with RGL-0510 |
+| `TabularFactory` (Reports/Tabular/) | `ITabularWriter` | data-outputs | O7 and O13 workbooks, O3 CSV with the formula-injection guard |
+| `EvidenceFactory` (Evidence/) | `IEvidencePack` | data-outputs | O9 pack, `Verify` (re-evaluation in memory) and `CompareSample` |
+| `RemediationFactory` (Remediation/) | `IRemediationWriter` | data-outputs | O10 files only (`.reg` and rollback, `GptTmpl.inf`, `audit.csv`, README) |
+| `PlatformFactory` (Riegel.Platform.Windows) | `IPlatform` | collector | collection through the linked collector code, elevation hand-off, shell, collector bundle export |
 
 `NullPlatform` (Linux, tests) has `CanCollect = false`; every Windows-only call fails with `RGL-0012`.
 
@@ -533,7 +601,8 @@ Codes are `RGL-nnnn`; texts are localised, the code stays (guideline 13). Ranges
 Common codes: `RGL-0001` unexpected, `0002` not found, `0003` not available yet, `0004` invalid JSON, `0005`
 unsupported schema, `0006` limit exceeded, `0007` I/O, `0008` access denied, `0009` hash mismatch, `0010` settings
 unreadable, `0011` defaults unreadable, `0012` platform not supported, `0013` invalid value, `0014` read-only mode,
-`0015` diagnostics package failed, `0016` already exists. `docs/error-codes.md` is generated in the integration step.
+`0015` diagnostics package failed, `0016` already exists. Every code of every range with its English text:
+[Error codes](error-codes.md) (generated from these classes; a test keeps it current).
 
 ## Contract reference
 
@@ -564,9 +633,9 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 - **BaselineRef** (record): `string Id`, `string Name`, `BaselineSourceKind Kind`, `string SourceSha256`, `string? SourceFileName`, `DateTimeOffset ImportedAtUtc`, `int RuleCount`
 - **BaselineRule** (record): `string? Id`, `string Title`, `Severity? Severity`, `string? Category`, `CheckSpec Check`, `string? Rationale`, `string? Reference`
 - **BaselineSourceKind** (enum): GpoBackup, RiegelJson, Csv
-- **BuildEntry** (record): `int Build`, `string Name`, `string Source`, `DateOnly Seen`, `IReadOnlyList<BuildRelease> Releases`
+- **BuildEntry** (record): `int Build`, `string Name`, `string Source`, `DateOnly Seen`, `string? Os`, `IReadOnlyList<BuildRelease> Releases`
 - **BuildRelease** (record): `int Ubr`, `DateOnly Date`, `string? Kb`, `string? Kind`
-- **BuildTable** (record): `string Schema`, `IReadOnlyList<BuildEntry> Builds`, `static BuildTable Empty`
+- **BuildTable** (record): `string Schema`, `IReadOnlyList<BuildEntry> Builds`, `static BuildTable Empty`, `BuildEntry? Find(int build, string? osKind)`, `static string? OsKindOf(int? productType)`
 - **CanonicalValue** (static class): `const string Redacted`, `const string RedactedEmpty`, `const int BinaryPrefixBytes`, `static string Render(JsonElement? value)`, `static string RenderRegistry(JsonElement registryValue)`, `static string RenderRegistry(string? type, JsonElement v, bool truncated = false)`, `static string Binary(ReadOnlySpan<byte> bytes, bool truncated = false)`, `static bool AreEqual(string? a, string? b)`, `static bool TryParseInteger(string text, out ulong value)`, `static string Display(string? canonical)`
 - **CapabilityCondition** (record): `string? Os`, `int? MinBuild`, `int? MaxBuild`, `IReadOnlyList<string>? Editions`, `IReadOnlyList<string>? InstallationTypes`, `string? Note`
 - **CapabilityEntry** (record): `string Capability`, `string Source`, `DateOnly Seen`, `string? Note`, `IReadOnlyList<CapabilityCondition> Exists`
@@ -870,12 +939,12 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 ### `Riegel.Core.Evaluation`
 
 - **EvaluationFactory** (static class): `static IEvaluator Create(RiegelServices services)`
-- **RglCodesEngine** (static class): `static IReadOnlyList<string> All`, `const int First`, `const int Last`
+- **RglCodesEngine** (static class): `static IReadOnlyList<string> All`, `const int First`, `const int Last`, one `const string <Name>` per code of the range (all listed in [Error codes](error-codes.md)) (`CatalogueInvalid` … `Retired`, RGL-0200–0248), `static string Message(string code, params object?[] args)`, `static string Message(CultureInfo culture, string code, params object?[] args)`, `static RiegelException Exception(string code, params object?[] args)`
 
 ### `Riegel.Core.Evidence`
 
 - **EvidenceFactory** (static class): `static IEvidencePack Create(RiegelServices services)`
-- **RglCodesDataOutputs** (static class): `static IReadOnlyList<string> All`, `const int First`, `const int Last`
+- **RglCodesDataOutputs** (static class): `static IReadOnlyList<string> All`, `const int First`, `const int Last`, one `const string <Name>` per code of the range (all listed in [Error codes](error-codes.md)) (`ZipUnreadable` … `RunManifestMismatch`, RGL-0550–0571), `static string Message(string code, params object?[] args)`, `static string Message(CultureInfo culture, string code, params object?[] args)`
 
 ### `Riegel.Core.Facts`
 
@@ -883,12 +952,12 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 
 ### `Riegel.Core.Parsing`
 
-- **RglCodesParsing** (static class): `static IReadOnlyList<string> All`, `const int First`, `const int Last`
+- **RglCodesParsing** (static class): `static IReadOnlyList<string> All`, `const int First`, `const int Last`, one `const string <Name>` per code of the range (all listed in [Error codes](error-codes.md)) (RGL-0250–0286), `static string Message(string code, params object?[] args)`
 
 ### `Riegel.Core.Plants`
 
 - **PlantsFactory** (static class): `static IPlantStore Create(RiegelServices services)`
-- **RglCodesWorkflow** (static class): `static IReadOnlyList<string> All`, `const int First`, `const int Last`, `const string ChangedByOthers`, `const string LockTimeout`
+- **RglCodesWorkflow** (static class): `static IReadOnlyList<string> All`, `const int First`, `const int Last`, `const string ChangedByOthers`, `const string LockTimeout`, one `const string <Name>` per code of the range (all listed in [Error codes](error-codes.md)) (`ReadOnlyPlant` … `InventoryRule`, RGL-0401–0447), `static string Message(string code, params object?[] args)`
 
 ### `Riegel.Core.Registers`
 
@@ -905,7 +974,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 ### `Riegel.Core.Reports.Pdf`
 
 - **PdfFactory** (static class): `static IPdfWriter Create(RiegelServices services)`
-- **RglCodesPdf** (static class): `static IReadOnlyList<string> All`, `const int First`, `const int Last`
+- **RglCodesPdf** (static class): `static IReadOnlyList<string> All`, `const int First`, `const int Last`, one `const string <Name>` per code of the range (all listed in [Error codes](error-codes.md)) (RGL-0500–0520), `static string Message(string code, params object?[] args)`, `static string Message(CultureInfo culture, string code, params object?[] args)`
 
 ### `Riegel.Core.Reports.Tabular`
 

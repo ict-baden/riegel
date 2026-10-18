@@ -4,7 +4,25 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 
 ## [Unveröffentlicht]
 
-### Neu
-- Gerüst: Lösung und Projekte, Dateiformate und Verträge (`docs/file-formats.md`), Erhebungsplan, JSON-Schemas, Testhilfen mit synthetischen Exporten, Platzhalter-Dienste, Build mit allen Release-Dateien. Noch keine Prüfung.
+## [0.1.0] – 2026-10-18
 
-<!-- Abschnitte nach Bedarf: Neu, Geändert, Behoben, Entfernt, Sicherheit -->
+Erste Version. Sammler 0.1.0, Regelwerk 2026.10 (153 Regeln). Noch nicht signiert; kein Kundenpilot auf OT- oder validierten Rechnern mit dieser Version.
+
+### Neu
+- **Portabler Sammler** `Riegel.Collector.exe` (net35, läuft unter CLR 2 und CLR 4, rund 130 KB, bytegleich gebaut, Hash-Sperre in der CI): liest nur, was `contracts/collection-plan.json` nennt, schreibt nur seinen Export und die Prüfsummendatei; `--minimal`, `--deep`, `--pseudonymize`, `--gzip`; Exitcodes 0/1/3; Meldungen in fünf Sprachen. Bordmittel-Weg `collect-builtin.cmd` für Rechner ohne fremde Programme. Nur-Lesen-Nachweis und AppLocker-Daten für jeden Build.
+- **Regelwerk 2026.10** mit 153 Regeln in 17 Kategorien, eigene Texte in Englisch und Deutsch, Sollwerte belegt durch ACSC, die Microsoft-Server-Dokumentation (CC BY 4.0), Microsoft-Learn-Fakten oder DISA; Lebenszyklus- und Build-Tabellen, Fähigkeitstabellen, Erkennungslisten für Fernwartungswerkzeuge und Office; Rollenvorlagen für den Zuschnitt und eine Ausnahmen-Vorlage.
+- **Auswertung ohne falsches „erfüllt“:** geschlossenes Prüfvokabular mit 27 Prüfarten, Belegklassen aus Einträgen und Abdeckung, Laufzeit vor Konfiguration, Standardwerte nur mit Quelle („Standardwert angenommen“), Defender-Sperre, Herkunft der Werte (Domänen-GPO experimentell), Testvektoren für jede Regel, Mutationstest und ein unabhängiges Orakel.
+- **Export-Leser** mit allen Grenzen aus spec 7.12, Prüfsummen-Abgleich, erneutem Schwärzen und Neuberechnung von `parsed:*`; Leser für Bordmittel-Pakete; Parser für secedit, Registry.pol, gpresult und Firewall-Regeln; **Kunden-Baselines** aus GPO-Sicherungen, `riegel.baseline/1` und CSV-Vorlage.
+- **Anlagenordner** mit Läufen, Import- und Erhebungsprotokollen, freigegebenem Stand und den Registern **Ausnahmen**, **Zuschnitt** und **Maßnahmenplan** (Freigabe an den Inhalt gebunden, unveränderlicher Verlauf, Vorlagen); Vergleich mit dem vorigen Lauf und dem freigegebenen Stand, Abweichungen der Rohwerte, Stichprobe; Wertung mit Härtungsgrad, Dokumentiert, Prüfumfang und Deckel für die Überwachungsregeln.
+- **Dokumente:** Anlagenbericht und Rechnerberichte zum Abzeichnen (Voreinstellung *Auslieferungszustand* für Maschinenbauer), Management-Übersicht, Soll-Konfiguration, Ausnahmen zur Genehmigung, Erhebungsprotokoll; Excel-Arbeitsmappe mit Versicherer-Fakten, CSV, Nachweispaket mit `verify` und `compare-snapshot`, Abhilfe-Dateien (`.reg` mit Rücknahme, `GptTmpl.inf`, `audit.csv`, README) – nur als Dateien, nie angewendet.
+- **Befehlszeile** `Riegel.Cli.exe` (Windows) und `riegel` (Linux x64 und arm64) mit allen Befehlen aus spec 7.7, Exitcodes nach Nagios-Art, die Veränderungen melden, Icinga-Zeile `--brief`, JSON-Ausgabe, Prüfermodus.
+- **Oberfläche** (WPF, hell und dunkel, ganz mit der Tastatur bedienbar, fünf Sprachen) mit allen Seiten, „Diesen PC prüfen“ mit Übergabe bei Rechteerhöhung, Demo-Anlage „Musterwerk – Linie 3“ über die echte Engine, Screenshots, Info-Seite mit Diagnosepaket.
+- **MSI** für die Auswerte-App (Intune, GPO), Einzeldatei, Framework-ZIP, Stückliste (CycloneDX), `SHA256SUMS.txt`; CI unter Linux und Windows mit Installationstest der MSI und `check`/`verify` der Linux-Befehlszeile.
+- Dokumentation in `docs/` (Englisch), darunter Installation, Sammler mit Änderungsantrag, Auswertung, Datenschutz und Grenzen; `docs/error-codes.md` und `docs/rules.md` werden aus dem Quelltext erzeugt.
+
+### Geändert (gegenüber der Planung, mit Begründung in `docs/rule-sources.md`)
+- NET-29, SVC-04, RDP-08 und TLS-06/07/08/11 sind Bestandsregeln statt Prüfungen: keine weitergebbare Quelle legt dort einen Sollwert fest.
+- Erhebungsplan um die Schlüssel für AUD-30, ENC-07, LIFE-05, NET-05 und den Rückfall der Dienstprüfung ergänzt; `CurrentVersion` nur noch mit den Versionswerten (nicht RegisteredOwner, ProductId, DigitalProductId).
+
+### Sicherheit
+- Geheimnisse werden beim Erfassen und beim Import geschwärzt (`DefaultPassword` immer); SNMP-Community-Namen werden ersetzt; kein Netzwerkzugriff in App, Befehlszeile und Sammler; feindliche Eingaben (Exporte, Pakete, Register, Baselines, Nachweis-ZIPs, Logos) mit Größen- und Tiefengrenzen; erzeugte Dateien (`.reg`, CSV, Excel) gegen Einschleusung gehärtet.

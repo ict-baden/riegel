@@ -20,6 +20,16 @@ public sealed class PlanItemsTests
     }
 
     [Fact]
+    public void Wertefilter_von_CurrentVersion_entspricht_dem_Erfassungsplan()
+    {
+        var plan = RiegelJson.ReadFile<CollectionPlan>(RepoPaths.CollectionPlan, 10 * 1024 * 1024);
+        var entry = plan.Registry.Keys.Single(k => k.Path == @"HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion");
+        Assert.Equal(entry.Values!, BuiltinBundleReader.CurrentVersionValues);
+        Assert.DoesNotContain("RegisteredOwner", entry.Values!);
+        Assert.DoesNotContain("DigitalProductId", entry.Values!);
+    }
+
+    [Fact]
     public void Abgeleitete_Eintraege_sind_die_aus_spec_7_3()
     {
         Assert.Equal([ItemKeys.ParsedSecedit, ItemKeys.ParsedRegistryPol, ItemKeys.ParsedGpresult, ItemKeys.ParsedFirewallRulesRegistry], DerivedItems.Keys);

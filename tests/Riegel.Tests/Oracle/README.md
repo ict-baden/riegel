@@ -260,7 +260,16 @@ status, the kind of difference and the justification. It collects nothing, write
 (the CLI itself only writes its usual log under the Riegel data folder). Kinds: *Widerspruch* (a fixed expectation
 differs), *any außerhalb*, *Flag*, *fehlt*, and *Lücke entschieden* – a `researchGap` rule that the full recording now
 decides; that is information, not an error. Exit code 0 = no blocking difference, 1 = differences, 3 = could not run.
-The CLI evaluates with today's date, so LIFE-01/LIFE-02 may differ from the 2026-10-18 expectations later.
+The CLI evaluates with today's date, so LIFE-01/LIFE-02 may differ from the 2026-10-18 expectations later. The script
+reads the `riegel.cli.check/1` wrapper of the command line (the run is `machines[0].run`) and parses JSON with
+`-AsHashtable`, because real snapshots contain registry default values named `""`.
+
+**Result of the integration step (2026-10-18)**, collector 0.1.0 on the research workstation, admin and
+`runas /trustlevel:0x20000`; the recordings stayed in the scratchpad. Apart from research gaps that the full recording
+decides (61 as admin, 40 without admin; information only), there was **one** difference in both roles: **AUD-30**
+passed, where the oracle allows fail or not checkable. The cause is the oracle snapshot, not the engine: its
+`Win32_Service` list is deliberately partial and lacks W32Time, so on the snapshot the rule fails on the missing
+service; the real machine has the service and a valid time source, so pass is correct there.
 
 ## Who may change expectations
 

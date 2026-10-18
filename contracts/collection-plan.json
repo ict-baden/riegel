@@ -216,7 +216,22 @@
         "kind": "key",
         "maxDepth": 0,
         "needsAdmin": false,
-        "mode": "always"
+        "mode": "always",
+        "values": [
+          "CurrentBuild",
+          "CurrentBuildNumber",
+          "CurrentMajorVersionNumber",
+          "CurrentMinorVersionNumber",
+          "CurrentVersion",
+          "UBR",
+          "EditionID",
+          "InstallationType",
+          "DisplayVersion",
+          "ReleaseId",
+          "ProductName",
+          "CSDVersion"
+        ],
+        "note": "version values only (build, UBR, edition, installation type); RegisteredOwner, RegisteredOrganization, ProductId and DigitalProductId are not read"
       },
       {
         "path": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",

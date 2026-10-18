@@ -221,7 +221,7 @@ public sealed class CommandTests
     {
         using var temp = new TempFolder();
         var platform = new FakePlatform(SnapshotBuilder.Windows11Workgroup("W11-TEST").CollectedAt(TestRuns.Collected).Build(), temp.Sub("handoff"));
-        var token = "0123456789abcdefABCDEF_-";
+        var token = "0123456789abcdefABCDEF_-"; // gitleaks:allow (fester Testwert des Übergabe-Kennzeichens)
         var result = Cli.Run(Cli.With(platform: platform), "collect", "--handoff", token, "--deep");
         Assert.True(result.Exit == 0, result.ToString());
         Assert.Equal([token], platform.Handoffs);

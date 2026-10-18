@@ -66,7 +66,8 @@ try {
             $stream = [System.IO.Compression.GZipStream]::new($stream, [System.IO.Compression.CompressionMode]::Decompress)
         }
         $reader = [System.IO.StreamReader]::new($stream, [System.Text.Encoding]::UTF8)
-        try { $header = $reader.ReadToEnd() | ConvertFrom-Json -Depth 100 } finally { $reader.Dispose() }
+        # -AsHashtable: Registry-Standardwerte heißen "" (spec 7.3), das kann ConvertFrom-Json sonst nicht
+        try { $header = $reader.ReadToEnd() | ConvertFrom-Json -Depth 100 -AsHashtable } finally { $reader.Dispose() }
     }
     finally { $stream.Dispose() }
     if ($Role -eq 'auto') { $Role = if ($header.isAdmin) { 'admin' } else { 'nonadmin' } }
@@ -100,7 +101,9 @@ if ($cliExit -eq 3 -or -not $output) {
     Write-Error "Riegel.Cli.exe check endete mit $cliExit (UNKNOWN); Meldung siehe oben." -ErrorAction Continue
     exit 3
 }
-$run = ($output -join "`n") | ConvertFrom-Json -Depth 100
+$parsed = ($output -join "`n") | ConvertFrom-Json -Depth 100 -AsHashtable
+# check --format json gibt riegel.cli.check/1 aus; der Lauf (riegel.run/1) steht unter machines[0].run
+$run = if ($parsed.schema -eq 'riegel.cli.check/1') { $parsed.machines[0].run } else { $parsed }
 $collected = if ($run.collectedAtUtc -is [datetime]) { $run.collectedAtUtc.ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ') } else { $run.collectedAtUtc }
 Write-Host ("Lauf:   {0}, erfasst {1}, Admin {2}, Katalog {3}, CLI-Exitcode {4}" -f $run.hostName, $collected, $run.isAdmin,
     $run.catalogue.version, $cliExit)

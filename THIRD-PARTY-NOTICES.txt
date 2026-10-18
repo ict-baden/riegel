@@ -11,7 +11,7 @@ Riegel-Collector.zip: the collector (Riegel.Collector.exe, net35) contains no th
 .NET Framework already installed on the target machine. In the single-file programs the libraries are bundled into the
 file. Versions and licences were checked against the NuGet package metadata on 2026-10-18.
 
-Part 2 (entries 14-19) names the sources of the rule catalogue and their attributions. Riegel ships its own rule
+Part 2 (entries 14-20) names the sources of the rule catalogue and their attributions. Riegel ships its own rule
 texts; it ships no CIS or BSI SiSyPHuS content and no Microsoft Security Baseline files or values.
 
 1. ClosedXML 0.105.1 - Excel workbooks (.xlsx)
@@ -170,6 +170,17 @@ Part 2 - sources of the rule catalogue (attributions)
     where verified; Riegel writes its own texts. Information on DISA Cyber Exchange is public information and may be
     distributed or copied; DISA requests credit (https://www.cyber.mil/privacy-security, seen 2026-10-18).
     Credit: STIG references courtesy of the Defense Information Systems Agency (DISA), https://www.cyber.mil/stigs
+
+20. Further Microsoft documentation used for facts only (registry locations, value meanings, GUIDs, defaults; no text
+    is copied): Microsoft Learn pages and the open specifications [MS-GPAC], [MS-GPFAS] and [MS-GPSB], and the
+    repositories MicrosoftDocs/PowerShell-Docs, MicrosoftDocs/SupportArticles-docs, dotnet/docs and
+    MicrosoftDocs/azure-docs, which are published under Creative Commons Attribution 4.0 International (CC BY 4.0,
+    https://creativecommons.org/licenses/by/4.0/legalcode). © Microsoft Corporation. The pages are listed in
+    docs/rule-sources.md.
+
+Trademarks: product names in rules/data/remote-access-tools.json and in the rule texts (for example Windows,
+Microsoft Defender, BitLocker, AppLocker) are trademarks of their owners and are used only to identify software.
+Riegel is not affiliated with or endorsed by these owners.
 
 
 -------------------------------------------------------------------------------

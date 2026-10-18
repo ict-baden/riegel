@@ -287,8 +287,8 @@ The texts are in `PdfStrings*.resx` as `Error_RGL05xx`, the codes in `RglCodesPd
 
 ## Example pages
 
-Rendered from `SampleData` (fictitious plant "Musterwerk – Linie 3"); the integration step re-renders them from the
-demo plant.
+Rendered from the demo plant "Musterwerk – Linie 3" (fictitious) with the real engine and catalogue 2026.10
+(`Riegel.exe --demo-report`, 2026-10-18).
 
 | | |
 |---|---|
@@ -306,12 +306,12 @@ demo plant.
 ![Cover in German](assets/reports/report-cover-de.png)
 
 **Re-rendering the pages** (development machine only; nothing of this is shipped): write the documents, for example
-with `dotnet run --project src/Riegel -- --demo-report out/demo`, then render pages with
-[pypdfium2](https://pypi.org/project/pypdfium2/) (4.30.0, licence "(Apache-2.0 OR BSD-3-Clause) AND
-LicenseRef-PdfiumThirdParty" per its package metadata) in a virtual environment:
+with `dotnet run --project src/Riegel -c Release -- --demo-report out/demo` (set `RIEGEL_LANGUAGE` for the German and
+Chinese covers), then render pages with [pypdfium2](https://pypi.org/project/pypdfium2/) (the pages above: 5.14.0,
+licence "BSD-3-Clause, Apache-2.0, dependency licenses" per its package metadata) in a virtual environment:
 
 ```bash
-python -m venv .venv && .venv/bin/python -m pip install pypdfium2==4.30.0 pillow
+python -m venv .venv && .venv/bin/python -m pip install pypdfium2 pillow
 .venv/bin/python -c 'import pypdfium2 as p; d = p.PdfDocument("out/demo/Riegel-Report_Musterwerk-Linie-3_2026-10-18.pdf"); d[0].render(scale=1.25).to_pil().convert("P", palette=1, colors=256).save("docs/assets/reports/report-cover-en.png", optimize=True)'
 ```
 

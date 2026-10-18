@@ -1,0 +1,3 @@
+# gitleaks: bewusst erlaubte Funde (Testwerte, keine Geheimnisse)
+# Übergabe-Kennzeichen „0123456789abcdefABCDEF_-“ im CLI-Test von collect --handoff (fester Testwert)
+1ba0fb2a8fbd437a5730c628f020c966e259fe2c:tests/Riegel.Tests/Cli/CommandTests.cs:generic-api-key:211

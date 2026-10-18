@@ -59,7 +59,7 @@ Collection plan `riegel.collection-plan/1` version 1. Limits: at most 50,000 reg
 | `HKLM\SYSTEM\CurrentControlSet\Control\Session Manager` | this key only | all | no |
 | `HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\kernel` | this key only | all | no |
 | `HKLM\SYSTEM\CurrentControlSet\Control\ProductOptions` | this key only | all | no |
-| `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion` | this key only | all | no |
+| `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion` | this key only | `CurrentBuild`, `CurrentBuildNumber`, `CurrentMajorVersionNumber`, `CurrentMinorVersionNumber`, `CurrentVersion`, `UBR`, `EditionID`, `InstallationType`, `DisplayVersion`, `ReleaseId`, `ProductName`, `CSDVersion` | no |
 | `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon` | this key only | all | no |
 | `HKLM\SOFTWARE\Microsoft\.NETFramework\v4.0.30319` | this key only | all | no |
 | `HKLM\SOFTWARE\Microsoft\.NETFramework\v2.0.50727` | this key only | all | no |
@@ -175,7 +175,8 @@ The collector changes no configuration. Windows records that a program ran:
   start trigger; its start mode does not change; not with `--minimal`);
 - possibly RSoP data in temporary WMI namespaces built by `gpresult` (**unverified**).
 
-The read-only proof lists, per runner, the Security-log event IDs one run created and every on-demand service start.
+The read-only proof lists, per runner, the Security-log event IDs one run created, every on-demand service start and
+every demand-start service that Windows ended when idle during a run (start mode unchanged).
 
 ## CPU, time and size footprint
 
