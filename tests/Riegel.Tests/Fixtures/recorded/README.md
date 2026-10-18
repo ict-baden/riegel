@@ -6,8 +6,10 @@
 
 ## What is here
 
-Snapshots written by `Riegel.Collector.exe` 0.1.0 (SHA-256 `afc67fb86fc3d5759e3539f52b799a732e3c6d9014a0d9e29b2996cc2edf3c99`) on disposable
-GitHub-hosted runners on 2026-10-18, anonymised, with origin `recorded`:
+Snapshots written by `Riegel.Collector.exe` 0.1.0 (SHA-256 `042f7865c4d24d8a5d3b6cbf4e1c3444b523f581cfb5b35b67478e54e6dd6b49`, the
+released collection plan) on disposable GitHub-hosted runners on 2026-10-18 (re-recorded in the integration step after
+the plan gained the keys for AUD-30, ENC-07, LIFE-05, NET-05 and the service fallback, and `CurrentVersion` got its value
+filter), anonymised, with origin `recorded`:
 
 | File | Runner image | Windows | Token |
 |---|---|---|---|
@@ -22,7 +24,10 @@ GitHub-hosted runners on 2026-10-18, anonymised, with origin `recorded`:
 (`.gitattributes`: no line-ending conversion): `secedit.inf` (`secedit /export`, UTF-16 LE with BOM), `auditpol.csv`
 (`auditpol /backup`) and `gpresult.xml` (`gpresult /scope computer /x`, UTF-16 LE with BOM). On `windows-11-arm`
 `gpresult` answers "Access Denied" even to an elevated administrator, so there is no `gpresult.xml` and the
-snapshot's `raw:gpresult-xml` item is an error – a real behaviour of that image, kept as it is.
+snapshot's `raw:gpresult-xml` item is an error – a real behaviour of that image, kept as it is. In
+`windows-11-arm-nonadmin.snapshot.json` the Defender preferences (`MSFT_MpPreference`) are an error: Defender on that
+image answered the query with an error during this recording (it did so intermittently in several CI runs), also kept
+as it is.
 
 ## How they were made
 

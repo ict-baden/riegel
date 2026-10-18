@@ -131,6 +131,12 @@ function Compare-State($before, $after) {
 
 function Describe($before, $after, [string] $key) {
     $a = $before[$key]; $b = $after[$key]
+    # Mehrzeilige Werte (reg export, secedit, auditpol): die geaenderten Zeilen nennen, damit ein Befund pruefbar ist
+    if ($null -ne $a -and $null -ne $b -and ($a.Contains("`n") -or $b.Contains("`n"))) {
+        $lines = @(Compare-Object @($a -split "`r?`n") @($b -split "`r?`n") | Select-Object -First 6 |
+            ForEach-Object { "$($_.SideIndicator) $(([string] $_.InputObject).Trim())" })
+        if ($lines.Count -gt 0) { return "$key`: changed lines: $($lines -join ' | ')" }
+    }
     if ($null -ne $a -and $a.Length -gt 80) { $a = '<' + $a.Length + ' chars>' }
     if ($null -ne $b -and $b.Length -gt 80) { $b = '<' + $b.Length + ' chars>' }
     "$key`: '$a' -> '$b'"
@@ -344,6 +350,13 @@ foreach ($m in $measured) {
     $service = if ($m.Key -like 'svc:*:State') { $m.Key.Split(':')[1] } else { $null }
     if ($open -contains $m -and $service -and $service -ne 'wuauserv' -and (Test-TriggerStart $service)) {
         Line "  on-demand start/stop by Windows (service has a start trigger, StartMode unchanged): $($m.Target): $($m.Text)"
+        continue
+    }
+    # Wartungsdienste von Windows Update und Windows Installer (Update-Medic, Update-Orchestrator, Installer): Windows
+    # startet und beendet sie nach eigenem Zeitplan; aufgelistet, nicht gezaehlt, solange der Starttyp gleich bleibt
+    if ($open -contains $m -and $service -in 'WaaSMedicSvc', 'UsoSvc', 'TrustedInstaller' -and
+        -not ($measured | Where-Object { $_.Key -eq "svc:$($service):StartMode" })) {
+        Line "  Windows servicing service changed state on its own (StartMode unchanged; listed, not counted): $($m.Target): $($m.Text)"
         continue
     }
     if ($open -contains $m -and $service -and $service -ne 'wuauserv' -and $m.Before -eq 'Running' -and $m.After -eq 'Stopped' -and

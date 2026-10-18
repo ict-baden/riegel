@@ -166,7 +166,10 @@ selbst vermerkt, dass ein Programm lief." In detail:
   it is likely but **unverified**. Its start mode does not change either. Demand-start services (start mode
   *Manual*, such as the Windows Update Medic Service on Server 2025) that Windows ends when idle during a run are listed
   in the proof as well and do not count as a change: a reading program cannot stop a service. A service that is
-  *started* without a start trigger, any start-mode change and any change of `wuauserv` stay failures.
+  *started* without a start trigger, any start-mode change and any change of `wuauserv` stay failures. The servicing
+  services of Windows Update and Windows Installer (`WaaSMedicSvc`, `UsoSvc`, `TrustedInstaller`), which Windows starts
+  and stops on its own schedule, are listed and not counted as long as their start mode does not change. For a
+  changed registry export, security template or audit policy the proof names the changed lines.
 - The .NET runtime (CLR 4) writes a usage log under `%LocalAppData%\Microsoft\CLR_v4.0\UsageLogs\`.
 - Windows records that a program ran: Prefetch, AmCache/ShimCache and similar execution artefacts, and event 4688
   for the collector and its child processes if process-creation auditing is on.

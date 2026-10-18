@@ -3,11 +3,11 @@
   "collector": {
     "name": "Riegel.Collector",
     "version": "0.1.0",
-    "exeSha256": "afc67fb86fc3d5759e3539f52b799a732e3c6d9014a0d9e29b2996cc2edf3c99",
+    "exeSha256": "042f7865c4d24d8a5d3b6cbf4e1c3444b523f581cfb5b35b67478e54e6dd6b49",
     "clr": "4.0.30319.42000",
     "is64BitProcess": true
   },
-  "collectedAtUtc": "2026-10-18T18:16:44Z",
+  "collectedAtUtc": "2026-10-18T20:28:37Z",
   "isAdmin": true,
   "origin": "recorded",
   "options": {
@@ -27,7 +27,7 @@
     "architecture": "ARM64",
     "machineGuid": "00000000-0000-4000-8000-0000000000a1",
     "osLanguage": "en-US",
-    "lastBootUtc": "2026-10-18T18:05:54.909767Z"
+    "lastBootUtc": "2026-10-18T20:17:36.529899Z"
   },
   "coverage": [
     {
@@ -330,6 +330,69 @@
       "maxDepth": 0,
       "complete": true,
       "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\W32Time\\Parameters",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\W32Time\\TimeProviders\\NtpClient",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Policies\\Microsoft\\FVE",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\WinHttp",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Spooler",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\W32Time",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\wuauserv",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
     }
   ],
   "items": [
@@ -343,7 +406,7 @@
           "Microsoft"
         ]
       },
-      "durationMs": 96
+      "durationMs": 188
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Google",
@@ -355,7 +418,7 @@
           "Update"
         ]
       },
-      "durationMs": 0
+      "durationMs": 1
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Google\\Chrome",
@@ -369,7 +432,7 @@
         },
         "subkeys": []
       },
-      "durationMs": 8
+      "durationMs": 68
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Google\\Update",
@@ -395,7 +458,7 @@
         },
         "subkeys": []
       },
-      "durationMs": 0
+      "durationMs": 2
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft",
@@ -536,7 +599,7 @@
         },
         "subkeys": []
       },
-      "durationMs": 6
+      "durationMs": 15
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\PeerDist",
@@ -680,7 +743,7 @@
         "values": {},
         "subkeys": []
       },
-      "durationMs": 0
+      "durationMs": 4
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\SystemCertificates\\Root",
@@ -873,7 +936,7 @@
           "WSDAPI"
         ]
       },
-      "durationMs": 0
+      "durationMs": 1
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\AppCompat",
@@ -905,7 +968,7 @@
         },
         "subkeys": []
       },
-      "durationMs": 0
+      "durationMs": 32
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\BITS",
@@ -914,7 +977,7 @@
         "values": {},
         "subkeys": []
       },
-      "durationMs": 0
+      "durationMs": 1
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Bowser",
@@ -923,7 +986,7 @@
         "values": {},
         "subkeys": []
       },
-      "durationMs": 0
+      "durationMs": 1
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\CurrentVersion",
@@ -950,7 +1013,7 @@
           "Cache"
         ]
       },
-      "durationMs": 0
+      "durationMs": 1
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\Cache",
@@ -996,7 +1059,7 @@
         "values": {},
         "subkeys": []
       },
-      "durationMs": 0
+      "durationMs": 5
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\GameDVR",
@@ -1086,7 +1149,7 @@
         },
         "subkeys": []
       },
-      "durationMs": 0
+      "durationMs": 1
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkConnectivityStatusIndicator",
@@ -1172,7 +1235,7 @@
         "values": {},
         "subkeys": []
       },
-      "durationMs": 0
+      "durationMs": 5
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\TenantRestrictions",
@@ -1398,7 +1461,7 @@
         },
         "subkeys": []
       },
-      "durationMs": 0
+      "durationMs": 4
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services",
@@ -1443,7 +1506,7 @@
           "UsbSelectDeviceByInterfaces"
         ]
       },
-      "durationMs": 0
+      "durationMs": 8
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services\\Client\\UsbBlockDeviceBySetupClasses",
@@ -1457,7 +1520,7 @@
         },
         "subkeys": []
       },
-      "durationMs": 0
+      "durationMs": 2
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services\\Client\\UsbSelectDeviceByInterfaces",
@@ -1514,7 +1577,7 @@
         },
         "subkeys": []
       },
-      "durationMs": 0
+      "durationMs": 1
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\DataCollection",
@@ -1695,7 +1758,7 @@
           "UIPI"
         ]
       },
-      "durationMs": 0
+      "durationMs": 1
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Audit",
@@ -1776,7 +1839,7 @@
           "knobs"
         ]
       },
-      "durationMs": 0
+      "durationMs": 58
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Microsoft\\PolicyManager\\current\\device\\DataProtection",
@@ -1912,7 +1975,7 @@
         },
         "subkeys": []
       },
-      "durationMs": 0
+      "durationMs": 2
     },
     {
       "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
@@ -1979,7 +2042,7 @@
           },
           "LsaPid": {
             "t": "dword",
-            "v": 920
+            "v": 900
           },
           "LsaCfgFlagsDefault": {
             "t": "dword",
@@ -2036,7 +2099,7 @@
           "Tracing"
         ]
       },
-      "durationMs": 29
+      "durationMs": 35
     },
     {
       "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\AccessProviders",
@@ -2905,7 +2968,7 @@
           },
           "InstanceID": {
             "t": "sz",
-            "v": "82c06b62-f5e3-4eff-b94e-378d7e7"
+            "v": "21b42cf5-f4fe-42ee-a8db-6233b34"
           },
           "GlassSessionId": {
             "t": "dword",
@@ -3000,7 +3063,7 @@
         "values": {
           "LastLSMInstanceID": {
             "t": "sz",
-            "v": "82c06b62-f5e3-4eff-b94e-378d7e7"
+            "v": "21b42cf5-f4fe-42ee-a8db-6233b34"
           }
         },
         "subkeys": []
@@ -8445,7 +8508,7 @@
         },
         "subkeys": []
       },
-      "durationMs": 7
+      "durationMs": 12
     },
     {
       "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\RestrictedServices\\Configurable",
@@ -9352,7 +9415,7 @@
           },
           "OOBEInstallTime": {
             "t": "binary",
-            "v": "ewdcdytf3QE="
+            "v": "z4Km2j1f3QE="
           },
           "PUAProtection": {
             "t": "dword",
@@ -9452,11 +9515,11 @@
           },
           "MdLastHeartbeat": {
             "t": "binary",
-            "v": "OsDUpCtf3QE="
+            "v": "sYGNCT5f3QE="
           },
           "MdEcsSettingsTimeStamp": {
             "t": "binary",
-            "v": "N5K6XStf3QE="
+            "v": "7aB4wj1f3QE="
           }
         },
         "subkeys": [
@@ -11744,7 +11807,7 @@
           },
           "SignatureUpdateLastAttempted": {
             "t": "binary",
-            "v": "gEmwzyxf3QE="
+            "v": "TVo5NT9f3QE="
           },
           "SignatureUpdatePending": {
             "t": "dword",
@@ -12272,7 +12335,7 @@
           },
           "Guid": {
             "t": "binary",
-            "v": "1KqdQkNVkkSjIFng/qQZoA=="
+            "v": "5byn8tOmFU6HkgBD3wQ/pQ=="
           }
         },
         "subkeys": [
@@ -12581,8 +12644,6 @@
           "LocalKdc",
           "LsaSrv",
           "LSM",
-          "Microsoft-Azure-Network-Adapter",
-          "Microsoft-Azure-Network-Adapter-Virtual-Bus",
           "Microsoft-Windows-Audit-CVE",
           "Microsoft-Windows-BitLocker-API",
           "Microsoft-Windows-BitLocker-Driver",
@@ -13207,7 +13268,7 @@
           },
           "ProductPolicy": {
             "t": "binary",
-            "v": "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",
+            "v": "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",
             "truncated": true,
             "len": 70892
           },
@@ -13233,34 +13294,6 @@
       "status": "ok",
       "value": {
         "values": {
-          "SystemRoot": {
-            "t": "sz",
-            "v": "C:\\Windows"
-          },
-          "BaseBuildRevisionNumber": {
-            "t": "dword",
-            "v": 1
-          },
-          "BuildBranch": {
-            "t": "sz",
-            "v": "ge_release"
-          },
-          "BuildGUID": {
-            "t": "sz",
-            "v": "ffffffff-ffff-ffff-ffff-ffffffffffff"
-          },
-          "BuildLab": {
-            "t": "sz",
-            "v": "26100.ge_release.240331-1435"
-          },
-          "BuildLabEx": {
-            "t": "sz",
-            "v": "26100.1.arm64fre.ge_release.240331-1435"
-          },
-          "CompositionEditionID": {
-            "t": "sz",
-            "v": "Enterprise"
-          },
           "CurrentBuild": {
             "t": "sz",
             "v": "26200"
@@ -13277,10 +13310,6 @@
             "t": "dword",
             "v": 0
           },
-          "CurrentType": {
-            "t": "sz",
-            "v": "Multiprocessor Free"
-          },
           "CurrentVersion": {
             "t": "sz",
             "v": "6.3"
@@ -13293,29 +13322,9 @@
             "t": "sz",
             "v": "Enterprise"
           },
-          "EditionSubManufacturer": {
-            "t": "sz",
-            "v": ""
-          },
-          "EditionSubstring": {
-            "t": "sz",
-            "v": ""
-          },
-          "EditionSubVersion": {
-            "t": "sz",
-            "v": ""
-          },
           "InstallationType": {
             "t": "sz",
             "v": "Client"
-          },
-          "InstallDate": {
-            "t": "dword",
-            "v": 1791901981
-          },
-          "LCUVer": {
-            "t": "sz",
-            "v": "10.0.26100.9457"
           },
           "ProductName": {
             "t": "sz",
@@ -13325,37 +13334,9 @@
             "t": "sz",
             "v": "2009"
           },
-          "SoftwareType": {
-            "t": "sz",
-            "v": "System"
-          },
           "UBR": {
             "t": "dword",
             "v": 9457
-          },
-          "PathName": {
-            "t": "sz",
-            "v": "C:\\Windows"
-          },
-          "PendingInstall": {
-            "t": "dword",
-            "v": 0
-          },
-          "ProductId": {
-            "t": "sz",
-            "v": "00000-00000-00000-AAAAA"
-          },
-          "DigitalProductId": {
-            "t": "binary",
-            "v": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
-          },
-          "DigitalProductId4": {
-            "t": "binary",
-            "v": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          },
-          "InstallTime": {
-            "t": "qword",
-            "v": "134363755816087533"
           }
         },
         "subkeys": [
@@ -13456,9 +13437,23 @@
           "WOF",
           "WorkloadManager",
           "WUDF"
+        ],
+        "valueFilter": [
+          "CurrentBuild",
+          "CurrentBuildNumber",
+          "CurrentMajorVersionNumber",
+          "CurrentMinorVersionNumber",
+          "CurrentVersion",
+          "UBR",
+          "EditionID",
+          "InstallationType",
+          "DisplayVersion",
+          "ReleaseId",
+          "ProductName",
+          "CSDVersion"
         ]
       },
-      "durationMs": 0
+      "durationMs": 1
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
@@ -13715,7 +13710,7 @@
           "MachineGuid"
         ]
       },
-      "durationMs": 1
+      "durationMs": 0
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
@@ -27209,6 +27204,222 @@
       "durationMs": 0
     },
     {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\W32Time\\Parameters",
+      "status": "ok",
+      "value": {
+        "values": {
+          "NtpServer": {
+            "t": "sz",
+            "v": "time.windows.com,0x9"
+          },
+          "ServiceDll": {
+            "t": "expand_sz",
+            "v": "%systemroot%\\system32\\w32time.dll"
+          },
+          "ServiceDllUnloadOnStop": {
+            "t": "dword",
+            "v": 1
+          },
+          "ServiceMain": {
+            "t": "sz",
+            "v": "SvchostEntry_W32Time"
+          },
+          "Type": {
+            "t": "sz",
+            "v": "NTP"
+          }
+        },
+        "subkeys": []
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\W32Time\\TimeProviders\\NtpClient",
+      "status": "ok",
+      "value": {
+        "values": {
+          "AllowNonstandardModeCombinations": {
+            "t": "dword",
+            "v": 1
+          },
+          "CompatibilityFlags": {
+            "t": "dword",
+            "v": 2147483648
+          },
+          "CrossSiteSyncFlags": {
+            "t": "dword",
+            "v": 2
+          },
+          "DllName": {
+            "t": "expand_sz",
+            "v": "%systemroot%\\system32\\w32time.dll"
+          },
+          "Enabled": {
+            "t": "dword",
+            "v": 1
+          },
+          "EventLogFlags": {
+            "t": "dword",
+            "v": 1
+          },
+          "InputProvider": {
+            "t": "dword",
+            "v": 1
+          },
+          "LargeSampleSkew": {
+            "t": "dword",
+            "v": 3
+          },
+          "ResolvePeerBackoffMaxTimes": {
+            "t": "dword",
+            "v": 7
+          },
+          "ResolvePeerBackoffMinutes": {
+            "t": "dword",
+            "v": 15
+          },
+          "SignatureAuthAllowed": {
+            "t": "dword",
+            "v": 1
+          },
+          "SpecialPollInterval": {
+            "t": "dword",
+            "v": 16384
+          },
+          "SpecialPollTimeRemaining": {
+            "t": "multi_sz",
+            "v": [
+              "time.windows.com,8023a6a"
+            ]
+          }
+        },
+        "subkeys": []
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Policies\\Microsoft\\FVE",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment",
+      "status": "ok",
+      "value": {
+        "values": {
+          "PROCESSOR_ARCHITECTURE": {
+            "t": "sz",
+            "v": "ARM64"
+          }
+        },
+        "subkeys": [],
+        "valueFilter": [
+          "PROCESSOR_ARCHITECTURE"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\WinHttp",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "subkeys": [
+          "Passport Test",
+          "Tracing"
+        ],
+        "valueFilter": [
+          "DisableWpad"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry",
+      "status": "ok",
+      "value": {
+        "values": {
+          "Start": {
+            "t": "dword",
+            "v": 4
+          }
+        },
+        "subkeys": [
+          "Parameters",
+          "TriggerInfo"
+        ],
+        "valueFilter": [
+          "Start"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\Spooler",
+      "status": "ok",
+      "value": {
+        "values": {
+          "Start": {
+            "t": "dword",
+            "v": 2
+          }
+        },
+        "subkeys": [
+          "Performance",
+          "Security",
+          "TriggerInfo"
+        ],
+        "valueFilter": [
+          "Start"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\W32Time",
+      "status": "ok",
+      "value": {
+        "values": {
+          "Start": {
+            "t": "dword",
+            "v": 2
+          }
+        },
+        "subkeys": [
+          "Config",
+          "Parameters",
+          "SecureTimeLimits",
+          "Security",
+          "TimeProviders"
+        ],
+        "valueFilter": [
+          "Start"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\wuauserv",
+      "status": "ok",
+      "value": {
+        "values": {
+          "Start": {
+            "t": "dword",
+            "v": 4
+          }
+        },
+        "subkeys": [
+          "Parameters",
+          "Security",
+          "TriggerInfo"
+        ],
+        "valueFilter": [
+          "Start"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
       "key": "wmi:root\\cimv2:Win32_ComputerSystem",
       "status": "ok",
       "value": {
@@ -27226,7 +27437,7 @@
           }
         ]
       },
-      "durationMs": 784
+      "durationMs": 1303
     },
     {
       "key": "wmi:root\\cimv2:Win32_OperatingSystem",
@@ -27241,12 +27452,12 @@
             "ProductType": 1,
             "OperatingSystemSKU": 4,
             "OSLanguage": 1033,
-            "LastBootUpTime": "2026-10-18T18:05:54.909767Z",
+            "LastBootUpTime": "2026-10-18T20:17:36.529899Z",
             "InstallDate": "2026-10-13T14:33:01Z"
           }
         ]
       },
-      "durationMs": 33
+      "durationMs": 299
     },
     {
       "key": "wmi:root\\cimv2:Win32_Service",
@@ -29318,152 +29529,152 @@
             "PathName": "C:\\Windows\\system32\\svchost.exe -k zthelper -p"
           },
           {
-            "Name": "AarSvc_ba026",
-            "DisplayName": "Agent Activation Runtime_ba026",
+            "Name": "AarSvc_b1b17",
+            "DisplayName": "Agent Activation Runtime_b1b17",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k AarSvcGroup -p"
           },
           {
-            "Name": "BcastDVRUserService_ba026",
-            "DisplayName": "GameDVR and Broadcast User Service_ba026",
+            "Name": "BcastDVRUserService_b1b17",
+            "DisplayName": "GameDVR and Broadcast User Service_b1b17",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k BcastDVRUserService"
           },
           {
-            "Name": "BluetoothUserService_ba026",
-            "DisplayName": "Bluetooth User Support Service_ba026",
+            "Name": "BluetoothUserService_b1b17",
+            "DisplayName": "Bluetooth User Support Service_b1b17",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k BthAppGroup -p"
           },
           {
-            "Name": "CaptureService_ba026",
-            "DisplayName": "CaptureService_ba026",
+            "Name": "CaptureService_b1b17",
+            "DisplayName": "CaptureService_b1b17",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k LocalService -p"
           },
           {
-            "Name": "cbdhsvc_ba026",
-            "DisplayName": "Clipboard User Service_ba026",
+            "Name": "cbdhsvc_b1b17",
+            "DisplayName": "Clipboard User Service_b1b17",
             "State": "Running",
             "StartMode": "Auto",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k ClipboardSvcGroup -p"
           },
           {
-            "Name": "CloudBackupRestoreSvc_ba026",
-            "DisplayName": "Cloud Backup and Restore Service_ba026",
+            "Name": "CloudBackupRestoreSvc_b1b17",
+            "DisplayName": "Cloud Backup and Restore Service_b1b17",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k UnistackSvcGroup"
           },
           {
-            "Name": "ConsentUxUserSvc_ba026",
-            "DisplayName": "ConsentUX User Service_ba026",
+            "Name": "ConsentUxUserSvc_b1b17",
+            "DisplayName": "ConsentUX User Service_b1b17",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k DevicesFlow"
           },
           {
-            "Name": "CredentialEnrollmentManagerUserSvc_ba026",
-            "DisplayName": "CredentialEnrollmentManagerUserSvc_ba026",
+            "Name": "CredentialEnrollmentManagerUserSvc_b1b17",
+            "DisplayName": "CredentialEnrollmentManagerUserSvc_b1b17",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\CredentialEnrollmentManager.exe"
           },
           {
-            "Name": "DeviceAssociationBrokerSvc_ba026",
-            "DisplayName": "DeviceAssociationBroker_ba026",
+            "Name": "DeviceAssociationBrokerSvc_b1b17",
+            "DisplayName": "DeviceAssociationBroker_b1b17",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k DevicesFlow -p"
           },
           {
-            "Name": "DevicePickerUserSvc_ba026",
-            "DisplayName": "DevicePicker_ba026",
+            "Name": "DevicePickerUserSvc_b1b17",
+            "DisplayName": "DevicePicker_b1b17",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k DevicesFlow"
           },
           {
-            "Name": "DevicesFlowUserSvc_ba026",
-            "DisplayName": "DevicesFlow_ba026",
+            "Name": "DevicesFlowUserSvc_b1b17",
+            "DisplayName": "DevicesFlow_b1b17",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k DevicesFlow"
           },
           {
-            "Name": "MessagingService_ba026",
-            "DisplayName": "MessagingService_ba026",
+            "Name": "MessagingService_b1b17",
+            "DisplayName": "MessagingService_b1b17",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k UnistackSvcGroup"
           },
           {
-            "Name": "NPSMSvc_ba026",
-            "DisplayName": "Now Playing Session Manager Service_ba026",
+            "Name": "NPSMSvc_b1b17",
+            "DisplayName": "Now Playing Session Manager Service_b1b17",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k LocalService -p"
           },
           {
-            "Name": "P9RdrService_ba026",
-            "DisplayName": "P9RdrService_ba026",
+            "Name": "P9RdrService_b1b17",
+            "DisplayName": "P9RdrService_b1b17",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k P9RdrService -p"
           },
           {
-            "Name": "PenService_ba026",
-            "DisplayName": "PenService_ba026",
+            "Name": "PenService_b1b17",
+            "DisplayName": "PenService_b1b17",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k PenService"
           },
           {
-            "Name": "PrintWorkflowUserSvc_ba026",
-            "DisplayName": "PrintWorkflow_ba026",
+            "Name": "PrintWorkflowUserSvc_b1b17",
+            "DisplayName": "PrintWorkflow_b1b17",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k PrintWorkflow"
           },
           {
-            "Name": "UdkUserSvc_ba026",
-            "DisplayName": "Udk User Service_ba026",
+            "Name": "UdkUserSvc_b1b17",
+            "DisplayName": "Udk User Service_b1b17",
             "State": "Running",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k UdkSvcGroup"
           },
           {
-            "Name": "webthreatdefusersvc_ba026",
-            "DisplayName": "Web Threat Defense User Service_ba026",
+            "Name": "webthreatdefusersvc_b1b17",
+            "DisplayName": "Web Threat Defense User Service_b1b17",
             "State": "Running",
             "StartMode": "Auto",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k LocalSystemNetworkRestricted -p"
           },
           {
-            "Name": "WpnUserService_ba026",
-            "DisplayName": "Windows Push Notifications User Service_ba026",
+            "Name": "WpnUserService_b1b17",
+            "DisplayName": "Windows Push Notifications User Service_b1b17",
             "State": "Running",
             "StartMode": "Auto",
             "StartName": null,
@@ -29471,7 +29682,7 @@
           }
         ]
       },
-      "durationMs": 3102
+      "durationMs": 5008
     },
     {
       "key": "wmi:root\\cimv2:Win32_OptionalFeature",
@@ -30032,7 +30243,7 @@
           }
         ]
       },
-      "durationMs": 850
+      "durationMs": 941
     },
     {
       "key": "wmi:root\\cimv2:Win32_QuickFixEngineering",
@@ -30061,7 +30272,7 @@
           }
         ]
       },
-      "durationMs": 780
+      "durationMs": 959
     },
     {
       "key": "wmi:root\\cimv2:Win32_UserAccount",
@@ -30110,7 +30321,7 @@
           }
         ]
       },
-      "durationMs": 29
+      "durationMs": 32
     },
     {
       "key": "wmi:root\\cimv2:Win32_NetworkAdapterConfiguration",
@@ -30127,7 +30338,7 @@
           }
         ]
       },
-      "durationMs": 1053
+      "durationMs": 43
     },
     {
       "key": "wmi:root\\cimv2:Win32_NetworkAdapter",
@@ -30135,7 +30346,7 @@
       "value": {
         "rows": [
           {
-            "Name": "Microsoft Azure Network Adapter",
+            "Name": "Example Network Adapter 01",
             "NetConnectionStatus": 2,
             "AdapterTypeID": 0,
             "GUID": "{00000000-0000-4000-8000-000000000b01}",
@@ -30150,7 +30361,7 @@
           }
         ]
       },
-      "durationMs": 55
+      "durationMs": 56
     },
     {
       "key": "wmi:root\\wmi:MSNdis_PhysicalMediumType",
@@ -30163,7 +30374,7 @@
             "Active": true
           },
           {
-            "InstanceName": "Microsoft Azure Network Adapter",
+            "InstanceName": "Example Network Adapter 01",
             "NdisPhysicalMediumType": 0,
             "Active": true
           },
@@ -30174,7 +30385,7 @@
           }
         ]
       },
-      "durationMs": 55
+      "durationMs": 7571
     },
     {
       "key": "wmi:root\\cimv2:Win32_Share",
@@ -30210,7 +30421,7 @@
           }
         ]
       },
-      "durationMs": 2990
+      "durationMs": 154
     },
     {
       "key": "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus",
@@ -30232,7 +30443,7 @@
           }
         ]
       },
-      "durationMs": 307
+      "durationMs": 288
     },
     {
       "key": "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference",
@@ -30259,7 +30470,7 @@
           }
         ]
       },
-      "durationMs": 190
+      "durationMs": 113
     },
     {
       "key": "wmi:root\\SecurityCenter2:AntivirusProduct",
@@ -30269,11 +30480,11 @@
           {
             "displayName": "Windows Defender",
             "productState": 397568,
-            "timestamp": "Sun, 18 Oct 2026 18:08:19 GMT"
+            "timestamp": "Sun, 18 Oct 2026 20:19:58 GMT"
           }
         ]
       },
-      "durationMs": 32
+      "durationMs": 15
     },
     {
       "key": "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard",
@@ -30293,7 +30504,7 @@
           }
         ]
       },
-      "durationMs": 115
+      "durationMs": 41
     },
     {
       "key": "wmi:root\\cimv2\\Security\\MicrosoftVolumeEncryption:Win32_EncryptableVolume",
@@ -30327,7 +30538,7 @@
           }
         ]
       },
-      "durationMs": 982
+      "durationMs": 439
     },
     {
       "key": "wmi:root\\cimv2\\Security\\MicrosoftTpm:Win32_Tpm",
@@ -30335,7 +30546,7 @@
       "value": {
         "rows": []
       },
-      "durationMs": 39
+      "durationMs": 26
     },
     {
       "key": "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration",
@@ -30350,7 +30561,7 @@
           "RejectUnencryptedAccess": true
         }
       },
-      "durationMs": 251
+      "durationMs": 105
     },
     {
       "key": "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbClientConfiguration.GetConfiguration",
@@ -30362,7 +30573,7 @@
           "EnableInsecureGuestLogons": false
         }
       },
-      "durationMs": 183
+      "durationMs": 109
     },
     {
       "key": "api:netusermodals",
@@ -30376,7 +30587,7 @@
         "lockoutDurationMin": 10,
         "lockoutWindowMin": 10
       },
-      "durationMs": 16
+      "durationMs": 18
     },
     {
       "key": "api:netuserenum",
@@ -30438,7 +30649,7 @@
           "passwordAgeDays": 35
         }
       ],
-      "durationMs": 45
+      "durationMs": 71
     },
     {
       "key": "api:lsa-rights",
@@ -30596,7 +30807,7 @@
           "S-1-5-99-0"
         ]
       },
-      "durationMs": 46
+      "durationMs": 30
     },
     {
       "key": "api:localgroup:S-1-5-32-544",
@@ -30615,13 +30826,13 @@
           "domain": "RUNNER-11-ARM"
         }
       ],
-      "durationMs": 55
+      "durationMs": 14
     },
     {
       "key": "api:localgroup:S-1-5-32-555",
       "status": "ok",
       "value": [],
-      "durationMs": 1
+      "durationMs": 0
     },
     {
       "key": "api:audit-policy",
@@ -30688,7 +30899,7 @@
         "{0CCE9241-69AE-11D9-BED3-505054503030}": 0,
         "{0CCE9242-69AE-11D9-BED3-505054503030}": 0
       },
-      "durationMs": 81
+      "durationMs": 25
     },
     {
       "key": "api:lsass-protection",
@@ -37248,13 +37459,13 @@
           }
         ]
       },
-      "durationMs": 303
+      "durationMs": 558
     },
     {
       "key": "api:windows-update-history",
       "status": "notCollected",
       "error": "Windows Update not running – not queried",
-      "durationMs": 27
+      "durationMs": 146
     },
     {
       "key": "api:winhttp-proxy",
@@ -37264,7 +37475,7 @@
         "proxy": null,
         "bypass": null
       },
-      "durationMs": 8
+      "durationMs": 10
     },
     {
       "key": "api:wsc-av",
@@ -37276,20 +37487,20 @@
           "signature": "upToDate"
         }
       ],
-      "durationMs": 20
+      "durationMs": 42
     },
     {
       "key": "evt:system:wininit-12",
       "status": "ok",
       "value": {
         "found": true,
-        "timeCreatedUtc": "2026-10-18T18:06:02.2814212Z",
+        "timeCreatedUtc": "2026-10-18T20:17:44.8205241Z",
         "eventData": [
           "4"
         ],
-        "bootTimeUtc": "2026-10-18T18:05:54.909767Z"
+        "bootTimeUtc": "2026-10-18T20:17:36.529899Z"
       },
-      "durationMs": 16
+      "durationMs": 21
     },
     {
       "key": "raw:secedit-inf",
@@ -37297,19 +37508,19 @@
       "value": {
         "text": "[Unicode]\r\nUnicode=yes\r\n[System Access]\r\nMinimumPasswordAge = 0\r\nMaximumPasswordAge = 42\r\nMinimumPasswordLength = 0\r\nPasswordComplexity = 0\r\nPasswordHistorySize = 0\r\nLockoutBadCount = 10\r\nResetLockoutCount = 10\r\nLockoutDuration = 10\r\nAllowAdministratorLockout = 1\r\nRequireLogonToChangePassword = 0\r\nForceLogoffWhenHourExpire = 0\r\nNewAdministratorName = \"user-02\"\r\nNewGuestName = \"Guest\"\r\nClearTextPassword = 0\r\nLSAAnonymousNameLookup = 0\r\nEnableAdminAccount = 1\r\nEnableGuestAccount = 0\r\n[Event Audit]\r\nAuditSystemEvents = 0\r\nAuditLogonEvents = 0\r\nAuditObjectAccess = 0\r\nAuditPrivilegeUse = 0\r\nAuditPolicyChange = 0\r\nAuditAccountManage = 0\r\nAuditProcessTracking = 0\r\nAuditDSAccess = 0\r\nAuditAccountLogon = 0\r\n[Registry Values]\r\nMACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Setup\\RecoveryConsole\\SecurityLevel=4,0\r\nMACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Setup\\RecoveryConsole\\SetCommand=4,0\r\nMACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\CachedLogonsCount=1,\"10\"\r\nMACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\ForceUnlockLogon=4,0\r\nMACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\PasswordExpiryWarning=4,5\r\nMACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\ScRemoveOption=1,\"0\"\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ConsentPromptBehaviorAdmin=4,0\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ConsentPromptBehaviorEnhancedAdmin=4,1\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ConsentPromptBehaviorUser=4,3\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DontDisplayLastUserName=4,0\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLUA=4,1\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableSecureUIAPaths=4,1\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableUIADesktopToggle=4,0\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableVirtualization=4,1\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\LegalNoticeCaption=1,\"\"\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\LegalNoticeText=7,\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\PromptOnSecureDesktop=4,1\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ScForceOption=4,0\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ShutdownWithoutLogon=4,1\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\TypeOfAdminApprovalMode=4,1\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\UndockWithoutLogon=4,1\r\nMACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ValidateAdminCodeSignatures=4,0\r\nMACHINE\\Software\\Policies\\Microsoft\\Windows\\Safer\\CodeIdentifiers\\AuthenticodeEnabled=4,0\r\nMACHINE\\System\\CurrentControlSet\\Control\\Lsa\\AuditBaseObjects=4,0\r\nMACHINE\\System\\CurrentControlSet\\Control\\Lsa\\CrashOnAuditFail=4,0\r\nMACHINE\\System\\CurrentControlSet\\Control\\Lsa\\DisableDomainCreds=4,0\r\nMACHINE\\System\\CurrentControlSet\\Control\\Lsa\\EveryoneIncludesAnonymous=4,0\r\nMACHINE\\System\\CurrentControlSet\\Control\\Lsa\\FIPSAlgorithmPolicy\\Enabled=4,0\r\nMACHINE\\System\\CurrentControlSet\\Control\\Lsa\\ForceGuest=4,0\r\nMACHINE\\System\\CurrentControlSet\\Control\\Lsa\\FullPrivilegeAuditing=3,0\r\nMACHINE\\System\\CurrentControlSet\\Control\\Lsa\\LimitBlankPasswordUse=4,1\r\nMACHINE\\System\\CurrentControlSet\\Control\\Lsa\\MSV1_0\\NTLMMinClientSec=4,536870912\r\nMACHINE\\System\\CurrentControlSet\\Control\\Lsa\\MSV1_0\\NTLMMinServerSec=4,536870912\r\nMACHINE\\System\\CurrentControlSet\\Control\\Lsa\\NoLMHash=4,1\r\nMACHINE\\System\\CurrentControlSet\\Control\\Lsa\\RestrictAnonymous=4,0\r\nMACHINE\\System\\CurrentControlSet\\Control\\Lsa\\RestrictAnonymousSAM=4,1\r\nMACHINE\\System\\CurrentControlSet\\Control\\Print\\Providers\\LanMan Print Services\\Servers\\AddPrinterDrivers=4,0\r\nMACHINE\\System\\CurrentControlSet\\Control\\SecurePipeServers\\Winreg\\AllowedExactPaths\\Machine=7,System\\CurrentControlSet\\Control\\ProductOptions,System\\CurrentControlSet\\Control\\Server Applications,Software\\Microsoft\\Windows NT\\CurrentVersion\r\nMACHINE\\System\\CurrentControlSet\\Control\\SecurePipeServers\\Winreg\\AllowedPaths\\Machine=7,System\\CurrentControlSet\\Control\\Print\\Printers,System\\CurrentControlSet\\Services\\Eventlog,Software\\Microsoft\\OLAP Server,Software\\Microsoft\\Windows NT\\CurrentVersion\\Print,Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows,System\\CurrentControlSet\\Control\\ContentIndex,System\\CurrentControlSet\\Control\\Terminal Server,System\\CurrentControlSet\\Control\\Terminal Server\\UserConfig,System\\CurrentControlSet\\Control\\Terminal Server\\DefaultUserConfiguration,Software\\Microsoft\\Windows NT\\CurrentVersion\\Perflib,System\\CurrentControlSet\\Services\\SysmonLog\r\nMACHINE\\System\\CurrentControlSet\\Control\\Session Manager\\Kernel\\ObCaseInsensitive=4,1\r\nMACHINE\\System\\CurrentControlSet\\Control\\Session Manager\\Memory Management\\ClearPageFileAtShutdown=4,0\r\nMACHINE\\System\\CurrentControlSet\\Control\\Session Manager\\ProtectionMode=4,1\r\nMACHINE\\System\\CurrentControlSet\\Control\\Session Manager\\SubSystems\\optional=7,\r\nMACHINE\\System\\CurrentControlSet\\Services\\LanManServer\\Parameters\\AutoDisconnect=4,15\r\nMACHINE\\System\\CurrentControlSet\\Services\\LanManServer\\Parameters\\EnableForcedLogOff=4,1\r\nMACHINE\\System\\CurrentControlSet\\Services\\LanManServer\\Parameters\\EnableSecuritySignature=4,0\r\nMACHINE\\System\\CurrentControlSet\\Services\\LanManServer\\Parameters\\NullSessionPipes=7,\r\nMACHINE\\System\\CurrentControlSet\\Services\\LanManServer\\Parameters\\RestrictNullSessAccess=4,1\r\nMACHINE\\System\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters\\EnablePlainTextPassword=4,0\r\nMACHINE\\System\\CurrentControlSet\\Services\\LanmanWorkstation\\Parameters\\EnableSecuritySignature=4,1\r\nMACHINE\\System\\CurrentControlSet\\Services\\LDAP\\LDAPClientConfidentiality=4,1\r\nMACHINE\\System\\CurrentControlSet\\Services\\LDAP\\LDAPClientIntegrity=4,1\r\nMACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters\\DisablePasswordChange=4,0\r\nMACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters\\MaximumPasswordAge=4,30\r\nMACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters\\RequireSignOrSeal=4,1\r\nMACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters\\RequireStrongKey=4,1\r\nMACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters\\SealSecureChannel=4,1\r\nMACHINE\\System\\CurrentControlSet\\Services\\Netlogon\\Parameters\\SignSecureChannel=4,1\r\n[Privilege Rights]\r\nSeNetworkLogonRight = *S-1-1-0,*S-1-5-32-544,*S-1-5-32-545,*S-1-5-32-551\r\nSeBackupPrivilege = *S-1-5-32-544,*S-1-5-32-551\r\nSeChangeNotifyPrivilege = *S-1-1-0,*S-1-5-19,*S-1-5-20,*S-1-5-32-544,*S-1-5-32-545,*S-1-5-32-551,*S-1-5-99-216390572-1995538116-3857911515-2404958512-2623887229\r\nSeSystemtimePrivilege = *S-1-5-19,*S-1-5-32-544\r\nSeCreatePagefilePrivilege = *S-1-5-32-544\r\nSeDebugPrivilege = *S-1-5-32-544\r\nSeRemoteShutdownPrivilege = *S-1-5-32-544\r\nSeAuditPrivilege = *S-1-5-19,*S-1-5-20,*S-1-5-99-216390572-1995538116-3857911515-2404958512-2623887229\r\nSeIncreaseQuotaPrivilege = *S-1-5-19,*S-1-5-20,*S-1-5-32-544\r\nSeIncreaseBasePriorityPrivilege = *S-1-5-32-544,*S-1-5-90-0\r\nSeLoadDriverPrivilege = *S-1-5-32-544\r\nSeBatchLogonRight = *S-1-5-32-544,*S-1-5-32-551,*S-1-5-32-559\r\nSeServiceLogonRight = *S-1-5-80-0,*S-1-5-83-0,*S-1-5-99-0\r\nSeInteractiveLogonRight = *S-1-5-21-1000-2000-3000-501,*S-1-5-32-544,*S-1-5-32-545,*S-1-5-32-551\r\nSeSecurityPrivilege = *S-1-5-32-544\r\nSeSystemEnvironmentPrivilege = *S-1-5-32-544\r\nSeProfileSingleProcessPrivilege = *S-1-5-32-544\r\nSeSystemProfilePrivilege = *S-1-5-32-544,*S-1-5-80-3139157870-2983391045-3678747466-658725712-1809340420\r\nSeAssignPrimaryTokenPrivilege = *S-1-5-19,*S-1-5-20\r\nSeRestorePrivilege = *S-1-5-32-544,*S-1-5-32-551\r\nSeShutdownPrivilege = *S-1-5-32-544,*S-1-5-32-545,*S-1-5-32-551\r\nSeTakeOwnershipPrivilege = *S-1-5-32-544\r\nSeDenyNetworkLogonRight = *S-1-5-21-1000-2000-3000-501\r\nSeDenyInteractiveLogonRight = *S-1-5-21-1000-2000-3000-501\r\nSeUndockPrivilege = *S-1-5-32-544,*S-1-5-32-545\r\nSeManageVolumePrivilege = *S-1-5-32-544\r\nSeRemoteInteractiveLogonRight = *S-1-5-32-544,*S-1-5-32-555\r\nSeImpersonatePrivilege = *S-1-5-19,*S-1-5-20,*S-1-5-32-544,*S-1-5-6,*S-1-5-99-216390572-1995538116-3857911515-2404958512-2623887229\r\nSeCreateGlobalPrivilege = *S-1-5-19,*S-1-5-20,*S-1-5-32-544,*S-1-5-6\r\nSeIncreaseWorkingSetPrivilege = *S-1-5-32-545\r\nSeTimeZonePrivilege = *S-1-5-19,*S-1-5-32-544,*S-1-5-32-545\r\nSeCreateSymbolicLinkPrivilege = *S-1-5-32-544,*S-1-5-83-0\r\nSeDelegateSessionUserImpersonatePrivilege = *S-1-5-32-544\r\n[Version]\r\nsignature=\"$CHICAGO$\"\r\nRevision=1\r\n"
       },
-      "durationMs": 505
+      "durationMs": 570
     },
     {
       "key": "raw:registry-pol",
       "status": "keyMissing",
-      "durationMs": 4
+      "durationMs": 5
     },
     {
       "key": "raw:gpresult-xml",
       "status": "error",
       "errorCode": 0,
       "error": "tool failed",
-      "durationMs": 1541
+      "durationMs": 2007
     }
   ]
 }

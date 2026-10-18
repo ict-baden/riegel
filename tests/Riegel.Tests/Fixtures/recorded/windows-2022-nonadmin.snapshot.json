@@ -3,11 +3,11 @@
   "collector": {
     "name": "Riegel.Collector",
     "version": "0.1.0",
-    "exeSha256": "afc67fb86fc3d5759e3539f52b799a732e3c6d9014a0d9e29b2996cc2edf3c99",
+    "exeSha256": "042f7865c4d24d8a5d3b6cbf4e1c3444b523f581cfb5b35b67478e54e6dd6b49",
     "clr": "4.0.30319.42000",
     "is64BitProcess": true
   },
-  "collectedAtUtc": "2026-10-18T18:16:08Z",
+  "collectedAtUtc": "2026-10-18T20:27:51Z",
   "isAdmin": false,
   "origin": "recorded",
   "options": {
@@ -27,7 +27,7 @@
     "architecture": "AMD64",
     "machineGuid": "00000000-0000-4000-8000-0000000000a1",
     "osLanguage": "en-US",
-    "lastBootUtc": "2026-10-18T18:10:24.005921Z"
+    "lastBootUtc": "2026-10-18T20:17:31.305665Z"
   },
   "coverage": [
     {
@@ -335,6 +335,69 @@
       "maxDepth": 0,
       "complete": true,
       "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\W32Time\\Parameters",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\W32Time\\TimeProviders\\NtpClient",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Policies\\Microsoft\\FVE",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\WinHttp",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\Spooler",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\W32Time",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
+    },
+    {
+      "root": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\wuauserv",
+      "recursive": false,
+      "maxDepth": 0,
+      "complete": true,
+      "deniedSubkeys": []
     }
   ],
   "items": [
@@ -348,7 +411,7 @@
           "Microsoft"
         ]
       },
-      "durationMs": 4
+      "durationMs": 3
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Google",
@@ -374,7 +437,7 @@
         },
         "subkeys": []
       },
-      "durationMs": 2
+      "durationMs": 1
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Policies\\Google\\Update",
@@ -2929,7 +2992,7 @@
           },
           "InstanceID": {
             "t": "sz",
-            "v": "d10288ed-543c-46f9-a6e8-3c186ad"
+            "v": "170ea80f-8ed0-4f75-84f5-b9788a0"
           },
           "GlassSessionId": {
             "t": "dword",
@@ -3045,7 +3108,7 @@
           },
           "LastLSMInstanceID": {
             "t": "sz",
-            "v": "d10288ed-543c-46f9-a6e8-3c186ad"
+            "v": "170ea80f-8ed0-4f75-84f5-b9788a0"
           }
         },
         "subkeys": []
@@ -4915,7 +4978,7 @@
         "subkeys": [
           "Tcpip_{00000000-0000-4000-8000-000000000b03}",
           "Tcpip_{00000000-0000-4000-8000-000000000b04}",
-          "Tcpip_{00000000-0000-4000-8000-000000000b02}",
+          "Tcpip_{00000000-0000-4000-8000-000000000b01}",
           "Tcpip_{00000000-0000-4000-8000-000000000b05}",
           "Tcpip_{00000000-0000-4000-8000-000000000b06}"
         ]
@@ -4959,7 +5022,7 @@
       "durationMs": 0
     },
     {
-      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\NetBT\\Parameters\\Interfaces\\Tcpip_{00000000-0000-4000-8000-000000000b02}",
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\NetBT\\Parameters\\Interfaces\\Tcpip_{00000000-0000-4000-8000-000000000b01}",
       "status": "ok",
       "value": {
         "values": {
@@ -6268,85 +6331,85 @@
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=5986|App=System|Name=Windows Remote Management (HTTPS-In) (Azure)|EmbedCtxt=@firewallapi.dll,-23255|"
           },
-          "{E395C8EE-2335-409D-B8A1-A97080745C6A}": {
+          "{953B591E-79B8-45A5-9D94-8D5016317BEA}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|Desc=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2434737943-167758768-3180539153-984336765-1107280622-3591121930-2677285773|EmbedCtxt=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|Platform=2:6:2|Platform2=GTEQ|"
           },
-          "{DD91548B-8FFF-4FE8-9F03-9E5744683E69}": {
+          "{13C97494-BB86-4B27-B414-BB23A4C6875B}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Domain|Profile=Private|Name=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|Desc=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2434737943-167758768-3180539153-984336765-1107280622-3591121930-2677285773|EmbedCtxt=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|Platform=2:6:2|Platform2=GTEQ|"
           },
-          "{BADB7473-21D3-4700-B352-3D42D5B122A3}": {
+          "{00F43FC1-8DEC-4375-8ACE-3757825CFBF0}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|Desc=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1910091885-1573563583-1104941280-2418270861-3411158377-2822700936-2990310272|EmbedCtxt=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
           },
-          "{D88A109C-83FA-4987-8BC2-B2915E274FFA}": {
+          "{702F70AF-B661-4C79-9528-5B053DC5A3BA}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Domain|Profile=Private|Name=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|Desc=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1910091885-1573563583-1104941280-2418270861-3411158377-2822700936-2990310272|EmbedCtxt=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
           },
-          "{E4ADB06D-CFBB-4687-8C81-790046956FB9}": {
+          "{F5C6116D-DC5A-4D50-8373-7FAC9D19F5B5}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.Windows.OOBENetworkCaptivePortal_10.0.19580.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkCaptivePortal/Resources/AppDisplayName}|Desc=@{Microsoft.Windows.OOBENetworkCaptivePortal_10.0.19580.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkCaptivePortal/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3119458392-1009845475-4083330090-3659807469-4003170139-1239840055-303833190|EmbedCtxt=@{Microsoft.Windows.OOBENetworkCaptivePortal_10.0.19580.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkCaptivePortal/Resources/AppDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
           },
-          "{0FE81580-D0EE-4856-BECA-438EB8C34DBA}": {
+          "{223D29A5-F33A-4CEC-B445-879462E1BF10}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=Windows Feature Experience Pack|Desc=Windows Feature Experience Pack|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-283421221-3183566570-1718213290-751554359-3541592344-2312209569-3374928651|EmbedCtxt=Windows Feature Experience Pack|Platform=2:6:2|Platform2=GTEQ|"
           },
-          "{BFE43931-2141-4822-AD78-67165F87750F}": {
-            "t": "sz",
-            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|Desc=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-155514346-2573954481-755741238-1654018636-1233331829-3075935687-2861478708|EmbedCtxt=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
-          },
-          "{B553B8EF-EFDA-4E26-97CF-10D79E7E796C}": {
+          "{FA0AEA96-B936-40C4-A9AD-23C17FE85AB5}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|Desc=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-515815643-2845804217-1874292103-218650560-777617685-4287762684-137415000|EmbedCtxt=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
           },
-          "{35214566-F342-4FDB-A8C3-0D68038863A8}": {
+          "{A15F6963-E0E9-40A3-8316-192903248F8F}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Domain|Profile=Private|Name=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|Desc=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-515815643-2845804217-1874292103-218650560-777617685-4287762684-137415000|EmbedCtxt=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
           },
-          "{1A0FFC92-3E35-4AAC-B884-8756967B0649}": {
+          "{A5E2E352-E184-4C8B-AD3B-5FE87C121E65}": {
             "t": "sz",
-            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|Desc=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-969871995-3242822759-583047763-1618006129-3578262429-3647035748-2471858633|EmbedCtxt=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|Platform=2:6:2|Platform2=GTEQ|"
+            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|Desc=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-155514346-2573954481-755741238-1654018636-1233331829-3075935687-2861478708|EmbedCtxt=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
           },
-          "{2D1D7501-34A1-4F45-BB5B-FD8EF4A77D31}": {
-            "t": "sz",
-            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|Desc=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2758101530-1321080646-1475665648-4066602542-2880396197-3643791541-2654759312|EmbedCtxt=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
-          },
-          "{C194B2C6-9598-49B2-AE3C-BF95218308B0}": {
+          "{1A202D32-AEB8-4FEC-8DA9-6AED8359014F}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|Desc=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/Description}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|Platform=2:6:2|Platform2=GTEQ|"
           },
-          "{579524D7-154B-4B9C-984A-BF42B99C24CC}": {
+          "{88662AE1-8DB2-44E9-BDD8-A48B58B68890}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|Desc=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/Description}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|Platform=2:6:2|Platform2=GTEQ|Edge=TRUE|"
           },
-          "{ECA9217E-6E39-4827-BCFA-FB78345579EA}": {
+          "{31A9E8B0-DD9D-4323-9E89-47F3DDC6463B}": {
             "t": "sz",
-            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|Desc=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1255970798-2717750985-493741290-1721212560-3530798636-1829112236-3118580706|EmbedCtxt=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|Platform=2:6:2|Platform2=GTEQ|"
+            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|Desc=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2758101530-1321080646-1475665648-4066602542-2880396197-3643791541-2654759312|EmbedCtxt=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
           },
-          "{59799843-8E9D-4BFB-B3B3-0788F9766E3A}": {
-            "t": "sz",
-            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|Desc=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
-          },
-          "{73F1F8B9-B6CC-4587-BEE8-36435CC8897A}": {
+          "{2A2F8425-517A-467D-8CD2-DEDF82B6B0BD}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}|Desc=@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3911328773-608413955-1309177842-678056087-3306350038-3682494511-2300153425|EmbedCtxt=@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
           },
-          "{AC1A67E7-BE40-4FCB-8216-F9AD4DCA1434}": {
+          "{637C46DE-1CBF-4F70-9833-C19FB86EC4EF}": {
+            "t": "sz",
+            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|Desc=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
+          },
+          "{60B20BC0-3929-4C4C-AF79-35DA96D2C4C9}": {
+            "t": "sz",
+            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|Desc=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1255970798-2717750985-493741290-1721212560-3530798636-1829112236-3118580706|EmbedCtxt=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|Platform=2:6:2|Platform2=GTEQ|"
+          },
+          "{749567BF-4492-4AF5-AE5E-0808395766C6}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/ProductDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-536077884-713174666-1066051701-3219990555-339840825-1966734348-1611281757|EmbedCtxt=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
           },
-          "{6A406009-54C5-4C93-A24D-B2673C5D2262}": {
+          "{DA5241B6-28C8-4948-BEDA-DBB53656A9B2}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Domain|Profile=Private|Name=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/ProductDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-536077884-713174666-1066051701-3219990555-339840825-1966734348-1611281757|EmbedCtxt=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
           },
-          "{7EFCAE52-8546-41DE-A72D-F4C1CFB1B63A}": {
+          "{43F900EC-9E1E-45BE-AD34-5B286789C0A6}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/ProductDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2668987081-2569674137-3179742174-4270009011-3803107086-2981642713-3349210623|EmbedCtxt=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
           },
-          "{B9182967-9358-4EF9-8ACC-189EA268CBDB}": {
+          "{6C1A6A2E-4D49-42DB-908C-CBA97B72093E}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Domain|Profile=Private|Name=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/ProductDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2668987081-2569674137-3179742174-4270009011-3803107086-2981642713-3349210623|EmbedCtxt=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|Platform=2:6:2|Platform2=GTEQ|"
+          },
+          "{D811134C-EA41-450F-8E4E-D35D427D8889}": {
+            "t": "sz",
+            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|Name=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|Desc=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-969871995-3242822759-583047763-1618006129-3578262429-3647035748-2471858633|EmbedCtxt=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|Platform=2:6:2|Platform2=GTEQ|"
           },
           "ExampleRule-02": {
             "t": "sz",
@@ -6514,7 +6577,120 @@
       "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\RestrictedInterfaces\\IfIso",
       "status": "ok",
       "value": {
-        "values": {},
+        "values": {
+          "PolicyVersion": {
+            "t": "dword",
+            "v": 543
+          }
+        },
+        "subkeys": [
+          "FirewallRules"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\RestrictedInterfaces\\IfIso\\FirewallRules",
+      "status": "ok",
+      "value": {
+        "values": {
+          "Microsoft.Win32WebViewHost_cw5n1h2txyewy_S-1-5-21-1000-2000-3000-500_In_emptyRemoteName_Cellular": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|IFType2_23=MBB|Name=Example rule 20|Desc=Example rule 20|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=Example rule 20|RsNmE=TRUE|"
+          },
+          "Microsoft.Win32WebViewHost_cw5n1h2txyewy_S-1-5-21-1000-2000-3000-500_In_notRemoteName_Cellular": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|IFType2_23=MBB|Name=Example rule 21|Desc=Example rule 21|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=Example rule 21|RsNmE=TRUE|RsNmN=TRUE|"
+          },
+          "Microsoft.Win32WebViewHost_cw5n1h2txyewy_S-1-5-21-1000-2000-3000-500_Out_emptyRemoteName_Cellular": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|IFType2_23=MBB|Name=Example rule 22|Desc=Example rule 22|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=Example rule 22|RsNmE=TRUE|"
+          },
+          "Microsoft.Win32WebViewHost_cw5n1h2txyewy_S-1-5-21-1000-2000-3000-500_Out_notRemoteName_Cellular": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|IFType2_23=MBB|Name=Example rule 23|Desc=Example rule 23|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=Example rule 23|RsNmE=TRUE|RsNmN=TRUE|"
+          },
+          "Microsoft.Win32WebViewHost_cw5n1h2txyewy_S-1-5-21-1000-2000-3000-500_In_emptyRemoteName_All": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=FALSE|Dir=In|Name=Example rule 24|Desc=Example rule 24|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=Example rule 24|RsNmE=TRUE|"
+          },
+          "Microsoft.Win32WebViewHost_cw5n1h2txyewy_S-1-5-21-1000-2000-3000-500_In_notRemoteName_All": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=FALSE|Dir=In|Name=Example rule 25|Desc=Example rule 25|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=Example rule 25|RsNmE=TRUE|RsNmN=TRUE|"
+          },
+          "Microsoft.Win32WebViewHost_cw5n1h2txyewy_S-1-5-21-1000-2000-3000-500_Out_emptyRemoteName_All": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=FALSE|Dir=Out|Name=Example rule 26|Desc=Example rule 26|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=Example rule 26|RsNmE=TRUE|"
+          },
+          "Microsoft.Win32WebViewHost_cw5n1h2txyewy_S-1-5-21-1000-2000-3000-500_Out_notRemoteName_All": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=FALSE|Dir=Out|Name=Example rule 27|Desc=Example rule 27|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=Example rule 27|RsNmE=TRUE|RsNmN=TRUE|"
+          },
+          "Microsoft.Win32WebViewHost_cw5n1h2txyewy_S-1-5-21-1000-2000-3000-500_In_emptyRemoteName_Wi-Fi": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|IFType=Wireless|Name=Example rule 28|Desc=Example rule 28|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=Example rule 28|RsNmE=TRUE|"
+          },
+          "Microsoft.Win32WebViewHost_cw5n1h2txyewy_S-1-5-21-1000-2000-3000-500_In_notRemoteName_Wi-Fi": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|IFType=Wireless|Name=Example rule 29|Desc=Example rule 29|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=Example rule 29|RsNmE=TRUE|RsNmN=TRUE|"
+          },
+          "Microsoft.Win32WebViewHost_cw5n1h2txyewy_S-1-5-21-1000-2000-3000-500_Out_emptyRemoteName_Wi-Fi": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|IFType=Wireless|Name=Example rule 30|Desc=Example rule 30|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=Example rule 30|RsNmE=TRUE|"
+          },
+          "Microsoft.Win32WebViewHost_cw5n1h2txyewy_S-1-5-21-1000-2000-3000-500_Out_notRemoteName_Wi-Fi": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|IFType=Wireless|Name=Example rule 31|Desc=Example rule 31|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=Example rule 31|RsNmE=TRUE|RsNmN=TRUE|"
+          },
+          "Microsoft.Windows.NarratorQuickStart_8wekyb3d8bbwe_S-1-5-21-1000-2000-3000-500_In_emptyRemoteName_Cellular": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|IFType2_23=MBB|Name=Example rule 32|Desc=Example rule 32|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=Example rule 32|RsNmE=TRUE|"
+          },
+          "Microsoft.Windows.NarratorQuickStart_8wekyb3d8bbwe_S-1-5-21-1000-2000-3000-500_In_notRemoteName_Cellular": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|IFType2_23=MBB|Name=Example rule 33|Desc=Example rule 33|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=Example rule 33|RsNmE=TRUE|RsNmN=TRUE|"
+          },
+          "Microsoft.Windows.NarratorQuickStart_8wekyb3d8bbwe_S-1-5-21-1000-2000-3000-500_Out_emptyRemoteName_Cellular": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|IFType2_23=MBB|Name=Example rule 34|Desc=Example rule 34|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=Example rule 34|RsNmE=TRUE|"
+          },
+          "Microsoft.Windows.NarratorQuickStart_8wekyb3d8bbwe_S-1-5-21-1000-2000-3000-500_Out_notRemoteName_Cellular": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|IFType2_23=MBB|Name=Example rule 35|Desc=Example rule 35|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=Example rule 35|RsNmE=TRUE|RsNmN=TRUE|"
+          },
+          "Microsoft.Windows.NarratorQuickStart_8wekyb3d8bbwe_S-1-5-21-1000-2000-3000-500_In_emptyRemoteName_All": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=FALSE|Dir=In|Name=Example rule 36|Desc=Example rule 36|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=Example rule 36|RsNmE=TRUE|"
+          },
+          "Microsoft.Windows.NarratorQuickStart_8wekyb3d8bbwe_S-1-5-21-1000-2000-3000-500_In_notRemoteName_All": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=FALSE|Dir=In|Name=Example rule 37|Desc=Example rule 37|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=Example rule 37|RsNmE=TRUE|RsNmN=TRUE|"
+          },
+          "Microsoft.Windows.NarratorQuickStart_8wekyb3d8bbwe_S-1-5-21-1000-2000-3000-500_Out_emptyRemoteName_All": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=FALSE|Dir=Out|Name=Example rule 38|Desc=Example rule 38|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=Example rule 38|RsNmE=TRUE|"
+          },
+          "Microsoft.Windows.NarratorQuickStart_8wekyb3d8bbwe_S-1-5-21-1000-2000-3000-500_Out_notRemoteName_All": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=FALSE|Dir=Out|Name=Example rule 39|Desc=Example rule 39|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=Example rule 39|RsNmE=TRUE|RsNmN=TRUE|"
+          },
+          "Microsoft.Windows.NarratorQuickStart_8wekyb3d8bbwe_S-1-5-21-1000-2000-3000-500_In_emptyRemoteName_Wi-Fi": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|IFType=Wireless|Name=Example rule 40|Desc=Example rule 40|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=Example rule 40|RsNmE=TRUE|"
+          },
+          "Microsoft.Windows.NarratorQuickStart_8wekyb3d8bbwe_S-1-5-21-1000-2000-3000-500_In_notRemoteName_Wi-Fi": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|IFType=Wireless|Name=Example rule 41|Desc=Example rule 41|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=Example rule 41|RsNmE=TRUE|RsNmN=TRUE|"
+          },
+          "Microsoft.Windows.NarratorQuickStart_8wekyb3d8bbwe_S-1-5-21-1000-2000-3000-500_Out_emptyRemoteName_Wi-Fi": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|IFType=Wireless|Name=Example rule 42|Desc=Example rule 42|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=Example rule 42|RsNmE=TRUE|"
+          },
+          "Microsoft.Windows.NarratorQuickStart_8wekyb3d8bbwe_S-1-5-21-1000-2000-3000-500_Out_notRemoteName_Wi-Fi": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|IFType=Wireless|Name=Example rule 43|Desc=Example rule 43|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=Example rule 43|RsNmE=TRUE|RsNmN=TRUE|"
+          }
+        },
         "subkeys": []
       },
       "durationMs": 0
@@ -6689,401 +6865,401 @@
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|Desc=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-155514346-2573954481-755741238-1654018636-1233331829-3075935687-2861478708|EmbedCtxt=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|"
           },
-          "{F2BBD86D-4D49-4226-8032-2568EC91D4A9}": {
+          "{F9379BC6-1A91-45F1-9EB0-0BD829F78CD2}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 20|Desc=Example rule 20|LUOwn=S-1-5-18|AppPkgId=S-1-15-2-95739096-486727260-2033287795-3853587803-1685597119-444378811-2746676523|EmbedCtxt=Example rule 20|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 44|Desc=Example rule 44|LUOwn=S-1-5-18|AppPkgId=S-1-15-2-95739096-486727260-2033287795-3853587803-1685597119-444378811-2746676523|EmbedCtxt=Example rule 44|"
           },
-          "{0D460922-8635-4592-8B08-6FD3F3BA9E33}": {
+          "{F36760B2-5159-42AD-B4C1-C249FB716F39}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 21|Desc=Example rule 21|LUOwn=S-1-5-18|AppPkgId=S-1-15-2-95739096-486727260-2033287795-3853587803-1685597119-444378811-2746676523|EmbedCtxt=Example rule 21|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 45|Desc=Example rule 45|LUOwn=S-1-5-18|AppPkgId=S-1-15-2-95739096-486727260-2033287795-3853587803-1685597119-444378811-2746676523|EmbedCtxt=Example rule 45|"
           },
-          "{D0306EA9-1260-474F-B50A-8FC8C21AAE36}": {
+          "{3D9F8940-32BC-4041-81BC-88490F0550A7}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.BioEnrollment_10.0.19585.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.BioEnrollment/Resources/AppDisplayName}|Desc=@{Microsoft.BioEnrollment_10.0.19585.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.BioEnrollment/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-19479607-1015771884-3827151630-3301822711-2267158487-4079414233-1230461222|EmbedCtxt=@{Microsoft.BioEnrollment_10.0.19585.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.BioEnrollment/Resources/AppDisplayName}|"
           },
-          "{EF107471-3C61-4A0E-BD0D-3C03FDE339FB}": {
+          "{10E3B7DA-F8BE-4A50-83ED-8A6C911AB0EA}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.BioEnrollment_10.0.19585.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.BioEnrollment/Resources/AppDisplayName}|Desc=@{Microsoft.BioEnrollment_10.0.19585.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.BioEnrollment/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-19479607-1015771884-3827151630-3301822711-2267158487-4079414233-1230461222|EmbedCtxt=@{Microsoft.BioEnrollment_10.0.19585.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.BioEnrollment/Resources/AppDisplayName}|"
           },
-          "{BBC823C7-4C60-4F3B-AAF2-703162AC9C09}": {
+          "{0FF54A4F-FA64-4D2D-8B50-BE0E584022C7}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|Desc=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2434737943-167758768-3180539153-984336765-1107280622-3591121930-2677285773|EmbedCtxt=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|"
           },
-          "{5CC70BD3-9EE0-4CE9-A5A6-55B50CF20273}": {
+          "{AACDE267-4616-4D17-BE6E-B80F34186367}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|Desc=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2434737943-167758768-3180539153-984336765-1107280622-3591121930-2677285773|EmbedCtxt=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|"
           },
-          "{935B41DF-6719-4BB0-B10F-D6AAE5B2012B}": {
+          "{82103A70-2CB5-422C-A036-82C61046897B}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Domain|Profile=Private|Profile=Public|RA42=IntrAnet|RA62=IntrAnet|Name=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|Desc=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2434737943-167758768-3180539153-984336765-1107280622-3591121930-2677285773|EmbedCtxt=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|"
           },
-          "{896E9A5A-637B-4CF3-8B14-70976839F375}": {
+          "{D005C56E-C041-456C-A748-ACE489A063EA}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntrAnet|RA62=IntrAnet|Name=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|Desc=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2434737943-167758768-3180539153-984336765-1107280622-3591121930-2677285773|EmbedCtxt=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|"
           },
-          "{11129F87-E321-4959-BD37-30818DDA8EE1}": {
+          "{9A438E66-BB9B-4016-925E-BDCFC6DB76C0}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Private|Profile=Public|RA42=RmtIntrAnet|RA62=RmtIntrAnet|Name=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|Desc=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2434737943-167758768-3180539153-984336765-1107280622-3591121930-2677285773|EmbedCtxt=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|Security=Authenticate|"
           },
-          "{376DA24E-9F3F-4B8A-B8AC-4643C81B1AA8}": {
+          "{D60AC9E5-6C97-42A7-8E05-56F828BC070A}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Private|Profile=Public|RA42=RmtIntrAnet|RA62=RmtIntrAnet|Name=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|Desc=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2434737943-167758768-3180539153-984336765-1107280622-3591121930-2677285773|EmbedCtxt=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|Security=Authenticate|"
           },
-          "{347DCEE7-8AAD-4D46-84B7-03FC5131A6A2}": {
+          "{E0040A61-BFE6-4F26-ABD0-93259A41DAE7}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|Desc=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2434737943-167758768-3180539153-984336765-1107280622-3591121930-2677285773|EmbedCtxt=@{Microsoft.Windows.CloudExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.CloudExperienceHost/resources/appDescription}|"
           },
-          "{0DB0D2EC-49E8-4A49-A389-19DDFDCE9D23}": {
+          "{087C8352-85A2-4064-B65E-C67BC4904100}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Windows.OOBENetworkConnectionFlow_10.0.19581.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkConnectionFlow/Resources/AppDisplayName}|Desc=@{Microsoft.Windows.OOBENetworkConnectionFlow_10.0.19581.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkConnectionFlow/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3784866113-3187381476-3433752343-3391928953-3760210436-1684329488-1912184601|EmbedCtxt=@{Microsoft.Windows.OOBENetworkConnectionFlow_10.0.19581.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkConnectionFlow/Resources/AppDisplayName}|"
           },
-          "{56483705-BCB9-4708-88CB-407561A4B2DE}": {
+          "{5F61F602-F09C-48EE-9789-98E474D3AB31}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Windows.OOBENetworkConnectionFlow_10.0.19581.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkConnectionFlow/Resources/AppDisplayName}|Desc=@{Microsoft.Windows.OOBENetworkConnectionFlow_10.0.19581.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkConnectionFlow/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3784866113-3187381476-3433752343-3391928953-3760210436-1684329488-1912184601|EmbedCtxt=@{Microsoft.Windows.OOBENetworkConnectionFlow_10.0.19581.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkConnectionFlow/Resources/AppDisplayName}|"
           },
-          "{A388E6B0-6787-4B6A-96C3-9E84EF6AD936}": {
+          "{4F01098E-9F3F-407C-A254-86F806D5983B}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|Desc=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1910091885-1573563583-1104941280-2418270861-3411158377-2822700936-2990310272|EmbedCtxt=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|"
           },
-          "{4E7DF588-C8C6-491D-B7DD-1E3166AE14E0}": {
+          "{200E0329-07C9-4D28-913A-29EDAC657F08}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|Desc=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1910091885-1573563583-1104941280-2418270861-3411158377-2822700936-2990310272|EmbedCtxt=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|"
           },
-          "{2F87FBC8-57A5-4C57-A2CF-621C38FC3009}": {
+          "{094CCB4C-88FF-4693-9240-3A6B2B2EAD7E}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Domain|Profile=Private|Profile=Public|RA42=IntrAnet|RA62=IntrAnet|Name=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|Desc=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1910091885-1573563583-1104941280-2418270861-3411158377-2822700936-2990310272|EmbedCtxt=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|"
           },
-          "{3CACD0CB-7C36-4BD4-ACCE-D1756564E6D0}": {
+          "{C800E78A-8F8E-40A2-931D-1B4D2BE36E5E}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntrAnet|RA62=IntrAnet|Name=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|Desc=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1910091885-1573563583-1104941280-2418270861-3411158377-2822700936-2990310272|EmbedCtxt=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|"
           },
-          "{E3B93CE3-1209-4331-822D-4E6A223055F0}": {
+          "{08E0EDB0-1510-427B-824A-5957CDBC9E38}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Private|Profile=Public|RA42=RmtIntrAnet|RA62=RmtIntrAnet|Name=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|Desc=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1910091885-1573563583-1104941280-2418270861-3411158377-2822700936-2990310272|EmbedCtxt=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|Security=Authenticate|"
           },
-          "{D5CA568B-22A5-43EA-9E5B-78A25682E65E}": {
+          "{94138392-0034-47D2-8AB7-50EB1AE5EC3C}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Private|Profile=Public|RA42=RmtIntrAnet|RA62=RmtIntrAnet|Name=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|Desc=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1910091885-1573563583-1104941280-2418270861-3411158377-2822700936-2990310272|EmbedCtxt=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|Security=Authenticate|"
           },
-          "{B74937A3-C119-4A26-81B2-532466F90377}": {
+          "{B40BBB04-C72D-42EA-915C-49D0E5666239}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|Desc=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1910091885-1573563583-1104941280-2418270861-3411158377-2822700936-2990310272|EmbedCtxt=@{Microsoft.AAD.BrokerPlugin_1000.19580.1000.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.AAD.BrokerPlugin/resources/PackageDisplayName}|"
           },
-          "{B3BBF15D-62E5-45CB-9F85-B3D8A3A283F0}": {
+          "{A4C51F00-6230-44E7-A327-644313D9AB45}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Windows.OOBENetworkCaptivePortal_10.0.19580.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkCaptivePortal/Resources/AppDisplayName}|Desc=@{Microsoft.Windows.OOBENetworkCaptivePortal_10.0.19580.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkCaptivePortal/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3119458392-1009845475-4083330090-3659807469-4003170139-1239840055-303833190|EmbedCtxt=@{Microsoft.Windows.OOBENetworkCaptivePortal_10.0.19580.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkCaptivePortal/Resources/AppDisplayName}|"
           },
-          "{3C9AC327-8A1C-4ECD-93AB-D96FFABC2494}": {
+          "{644FFB95-D52B-41C3-A9A7-AA11E104A848}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Windows.OOBENetworkCaptivePortal_10.0.19580.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkCaptivePortal/Resources/AppDisplayName}|Desc=@{Microsoft.Windows.OOBENetworkCaptivePortal_10.0.19580.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkCaptivePortal/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3119458392-1009845475-4083330090-3659807469-4003170139-1239840055-303833190|EmbedCtxt=@{Microsoft.Windows.OOBENetworkCaptivePortal_10.0.19580.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkCaptivePortal/Resources/AppDisplayName}|"
           },
-          "{FFFA72DA-C79C-4FA3-A838-68059305860C}": {
+          "{25E2AD3B-243C-4AAE-A094-34999F2293EB}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.Windows.OOBENetworkCaptivePortal_10.0.19580.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkCaptivePortal/Resources/AppDisplayName}|Desc=@{Microsoft.Windows.OOBENetworkCaptivePortal_10.0.19580.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkCaptivePortal/Resources/AppDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3119458392-1009845475-4083330090-3659807469-4003170139-1239840055-303833190|EmbedCtxt=@{Microsoft.Windows.OOBENetworkCaptivePortal_10.0.19580.1000_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.OOBENetworkCaptivePortal/Resources/AppDisplayName}|"
           },
-          "{EB84E0D5-A493-4660-A464-52A8C43D4A6A}": {
+          "{84A4A914-D942-4C23-9CD2-450101439F4A}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Windows Feature Experience Pack|Desc=Windows Feature Experience Pack|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-283421221-3183566570-1718213290-751554359-3541592344-2312209569-3374928651|EmbedCtxt=Windows Feature Experience Pack|"
           },
-          "{045F0E98-875B-4514-9B66-36732B109165}": {
+          "{9AA09B98-C909-45B5-8450-9C979239CA68}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Windows Feature Experience Pack|Desc=Windows Feature Experience Pack|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-283421221-3183566570-1718213290-751554359-3541592344-2312209569-3374928651|EmbedCtxt=Windows Feature Experience Pack|"
           },
-          "{83651ECB-BE27-441B-8724-CC4BB7DA75C3}": {
+          "{85D156F6-F84E-4D9B-9EC1-C3EBA337B160}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=Windows Feature Experience Pack|Desc=Windows Feature Experience Pack|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-283421221-3183566570-1718213290-751554359-3541592344-2312209569-3374928651|EmbedCtxt=Windows Feature Experience Pack|"
           },
-          "{D4FC043E-7BB7-4914-AD10-D4C2D7C7AE9E}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|Desc=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-155514346-2573954481-755741238-1654018636-1233331829-3075935687-2861478708|EmbedCtxt=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|"
-          },
-          "{1FF894C1-72C3-417E-843B-C80AE324DBC5}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|Desc=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-155514346-2573954481-755741238-1654018636-1233331829-3075935687-2861478708|EmbedCtxt=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|"
-          },
-          "{72E70D27-5DC8-4DDB-AE81-788C980F7C23}": {
-            "t": "sz",
-            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|Desc=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-155514346-2573954481-755741238-1654018636-1233331829-3075935687-2861478708|EmbedCtxt=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|"
-          },
-          "{2752FD80-D9F7-4FD5-87B6-3F5545A8A1D0}": {
+          "{DCCCE555-5A95-474D-B432-58149FE84A66}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|Desc=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-515815643-2845804217-1874292103-218650560-777617685-4287762684-137415000|EmbedCtxt=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|"
           },
-          "{E8402812-3C5A-46C1-AF19-33C011579CFB}": {
+          "{3049F1A5-9C15-431A-88B8-1866EE914291}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|Desc=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-515815643-2845804217-1874292103-218650560-777617685-4287762684-137415000|EmbedCtxt=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|"
           },
-          "{B0B87E1A-6E25-4A47-8318-CDB7EEFAA2E6}": {
+          "{542B8B44-48F2-4930-BE4E-4D10C5C78B03}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Domain|Profile=Private|Profile=Public|RA42=IntrAnet|RA62=IntrAnet|Name=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|Desc=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-515815643-2845804217-1874292103-218650560-777617685-4287762684-137415000|EmbedCtxt=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|"
           },
-          "{FC2B3569-D0B7-4E24-903D-7EB3239B4AC1}": {
+          "{C1065621-8733-4366-8CE0-4077424B3427}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntrAnet|RA62=IntrAnet|Name=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|Desc=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-515815643-2845804217-1874292103-218650560-777617685-4287762684-137415000|EmbedCtxt=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|"
           },
-          "{64872EDA-F651-4C2A-8953-F1AD19FF169F}": {
+          "{54210B32-7DB3-4103-9653-48B1EBC7EB4C}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Private|Profile=Public|RA42=RmtIntrAnet|RA62=RmtIntrAnet|Name=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|Desc=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-515815643-2845804217-1874292103-218650560-777617685-4287762684-137415000|EmbedCtxt=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|Security=Authenticate|"
           },
-          "{9AD47D35-FEC9-4AD6-AB7A-09802AD924B6}": {
+          "{B18141FA-C69D-41C2-ADF4-186C0D282B03}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Private|Profile=Public|RA42=RmtIntrAnet|RA62=RmtIntrAnet|Name=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|Desc=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-515815643-2845804217-1874292103-218650560-777617685-4287762684-137415000|EmbedCtxt=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|Security=Authenticate|"
           },
-          "{95D4E517-03CD-42DC-A5FE-C150ED62182D}": {
+          "{F323FCD7-F237-4D6A-A915-66AC550C7857}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|Desc=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-515815643-2845804217-1874292103-218650560-777617685-4287762684-137415000|EmbedCtxt=@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}|"
           },
-          "{349BBDFA-6BE9-4392-84E8-BB05F62B769E}": {
+          "{5FCCF62F-2ED1-4D88-A208-299176F7483B}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 22|Desc=Example rule 22|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3110756066-2507771734-389907848-353554127-1230786711-3973453966-120447785|EmbedCtxt=Example rule 22|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|Desc=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-155514346-2573954481-755741238-1654018636-1233331829-3075935687-2861478708|EmbedCtxt=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|"
           },
-          "{419C00AC-0CF0-42C1-A657-DC13260C4C1E}": {
+          "{C0F79DF8-171F-4E9D-BBF1-D1CFA1F91B78}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 23|Desc=Example rule 23|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3110756066-2507771734-389907848-353554127-1230786711-3973453966-120447785|EmbedCtxt=Example rule 23|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|Desc=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-155514346-2573954481-755741238-1654018636-1233331829-3075935687-2861478708|EmbedCtxt=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|"
           },
-          "{846BF5E5-8A02-478F-BA16-C27177F28CFE}": {
+          "{DDC7521E-A8A7-4F3B-B71D-F7D3287F6460}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 24|Desc=Example rule 24|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-4264928162-86341590-2006646042-3756743162-890444002-3415177634-881149292|EmbedCtxt=Example rule 24|"
+            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|Desc=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-155514346-2573954481-755741238-1654018636-1233331829-3075935687-2861478708|EmbedCtxt=@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}|"
           },
-          "{7D8285AA-13E9-4887-AB0D-95A5C45A139B}": {
+          "{3E8DC9BB-1497-4828-A9FA-E537F5F72954}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 25|Desc=Example rule 25|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-4264928162-86341590-2006646042-3756743162-890444002-3415177634-881149292|EmbedCtxt=Example rule 25|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 46|Desc=Example rule 46|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1912509539-3368118754-2471371924-3037708167-1407372224-1099830378-371392376|EmbedCtxt=Example rule 46|"
           },
-          "{AC819F46-C5CE-4ECD-B88A-B536825CA765}": {
+          "{F73622B7-6772-4E54-82D4-37583187EE1E}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 26|Desc=Example rule 26|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1912509539-3368118754-2471371924-3037708167-1407372224-1099830378-371392376|EmbedCtxt=Example rule 26|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 47|Desc=Example rule 47|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1912509539-3368118754-2471371924-3037708167-1407372224-1099830378-371392376|EmbedCtxt=Example rule 47|"
           },
-          "{BB0F1EA4-F238-4D38-A097-0A81C74BA3C3}": {
+          "{58826D3B-E1D7-4448-854F-A163904439C0}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 27|Desc=Example rule 27|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1912509539-3368118754-2471371924-3037708167-1407372224-1099830378-371392376|EmbedCtxt=Example rule 27|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 48|Desc=Example rule 48|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3110756066-2507771734-389907848-353554127-1230786711-3973453966-120447785|EmbedCtxt=Example rule 48|"
           },
-          "{D1B06A0E-36D6-4822-8E15-DE8006627073}": {
+          "{A77F9F31-84BC-481A-84A8-CAA56096B962}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 28|Desc=Example rule 28|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1443768658-4142614663-2184295616-261691820-2296379425-3814639016-258098527|EmbedCtxt=Example rule 28|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 49|Desc=Example rule 49|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3110756066-2507771734-389907848-353554127-1230786711-3973453966-120447785|EmbedCtxt=Example rule 49|"
           },
-          "{009F49B2-76A6-49BB-B7DE-FB51D59B1FBE}": {
+          "{29C66143-6A03-46D6-BEDC-09CA37CA9709}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 29|Desc=Example rule 29|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1443768658-4142614663-2184295616-261691820-2296379425-3814639016-258098527|EmbedCtxt=Example rule 29|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 50|Desc=Example rule 50|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1443768658-4142614663-2184295616-261691820-2296379425-3814639016-258098527|EmbedCtxt=Example rule 50|"
           },
-          "{B225A50D-9E98-49F7-A811-765DCAE81B8C}": {
+          "{90B6FA21-D14C-4E7F-87B9-B1FEEC1B0AE1}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|Desc=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-969871995-3242822759-583047763-1618006129-3578262429-3647035748-2471858633|EmbedCtxt=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 51|Desc=Example rule 51|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1443768658-4142614663-2184295616-261691820-2296379425-3814639016-258098527|EmbedCtxt=Example rule 51|"
           },
-          "{DD2ACF64-37C5-4383-9333-28FFE76542DD}": {
+          "{0CB8EA77-1BF2-4C45-8AFA-94B03C351868}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|Desc=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-969871995-3242822759-583047763-1618006129-3578262429-3647035748-2471858633|EmbedCtxt=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 52|Desc=Example rule 52|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-4264928162-86341590-2006646042-3756743162-890444002-3415177634-881149292|EmbedCtxt=Example rule 52|"
           },
-          "{DCA63E42-C1D3-4BE2-9F34-014483A58708}": {
+          "{F5B2C90A-C0B9-4118-9006-DCC8354F33C2}": {
             "t": "sz",
-            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|Desc=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-969871995-3242822759-583047763-1618006129-3578262429-3647035748-2471858633|EmbedCtxt=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 53|Desc=Example rule 53|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-4264928162-86341590-2006646042-3756743162-890444002-3415177634-881149292|EmbedCtxt=Example rule 53|"
           },
-          "{E38660FF-40BF-438F-B196-F83BE3E357BD}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.AsyncTextService_10.0.20348.1_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.AsyncTextService/Resources/AppDisplayName}|Desc=@{Microsoft.AsyncTextService_10.0.20348.1_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.AsyncTextService/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-284907560-3695622717-2124867970-90980536-1928201052-1028515541-1033863524|EmbedCtxt=@{Microsoft.AsyncTextService_10.0.20348.1_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.AsyncTextService/Resources/AppDisplayName}|"
-          },
-          "{A4C26139-C9EE-4112-8562-D079CB77C14D}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.AsyncTextService_10.0.20348.1_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.AsyncTextService/Resources/AppDisplayName}|Desc=@{Microsoft.AsyncTextService_10.0.20348.1_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.AsyncTextService/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-284907560-3695622717-2124867970-90980536-1928201052-1028515541-1033863524|EmbedCtxt=@{Microsoft.AsyncTextService_10.0.20348.1_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.AsyncTextService/Resources/AppDisplayName}|"
-          },
-          "{F2737271-D121-422B-83CD-03EA0C503830}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.CredDialogHost_10.0.19595.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.CredDialogHost/Resources/AppDisplayName}|Desc=@{Microsoft.CredDialogHost_10.0.19595.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.CredDialogHost/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-932905279-1352884144-690731472-1935380077-77221151-3040906485-3167188873|EmbedCtxt=@{Microsoft.CredDialogHost_10.0.19595.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.CredDialogHost/Resources/AppDisplayName}|"
-          },
-          "{BCEF960B-979A-4B04-AE73-830896C0F1C5}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.CredDialogHost_10.0.19595.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.CredDialogHost/Resources/AppDisplayName}|Desc=@{Microsoft.CredDialogHost_10.0.19595.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.CredDialogHost/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-932905279-1352884144-690731472-1935380077-77221151-3040906485-3167188873|EmbedCtxt=@{Microsoft.CredDialogHost_10.0.19595.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.CredDialogHost/Resources/AppDisplayName}|"
-          },
-          "{23BD619E-7C66-4132-99FB-505938E1C8DB}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.ECApp_10.0.20348.2849_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.ECApp/Resources/AppDisplayName}|Desc=@{Microsoft.ECApp_10.0.20348.2849_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.ECApp/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3912597219-1073764063-4221279274-2430493127-3107599948-1184173955-951593363|EmbedCtxt=@{Microsoft.ECApp_10.0.20348.2849_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.ECApp/Resources/AppDisplayName}|"
-          },
-          "{8ABB49F8-FA5F-4831-A1A9-E1E07D740032}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.ECApp_10.0.20348.2849_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.ECApp/Resources/AppDisplayName}|Desc=@{Microsoft.ECApp_10.0.20348.2849_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.ECApp/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3912597219-1073764063-4221279274-2430493127-3107599948-1184173955-951593363|EmbedCtxt=@{Microsoft.ECApp_10.0.20348.2849_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.ECApp/Resources/AppDisplayName}|"
-          },
-          "{CD2BD3F8-9796-4A46-824B-B7E3E9DFA1CE}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|Desc=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2758101530-1321080646-1475665648-4066602542-2880396197-3643791541-2654759312|EmbedCtxt=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|"
-          },
-          "{ABC82FF1-5918-4E57-A6CD-60BBBD4CD662}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|Desc=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2758101530-1321080646-1475665648-4066602542-2880396197-3643791541-2654759312|EmbedCtxt=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|"
-          },
-          "{A71D9297-134F-43AD-8227-1D97CDE7BA89}": {
-            "t": "sz",
-            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|Desc=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2758101530-1321080646-1475665648-4066602542-2880396197-3643791541-2654759312|EmbedCtxt=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|"
-          },
-          "{FA9D2589-CE2C-4FC0-976C-839457ABF143}": {
+          "{0564187C-8431-4503-A0B3-848C8A0031AA}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|Desc=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/Description}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|"
           },
-          "{98E85FD2-D52D-4E1F-BAB2-2F70E2DC0765}": {
+          "{2A46DAAE-F438-4DD1-A67A-3C20E60757CC}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|Desc=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/Description}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|"
           },
-          "{1EFAE2A3-20AA-47DC-96D4-C878D62E03D6}": {
+          "{C5599EA7-A6F7-48AB-B6D9-1A56D04F381E}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Domain|Profile=Private|Profile=Public|RA42=IntrAnet|RA62=IntrAnet|Name=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|Desc=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/Description}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|"
           },
-          "{70AA4332-7C67-47EF-B5ED-98141CB7FF45}": {
+          "{0CAB3D02-9D67-46C0-B185-14D94B1005DE}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntrAnet|RA62=IntrAnet|Name=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|Desc=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/Description}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|"
           },
-          "{BCD5ED40-635A-41F8-971E-39EA6BD2C00C}": {
+          "{EA695957-C537-4C7B-B835-2BFBC0E979B9}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.CredDialogHost_10.0.19595.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.CredDialogHost/Resources/AppDisplayName}|Desc=@{Microsoft.CredDialogHost_10.0.19595.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.CredDialogHost/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-932905279-1352884144-690731472-1935380077-77221151-3040906485-3167188873|EmbedCtxt=@{Microsoft.CredDialogHost_10.0.19595.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.CredDialogHost/Resources/AppDisplayName}|"
+          },
+          "{5B32D500-F34E-43FA-9174-D46D2B2DB610}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Private|Profile=Public|RA42=RmtIntrAnet|RA62=RmtIntrAnet|Name=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|Desc=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/Description}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|Security=Authenticate|"
           },
-          "{61D7982D-4466-4FE3-B788-2AE2F58DA22D}": {
+          "{0FC415D4-9FE7-4181-BD12-C787DBB9FB53}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.CredDialogHost_10.0.19595.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.CredDialogHost/Resources/AppDisplayName}|Desc=@{Microsoft.CredDialogHost_10.0.19595.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.CredDialogHost/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-932905279-1352884144-690731472-1935380077-77221151-3040906485-3167188873|EmbedCtxt=@{Microsoft.CredDialogHost_10.0.19595.1001_neutral__cw5n1h2txyewy?ms-resource://Microsoft.CredDialogHost/Resources/AppDisplayName}|"
+          },
+          "{01F3977D-C340-4B72-8A17-E68B26D5A96A}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Private|Profile=Public|RA42=RmtIntrAnet|RA62=RmtIntrAnet|Name=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|Desc=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/Description}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|Security=Authenticate|"
           },
-          "{31FA6167-7777-427E-9872-8A0633C764A1}": {
+          "{709A2309-19CB-47E6-9275-84A3155B60F8}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|Desc=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/Description}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-2)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|"
           },
-          "{CBC26077-F088-4F1E-9F76-DFB572E7B60E}": {
+          "{4C9EA712-2E23-44E3-8F8F-55281CC7BDEF}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|Desc=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/Description}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-2)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1310292540-1029022339-4008023048-2190398717-53961996-4257829345-603366646|EmbedCtxt=@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}|"
           },
-          "{249F6780-2898-45B9-9196-0F14A04004E0}": {
+          "{D60EB2DE-804B-4F8B-8D11-4B7AC79CD97A}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|Desc=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1255970798-2717750985-493741290-1721212560-3530798636-1829112236-3118580706|EmbedCtxt=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.ECApp_10.0.20348.2849_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.ECApp/Resources/AppDisplayName}|Desc=@{Microsoft.ECApp_10.0.20348.2849_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.ECApp/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3912597219-1073764063-4221279274-2430493127-3107599948-1184173955-951593363|EmbedCtxt=@{Microsoft.ECApp_10.0.20348.2849_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.ECApp/Resources/AppDisplayName}|"
           },
-          "{FB1D1295-9295-4017-84C7-2E224B22C293}": {
+          "{126F9761-CA84-4CC3-AD7C-D92491255333}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|Desc=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1255970798-2717750985-493741290-1721212560-3530798636-1829112236-3118580706|EmbedCtxt=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.ECApp_10.0.20348.2849_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.ECApp/Resources/AppDisplayName}|Desc=@{Microsoft.ECApp_10.0.20348.2849_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.ECApp/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3912597219-1073764063-4221279274-2430493127-3107599948-1184173955-951593363|EmbedCtxt=@{Microsoft.ECApp_10.0.20348.2849_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.ECApp/Resources/AppDisplayName}|"
           },
-          "{B4C93ED9-4687-4068-AA6B-0201971373DF}": {
+          "{96A24B92-2135-4E9B-A545-1E9EA278C3D0}": {
             "t": "sz",
-            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|Desc=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1255970798-2717750985-493741290-1721212560-3530798636-1829112236-3118580706|EmbedCtxt=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|Desc=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2758101530-1321080646-1475665648-4066602542-2880396197-3643791541-2654759312|EmbedCtxt=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|"
           },
-          "{41546597-B1ED-465A-BA8A-0977C01EFE82}": {
+          "{86D6D173-EAEB-413C-97D0-8EEF79CD0264}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 30|Desc=Example rule 30|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3147918054-4251542582-2404553452-1793583264-1546801782-1235146273-4024180735|EmbedCtxt=Example rule 30|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|Desc=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2758101530-1321080646-1475665648-4066602542-2880396197-3643791541-2654759312|EmbedCtxt=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|"
           },
-          "{7B63D71C-407F-4C31-B260-0A67A2F74431}": {
+          "{2771173D-CF0F-4891-B66E-5C3D059618E9}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 31|Desc=Example rule 31|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3147918054-4251542582-2404553452-1793583264-1546801782-1235146273-4024180735|EmbedCtxt=Example rule 31|"
+            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|Desc=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2758101530-1321080646-1475665648-4066602542-2880396197-3643791541-2654759312|EmbedCtxt=@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}|"
           },
-          "{330C99E0-F022-4BA4-8122-2A6F26A1E1A3}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|Desc=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|"
-          },
-          "{40C1ED02-B906-4554-8FE2-B124C83E9112}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|Desc=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|"
-          },
-          "{4EAB06D4-1DD1-4AD9-8859-0387360680FF}": {
-            "t": "sz",
-            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|Desc=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|"
-          },
-          "{A1BE75FC-7516-49A3-AE16-29160E2A3043}": {
+          "{278881A3-62F7-4249-A2C8-2C7BE5EAE71E}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}|Desc=@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3911328773-608413955-1309177842-678056087-3306350038-3682494511-2300153425|EmbedCtxt=@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}|"
           },
-          "{0767A7BE-F213-45D6-9152-E60BAF458070}": {
+          "{47C64168-1CCC-42AA-90DF-211992EE100E}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}|Desc=@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3911328773-608413955-1309177842-678056087-3306350038-3682494511-2300153425|EmbedCtxt=@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}|"
           },
-          "{1CD82314-B03B-40FE-922D-1A42199C1412}": {
+          "{18DE184C-5273-421A-9C48-D08499934C0F}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}|Desc=@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3911328773-608413955-1309177842-678056087-3306350038-3682494511-2300153425|EmbedCtxt=@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}|"
           },
-          "{87EB4027-89C6-4505-A057-E27CE7476ADD}": {
+          "{B3B0BCA6-2E99-481C-9517-7F0976E8AED4}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 32|Desc=Example rule 32|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2652307757-2298579837-578647688-3387406430-2756081349-614783772-2601174805|EmbedCtxt=Example rule 32|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 54|Desc=Example rule 54|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3147918054-4251542582-2404553452-1793583264-1546801782-1235146273-4024180735|EmbedCtxt=Example rule 54|"
           },
-          "{E5B00828-6B00-4929-BA16-485D0B93F3A1}": {
+          "{5A38CB34-DE1B-410E-AC9D-60F740CD1A1D}": {
             "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 33|Desc=Example rule 33|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2652307757-2298579837-578647688-3387406430-2756081349-614783772-2601174805|EmbedCtxt=Example rule 33|"
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|Desc=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|"
           },
-          "{3AFBC6C8-5F24-4F4D-A772-A6772E479232}": {
+          "{B87B6431-B725-4254-90D1-E64822EB2190}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 55|Desc=Example rule 55|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3147918054-4251542582-2404553452-1793583264-1546801782-1235146273-4024180735|EmbedCtxt=Example rule 55|"
+          },
+          "{AE718D73-5114-42CA-ACAC-FCD473A66734}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|Desc=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|"
+          },
+          "{1C44FF3B-F73B-496A-99DE-489FCAE9D02F}": {
+            "t": "sz",
+            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|Desc=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-577703620-721806600-2575725278-1938300505-2177978512-2240326487-1220425747|EmbedCtxt=@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}|"
+          },
+          "{71F7D3EF-524D-4FF5-8323-7752D5F453FD}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 56|Desc=Example rule 56|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2652307757-2298579837-578647688-3387406430-2756081349-614783772-2601174805|EmbedCtxt=Example rule 56|"
+          },
+          "{D177DE24-C1D1-4723-AF3D-DCD3F5A9CFDD}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 57|Desc=Example rule 57|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2652307757-2298579837-578647688-3387406430-2756081349-614783772-2601174805|EmbedCtxt=Example rule 57|"
+          },
+          "{F51C907F-A9D0-4EED-B4AC-031BE5DBD889}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|Desc=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1255970798-2717750985-493741290-1721212560-3530798636-1829112236-3118580706|EmbedCtxt=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|"
+          },
+          "{19069E5C-3F36-4BBA-8D36-46D75A56C81A}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|Desc=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1255970798-2717750985-493741290-1721212560-3530798636-1829112236-3118580706|EmbedCtxt=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|"
+          },
+          "{9C479576-611B-451F-9510-23E3C5C66809}": {
+            "t": "sz",
+            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|Desc=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1255970798-2717750985-493741290-1721212560-3530798636-1829112236-3118580706|EmbedCtxt=@{Microsoft.Windows.Apprep.ChxApp_1000.20348.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Apprep.ChxApp/resources/DisplayName}|"
+          },
+          "{2A489C66-2D0E-4D31-9E54-211A370019BF}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/ProductDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-536077884-713174666-1066051701-3219990555-339840825-1966734348-1611281757|EmbedCtxt=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|"
           },
-          "{CF275FA9-B164-42E2-BCB2-ECE0B3FD46F8}": {
+          "{2BCEC629-A715-4C33-AB7D-F356D439DE98}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/ProductDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-536077884-713174666-1066051701-3219990555-339840825-1966734348-1611281757|EmbedCtxt=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|"
           },
-          "{5B97F168-7E43-4472-B57F-E64745DD6F40}": {
+          "{F154E5D1-3E1C-44E2-B24A-A68A822F72AD}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Domain|Profile=Private|Profile=Public|RA42=IntrAnet|RA62=IntrAnet|Name=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/ProductDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-536077884-713174666-1066051701-3219990555-339840825-1966734348-1611281757|EmbedCtxt=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|"
           },
-          "{1C3CED4F-EA30-4659-B8D8-C7888221FB17}": {
+          "{2FEB9298-05AE-45F7-979F-091056678898}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntrAnet|RA62=IntrAnet|Name=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/ProductDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-536077884-713174666-1066051701-3219990555-339840825-1966734348-1611281757|EmbedCtxt=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|"
           },
-          "{0E1DDC01-77CA-4728-A95C-C25ED3D92A80}": {
+          "{05D91EE1-819E-4BE5-B5ED-9B18483B2A66}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Private|Profile=Public|RA42=RmtIntrAnet|RA62=RmtIntrAnet|Name=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/ProductDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-536077884-713174666-1066051701-3219990555-339840825-1966734348-1611281757|EmbedCtxt=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|Security=Authenticate|"
           },
-          "{606FB8B7-522A-4B82-9737-2BC8F5F30D91}": {
+          "{F5B2E4DE-C809-4049-AF39-A776D87FD1AF}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Private|Profile=Public|RA42=RmtIntrAnet|RA62=RmtIntrAnet|Name=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/ProductDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-536077884-713174666-1066051701-3219990555-339840825-1966734348-1611281757|EmbedCtxt=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|Security=Authenticate|"
           },
-          "{0C01DB7F-07DC-402C-A514-1CAC9CF2DA33}": {
+          "{34502D0B-08BE-4D40-990D-1450BEA642E2}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/ProductDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-536077884-713174666-1066051701-3219990555-339840825-1966734348-1611281757|EmbedCtxt=@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}|"
           },
-          "{645E150A-DBD8-4452-8632-139559775AA7}": {
+          "{16CFBCAA-B89E-4C17-BA0B-72C9FBCF5E40}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/ProductDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2668987081-2569674137-3179742174-4270009011-3803107086-2981642713-3349210623|EmbedCtxt=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|"
           },
-          "{D5E4A2F4-020F-44E5-951A-D23511C7B5A2}": {
+          "{E7BD99DF-122F-4A9E-BE1A-88FDD6A85E24}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/ProductDescription}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2668987081-2569674137-3179742174-4270009011-3803107086-2981642713-3349210623|EmbedCtxt=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|"
           },
-          "{D255B7AC-8CE8-41FA-B9CD-4FF5D853D95C}": {
+          "{3E1DB3AB-75B8-4B4F-8981-C634EED7BE6B}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Domain|Profile=Private|Profile=Public|RA42=IntrAnet|RA62=IntrAnet|Name=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/ProductDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2668987081-2569674137-3179742174-4270009011-3803107086-2981642713-3349210623|EmbedCtxt=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|"
           },
-          "{57CBC25D-C3CE-4DC6-BEF4-9E92B7E54853}": {
+          "{4B547A33-249E-4036-8DA7-9DB22AC183B2}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntrAnet|RA62=IntrAnet|Name=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/ProductDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2668987081-2569674137-3179742174-4270009011-3803107086-2981642713-3349210623|EmbedCtxt=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|"
           },
-          "{F16DF9C4-91B1-497B-8496-4AB6980D45A6}": {
+          "{EE1D70E1-D2A4-4E70-BF35-1EF014880876}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=In|Profile=Private|Profile=Public|RA42=RmtIntrAnet|RA62=RmtIntrAnet|Name=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/ProductDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2668987081-2569674137-3179742174-4270009011-3803107086-2981642713-3349210623|EmbedCtxt=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|Security=Authenticate|"
           },
-          "{BF76223A-3837-48DE-9D86-41228DB68BFE}": {
+          "{2258E33F-2DFA-402F-B8ED-4DAEDA0D7590}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Private|Profile=Public|RA42=RmtIntrAnet|RA62=RmtIntrAnet|Name=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/ProductDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-3)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2668987081-2569674137-3179742174-4270009011-3803107086-2981642713-3349210623|EmbedCtxt=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|Security=Authenticate|"
           },
-          "{F9A5411E-774D-4F53-B5F3-272FD381C146}": {
+          "{6DAE513A-3D0D-45CF-918F-C371E9536C98}": {
             "t": "sz",
             "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|Desc=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/ProductDescription}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-2668987081-2569674137-3179742174-4270009011-3803107086-2981642713-3349210623|EmbedCtxt=@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}|"
           },
-          "{4E605CD5-19CF-4A84-A552-8609AB495F41}": {
+          "{93454E33-0C5B-4D29-96CB-FFADCA9304E8}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Windows.PrintDialog_6.2.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.PrintDialog/resources/DisplayName}|Desc=@{Windows.PrintDialog_6.2.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.PrintDialog/resources/Description}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3155986392-3975291318-3290200901-3688105942-3149078057-1179077593-1847296678|EmbedCtxt=@{Windows.PrintDialog_6.2.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.PrintDialog/resources/DisplayName}|"
           },
-          "{B5DB17E5-E8F2-471A-970A-9D0B6CF511F0}": {
+          "{7C8159D3-1D59-4582-B7B5-D4ECE2C27EFC}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Windows.PrintDialog_6.2.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.PrintDialog/resources/DisplayName}|Desc=@{Windows.PrintDialog_6.2.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.PrintDialog/resources/Description}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3155986392-3975291318-3290200901-3688105942-3149078057-1179077593-1847296678|EmbedCtxt=@{Windows.PrintDialog_6.2.1.0_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.PrintDialog/resources/DisplayName}|"
           },
-          "{F10655F3-71AD-46CD-AF67-BEAEECBD3757}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 34|Desc=Example rule 34|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3454040486-2837767420-2398300611-2444005331-4037059961-341738144-1918557667|EmbedCtxt=Example rule 34|"
-          },
-          "{88A4378E-4D13-4A2F-9A03-9F6C96B73F3D}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 35|Desc=Example rule 35|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3454040486-2837767420-2398300611-2444005331-4037059961-341738144-1918557667|EmbedCtxt=Example rule 35|"
-          },
-          "{321DCBE5-1D14-4850-A8BD-9F90E70976BC}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Windows.XGpuEjectDialog_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://XGpuEjectDialog/Resources/AppxManifest_DisplayName}|Desc=@{Microsoft.Windows.XGpuEjectDialog_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://XGpuEjectDialog/Resources/AppxManifest_DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3127391486-654165588-1135944943-943820645-244210695-3344878592-833444881|EmbedCtxt=@{Microsoft.Windows.XGpuEjectDialog_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://XGpuEjectDialog/Resources/AppxManifest_DisplayName}|"
-          },
-          "{CCAA13C9-F323-4E79-BAA2-42629D1F0F0D}": {
-            "t": "sz",
-            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Windows.XGpuEjectDialog_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://XGpuEjectDialog/Resources/AppxManifest_DisplayName}|Desc=@{Microsoft.Windows.XGpuEjectDialog_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://XGpuEjectDialog/Resources/AppxManifest_DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3127391486-654165588-1135944943-943820645-244210695-3344878592-833444881|EmbedCtxt=@{Microsoft.Windows.XGpuEjectDialog_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://XGpuEjectDialog/Resources/AppxManifest_DisplayName}|"
-          },
-          "{7CE220FB-705C-4DF3-8DE8-374E05C275FE}": {
+          "{91D0B585-E8F9-4373-A990-83172585A151}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Windows.CBSPreview_10.0.19580.1000_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.CBSPreview/resources/DisplayName}|Desc=@{Windows.CBSPreview_10.0.19580.1000_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.CBSPreview/resources/Description}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1484987186-1222498055-1895867193-3865138943-3428356477-682207028-3900627692|EmbedCtxt=@{Windows.CBSPreview_10.0.19580.1000_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.CBSPreview/resources/DisplayName}|"
           },
-          "{F92699AF-3D9E-4A9E-ABA3-45846DD90109}": {
+          "{EB67F27E-E2BF-4873-9311-B06D90856E55}": {
             "t": "sz",
             "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Windows.CBSPreview_10.0.19580.1000_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.CBSPreview/resources/DisplayName}|Desc=@{Windows.CBSPreview_10.0.19580.1000_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.CBSPreview/resources/Description}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-1484987186-1222498055-1895867193-3865138943-3428356477-682207028-3900627692|EmbedCtxt=@{Windows.CBSPreview_10.0.19580.1000_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.CBSPreview/resources/DisplayName}|"
+          },
+          "{BD1C561F-558C-4C13-AFD5-EA1FF88DD17F}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.AsyncTextService_10.0.20348.1_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.AsyncTextService/Resources/AppDisplayName}|Desc=@{Microsoft.AsyncTextService_10.0.20348.1_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.AsyncTextService/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-284907560-3695622717-2124867970-90980536-1928201052-1028515541-1033863524|EmbedCtxt=@{Microsoft.AsyncTextService_10.0.20348.1_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.AsyncTextService/Resources/AppDisplayName}|"
+          },
+          "{F7E7030C-197B-4BFE-8901-A810FD024762}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.AsyncTextService_10.0.20348.1_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.AsyncTextService/Resources/AppDisplayName}|Desc=@{Microsoft.AsyncTextService_10.0.20348.1_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.AsyncTextService/Resources/AppDisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-284907560-3695622717-2124867970-90980536-1928201052-1028515541-1033863524|EmbedCtxt=@{Microsoft.AsyncTextService_10.0.20348.1_neutral__8wekyb3d8bbwe?ms-resource://Microsoft.AsyncTextService/Resources/AppDisplayName}|"
+          },
+          "{14483483-A2D6-49FD-AF73-942B0DD7FE11}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=Example rule 58|Desc=Example rule 58|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3454040486-2837767420-2398300611-2444005331-4037059961-341738144-1918557667|EmbedCtxt=Example rule 58|"
+          },
+          "{15C411AE-3853-4190-A8B8-B3D25B1A8D2F}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=Example rule 59|Desc=Example rule 59|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3454040486-2837767420-2398300611-2444005331-4037059961-341738144-1918557667|EmbedCtxt=Example rule 59|"
+          },
+          "{31DB1B8E-6D38-4926-B812-4C15DD4C27EF}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.Windows.XGpuEjectDialog_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://XGpuEjectDialog/Resources/AppxManifest_DisplayName}|Desc=@{Microsoft.Windows.XGpuEjectDialog_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://XGpuEjectDialog/Resources/AppxManifest_DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3127391486-654165588-1135944943-943820645-244210695-3344878592-833444881|EmbedCtxt=@{Microsoft.Windows.XGpuEjectDialog_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://XGpuEjectDialog/Resources/AppxManifest_DisplayName}|"
+          },
+          "{8CF2E7FB-D5F2-4750-ABE5-40387955679E}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.Windows.XGpuEjectDialog_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://XGpuEjectDialog/Resources/AppxManifest_DisplayName}|Desc=@{Microsoft.Windows.XGpuEjectDialog_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://XGpuEjectDialog/Resources/AppxManifest_DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-3127391486-654165588-1135944943-943820645-244210695-3344878592-833444881|EmbedCtxt=@{Microsoft.Windows.XGpuEjectDialog_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://XGpuEjectDialog/Resources/AppxManifest_DisplayName}|"
+          },
+          "{1FD26A82-2F51-4D82-9F31-88505D9A9E91}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=In|Name=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|Desc=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-969871995-3242822759-583047763-1618006129-3578262429-3647035748-2471858633|EmbedCtxt=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|"
+          },
+          "{6CC63FD8-FEBA-41F4-9803-53E271178DC5}": {
+            "t": "sz",
+            "v": "v2.31|Action=Block|Active=TRUE|Dir=Out|Name=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|Desc=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-969871995-3242822759-583047763-1618006129-3578262429-3647035748-2471858633|EmbedCtxt=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|"
+          },
+          "{F6ABE349-2553-4082-8AB1-297EDAD1D210}": {
+            "t": "sz",
+            "v": "v2.31|Action=Allow|Active=TRUE|Dir=Out|Profile=Domain|Profile=Private|Profile=Public|RA42=IntErnet|RA62=IntErnet|Name=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|Desc=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|LUAuth=O:LSD:(A;;CC;;;S-1-15-3-1)(A;;CC;;;WD)(A;;CC;;;AN)|LUOwn=S-1-5-21-1000-2000-3000-500|AppPkgId=S-1-15-2-969871995-3242822759-583047763-1618006129-3578262429-3647035748-2471858633|EmbedCtxt=@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}|"
           }
         },
         "subkeys": []
@@ -8096,11 +8272,11 @@
           },
           "MdEcsSettingsTimeStamp": {
             "t": "binary",
-            "v": "d185+itf3QE="
+            "v": "77VSvD1f3QE="
           },
           "MdLastHeartbeat": {
             "t": "binary",
-            "v": "nyRzQSxf3QE="
+            "v": "hYyNAz5f3QE="
           }
         },
         "subkeys": [
@@ -9318,7 +9494,7 @@
         "values": {
           "SCCLastImportTime": {
             "t": "binary",
-            "v": "NqB5/ytf3QE="
+            "v": "VZ1TwT1f3QE="
           }
         },
         "subkeys": []
@@ -10719,6 +10895,10 @@
           "DisablePrivacyMode": {
             "t": "dword",
             "v": 1
+          },
+          "ToastOrSsoTrigger": {
+            "t": "dword",
+            "v": 1
           }
         },
         "subkeys": []
@@ -11662,7 +11842,7 @@
           },
           "Guid": {
             "t": "binary",
-            "v": "CbJuFRDNVk+zF2q7EjvT/A=="
+            "v": "vSqor5paOUG17ISLB/N4uQ=="
           }
         },
         "subkeys": [
@@ -12645,7 +12825,7 @@
           },
           "ProductPolicy": {
             "t": "binary",
-            "v": "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",
+            "v": "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",
             "truncated": true,
             "len": 61300
           },
@@ -12666,34 +12846,6 @@
       "status": "ok",
       "value": {
         "values": {
-          "SystemRoot": {
-            "t": "sz",
-            "v": "C:\\Windows"
-          },
-          "BaseBuildRevisionNumber": {
-            "t": "dword",
-            "v": 2849
-          },
-          "BuildBranch": {
-            "t": "sz",
-            "v": "fe_release"
-          },
-          "BuildGUID": {
-            "t": "sz",
-            "v": "ffffffff-ffff-ffff-ffff-ffffffffffff"
-          },
-          "BuildLab": {
-            "t": "sz",
-            "v": "20348.fe_release.210507-1500"
-          },
-          "BuildLabEx": {
-            "t": "sz",
-            "v": "20348.1.amd64fre.fe_release.210507-1500"
-          },
-          "CompositionEditionID": {
-            "t": "sz",
-            "v": "ServerDatacenter"
-          },
           "CurrentBuild": {
             "t": "sz",
             "v": "20348"
@@ -12710,10 +12862,6 @@
             "t": "dword",
             "v": 0
           },
-          "CurrentType": {
-            "t": "sz",
-            "v": "Multiprocessor Free"
-          },
           "CurrentVersion": {
             "t": "sz",
             "v": "6.3"
@@ -12726,29 +12874,9 @@
             "t": "sz",
             "v": "ServerDatacenter"
           },
-          "EditionSubManufacturer": {
-            "t": "sz",
-            "v": ""
-          },
-          "EditionSubstring": {
-            "t": "sz",
-            "v": ""
-          },
-          "EditionSubVersion": {
-            "t": "sz",
-            "v": ""
-          },
           "InstallationType": {
             "t": "sz",
             "v": "Server"
-          },
-          "InstallDate": {
-            "t": "dword",
-            "v": 1791858181
-          },
-          "LCUVer": {
-            "t": "sz",
-            "v": "10.0.20348.5622"
           },
           "ProductName": {
             "t": "sz",
@@ -12758,37 +12886,9 @@
             "t": "sz",
             "v": "2009"
           },
-          "SoftwareType": {
-            "t": "sz",
-            "v": "System"
-          },
           "UBR": {
             "t": "dword",
             "v": 5622
-          },
-          "PathName": {
-            "t": "sz",
-            "v": "C:\\Windows"
-          },
-          "PendingInstall": {
-            "t": "dword",
-            "v": 0
-          },
-          "ProductId": {
-            "t": "sz",
-            "v": "00000-00000-00000-AAAAA"
-          },
-          "DigitalProductId": {
-            "t": "binary",
-            "v": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
-          },
-          "DigitalProductId4": {
-            "t": "binary",
-            "v": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          },
-          "InstallTime": {
-            "t": "qword",
-            "v": "134363317811987149"
           }
         },
         "subkeys": [
@@ -12883,6 +12983,20 @@
           "Winlogon",
           "WirelessDocking",
           "WUDF"
+        ],
+        "valueFilter": [
+          "CurrentBuild",
+          "CurrentBuildNumber",
+          "CurrentMajorVersionNumber",
+          "CurrentMinorVersionNumber",
+          "CurrentVersion",
+          "UBR",
+          "EditionID",
+          "InstallationType",
+          "DisplayVersion",
+          "ReleaseId",
+          "ProductName",
+          "CSDVersion"
         ]
       },
       "durationMs": 0
@@ -19115,7 +19229,7 @@
           "Publisher"
         ]
       },
-      "durationMs": 0
+      "durationMs": 2
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\ExampleSoftware61",
@@ -19547,7 +19661,7 @@
           "Publisher"
         ]
       },
-      "durationMs": 4
+      "durationMs": 0
     },
     {
       "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{E6134AF3-8BF2-4A94-AC91-62F8225B81C2}",
@@ -31944,6 +32058,219 @@
       "durationMs": 0
     },
     {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\W32Time\\Parameters",
+      "status": "ok",
+      "value": {
+        "values": {
+          "NtpServer": {
+            "t": "sz",
+            "v": "time.windows.com,0x8"
+          },
+          "ServiceDll": {
+            "t": "expand_sz",
+            "v": "%systemroot%\\system32\\w32time.dll"
+          },
+          "ServiceDllUnloadOnStop": {
+            "t": "dword",
+            "v": 1
+          },
+          "ServiceMain": {
+            "t": "sz",
+            "v": "SvchostEntry_W32Time"
+          },
+          "Type": {
+            "t": "sz",
+            "v": "NTP"
+          }
+        },
+        "subkeys": []
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\W32Time\\TimeProviders\\NtpClient",
+      "status": "ok",
+      "value": {
+        "values": {
+          "AllowNonstandardModeCombinations": {
+            "t": "dword",
+            "v": 1
+          },
+          "CompatibilityFlags": {
+            "t": "dword",
+            "v": 2147483648
+          },
+          "CrossSiteSyncFlags": {
+            "t": "dword",
+            "v": 2
+          },
+          "DllName": {
+            "t": "expand_sz",
+            "v": "%systemroot%\\system32\\w32time.dll"
+          },
+          "Enabled": {
+            "t": "dword",
+            "v": 1
+          },
+          "EventLogFlags": {
+            "t": "dword",
+            "v": 1
+          },
+          "InputProvider": {
+            "t": "dword",
+            "v": 1
+          },
+          "LargeSampleSkew": {
+            "t": "dword",
+            "v": 3
+          },
+          "ResolvePeerBackoffMaxTimes": {
+            "t": "dword",
+            "v": 7
+          },
+          "ResolvePeerBackoffMinutes": {
+            "t": "dword",
+            "v": 15
+          },
+          "SignatureAuthAllowed": {
+            "t": "dword",
+            "v": 1
+          },
+          "SpecialPollInterval": {
+            "t": "dword",
+            "v": 1024
+          },
+          "SpecialPollTimeRemaining": {
+            "t": "multi_sz",
+            "v": []
+          }
+        },
+        "subkeys": []
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Policies\\Microsoft\\FVE",
+      "status": "keyMissing",
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment",
+      "status": "ok",
+      "value": {
+        "values": {
+          "PROCESSOR_ARCHITECTURE": {
+            "t": "sz",
+            "v": "AMD64"
+          }
+        },
+        "subkeys": [],
+        "valueFilter": [
+          "PROCESSOR_ARCHITECTURE"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\WinHttp",
+      "status": "ok",
+      "value": {
+        "values": {},
+        "subkeys": [
+          "Passport Test",
+          "Tracing"
+        ],
+        "valueFilter": [
+          "DisableWpad"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\RemoteRegistry",
+      "status": "ok",
+      "value": {
+        "values": {
+          "Start": {
+            "t": "dword",
+            "v": 2
+          }
+        },
+        "subkeys": [
+          "Parameters",
+          "TriggerInfo"
+        ],
+        "valueFilter": [
+          "Start"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\Spooler",
+      "status": "ok",
+      "value": {
+        "values": {
+          "Start": {
+            "t": "dword",
+            "v": 2
+          }
+        },
+        "subkeys": [
+          "Performance",
+          "Security"
+        ],
+        "valueFilter": [
+          "Start"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\W32Time",
+      "status": "ok",
+      "value": {
+        "values": {
+          "Start": {
+            "t": "dword",
+            "v": 2
+          }
+        },
+        "subkeys": [
+          "Config",
+          "Parameters",
+          "SecureTimeLimits",
+          "Security",
+          "TimeProviders"
+        ],
+        "valueFilter": [
+          "Start"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
+      "key": "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\wuauserv",
+      "status": "ok",
+      "value": {
+        "values": {
+          "Start": {
+            "t": "dword",
+            "v": 4
+          }
+        },
+        "subkeys": [
+          "Parameters",
+          "Security",
+          "TriggerInfo"
+        ],
+        "valueFilter": [
+          "Start"
+        ]
+      },
+      "durationMs": 0
+    },
+    {
       "key": "wmi:root\\cimv2:Win32_ComputerSystem",
       "status": "ok",
       "value": {
@@ -31961,7 +32288,7 @@
           }
         ]
       },
-      "durationMs": 27
+      "durationMs": 24
     },
     {
       "key": "wmi:root\\cimv2:Win32_OperatingSystem",
@@ -31976,12 +32303,12 @@
             "ProductType": 3,
             "OperatingSystemSKU": 8,
             "OSLanguage": 1033,
-            "LastBootUpTime": "2026-10-18T18:10:24.005921Z",
+            "LastBootUpTime": "2026-10-18T20:17:31.305665Z",
             "InstallDate": "2026-10-13T02:23:01Z"
           }
         ]
       },
-      "durationMs": 7
+      "durationMs": 5
     },
     {
       "key": "wmi:root\\cimv2:Win32_Service",
@@ -32167,7 +32494,7 @@
           {
             "Name": "ClipSVC",
             "DisplayName": "Client License Service (ClipSVC)",
-            "State": "Running",
+            "State": "Stopped",
             "StartMode": "Manual",
             "StartName": "LocalSystem",
             "PathName": "C:\\Windows\\System32\\svchost.exe -k wsappx -p"
@@ -33007,7 +33334,7 @@
           {
             "Name": "RemoteRegistry",
             "DisplayName": "Remote Registry",
-            "State": "Running",
+            "State": "Stopped",
             "StartMode": "Auto",
             "StartName": "NT AUTHORITY\\LocalService",
             "PathName": "C:\\Windows\\system32\\svchost.exe -k localService -p"
@@ -33455,7 +33782,7 @@
           {
             "Name": "vds",
             "DisplayName": "Virtual Disk",
-            "State": "Running",
+            "State": "Stopped",
             "StartMode": "Manual",
             "StartName": "LocalSystem",
             "PathName": "C:\\Windows\\System32\\vds.exe"
@@ -33813,88 +34140,88 @@
             "PathName": "C:\\Windows\\system32\\svchost.exe -k netsvcs -p"
           },
           {
-            "Name": "CaptureService_a385a",
-            "DisplayName": "CaptureService_a385a",
+            "Name": "CaptureService_a9382",
+            "DisplayName": "CaptureService_a9382",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k LocalService -p"
           },
           {
-            "Name": "cbdhsvc_a385a",
-            "DisplayName": "Clipboard User Service_a385a",
+            "Name": "cbdhsvc_a9382",
+            "DisplayName": "Clipboard User Service_a9382",
             "State": "Running",
             "StartMode": "Auto",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k ClipboardSvcGroup -p"
           },
           {
-            "Name": "ConsentUxUserSvc_a385a",
-            "DisplayName": "ConsentUX User Service_a385a",
+            "Name": "ConsentUxUserSvc_a9382",
+            "DisplayName": "ConsentUX User Service_a9382",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k DevicesFlow"
           },
           {
-            "Name": "CredentialEnrollmentManagerUserSvc_a385a",
-            "DisplayName": "CredentialEnrollmentManagerUserSvc_a385a",
+            "Name": "CredentialEnrollmentManagerUserSvc_a9382",
+            "DisplayName": "CredentialEnrollmentManagerUserSvc_a9382",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\CredentialEnrollmentManager.exe"
           },
           {
-            "Name": "DeviceAssociationBrokerSvc_a385a",
-            "DisplayName": "DeviceAssociationBroker_a385a",
+            "Name": "DeviceAssociationBrokerSvc_a9382",
+            "DisplayName": "DeviceAssociationBroker_a9382",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k DevicesFlow -p"
           },
           {
-            "Name": "DevicePickerUserSvc_a385a",
-            "DisplayName": "DevicePicker_a385a",
+            "Name": "DevicePickerUserSvc_a9382",
+            "DisplayName": "DevicePicker_a9382",
             "State": "Stopped",
             "StartMode": "Disabled",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k DevicesFlow"
           },
           {
-            "Name": "DevicesFlowUserSvc_a385a",
-            "DisplayName": "DevicesFlow_a385a",
+            "Name": "DevicesFlowUserSvc_a9382",
+            "DisplayName": "DevicesFlow_a9382",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k DevicesFlow"
           },
           {
-            "Name": "LxssManagerUser_a385a",
-            "DisplayName": "LxssManagerUser_a385a",
+            "Name": "LxssManagerUser_a9382",
+            "DisplayName": "LxssManagerUser_a9382",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k LxssManagerUser -p"
           },
           {
-            "Name": "PrintWorkflowUserSvc_a385a",
-            "DisplayName": "PrintWorkflow_a385a",
+            "Name": "PrintWorkflowUserSvc_a9382",
+            "DisplayName": "PrintWorkflow_a9382",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k PrintWorkflow"
           },
           {
-            "Name": "UdkUserSvc_a385a",
-            "DisplayName": "Udk User Service_a385a",
+            "Name": "UdkUserSvc_a9382",
+            "DisplayName": "Udk User Service_a9382",
             "State": "Stopped",
             "StartMode": "Manual",
             "StartName": null,
             "PathName": "C:\\Windows\\system32\\svchost.exe -k UdkSvcGroup"
           },
           {
-            "Name": "WpnUserService_a385a",
-            "DisplayName": "Windows Push Notifications User Service_a385a",
+            "Name": "WpnUserService_a9382",
+            "DisplayName": "Windows Push Notifications User Service_a9382",
             "State": "Running",
             "StartMode": "Auto",
             "StartName": null,
@@ -33902,7 +34229,7 @@
           }
         ]
       },
-      "durationMs": 108
+      "durationMs": 73
     },
     {
       "key": "wmi:root\\cimv2:Win32_OptionalFeature",
@@ -35223,7 +35550,7 @@
           }
         ]
       },
-      "durationMs": 410
+      "durationMs": 390
     },
     {
       "key": "wmi:root\\cimv2:Win32_QuickFixEngineering",
@@ -35252,7 +35579,7 @@
           }
         ]
       },
-      "durationMs": 161
+      "durationMs": 142
     },
     {
       "key": "wmi:root\\cimv2:Win32_UserAccount",
@@ -35301,7 +35628,7 @@
           }
         ]
       },
-      "durationMs": 5
+      "durationMs": 4
     },
     {
       "key": "wmi:root\\cimv2:Win32_NetworkAdapterConfiguration",
@@ -35309,7 +35636,7 @@
       "value": {
         "rows": [
           {
-            "SettingID": "{00000000-0000-4000-8000-000000000b02}",
+            "SettingID": "{00000000-0000-4000-8000-000000000b01}",
             "TcpipNetbiosOptions": 0,
             "DefaultIPGateway": [
               "192.0.2.1"
@@ -35318,7 +35645,7 @@
           }
         ]
       },
-      "durationMs": 9
+      "durationMs": 7
     },
     {
       "key": "wmi:root\\cimv2:Win32_NetworkAdapter",
@@ -35326,14 +35653,14 @@
       "value": {
         "rows": [
           {
-            "Name": "Microsoft Azure Network Adapter",
+            "Name": "Microsoft Hyper-V Network Adapter #3",
             "NetConnectionStatus": 2,
             "AdapterTypeID": 0,
             "GUID": "{00000000-0000-4000-8000-000000000b01}",
             "NetEnabled": true
           },
           {
-            "Name": "Microsoft Hyper-V Network Adapter #3",
+            "Name": "Microsoft Azure Network Adapter",
             "NetConnectionStatus": 2,
             "AdapterTypeID": 0,
             "GUID": "{00000000-0000-4000-8000-000000000b02}",
@@ -35341,7 +35668,7 @@
           }
         ]
       },
-      "durationMs": 20
+      "durationMs": 18
     },
     {
       "key": "wmi:root\\wmi:MSNdis_PhysicalMediumType",
@@ -35354,12 +35681,12 @@
             "Active": true
           },
           {
-            "InstanceName": "Microsoft Azure Network Adapter",
+            "InstanceName": "Hyper-V Virtual Switch Extension Adapter",
             "NdisPhysicalMediumType": 0,
             "Active": true
           },
           {
-            "InstanceName": "Hyper-V Virtual Switch Extension Adapter",
+            "InstanceName": "Microsoft Azure Network Adapter",
             "NdisPhysicalMediumType": 0,
             "Active": true
           }
@@ -35410,7 +35737,7 @@
           }
         ]
       },
-      "durationMs": 22
+      "durationMs": 19
     },
     {
       "key": "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus",
@@ -35432,7 +35759,7 @@
           }
         ]
       },
-      "durationMs": 33
+      "durationMs": 24
     },
     {
       "key": "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference",
@@ -35456,14 +35783,14 @@
           }
         ]
       },
-      "durationMs": 41
+      "durationMs": 30
     },
     {
       "key": "wmi:root\\SecurityCenter2:AntivirusProduct",
       "status": "namespaceMissing",
       "errorCode": -2147217394,
       "error": "Invalid namespace",
-      "durationMs": 2
+      "durationMs": 1
     },
     {
       "key": "wmi:root\\Microsoft\\Windows\\DeviceGuard:Win32_DeviceGuard",
@@ -35490,14 +35817,14 @@
       "status": "denied",
       "errorCode": -2147217405,
       "error": "Access denied",
-      "durationMs": 5016
+      "durationMs": 5015
     },
     {
       "key": "wmi:root\\cimv2\\Security\\MicrosoftTpm:Win32_Tpm",
       "status": "denied",
       "errorCode": -2147217405,
       "error": "Access denied",
-      "durationMs": 5011
+      "durationMs": 5006
     },
     {
       "key": "wmi:root\\Microsoft\\Windows\\SMB:MSFT_SmbServerConfiguration.GetConfiguration",
@@ -35524,7 +35851,7 @@
           "EnableInsecureGuestLogons": true
         }
       },
-      "durationMs": 2
+      "durationMs": 3
     },
     {
       "key": "api:netusermodals",
@@ -35672,6 +35999,19 @@
         "rulesCollected": true,
         "rules": [
           {
+            "name": "@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}",
+            "group": "@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}",
+            "enabled": true,
+            "direction": "out",
+            "action": "allow",
+            "protocol": 256,
+            "localPorts": null,
+            "remoteAddresses": "*",
+            "profiles": 7,
+            "application": null,
+            "service": null
+          },
+          {
             "name": "@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}",
             "group": "@{Microsoft.Windows.SecHealthUI_10.0.20348.2849_neutral__cw5n1h2txyewy?ms-resource://Microsoft.Windows.SecHealthUI/resources/PackageDisplayName}",
             "enabled": true,
@@ -35713,32 +36053,6 @@
           {
             "name": "@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}",
             "group": "@{Microsoft.Windows.Search_1.15.0.20348_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.Search/resources/PackageDisplayName}",
-            "enabled": true,
-            "direction": "out",
-            "action": "allow",
-            "protocol": 256,
-            "localPorts": null,
-            "remoteAddresses": "*",
-            "profiles": 7,
-            "application": null,
-            "service": null
-          },
-          {
-            "name": "@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}",
-            "group": "@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}",
-            "enabled": true,
-            "direction": "out",
-            "action": "allow",
-            "protocol": 256,
-            "localPorts": null,
-            "remoteAddresses": "*",
-            "profiles": 7,
-            "application": null,
-            "service": null
-          },
-          {
-            "name": "@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}",
-            "group": "@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}",
             "enabled": true,
             "direction": "out",
             "action": "allow",
@@ -35763,6 +36077,45 @@
             "service": null
           },
           {
+            "name": "@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}",
+            "group": "@{Microsoft.Windows.NarratorQuickStart_10.0.20348.1_neutral_neutral_8wekyb3d8bbwe?ms-resource://Microsoft.Windows.NarratorQuickStart/Resources/AppDisplayName}",
+            "enabled": true,
+            "direction": "out",
+            "action": "allow",
+            "protocol": 256,
+            "localPorts": null,
+            "remoteAddresses": "*",
+            "profiles": 7,
+            "application": null,
+            "service": null
+          },
+          {
+            "name": "@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}",
+            "group": "@{Microsoft.Windows.PeopleExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}",
+            "enabled": true,
+            "direction": "out",
+            "action": "allow",
+            "protocol": 256,
+            "localPorts": null,
+            "remoteAddresses": "*",
+            "profiles": 7,
+            "application": null,
+            "service": null
+          },
+          {
+            "name": "@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}",
+            "group": "@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}",
+            "enabled": true,
+            "direction": "out",
+            "action": "allow",
+            "protocol": 256,
+            "localPorts": null,
+            "remoteAddresses": "*",
+            "profiles": 7,
+            "application": null,
+            "service": null
+          },
+          {
             "name": "@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}",
             "group": "@{Microsoft.Win32WebViewHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Windows.Win32WebViewHost/resources/DisplayName}",
             "enabled": true,
@@ -35789,21 +36142,8 @@
             "service": null
           },
           {
-            "name": "@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}",
-            "group": "@{Microsoft.LockApp_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.LockApp/resources/AppDisplayName}",
-            "enabled": true,
-            "direction": "out",
-            "action": "allow",
-            "protocol": 256,
-            "localPorts": null,
-            "remoteAddresses": "*",
-            "profiles": 7,
-            "application": null,
-            "service": null
-          },
-          {
-            "name": "@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}",
-            "group": "@{Microsoft.AccountsControl_10.0.20348.1_neutral__cw5n1h2txyewy?ms-resource://Microsoft.AccountsControl/Resources/DisplayName}",
+            "name": "@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}",
+            "group": "@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}",
             "enabled": true,
             "direction": "out",
             "action": "allow",
@@ -35830,19 +36170,6 @@
           {
             "name": "@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}",
             "group": "@{Microsoft.Windows.StartMenuExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.StartMenuExperienceHost/StartMenuExperienceHost/PkgDisplayName}",
-            "enabled": true,
-            "direction": "out",
-            "action": "allow",
-            "protocol": 256,
-            "localPorts": null,
-            "remoteAddresses": "*",
-            "profiles": 7,
-            "application": null,
-            "service": null
-          },
-          {
-            "name": "@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}",
-            "group": "@{Microsoft.Windows.ShellExperienceHost_10.0.20348.1_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}",
             "enabled": true,
             "direction": "out",
             "action": "allow",
@@ -35932,7 +36259,7 @@
             "service": null
           },
           {
-            "name": "Example rule 36",
+            "name": "Example rule 60",
             "group": null,
             "enabled": true,
             "direction": "in",
@@ -35941,11 +36268,11 @@
             "localPorts": "53",
             "remoteAddresses": "*",
             "profiles": 2147483647,
-            "application": "C:\\Program Files\\Example\\app-36.exe",
+            "application": "C:\\Program Files\\Example\\app-60.exe",
             "service": null
           },
           {
-            "name": "Example rule 37",
+            "name": "Example rule 61",
             "group": null,
             "enabled": true,
             "direction": "in",
@@ -35954,11 +36281,11 @@
             "localPorts": "53",
             "remoteAddresses": "*",
             "profiles": 2147483647,
-            "application": "C:\\Program Files\\Example\\app-37.exe",
+            "application": "C:\\Program Files\\Example\\app-61.exe",
             "service": null
           },
           {
-            "name": "Example rule 38",
+            "name": "Example rule 62",
             "group": null,
             "enabled": true,
             "direction": "in",
@@ -35967,11 +36294,11 @@
             "localPorts": "53",
             "remoteAddresses": "*",
             "profiles": 2147483647,
-            "application": "C:\\Program Files\\Example\\app-38.exe",
-            "service": "example-service-38"
+            "application": "C:\\Program Files\\Example\\app-62.exe",
+            "service": "example-service-62"
           },
           {
-            "name": "Example rule 39",
+            "name": "Example rule 63",
             "group": null,
             "enabled": true,
             "direction": "in",
@@ -35980,11 +36307,11 @@
             "localPorts": "53",
             "remoteAddresses": "*",
             "profiles": 2147483647,
-            "application": "C:\\Program Files\\Example\\app-39.exe",
+            "application": "C:\\Program Files\\Example\\app-63.exe",
             "service": null
           },
           {
-            "name": "Example rule 40",
+            "name": "Example rule 64",
             "group": null,
             "enabled": true,
             "direction": "in",
@@ -35993,11 +36320,11 @@
             "localPorts": "53",
             "remoteAddresses": "*",
             "profiles": 2147483647,
-            "application": "C:\\Program Files\\Example\\app-40.exe",
+            "application": "C:\\Program Files\\Example\\app-64.exe",
             "service": null
           },
           {
-            "name": "Example rule 41",
+            "name": "Example rule 65",
             "group": null,
             "enabled": true,
             "direction": "in",
@@ -36006,8 +36333,8 @@
             "localPorts": "53",
             "remoteAddresses": "*",
             "profiles": 2147483647,
-            "application": "C:\\Program Files\\Example\\app-41.exe",
-            "service": "example-service-41"
+            "application": "C:\\Program Files\\Example\\app-65.exe",
+            "service": "example-service-65"
           },
           {
             "name": "Windows Remote Management (HTTPS-In) (Azure)",
@@ -36023,7 +36350,7 @@
             "service": null
           },
           {
-            "name": "Example rule 42",
+            "name": "Example rule 66",
             "group": null,
             "enabled": true,
             "direction": "in",
@@ -36032,11 +36359,11 @@
             "localPorts": "53",
             "remoteAddresses": "*",
             "profiles": 2147483647,
-            "application": "C:\\Program Files\\Example\\app-42.exe",
+            "application": "C:\\Program Files\\Example\\app-66.exe",
             "service": null
           },
           {
-            "name": "Example rule 43",
+            "name": "Example rule 67",
             "group": null,
             "enabled": true,
             "direction": "in",
@@ -36045,11 +36372,11 @@
             "localPorts": "53",
             "remoteAddresses": "*",
             "profiles": 2147483647,
-            "application": "C:\\Program Files\\Example\\app-43.exe",
+            "application": "C:\\Program Files\\Example\\app-67.exe",
             "service": null
           },
           {
-            "name": "Example rule 44",
+            "name": "Example rule 68",
             "group": null,
             "enabled": true,
             "direction": "in",
@@ -36058,11 +36385,11 @@
             "localPorts": "53",
             "remoteAddresses": "*",
             "profiles": 2147483647,
-            "application": "C:\\Program Files\\Example\\app-44.exe",
-            "service": "example-service-44"
+            "application": "C:\\Program Files\\Example\\app-68.exe",
+            "service": "example-service-68"
           },
           {
-            "name": "Example rule 45",
+            "name": "Example rule 69",
             "group": null,
             "enabled": true,
             "direction": "in",
@@ -36071,11 +36398,11 @@
             "localPorts": "*",
             "remoteAddresses": "*",
             "profiles": 2,
-            "application": "C:\\Program Files\\Example\\app-45.exe",
+            "application": "C:\\Program Files\\Example\\app-69.exe",
             "service": null
           },
           {
-            "name": "Example rule 46",
+            "name": "Example rule 70",
             "group": null,
             "enabled": true,
             "direction": "in",
@@ -36084,11 +36411,11 @@
             "localPorts": "*",
             "remoteAddresses": "*",
             "profiles": 2,
-            "application": "C:\\Program Files\\Example\\app-46.exe",
+            "application": "C:\\Program Files\\Example\\app-70.exe",
             "service": null
           },
           {
-            "name": "Example rule 47",
+            "name": "Example rule 71",
             "group": null,
             "enabled": true,
             "direction": "out",
@@ -36097,11 +36424,11 @@
             "localPorts": null,
             "remoteAddresses": "*",
             "profiles": 2147483647,
-            "application": "C:\\Program Files\\Example\\app-47.exe",
+            "application": "C:\\Program Files\\Example\\app-71.exe",
             "service": null
           },
           {
-            "name": "Example rule 48",
+            "name": "Example rule 72",
             "group": "Example group",
             "enabled": true,
             "direction": "in",
@@ -36110,11 +36437,11 @@
             "localPorts": "5353",
             "remoteAddresses": "*",
             "profiles": 2147483647,
-            "application": "C:\\Program Files\\Example\\app-48.exe",
+            "application": "C:\\Program Files\\Example\\app-72.exe",
             "service": null
           },
           {
-            "name": "Example rule 49",
+            "name": "Example rule 73",
             "group": null,
             "enabled": false,
             "direction": "in",
@@ -36123,11 +36450,11 @@
             "localPorts": "12292",
             "remoteAddresses": "*",
             "profiles": 3,
-            "application": "C:\\Program Files\\Example\\app-49.exe",
+            "application": "C:\\Program Files\\Example\\app-73.exe",
             "service": null
           },
           {
-            "name": "Example rule 50",
+            "name": "Example rule 74",
             "group": null,
             "enabled": true,
             "direction": "in",
@@ -36136,7 +36463,7 @@
             "localPorts": null,
             "remoteAddresses": "*",
             "profiles": 1,
-            "application": "C:\\Program Files\\Example\\app-50.exe",
+            "application": "C:\\Program Files\\Example\\app-74.exe",
             "service": null
           },
           {
@@ -36777,7 +37104,7 @@
             "service": null
           },
           {
-            "name": "Example rule 51",
+            "name": "Example rule 75",
             "group": "Example group",
             "enabled": false,
             "direction": "out",
@@ -36786,11 +37113,11 @@
             "localPorts": "*",
             "remoteAddresses": "*",
             "profiles": 2147483647,
-            "application": "C:\\Program Files\\Example\\app-51.exe",
+            "application": "C:\\Program Files\\Example\\app-75.exe",
             "service": null
           },
           {
-            "name": "Example rule 52",
+            "name": "Example rule 76",
             "group": "Example group",
             "enabled": false,
             "direction": "out",
@@ -36799,7 +37126,7 @@
             "localPorts": "*",
             "remoteAddresses": "*",
             "profiles": 2147483647,
-            "application": "C:\\Program Files\\Example\\app-52.exe",
+            "application": "C:\\Program Files\\Example\\app-76.exe",
             "service": null
           },
           {
@@ -37037,7 +37364,7 @@
             "service": null
           },
           {
-            "name": "Example rule 53",
+            "name": "Example rule 77",
             "group": "Example group",
             "enabled": false,
             "direction": "in",
@@ -37046,7 +37373,7 @@
             "localPorts": "*",
             "remoteAddresses": "*",
             "profiles": 2147483647,
-            "application": "C:\\Program Files\\Example\\app-53.exe",
+            "application": "C:\\Program Files\\Example\\app-77.exe",
             "service": null
           },
           {
@@ -37947,7 +38274,7 @@
             "service": null
           },
           {
-            "name": "Example rule 54",
+            "name": "Example rule 78",
             "group": "Example group",
             "enabled": true,
             "direction": "out",
@@ -37956,8 +38283,8 @@
             "localPorts": "*",
             "remoteAddresses": "*",
             "profiles": 2147483647,
-            "application": "C:\\Program Files\\Example\\app-54.exe",
-            "service": "example-service-54"
+            "application": "C:\\Program Files\\Example\\app-78.exe",
+            "service": "example-service-78"
           },
           {
             "name": "AllJoyn Router (UDP-In)",
@@ -39755,13 +40082,13 @@
           }
         ]
       },
-      "durationMs": 20
+      "durationMs": 22
     },
     {
       "key": "api:windows-update-history",
       "status": "notCollected",
       "error": "Windows Update not running – not queried",
-      "durationMs": 8
+      "durationMs": 7
     },
     {
       "key": "api:winhttp-proxy",
@@ -39787,7 +40114,7 @@
         "found": false,
         "timeCreatedUtc": null,
         "eventData": [],
-        "bootTimeUtc": "2026-10-18T18:10:24.005921Z"
+        "bootTimeUtc": "2026-10-18T20:17:31.305665Z"
       },
       "durationMs": 4
     },
@@ -39796,7 +40123,7 @@
       "status": "denied",
       "errorCode": 740,
       "error": "Access denied",
-      "durationMs": 20
+      "durationMs": 23
     },
     {
       "key": "raw:registry-pol",
@@ -39808,7 +40135,7 @@
       "status": "denied",
       "errorCode": 1,
       "error": "Access denied",
-      "durationMs": 47
+      "durationMs": 51
     }
   ]
 }

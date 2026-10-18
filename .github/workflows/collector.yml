@@ -138,11 +138,25 @@ jobs:
             foreach ($i in $s.items) { $map[$i.key.ToLowerInvariant()] = $i.status }
             return $map
           }
+          function Diff($a, $b) {
+            $diff = @()
+            foreach ($k in @($a.Keys) + @($b.Keys) | Sort-Object -Unique) {
+              if ($k -eq 'api:windows-update-history') { continue } # hängt davon ab, ob wuauserv gerade läuft
+              if ($a[$k] -ne $b[$k]) { $diff += "$k`: net35=$($a[$k]) net10=$($b[$k])" }
+            }
+            return ,$diff
+          }
           $a = Items "$env:OUT/admin"; $b = Items "$env:OUT/net10"
-          $diff = @()
-          foreach ($k in @($a.Keys) + @($b.Keys) | Sort-Object -Unique) {
-            if ($k -eq 'api:windows-update-history') { continue } # hängt davon ab, ob wuauserv gerade läuft
-            if ($a[$k] -ne $b[$k]) { $diff += "$k`: net35=$($a[$k]) net10=$($b[$k])" }
+          $diff = Diff $a $b
+          if ($diff.Count) {
+            # Ein laufender Rechner ändert sich zwischen zwei Erfassungen (Defender legt eigene Schlüssel an, WMI meldet kurz
+            # einen Fehler): beide Builds noch einmal direkt nacheinander – ein echter Unterschied der Builds bleibt
+            Write-Host "Erster Vergleich: $($diff.Count) Unterschiede – Wiederholung"; $diff | Select-Object -First 20 | ForEach-Object { Write-Host "  $_" }
+            New-Item -ItemType Directory -Force "$env:OUT/compare-net35", "$env:OUT/compare-net10" | Out-Null
+            & "$env:OUT/collector-a/Riegel.Collector.exe" --out "$env:OUT/compare-net35" --quiet | Out-Null
+            & "$env:OUT/cli/Riegel.Cli.exe" collect --out "$env:OUT/compare-net10" | Out-Null
+            $a = Items "$env:OUT/compare-net35"; $b = Items "$env:OUT/compare-net10"
+            $diff = Diff $a $b
           }
           "Item sets net35 vs. net10: $($a.Count) / $($b.Count) items, $($diff.Count) differences (header fields ignored)`n" >> $env:GITHUB_STEP_SUMMARY
           if ($diff.Count) { $diff | Select-Object -First 40 | ForEach-Object { Write-Host $_ }; throw "Einträge von net35 und net10 unterscheiden sich" }
