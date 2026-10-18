@@ -59,6 +59,32 @@ public sealed partial class ThirdPartyNoticesTests
         Assert.True(missing.Count == 0, "THIRD-PARTY-NOTICES.txt ist nicht aktuell:\n  " + string.Join("\n  ", missing));
     }
 
+    /// <summary>
+    /// Regressionstest (Review legal-1): PdfSharp.WPFonts.dll (Segoe-WP-Schriften von Microsoft, „All Rights Reserved“),
+    /// PdfSharp.Snippets.dll und PdfSharp.Quality.dll kommen in keine Ausgabe und in keine deps.json
+    /// (Directory.Build.targets). Die Testausgabe enthält die deps.json der App, des Konsolenprogramms und der Tests.
+    /// </summary>
+    [Fact]
+    public void PDFsharp_Zusatzbibliotheken_mit_Microsoft_Schriften_werden_nicht_ausgeliefert()
+    {
+        string[] names = ["PdfSharp.WPFonts", "PdfSharp.Snippets", "PdfSharp.Quality"];
+        var folder = AppContext.BaseDirectory;
+        foreach (var name in names)
+            Assert.False(File.Exists(Path.Combine(folder, name + ".dll")), $"{name}.dll liegt in der Ausgabe");
+        var depsFiles = Directory.GetFiles(folder, "*.deps.json");
+        Assert.NotEmpty(depsFiles);
+        foreach (var deps in depsFiles)
+        {
+            var text = File.ReadAllText(deps);
+            foreach (var name in names) Assert.DoesNotContain(name + ".dll", text, StringComparison.OrdinalIgnoreCase);
+        }
+        var targets = File.ReadAllText(Path.Combine(RepoPaths.Root, "Directory.Build.targets"));
+        foreach (var name in names) Assert.Contains($"'{name}'", targets, StringComparison.Ordinal);
+        var notices = File.ReadAllText(Path.Combine(RepoPaths.Root, "THIRD-PARTY-NOTICES.txt"));
+        Assert.DoesNotContain("under its licence (MIT)", notices, StringComparison.Ordinal);
+        Assert.Contains("Not shipped: the PDFsharp package also contains PdfSharp.WPFonts.dll", notices, StringComparison.Ordinal);
+    }
+
     [Fact]
     public void Hinweise_enthalten_die_Namensnennungen_der_Regelquellen_und_Laufzeiten()
     {

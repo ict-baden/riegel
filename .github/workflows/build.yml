@@ -217,6 +217,11 @@ jobs:
             if ($LASTEXITCODE -ne 0) { throw "Publish $rid fehlgeschlagen ($LASTEXITCODE)" }
           }
           Get-ChildItem out/linux-x64, out/linux-arm64, out/cli-standalone | Format-Table Name, Length
+          # PDFsharp-Zusatzbibliotheken (Segoe-WP-Schriften von Microsoft, Beispielcode) nie ausliefern (Directory.Build.targets)
+          $extras = 'PdfSharp\.(WPFonts|Snippets|Quality)\.dll'
+          $found = @(Get-ChildItem out -Recurse -File | Where-Object Name -Match "^$extras$") +
+                   @(Get-ChildItem src -Recurse -Filter *.deps.json | Select-String -Pattern $extras -List)
+          if ($found.Count -gt 0) { $found | Out-String | Write-Host; throw "PDFsharp-Zusatzbibliotheken in der Ausgabe oder einer deps.json" }
 
       # ---- Signieren der Programmdateien (vor dem Packen, damit ZIP und MSI signierte Dateien enthalten) ----
       - name: Bei Azure anmelden

@@ -56,8 +56,8 @@ texts; it ships no CIS or BSI SiSyPHuS content and no Microsoft Security Baselin
 7. PDFsharp and MigraDoc 6.2.4 - PDF documents (NuGet packages "PDFsharp" and "PDFsharp-MigraDoc"; from 6.5.0 the
    packages are AGPL-3.0-only, which Riegel does not use)
    Files: PdfSharp.dll, PdfSharp.BarCodes.dll, PdfSharp.Charting.dll, PdfSharp.Cryptography.dll,
-   PdfSharp.Quality.dll, PdfSharp.Shared.dll, PdfSharp.Snippets.dll, PdfSharp.System.dll, PdfSharp.WPFonts.dll,
-   MigraDoc.DocumentObjectModel.dll, MigraDoc.Rendering.dll, MigraDoc.RtfRendering.dll
+   PdfSharp.Shared.dll, PdfSharp.System.dll, MigraDoc.DocumentObjectModel.dll, MigraDoc.Rendering.dll,
+   MigraDoc.RtfRendering.dll
    Source: https://github.com/empira/PDFsharp (tag v6.2.4)
    Copyright (c) 2001-2026 empira Software GmbH, Troisdorf (Cologne Area), Germany
    Licence: MIT (section B)
@@ -67,10 +67,13 @@ texts; it ships no CIS or BSI SiSyPHuS content and no Microsoft Security Baselin
       Source: https://github.com/EliotJones/BigGustave
       Released into the public domain (section D)
 
-   b) PdfSharp.WPFonts.dll contains six fonts of the Segoe WP family (SegoeWP, -Light, -Semilight, -Semibold,
-      -Bold, -Black) as a fallback for PDFsharp. According to empira they "originally came from an early SDK of
-      Windows Phone" and are a subset of the Segoe UI family; they are distributed as part of the PDFsharp
-      package under its licence (MIT), empira names no separate font licence. Riegel does not use these fonts.
+   b) Not shipped: the PDFsharp package also contains PdfSharp.WPFonts.dll, PdfSharp.Snippets.dll and
+      PdfSharp.Quality.dll. PdfSharp.WPFonts.dll embeds six Segoe WP fonts whose own name tables say
+      "(c) 2010 Microsoft Corporation. All Rights Reserved." and allow use only under the EULA of the product they
+      came with - the MIT licence of PDFsharp cannot grant a right to redistribute them. Snippets and Quality are
+      sample and test code and the only assemblies that use WPFonts. Riegel uses none of the three; the build removes
+      them before the output and deps.json are written (Directory.Build.targets), and a test and the CI check that
+      no package contains them.
 
 8. Microsoft.Extensions.Logging.Abstractions 8.0.3 and Microsoft.Extensions.DependencyInjection.Abstractions 8.0.2
    - used by PDFsharp
