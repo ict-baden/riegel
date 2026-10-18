@@ -83,9 +83,16 @@ public sealed partial class RecordedFixtureTests
         using var temp = new TempFolder();
         var node = JsonNode.Parse(File.ReadAllText(RepoPaths.Synthetic("win11-24h2-workgroup-admin")))!.AsObject();
         node["origin"] = "collector";
+        var items = node["items"]!.AsArray();
+        // Ein Windows-Dienst, dessen Anzeigename wie ein Konto lautet („installer“), und gpresult mit dem Rechnernamen des Images
+        var services = items.First(i => (string?)i!["key"] == @"wmi:root\cimv2:Win32_Service")!["value"]!["rows"]!.AsArray();
+        services.Add(new JsonObject { ["Name"] = "msiserver", ["DisplayName"] = "Windows Installer", ["State"] = "Stopped", ["StartMode"] = "Manual",
+            ["StartName"] = "LocalSystem", ["PathName"] = @"C:\Windows\system32\msiexec.exe /V" });
+        items.Add(new JsonObject { ["key"] = "raw:gpresult-xml", ["status"] = "ok", ["durationMs"] = 1,
+            ["value"] = new JsonObject { ["text"] = "<Rsop><ComputerResults><Name>WORKGROUP\\IMAGE-PC01$</Name></ComputerResults></Rsop>" } });
         // Eine fremde Rechner-SID, ein Benutzer mit Profilpfad und ein Fremddienst
         string json = node.ToJsonString().Replace("S-1-5-21-1000-2000-3000", "S-1-5-21-111-222-333", StringComparison.Ordinal)
-            .Replace("\"operator\"", "\"beispielkonto\"", StringComparison.Ordinal);
+            .Replace("\"operator\"", "\"installer\"", StringComparison.Ordinal);
         string input = Path.Combine(temp.Path, "in.snapshot.json");
         File.WriteAllText(input, json);
         string output = Path.Combine(temp.Path, "out.snapshot.json");
@@ -104,7 +111,9 @@ public sealed partial class RecordedFixtureTests
         Assert.DoesNotContain("W11-WG-01", result, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("S-1-5-21-111-222-333", result, StringComparison.Ordinal);
         Assert.Contains("S-1-5-21-1000-2000-3000-500", result, StringComparison.Ordinal);
-        Assert.DoesNotContain("beispielkonto", result, StringComparison.Ordinal);
+        Assert.DoesNotContain("\"installer\"", result, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("\"Windows Installer\"", result, StringComparison.Ordinal); // Wörter im Text bleiben
+        Assert.DoesNotContain("IMAGE-PC01", result, StringComparison.Ordinal);
         Assert.DoesNotContain("Beispiel-Leitsystem", result, StringComparison.Ordinal);
         Assert.Contains("Administrator", result, StringComparison.Ordinal);
     }

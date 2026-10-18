@@ -98,6 +98,7 @@ jobs:
           & "$env:OUT/collector-a/Riegel.Collector.exe" --out "$env:OUT/admin"
           Write-Host "Exitcode: $LASTEXITCODE"
           if ($LASTEXITCODE -notin 0, 1) { throw "Sammler endete mit $LASTEXITCODE" }
+          exit 0 # 1 = geschrieben, aber unvollständig (z. B. gpresult verweigert) ist ein gültiges Ergebnis
 
       - name: Sammler ohne Adminrechte (Safer „Basic User“ wie runas /trustlevel:0x20000)
         id: nonadmin
@@ -110,6 +111,7 @@ jobs:
           $code = $LASTEXITCODE
           Get-Content "$env:OUT\nonadmin.log" -ErrorAction SilentlyContinue
           if ($code -ne 1) { throw "Erwartet Exitcode 1 (unvollständig ohne Admin), erhalten $code" }
+          exit 0
 
       - name: Riegel.Cli.exe collect (net10)
         shell: pwsh
@@ -118,6 +120,7 @@ jobs:
           & "$env:OUT/cli/Riegel.Cli.exe" collect --out "$env:OUT/net10"
           Write-Host "Exitcode: $LASTEXITCODE"
           if ($LASTEXITCODE -notin 0, 1) { throw "Riegel.Cli.exe collect endete mit $LASTEXITCODE" }
+          exit 0
 
       - name: Schema prüfen und Einträge von net35 und net10 vergleichen
         shell: pwsh
@@ -206,6 +209,7 @@ jobs:
           secedit.exe /export /cfg "$raw\secedit.inf" /log "$raw\secedit.log" /quiet
           auditpol.exe /backup "/file:$raw\auditpol.csv"
           gpresult.exe /scope computer /x "$raw\gpresult.xml" /f
+          # Fehlende Rohdateien (gpresult ist auf windows-11-arm auch als Admin verweigert) überspringt der Anonymisierer
           $host_ = ('RUNNER-' + '${{ matrix.runner }}'.Replace('windows-', '').ToUpperInvariant())
           $anon = "$env:OUT/anonymizer/SnapshotAnonymizer.dll"
           $admin = (Get-ChildItem "$env:OUT/admin" -Filter *.snapshot.json | Select-Object -First 1).FullName

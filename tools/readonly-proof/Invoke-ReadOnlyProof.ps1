@@ -59,7 +59,7 @@ function Fail([string] $text) { $failures.Add($text); $report.Add("FAIL: $text")
 # ---------------------------------------------------------------- Zustand des Runners
 
 # Schluessel der Zustands-Tabelle: Einstellungen (config) und Laufzustaende (runtime: Dienst- und Aufgabenzustand)
-function Test-Runtime([string] $key) { $key -like 'svc:*:State' -or $key -like 'task:*:State' }
+function Test-Runtime([string] $key) { $key -like 'svc:*:State' }
 
 $script:stateNo = 0
 function Get-RunnerState {
@@ -90,8 +90,10 @@ function Get-RunnerState {
         foreach ($p in $mp.CimInstanceProperties) { $s["mp:$($p.Name)"] = (@($p.Value) | ForEach-Object { [string] $_ }) -join ';' }
     } catch { $s['mp'] = 'unavailable' }
     foreach ($task in Get-ScheduledTask) {
+        # Ob eine Aufgabe gerade laeuft (Running/Queued/Ready), entscheidet ihr Zeitplan, nicht der Sammler: verglichen
+        # wird, ob sie da und ob sie aktiviert ist
         $s["task:$($task.TaskPath)$($task.TaskName)"] = 'present'
-        $s["task:$($task.TaskPath)$($task.TaskName):State"] = [string] $task.State
+        $s["task:$($task.TaskPath)$($task.TaskName):State"] = if ([string] $task.State -eq 'Disabled') { 'disabled' } else { 'enabled' }
     }
     try {
         $fw = New-Object -ComObject HNetCfg.FwPolicy2
@@ -142,6 +144,28 @@ function Get-SecurityEventIds([datetime] $from, [datetime] $to) {
     } catch { return "none or not readable ($($_.Exception.Message))" }
 }
 
+# Kindprozesse laut Sicherheitsprotokoll (Ereignis 4688, wenn die Prozessueberwachung an ist) - zweite, von WMI
+# unabhaengige Quelle; $null, wenn das Protokoll nicht lesbar ist. Audited = das Ziel selbst steht als 4688 darin.
+function Get-ChildrenFromSecurityLog([datetime] $from, [datetime] $to, [int] $rootPid) {
+    try { $events = @(Get-WinEvent -FilterHashtable @{ LogName = 'Security'; Id = 4688; StartTime = $from; EndTime = $to } -ErrorAction Stop) }
+    catch { $events = @() }
+    $created = foreach ($e in $events) {
+        $d = @{}
+        foreach ($n in ([xml] $e.ToXml()).Event.EventData.Data) { $d[$n.Name] = $n.'#text' }
+        try {
+            [pscustomobject]@{ Pid = [Convert]::ToInt32($d['NewProcessId'], 16); Parent = [Convert]::ToInt32($d['ProcessId'], 16); Name = Split-Path $d['NewProcessName'] -Leaf }
+        } catch { }
+    }
+    $tree = [Collections.Generic.HashSet[int]]::new()
+    [void] $tree.Add($rootPid)
+    $names = [Collections.Generic.List[string]]::new()
+    do {
+        $added = $false
+        foreach ($c in $created) { if ($tree.Contains($c.Parent) -and $tree.Add($c.Pid)) { $names.Add($c.Name); $added = $true } }
+    } while ($added)
+    [pscustomobject]@{ Audited = [bool] (@($created | Where-Object { $_.Pid -eq $rootPid }).Count); Names = $names.ToArray() }
+}
+
 # ---------------------------------------------------------------- Ziele
 
 function Invoke-Target([string] $target, [string] $outDir) {
@@ -183,6 +207,15 @@ foreach ($t in $Target) {
 Line 'Compared: secedit /export, auditpol /backup, reg export (Policies, Lsa, LanmanServer\Parameters, FirewallPolicy), all services (StartMode and State), Get-MpPreference, scheduled tasks (path, name, state), HNetCfg.FwPolicy2 (profiles, rules), Registry.pol hash, %TEMP%\riegel-* folders.'
 Line ''
 
+# Installationen und Wartung (MSI-Test, Windows-Update-Stapel) wecken Dienste: erst warten, bis sie abgeklungen sind
+$busy = 'msiexec', 'TiWorker', 'TrustedInstaller', 'MoUsoCoreWorker', 'wuauclt', 'SetupHost'
+$quiet = [Diagnostics.Stopwatch]::StartNew()
+while ($quiet.Elapsed.TotalSeconds -lt 300 -and @(Get-Process -Name $busy -ErrorAction SilentlyContinue).Count -gt 0) { Start-Sleep -Seconds 5 }
+$still = @(Get-Process -Name $busy -ErrorAction SilentlyContinue | ForEach-Object Name | Sort-Object -Unique)
+Start-Sleep -Seconds 10
+Line "Settle: waited $([Math]::Round($quiet.Elapsed.TotalSeconds)) s for installer activity to end$(if ($still) { " (still running: $($still -join ', '))" })"
+Line ''
+
 $detectionsBefore = @(try { Get-MpThreatDetection } catch { @() }).Count
 $s0 = Get-RunnerState
 $wu0 = "$($s0['svc:wuauserv:StartMode'])/$($s0['svc:wuauserv:State'])"
@@ -198,14 +231,11 @@ Line '== Warm-up (first run of every target)'
 foreach ($key in @(Compare-State $s0 $s1)) {
     $text = Describe $s0 $s1 $key
     if (-not (Test-Runtime $key)) { Fail "configuration changed during warm-up: $text"; continue }
-    if ($key -like 'svc:*:State') {
-        $name = $key.Split(':')[1]
-        if ($name -eq 'wuauserv') { Line "  note (V1, see calibration): $text"; continue }
-        if (Test-TriggerStart $name) { Line "  on-demand start/stop by Windows (service has a start trigger, StartMode unchanged): $text"; continue }
-        Fail "service state changed during warm-up: $text"
-        continue
-    }
-    Line "  task state (not attributed, checked again in the measured runs): $text"
+    # Laufzustaende im (nicht kalibrierten) Aufwaermen: aufgelistet, bewertet werden die gemessenen Laeufe
+    $name = $key.Split(':')[1]
+    if ($name -eq 'wuauserv') { Line "  note (V1, see the measured runs): $text"; continue }
+    if (Test-TriggerStart $name) { Line "  on-demand start/stop by Windows (service has a start trigger, StartMode unchanged): $text"; continue }
+    Line "  service state changed (no start trigger; background or first-run effect, checked again in the measured runs): $text"
 }
 Line ''
 
@@ -228,6 +258,7 @@ Line ''
 # 3. Gemessene Laeufe
 $previous = $s2
 $wuChanged = $false
+$measured = [Collections.Generic.List[object]]::new()
 foreach ($t in $Target) {
     $sourceId = "riegel-proc-$t"
     Register-CimIndicationEvent -ClassName Win32_ProcessStartTrace -SourceIdentifier $sourceId | Out-Null
@@ -250,23 +281,48 @@ foreach ($t in $Target) {
     } while ($added)
     $after = Get-RunnerState
     $changes = @(Compare-State $previous $after | Where-Object { $_ -notin $excluded })
+    foreach ($key in $changes) { $measured.Add([pscustomobject]@{ Target = $t; Key = $key; Text = (Describe $previous $after $key) }) }
     Line "== Measured run: $t (exit code $($run.ExitCode), $($run.Ms) ms)"
     if ($run.ExitCode -notin 0, 1) { Fail "$t exited with $($run.ExitCode)" }
     if (-not (Test-OutputFolder $t $run.Out)) { Fail "$t wrote something else than its export and checksum: $((Get-ChildItem $run.Out -Force | ForEach-Object Name) -join ', ')" }
     else { Line '  written: only the export and its .sha256 (builtin: only its bundle folder)' }
-    foreach ($key in $changes) {
-        if ($key -like 'svc:wuauserv:*') { $wuChanged = $true }
-        Fail "$t changed: $(Describe $previous $after $key)"
-    }
     if ($changes.Count -eq 0) { Line '  no difference after calibration' }
+    else { foreach ($key in $changes) { Line "  difference (judged after the second calibration): $(Describe $previous $after $key)" } }
     $own = @($children | Where-Object { $_ -ne 'conhost.exe' })
-    Line "  child processes: $(if ($children.Count) { ($children | Sort-Object) -join ', ' } else { 'none' })"
-    if ($t -eq 'minimal' -and $own.Count -gt 0) { Fail "--minimal started processes: $($own -join ', ')" }
+    Line "  child processes (WMI process trace): $(if ($children.Count) { ($children | Sort-Object) -join ', ' } else { 'none' })"
+    $logged = Get-ChildrenFromSecurityLog $start $end $run.Pid
+    $ownLogged = @($logged.Names | Where-Object { $_ -ne 'conhost.exe' })
+    if ($logged.Audited) { Line "  child processes (Security log 4688): $(if ($logged.Names.Count) { ($logged.Names | Sort-Object) -join ', ' } else { 'none' })" }
+    else { Line '  child processes (Security log 4688): process-creation auditing is off on this runner' }
+    if ($t -eq 'minimal' -and ($own.Count -gt 0 -or $ownLogged.Count -gt 0)) { Fail "--minimal started processes: $((@($own) + @($ownLogged) | Sort-Object -Unique) -join ', ')" }
+    if ($t -eq 'minimal' -and $own.Count -eq 0 -and $ownLogged.Count -eq 0) { Line '  --minimal started no process' }
     if ($after['temp:riegel-*'] -ne $previous['temp:riegel-*']) { Fail "$t left a %TEMP%\riegel-* folder: $($after['temp:riegel-*'])" }
     Line "  Security log event IDs during the run (V2): $(Get-SecurityEventIds $start $end)"
     Line ''
     $previous = $after
 }
+
+# Zweite Kalibrierung nach den Laeufen: was sich dann von selbst aendert, war auch vorher Hintergrund
+$cal2Start = Get-Date
+Start-Sleep -Milliseconds $pause
+$cal2End = Get-Date
+$s9 = Get-RunnerState
+$excluded2 = @(Compare-State $previous $s9)
+Line "== Second calibration (null run, $([Math]::Round($pause / 1000)) s after the measured runs)"
+if ($excluded2.Count -eq 0) { Line '  nothing changed on its own' }
+foreach ($key in $excluded2) { Line "  excluded (changes on its own): $(Describe $previous $s9 $key)" }
+Line "  Security log event IDs without the collector (background): $(Get-SecurityEventIds $cal2Start $cal2End)"
+Line ''
+Line '== Differences of the measured runs'
+# Laufzustaende, die sich auch in der zweiten Kalibrierung von selbst aendern, sind Hintergrund; Einstellungen nie
+$open = @($measured | Where-Object { -not (Test-Runtime $_.Key) -or $_.Key -notin $excluded2 })
+foreach ($m in $measured) {
+    if ($m.Key -like 'svc:wuauserv:*' -and $open -contains $m) { $wuChanged = $true }
+    if ($open -contains $m) { Fail "$($m.Target) changed: $($m.Text)" }
+    else { Line "  background (also changed on its own in the second calibration): $($m.Target): $($m.Text)" }
+}
+if ($measured.Count -eq 0) { Line '  none' }
+Line ''
 
 # Abschluss
 $detections = @(try { Get-MpThreatDetection } catch { @() })
@@ -279,7 +335,7 @@ Line ''
 $wuEnd = "$($previous['svc:wuauserv:StartMode'])/$($previous['svc:wuauserv:State'])"
 Line '== wuauserv (V1)'
 Line "  before: $wu0, after: $wuEnd"
-if ($excluded -contains 'svc:wuauserv:State') { Line '  V1 not verifiable on this runner: wuauserv changed on its own during calibration' }
+if ($excluded -contains 'svc:wuauserv:State' -or $excluded2 -contains 'svc:wuauserv:State') { Line '  V1 not verifiable on this runner: wuauserv changed on its own during calibration' }
 elseif (-not $wuChanged) { Line '  untouched by every measured run' }
 Line ''
 Line ("RESULT: " + $(if ($failures.Count -eq 0) { 'PASS - no configuration or state difference after calibration' } else { "FAIL - $($failures.Count) difference(s)" }))

@@ -47,8 +47,15 @@ internal static class Program
             // Gegenprobe: muss ein gültiger Export des Vertrags bleiben
             RiegelJson.Deserialize<Snapshot>(Encoding.UTF8.GetBytes(json));
             File.WriteAllText(args[1], json, new UTF8Encoding(false));
-            foreach (var (from, to) in raw) RawFile(anonymizer, from, to);
-            Console.WriteLine($"{args[1]} ({raw.Count} raw files)");
+            int written = 0;
+            foreach (var (from, to) in raw)
+            {
+                // Fehlt eine Rohdatei (z. B. gpresult ohne Rechte), wird sie übersprungen und genannt
+                if (!File.Exists(from)) { Console.Error.WriteLine($"{RglCodesCommon.NotFound}: {from} (skipped)"); continue; }
+                RawFile(anonymizer, from, to);
+                written++;
+            }
+            Console.WriteLine($"{args[1]} ({written} raw files)");
             return 0;
         }
         catch (Exception e) when (e is IOException or JsonException or RiegelException or InvalidOperationException or FormatException)
@@ -74,6 +81,7 @@ internal static class Program
             : new UTF8Encoding(false);
         string text;
         using (var reader = new StreamReader(new MemoryStream(bytes), encoding, detectEncodingFromByteOrderMarks: true)) text = reader.ReadToEnd();
+        anonymizer.LearnGpresult(text);
         using var writer = new StreamWriter(to, false, encoding);
         writer.Write(anonymizer.Text(text));
     }

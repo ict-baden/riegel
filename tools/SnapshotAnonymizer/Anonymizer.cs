@@ -75,6 +75,9 @@ internal sealed partial class Anonymizer
                 && !AllowList.BuiltInAccounts.Values.Contains(s, StringComparer.OrdinalIgnoreCase)) names.Add(s[(s.LastIndexOf('\\') + 1)..]);
         foreach (var name in names) _users[name] = $"user-{_users.Count + 1:00}";
 
+        // Rechnername aus der gpresult-Ausgabe (kann vom Hostnamen abweichen, z. B. Name des Images)
+        LearnGpresult(items.FirstOrDefault(i => (string?)i["key"] == "raw:gpresult-xml")?["value"]?["text"] is JsonValue g && g.TryGetValue<string>(out var gp) ? gp : null);
+
         // GUIDs der Adapter und der BitLocker-Schlüsselschutze
         int b = 0, c = 0;
         foreach (var row in WmiRows(items, @"wmi:root\cimv2:Win32_NetworkAdapter")) AddGuid((string?)row["GUID"], 'b', ref b);
@@ -353,14 +356,48 @@ internal sealed partial class Anonymizer
     {
         if (s.Length == 0) return s;
         if (_host.Length > 0) s = Regex.Replace(s, Regex.Escape(_host), _hostReplacement, RegexOptions.IgnoreCase);
+        foreach (var other in _otherHosts) s = Regex.Replace(s, Regex.Escape(other), _hostReplacement, RegexOptions.IgnoreCase);
+        // Von Windows erzeugte Rechnernamen („WIN-“ und 11 Zeichen), z. B. aus der Erstellung des Images in gpresult
+        s = GeneratedComputerName().Replace(s, _hostReplacement);
         foreach (var (from, to) in _domains) s = Regex.Replace(s, Regex.Escape(from), to, RegexOptions.IgnoreCase);
         foreach (var (from, to) in _sidPrefixes) s = Regex.Replace(s, Regex.Escape(from) + "(?=-|$|[^0-9])", to, RegexOptions.IgnoreCase);
         foreach (var (from, to) in _guids) s = Regex.Replace(s, Regex.Escape(from), to, RegexOptions.IgnoreCase);
         if (_machineGuid is not null) s = Regex.Replace(s, Regex.Escape(_machineGuid), ReplacementGuid, RegexOptions.IgnoreCase);
+        // Benutzernamen nur dort, wo sie sicher ein Konto sind – nie als Wort im Text: ein Konto „installer“ darf nicht
+        // „Visual Studio Installer“ oder einen Ordner „…\Installer\…“ umbenennen
         foreach (var (from, to) in _users)
-            s = Regex.Replace(s, @"(?<![A-Za-z0-9_.$-])" + Regex.Escape(from) + @"(?![A-Za-z0-9_$-])", to, RegexOptions.IgnoreCase);
+        {
+            if (s.Equals(from, StringComparison.OrdinalIgnoreCase)) return to;
+            string name = Regex.Escape(from);
+            s = Regex.Replace(s, @"(?<=\\Users\\)" + name + @"(?=\\|$|""|;|,)", to, RegexOptions.IgnoreCase);
+            s = Regex.Replace(s, @"(?<=(^|[\s""'>=,*])(" + Regex.Escape(_hostReplacement) + @"|\.)\\)" + name + @"(?![A-Za-z0-9_.$-])", to, RegexOptions.IgnoreCase);
+            s = Regex.Replace(s, @"(?<=[""'>])" + name + @"(?=[""'<])", to, RegexOptions.IgnoreCase);
+        }
         return s;
     }
+
+    /// <summary>Weitere Namen dieses Rechners (Rechnername in gpresult); werden wie der Hostname ersetzt.</summary>
+    private readonly List<string> _otherHosts = [];
+
+    /// <summary>Rechnername aus „&lt;ComputerResults&gt;…&lt;Name&gt;…&lt;/Name&gt;“ einer gpresult-Ausgabe merken.</summary>
+    public void LearnGpresult(string? xml)
+    {
+        if (xml is null) return;
+        var m = GpresultComputerName().Match(xml);
+        if (!m.Success) return;
+        string name = m.Groups[1].Value.Trim();
+        int slash = name.LastIndexOf('\\');
+        if (slash >= 0) name = name[(slash + 1)..];
+        name = name.TrimEnd('$');
+        if (name.Length > 0 && !name.Equals(_host, StringComparison.OrdinalIgnoreCase) && !_otherHosts.Contains(name, StringComparer.OrdinalIgnoreCase))
+            _otherHosts.Add(name);
+    }
+
+    [GeneratedRegex(@"\bWIN-[A-Z0-9]{11}\b")]
+    private static partial Regex GeneratedComputerName();
+
+    [GeneratedRegex(@"<ComputerResults>.*?<Name>([^<]+)</Name>", RegexOptions.Singleline)]
+    private static partial Regex GpresultComputerName();
 
     // ------------------------------------------------------------------ Hilfen
 
