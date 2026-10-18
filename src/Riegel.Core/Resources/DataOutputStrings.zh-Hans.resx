@@ -4,7 +4,1272 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Placeholder" xml:space="preserve">
-    <value>（data-outputs 文本的占位符）</value>
+  <data name="Banner_ClockSuspect" xml:space="preserve">
+    <value>计算机时钟不可信</value>
+  </data>
+  <data name="Banner_DomainController" xml:space="preserve">
+    <value>域控制器：不评分</value>
+  </data>
+  <data name="Banner_ExperimentalGpoAttribution" xml:space="preserve">
+    <value>来源：域 GPO（未在真实域中测试）</value>
+  </data>
+  <data name="Banner_IncompleteCheck" xml:space="preserve">
+    <value>检查不完整 – 仅 {0}% 可检查</value>
+  </data>
+  <data name="Banner_StaleCatalogue" xml:space="preserve">
+    <value>规则目录已超过 6 个月 – 生命周期和补丁信息可能已过时</value>
+  </data>
+  <data name="Banner_StaleSnapshot" xml:space="preserve">
+    <value>采集已过时（{0} 天前）</value>
+  </data>
+  <data name="Basis_Approved" xml:space="preserve">
+    <value>自批准以来</value>
+  </data>
+  <data name="Basis_Previous" xml:space="preserve">
+    <value>自上次运行以来</value>
+  </data>
+  <data name="Basis_Sample" xml:space="preserve">
+    <value>抽样检查</value>
+  </data>
+  <data name="ChangeKind_Better" xml:space="preserve">
+    <value>改善</value>
+  </data>
+  <data name="ChangeKind_ExceptionAdded" xml:space="preserve">
+    <value>新增例外</value>
+  </data>
+  <data name="ChangeKind_ExceptionExpired" xml:space="preserve">
+    <value>例外已过期</value>
+  </data>
+  <data name="ChangeKind_ExceptionRemoved" xml:space="preserve">
+    <value>例外已移除</value>
+  </data>
+  <data name="ChangeKind_NewRule" xml:space="preserve">
+    <value>新规则</value>
+  </data>
+  <data name="ChangeKind_Other" xml:space="preserve">
+    <value>其他变更</value>
+  </data>
+  <data name="ChangeKind_ScopeChanged" xml:space="preserve">
+    <value>检查范围已变更</value>
+  </data>
+  <data name="ChangeKind_TailoringAdded" xml:space="preserve">
+    <value>新增范围裁剪</value>
+  </data>
+  <data name="ChangeKind_TailoringRemoved" xml:space="preserve">
+    <value>范围裁剪已移除</value>
+  </data>
+  <data name="ChangeKind_Worse" xml:space="preserve">
+    <value>恶化</value>
+  </data>
+  <data name="Col_AcceptedValue" xml:space="preserve">
+    <value>已接受的值</value>
+  </data>
+  <data name="Col_Action" xml:space="preserve">
+    <value>行动</value>
+  </data>
+  <data name="Col_Actual" xml:space="preserve">
+    <value>实际值</value>
+  </data>
+  <data name="Col_Admin" xml:space="preserve">
+    <value>以管理员身份采集</value>
+  </data>
+  <data name="Col_AffectedHosts" xml:space="preserve">
+    <value>受影响的主机</value>
+  </data>
+  <data name="Col_AgeDays" xml:space="preserve">
+    <value>时长（天）</value>
+  </data>
+  <data name="Col_AlsoInMsBaseline" xml:space="preserve">
+    <value>也见于 Microsoft 基线</value>
+  </data>
+  <data name="Col_ApplicableCount" xml:space="preserve">
+    <value>适用数量</value>
+  </data>
+  <data name="Col_AppliesTo" xml:space="preserve">
+    <value>适用于</value>
+  </data>
+  <data name="Col_ApprovalRecord" xml:space="preserve">
+    <value>批准记录</value>
+  </data>
+  <data name="Col_ApprovedByName" xml:space="preserve">
+    <value>批准人（姓名）</value>
+  </data>
+  <data name="Col_ApprovedByRole" xml:space="preserve">
+    <value>批准人（角色）</value>
+  </data>
+  <data name="Col_ApprovedOn" xml:space="preserve">
+    <value>批准日期</value>
+  </data>
+  <data name="Col_AvProduct" xml:space="preserve">
+    <value>防病毒产品</value>
+  </data>
+  <data name="Col_AvState" xml:space="preserve">
+    <value>防病毒状态</value>
+  </data>
+  <data name="Col_Basis" xml:space="preserve">
+    <value>对比基准</value>
+  </data>
+  <data name="Col_BitLocker" xml:space="preserve">
+    <value>BitLocker</value>
+  </data>
+  <data name="Col_Build" xml:space="preserve">
+    <value>内部版本</value>
+  </data>
+  <data name="Col_Builder" xml:space="preserve">
+    <value>设备制造商</value>
+  </data>
+  <data name="Col_CatalogueVersion" xml:space="preserve">
+    <value>目录版本</value>
+  </data>
+  <data name="Col_Category" xml:space="preserve">
+    <value>类别</value>
+  </data>
+  <data name="Col_ChangeKind" xml:space="preserve">
+    <value>变更</value>
+  </data>
+  <data name="Col_CheckedShare" xml:space="preserve">
+    <value>检查覆盖率（%）</value>
+  </data>
+  <data name="Col_CollectedAt" xml:space="preserve">
+    <value>采集时间（UTC）</value>
+  </data>
+  <data name="Col_Collector" xml:space="preserve">
+    <value>采集器</value>
+  </data>
+  <data name="Col_CollectorSha256" xml:space="preserve">
+    <value>采集器 SHA-256</value>
+  </data>
+  <data name="Col_Comment" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="Col_CompensatingMeasure" xml:space="preserve">
+    <value>补偿措施</value>
+  </data>
+  <data name="Col_ContentSha256" xml:space="preserve">
+    <value>内容 SHA-256</value>
+  </data>
+  <data name="Col_CreatedByRole" xml:space="preserve">
+    <value>创建人（角色）</value>
+  </data>
+  <data name="Col_CreatedOn" xml:space="preserve">
+    <value>创建日期</value>
+  </data>
+  <data name="Col_Date" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="Col_DaysSinceUpdate" xml:space="preserve">
+    <value>距上次更新天数</value>
+  </data>
+  <data name="Col_Deep" xml:space="preserve">
+    <value>深度采集</value>
+  </data>
+  <data name="Col_DeliveryDate" xml:space="preserve">
+    <value>交付日期</value>
+  </data>
+  <data name="Col_Detail" xml:space="preserve">
+    <value>详情</value>
+  </data>
+  <data name="Col_Details" xml:space="preserve">
+    <value>详情</value>
+  </data>
+  <data name="Col_Documented" xml:space="preserve">
+    <value>已记录（%）</value>
+  </data>
+  <data name="Col_DomainRole" xml:space="preserve">
+    <value>域角色</value>
+  </data>
+  <data name="Col_DueDate" xml:space="preserve">
+    <value>截止日期</value>
+  </data>
+  <data name="Col_Edition" xml:space="preserve">
+    <value>版本类型</value>
+  </data>
+  <data name="Col_EvidenceKeys" xml:space="preserve">
+    <value>读取的条目</value>
+  </data>
+  <data name="Col_EvidenceKind" xml:space="preserve">
+    <value>种类</value>
+  </data>
+  <data name="Col_Exception" xml:space="preserve">
+    <value>有意保留</value>
+  </data>
+  <data name="Col_ExceptionId" xml:space="preserve">
+    <value>例外</value>
+  </data>
+  <data name="Col_Expectation" xml:space="preserve">
+    <value>目标值</value>
+  </data>
+  <data name="Col_Expected" xml:space="preserve">
+    <value>期望值</value>
+  </data>
+  <data name="Col_Fail" xml:space="preserve">
+    <value>不符合</value>
+  </data>
+  <data name="Col_FirewallOn" xml:space="preserve">
+    <value>防火墙已开启</value>
+  </data>
+  <data name="Col_Flags" xml:space="preserve">
+    <value>标记</value>
+  </data>
+  <data name="Col_FromFlags" xml:space="preserve">
+    <value>之前标记</value>
+  </data>
+  <data name="Col_FromRun" xml:space="preserve">
+    <value>起始运行</value>
+  </data>
+  <data name="Col_FromStatus" xml:space="preserve">
+    <value>之前状态</value>
+  </data>
+  <data name="Col_Group" xml:space="preserve">
+    <value>组</value>
+  </data>
+  <data name="Col_Host" xml:space="preserve">
+    <value>主机</value>
+  </data>
+  <data name="Col_Hosts" xml:space="preserve">
+    <value>主机</value>
+  </data>
+  <data name="Col_Id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="Col_ImportId" xml:space="preserve">
+    <value>导入 ID</value>
+  </data>
+  <data name="Col_ImportedAt" xml:space="preserve">
+    <value>导入时间（UTC）</value>
+  </data>
+  <data name="Col_Info" xml:space="preserve">
+    <value>信息</value>
+  </data>
+  <data name="Col_Item" xml:space="preserve">
+    <value>项目</value>
+  </data>
+  <data name="Col_Justification" xml:space="preserve">
+    <value>理由</value>
+  </data>
+  <data name="Col_Kind" xml:space="preserve">
+    <value>种类</value>
+  </data>
+  <data name="Col_Label" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="Col_LocalAdminCount" xml:space="preserve">
+    <value>本地管理员数</value>
+  </data>
+  <data name="Col_Location" xml:space="preserve">
+    <value>位置</value>
+  </data>
+  <data name="Col_MachineType" xml:space="preserve">
+    <value>机器类型</value>
+  </data>
+  <data name="Col_MeasureId" xml:space="preserve">
+    <value>措施</value>
+  </data>
+  <data name="Col_MeasureState" xml:space="preserve">
+    <value>措施状态</value>
+  </data>
+  <data name="Col_Minimal" xml:space="preserve">
+    <value>最小采集</value>
+  </data>
+  <data name="Col_ModifiedOn" xml:space="preserve">
+    <value>修改日期</value>
+  </data>
+  <data name="Col_Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="Col_NetActiveAdapters" xml:space="preserve">
+    <value>网络连接：活动适配器</value>
+  </data>
+  <data name="Col_NetGateway" xml:space="preserve">
+    <value>网络连接：已配置网关</value>
+  </data>
+  <data name="Col_NetIpForwarding" xml:space="preserve">
+    <value>网络连接：IP 转发</value>
+  </data>
+  <data name="Col_NetProxy" xml:space="preserve">
+    <value>网络连接：已配置代理</value>
+  </data>
+  <data name="Col_NetWireless" xml:space="preserve">
+    <value>网络连接：无线</value>
+  </data>
+  <data name="Col_NotApplicable" xml:space="preserve">
+    <value>不适用</value>
+  </data>
+  <data name="Col_NotCheckable" xml:space="preserve">
+    <value>无法检查</value>
+  </data>
+  <data name="Col_OpenCount" xml:space="preserve">
+    <value>未解决数量</value>
+  </data>
+  <data name="Col_OpenHigh" xml:space="preserve">
+    <value>未解决（高）</value>
+  </data>
+  <data name="Col_OpenLow" xml:space="preserve">
+    <value>未解决（低）</value>
+  </data>
+  <data name="Col_OpenMedium" xml:space="preserve">
+    <value>未解决（中）</value>
+  </data>
+  <data name="Col_OrderNumber" xml:space="preserve">
+    <value>订单号</value>
+  </data>
+  <data name="Col_Origin" xml:space="preserve">
+    <value>来源</value>
+  </data>
+  <data name="Col_Os" xml:space="preserve">
+    <value>操作系统</value>
+  </data>
+  <data name="Col_OtNote" xml:space="preserve">
+    <value>OT 提示</value>
+  </data>
+  <data name="Col_OutOfScope" xml:space="preserve">
+    <value>不在检查范围内</value>
+  </data>
+  <data name="Col_Overdue" xml:space="preserve">
+    <value>已逾期</value>
+  </data>
+  <data name="Col_OwnerRole" xml:space="preserve">
+    <value>负责角色</value>
+  </data>
+  <data name="Col_Pass" xml:space="preserve">
+    <value>符合</value>
+  </data>
+  <data name="Col_PatchMonth" xml:space="preserve">
+    <value>补丁月份</value>
+  </data>
+  <data name="Col_PlantSoftware" xml:space="preserve">
+    <value>设备软件</value>
+  </data>
+  <data name="Col_Pseudonymized" xml:space="preserve">
+    <value>已假名化</value>
+  </data>
+  <data name="Col_Rationale" xml:space="preserve">
+    <value>理由</value>
+  </data>
+  <data name="Col_RdpEnabled" xml:space="preserve">
+    <value>已启用 RDP</value>
+  </data>
+  <data name="Col_RdpNla" xml:space="preserve">
+    <value>RDP 使用 NLA</value>
+  </data>
+  <data name="Col_ReasonCategory" xml:space="preserve">
+    <value>理由类别</value>
+  </data>
+  <data name="Col_ReasonCode" xml:space="preserve">
+    <value>原因代码</value>
+  </data>
+  <data name="Col_Reference" xml:space="preserve">
+    <value>参考</value>
+  </data>
+  <data name="Col_References" xml:space="preserve">
+    <value>参考</value>
+  </data>
+  <data name="Col_RegisterFlags" xml:space="preserve">
+    <value>提示</value>
+  </data>
+  <data name="Col_Remarks" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="Col_Remedy" xml:space="preserve">
+    <value>修复措施</value>
+  </data>
+  <data name="Col_Renderer" xml:space="preserve">
+    <value>列表类型</value>
+  </data>
+  <data name="Col_ReviewBy" xml:space="preserve">
+    <value>复审截止</value>
+  </data>
+  <data name="Col_Role" xml:space="preserve">
+    <value>角色</value>
+  </data>
+  <data name="Col_RuleCount" xml:space="preserve">
+    <value>规则数</value>
+  </data>
+  <data name="Col_RuleId" xml:space="preserve">
+    <value>规则</value>
+  </data>
+  <data name="Col_RuleSet" xml:space="preserve">
+    <value>规则集</value>
+  </data>
+  <data name="Col_RunFlags" xml:space="preserve">
+    <value>运行标记</value>
+  </data>
+  <data name="Col_RunId" xml:space="preserve">
+    <value>运行 ID</value>
+  </data>
+  <data name="Col_Scope" xml:space="preserve">
+    <value>适用范围</value>
+  </data>
+  <data name="Col_Score" xml:space="preserve">
+    <value>加固程度（%）</value>
+  </data>
+  <data name="Col_Section" xml:space="preserve">
+    <value>部分</value>
+  </data>
+  <data name="Col_SerialNumber" xml:space="preserve">
+    <value>序列号</value>
+  </data>
+  <data name="Col_Severity" xml:space="preserve">
+    <value>严重性</value>
+  </data>
+  <data name="Col_Signature" xml:space="preserve">
+    <value>签名</value>
+  </data>
+  <data name="Col_SignatureAgeDays" xml:space="preserve">
+    <value>病毒库时长（天）</value>
+  </data>
+  <data name="Col_Smb1" xml:space="preserve">
+    <value>已启用 SMBv1</value>
+  </data>
+  <data name="Col_SnapshotSha256" xml:space="preserve">
+    <value>导出文件 SHA-256</value>
+  </data>
+  <data name="Col_SourceDetail" xml:space="preserve">
+    <value>来源详情</value>
+  </data>
+  <data name="Col_SourceFile" xml:space="preserve">
+    <value>源文件</value>
+  </data>
+  <data name="Col_SourceKind" xml:space="preserve">
+    <value>导入来源</value>
+  </data>
+  <data name="Col_SourceSha256" xml:space="preserve">
+    <value>源 SHA-256</value>
+  </data>
+  <data name="Col_Sources" xml:space="preserve">
+    <value>目标值依据</value>
+  </data>
+  <data name="Col_Stale" xml:space="preserve">
+    <value>已过时</value>
+  </data>
+  <data name="Col_State" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="Col_Status" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="Col_Step" xml:space="preserve">
+    <value>步骤</value>
+  </data>
+  <data name="Col_Subject" xml:space="preserve">
+    <value>对象</value>
+  </data>
+  <data name="Col_SupportEnd" xml:space="preserve">
+    <value>支持结束日期</value>
+  </data>
+  <data name="Col_Supported" xml:space="preserve">
+    <value>受支持</value>
+  </data>
+  <data name="Col_TailoringId" xml:space="preserve">
+    <value>范围裁剪</value>
+  </data>
+  <data name="Col_TailoringReason" xml:space="preserve">
+    <value>原因</value>
+  </data>
+  <data name="Col_Ticket" xml:space="preserve">
+    <value>工单</value>
+  </data>
+  <data name="Col_Title" xml:space="preserve">
+    <value>标题</value>
+  </data>
+  <data name="Col_ToFlags" xml:space="preserve">
+    <value>当前标记</value>
+  </data>
+  <data name="Col_ToRun" xml:space="preserve">
+    <value>目标运行</value>
+  </data>
+  <data name="Col_ToStatus" xml:space="preserve">
+    <value>当前状态</value>
+  </data>
+  <data name="Col_Ubr" xml:space="preserve">
+    <value>UBR</value>
+  </data>
+  <data name="Col_Value" xml:space="preserve">
+    <value>值</value>
+  </data>
+  <data name="Col_ValueSource" xml:space="preserve">
+    <value>值来源</value>
+  </data>
+  <data name="EntryState_ChangedAfterApproval" xml:space="preserve">
+    <value>批准后已更改</value>
+  </data>
+  <data name="EntryState_Expired" xml:space="preserve">
+    <value>已过期</value>
+  </data>
+  <data name="EntryState_Expiring" xml:space="preserve">
+    <value>即将过期</value>
+  </data>
+  <data name="EntryState_Invalid" xml:space="preserve">
+    <value>无效</value>
+  </data>
+  <data name="EntryState_Pending" xml:space="preserve">
+    <value>已申请</value>
+  </data>
+  <data name="EntryState_Valid" xml:space="preserve">
+    <value>有效</value>
+  </data>
+  <data name="Error_RGL0550" xml:space="preserve">
+    <value>证据包不是可读取的 ZIP 文件：{0}</value>
+  </data>
+  <data name="Error_RGL0551" xml:space="preserve">
+    <value>证据包过大（{0} 字节，上限 {1}）。</value>
+  </data>
+  <data name="Error_RGL0552" xml:space="preserve">
+    <value>条目 {0} 超过 {1} 字节的上限（ZIP 炸弹？）。</value>
+  </data>
+  <data name="Error_RGL0553" xml:space="preserve">
+    <value>证据包中的条目名称不安全：{0}</value>
+  </data>
+  <data name="Error_RGL0554" xml:space="preserve">
+    <value>{0} 缺失或不是 sha256sum 格式。</value>
+  </data>
+  <data name="Error_RGL0555" xml:space="preserve">
+    <value>manifest.json 缺失或无效：{0}</value>
+  </data>
+  <data name="Error_RGL0556" xml:space="preserve">
+    <value>{0} 的校验和不匹配（期望 {1}，实际 {2}）。</value>
+  </data>
+  <data name="Error_RGL0557" xml:space="preserve">
+    <value>{0} 已列出，但证据包中缺失。</value>
+  </data>
+  <data name="Error_RGL0558" xml:space="preserve">
+    <value>{0} 在证据包中，但未列出。</value>
+  </data>
+  <data name="Error_RGL0559" xml:space="preserve">
+    <value>包内规则目录（{0}）与清单（{1}）不符。</value>
+  </data>
+  <data name="Error_RGL0560" xml:space="preserve">
+    <value>{0}：重新评估时结果不同 – {1}</value>
+  </data>
+  <data name="Error_RGL0561" xml:space="preserve">
+    <value>运行 {0}：重新评估时计数不同 – {1}</value>
+  </data>
+  <data name="Error_RGL0562" xml:space="preserve">
+    <value>基线 {0}：未包含内容 – 无法复核</value>
+  </data>
+  <data name="Error_RGL0563" xml:space="preserve">
+    <value>运行 {0} 无法复核：{1}</value>
+  </data>
+  <data name="Error_RGL0564" xml:space="preserve">
+    <value>计算机 {0} 不在证据包中。</value>
+  </data>
+  <data name="Error_RGL0565" xml:space="preserve">
+    <value>包中的 {0} 无法读取（{1}）。</value>
+  </data>
+  <data name="Error_RGL0566" xml:space="preserve">
+    <value>证据包条目过多（{0}，上限 {1}）。</value>
+  </data>
+  <data name="Error_RGL0567" xml:space="preserve">
+    <value>无法打包 {0}：位于设备文件夹之外、系统内置命令原始包、缺失或校验和与运行不符。</value>
+  </data>
+  <data name="Error_RGL0568" xml:space="preserve">
+    <value>无法打包报告文件 {0}（缺失、过大或名称无效）。</value>
+  </data>
+  <data name="Error_RGL0569" xml:space="preserve">
+    <value>目录中的修复条目不被允许 – 已省略：{0}</value>
+  </data>
+  <data name="Error_RGL0570" xml:space="preserve">
+    <value>原值未纳入回滚：{0}</value>
+  </data>
+  <data name="Error_RGL0571" xml:space="preserve">
+    <value>包中的运行与清单不符（{0} / {1}）。</value>
+  </data>
+  <data name="EvidenceReadme_BaselineContentMissing" xml:space="preserve">
+    <value>已请求基线 {0} 的内容，但设备文件夹中没有；仅有元数据。</value>
+  </data>
+  <data name="EvidenceReadme_BaselineHeading" xml:space="preserve">
+    <value>导入的客户基线</value>
+  </data>
+  <data name="EvidenceReadme_BaselineIncluded" xml:space="preserve">
+    <value>包含内容</value>
+  </data>
+  <data name="EvidenceReadme_BaselineMetadataOnly" xml:space="preserve">
+    <value>仅元数据（名称、源 SHA-256、规则 ID 和键、结果）</value>
+  </data>
+  <data name="EvidenceReadme_BaselineNone" xml:space="preserve">
+    <value>未使用任何导入的基线。</value>
+  </data>
+  <data name="EvidenceReadme_BaselineNotVerifiable" xml:space="preserve">
+    <value>未包含基线内容 – 这些结果无法使用 verify 复核。</value>
+  </data>
+  <data name="EvidenceReadme_BaselineSkipped" xml:space="preserve">
+    <value>已省略 ID 无效（{0}）的基线。</value>
+  </data>
+  <data name="EvidenceReadme_BaselineUnreadable" xml:space="preserve">
+    <value>无法读取基线 {0}（{1}）；仅有来自结果的元数据。</value>
+  </data>
+  <data name="EvidenceReadme_Catalogue" xml:space="preserve">
+    <value>规则目录：{0} {1}（SHA-256 {2}）</value>
+  </data>
+  <data name="EvidenceReadme_ComparisonSkipped" xml:space="preserve">
+    <value>{0} 的对比未打包（{1}）。</value>
+  </data>
+  <data name="EvidenceReadme_Confidential" xml:space="preserve">
+    <value>机密：证据包包含主机名、帐户名、SID 和安全配置。</value>
+  </data>
+  <data name="EvidenceReadme_ContentBaselines" xml:space="preserve">
+    <value>导入的客户基线（元数据；内容仅应要求提供）</value>
+  </data>
+  <data name="EvidenceReadme_ContentCatalogue" xml:space="preserve">
+    <value>完整的规则目录（riegel.catalogue/1）</value>
+  </data>
+  <data name="EvidenceReadme_ContentChecksums" xml:space="preserve">
+    <value>每个文件的 SHA-256（sha256sum 格式）</value>
+  </data>
+  <data name="EvidenceReadme_ContentComparison" xml:space="preserve">
+    <value>与上次运行和已批准状态的对比</value>
+  </data>
+  <data name="EvidenceReadme_ContentDocument" xml:space="preserve">
+    <value>报告文档</value>
+  </data>
+  <data name="EvidenceReadme_ContentImports" xml:space="preserve">
+    <value>导入和采集记录</value>
+  </data>
+  <data name="EvidenceReadme_ContentManifest" xml:space="preserve">
+    <value>证据包的内容及其生成方式（riegel.evidence/1）</value>
+  </data>
+  <data name="EvidenceReadme_ContentPlant" xml:space="preserve">
+    <value>设备（组、计算机、设置）</value>
+  </data>
+  <data name="EvidenceReadme_ContentRegisters" xml:space="preserve">
+    <value>运行和报告所用版本的例外、范围裁剪和措施</value>
+  </data>
+  <data name="EvidenceReadme_ContentRuns" xml:space="preserve">
+    <value>每台计算机最新一次运行的结果（{0} 次运行，riegel.run/1）</value>
+  </data>
+  <data name="EvidenceReadme_ContentSnapshots" xml:space="preserve">
+    <value>已评估的导出文件，各附 .sha256 文件</value>
+  </data>
+  <data name="EvidenceReadme_ContentsHeading" xml:space="preserve">
+    <value>内容</value>
+  </data>
+  <data name="EvidenceReadme_HashCompare" xml:space="preserve">
+    <value>将结果与 SHA256SUMS.txt 中的对应行以及 manifest.json 进行比较。</value>
+  </data>
+  <data name="EvidenceReadme_HashHeading" xml:space="preserve">
+    <value>校验校验和</value>
+  </data>
+  <data name="EvidenceReadme_HashLinux" xml:space="preserve">
+    <value>Linux（在解压后的文件夹中）：</value>
+  </data>
+  <data name="EvidenceReadme_HashWindows" xml:space="preserve">
+    <value>Windows PowerShell（逐个文件）：</value>
+  </data>
+  <data name="EvidenceReadme_IntegrityHeading" xml:space="preserve">
+    <value>校验和能证明什么</value>
+  </data>
+  <data name="EvidenceReadme_Intro" xml:space="preserve">
+    <value>由 {0} {1} 为评估日期 {2} 创建。所有文件均为 UTF-8，时间均为 UTC。</value>
+  </data>
+  <data name="EvidenceReadme_LicenseWarning" xml:space="preserve">
+    <value>警告：此证据包包含导入基线的内容。其许可条款（例如 Microsoft Security Compliance Toolkit、BSI 或 CIS）可能禁止转交这些内容。在将证据包交给任何人之前，请先核查相关条款。</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="EvidenceReadme_NoBuiltinBundle" xml:space="preserve">
+    <value>系统内置命令的原始数据包从不包含在证据包中，只包含由其转换的导出文件。</value>
+  </data>
+  <data name="EvidenceReadme_NotesHeading" xml:space="preserve">
+    <value>提示</value>
+  </data>
+  <data name="EvidenceReadme_RegisterMissing" xml:space="preserve">
+    <value>在设备文件夹中未找到版本 {1} 的登记册 {0}；使用它的运行无法复核。</value>
+  </data>
+  <data name="EvidenceReadme_SampleExit" xml:space="preserve">
+    <value>退出代码：0 一致，1 不同，3 错误。</value>
+  </data>
+  <data name="EvidenceReadme_SampleHeading" xml:space="preserve">
+    <value>使用 compare-snapshot 进行抽样检查</value>
+  </data>
+  <data name="EvidenceReadme_SampleText" xml:space="preserve">
+    <value>重新采集一台计算机（有见证人在场），并将新的导出文件与包中同一计算机的导出文件进行比较。易变值（病毒库时长、时间戳、运行时间）不计入。结果：“一致”或“有 N 处不同”并附列表。</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="EvidenceReadme_Title" xml:space="preserve">
+    <value>Riegel 证据包 – {0}</value>
+  </data>
+  <data name="EvidenceReadme_VerifyExit" xml:space="preserve">
+    <value>退出代码：0 已复现，2 存在差异，3 错误。</value>
+  </data>
+  <data name="EvidenceReadme_VerifyHeading" xml:space="preserve">
+    <value>使用 verify 复核</value>
+  </data>
+  <data name="EvidenceReadme_VerifyText" xml:space="preserve">
+    <value>verify 无需解压即可读取证据包，校验每个校验和，使用包内的规则目录、设备和登记册重新评估每个导出文件并比较结果。它会报告“已用引擎 X 复现（打包时：Y）”。内容未包含在包中的导入基线的结果无法复核。</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Evidence_Baseline" xml:space="preserve">
+    <value>导入的基线</value>
+  </data>
+  <data name="Evidence_Catalogue" xml:space="preserve">
+    <value>规则目录</value>
+  </data>
+  <data name="Evidence_Collector" xml:space="preserve">
+    <value>采集器（SHA-256）</value>
+  </data>
+  <data name="Evidence_Commit" xml:space="preserve">
+    <value>构建提交</value>
+  </data>
+  <data name="Evidence_ExeSha256" xml:space="preserve">
+    <value>程序 SHA-256</value>
+  </data>
+  <data name="Evidence_Register" xml:space="preserve">
+    <value>登记册</value>
+  </data>
+  <data name="Evidence_ReleasedOn" xml:space="preserve">
+    <value>发布日期</value>
+  </data>
+  <data name="Evidence_Run" xml:space="preserve">
+    <value>运行</value>
+  </data>
+  <data name="Evidence_Snapshot" xml:space="preserve">
+    <value>导出文件（SHA-256）</value>
+  </data>
+  <data name="Evidence_Tool" xml:space="preserve">
+    <value>工具</value>
+  </data>
+  <data name="Exclusion_NoRemediation" xml:space="preserve">
+    <value>目录中没有基于文件的修复措施</value>
+  </data>
+  <data name="Exclusion_NotFailing" xml:space="preserve">
+    <value>不是未解决的发现项</value>
+  </data>
+  <data name="Exclusion_PendingException" xml:space="preserve">
+    <value>已申请的例外 {0}（尚未批准）</value>
+  </data>
+  <data name="Exclusion_Tailored" xml:space="preserve">
+    <value>范围裁剪 {0}</value>
+  </data>
+  <data name="Exclusion_ValidException" xml:space="preserve">
+    <value>有效例外 {0}</value>
+  </data>
+  <data name="Insurer_NotReadable" xml:space="preserve">
+    <value>无法从计算机读取：MFA、数据备份、网络分段。</value>
+  </data>
+  <data name="Item_AuditCapped" xml:space="preserve">
+    <value>审核类别已封顶</value>
+  </data>
+  <data name="Item_CheckedShare" xml:space="preserve">
+    <value>检查覆盖率（%）</value>
+  </data>
+  <data name="Item_Confidentiality" xml:space="preserve">
+    <value>保密级别</value>
+  </data>
+  <data name="Item_Date" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="Item_Description" xml:space="preserve">
+    <value>说明</value>
+  </data>
+  <data name="Item_Documented" xml:space="preserve">
+    <value>已记录（%）</value>
+  </data>
+  <data name="Item_DomainControllers" xml:space="preserve">
+    <value>域控制器（不评分）</value>
+  </data>
+  <data name="Item_EvaluationDate" xml:space="preserve">
+    <value>评估日期</value>
+  </data>
+  <data name="Item_ExceptionsExpired" xml:space="preserve">
+    <value>已过期的例外</value>
+  </data>
+  <data name="Item_ExceptionsExpiring" xml:space="preserve">
+    <value>即将过期的例外</value>
+  </data>
+  <data name="Item_ExceptionsPending" xml:space="preserve">
+    <value>已申请的例外</value>
+  </data>
+  <data name="Item_ExceptionsValid" xml:space="preserve">
+    <value>有效例外</value>
+  </data>
+  <data name="Item_GeneratedAt" xml:space="preserve">
+    <value>生成时间（UTC）</value>
+  </data>
+  <data name="Item_Greyed" xml:space="preserve">
+    <value>评分已置灰</value>
+  </data>
+  <data name="Item_Hosts" xml:space="preserve">
+    <value>报告中的主机</value>
+  </data>
+  <data name="Item_Language" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="Item_Machines" xml:space="preserve">
+    <value>计算机</value>
+  </data>
+  <data name="Item_MachinesScored" xml:space="preserve">
+    <value>有评分的计算机</value>
+  </data>
+  <data name="Item_MeasuresOverdue" xml:space="preserve">
+    <value>逾期措施</value>
+  </data>
+  <data name="Item_MeasuresPlanned" xml:space="preserve">
+    <value>已计划措施</value>
+  </data>
+  <data name="Item_NewlyOpen" xml:space="preserve">
+    <value>新增未解决</value>
+  </data>
+  <data name="Item_NotCheckable" xml:space="preserve">
+    <value>无法检查</value>
+  </data>
+  <data name="Item_OpenHigh" xml:space="preserve">
+    <value>未解决的发现项（高）</value>
+  </data>
+  <data name="Item_OpenLow" xml:space="preserve">
+    <value>未解决的发现项（低）</value>
+  </data>
+  <data name="Item_OpenMedium" xml:space="preserve">
+    <value>未解决的发现项（中）</value>
+  </data>
+  <data name="Item_PerformedBy" xml:space="preserve">
+    <value>执行方</value>
+  </data>
+  <data name="Item_PlantId" xml:space="preserve">
+    <value>设备 ID</value>
+  </data>
+  <data name="Item_PlantName" xml:space="preserve">
+    <value>设备</value>
+  </data>
+  <data name="Item_Preset" xml:space="preserve">
+    <value>报告类型</value>
+  </data>
+  <data name="Item_Regressions" xml:space="preserve">
+    <value>已恶化</value>
+  </data>
+  <data name="Item_ReportId" xml:space="preserve">
+    <value>报告 ID</value>
+  </data>
+  <data name="Item_RunIds" xml:space="preserve">
+    <value>运行</value>
+  </data>
+  <data name="Item_Score" xml:space="preserve">
+    <value>加固程度（%）</value>
+  </data>
+  <data name="Item_SignOffBinding" xml:space="preserve">
+    <value>签核约束</value>
+  </data>
+  <data name="Item_StaleSnapshots" xml:space="preserve">
+    <value>已过时的采集</value>
+  </data>
+  <data name="Item_TailoringEntries" xml:space="preserve">
+    <value>范围裁剪条目</value>
+  </data>
+  <data name="Item_UnsupportedOs" xml:space="preserve">
+    <value>不受支持的操作系统</value>
+  </data>
+  <data name="Kind_Check" xml:space="preserve">
+    <value>检查</value>
+  </data>
+  <data name="Kind_Inventory" xml:space="preserve">
+    <value>清单</value>
+  </data>
+  <data name="MachineRole_EngineeringStation" xml:space="preserve">
+    <value>工程师站</value>
+  </data>
+  <data name="MachineRole_Historian" xml:space="preserve">
+    <value>历史数据服务器</value>
+  </data>
+  <data name="MachineRole_Hmi" xml:space="preserve">
+    <value>操作站（HMI）</value>
+  </data>
+  <data name="MachineRole_JumpHost" xml:space="preserve">
+    <value>跳板机</value>
+  </data>
+  <data name="MachineRole_Office" xml:space="preserve">
+    <value>办公电脑</value>
+  </data>
+  <data name="MachineRole_Other" xml:space="preserve">
+    <value>其他</value>
+  </data>
+  <data name="MachineRole_Server" xml:space="preserve">
+    <value>服务器</value>
+  </data>
+  <data name="MeasureState_Done" xml:space="preserve">
+    <value>已完成</value>
+  </data>
+  <data name="MeasureState_Dropped" xml:space="preserve">
+    <value>已放弃</value>
+  </data>
+  <data name="MeasureState_Planned" xml:space="preserve">
+    <value>已计划</value>
+  </data>
+  <data name="OmitReason_ControlCharacters" xml:space="preserve">
+    <value>包含控制字符（CR、LF、NUL…）</value>
+  </data>
+  <data name="OmitReason_EmptyListEntry" xml:space="preserve">
+    <value>列表中有空条目</value>
+  </data>
+  <data name="OmitReason_NotCollected" xml:space="preserve">
+    <value>未采集</value>
+  </data>
+  <data name="OmitReason_Redacted" xml:space="preserve">
+    <value>采集时已隐去</value>
+  </data>
+  <data name="OmitReason_TooLong" xml:space="preserve">
+    <value>超过 16,384 个字符</value>
+  </data>
+  <data name="OmitReason_Truncated" xml:space="preserve">
+    <value>采集时已截断</value>
+  </data>
+  <data name="OmitReason_UnsupportedType" xml:space="preserve">
+    <value>不支持的值类型</value>
+  </data>
+  <data name="OmitReason_WrongType" xml:space="preserve">
+    <value>类型与值不符</value>
+  </data>
+  <data name="Origin_App" xml:space="preserve">
+    <value>Riegel 应用</value>
+  </data>
+  <data name="Origin_Builtin" xml:space="preserve">
+    <value>系统内置命令</value>
+  </data>
+  <data name="Origin_Collector" xml:space="preserve">
+    <value>便携式采集器</value>
+  </data>
+  <data name="Origin_Recorded" xml:space="preserve">
+    <value>录制</value>
+  </data>
+  <data name="Origin_Synthetic" xml:space="preserve">
+    <value>合成</value>
+  </data>
+  <data name="Preset_AsDelivered" xml:space="preserve">
+    <value>交付状态</value>
+  </data>
+  <data name="Preset_Audit" xml:space="preserve">
+    <value>审计</value>
+  </data>
+  <data name="Provenance_Acsc" xml:space="preserve">
+    <value>依据 ACSC（CC BY 4.0）</value>
+  </data>
+  <data name="Provenance_AlsoInMsBaseline" xml:space="preserve">
+    <value>也见于 Microsoft 基线（仅作佐证）</value>
+  </data>
+  <data name="Provenance_Disa" xml:space="preserve">
+    <value>依据 DISA STIG</value>
+  </data>
+  <data name="Provenance_MsDocs" xml:space="preserve">
+    <value>依据 Microsoft Server 文档（CC BY 4.0）</value>
+  </data>
+  <data name="Provenance_MsLearnFacts" xml:space="preserve">
+    <value>依据 Microsoft Learn 事实</value>
+  </data>
+  <data name="Provenance_Total" xml:space="preserve">
+    <value>范围内的检查规则</value>
+  </data>
+  <data name="Remediation_ActionInvalid" xml:space="preserve">
+    <value>未写入文件：目录条目 {0} 不被允许（{1}）。请手动检查。</value>
+  </data>
+  <data name="Remediation_ActualOfRule" xml:space="preserve">
+    <value>检查发现的实际值：{0}</value>
+  </data>
+  <data name="Remediation_Deleted" xml:space="preserve">
+    <value>（已删除）</value>
+  </data>
+  <data name="Remediation_Duplicate" xml:space="preserve">
+    <value>{0} 已由上方的规则设置。</value>
+  </data>
+  <data name="Remediation_ExceptionExpired" xml:space="preserve">
+    <value>例外 {0} 已过期 – 请续期或实施该建议。</value>
+  </data>
+  <data name="Remediation_ExcludedHeading" xml:space="preserve">
+    <value>已省略的规则</value>
+  </data>
+  <data name="Remediation_FileAudit" xml:space="preserve">
+    <value>高级审核策略（用于 GPO 导入的 CSV；请先删除第一行）</value>
+  </data>
+  <data name="Remediation_FileReadme" xml:space="preserve">
+    <value>本说明</value>
+  </data>
+  <data name="Remediation_FileReg" xml:space="preserve">
+    <value>要设置或删除的注册表值（regedit 格式 5.00）</value>
+  </data>
+  <data name="Remediation_FileRollback" xml:space="preserve">
+    <value>之前的值（回滚）</value>
+  </data>
+  <data name="Remediation_FileTemplate" xml:space="preserve">
+    <value>安全模板片段（帐户策略、用户权限、安全选项）</value>
+  </data>
+  <data name="Remediation_FilesHeading" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="Remediation_HowToAudit" xml:space="preserve">
+    <value>audit.csv：GPO 中高级审核策略的格式。第一行是上方的提示；导入前请删除该行，因为此格式不支持注释。</value>
+  </data>
+  <data name="Remediation_HowToHeading" xml:space="preserve">
+    <value>如何使用这些文件</value>
+  </data>
+  <data name="Remediation_HowToReg" xml:space="preserve">
+    <value>riegel-remediation.reg：先审查，再用注册表编辑器导入，或通过您的组策略分发这些值。以“;”开头的行是注释。</value>
+  </data>
+  <data name="Remediation_HowToRollback" xml:space="preserve">
+    <value>riegel-rollback.reg：与变更记录一起保存；导入后会恢复变更前记录的值。</value>
+  </data>
+  <data name="Remediation_HowToTemplate" xml:space="preserve">
+    <value>GptTmpl.inf：用于 GPO 或制造商自有工具的安全模板片段；以“;”开头的行是注释。</value>
+  </data>
+  <data name="Remediation_InfoLine" xml:space="preserve">
+    <value>{0} {1} – {2} 的修复建议，运行 {3}，评估于 {4}</value>
+  </data>
+  <data name="Remediation_ManualHeading" xml:space="preserve">
+    <value>手动步骤</value>
+  </data>
+  <data name="Remediation_Measure" xml:space="preserve">
+    <value>计划措施 {0}：{1} – 负责人：{2}，截止 {3}（{4}）</value>
+  </data>
+  <data name="Remediation_NoManual" xml:space="preserve">
+    <value>无。</value>
+  </data>
+  <data name="Remediation_NoScript" xml:space="preserve">
+    <value>Riegel 不编写脚本（.ps1），也不启动任何程序。</value>
+  </data>
+  <data name="Remediation_NoSettings" xml:space="preserve">
+    <value>没有需要更改的设置。</value>
+  </data>
+  <data name="Remediation_NoneExcluded" xml:space="preserve">
+    <value>无。</value>
+  </data>
+  <data name="Remediation_NotExecuted" xml:space="preserve">
+    <value>Riegel 未执行任何操作。这些文件是提供给设备制造商和设备负责人的建议；仅在协商一致后并通过您自己的变更流程应用。</value>
+  </data>
+  <data name="Remediation_OtNote" xml:space="preserve">
+    <value>OT 提示：{0}</value>
+  </data>
+  <data name="Remediation_RegComment" xml:space="preserve">
+    <value>设置针对未解决发现项的建议值。项路径和值名称仅来自 Riegel 规则目录。</value>
+  </data>
+  <data name="Remediation_RollbackComment" xml:space="preserve">
+    <value>恢复导出文件中记录的变更前的值。无法安全恢复的值列在 README.txt 中。</value>
+  </data>
+  <data name="Remediation_RollbackOmitted" xml:space="preserve">
+    <value>回滚：未包含 {0} 的原值（{1}，{2}）– 请在变更前记录。</value>
+  </data>
+  <data name="Remediation_SettingAudit" xml:space="preserve">
+    <value>审核策略 {0}：原值 {1} → 新值 {2}</value>
+  </data>
+  <data name="Remediation_SettingAuditNew" xml:space="preserve">
+    <value>审核策略 {0}：新值 {1}</value>
+  </data>
+  <data name="Remediation_SettingRegistry" xml:space="preserve">
+    <value>注册表 {0}：原值 {1} → 新值 {2}</value>
+  </data>
+  <data name="Remediation_SettingTemplate" xml:space="preserve">
+    <value>安全模板 {0}：原值 {1} → 新值 {2}</value>
+  </data>
+  <data name="Remediation_SettingTemplateNew" xml:space="preserve">
+    <value>安全模板 {0}：新值 {1}</value>
+  </data>
+  <data name="Remediation_SettingsHeading" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Remediation_TemplateManual" xml:space="preserve">
+    <value>{0}：无法写入文件（未指定帐户或无法解析本地 SID）– 请手动设置。</value>
+  </data>
+  <data name="Renderer_AdminShares" xml:space="preserve">
+    <value>管理共享</value>
+  </data>
+  <data name="Renderer_AppControlState" xml:space="preserve">
+    <value>应用程序控制状态</value>
+  </data>
+  <data name="Renderer_DefenderExclusions" xml:space="preserve">
+    <value>Defender 排除项</value>
+  </data>
+  <data name="Renderer_LocalAdmins" xml:space="preserve">
+    <value>本地管理员</value>
+  </data>
+  <data name="Renderer_NetworkFacts" xml:space="preserve">
+    <value>网络连接</value>
+  </data>
+  <data name="Renderer_RdpState" xml:space="preserve">
+    <value>远程桌面状态</value>
+  </data>
+  <data name="Renderer_RemoteAccessTools" xml:space="preserve">
+    <value>远程访问工具</value>
+  </data>
+  <data name="Renderer_Shares" xml:space="preserve">
+    <value>共享</value>
+  </data>
+  <data name="Renderer_Wireless" xml:space="preserve">
+    <value>无线</value>
+  </data>
+  <data name="Sample_Consistent" xml:space="preserve">
+    <value>一致</value>
+  </data>
+  <data name="Sample_Different" xml:space="preserve">
+    <value>有 {0} 处不同</value>
+  </data>
+  <data name="Scope_All" xml:space="preserve">
+    <value>整个设备</value>
+  </data>
+  <data name="Scope_Groups" xml:space="preserve">
+    <value>组：{0}</value>
+  </data>
+  <data name="Scope_Machines" xml:space="preserve">
+    <value>主机：{0}</value>
+  </data>
+  <data name="Section_Banners" xml:space="preserve">
+    <value>提示</value>
+  </data>
+  <data name="Section_Baselines" xml:space="preserve">
+    <value>导入的基线</value>
+  </data>
+  <data name="Section_Categories" xml:space="preserve">
+    <value>类别</value>
+  </data>
+  <data name="Section_Counts" xml:space="preserve">
+    <value>计数</value>
+  </data>
+  <data name="Section_Groups" xml:space="preserve">
+    <value>组和角色</value>
+  </data>
+  <data name="Section_Plant" xml:space="preserve">
+    <value>设备</value>
+  </data>
+  <data name="Section_Provenance" xml:space="preserve">
+    <value>目标值来源</value>
+  </data>
+  <data name="Section_Score" xml:space="preserve">
+    <value>评分</value>
+  </data>
+  <data name="Section_SignOff" xml:space="preserve">
+    <value>签核</value>
+  </data>
+  <data name="Sheet_Changes" xml:space="preserve">
+    <value>变更</value>
+  </data>
+  <data name="Sheet_Evidence" xml:space="preserve">
+    <value>证据</value>
+  </data>
+  <data name="Sheet_Exceptions" xml:space="preserve">
+    <value>例外</value>
+  </data>
+  <data name="Sheet_Findings" xml:space="preserve">
+    <value>发现项</value>
+  </data>
+  <data name="Sheet_InsurerFacts" xml:space="preserve">
+    <value>保险问卷信息</value>
+  </data>
+  <data name="Sheet_Inventory" xml:space="preserve">
+    <value>清单</value>
+  </data>
+  <data name="Sheet_Machines" xml:space="preserve">
+    <value>计算机</value>
+  </data>
+  <data name="Sheet_Measures" xml:space="preserve">
+    <value>措施</value>
+  </data>
+  <data name="Sheet_Results" xml:space="preserve">
+    <value>结果</value>
+  </data>
+  <data name="Sheet_Rules" xml:space="preserve">
+    <value>规则</value>
+  </data>
+  <data name="Sheet_Summary" xml:space="preserve">
+    <value>摘要</value>
+  </data>
+  <data name="Sheet_Tailoring" xml:space="preserve">
+    <value>范围裁剪</value>
+  </data>
+  <data name="Sheet_TargetBaselines" xml:space="preserve">
+    <value>基线</value>
+  </data>
+  <data name="Sheet_TargetOverview" xml:space="preserve">
+    <value>概览</value>
+  </data>
+  <data name="Sheet_TargetRules" xml:space="preserve">
+    <value>目标配置</value>
+  </data>
+  <data name="Sheet_TargetSignOff" xml:space="preserve">
+    <value>签核</value>
+  </data>
+  <data name="SourceKind_Csv" xml:space="preserve">
+    <value>CSV 模板</value>
+  </data>
+  <data name="SourceKind_GpoBackup" xml:space="preserve">
+    <value>GPO 备份</value>
+  </data>
+  <data name="SourceKind_RiegelJson" xml:space="preserve">
+    <value>riegel.baseline/1 (JSON)</value>
+  </data>
+  <data name="Step_Accepted" xml:space="preserve">
+    <value>验收</value>
+  </data>
+  <data name="Step_Approved" xml:space="preserve">
+    <value>批准</value>
+  </data>
+  <data name="Step_Created" xml:space="preserve">
+    <value>编制</value>
+  </data>
+  <data name="Step_Reviewed" xml:space="preserve">
+    <value>审核</value>
+  </data>
+  <data name="TargetConfig_SignOffNote" xml:space="preserve">
+    <value>签核即确认基于目录 {0} 和范围裁剪 {1} 的目标配置。</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="ValueSource_DirectlySet" xml:space="preserve">
+    <value>直接设置</value>
+  </data>
+  <data name="ValueSource_DomainGpo" xml:space="preserve">
+    <value>域 GPO</value>
+  </data>
+  <data name="ValueSource_LocalPolicy" xml:space="preserve">
+    <value>本地策略</value>
+  </data>
+  <data name="ValueSource_Mdm" xml:space="preserve">
+    <value>MDM</value>
+  </data>
+  <data name="ValueSource_NotSet" xml:space="preserve">
+    <value>未设置</value>
+  </data>
+  <data name="ValueSource_OsDefault" xml:space="preserve">
+    <value>操作系统默认值</value>
+  </data>
+  <data name="ValueSource_Runtime" xml:space="preserve">
+    <value>运行时状态</value>
+  </data>
+  <data name="ValueSource_Unknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="Value_AppliesEverywhere" xml:space="preserve">
+    <value>所有计算机</value>
+  </data>
+  <data name="Value_BaselineScore" xml:space="preserve">
+    <value>{0} – 符合 {1}，不符合 {2}，有意保留 {3}，无法检查 {4}</value>
+  </data>
+  <data name="Value_Capped" xml:space="preserve">
+    <value>（已封顶）</value>
+  </data>
+  <data name="Value_CategoryScore" xml:space="preserve">
+    <value>{0}% – 符合 {1}，不符合 {2}，有意保留 {3}</value>
+  </data>
+  <data name="Value_GroupSummary" xml:space="preserve">
+    <value>检查范围内 {0} 条规则，{1} 项范围裁剪决定；主机：{2}</value>
+  </data>
+  <data name="Value_NoScore" xml:space="preserve">
+    <value>–</value>
+  </data>
+  <data name="Value_NotScoredDc" xml:space="preserve">
+    <value>不评分 – 域控制器</value>
+  </data>
+  <data name="Value_OnlyCheckable" xml:space="preserve">
+    <value>仅 {0}% 可检查</value>
+  </data>
+  <data name="Value_SignOffBinding" xml:space="preserve">
+    <value>签核即确认登记册 {0} 中的例外（{1} 个条目，其中 {2} 个有效）以及范围裁剪 {3}。</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Verify_BaselineNotVerifiable" xml:space="preserve">
+    <value>未包含基线内容 – 无法复核</value>
+  </data>
+  <data name="Verify_Error" xml:space="preserve">
+    <value>证据包无法读取</value>
+  </data>
+  <data name="Verify_Mismatch" xml:space="preserve">
+    <value>未复现：{0} 处差异</value>
+  </data>
+  <data name="Verify_NotVerifiable" xml:space="preserve">
+    <value>{0} 个结果无法复核</value>
+  </data>
+  <data name="Verify_Reproduced" xml:space="preserve">
+    <value>已用引擎 {0} 复现（打包时：{1}）</value>
   </data>
 </root>

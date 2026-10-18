@@ -4,7 +4,1268 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Placeholder" xml:space="preserve">
-    <value>(marcador de posición de los textos de data-outputs)</value>
+  <data name="Banner_ClockSuspect" xml:space="preserve">
+    <value>Reloj de un equipo inverosímil</value>
+  </data>
+  <data name="Banner_DomainController" xml:space="preserve">
+    <value>Controlador de dominio: sin puntuación</value>
+  </data>
+  <data name="Banner_ExperimentalGpoAttribution" xml:space="preserve">
+    <value>Origen: GPO de dominio (no probado en un dominio real)</value>
+  </data>
+  <data name="Banner_IncompleteCheck" xml:space="preserve">
+    <value>Comprobación incompleta: solo {0} % verificable</value>
+  </data>
+  <data name="Banner_StaleCatalogue" xml:space="preserve">
+    <value>Catálogo de reglas con más de 6 meses: los datos de ciclo de vida y parches pueden estar desactualizados</value>
+  </data>
+  <data name="Banner_StaleSnapshot" xml:space="preserve">
+    <value>Captura obsoleta (hace {0} días)</value>
+  </data>
+  <data name="Basis_Approved" xml:space="preserve">
+    <value>desde la aprobación</value>
+  </data>
+  <data name="Basis_Previous" xml:space="preserve">
+    <value>desde la última ejecución</value>
+  </data>
+  <data name="Basis_Sample" xml:space="preserve">
+    <value>muestra</value>
+  </data>
+  <data name="ChangeKind_Better" xml:space="preserve">
+    <value>Mejorado</value>
+  </data>
+  <data name="ChangeKind_ExceptionAdded" xml:space="preserve">
+    <value>Excepción añadida</value>
+  </data>
+  <data name="ChangeKind_ExceptionExpired" xml:space="preserve">
+    <value>Excepción caducada</value>
+  </data>
+  <data name="ChangeKind_ExceptionRemoved" xml:space="preserve">
+    <value>Excepción eliminada</value>
+  </data>
+  <data name="ChangeKind_NewRule" xml:space="preserve">
+    <value>Regla nueva</value>
+  </data>
+  <data name="ChangeKind_Other" xml:space="preserve">
+    <value>Otro cambio</value>
+  </data>
+  <data name="ChangeKind_ScopeChanged" xml:space="preserve">
+    <value>Alcance verificado modificado</value>
+  </data>
+  <data name="ChangeKind_TailoringAdded" xml:space="preserve">
+    <value>Ajuste del alcance añadido</value>
+  </data>
+  <data name="ChangeKind_TailoringRemoved" xml:space="preserve">
+    <value>Ajuste del alcance eliminado</value>
+  </data>
+  <data name="ChangeKind_Worse" xml:space="preserve">
+    <value>Empeorado</value>
+  </data>
+  <data name="Col_AcceptedValue" xml:space="preserve">
+    <value>Valor aceptado</value>
+  </data>
+  <data name="Col_Action" xml:space="preserve">
+    <value>Acción</value>
+  </data>
+  <data name="Col_Actual" xml:space="preserve">
+    <value>Real</value>
+  </data>
+  <data name="Col_Admin" xml:space="preserve">
+    <value>Capturado como administrador</value>
+  </data>
+  <data name="Col_AffectedHosts" xml:space="preserve">
+    <value>Equipos afectados</value>
+  </data>
+  <data name="Col_AgeDays" xml:space="preserve">
+    <value>Antigüedad (días)</value>
+  </data>
+  <data name="Col_AlsoInMsBaseline" xml:space="preserve">
+    <value>También en una línea base de Microsoft</value>
+  </data>
+  <data name="Col_ApplicableCount" xml:space="preserve">
+    <value>Aplicable en</value>
+  </data>
+  <data name="Col_AppliesTo" xml:space="preserve">
+    <value>Se aplica a</value>
+  </data>
+  <data name="Col_ApprovalRecord" xml:space="preserve">
+    <value>Registro de aprobación</value>
+  </data>
+  <data name="Col_ApprovedByName" xml:space="preserve">
+    <value>Aprobado por (nombre)</value>
+  </data>
+  <data name="Col_ApprovedByRole" xml:space="preserve">
+    <value>Aprobado por (rol)</value>
+  </data>
+  <data name="Col_ApprovedOn" xml:space="preserve">
+    <value>Aprobado el</value>
+  </data>
+  <data name="Col_AvProduct" xml:space="preserve">
+    <value>Antivirus</value>
+  </data>
+  <data name="Col_AvState" xml:space="preserve">
+    <value>Estado del antivirus</value>
+  </data>
+  <data name="Col_Basis" xml:space="preserve">
+    <value>Comparado con</value>
+  </data>
+  <data name="Col_BitLocker" xml:space="preserve">
+    <value>BitLocker</value>
+  </data>
+  <data name="Col_Build" xml:space="preserve">
+    <value>Compilación</value>
+  </data>
+  <data name="Col_Builder" xml:space="preserve">
+    <value>Fabricante de la máquina</value>
+  </data>
+  <data name="Col_CatalogueVersion" xml:space="preserve">
+    <value>Versión del catálogo</value>
+  </data>
+  <data name="Col_Category" xml:space="preserve">
+    <value>Categoría</value>
+  </data>
+  <data name="Col_ChangeKind" xml:space="preserve">
+    <value>Cambio</value>
+  </data>
+  <data name="Col_CheckedShare" xml:space="preserve">
+    <value>Alcance verificado (%)</value>
+  </data>
+  <data name="Col_CollectedAt" xml:space="preserve">
+    <value>Capturado el (UTC)</value>
+  </data>
+  <data name="Col_Collector" xml:space="preserve">
+    <value>Recopilador</value>
+  </data>
+  <data name="Col_CollectorSha256" xml:space="preserve">
+    <value>SHA-256 del recopilador</value>
+  </data>
+  <data name="Col_Comment" xml:space="preserve">
+    <value>Comentario</value>
+  </data>
+  <data name="Col_CompensatingMeasure" xml:space="preserve">
+    <value>Medida compensatoria</value>
+  </data>
+  <data name="Col_ContentSha256" xml:space="preserve">
+    <value>SHA-256 del contenido</value>
+  </data>
+  <data name="Col_CreatedByRole" xml:space="preserve">
+    <value>Creado por (rol)</value>
+  </data>
+  <data name="Col_CreatedOn" xml:space="preserve">
+    <value>Creado el</value>
+  </data>
+  <data name="Col_Date" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="Col_DaysSinceUpdate" xml:space="preserve">
+    <value>Días desde la última actualización</value>
+  </data>
+  <data name="Col_Deep" xml:space="preserve">
+    <value>Captura ampliada</value>
+  </data>
+  <data name="Col_DeliveryDate" xml:space="preserve">
+    <value>Fecha de entrega</value>
+  </data>
+  <data name="Col_Detail" xml:space="preserve">
+    <value>Detalle</value>
+  </data>
+  <data name="Col_Details" xml:space="preserve">
+    <value>Detalles</value>
+  </data>
+  <data name="Col_Documented" xml:space="preserve">
+    <value>Documentado (%)</value>
+  </data>
+  <data name="Col_DomainRole" xml:space="preserve">
+    <value>Rol de dominio</value>
+  </data>
+  <data name="Col_DueDate" xml:space="preserve">
+    <value>Fecha límite</value>
+  </data>
+  <data name="Col_Edition" xml:space="preserve">
+    <value>Edición</value>
+  </data>
+  <data name="Col_EvidenceKeys" xml:space="preserve">
+    <value>Elementos leídos</value>
+  </data>
+  <data name="Col_EvidenceKind" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="Col_Exception" xml:space="preserve">
+    <value>Abierto deliberadamente</value>
+  </data>
+  <data name="Col_ExceptionId" xml:space="preserve">
+    <value>Excepción</value>
+  </data>
+  <data name="Col_Expectation" xml:space="preserve">
+    <value>Valor objetivo</value>
+  </data>
+  <data name="Col_Expected" xml:space="preserve">
+    <value>Esperado</value>
+  </data>
+  <data name="Col_Fail" xml:space="preserve">
+    <value>No cumplido</value>
+  </data>
+  <data name="Col_FirewallOn" xml:space="preserve">
+    <value>Firewall activado</value>
+  </data>
+  <data name="Col_Flags" xml:space="preserve">
+    <value>Indicadores</value>
+  </data>
+  <data name="Col_FromFlags" xml:space="preserve">
+    <value>Indicadores anteriores</value>
+  </data>
+  <data name="Col_FromRun" xml:space="preserve">
+    <value>Desde la ejecución</value>
+  </data>
+  <data name="Col_FromStatus" xml:space="preserve">
+    <value>Estado anterior</value>
+  </data>
+  <data name="Col_Group" xml:space="preserve">
+    <value>Grupo</value>
+  </data>
+  <data name="Col_Host" xml:space="preserve">
+    <value>Equipo</value>
+  </data>
+  <data name="Col_Hosts" xml:space="preserve">
+    <value>Equipos</value>
+  </data>
+  <data name="Col_Id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="Col_ImportId" xml:space="preserve">
+    <value>ID de importación</value>
+  </data>
+  <data name="Col_ImportedAt" xml:space="preserve">
+    <value>Importado el (UTC)</value>
+  </data>
+  <data name="Col_Info" xml:space="preserve">
+    <value>Información</value>
+  </data>
+  <data name="Col_Item" xml:space="preserve">
+    <value>Dato</value>
+  </data>
+  <data name="Col_Justification" xml:space="preserve">
+    <value>Justificación</value>
+  </data>
+  <data name="Col_Kind" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="Col_Label" xml:space="preserve">
+    <value>Denominación</value>
+  </data>
+  <data name="Col_LocalAdminCount" xml:space="preserve">
+    <value>Administradores locales</value>
+  </data>
+  <data name="Col_Location" xml:space="preserve">
+    <value>Ubicación</value>
+  </data>
+  <data name="Col_MachineType" xml:space="preserve">
+    <value>Tipo de máquina</value>
+  </data>
+  <data name="Col_MeasureId" xml:space="preserve">
+    <value>Medida</value>
+  </data>
+  <data name="Col_MeasureState" xml:space="preserve">
+    <value>Estado de la medida</value>
+  </data>
+  <data name="Col_Minimal" xml:space="preserve">
+    <value>Captura mínima</value>
+  </data>
+  <data name="Col_ModifiedOn" xml:space="preserve">
+    <value>Modificado el</value>
+  </data>
+  <data name="Col_Name" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Col_NetActiveAdapters" xml:space="preserve">
+    <value>Red: adaptadores activos</value>
+  </data>
+  <data name="Col_NetGateway" xml:space="preserve">
+    <value>Red: puerta de enlace configurada</value>
+  </data>
+  <data name="Col_NetIpForwarding" xml:space="preserve">
+    <value>Red: reenvío IP</value>
+  </data>
+  <data name="Col_NetProxy" xml:space="preserve">
+    <value>Red: proxy configurado</value>
+  </data>
+  <data name="Col_NetWireless" xml:space="preserve">
+    <value>Red: inalámbrica</value>
+  </data>
+  <data name="Col_NotApplicable" xml:space="preserve">
+    <value>No aplicable</value>
+  </data>
+  <data name="Col_NotCheckable" xml:space="preserve">
+    <value>No verificable</value>
+  </data>
+  <data name="Col_OpenCount" xml:space="preserve">
+    <value>Abierto en</value>
+  </data>
+  <data name="Col_OpenHigh" xml:space="preserve">
+    <value>Abiertos (alta)</value>
+  </data>
+  <data name="Col_OpenLow" xml:space="preserve">
+    <value>Abiertos (baja)</value>
+  </data>
+  <data name="Col_OpenMedium" xml:space="preserve">
+    <value>Abiertos (media)</value>
+  </data>
+  <data name="Col_OrderNumber" xml:space="preserve">
+    <value>Número de pedido</value>
+  </data>
+  <data name="Col_Origin" xml:space="preserve">
+    <value>Origen</value>
+  </data>
+  <data name="Col_Os" xml:space="preserve">
+    <value>Sistema operativo</value>
+  </data>
+  <data name="Col_OtNote" xml:space="preserve">
+    <value>Nota OT</value>
+  </data>
+  <data name="Col_OutOfScope" xml:space="preserve">
+    <value>Fuera del alcance</value>
+  </data>
+  <data name="Col_Overdue" xml:space="preserve">
+    <value>Vencida</value>
+  </data>
+  <data name="Col_OwnerRole" xml:space="preserve">
+    <value>Rol responsable</value>
+  </data>
+  <data name="Col_Pass" xml:space="preserve">
+    <value>Cumplido</value>
+  </data>
+  <data name="Col_PatchMonth" xml:space="preserve">
+    <value>Mes de parches</value>
+  </data>
+  <data name="Col_PlantSoftware" xml:space="preserve">
+    <value>Software de la instalación</value>
+  </data>
+  <data name="Col_Pseudonymized" xml:space="preserve">
+    <value>Seudonimizado</value>
+  </data>
+  <data name="Col_Rationale" xml:space="preserve">
+    <value>Justificación</value>
+  </data>
+  <data name="Col_RdpEnabled" xml:space="preserve">
+    <value>RDP activado</value>
+  </data>
+  <data name="Col_RdpNla" xml:space="preserve">
+    <value>RDP con NLA</value>
+  </data>
+  <data name="Col_ReasonCategory" xml:space="preserve">
+    <value>Tipo de motivo</value>
+  </data>
+  <data name="Col_ReasonCode" xml:space="preserve">
+    <value>Código de motivo</value>
+  </data>
+  <data name="Col_Reference" xml:space="preserve">
+    <value>Referencia</value>
+  </data>
+  <data name="Col_References" xml:space="preserve">
+    <value>Referencias</value>
+  </data>
+  <data name="Col_RegisterFlags" xml:space="preserve">
+    <value>Indicaciones</value>
+  </data>
+  <data name="Col_Remarks" xml:space="preserve">
+    <value>Observaciones</value>
+  </data>
+  <data name="Col_Remedy" xml:space="preserve">
+    <value>Corrección</value>
+  </data>
+  <data name="Col_Renderer" xml:space="preserve">
+    <value>Tipo de lista</value>
+  </data>
+  <data name="Col_ReviewBy" xml:space="preserve">
+    <value>Revisar antes de</value>
+  </data>
+  <data name="Col_Role" xml:space="preserve">
+    <value>Rol</value>
+  </data>
+  <data name="Col_RuleCount" xml:space="preserve">
+    <value>Reglas</value>
+  </data>
+  <data name="Col_RuleId" xml:space="preserve">
+    <value>Regla</value>
+  </data>
+  <data name="Col_RuleSet" xml:space="preserve">
+    <value>Conjunto de reglas</value>
+  </data>
+  <data name="Col_RunFlags" xml:space="preserve">
+    <value>Indicadores de la ejecución</value>
+  </data>
+  <data name="Col_RunId" xml:space="preserve">
+    <value>ID de ejecución</value>
+  </data>
+  <data name="Col_Scope" xml:space="preserve">
+    <value>Ámbito</value>
+  </data>
+  <data name="Col_Score" xml:space="preserve">
+    <value>Grado de bastionado (%)</value>
+  </data>
+  <data name="Col_Section" xml:space="preserve">
+    <value>Sección</value>
+  </data>
+  <data name="Col_SerialNumber" xml:space="preserve">
+    <value>Número de serie</value>
+  </data>
+  <data name="Col_Severity" xml:space="preserve">
+    <value>Gravedad</value>
+  </data>
+  <data name="Col_Signature" xml:space="preserve">
+    <value>Firma</value>
+  </data>
+  <data name="Col_SignatureAgeDays" xml:space="preserve">
+    <value>Antigüedad de las firmas (días)</value>
+  </data>
+  <data name="Col_Smb1" xml:space="preserve">
+    <value>SMBv1 activado</value>
+  </data>
+  <data name="Col_SnapshotSha256" xml:space="preserve">
+    <value>SHA-256 de la exportación</value>
+  </data>
+  <data name="Col_SourceDetail" xml:space="preserve">
+    <value>Detalle del origen</value>
+  </data>
+  <data name="Col_SourceFile" xml:space="preserve">
+    <value>Archivo de origen</value>
+  </data>
+  <data name="Col_SourceKind" xml:space="preserve">
+    <value>Importado de</value>
+  </data>
+  <data name="Col_SourceSha256" xml:space="preserve">
+    <value>SHA-256 del origen</value>
+  </data>
+  <data name="Col_Sources" xml:space="preserve">
+    <value>Valor respaldado por</value>
+  </data>
+  <data name="Col_Stale" xml:space="preserve">
+    <value>Obsoleto</value>
+  </data>
+  <data name="Col_State" xml:space="preserve">
+    <value>Situación</value>
+  </data>
+  <data name="Col_Status" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="Col_Step" xml:space="preserve">
+    <value>Paso</value>
+  </data>
+  <data name="Col_Subject" xml:space="preserve">
+    <value>Referido a</value>
+  </data>
+  <data name="Col_SupportEnd" xml:space="preserve">
+    <value>Fin del soporte</value>
+  </data>
+  <data name="Col_Supported" xml:space="preserve">
+    <value>Con soporte</value>
+  </data>
+  <data name="Col_TailoringId" xml:space="preserve">
+    <value>Ajuste del alcance</value>
+  </data>
+  <data name="Col_TailoringReason" xml:space="preserve">
+    <value>Motivo</value>
+  </data>
+  <data name="Col_Ticket" xml:space="preserve">
+    <value>Ticket</value>
+  </data>
+  <data name="Col_Title" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="Col_ToFlags" xml:space="preserve">
+    <value>Indicadores actuales</value>
+  </data>
+  <data name="Col_ToRun" xml:space="preserve">
+    <value>Hasta la ejecución</value>
+  </data>
+  <data name="Col_ToStatus" xml:space="preserve">
+    <value>Estado actual</value>
+  </data>
+  <data name="Col_Ubr" xml:space="preserve">
+    <value>UBR</value>
+  </data>
+  <data name="Col_Value" xml:space="preserve">
+    <value>Valor</value>
+  </data>
+  <data name="Col_ValueSource" xml:space="preserve">
+    <value>Origen del valor</value>
+  </data>
+  <data name="EntryState_ChangedAfterApproval" xml:space="preserve">
+    <value>Modificada tras la aprobación</value>
+  </data>
+  <data name="EntryState_Expired" xml:space="preserve">
+    <value>Caducada</value>
+  </data>
+  <data name="EntryState_Expiring" xml:space="preserve">
+    <value>A punto de caducar</value>
+  </data>
+  <data name="EntryState_Invalid" xml:space="preserve">
+    <value>No válida</value>
+  </data>
+  <data name="EntryState_Pending" xml:space="preserve">
+    <value>Solicitada</value>
+  </data>
+  <data name="EntryState_Valid" xml:space="preserve">
+    <value>Válida</value>
+  </data>
+  <data name="Error_RGL0550" xml:space="preserve">
+    <value>El paquete de evidencias no es un archivo ZIP legible: {0}</value>
+  </data>
+  <data name="Error_RGL0551" xml:space="preserve">
+    <value>El paquete de evidencias es demasiado grande ({0} bytes, límite {1}).</value>
+  </data>
+  <data name="Error_RGL0552" xml:space="preserve">
+    <value>La entrada {0} supera el límite de {1} bytes (¿bomba ZIP?).</value>
+  </data>
+  <data name="Error_RGL0553" xml:space="preserve">
+    <value>Nombre de entrada no seguro en el paquete de evidencias: {0}</value>
+  </data>
+  <data name="Error_RGL0554" xml:space="preserve">
+    <value>Falta {0} o no está en formato sha256sum.</value>
+  </data>
+  <data name="Error_RGL0555" xml:space="preserve">
+    <value>Falta manifest.json o no es válido: {0}</value>
+  </data>
+  <data name="Error_RGL0556" xml:space="preserve">
+    <value>La suma de comprobación de {0} no coincide (esperada {1}, encontrada {2}).</value>
+  </data>
+  <data name="Error_RGL0557" xml:space="preserve">
+    <value>{0} figura en la lista pero falta en el paquete.</value>
+  </data>
+  <data name="Error_RGL0558" xml:space="preserve">
+    <value>{0} está en el paquete pero no figura en la lista.</value>
+  </data>
+  <data name="Error_RGL0559" xml:space="preserve">
+    <value>El catálogo empaquetado ({0}) no coincide con el manifiesto ({1}).</value>
+  </data>
+  <data name="Error_RGL0560" xml:space="preserve">
+    <value>{0}: el resultado difiere en la nueva evaluación: {1}</value>
+  </data>
+  <data name="Error_RGL0561" xml:space="preserve">
+    <value>Ejecución {0}: los recuentos difieren en la nueva evaluación: {1}</value>
+  </data>
+  <data name="Error_RGL0562" xml:space="preserve">
+    <value>Línea base {0}: contenido no incluido; no verificable</value>
+  </data>
+  <data name="Error_RGL0563" xml:space="preserve">
+    <value>Ejecución {0} no verificable: {1}</value>
+  </data>
+  <data name="Error_RGL0564" xml:space="preserve">
+    <value>El equipo {0} no está en el paquete de evidencias.</value>
+  </data>
+  <data name="Error_RGL0565" xml:space="preserve">
+    <value>{0} del paquete no es legible ({1}).</value>
+  </data>
+  <data name="Error_RGL0566" xml:space="preserve">
+    <value>El paquete de evidencias tiene demasiadas entradas ({0}, límite {1}).</value>
+  </data>
+  <data name="Error_RGL0567" xml:space="preserve">
+    <value>No se puede empaquetar {0}: fuera de la carpeta de la instalación, paquete en bruto de comandos integrados, inexistente o la suma no coincide con la ejecución.</value>
+  </data>
+  <data name="Error_RGL0568" xml:space="preserve">
+    <value>No se puede empaquetar el archivo del informe {0} (inexistente, demasiado grande o nombre no válido).</value>
+  </data>
+  <data name="Error_RGL0569" xml:space="preserve">
+    <value>Entrada de corrección del catálogo no admisible; omitida: {0}</value>
+  </data>
+  <data name="Error_RGL0570" xml:space="preserve">
+    <value>Valor anterior no incluido en la reversión: {0}</value>
+  </data>
+  <data name="Error_RGL0571" xml:space="preserve">
+    <value>La ejecución del paquete no coincide con el manifiesto ({0} / {1}).</value>
+  </data>
+  <data name="EvidenceReadme_BaselineContentMissing" xml:space="preserve">
+    <value>Se solicitó el contenido de la línea base {0}, pero no está disponible en la carpeta de la instalación; solo metadatos.</value>
+  </data>
+  <data name="EvidenceReadme_BaselineHeading" xml:space="preserve">
+    <value>Líneas base del cliente importadas</value>
+  </data>
+  <data name="EvidenceReadme_BaselineIncluded" xml:space="preserve">
+    <value>contenido incluido</value>
+  </data>
+  <data name="EvidenceReadme_BaselineMetadataOnly" xml:space="preserve">
+    <value>solo metadatos (nombre, SHA-256 del origen, ID y claves de las reglas, resultados)</value>
+  </data>
+  <data name="EvidenceReadme_BaselineNone" xml:space="preserve">
+    <value>No se ha usado ninguna línea base importada.</value>
+  </data>
+  <data name="EvidenceReadme_BaselineNotVerifiable" xml:space="preserve">
+    <value>Contenido de la línea base no incluido: estos resultados no son verificables con verify.</value>
+  </data>
+  <data name="EvidenceReadme_BaselineSkipped" xml:space="preserve">
+    <value>Línea base con el ID no válido {0} omitida.</value>
+  </data>
+  <data name="EvidenceReadme_BaselineUnreadable" xml:space="preserve">
+    <value>No se ha podido leer la línea base {0} ({1}); solo metadatos de los resultados.</value>
+  </data>
+  <data name="EvidenceReadme_Catalogue" xml:space="preserve">
+    <value>Catálogo de reglas: {0} {1} (SHA-256 {2})</value>
+  </data>
+  <data name="EvidenceReadme_ComparisonSkipped" xml:space="preserve">
+    <value>Comparación de {0} no incluida ({1}).</value>
+  </data>
+  <data name="EvidenceReadme_Confidential" xml:space="preserve">
+    <value>Confidencial: el paquete contiene nombres de equipo, nombres de cuenta, SID y configuración de seguridad.</value>
+  </data>
+  <data name="EvidenceReadme_ContentBaselines" xml:space="preserve">
+    <value>líneas base del cliente importadas (metadatos; contenido solo a petición)</value>
+  </data>
+  <data name="EvidenceReadme_ContentCatalogue" xml:space="preserve">
+    <value>el catálogo de reglas completo (riegel.catalogue/1)</value>
+  </data>
+  <data name="EvidenceReadme_ContentChecksums" xml:space="preserve">
+    <value>SHA-256 de cada archivo (formato sha256sum)</value>
+  </data>
+  <data name="EvidenceReadme_ContentComparison" xml:space="preserve">
+    <value>comparación con la ejecución anterior y el estado aprobado</value>
+  </data>
+  <data name="EvidenceReadme_ContentDocument" xml:space="preserve">
+    <value>documento del informe</value>
+  </data>
+  <data name="EvidenceReadme_ContentImports" xml:space="preserve">
+    <value>registros de importación y de captura</value>
+  </data>
+  <data name="EvidenceReadme_ContentManifest" xml:space="preserve">
+    <value>qué contiene el paquete y cómo se generó (riegel.evidence/1)</value>
+  </data>
+  <data name="EvidenceReadme_ContentPlant" xml:space="preserve">
+    <value>la instalación (grupos, equipos, configuración)</value>
+  </data>
+  <data name="EvidenceReadme_ContentRegisters" xml:space="preserve">
+    <value>excepciones, ajuste del alcance y medidas en las versiones que usaron las ejecuciones y el informe</value>
+  </data>
+  <data name="EvidenceReadme_ContentRuns" xml:space="preserve">
+    <value>resultados de la ejecución más reciente de cada equipo ({0} ejecuciones, riegel.run/1)</value>
+  </data>
+  <data name="EvidenceReadme_ContentSnapshots" xml:space="preserve">
+    <value>las exportaciones evaluadas, cada una con su archivo .sha256</value>
+  </data>
+  <data name="EvidenceReadme_ContentsHeading" xml:space="preserve">
+    <value>Contenido</value>
+  </data>
+  <data name="EvidenceReadme_HashCompare" xml:space="preserve">
+    <value>Compare el resultado con la línea de SHA256SUMS.txt y con manifest.json.</value>
+  </data>
+  <data name="EvidenceReadme_HashHeading" xml:space="preserve">
+    <value>Comprobar las sumas de comprobación</value>
+  </data>
+  <data name="EvidenceReadme_HashLinux" xml:space="preserve">
+    <value>Linux (en la carpeta descomprimida):</value>
+  </data>
+  <data name="EvidenceReadme_HashWindows" xml:space="preserve">
+    <value>Windows PowerShell (por archivo):</value>
+  </data>
+  <data name="EvidenceReadme_IntegrityHeading" xml:space="preserve">
+    <value>Qué prueban las sumas de comprobación</value>
+  </data>
+  <data name="EvidenceReadme_Intro" xml:space="preserve">
+    <value>Creado con {0} {1} para la fecha de evaluación {2}. Todos los archivos están en UTF-8; las horas, en UTC.</value>
+  </data>
+  <data name="EvidenceReadme_LicenseWarning" xml:space="preserve">
+    <value>ADVERTENCIA: este paquete contiene el contenido de líneas base importadas. Sus condiciones de licencia (por ejemplo, Microsoft Security Compliance Toolkit, BSI o CIS) pueden prohibir su difusión. Revise las condiciones antes de entregar el paquete a terceros.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="EvidenceReadme_NoBuiltinBundle" xml:space="preserve">
+    <value>Los paquetes en bruto de comandos integrados nunca forman parte del paquete; solo las exportaciones convertidas a partir de ellos.</value>
+  </data>
+  <data name="EvidenceReadme_NotesHeading" xml:space="preserve">
+    <value>Avisos</value>
+  </data>
+  <data name="EvidenceReadme_RegisterMissing" xml:space="preserve">
+    <value>No se ha encontrado el registro {0} en la versión {1} en la carpeta de la instalación; las ejecuciones que lo usaron no son verificables.</value>
+  </data>
+  <data name="EvidenceReadme_SampleExit" xml:space="preserve">
+    <value>Código de salida: 0 coherente, 1 difiere, 3 error.</value>
+  </data>
+  <data name="EvidenceReadme_SampleHeading" xml:space="preserve">
+    <value>Muestra con compare-snapshot</value>
+  </data>
+  <data name="EvidenceReadme_SampleText" xml:space="preserve">
+    <value>Vuelva a capturar un equipo (con testigo) y compare la exportación nueva con la exportación empaquetada del mismo equipo. Los valores volátiles (antigüedad de firmas, marcas de tiempo, tiempo de actividad) no cuentan. Resultado: "coherente" o "difiere en N puntos" con la lista.</value>
+  </data>
+  <data name="EvidenceReadme_Title" xml:space="preserve">
+    <value>Paquete de evidencias de Riegel: {0}</value>
+  </data>
+  <data name="EvidenceReadme_VerifyExit" xml:space="preserve">
+    <value>Código de salida: 0 reproducido, 2 diferencias, 3 error.</value>
+  </data>
+  <data name="EvidenceReadme_VerifyHeading" xml:space="preserve">
+    <value>Verificar con verify</value>
+  </data>
+  <data name="EvidenceReadme_VerifyText" xml:space="preserve">
+    <value>verify lee el paquete sin descomprimirlo, comprueba cada suma, vuelve a evaluar cada exportación con el catálogo, la instalación y los registros incluidos y compara los resultados. Informa "reproducido con el motor X (empaquetado: Y)". Los resultados de líneas base importadas cuyo contenido no está en el paquete no son verificables.</value>
+  </data>
+  <data name="Evidence_Baseline" xml:space="preserve">
+    <value>Línea base importada</value>
+  </data>
+  <data name="Evidence_Catalogue" xml:space="preserve">
+    <value>Catálogo de reglas</value>
+  </data>
+  <data name="Evidence_Collector" xml:space="preserve">
+    <value>Recopilador (SHA-256)</value>
+  </data>
+  <data name="Evidence_Commit" xml:space="preserve">
+    <value>Commit de compilación</value>
+  </data>
+  <data name="Evidence_ExeSha256" xml:space="preserve">
+    <value>SHA-256 del programa</value>
+  </data>
+  <data name="Evidence_Register" xml:space="preserve">
+    <value>Registro</value>
+  </data>
+  <data name="Evidence_ReleasedOn" xml:space="preserve">
+    <value>Publicado el</value>
+  </data>
+  <data name="Evidence_Run" xml:space="preserve">
+    <value>Ejecución</value>
+  </data>
+  <data name="Evidence_Snapshot" xml:space="preserve">
+    <value>Exportación (SHA-256)</value>
+  </data>
+  <data name="Evidence_Tool" xml:space="preserve">
+    <value>Herramienta</value>
+  </data>
+  <data name="Exclusion_NoRemediation" xml:space="preserve">
+    <value>sin corrección basada en archivos en el catálogo</value>
+  </data>
+  <data name="Exclusion_NotFailing" xml:space="preserve">
+    <value>no es un hallazgo abierto</value>
+  </data>
+  <data name="Exclusion_PendingException" xml:space="preserve">
+    <value>excepción solicitada {0} (aún no aprobada)</value>
+  </data>
+  <data name="Exclusion_Tailored" xml:space="preserve">
+    <value>ajuste del alcance {0}</value>
+  </data>
+  <data name="Exclusion_ValidException" xml:space="preserve">
+    <value>excepción válida {0}</value>
+  </data>
+  <data name="Insurer_NotReadable" xml:space="preserve">
+    <value>No legible desde el equipo: MFA, copias de seguridad, segmentación de red.</value>
+  </data>
+  <data name="Item_AuditCapped" xml:space="preserve">
+    <value>Categoría de auditoría limitada</value>
+  </data>
+  <data name="Item_CheckedShare" xml:space="preserve">
+    <value>Alcance verificado (%)</value>
+  </data>
+  <data name="Item_Confidentiality" xml:space="preserve">
+    <value>Confidencialidad</value>
+  </data>
+  <data name="Item_Date" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="Item_Description" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="Item_Documented" xml:space="preserve">
+    <value>Documentado (%)</value>
+  </data>
+  <data name="Item_DomainControllers" xml:space="preserve">
+    <value>Controladores de dominio (sin puntuación)</value>
+  </data>
+  <data name="Item_EvaluationDate" xml:space="preserve">
+    <value>Fecha de evaluación</value>
+  </data>
+  <data name="Item_ExceptionsExpired" xml:space="preserve">
+    <value>Excepciones caducadas</value>
+  </data>
+  <data name="Item_ExceptionsExpiring" xml:space="preserve">
+    <value>Excepciones a punto de caducar</value>
+  </data>
+  <data name="Item_ExceptionsPending" xml:space="preserve">
+    <value>Excepciones solicitadas</value>
+  </data>
+  <data name="Item_ExceptionsValid" xml:space="preserve">
+    <value>Excepciones válidas</value>
+  </data>
+  <data name="Item_GeneratedAt" xml:space="preserve">
+    <value>Generado el (UTC)</value>
+  </data>
+  <data name="Item_Greyed" xml:space="preserve">
+    <value>Puntuación atenuada</value>
+  </data>
+  <data name="Item_Hosts" xml:space="preserve">
+    <value>Equipos del informe</value>
+  </data>
+  <data name="Item_Language" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="Item_Machines" xml:space="preserve">
+    <value>Equipos</value>
+  </data>
+  <data name="Item_MachinesScored" xml:space="preserve">
+    <value>Equipos con puntuación</value>
+  </data>
+  <data name="Item_MeasuresOverdue" xml:space="preserve">
+    <value>Medidas vencidas</value>
+  </data>
+  <data name="Item_MeasuresPlanned" xml:space="preserve">
+    <value>Medidas planificadas</value>
+  </data>
+  <data name="Item_NewlyOpen" xml:space="preserve">
+    <value>Recién abiertos</value>
+  </data>
+  <data name="Item_NotCheckable" xml:space="preserve">
+    <value>No verificables</value>
+  </data>
+  <data name="Item_OpenHigh" xml:space="preserve">
+    <value>Hallazgos abiertos (alta)</value>
+  </data>
+  <data name="Item_OpenLow" xml:space="preserve">
+    <value>Hallazgos abiertos (baja)</value>
+  </data>
+  <data name="Item_OpenMedium" xml:space="preserve">
+    <value>Hallazgos abiertos (media)</value>
+  </data>
+  <data name="Item_PerformedBy" xml:space="preserve">
+    <value>Realizado por</value>
+  </data>
+  <data name="Item_PlantId" xml:space="preserve">
+    <value>ID de la instalación</value>
+  </data>
+  <data name="Item_PlantName" xml:space="preserve">
+    <value>Instalación</value>
+  </data>
+  <data name="Item_Preset" xml:space="preserve">
+    <value>Tipo de informe</value>
+  </data>
+  <data name="Item_Regressions" xml:space="preserve">
+    <value>Empeorados</value>
+  </data>
+  <data name="Item_ReportId" xml:space="preserve">
+    <value>ID del informe</value>
+  </data>
+  <data name="Item_RunIds" xml:space="preserve">
+    <value>Ejecuciones</value>
+  </data>
+  <data name="Item_Score" xml:space="preserve">
+    <value>Grado de bastionado (%)</value>
+  </data>
+  <data name="Item_SignOffBinding" xml:space="preserve">
+    <value>Vinculación de la aprobación</value>
+  </data>
+  <data name="Item_StaleSnapshots" xml:space="preserve">
+    <value>Capturas obsoletas</value>
+  </data>
+  <data name="Item_TailoringEntries" xml:space="preserve">
+    <value>Entradas de ajuste del alcance</value>
+  </data>
+  <data name="Item_UnsupportedOs" xml:space="preserve">
+    <value>Sistemas operativos sin soporte</value>
+  </data>
+  <data name="Kind_Check" xml:space="preserve">
+    <value>Comprobación</value>
+  </data>
+  <data name="Kind_Inventory" xml:space="preserve">
+    <value>Inventario</value>
+  </data>
+  <data name="MachineRole_EngineeringStation" xml:space="preserve">
+    <value>Estación de ingeniería</value>
+  </data>
+  <data name="MachineRole_Historian" xml:space="preserve">
+    <value>Historiador</value>
+  </data>
+  <data name="MachineRole_Hmi" xml:space="preserve">
+    <value>Estación de operador (HMI)</value>
+  </data>
+  <data name="MachineRole_JumpHost" xml:space="preserve">
+    <value>Servidor de salto</value>
+  </data>
+  <data name="MachineRole_Office" xml:space="preserve">
+    <value>PC de oficina</value>
+  </data>
+  <data name="MachineRole_Other" xml:space="preserve">
+    <value>Otro</value>
+  </data>
+  <data name="MachineRole_Server" xml:space="preserve">
+    <value>Servidor</value>
+  </data>
+  <data name="MeasureState_Done" xml:space="preserve">
+    <value>Realizada</value>
+  </data>
+  <data name="MeasureState_Dropped" xml:space="preserve">
+    <value>Descartada</value>
+  </data>
+  <data name="MeasureState_Planned" xml:space="preserve">
+    <value>Planificada</value>
+  </data>
+  <data name="OmitReason_ControlCharacters" xml:space="preserve">
+    <value>contiene caracteres de control (CR, LF, NUL…)</value>
+  </data>
+  <data name="OmitReason_EmptyListEntry" xml:space="preserve">
+    <value>lista con una entrada vacía</value>
+  </data>
+  <data name="OmitReason_NotCollected" xml:space="preserve">
+    <value>no recopilado</value>
+  </data>
+  <data name="OmitReason_Redacted" xml:space="preserve">
+    <value>ocultado en la captura</value>
+  </data>
+  <data name="OmitReason_TooLong" xml:space="preserve">
+    <value>más de 16 384 caracteres</value>
+  </data>
+  <data name="OmitReason_Truncated" xml:space="preserve">
+    <value>truncado en la captura</value>
+  </data>
+  <data name="OmitReason_UnsupportedType" xml:space="preserve">
+    <value>tipo de valor no admitido</value>
+  </data>
+  <data name="OmitReason_WrongType" xml:space="preserve">
+    <value>el tipo no coincide con el valor</value>
+  </data>
+  <data name="Origin_App" xml:space="preserve">
+    <value>Aplicación Riegel</value>
+  </data>
+  <data name="Origin_Builtin" xml:space="preserve">
+    <value>Comandos integrados</value>
+  </data>
+  <data name="Origin_Collector" xml:space="preserve">
+    <value>Recopilador portátil</value>
+  </data>
+  <data name="Origin_Recorded" xml:space="preserve">
+    <value>Grabado</value>
+  </data>
+  <data name="Origin_Synthetic" xml:space="preserve">
+    <value>Sintético</value>
+  </data>
+  <data name="Preset_AsDelivered" xml:space="preserve">
+    <value>Estado de entrega</value>
+  </data>
+  <data name="Preset_Audit" xml:space="preserve">
+    <value>Auditoría</value>
+  </data>
+  <data name="Provenance_Acsc" xml:space="preserve">
+    <value>respaldadas por ACSC (CC BY 4.0)</value>
+  </data>
+  <data name="Provenance_AlsoInMsBaseline" xml:space="preserve">
+    <value>también en una línea base de Microsoft (solo confirmación)</value>
+  </data>
+  <data name="Provenance_Disa" xml:space="preserve">
+    <value>respaldadas por DISA STIG</value>
+  </data>
+  <data name="Provenance_MsDocs" xml:space="preserve">
+    <value>respaldadas por la documentación de Microsoft Server (CC BY 4.0)</value>
+  </data>
+  <data name="Provenance_MsLearnFacts" xml:space="preserve">
+    <value>respaldadas por datos de Microsoft Learn</value>
+  </data>
+  <data name="Provenance_Total" xml:space="preserve">
+    <value>Reglas de comprobación en el alcance</value>
+  </data>
+  <data name="Remediation_ActionInvalid" xml:space="preserve">
+    <value>No figura en los archivos: la entrada del catálogo {0} no es admisible ({1}). Compruébela manualmente.</value>
+  </data>
+  <data name="Remediation_ActualOfRule" xml:space="preserve">
+    <value>Valor real según la comprobación: {0}</value>
+  </data>
+  <data name="Remediation_Deleted" xml:space="preserve">
+    <value>(eliminado)</value>
+  </data>
+  <data name="Remediation_Duplicate" xml:space="preserve">
+    <value>{0} ya lo establece una regla anterior.</value>
+  </data>
+  <data name="Remediation_ExceptionExpired" xml:space="preserve">
+    <value>La excepción {0} ha caducado: renuévela o aplique la propuesta.</value>
+  </data>
+  <data name="Remediation_ExcludedHeading" xml:space="preserve">
+    <value>Reglas omitidas</value>
+  </data>
+  <data name="Remediation_FileAudit" xml:space="preserve">
+    <value>directiva de auditoría avanzada (CSV para importar en una GPO; antes elimine la primera línea)</value>
+  </data>
+  <data name="Remediation_FileReadme" xml:space="preserve">
+    <value>esta descripción</value>
+  </data>
+  <data name="Remediation_FileReg" xml:space="preserve">
+    <value>valores del registro que se establecen o eliminan (formato regedit 5.00)</value>
+  </data>
+  <data name="Remediation_FileRollback" xml:space="preserve">
+    <value>los valores anteriores (reversión)</value>
+  </data>
+  <data name="Remediation_FileTemplate" xml:space="preserve">
+    <value>fragmento de plantilla de seguridad (directivas de cuenta, derechos de usuario, opciones de seguridad)</value>
+  </data>
+  <data name="Remediation_FilesHeading" xml:space="preserve">
+    <value>Archivos</value>
+  </data>
+  <data name="Remediation_HowToAudit" xml:space="preserve">
+    <value>audit.csv: el formato de la directiva de auditoría avanzada de una GPO. Su primera línea es el aviso anterior; elimínela antes de importar, porque el formato no admite comentarios.</value>
+  </data>
+  <data name="Remediation_HowToHeading" xml:space="preserve">
+    <value>Cómo usar los archivos</value>
+  </data>
+  <data name="Remediation_HowToReg" xml:space="preserve">
+    <value>riegel-remediation.reg: revíselo y después impórtelo con el Editor del Registro o distribuya los valores mediante su directiva de grupo. Las líneas que empiezan por ";" son comentarios.</value>
+  </data>
+  <data name="Remediation_HowToRollback" xml:space="preserve">
+    <value>riegel-rollback.reg: consérvelo con el registro del cambio; al importarlo se restauran los valores registrados antes del cambio.</value>
+  </data>
+  <data name="Remediation_HowToTemplate" xml:space="preserve">
+    <value>GptTmpl.inf: fragmento de plantilla de seguridad para una GPO o para las herramientas del fabricante; las líneas que empiezan por ";" son comentarios.</value>
+  </data>
+  <data name="Remediation_InfoLine" xml:space="preserve">
+    <value>{0} {1}: propuesta de corrección para {2}, ejecución {3}, evaluada el {4}</value>
+  </data>
+  <data name="Remediation_ManualHeading" xml:space="preserve">
+    <value>Pasos manuales</value>
+  </data>
+  <data name="Remediation_Measure" xml:space="preserve">
+    <value>Medida planificada {0}: {1}; responsable: {2}, fecha límite {3} ({4})</value>
+  </data>
+  <data name="Remediation_NoManual" xml:space="preserve">
+    <value>Ninguno.</value>
+  </data>
+  <data name="Remediation_NoScript" xml:space="preserve">
+    <value>Riegel no escribe ningún script (.ps1) ni inicia ningún programa.</value>
+  </data>
+  <data name="Remediation_NoSettings" xml:space="preserve">
+    <value>No hay ninguna configuración que cambiar.</value>
+  </data>
+  <data name="Remediation_NoneExcluded" xml:space="preserve">
+    <value>Ninguna.</value>
+  </data>
+  <data name="Remediation_NotExecuted" xml:space="preserve">
+    <value>Riegel no ha ejecutado nada. Estos archivos son una propuesta para el fabricante y el responsable de la instalación; aplíquelos solo tras acordarlo y mediante su propio proceso de cambios.</value>
+  </data>
+  <data name="Remediation_OtNote" xml:space="preserve">
+    <value>Nota OT: {0}</value>
+  </data>
+  <data name="Remediation_RegComment" xml:space="preserve">
+    <value>Establece los valores propuestos para los hallazgos abiertos. Las rutas de clave y los nombres de valor proceden solo del catálogo de Riegel.</value>
+  </data>
+  <data name="Remediation_RollbackComment" xml:space="preserve">
+    <value>Restaura los valores registrados en la exportación antes del cambio. Los valores que no se pudieron restaurar con seguridad figuran en README.txt.</value>
+  </data>
+  <data name="Remediation_RollbackOmitted" xml:space="preserve">
+    <value>Reversión: el valor anterior de {0} no se ha incluido ({1}, {2}); anótelo antes del cambio.</value>
+  </data>
+  <data name="Remediation_SettingAudit" xml:space="preserve">
+    <value>Directiva de auditoría {0}: anterior {1} → nuevo {2}</value>
+  </data>
+  <data name="Remediation_SettingAuditNew" xml:space="preserve">
+    <value>Directiva de auditoría {0}: nuevo {1}</value>
+  </data>
+  <data name="Remediation_SettingRegistry" xml:space="preserve">
+    <value>Registro {0}: anterior {1} → nuevo {2}</value>
+  </data>
+  <data name="Remediation_SettingTemplate" xml:space="preserve">
+    <value>Plantilla de seguridad {0}: anterior {1} → nuevo {2}</value>
+  </data>
+  <data name="Remediation_SettingTemplateNew" xml:space="preserve">
+    <value>Plantilla de seguridad {0}: nuevo {1}</value>
+  </data>
+  <data name="Remediation_SettingsHeading" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+  <data name="Remediation_TemplateManual" xml:space="preserve">
+    <value>{0}: no se puede expresar como archivo (no se indica ninguna cuenta o el SID local no se puede resolver); establézcalo manualmente.</value>
+  </data>
+  <data name="Renderer_AdminShares" xml:space="preserve">
+    <value>Recursos compartidos administrativos</value>
+  </data>
+  <data name="Renderer_AppControlState" xml:space="preserve">
+    <value>Estado del control de aplicaciones</value>
+  </data>
+  <data name="Renderer_DefenderExclusions" xml:space="preserve">
+    <value>Exclusiones de Defender</value>
+  </data>
+  <data name="Renderer_LocalAdmins" xml:space="preserve">
+    <value>Administradores locales</value>
+  </data>
+  <data name="Renderer_NetworkFacts" xml:space="preserve">
+    <value>Conexión de red</value>
+  </data>
+  <data name="Renderer_RdpState" xml:space="preserve">
+    <value>Estado del Escritorio remoto</value>
+  </data>
+  <data name="Renderer_RemoteAccessTools" xml:space="preserve">
+    <value>Herramientas de acceso remoto</value>
+  </data>
+  <data name="Renderer_Shares" xml:space="preserve">
+    <value>Recursos compartidos</value>
+  </data>
+  <data name="Renderer_Wireless" xml:space="preserve">
+    <value>Inalámbrica</value>
+  </data>
+  <data name="Sample_Consistent" xml:space="preserve">
+    <value>coherente</value>
+  </data>
+  <data name="Sample_Different" xml:space="preserve">
+    <value>difiere en {0} puntos</value>
+  </data>
+  <data name="Scope_All" xml:space="preserve">
+    <value>toda la instalación</value>
+  </data>
+  <data name="Scope_Groups" xml:space="preserve">
+    <value>grupos: {0}</value>
+  </data>
+  <data name="Scope_Machines" xml:space="preserve">
+    <value>equipos: {0}</value>
+  </data>
+  <data name="Section_Banners" xml:space="preserve">
+    <value>Avisos</value>
+  </data>
+  <data name="Section_Baselines" xml:space="preserve">
+    <value>Líneas base importadas</value>
+  </data>
+  <data name="Section_Categories" xml:space="preserve">
+    <value>Categorías</value>
+  </data>
+  <data name="Section_Counts" xml:space="preserve">
+    <value>Recuentos</value>
+  </data>
+  <data name="Section_Groups" xml:space="preserve">
+    <value>Grupos y roles</value>
+  </data>
+  <data name="Section_Plant" xml:space="preserve">
+    <value>Instalación</value>
+  </data>
+  <data name="Section_Provenance" xml:space="preserve">
+    <value>Origen de los valores objetivo</value>
+  </data>
+  <data name="Section_Score" xml:space="preserve">
+    <value>Puntuación</value>
+  </data>
+  <data name="Section_SignOff" xml:space="preserve">
+    <value>Aprobación</value>
+  </data>
+  <data name="Sheet_Changes" xml:space="preserve">
+    <value>Cambios</value>
+  </data>
+  <data name="Sheet_Evidence" xml:space="preserve">
+    <value>Evidencias</value>
+  </data>
+  <data name="Sheet_Exceptions" xml:space="preserve">
+    <value>Excepciones</value>
+  </data>
+  <data name="Sheet_Findings" xml:space="preserve">
+    <value>Hallazgos</value>
+  </data>
+  <data name="Sheet_InsurerFacts" xml:space="preserve">
+    <value>Datos para aseguradoras</value>
+  </data>
+  <data name="Sheet_Inventory" xml:space="preserve">
+    <value>Inventario</value>
+  </data>
+  <data name="Sheet_Machines" xml:space="preserve">
+    <value>Equipos</value>
+  </data>
+  <data name="Sheet_Measures" xml:space="preserve">
+    <value>Medidas</value>
+  </data>
+  <data name="Sheet_Results" xml:space="preserve">
+    <value>Resultados</value>
+  </data>
+  <data name="Sheet_Rules" xml:space="preserve">
+    <value>Reglas</value>
+  </data>
+  <data name="Sheet_Summary" xml:space="preserve">
+    <value>Resumen</value>
+  </data>
+  <data name="Sheet_Tailoring" xml:space="preserve">
+    <value>Ajuste del alcance</value>
+  </data>
+  <data name="Sheet_TargetBaselines" xml:space="preserve">
+    <value>Líneas base</value>
+  </data>
+  <data name="Sheet_TargetOverview" xml:space="preserve">
+    <value>Vista general</value>
+  </data>
+  <data name="Sheet_TargetRules" xml:space="preserve">
+    <value>Configuración objetivo</value>
+  </data>
+  <data name="Sheet_TargetSignOff" xml:space="preserve">
+    <value>Aprobación</value>
+  </data>
+  <data name="SourceKind_Csv" xml:space="preserve">
+    <value>Plantilla CSV</value>
+  </data>
+  <data name="SourceKind_GpoBackup" xml:space="preserve">
+    <value>Copia de seguridad de GPO</value>
+  </data>
+  <data name="SourceKind_RiegelJson" xml:space="preserve">
+    <value>riegel.baseline/1 (JSON)</value>
+  </data>
+  <data name="Step_Accepted" xml:space="preserve">
+    <value>Aceptado</value>
+  </data>
+  <data name="Step_Approved" xml:space="preserve">
+    <value>Aprobado</value>
+  </data>
+  <data name="Step_Created" xml:space="preserve">
+    <value>Elaborado</value>
+  </data>
+  <data name="Step_Reviewed" xml:space="preserve">
+    <value>Revisado</value>
+  </data>
+  <data name="TargetConfig_SignOffNote" xml:space="preserve">
+    <value>La aprobación confirma la configuración objetivo del catálogo {0} con el ajuste del alcance {1}.</value>
+  </data>
+  <data name="ValueSource_DirectlySet" xml:space="preserve">
+    <value>Establecido directamente</value>
+  </data>
+  <data name="ValueSource_DomainGpo" xml:space="preserve">
+    <value>GPO de dominio</value>
+  </data>
+  <data name="ValueSource_LocalPolicy" xml:space="preserve">
+    <value>Directiva local</value>
+  </data>
+  <data name="ValueSource_Mdm" xml:space="preserve">
+    <value>MDM</value>
+  </data>
+  <data name="ValueSource_NotSet" xml:space="preserve">
+    <value>No establecido</value>
+  </data>
+  <data name="ValueSource_OsDefault" xml:space="preserve">
+    <value>Valor predeterminado del sistema</value>
+  </data>
+  <data name="ValueSource_Runtime" xml:space="preserve">
+    <value>Estado en tiempo de ejecución</value>
+  </data>
+  <data name="ValueSource_Unknown" xml:space="preserve">
+    <value>Desconocido</value>
+  </data>
+  <data name="Value_AppliesEverywhere" xml:space="preserve">
+    <value>todos los equipos</value>
+  </data>
+  <data name="Value_BaselineScore" xml:space="preserve">
+    <value>{0}: cumplido {1}, no cumplido {2}, abierto deliberadamente {3}, no verificable {4}</value>
+  </data>
+  <data name="Value_Capped" xml:space="preserve">
+    <value>(limitado)</value>
+  </data>
+  <data name="Value_CategoryScore" xml:space="preserve">
+    <value>{0} %: cumplido {1}, no cumplido {2}, abierto deliberadamente {3}</value>
+  </data>
+  <data name="Value_GroupSummary" xml:space="preserve">
+    <value>{0} reglas en el alcance, {1} decisiones de ajuste; equipos: {2}</value>
+  </data>
+  <data name="Value_NoScore" xml:space="preserve">
+    <value>–</value>
+  </data>
+  <data name="Value_NotScoredDc" xml:space="preserve">
+    <value>sin puntuación: controlador de dominio</value>
+  </data>
+  <data name="Value_OnlyCheckable" xml:space="preserve">
+    <value>solo {0} % verificable</value>
+  </data>
+  <data name="Value_SignOffBinding" xml:space="preserve">
+    <value>La aprobación confirma las excepciones del registro {0} ({1} entradas, {2} de ellas válidas) y el ajuste del alcance {3}.</value>
+  </data>
+  <data name="Verify_BaselineNotVerifiable" xml:space="preserve">
+    <value>contenido de la línea base no incluido: no verificable</value>
+  </data>
+  <data name="Verify_Error" xml:space="preserve">
+    <value>paquete de evidencias ilegible</value>
+  </data>
+  <data name="Verify_Mismatch" xml:space="preserve">
+    <value>no reproducido: {0} diferencias</value>
+  </data>
+  <data name="Verify_NotVerifiable" xml:space="preserve">
+    <value>{0} resultados no verificables</value>
+  </data>
+  <data name="Verify_Reproduced" xml:space="preserve">
+    <value>reproducido con el motor {0} (empaquetado: {1})</value>
   </data>
 </root>
