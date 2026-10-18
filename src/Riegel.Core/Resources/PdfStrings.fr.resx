@@ -4,7 +4,1400 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Placeholder" xml:space="preserve">
-    <value>(espace réservé des textes de pdf)</value>
+  <data name="Admin_Value" xml:space="preserve">
+    <value>administrateur : {0}</value>
+  </data>
+  <data name="Age_Days" xml:space="preserve">
+    <value>âge en jours : {0}</value>
+  </data>
+  <data name="Appendix_Heading" xml:space="preserve">
+    <value>Annexe A : postes en détail</value>
+  </data>
+  <data name="Appendix_Intro" xml:space="preserve">
+    <value>Par poste : identité et collecte, « dégradé » d'abord, puis constats ouverts avec valeur attendue et constatée, source et mentions, exceptions, périmètre, non vérifiable par motif, dérive des valeurs brutes et faits clés. Chaque résultat figure dans le classeur Excel et le JSON des résultats.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Appendix_Machine" xml:space="preserve">
+    <value>A.{0} {1}</value>
+  </data>
+  <data name="Appendix_MachineLabel" xml:space="preserve">
+    <value>A.{0} {1} – {2}</value>
+  </data>
+  <data name="ApprovalDoc_AcceptedValue" xml:space="preserve">
+    <value>Valeur acceptée</value>
+  </data>
+  <data name="ApprovalDoc_Binding" xml:space="preserve">
+    <value>La feuille {0} se rapporte au registre des exceptions {1} et au périmètre {2} (entrées sur cette feuille : {3}).</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="ApprovalDoc_Category" xml:space="preserve">
+    <value>Catégorie</value>
+  </data>
+  <data name="ApprovalDoc_Compensating" xml:space="preserve">
+    <value>Mesure compensatoire</value>
+  </data>
+  <data name="ApprovalDoc_ContentHash" xml:space="preserve">
+    <value>SHA-256 du contenu</value>
+  </data>
+  <data name="ApprovalDoc_Decision" xml:space="preserve">
+    <value>Décision</value>
+  </data>
+  <data name="ApprovalDoc_DecisionValue" xml:space="preserve">
+    <value>[ ] approuvée · [ ] refusée · à revoir avant le : ______________</value>
+  </data>
+  <data name="ApprovalDoc_Entries" xml:space="preserve">
+    <value>Entrées</value>
+  </data>
+  <data name="ApprovalDoc_EntriesHeading" xml:space="preserve">
+    <value>Entrées à approuver</value>
+  </data>
+  <data name="ApprovalDoc_EntriesValue" xml:space="preserve">
+    <value>exceptions : {0} · périmètre : {1}</value>
+  </data>
+  <data name="ApprovalDoc_Intro" xml:space="preserve">
+    <value>Entrées nouvelles et modifiées en attente d'approbation, avec l'empreinte du contenu de chaque entrée et les sommes de contrôle des registres au moment de la feuille. Après signature, saisir les champs d'approbation dans l'application ou avec « exceptions approve » et citer cette feuille comme justificatif, par exemple « Feuille d'approbation {0} du {1} ».</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="ApprovalDoc_KindException" xml:space="preserve">
+    <value>exception</value>
+  </data>
+  <data name="ApprovalDoc_KindTailoring" xml:space="preserve">
+    <value>périmètre</value>
+  </data>
+  <data name="ApprovalDoc_Measure" xml:space="preserve">
+    <value>Action planifiée</value>
+  </data>
+  <data name="ApprovalDoc_NoEntries" xml:space="preserve">
+    <value>Aucune entrée en attente d'approbation.</value>
+  </data>
+  <data name="ApprovalDoc_RefLabel" xml:space="preserve">
+    <value>Référence</value>
+  </data>
+  <data name="ApprovalDoc_Reference" xml:space="preserve">
+    <value>Feuille d'approbation {0}, installation {1}, {2}.</value>
+  </data>
+  <data name="ApprovalDoc_Scope" xml:space="preserve">
+    <value>Portée</value>
+  </data>
+  <data name="ApprovalDoc_Sheet" xml:space="preserve">
+    <value>Feuille</value>
+  </data>
+  <data name="ApprovalDoc_SignHeading" xml:space="preserve">
+    <value>Approbation</value>
+  </data>
+  <data name="ApprovalDoc_SignIntro" xml:space="preserve">
+    <value>Par leur signature, les approbateurs statuent sur les entrées ci-dessus comme coché. Les entrées sans décision restent demandées.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="ApprovalDoc_Subtitle" xml:space="preserve">
+    <value>{0} · feuille {1}</value>
+  </data>
+  <data name="ApprovalDoc_Title" xml:space="preserve">
+    <value>Exceptions à approuver</value>
+  </data>
+  <data name="Approval_None" xml:space="preserve">
+    <value>non approuvée</value>
+  </data>
+  <data name="Approval_Text" xml:space="preserve">
+    <value>approuvée par {0} le {1}, justificatif {2}, à revoir avant le {3}</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Banner_ClockSuspect" xml:space="preserve">
+    <value>Horloge invraisemblable : les résultats fondés sur l'âge ne sont pas vérifiables</value>
+  </data>
+  <data name="Banner_DomainController" xml:space="preserve">
+    <value>Contrôleurs de domaine : non évalués – le catalogue 2026.10 n'est pas conçu pour les contrôleurs de domaine</value>
+  </data>
+  <data name="Banner_ExperimentalGpo" xml:space="preserve">
+    <value>Source : GPO de domaine (non testé dans un domaine réel)</value>
+  </data>
+  <data name="Banner_Hosts" xml:space="preserve">
+    <value>Postes concernés : {0}</value>
+  </data>
+  <data name="Banner_Incomplete" xml:space="preserve">
+    <value>Contrôle incomplet : seulement {0} vérifiable</value>
+  </data>
+  <data name="Banner_Incomplete_Detail" xml:space="preserve">
+    <value>Postes concernés : {0}. Domaines manquants : {1}. Les valeurs apparaissent en gris ; une valeur élevée sur une fraction des règles n'est pas un résultat.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Banner_PreTranslation_Detail" xml:space="preserve">
+    <value>Les textes de ce document ont été traduits automatiquement et n'ont pas encore été relus par un locuteur natif ; la version allemande ou anglaise fait foi.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Banner_StaleCatalogue" xml:space="preserve">
+    <value>Catalogue de règles de plus de 6 mois – les données de cycle de vie et de correctifs peuvent être obsolètes</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Banner_StaleCatalogue_Detail" xml:space="preserve">
+    <value>Âge du catalogue en jours : {0}. Une version plus récente de Riegel apporte le catalogue actuel.</value>
+  </data>
+  <data name="Banner_StaleSnapshot" xml:space="preserve">
+    <value>Collecte obsolète : collectée {0} jours avant la date d'évaluation</value>
+  </data>
+  <data name="Baseline_ContentIncluded" xml:space="preserve">
+    <value>inclus</value>
+  </data>
+  <data name="Baseline_MetadataOnly" xml:space="preserve">
+    <value>métadonnées seulement – non vérifiable</value>
+  </data>
+  <data name="Baseline_Rules" xml:space="preserve">
+    <value>règles : {0}</value>
+  </data>
+  <data name="Baselines_Heading" xml:space="preserve">
+    <value>Référentiels client</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Baselines_Intro" xml:space="preserve">
+    <value>Chaque référentiel importé est évalué séparément. Sans son contenu dans le dossier de preuves, verify signale ses résultats comme non vérifiables.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Basis_Approved" xml:space="preserve">
+    <value>état approuvé</value>
+  </data>
+  <data name="Basis_Previous" xml:space="preserve">
+    <value>dernière exécution</value>
+  </data>
+  <data name="Basis_Sample" xml:space="preserve">
+    <value>échantillon</value>
+  </data>
+  <data name="Change_Better" xml:space="preserve">
+    <value>amélioré</value>
+  </data>
+  <data name="Change_ExceptionAdded" xml:space="preserve">
+    <value>exception ajoutée</value>
+  </data>
+  <data name="Change_ExceptionExpired" xml:space="preserve">
+    <value>exception expirée</value>
+  </data>
+  <data name="Change_ExceptionRemoved" xml:space="preserve">
+    <value>exception supprimée</value>
+  </data>
+  <data name="Change_NewRule" xml:space="preserve">
+    <value>nouvelle règle</value>
+  </data>
+  <data name="Change_Other" xml:space="preserve">
+    <value>autre</value>
+  </data>
+  <data name="Change_ScopeChanged" xml:space="preserve">
+    <value>périmètre du contrôle modifié</value>
+  </data>
+  <data name="Change_TailoringAdded" xml:space="preserve">
+    <value>périmètre ajouté</value>
+  </data>
+  <data name="Change_TailoringRemoved" xml:space="preserve">
+    <value>périmètre supprimé</value>
+  </data>
+  <data name="Change_Worse" xml:space="preserve">
+    <value>dégradé</value>
+  </data>
+  <data name="Changes_Heading" xml:space="preserve">
+    <value>Dégradé depuis la dernière exécution / depuis l'approbation</value>
+  </data>
+  <data name="Changes_Intro" xml:space="preserve">
+    <value>Règles qui, à la base de comparaison, étaient conformes, ouvertes délibérément, non applicables ou hors périmètre et qui sont maintenant non conformes. Non comptées ici : exceptions expirées (bloc distinct), règles nouvelles dans ce catalogue et règles auparavant non vérifiables.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Changes_None" xml:space="preserve">
+    <value>Aucune dégradation depuis la dernière exécution ou l'état approuvé.</value>
+  </data>
+  <data name="Changes_Other" xml:space="preserve">
+    <value>Autres changements</value>
+  </data>
+  <data name="Classification_Disclaimer" xml:space="preserve">
+    <value>Ce rapport n'est pas une déclaration de conformité : il atteste la gestion de configuration et une partie de la revue d'efficacité des postes listés – pas la gestion des incidents, la continuité d'activité, la chaîne d'approvisionnement, la MFA, les sauvegardes ni la segmentation réseau.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Classification_Heading" xml:space="preserve">
+    <value>Classification</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Classification_Intro" xml:space="preserve">
+    <value>Riegel fournit des éléments de preuve pour :</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Col_Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="Col_Actual" xml:space="preserve">
+    <value>Constaté</value>
+  </data>
+  <data name="Col_After" xml:space="preserve">
+    <value>Maintenant</value>
+  </data>
+  <data name="Col_AppliesTo" xml:space="preserve">
+    <value>S'applique à</value>
+  </data>
+  <data name="Col_Attribution" xml:space="preserve">
+    <value>Attribution</value>
+  </data>
+  <data name="Col_Baseline" xml:space="preserve">
+    <value>Référentiel</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Col_Basis" xml:space="preserve">
+    <value>Comparé à</value>
+  </data>
+  <data name="Col_Before" xml:space="preserve">
+    <value>Avant</value>
+  </data>
+  <data name="Col_Category" xml:space="preserve">
+    <value>Catégorie</value>
+  </data>
+  <data name="Col_Change" xml:space="preserve">
+    <value>Changement</value>
+  </data>
+  <data name="Col_Collected" xml:space="preserve">
+    <value>Collecté</value>
+  </data>
+  <data name="Col_Content" xml:space="preserve">
+    <value>Contenu dans le dossier de preuves</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Col_Due" xml:space="preserve">
+    <value>Échéance</value>
+  </data>
+  <data name="Col_Entry" xml:space="preserve">
+    <value>Entrée</value>
+  </data>
+  <data name="Col_Expected" xml:space="preserve">
+    <value>Attendu</value>
+  </data>
+  <data name="Col_ExpiredOn" xml:space="preserve">
+    <value>Expirée le</value>
+  </data>
+  <data name="Col_Expiring" xml:space="preserve">
+    <value>Exceptions à échéance</value>
+  </data>
+  <data name="Col_Fact" xml:space="preserve">
+    <value>Fait</value>
+  </data>
+  <data name="Col_FromTo" xml:space="preserve">
+    <value>Avant → maintenant</value>
+  </data>
+  <data name="Col_Host" xml:space="preserve">
+    <value>Poste</value>
+  </data>
+  <data name="Col_Hosts" xml:space="preserve">
+    <value>Postes</value>
+  </data>
+  <data name="Col_Item" xml:space="preserve">
+    <value>Élément</value>
+  </data>
+  <data name="Col_Items" xml:space="preserve">
+    <value>Entrées</value>
+  </data>
+  <data name="Col_Justification" xml:space="preserve">
+    <value>Justification</value>
+  </data>
+  <data name="Col_Licence" xml:space="preserve">
+    <value>Licence</value>
+  </data>
+  <data name="Col_Machines" xml:space="preserve">
+    <value>Postes</value>
+  </data>
+  <data name="Col_Measure" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="Col_MeasureNotes" xml:space="preserve">
+    <value>Action / remarques</value>
+  </data>
+  <data name="Col_NetworkFact" xml:space="preserve">
+    <value>Connexion réseau</value>
+  </data>
+  <data name="Col_Notes" xml:space="preserve">
+    <value>Remarques</value>
+  </data>
+  <data name="Col_OpenHigh" xml:space="preserve">
+    <value>Ouverts élevée</value>
+  </data>
+  <data name="Col_OpenHml" xml:space="preserve">
+    <value>Ouverts é / m / f</value>
+  </data>
+  <data name="Col_OpenOn" xml:space="preserve">
+    <value>Ouvert sur (postes)</value>
+  </data>
+  <data name="Col_Os" xml:space="preserve">
+    <value>Système d'exploitation</value>
+  </data>
+  <data name="Col_Overdue" xml:space="preserve">
+    <value>Actions en retard</value>
+  </data>
+  <data name="Col_Owner" xml:space="preserve">
+    <value>Responsable (rôle)</value>
+  </data>
+  <data name="Col_Plant" xml:space="preserve">
+    <value>Installation</value>
+  </data>
+  <data name="Col_Reason" xml:space="preserve">
+    <value>Motif</value>
+  </data>
+  <data name="Col_Regressions" xml:space="preserve">
+    <value>Dégradés</value>
+  </data>
+  <data name="Col_Rule" xml:space="preserve">
+    <value>Règle</value>
+  </data>
+  <data name="Col_Rules" xml:space="preserve">
+    <value>Règles</value>
+  </data>
+  <data name="Col_ScopeApproval" xml:space="preserve">
+    <value>Portée et approbation</value>
+  </data>
+  <data name="Col_Score" xml:space="preserve">
+    <value>Valeur</value>
+  </data>
+  <data name="Col_Scores" xml:space="preserve">
+    <value>Durcissement / documenté</value>
+  </data>
+  <data name="Col_Severity" xml:space="preserve">
+    <value>Gravité</value>
+  </data>
+  <data name="Col_Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="Col_Sources" xml:space="preserve">
+    <value>Sources</value>
+  </data>
+  <data name="Col_State" xml:space="preserve">
+    <value>État</value>
+  </data>
+  <data name="Col_SupportedOs" xml:space="preserve">
+    <value>OS pris en charge</value>
+  </data>
+  <data name="Col_Title" xml:space="preserve">
+    <value>Titre</value>
+  </data>
+  <data name="Col_Trend" xml:space="preserve">
+    <value>Tendance ouverts élevée</value>
+  </data>
+  <data name="Col_TrendMonths" xml:space="preserve">
+    <value>Ouverts élevée en fin de mois {0} … {1}</value>
+  </data>
+  <data name="Col_Value" xml:space="preserve">
+    <value>Valeur</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Sommaire</value>
+  </data>
+  <data name="Count_ExceptionsExpired" xml:space="preserve">
+    <value>exceptions expirées</value>
+  </data>
+  <data name="Count_ExceptionsExpiring" xml:space="preserve">
+    <value>exceptions arrivant à échéance</value>
+  </data>
+  <data name="Count_ExceptionsPending" xml:space="preserve">
+    <value>exceptions demandées</value>
+  </data>
+  <data name="Count_ExceptionsValid" xml:space="preserve">
+    <value>exceptions valides</value>
+  </data>
+  <data name="Count_MeasuresOverdue" xml:space="preserve">
+    <value>actions en retard</value>
+  </data>
+  <data name="Count_NewlyOpen" xml:space="preserve">
+    <value>nouvellement ouverts</value>
+  </data>
+  <data name="Count_NotCheckable" xml:space="preserve">
+    <value>non vérifiables</value>
+  </data>
+  <data name="Count_OpenHigh" xml:space="preserve">
+    <value>ouverts – élevée</value>
+  </data>
+  <data name="Count_OpenLow" xml:space="preserve">
+    <value>ouverts – faible</value>
+  </data>
+  <data name="Count_OpenMedium" xml:space="preserve">
+    <value>ouverts – moyenne</value>
+  </data>
+  <data name="Count_Regressions" xml:space="preserve">
+    <value>dégradés</value>
+  </data>
+  <data name="Cover_Baselines" xml:space="preserve">
+    <value>Référentiels client</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Cover_Catalogue" xml:space="preserve">
+    <value>Catalogue de règles</value>
+  </data>
+  <data name="Cover_CatalogueValue" xml:space="preserve">
+    <value>{0} {1} du {2}</value>
+  </data>
+  <data name="Cover_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Cover_EvaluationDate" xml:space="preserve">
+    <value>Date d'évaluation</value>
+  </data>
+  <data name="Cover_ExeSha" xml:space="preserve">
+    <value>SHA-256 de l'exécutable {0}</value>
+  </data>
+  <data name="Cover_Generated" xml:space="preserve">
+    <value>Créé le</value>
+  </data>
+  <data name="Cover_PerformedBy" xml:space="preserve">
+    <value>Réalisé par</value>
+  </data>
+  <data name="Cover_Plant" xml:space="preserve">
+    <value>Installation</value>
+  </data>
+  <data name="Cover_Registers" xml:space="preserve">
+    <value>Registres</value>
+  </data>
+  <data name="Cover_RegistersValue" xml:space="preserve">
+    <value>SHA-256 des registres utilisés</value>
+  </data>
+  <data name="Cover_Report" xml:space="preserve">
+    <value>Rapport</value>
+  </data>
+  <data name="Cover_ReportValue" xml:space="preserve">
+    <value>{0} · créé le {1}</value>
+  </data>
+  <data name="Cover_Scope" xml:space="preserve">
+    <value>Périmètre</value>
+  </data>
+  <data name="Cover_ScopeValue" xml:space="preserve">
+    <value>postes : {0} – {1}</value>
+  </data>
+  <data name="Cover_Tool" xml:space="preserve">
+    <value>Outil</value>
+  </data>
+  <data name="DomainRole_0" xml:space="preserve">
+    <value>poste de travail autonome</value>
+  </data>
+  <data name="DomainRole_1" xml:space="preserve">
+    <value>poste de travail membre</value>
+  </data>
+  <data name="DomainRole_2" xml:space="preserve">
+    <value>serveur autonome</value>
+  </data>
+  <data name="DomainRole_3" xml:space="preserve">
+    <value>serveur membre</value>
+  </data>
+  <data name="DomainRole_4" xml:space="preserve">
+    <value>contrôleur de domaine de secours</value>
+  </data>
+  <data name="DomainRole_5" xml:space="preserve">
+    <value>contrôleur de domaine principal</value>
+  </data>
+  <data name="Drift_Added" xml:space="preserve">
+    <value>ajouté</value>
+  </data>
+  <data name="Drift_Changed" xml:space="preserve">
+    <value>modifié</value>
+  </data>
+  <data name="Drift_More" xml:space="preserve">
+    <value>Autres écarts : {0} – complets dans le classeur Excel.</value>
+  </data>
+  <data name="Drift_None" xml:space="preserve">
+    <value>Aucune dérive des valeurs brutes par rapport à la base de comparaison.</value>
+  </data>
+  <data name="Drift_Removed" xml:space="preserve">
+    <value>supprimé</value>
+  </data>
+  <data name="Error_RGL0500" xml:space="preserve">
+    <value>Le fichier PDF n'a pas pu être écrit : {0} ({1})</value>
+  </data>
+  <data name="Error_RGL0501" xml:space="preserve">
+    <value>Aucune police trouvée pour les documents PDF (recherche de {0} dans {1}). Sous Linux, installer par exemple fonts-dejavu-core ou fonts-liberation.</value>
+  </data>
+  <data name="Error_RGL0502" xml:space="preserve">
+    <value>Le logo de couverture {0} est trop volumineux ({1} octets, au plus {2}).</value>
+  </data>
+  <data name="Error_RGL0503" xml:space="preserve">
+    <value>Le logo de couverture {0} n'est pas une image PNG ou JPEG valide (au plus 4096 × 4096 pixels).</value>
+  </data>
+  <data name="Error_RGL0504" xml:space="preserve">
+    <value>Le logo de couverture {0} n'a pas pu être lu ({1}).</value>
+  </data>
+  <data name="Error_RGL0510" xml:space="preserve">
+    <value>Aucune police avec caractères chinois (contours TrueType) n'a été trouvée sur ce système pour la langue {0} ; ce document est donc en anglais. Polices adaptées : Microsoft YaHei ou SimSun (Windows), WenQuanYi Micro Hei (paquet Linux fonts-wqy-microhei).</value>
+  </data>
+  <data name="Error_RGL0520" xml:space="preserve">
+    <value>PDF/A n'est pas disponible : PDFsharp-MigraDoc 6.2.4 ne peut pas produire de PDF/A valide à partir de ces documents (voir docs/reports.md). Générer le rapport sans --pdfa.</value>
+  </data>
+  <data name="Exc_AcceptedValue" xml:space="preserve">
+    <value>valeur acceptée : {0}</value>
+  </data>
+  <data name="Exc_Category" xml:space="preserve">
+    <value>catégorie : {0}</value>
+  </data>
+  <data name="Exc_Compensating" xml:space="preserve">
+    <value>mesure compensatoire : {0}</value>
+  </data>
+  <data name="Exc_ContentHash" xml:space="preserve">
+    <value>empreinte du contenu {0}</value>
+  </data>
+  <data name="Exc_Hosts" xml:space="preserve">
+    <value>s'applique à : {0}</value>
+  </data>
+  <data name="Exc_Reference" xml:space="preserve">
+    <value>référence : {0}</value>
+  </data>
+  <data name="Exc_Severity" xml:space="preserve">
+    <value>gravité : {0}</value>
+  </data>
+  <data name="Exceptions_Heading" xml:space="preserve">
+    <value>Registre des exceptions</value>
+  </data>
+  <data name="Exceptions_Intro" xml:space="preserve">
+    <value>Registre {0}, entrées : {1} ({2}). Une exception n'est valide qu'avec rôle approbateur, date, date de revue et justificatif d'approbation, et seulement tant que son contenu correspond à l'empreinte approuvée.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Exceptions_None" xml:space="preserve">
+    <value>Le registre ne contient aucune exception.</value>
+  </data>
+  <data name="Expired_Heading" xml:space="preserve">
+    <value>Exceptions expirées</value>
+  </data>
+  <data name="Expired_None" xml:space="preserve">
+    <value>Aucune exception expirée.</value>
+  </data>
+  <data name="Finding_RuleSet" xml:space="preserve">
+    <value>jeu de règles {0}</value>
+  </data>
+  <data name="Findings_Heading" xml:space="preserve">
+    <value>Constats ouverts par règle</value>
+  </data>
+  <data name="Findings_Intro" xml:space="preserve">
+    <value>Règles non conformes agrégées sur tous les postes : ouvertes sur combien des postes où la règle s'applique, jusqu'à dix postes nommés et l'action planifiée. Les détails par poste figurent à l'annexe A ; chaque résultat dans le classeur Excel.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Findings_IntroMachine" xml:space="preserve">
+    <value>Règles non conformes sur ce poste avec l'action planifiée ; les valeurs attendues et constatées figurent à l'annexe A.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Findings_None" xml:space="preserve">
+    <value>Aucun constat ouvert.</value>
+  </data>
+  <data name="Footer_Approval" xml:space="preserve">
+    <value>Feuille d'approbation {0}</value>
+  </data>
+  <data name="Footer_MachineReport" xml:space="preserve">
+    <value>Rapport {0} ({1})</value>
+  </data>
+  <data name="Footer_Page" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="Footer_Record" xml:space="preserve">
+    <value>Procès-verbal de collecte {0}</value>
+  </data>
+  <data name="Footer_Report" xml:space="preserve">
+    <value>Rapport {0}</value>
+  </data>
+  <data name="Footer_Summary" xml:space="preserve">
+    <value>Synthèse {0}</value>
+  </data>
+  <data name="Footer_Target" xml:space="preserve">
+    <value>Configuration cible {0}</value>
+  </data>
+  <data name="Identity_Builder" xml:space="preserve">
+    <value>Constructeur</value>
+  </data>
+  <data name="Identity_DeliveryDate" xml:space="preserve">
+    <value>Date de livraison</value>
+  </data>
+  <data name="Identity_Heading" xml:space="preserve">
+    <value>Identité de la machine</value>
+  </data>
+  <data name="Identity_Location" xml:space="preserve">
+    <value>Emplacement</value>
+  </data>
+  <data name="Identity_MachineType" xml:space="preserve">
+    <value>Type de machine</value>
+  </data>
+  <data name="Identity_OrderNumber" xml:space="preserve">
+    <value>Commande / projet</value>
+  </data>
+  <data name="Identity_PlantSoftware" xml:space="preserve">
+    <value>Logiciel de l'installation</value>
+  </data>
+  <data name="Identity_SerialNumber" xml:space="preserve">
+    <value>Numéro de série</value>
+  </data>
+  <data name="Legend_Exception" xml:space="preserve">
+    <value>Non conforme, mais couvert par une exception valide et approuvée dont la portée et la valeur acceptée correspondent.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Legend_Fail" xml:space="preserve">
+    <value>La valeur ne satisfait pas l'attente et aucune exception valide ne la couvre.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Legend_Flags" xml:space="preserve">
+    <value>Des mentions telles que « Valeur par défaut supposée », « Dégradé » ou « Exception demandée » précisent un statut et figurent à côté du résultat. Dates et heures au format ISO 8601 (UTC).</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Legend_Heading" xml:space="preserve">
+    <value>Comment lire ce rapport</value>
+  </data>
+  <data name="Legend_Info" xml:space="preserve">
+    <value>Règle d'inventaire : liste des faits, sans évaluation.</value>
+  </data>
+  <data name="Legend_Meaning" xml:space="preserve">
+    <value>Signification</value>
+  </data>
+  <data name="Legend_NotApplicable" xml:space="preserve">
+    <value>Le système d'exploitation, le build, l'appartenance au domaine, le rôle ou une fonction absente rendent la règle sans objet.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Legend_NotCheckable" xml:space="preserve">
+    <value>Preuve manquante, refusée, tronquée ou non collectée, valeur par défaut inconnue ou heuristique seulement ; signalée avec son code de motif et jamais comptée comme conforme.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Legend_Open" xml:space="preserve">
+    <value>Compte comme ouvert</value>
+  </data>
+  <data name="Legend_OutOfScope" xml:space="preserve">
+    <value>Exclu par une décision de périmètre valide : ne fait pas partie de la configuration cible de ce rôle ; dans aucune valeur.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Legend_Pass" xml:space="preserve">
+    <value>La valeur satisfait l'attente, avec une preuve positive (ou une valeur par défaut documentée, signalée « Valeur par défaut supposée »).</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Legend_Status" xml:space="preserve">
+    <value>Statut</value>
+  </data>
+  <data name="Machine_Admin" xml:space="preserve">
+    <value>Administrateur</value>
+  </data>
+  <data name="Machine_Collected" xml:space="preserve">
+    <value>Collecté le</value>
+  </data>
+  <data name="Machine_CollectedStale" xml:space="preserve">
+    <value>État de la collecte : {0} (il y a {1} jours) – obsolète</value>
+  </data>
+  <data name="Machine_CollectedValue" xml:space="preserve">
+    <value>{0} (âge en jours : {1})</value>
+  </data>
+  <data name="Machine_Collector" xml:space="preserve">
+    <value>Collecteur</value>
+  </data>
+  <data name="Machine_Counts" xml:space="preserve">
+    <value>Résultats</value>
+  </data>
+  <data name="Machine_CountsValue" xml:space="preserve">
+    <value>ouverts élevée {0}, moyenne {1}, faible {2} · ouverts délibérément {3} · non vérifiables {4}</value>
+  </data>
+  <data name="Machine_Domain" xml:space="preserve">
+    <value>Rôle de domaine</value>
+  </data>
+  <data name="Machine_Drift" xml:space="preserve">
+    <value>Dérive des valeurs brutes (total {0}, jusqu'à 20 affichées)</value>
+  </data>
+  <data name="Machine_Exceptions" xml:space="preserve">
+    <value>Ouverts délibérément ({0})</value>
+  </data>
+  <data name="Machine_Facts" xml:space="preserve">
+    <value>Faits clés et connexion réseau</value>
+  </data>
+  <data name="Machine_Group" xml:space="preserve">
+    <value>Groupe (rôle)</value>
+  </data>
+  <data name="Machine_Host" xml:space="preserve">
+    <value>Poste</value>
+  </data>
+  <data name="Machine_ImportId" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Machine_Imported" xml:space="preserve">
+    <value>Importé le</value>
+  </data>
+  <data name="Machine_Inventory" xml:space="preserve">
+    <value>Inventaire</value>
+  </data>
+  <data name="Machine_Label" xml:space="preserve">
+    <value>Désignation</value>
+  </data>
+  <data name="Machine_NotApplicable" xml:space="preserve">
+    <value>Non applicables ({0})</value>
+  </data>
+  <data name="Machine_NotCheckable" xml:space="preserve">
+    <value>Non vérifiables par motif ({0})</value>
+  </data>
+  <data name="Machine_Open" xml:space="preserve">
+    <value>Constats ouverts ({0})</value>
+  </data>
+  <data name="Machine_Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="Machine_Origin" xml:space="preserve">
+    <value>Origine</value>
+  </data>
+  <data name="Machine_Os" xml:space="preserve">
+    <value>Système d'exploitation</value>
+  </data>
+  <data name="Machine_Passed" xml:space="preserve">
+    <value>Conformes ({0})</value>
+  </data>
+  <data name="Machine_RunId" xml:space="preserve">
+    <value>Exécution</value>
+  </data>
+  <data name="Machine_ScoresValue" xml:space="preserve">
+    <value>niveau de durcissement {0} · documenté {1} · part vérifiée {2}</value>
+  </data>
+  <data name="Machine_SnapshotSha" xml:space="preserve">
+    <value>SHA-256 de l'export</value>
+  </data>
+  <data name="Machine_Support" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="Machine_Tailored" xml:space="preserve">
+    <value>Hors périmètre ({0})</value>
+  </data>
+  <data name="Machine_Worse" xml:space="preserve">
+    <value>Dégradé depuis la dernière exécution / depuis l'approbation</value>
+  </data>
+  <data name="Machines_Heading" xml:space="preserve">
+    <value>Vue d'ensemble des postes</value>
+  </data>
+  <data name="Machines_Intro" xml:space="preserve">
+    <value>Une ligne par poste. Les contrôleurs de domaine ne sont pas évalués.</value>
+  </data>
+  <data name="Machines_Legend" xml:space="preserve">
+    <value>Valeurs grises : contrôle incomplet (moins de 90 % vérifiable ou non collecté en tant qu'administrateur).</value>
+  </data>
+  <data name="MeasureState_Done" xml:space="preserve">
+    <value>réalisée</value>
+  </data>
+  <data name="MeasureState_Dropped" xml:space="preserve">
+    <value>abandonnée</value>
+  </data>
+  <data name="MeasureState_Planned" xml:space="preserve">
+    <value>planifiée</value>
+  </data>
+  <data name="Measure_OpenOn" xml:space="preserve">
+    <value>encore ouvert sur postes : {0}</value>
+  </data>
+  <data name="Measure_Overdue" xml:space="preserve">
+    <value>{0} en retard depuis le {1} ({2})</value>
+  </data>
+  <data name="Measure_OverdueLabel" xml:space="preserve">
+    <value>en retard</value>
+  </data>
+  <data name="Measure_Planned" xml:space="preserve">
+    <value>{0} échéance {1} ({2})</value>
+  </data>
+  <data name="Measure_Ticket" xml:space="preserve">
+    <value>ticket : {0}</value>
+  </data>
+  <data name="Measures_Heading" xml:space="preserve">
+    <value>Plan d'actions</value>
+  </data>
+  <data name="Measures_Intro" xml:space="preserve">
+    <value>Registre {0}, entrées : {1}, en retard : {2}. Une action planifiée laisse le constat ouvert jusqu'à ce que la règle soit respectée.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Measures_None" xml:space="preserve">
+    <value>Aucune action planifiée.</value>
+  </data>
+  <data name="Method_Catalogue" xml:space="preserve">
+    <value>Catalogue {0} {1} du {2} : règles : {3}, dont contrôles : {4} et règles d'inventaire : {5}. Tous les textes des règles sont propres à Riegel.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Catalogue_Heading" xml:space="preserve">
+    <value>Catalogue de règles</value>
+  </data>
+  <data name="Method_Collection" xml:space="preserve">
+    <value>Le collecteur de Riegel lit la configuration et l'état d'exécution du poste – registre, stratégie de sécurité, stratégie d'audit, services, Defender, pare-feu, BitLocker, comptes locaux – sans rien modifier et sans accès réseau, et écrit un export des données brutes avec son SHA-256. L'évaluation contrôle l'export hors ligne par rapport au catalogue de règles et applique les registres de l'installation. Les droits d'administrateur étendent ce qui peut être lu ; sans eux, les règles concernées sont signalées comme non vérifiables.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Collection_Heading" xml:space="preserve">
+    <value>Collecte</value>
+  </data>
+  <data name="Method_Evidence_1" xml:space="preserve">
+    <value>« Conforme » uniquement avec une preuve positive : des données manquantes, refusées, tronquées ou non collectées donnent « non vérifiable », jamais « conforme ».</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Evidence_2" xml:space="preserve">
+    <value>Une valeur non définie ne compte que là où la collecte a entièrement couvert cette partie ; une valeur par défaut n'est utilisée qu'avec une source citée et porte la mention « Valeur par défaut supposée ».</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Evidence_3" xml:space="preserve">
+    <value>La preuve d'exécution prime sur la configuration : là où Windows indique l'état effectif (SMB, protection LSA, pare-feu, Defender, VBS), cet état décide ; une valeur seulement configurée n'est jamais « conforme ».</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Evidence_4" xml:space="preserve">
+    <value>Une valeur de type incorrect est « non conforme » ; une preuve seulement heuristique (par exemple l'entrée du centre de sécurité d'un antivirus tiers) est « non vérifiable ».</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Evidence_5" xml:space="preserve">
+    <value>Une protection absente est une lacune (« non conforme », avec la voie de l'exception), pas « non applicable ».</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Evidence_6" xml:space="preserve">
+    <value>En dessous de 90 % vérifiable ou sans droits d'administrateur, le rapport porte la bannière « Contrôle incomplet » et les valeurs apparaissent en gris.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Evidence_Heading" xml:space="preserve">
+    <value>Règles de preuve</value>
+  </data>
+  <data name="Method_Heading" xml:space="preserve">
+    <value>Méthode et sources</value>
+  </data>
+  <data name="Method_Integrity_Heading" xml:space="preserve">
+    <value>Intégrité des preuves</value>
+  </data>
+  <data name="Method_Limit_1" xml:space="preserve">
+    <value>Aucune déclaration de conformité : Riegel fournit des éléments de preuve pour les référentiels cités en couverture ; il ne certifie pas la conformité.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Limit_2" xml:space="preserve">
+    <value>Pas un dossier de validation BPF : le rapport est une donnée d'entrée revue par des personnes pour la revue périodique et la maîtrise des changements.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Limit_3" xml:space="preserve">
+    <value>Ce que le poste ne peut pas montrer n'est pas contrôlé : MFA, sauvegardes, segmentation réseau, gestion des incidents et sécurité physique.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Limit_4" xml:space="preserve">
+    <value>Le résultat décrit l'état au moment de la collecte ; les changements ultérieurs n'apparaissent que dans une nouvelle exécution.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Limit_Dc" xml:space="preserve">
+    <value>Contrôleurs de domaine : le catalogue 2026.10 n'est pas conçu pour les contrôleurs de domaine ; ils sont listés mais non évalués.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Limit_Gpo" xml:space="preserve">
+    <value>L'attribution aux GPO de domaine est expérimentale : pas encore testée dans un domaine réel.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Limits_Heading" xml:space="preserve">
+    <value>Limites</value>
+  </data>
+  <data name="Method_NoCisBsi" xml:space="preserve">
+    <value>Ce rapport et le catalogue ne contiennent aucun contenu CIS ou BSI : aucun texte, valeur ou identifiant des CIS Benchmarks, de BSI SiSyPHuS ou des modules IT-Grundschutz, et aucun fichier ou valeur des bases de sécurité Microsoft. Grundschutz++ n'apparaît que sous forme d'identifiants.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Provenance" xml:space="preserve">
+    <value>Provenance des valeurs attendues (règles : {0}) : ACSC {1}, documentation Microsoft Windows Server (CC BY 4.0) {2}, faits Microsoft Learn {3}, DISA {4} ; également dans une base de sécurité Microsoft (simple corroboration) : {5}.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Score" xml:space="preserve">
+    <value>Poids : élevée 3, moyenne 2, faible 1, sur les résultats vérifiables (conforme, non conforme, ouvert délibérément). Niveau de durcissement = conforme pondéré ÷ vérifiable ; documenté = (conforme + ouvert délibérément) ÷ vérifiable. Les exceptions n'augmentent jamais le niveau de durcissement ; le périmètre retire la règle des deux valeurs. La catégorie audit contribue au plus 12 points de poids. Part vérifiée = vérifiable ÷ (applicable − hors périmètre − inventaire). Arrondi à la fin, demi vers le haut. Les contrôleurs de domaine n'ont pas de niveau de durcissement.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Method_Score_Heading" xml:space="preserve">
+    <value>Notation</value>
+  </data>
+  <data name="Method_Sources_Heading" xml:space="preserve">
+    <value>Sources et licences</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>non</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>aucune</value>
+  </data>
+  <data name="NotRated" xml:space="preserve">
+    <value>non évalué</value>
+  </data>
+  <data name="NotRatedDc" xml:space="preserve">
+    <value>non évalué – contrôleur de domaine</value>
+  </data>
+  <data name="Note_Exception" xml:space="preserve">
+    <value>exception {0}</value>
+  </data>
+  <data name="Note_Measure" xml:space="preserve">
+    <value>action {0}</value>
+  </data>
+  <data name="Note_Ot" xml:space="preserve">
+    <value>remarque OT : {0}</value>
+  </data>
+  <data name="Note_Tailoring" xml:space="preserve">
+    <value>périmètre {0}</value>
+  </data>
+  <data name="OpenOf" xml:space="preserve">
+    <value>{0} sur {1}</value>
+  </data>
+  <data name="Option_Deep" xml:space="preserve">
+    <value>approfondie</value>
+  </data>
+  <data name="Option_Minimal" xml:space="preserve">
+    <value>minimale</value>
+  </data>
+  <data name="Option_Pseudonymized" xml:space="preserve">
+    <value>pseudonymisée</value>
+  </data>
+  <data name="Option_Standard" xml:space="preserve">
+    <value>standard</value>
+  </data>
+  <data name="Origin_App" xml:space="preserve">
+    <value>application d'analyse</value>
+  </data>
+  <data name="Origin_Builtin" xml:space="preserve">
+    <value>commandes intégrées</value>
+  </data>
+  <data name="Origin_Collector" xml:space="preserve">
+    <value>collecteur portable</value>
+  </data>
+  <data name="Origin_Recorded" xml:space="preserve">
+    <value>enregistré</value>
+  </data>
+  <data name="Origin_Synthetic" xml:space="preserve">
+    <value>synthétique (données de test)</value>
+  </data>
+  <data name="Os_Build" xml:space="preserve">
+    <value>build {0}</value>
+  </data>
+  <data name="Percent" xml:space="preserve">
+    <value>{0} %</value>
+  </data>
+  <data name="Product_Label" xml:space="preserve">
+    <value>RIEGEL · CONTRÔLE DE DURCISSEMENT</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Reason_Unknown" xml:space="preserve">
+    <value>(sans code de motif)</value>
+  </data>
+  <data name="RecordDoc_CollectedAt" xml:space="preserve">
+    <value>Collecté le (horloge du poste)</value>
+  </data>
+  <data name="RecordDoc_CollectedBy" xml:space="preserve">
+    <value>Collecté par (rôle)</value>
+  </data>
+  <data name="RecordDoc_CollectorSha" xml:space="preserve">
+    <value>SHA-256 du collecteur</value>
+  </data>
+  <data name="RecordDoc_File" xml:space="preserve">
+    <value>Fichier</value>
+  </data>
+  <data name="RecordDoc_Files" xml:space="preserve">
+    <value>Exports</value>
+  </data>
+  <data name="RecordDoc_FilesHeading" xml:space="preserve">
+    <value>Exports importés</value>
+  </data>
+  <data name="RecordDoc_Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="RecordDoc_ImportedAt" xml:space="preserve">
+    <value>Importé le</value>
+  </data>
+  <data name="RecordDoc_Intro" xml:space="preserve">
+    <value>Ce procès-verbal documente quels exports ont été pris sur quels postes, avec quel collecteur et quelles sommes de contrôle. Le témoin confirme que les exports ont été pris sur les postes indiqués et remis sans modification.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="RecordDoc_NoExe" xml:space="preserve">
+    <value>– (commandes intégrées, pas d'exécutable)</value>
+  </data>
+  <data name="RecordDoc_NoFiles" xml:space="preserve">
+    <value>L'import ne contient aucun export.</value>
+  </data>
+  <data name="RecordDoc_Operator" xml:space="preserve">
+    <value>Exploitant (rôle)</value>
+  </data>
+  <data name="RecordDoc_Reference" xml:space="preserve">
+    <value>Se rapporte à l'import {0} de l'installation {1}.</value>
+  </data>
+  <data name="RecordDoc_Sidecar" xml:space="preserve">
+    <value>Fichier de somme de contrôle (.sha256)</value>
+  </data>
+  <data name="RecordDoc_SidecarBad" xml:space="preserve">
+    <value>manquant ou ne correspond pas</value>
+  </data>
+  <data name="RecordDoc_SidecarOk" xml:space="preserve">
+    <value>correspond</value>
+  </data>
+  <data name="RecordDoc_SignCollected" xml:space="preserve">
+    <value>Collecté par</value>
+  </data>
+  <data name="RecordDoc_SignHeading" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+  <data name="RecordDoc_SignIntro" xml:space="preserve">
+    <value>Par leur signature, le rôle qui collecte et le témoin de l'exploitant confirment la collecte telle qu'enregistrée ci-dessus.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="RecordDoc_SignWitness" xml:space="preserve">
+    <value>Témoin (exploitant)</value>
+  </data>
+  <data name="RecordDoc_Subtitle" xml:space="preserve">
+    <value>{0} · import {1}</value>
+  </data>
+  <data name="RecordDoc_Title" xml:space="preserve">
+    <value>Procès-verbal de collecte</value>
+  </data>
+  <data name="RecordDoc_Witness" xml:space="preserve">
+    <value>Témoin (rôle)</value>
+  </data>
+  <data name="Register_Exceptions" xml:space="preserve">
+    <value>Exceptions</value>
+  </data>
+  <data name="Register_Measures" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Register_Tailoring" xml:space="preserve">
+    <value>Périmètre</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Report_MachineSubtitle" xml:space="preserve">
+    <value>{0} – rapport du poste, installation {1}</value>
+  </data>
+  <data name="Report_Title_AsDelivered" xml:space="preserve">
+    <value>État à la livraison – preuve de durcissement</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Report_Title_Audit" xml:space="preserve">
+    <value>Rapport de preuve de durcissement</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Role_Builder" xml:space="preserve">
+    <value>Constructeur</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Role_EngineeringStation" xml:space="preserve">
+    <value>station d'ingénierie</value>
+  </data>
+  <data name="Role_Historian" xml:space="preserve">
+    <value>historian</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Role_Hmi" xml:space="preserve">
+    <value>IHM</value>
+  </data>
+  <data name="Role_JumpHost" xml:space="preserve">
+    <value>serveur de rebond</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Role_Office" xml:space="preserve">
+    <value>PC de bureau</value>
+  </data>
+  <data name="Role_Operator" xml:space="preserve">
+    <value>Exploitant</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Role_Other" xml:space="preserve">
+    <value>autre</value>
+  </data>
+  <data name="Role_Server" xml:space="preserve">
+    <value>serveur</value>
+  </data>
+  <data name="Scope_All" xml:space="preserve">
+    <value>tous les postes</value>
+  </data>
+  <data name="Scope_Group" xml:space="preserve">
+    <value>groupe {0}</value>
+  </data>
+  <data name="Score_AuditCapFootnote" xml:space="preserve">
+    <value>La catégorie audit compte au plus 12 points de poids (quatre règles élevées) dans les valeurs globales ; la valeur de la catégorie elle-même n'est pas plafonnée.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Score_CheckedShare" xml:space="preserve">
+    <value>Part vérifiée</value>
+  </data>
+  <data name="Score_Documented" xml:space="preserve">
+    <value>Documenté</value>
+  </data>
+  <data name="Score_Explained" xml:space="preserve">
+    <value>Niveau de durcissement : part pondérée des règles conformes parmi les règles vérifiables (élevée 3, moyenne 2, faible 1). Documenté : conformes plus ouvertes délibérément. Part vérifiée : vérifiables parmi les règles applicables du périmètre.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Score_Greyed" xml:space="preserve">
+    <value>Contrôle incomplet : seulement {0} vérifiable – les valeurs ne sont pas fiables et apparaissent en gris.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Score_Hardening" xml:space="preserve">
+    <value>Niveau de durcissement</value>
+  </data>
+  <data name="Scores_Share" xml:space="preserve">
+    <value>vérifié {0}</value>
+  </data>
+  <data name="Scores_Value" xml:space="preserve">
+    <value>{0} / {1}</value>
+  </data>
+  <data name="Shortened" xml:space="preserve">
+    <value> … (abrégé – complet dans le classeur Excel)</value>
+  </data>
+  <data name="SignOff_Binding" xml:space="preserve">
+    <value>Par cette approbation, les exceptions du registre {0} (entrées : {1}, dont valides : {2}) et le périmètre {3} (entrées : {4}) sont confirmés.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="SignOff_Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="SignOff_Heading" xml:space="preserve">
+    <value>Vérification et approbation</value>
+  </data>
+  <data name="SignOff_Intro" xml:space="preserve">
+    <value>Par leur signature, les rôles ci-dessous confirment avoir vérifié les constats, les exceptions, les décisions de périmètre et le plan d'actions de ce rapport. Les écarts et actions convenues figurent sous « Remarques ».</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="SignOff_IntroAsDelivered" xml:space="preserve">
+    <value>Le constructeur confirme l'état de durcissement à la livraison des machines listées, y compris les écarts exigés par le logiciel de la machine ; l'exploitant confirme la réception.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="SignOff_Measures" xml:space="preserve">
+    <value>Le plan d'actions {0} (entrées : {1}) fait partie de ce rapport.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="SignOff_Name" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="SignOff_PageCount" xml:space="preserve">
+    <value>Nombre de pages :</value>
+  </data>
+  <data name="SignOff_Reference" xml:space="preserve">
+    <value>Se rapporte au rapport {0} avec les exécutions {1}.</value>
+  </data>
+  <data name="SignOff_Remarks" xml:space="preserve">
+    <value>Remarques</value>
+  </data>
+  <data name="SignOff_Role" xml:space="preserve">
+    <value>rôle</value>
+  </data>
+  <data name="SignOff_Signature" xml:space="preserve">
+    <value>Signature</value>
+  </data>
+  <data name="Source_DirectlySet" xml:space="preserve">
+    <value>défini directement</value>
+  </data>
+  <data name="Source_DomainGpo" xml:space="preserve">
+    <value>GPO de domaine</value>
+  </data>
+  <data name="Source_DomainGpoExperimental" xml:space="preserve">
+    <value>non testé dans un domaine réel</value>
+  </data>
+  <data name="Source_LocalPolicy" xml:space="preserve">
+    <value>stratégie locale</value>
+  </data>
+  <data name="Source_Mdm" xml:space="preserve">
+    <value>MDM</value>
+  </data>
+  <data name="Source_NotSet" xml:space="preserve">
+    <value>non défini</value>
+  </data>
+  <data name="Source_OsDefault" xml:space="preserve">
+    <value>valeur par défaut de l'OS</value>
+  </data>
+  <data name="Source_Runtime" xml:space="preserve">
+    <value>état d'exécution</value>
+  </data>
+  <data name="Source_Unknown" xml:space="preserve">
+    <value>inconnue (pas de RSoP)</value>
+  </data>
+  <data name="State_ChangedAfterApproval" xml:space="preserve">
+    <value>modifiée après approbation</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="State_Expired" xml:space="preserve">
+    <value>expirée</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="State_Expiring" xml:space="preserve">
+    <value>arrive bientôt à échéance</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="State_Invalid" xml:space="preserve">
+    <value>non valide</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="State_Pending" xml:space="preserve">
+    <value>demandée</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="State_Valid" xml:space="preserve">
+    <value>valide</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Status_None" xml:space="preserve">
+    <value>(aucun)</value>
+  </data>
+  <data name="Step_Accepted" xml:space="preserve">
+    <value>Réceptionné</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Step_Approved" xml:space="preserve">
+    <value>Approuvé</value>
+  </data>
+  <data name="Step_Created" xml:space="preserve">
+    <value>Établi</value>
+  </data>
+  <data name="Step_Reviewed" xml:space="preserve">
+    <value>Vérifié</value>
+  </data>
+  <data name="SummaryDoc_Footnote" xml:space="preserve">
+    <value>Les détails par installation figurent dans les rapports d'installation. Riegel fournit des éléments de preuve ; il ne fait aucune déclaration de conformité.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="SummaryDoc_Legend" xml:space="preserve">
+    <value>OS pris en charge : part des postes sous un système d'exploitation encore pris en charge. Tendance : constats élevés ouverts aux quatre dernières fins de mois, puis aujourd'hui. Dégradés : dégradations depuis la dernière exécution. Valeurs : niveau de durcissement / documenté, en dessous la part vérifiée ; gris = contrôle incomplet.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="SummaryDoc_NoHighFindings" xml:space="preserve">
+    <value>Aucun constat élevé ouvert.</value>
+  </data>
+  <data name="SummaryDoc_NoPlants" xml:space="preserve">
+    <value>Aucune installation sélectionnée.</value>
+  </data>
+  <data name="SummaryDoc_Subtitle" xml:space="preserve">
+    <value>Situation au {0} · créé le {1}</value>
+  </data>
+  <data name="SummaryDoc_Title" xml:space="preserve">
+    <value>État du durcissement – synthèse pour la direction</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="SummaryDoc_TopFindings" xml:space="preserve">
+    <value>Constats élevés les plus fréquents sur toutes les installations</value>
+  </data>
+  <data name="SummaryDoc_Total" xml:space="preserve">
+    <value>Toutes les installations</value>
+  </data>
+  <data name="Summary_Categories" xml:space="preserve">
+    <value>Valeurs par catégorie</value>
+  </data>
+  <data name="Summary_DomainControllers" xml:space="preserve">
+    <value>Contrôleurs de domaine : {0} – non évalués (le catalogue 2026.10 n'est pas conçu pour les contrôleurs de domaine).</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Summary_Heading" xml:space="preserve">
+    <value>Synthèse pour la direction</value>
+  </data>
+  <data name="Summary_Intro" xml:space="preserve">
+    <value>Postes : {0}, dont évalués : {1}. Date d'évaluation {2}. D'abord les nombres, ensuite les pourcentages.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Summary_MoreFindings" xml:space="preserve">
+    <value>Autres constats : {0} – voir « Constats ouverts par règle ».</value>
+  </data>
+  <data name="Summary_Registers" xml:space="preserve">
+    <value>Entrées de périmètre : {0} · actions planifiées : {1}.</value>
+  </data>
+  <data name="Summary_TopFindings" xml:space="preserve">
+    <value>Constats ouverts les plus fréquents</value>
+  </data>
+  <data name="Summary_UnsupportedStale" xml:space="preserve">
+    <value>Postes avec système d'exploitation non pris en charge : {0} · avec collecte obsolète : {1}.</value>
+  </data>
+  <data name="Support_Ended" xml:space="preserve">
+    <value>fin de support {0}</value>
+  </data>
+  <data name="Support_Esu" xml:space="preserve">
+    <value>ESU jusqu'au {0}</value>
+  </data>
+  <data name="Support_EsuCovered" xml:space="preserve">
+    <value>ESU souscrit</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Support_Unknown" xml:space="preserve">
+    <value>état du support inconnu</value>
+  </data>
+  <data name="Support_Until" xml:space="preserve">
+    <value>pris en charge jusqu'au {0}</value>
+  </data>
+  <data name="Tagline" xml:space="preserve">
+    <value>Durci là où c'est possible. Documenté là où ça ne l'est pas.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Tailoring_Heading" xml:space="preserve">
+    <value>Périmètre (hors périmètre)</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Tailoring_Intro" xml:space="preserve">
+    <value>Registre {0}, entrées : {1} ({2}). Le périmètre est une décision de référentiel pour un rôle, pas un risque accepté ; les entrées valides retirent la règle des deux valeurs.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Tailoring_None" xml:space="preserve">
+    <value>Aucune décision de périmètre.</value>
+  </data>
+  <data name="Target_AlsoMsb" xml:space="preserve">
+    <value>également dans la base MS</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Target_AppliesEverywhere" xml:space="preserve">
+    <value>tous les postes du groupe</value>
+  </data>
+  <data name="Target_Binding" xml:space="preserve">
+    <value>Cette approbation couvre le catalogue {0} ({1}), le périmètre {2} et les groupes : {3}.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Target_Date" xml:space="preserve">
+    <value>Situation au</value>
+  </data>
+  <data name="Target_Group" xml:space="preserve">
+    <value>Groupe {0}</value>
+  </data>
+  <data name="Target_GroupIntro" xml:space="preserve">
+    <value>Postes : {0}. Règles du périmètre : {1}.</value>
+  </data>
+  <data name="Target_GroupWithRole" xml:space="preserve">
+    <value>Groupe {0} (rôle : {1})</value>
+  </data>
+  <data name="Target_Groups" xml:space="preserve">
+    <value>Groupes</value>
+  </data>
+  <data name="Target_Intro" xml:space="preserve">
+    <value>Par groupe et rôle : les règles du périmètre avec leur valeur attendue, générée à partir du contrôle lui-même, leur applicabilité et les sources qui étayent la valeur. Une fois approuvé, ce document est la configuration cible de l'installation, et Riegel contrôle les postes par rapport à elle.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Target_Inventory" xml:space="preserve">
+    <value>règle d'inventaire (sans évaluation)</value>
+  </data>
+  <data name="Target_NoRules" xml:space="preserve">
+    <value>Aucune règle dans le périmètre de ce groupe.</value>
+  </data>
+  <data name="Target_Prov_Acsc" xml:space="preserve">
+    <value>étayées par l'ACSC (CC BY 4.0)</value>
+  </data>
+  <data name="Target_Prov_Disa" xml:space="preserve">
+    <value>étayées par les STIG de la DISA</value>
+  </data>
+  <data name="Target_Prov_MsDocs" xml:space="preserve">
+    <value>étayées par la documentation Microsoft Windows Server (CC BY 4.0)</value>
+  </data>
+  <data name="Target_Prov_MsLearn" xml:space="preserve">
+    <value>étayées par des faits Microsoft Learn</value>
+  </data>
+  <data name="Target_Prov_Msb" xml:space="preserve">
+    <value>également dans une base de sécurité Microsoft (simple corroboration)</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Target_Prov_Total" xml:space="preserve">
+    <value>Règles avec valeur attendue</value>
+  </data>
+  <data name="Target_Provenance_Heading" xml:space="preserve">
+    <value>Provenance des valeurs attendues</value>
+  </data>
+  <data name="Target_Reference" xml:space="preserve">
+    <value>Se rapporte à la configuration cible de l'installation {0}, situation au {1}.</value>
+  </data>
+  <data name="Target_RulesBacked" xml:space="preserve">
+    <value>Règles</value>
+  </data>
+  <data name="Target_SignOff_Heading" xml:space="preserve">
+    <value>Approbation de la configuration cible</value>
+  </data>
+  <data name="Target_SignOff_Intro" xml:space="preserve">
+    <value>Par leur signature, les rôles ci-dessous adoptent cette configuration cible pour l'installation. Toute modification exige une nouvelle version de ce document.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Target_Tailoring" xml:space="preserve">
+    <value>Décisions de périmètre du groupe {0}</value>
+  </data>
+  <data name="Target_Title" xml:space="preserve">
+    <value>Configuration cible</value>
+  </data>
+  <data name="Tool_Line" xml:space="preserve">
+    <value>{0} {1} (commit {2})</value>
+  </data>
+  <data name="Truncated" xml:space="preserve">
+    <value>Abrégé : {0} sur {1} affichés – complet dans le classeur Excel et le JSON des résultats.</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>inconnu</value>
+  </data>
+  <data name="Vendor_Heading" xml:space="preserve">
+    <value>Écarts exigés par le logiciel de la machine</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Vendor_Intro" xml:space="preserve">
+    <value>Exceptions créées par le constructeur (rôle « Constructeur ») ou importées de ses modèles.</value>
+    <comment>TODO-übersetzen</comment>
+  </data>
+  <data name="Vendor_None" xml:space="preserve">
+    <value>Aucun écart enregistré par le constructeur.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>oui</value>
   </data>
 </root>
