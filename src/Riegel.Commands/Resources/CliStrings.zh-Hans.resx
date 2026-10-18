@@ -102,6 +102,7 @@
   </data>
   <data name="Cli_BaselineContentWarning" xml:space="preserve">
     <value>警告：证据包包含已导入基线的完整内容。请确认其许可证允许转交（Microsoft、BSI 和 CIS 的条款可能不允许）。</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Cli_BaselineImported" xml:space="preserve">
     <value>基线 {0}（{1}）已导入：{2} 条规则，来源 SHA-256 {3}</value>
@@ -208,6 +209,7 @@ SHA-256：{1}</value>
   </data>
   <data name="Cli_Description" xml:space="preserve">
     <value>对照加固基线检查工厂、实验室和控制室中的 Windows 计算机（只读、离线），记录有正当理由的例外，并生成可供签署的证据报告。</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Cli_DriftLine" xml:space="preserve">
     <value>  {0}  {1}：{2} → {3}</value>
@@ -457,6 +459,7 @@ SHA-256：{1}</value>
 --record 是您的变更、QMS 或批准参考编号。
 
 退出代码：0 成功，3 错误。</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Baseline" xml:space="preserve">
     <value>用法：{0} baseline &lt;子命令&gt; --plant &lt;文件夹&gt; …
@@ -487,6 +490,7 @@ SHA-256：{1}</value>
   change：严重 regression,newhigh · 警告 expired,expiring,pending,overdue,incomplete,stale,clock
   state： 严重 regression,high · 警告 medium,low,expired,expiring,pending,overdue,incomplete,stale,clock
 退出代码：0 OK，1 WARNING，2 CRITICAL，3 UNKNOWN。</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Collect" xml:space="preserve">
     <value>用法：{0} collect [--out &lt;文件夹&gt;] [--gzip] [--minimal] [--deep] [--pseudonymize]
@@ -501,6 +505,7 @@ SHA-256：{1}</value>
   --pseudonymize     替换计算机名、帐户名和路径名
 
 退出代码：0 完整，1 已写入但不完整（未提升权限或部分项目被拒绝），3 未写入任何内容。</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_CollectionRecord" xml:space="preserve">
     <value>用法：{0} collection-record --plant &lt;文件夹&gt; [--import &lt;ID&gt;|--latest] [--out &lt;文件夹&gt;] [--language &lt;代码&gt;]
@@ -508,6 +513,7 @@ SHA-256：{1}</value>
 写入某次导入（默认：最新一次）供签署的采集记录：含哈希值的导出文件、采集器、选项、采集人员和见证人的角色以及签名栏。
 
 退出代码：0 成功，3 错误。</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Collector" xml:space="preserve">
     <value>用法：{0} collector export &lt;文件夹&gt;
@@ -544,6 +550,7 @@ SHA-256：{1}</value>
   import-template &lt;模板.json&gt;                    将模板中的条目作为已申请的例外添加
 
 退出代码：0 成功，3 错误；validate 见上。</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_ExitCodes" xml:space="preserve">
     <value>退出代码：0 OK，1 WARNING，2 CRITICAL，3 UNKNOWN（用法错误、导出文件无法读取或已损坏、校验和不符、I/O 错误）。
@@ -563,6 +570,7 @@ verify：0 已重现，2 不一致 · compare-snapshot：0 一致，1 不同 · 
   --brief, --format, --alert, --critical, --warning    与 check 相同（默认告警模式：change）
 
 退出代码与 check 相同。</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Measures" xml:space="preserve">
     <value>用法：{0} measures &lt;子命令&gt; --plant &lt;文件夹&gt; …
@@ -576,6 +584,7 @@ verify：0 已重现，2 不一致 · compare-snapshot：0 一致，1 不同 · 
                                                  关闭一项措施（默认：已完成）
 
 退出代码：0 成功，3 错误。</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Overview" xml:space="preserve">
     <value>用法：{0} &lt;命令&gt; [选项]        {0} &lt;命令&gt; --help 显示某个命令的选项
@@ -615,6 +624,7 @@ verify：0 已重现，2 不一致 · compare-snapshot：0 一致，1 不同 · 
   --info                       产品、许可证、链接和数据文件夹
   --licenses, --lizenzen       许可证文本
   --nur-lesen, --read-only     不向设备文件夹写入任何内容（文档只写入 --out）</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Plant" xml:space="preserve">
     <value>用法：{0} plant init &lt;文件夹&gt; --name &lt;名称&gt;
@@ -630,6 +640,7 @@ verify：0 已重现，2 不一致 · compare-snapshot：0 一致，1 不同 · 
 remediation/&lt;计算机&gt;/&lt;运行&gt;/ 下。Riegel 从不执行这些文件；请事先与设备制造商协商每项更改。
 
 退出代码：0 成功，3 错误。</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Report" xml:space="preserve">
     <value>用法：{0} report --plant &lt;文件夹&gt; [选项]
@@ -648,6 +659,7 @@ remediation/&lt;计算机&gt;/&lt;运行&gt;/ 下。Riegel 从不执行这些文
   --out &lt;文件夹&gt;                    目标文件夹（默认：设备文件夹中的 reports/&lt;时间&gt;/）
 
 退出代码：0 成功，3 错误。</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Rules" xml:space="preserve">
     <value>用法：{0} rules [--id &lt;ID&gt;] [--format text|json|md]
@@ -666,6 +678,7 @@ remediation/&lt;计算机&gt;/&lt;运行&gt;/ 下。Riegel 从不执行这些文
 即将过期的例外和逾期措施。写入 --out 或当前文件夹。
 
 退出代码：0 成功，3 错误。</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Tailoring" xml:space="preserve">
     <value>用法：{0} tailoring &lt;子命令&gt; --plant &lt;文件夹&gt; …
@@ -677,6 +690,7 @@ remediation/&lt;计算机&gt;/&lt;运行&gt;/ 下。Riegel 从不执行这些文
   import-template &lt;模板.json&gt;                    将角色模板中的条目作为已申请的范围裁剪添加
 
 退出代码：0 成功，3 错误；validate 见上。</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_TargetConfig" xml:space="preserve">
     <value>用法：{0} target-config --plant &lt;文件夹&gt; [--group &lt;ID&gt;] [--out &lt;文件夹&gt;] [--language &lt;代码&gt;]
@@ -685,6 +699,7 @@ remediation/&lt;计算机&gt;/&lt;运行&gt;/ 下。Riegel 从不执行这些文
 已导入的基线以及期望值的来源。
 
 退出代码：0 成功，3 错误。</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Verify" xml:space="preserve">
     <value>用法：{0} verify &lt;证据包.zip&gt; [--format text|json]
