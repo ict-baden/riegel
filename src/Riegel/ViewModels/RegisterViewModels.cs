@@ -423,14 +423,31 @@ internal sealed class TailoringViewModel : RegisterPageViewModel
 }
 
 /// <summary>Eine eingebettete Rollenvorlage für den Zuschnitt (templates/tailoring/*.json in Riegel.Core).</summary>
-internal sealed record RoleTemplate(string ResourceName, string Name)
+/// <param name="Key">Dateiname ohne Endung, z. B. „historian-server“ (so heißt die Vorlage auch im Konsolenprogramm).</param>
+/// <param name="Name">Rollenname in der Sprache der Oberfläche (MachineRole_*), sonst der Schlüssel.</param>
+internal sealed record RoleTemplate(string ResourceName, string Key, string Name)
 {
+    // Vorlage → Rechnerrolle, deren Name auf der Schaltfläche steht
+    private static readonly Dictionary<string, Core.Model.MachineRole> Roles = new(StringComparer.Ordinal)
+    {
+        ["hmi"] = Core.Model.MachineRole.Hmi,
+        ["engineering-station"] = Core.Model.MachineRole.EngineeringStation,
+        ["historian-server"] = Core.Model.MachineRole.Historian,
+        ["jump-host"] = Core.Model.MachineRole.JumpHost,
+    };
+
     public static IEnumerable<RoleTemplate> Embedded()
     {
         var assembly = typeof(Core.Model.Snapshot).Assembly;
         foreach (var name in assembly.GetManifestResourceNames().Where(n => n.StartsWith("templates/tailoring/", StringComparison.Ordinal)).Order(StringComparer.Ordinal))
-            yield return new RoleTemplate(name, Path.GetFileNameWithoutExtension(name).Replace(".tailoring-template", "", StringComparison.Ordinal));
+        {
+            var key = Path.GetFileNameWithoutExtension(name).Replace(".tailoring-template", "", StringComparison.Ordinal);
+            yield return new RoleTemplate(name, key, Roles.TryGetValue(key, out var role) ? Texts.Role(role) : key);
+        }
     }
+
+    /// <summary>Vorlagen ohne Rollenzuordnung (würden auf der Schaltfläche als Dateiname erscheinen).</summary>
+    public static IEnumerable<string> Unmapped() => Embedded().Select(t => t.Key).Where(k => !Roles.ContainsKey(k));
 
     /// <summary>In eine temporäre Datei schreiben (der Register-Dienst liest Vorlagen aus Dateien).</summary>
     public string Extract()

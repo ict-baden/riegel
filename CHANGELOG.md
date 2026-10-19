@@ -27,6 +27,7 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 - Mehrzahl in Oberfläche, Konsolenprogramm und Registermeldungen über `_one`/`_other` nach den Regeln der Sprache (vorher „1 findings“, „1 exports added“, „1 errors“, „in 1 days“); Daten in den Meldungen der Registerprüfung folgen in der Oberfläche dem Gebietsschema, in JSON bleiben sie ISO 8601.
 - Entwicklerdoku: der Befehl zum Neuerzeugen von docs/error-codes.md schließt den Fehlercode-Test ein.
 - Oberfläche: Listenspalten werden nie schmaler als ihr Kopf in der gewählten Sprache („Geltungsbereich“, „Verantwortlich (Rolle)“, „Responsable (función)“ wurden abgeschnitten); die Layout-Prüfung der Screenshots meldet abgeschnittene Spaltenköpfe.
+- Zuschnitt: die Schaltflächen der Rollenvorlagen zeigen den Rollennamen in der Sprache der Oberfläche (z. B. „Bedienstation (HMI)“) statt des Dateinamens („hmi“, „jump-host“).
 
 ### Geändert
 - Lizenzen: die Drittanbieter-Hinweise der mitgelieferten .NET-Laufzeit und von WPF (Stand v10.0.13) liegen jetzt als `THIRD-PARTY-NOTICES-dotnet-runtime.txt` und `THIRD-PARTY-NOTICES-dotnet-wpf.txt` neben den Programmen und sind in `--licenses` und der Info-Seite enthalten; vorher nur ein Link auf den Zweig main. Die CI vergleicht den Text mit den veröffentlichten Runtime-Paketen.
