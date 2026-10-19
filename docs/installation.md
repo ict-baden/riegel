@@ -50,7 +50,7 @@ scheduled tasks.
   `Riegel-Collector-0.1.0.zip`, `riegel-0.1.0-linux-x64` (`Riegel.exe` keeps its name).
 - **OT customers use tag releases, never `latest`:** the collector's hash, its AppLocker data and its read-only proof
   belong to exactly that release, and a change request names that version. The collector has its own version
-  (currently 0.1.0, SHA-256 in the release notes); release notes say "Sammler unverändert seit <version>" when its bytes
+  (currently 0.1.0, SHA-256 in the release notes); release notes say "Sammler unverändert seit <tag>" when its bytes
   did not change.
 
 | File | Content |

@@ -503,7 +503,38 @@ jobs:
         run: |
           # v1.0.0-rc1 und ähnliche: Vorabversion, nicht „Latest“
           $pre = if ($env:GITHUB_REF_NAME -match '-') { @('--prerelease') } else { @() }
-          gh release create $env:GITHUB_REF_NAME (Get-ChildItem dist/*).FullName --title "$env:APP $env:GITHUB_REF_NAME" --generate-notes @pre
+          # Genau die elf Dateien aus spec 4.6 mit Versionsnummer (Riegel.exe ohne) – sonst kein Release
+          $s = '${{ steps.version.outputs.suffix }}'
+          $expected = "$env:APP$s-x64.msi", "$env:APP.exe", "$env:APP$s-win-x64-framework.zip", "riegel$s-win-x64.exe", "riegel$s-linux-x64",
+                      "riegel$s-linux-arm64", "Riegel-Collector$s.zip", "Riegel-Collector-allowlist$s.zip", "Riegel-Collector-ReadOnlyProof$s.txt",
+                      "$env:APP$s-sbom.cdx.json", 'SHA256SUMS.txt'
+          $files = @(Get-ChildItem dist -File)
+          $absent = @($expected | Where-Object { $_ -notin $files.Name })
+          $extra = @($files.Name | Where-Object { $_ -notin $expected })
+          if ($absent.Count -gt 0 -or $extra.Count -gt 0) { throw "Dateien in dist/: fehlen [$($absent -join ', ')], unerwartet [$($extra -join ', ')] – kein Release." }
+          # Release-Text (spec 4.3): Sammler-Version und SHA-256; „unverändert seit“, wenn ältere Tags dieselben Sammler-Bytes hatten
+          $hash = '${{ steps.collector.outputs.sha256 }}'
+          $signed = if ($env:SIGN -eq 'true') { 'signiert' } else { 'noch nicht signiert – kein Kundenpilot auf OT- oder validierten Rechnern' }
+          $notes = "Sammler ${{ steps.version.outputs.collector }}, SHA-256 (unsigniert) $hash. Programme $signed."
+          try {
+            git fetch --quiet --depth=1 origin '+refs/tags/v*:refs/tags/v*'
+            $current = [version](($env:GITHUB_REF_NAME -replace '^v', '') -replace '[-+].*$', '')
+            $older = @(git tag --list 'v*' | Where-Object { $_ -match '^v\d+\.\d+\.\d+$' -and [version]$_.Substring(1) -lt $current } |
+                       Sort-Object { [version]$_.Substring(1) } -Descending)
+            $lock = 'src/Riegel.Collector/collector.sha256'
+            $since = $null
+            foreach ($tag in $older) {
+              if (-not (git ls-tree --name-only $tag $lock)) { break }
+              if ((git show "${tag}:$lock" | Out-String).Trim().ToLower() -ne $hash) { break }
+              $since = $tag
+            }
+            if ($since) { $notes += " Sammler unverändert seit $since." }
+          } catch {
+            Write-Host "::warning::Vergleich des Sammlers mit älteren Tags nicht möglich: $_"
+          }
+          $notes += "`n`nFür OT- und validierte Rechner diese Tag-Releases nehmen, nie 'latest'. Prüfsummen: SHA256SUMS.txt (sha256sum -c). Änderungen: CHANGELOG.md.`n"
+          Write-Host $notes
+          gh release create $env:GITHUB_REF_NAME $files.FullName --title "$env:APP $env:GITHUB_REF_NAME" --notes $notes --generate-notes @pre
           if ($LASTEXITCODE -ne 0) { throw "Release ließ sich nicht anlegen ($LASTEXITCODE)" }
 
       - name: "Release 'latest' aktualisieren (main)"
@@ -532,3 +563,45 @@ jobs:
           $expected = 'Riegel-x64.msi', 'Riegel.exe', 'Riegel-win-x64-framework.zip', 'riegel-win-x64.exe', 'riegel-linux-x64', 'riegel-linux-arm64',
                       'Riegel-Collector.zip', 'Riegel-Collector-allowlist.zip', 'Riegel-Collector-ReadOnlyProof.txt', 'Riegel-sbom.cdx.json', 'SHA256SUMS.txt'
           ./.github/scripts/release-latest.ps1 -Notes $notes -Title "Latest Build (main) – ${{ steps.version.outputs.version }}" -Expected $expected
+
+  release-check:
+    # Nach dem Veröffentlichen unter Linux nachprüfen, was ein Kunde herunterlädt: genau die elf Dateien aus spec 4.6,
+    # SHA256SUMS.txt mit LF und `sha256sum -c`, die innere Prüfsummendatei des Sammler-Pakets, die Linux-Befehlszeile
+    # startet. Lädt aus dem Release, nicht aus Artefakten (Linux-Minuten zählen einfach).
+    needs: windows
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref_type == 'tag')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Release herunterladen und prüfen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "$GITHUB_REF_TYPE" = tag ]; then tag="$GITHUB_REF_NAME"; s="-${GITHUB_REF_NAME#v}"; else tag=latest; s=""; fi
+          dir="$RUNNER_TEMP/release"
+          gh release download "$tag" -R "$GITHUB_REPOSITORY" -D "$dir"
+          cd "$dir"
+          want=$(printf '%s\n' "Riegel$s-x64.msi" Riegel.exe "Riegel$s-win-x64-framework.zip" "riegel$s-win-x64.exe" "riegel$s-linux-x64" \
+            "riegel$s-linux-arm64" "Riegel-Collector$s.zip" "Riegel-Collector-allowlist$s.zip" "Riegel-Collector-ReadOnlyProof$s.txt" \
+            "Riegel$s-sbom.cdx.json" SHA256SUMS.txt | LC_ALL=C sort)
+          have=$(ls -1 | LC_ALL=C sort)
+          if [ "$have" != "$want" ]; then
+            diff <(echo "$want") <(echo "$have") || true
+            echo "::error::Dateien von '$tag' weichen von spec 4.6 ab"; exit 1
+          fi
+          if grep -q $'\r' SHA256SUMS.txt; then echo "::error::SHA256SUMS.txt hat CRLF-Zeilenenden"; exit 1; fi
+          listed=$(awk '{print $2}' SHA256SUMS.txt | LC_ALL=C sort)
+          if [ "$listed" != "$(echo "$want" | grep -vx SHA256SUMS.txt)" ]; then echo "::error::SHA256SUMS.txt nennt nicht genau die übrigen Dateien"; exit 1; fi
+          sha256sum -c SHA256SUMS.txt
+          mkdir collector
+          unzip -q "Riegel-Collector$s.zip" -d collector
+          (cd collector && sha256sum -c SHA256SUMS.txt)
+          chmod +x "riegel$s-linux-x64"
+          version=$("./riegel$s-linux-x64" --version)
+          echo "$version"
+          if [ "$GITHUB_REF_TYPE" = tag ] && [[ "$version" != "Riegel ${GITHUB_REF_NAME#v} "* ]]; then
+            echo "::error::riegel$s-linux-x64 meldet nicht die Version ${GITHUB_REF_NAME#v}"; exit 1
+          fi
+          echo "Release '$tag': 11 Dateien, SHA256SUMS.txt und Sammler-Prüfsummen stimmen, Linux-Befehlszeile startet."

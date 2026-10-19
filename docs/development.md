@@ -258,7 +258,13 @@ branch cancels the running build (`concurrency`); tag builds always finish.
   publish the app (framework, self-contained, single file), `Riegel.Cli.exe`, `riegel-win-x64.exe` and the Linux CLIs
   (cross-published); pack the collector reproducibly; read-only proof (before the MSI test, which wakes services and
   the installer); MSI build and an install/uninstall test on the runner; AppLocker data; demo report with every
-  document O1–O15; SBOM; checksums; releases.
+  document O1–O15; SBOM; checksums; releases. A tag build creates its release only with exactly the eleven versioned
+  files; its notes name the collector version and SHA-256 and "Sammler unverändert seit <tag>" when older tags had the
+  same collector bytes.
+- **release-check** (after windows, on pushes to `main` and tags): downloads the release just published (`latest` or
+  the tag) and checks on Linux that it has exactly the eleven files, that `SHA256SUMS.txt` has LF line endings, lists
+  every other file and passes `sha256sum -c`, that the collector ZIP's inner `SHA256SUMS.txt` passes, and that
+  `riegel-linux-x64` starts (with the tag's version).
 - **Collector** (`collector.yml`, on changes to the collector, the platform, the built-in commands, the proof, the
   anonymiser, the plan or the snapshot schema): on `windows-2022`, `windows-2025` and `windows-11-arm`, build twice,
   run elevated and as a Basic User, compare the item sets of net35 and `Riegel.Cli.exe collect`, validate against the
@@ -280,8 +286,9 @@ Releases never depend on artifacts (the organisation's artifact storage may be f
 1. `CHANGELOG.md`: rename "Unveröffentlicht" to `## [x.y.z] – <date>`; `Directory.Build.props` `<Version>`; the
    catalogue's `releasedOn` in `rules/catalogue.json` when the catalogue changes; the collector version and hash when
    the collector changes.
-2. Push `main`, wait for a green build (it updates `latest`), check both asset lists.
-3. `git tag vX.Y.Z && git push origin vX.Y.Z`: the tag build creates the release with the versioned file names.
+2. Push `main`, wait for a green build (it updates `latest`; release-check verifies it), check the asset list.
+3. `git tag vX.Y.Z && git push origin vX.Y.Z`: the tag build creates the release with the versioned file names, and
+   release-check verifies it.
 4. Follow the release checklist of the ICT-Baden guidelines (`CHECKLISTE-RELEASE.md`).
 
 ## Rules for this repository

@@ -105,8 +105,13 @@ These are open tasks for a lab and a real OT environment (gate for version 1.0):
   Schannel table ends at 24H2 / Server 2025.
 - **APP-01** recognises App Control (WDAC) user-mode enforcement only; AppLocker enforcement cannot be tested with the
   closed vocabulary yet – machines using AppLocker or a third-party allow-listing product need an exception.
-- **ENC-04** checks the pre-boot PIN policy, not the actual key protectors; **ENC-06** checks the DMA policy, not the
-  runtime Kernel DMA Protection state.
+- **ENC-04** needs the key protectors of the operating system volume, which only an elevated collection lists; without
+  them the rule is not checkable. **ENC-06** checks the DMA policy, not the firmware's Kernel DMA Protection state
+  (`AvailableSecurityProperties` of `Win32_DeviceGuard`, not collected yet): a set policy is "configured, effect not proven" (not checkable), never met,
+  also on a machine whose firmware lacks the protection. Collecting the state needs a new collector version.
+- **FW-01 to FW-06 and FW-11** take the Group Policy value when set, else the local setting reported by the firewall
+  service (`INetFwPolicy2`). Settings made only through MDM (Firewall CSP) and the effective state of the active store
+  (`MSFT_NetFirewallProfile`) are not collected yet; that needs a new collector version.
 - **DEF-17** and **MED-06** do not recognise settings made only through MDM; the ASR rules read the effective state from
   Defender first, and a value only in the Group Policy store is "configured, effect not proven".
 - **Office detection** (ASR-05) and **remote-access tools** (APP-06) match documented keys and product names; display
