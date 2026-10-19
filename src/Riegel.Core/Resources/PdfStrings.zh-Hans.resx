@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
@@ -734,7 +735,7 @@
     <value>运行</value>
   </data>
   <data name="Machine_ScoresValue" xml:space="preserve">
-    <value>加固程度 {0} · 已记录 {1} · 检查范围 {2}</value>
+    <value>加固程度 {0} · 已记录 {1} · 检查覆盖率 {2}</value>
   </data>
   <data name="Machine_SnapshotSha" xml:space="preserve">
     <value>导出文件 SHA-256</value>
@@ -874,7 +875,7 @@
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Score" xml:space="preserve">
-    <value>权重：高 3、中 2、低 1，基于可检查的结果（符合、不符合、有意保留）。加固程度 = 加权符合 ÷ 可检查；已记录 = （符合 + 有意保留）÷ 可检查。例外绝不会提高加固程度；范围裁剪使规则不计入两项数值。审核类别最多贡献 12 个权重点。检查范围 = 可检查 ÷（适用 − 不在检查范围内 − 清单）。最后四舍五入。域控制器没有加固程度。</value>
+    <value>权重：高 3、中 2、低 1，基于可检查的结果（符合、不符合、有意保留）。加固程度 = 加权符合 ÷ 可检查；已记录 = （符合 + 有意保留）÷ 可检查。例外绝不会提高加固程度；范围裁剪使规则不计入两项数值。审核类别最多贡献 12 个权重点。检查覆盖率 = 可检查 ÷（适用 − 不在检查范围内 − 清单）。最后四舍五入；检查覆盖率截断为整数百分比。域控制器没有加固程度。</value>
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Score_Heading" xml:space="preserve">
@@ -1084,7 +1085,7 @@
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Score_CheckedShare" xml:space="preserve">
-    <value>检查范围</value>
+    <value>检查覆盖率</value>
   </data>
   <data name="Score_Documented" xml:space="preserve">
     <value>已记录</value>
@@ -1101,7 +1102,7 @@
     <value>加固程度</value>
   </data>
   <data name="Scores_Share" xml:space="preserve">
-    <value>检查范围 {0}</value>
+    <value>检查覆盖率 {0}</value>
   </data>
   <data name="Scores_Value" xml:space="preserve">
     <value>{0} / {1}</value>

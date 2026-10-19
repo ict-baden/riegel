@@ -175,7 +175,13 @@ public sealed partial class CatalogueInvariantTests
             foreach (var rule in rules.Rules.Where(r => r.Kind == RuleKind.Check && r.State == RuleState.Active))
             {
                 var tests = rule.Tests;
-                if (!tests.Any(t => t.Expect == ResultStatus.Pass)) problems.Add($"{rule.Id}: kein Vektor mit pass");
+                // Eine Regel, deren erfüllter Wert nur Konfiguration ist (registry configuredOnly), kann nie pass
+                // ergeben: dort tritt der Vektor „nicht prüfbar, ConfiguredOnly“ an die Stelle des pass-Vektors
+                bool configuredOnly = Flatten(rule.Check).OfType<RegistryCheck>().Any(r => r.ConfiguredOnly == true);
+                if (configuredOnly
+                        ? !tests.Any(t => t.Expect == ResultStatus.NotCheckable && (t.ExpectFlags ?? []).Contains("configuredOnly", StringComparer.Ordinal))
+                        : !tests.Any(t => t.Expect == ResultStatus.Pass))
+                    problems.Add($"{rule.Id}: kein Vektor mit pass" + (configuredOnly ? " (bzw. notCheckable mit configuredOnly)" : ""));
                 if (!tests.Any(t => t.Expect == ResultStatus.Fail)) problems.Add($"{rule.Id}: kein Vektor mit fail");
                 if (!tests.Any(t => t.Items.Values.Any(i => i.Status == ItemStatus.NotCollected)))
                     problems.Add($"{rule.Id}: kein Vektor mit einem NotCollected-Eintrag");

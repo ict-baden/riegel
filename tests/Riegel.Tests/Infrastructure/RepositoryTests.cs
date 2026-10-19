@@ -77,6 +77,25 @@ public sealed partial class RepositoryTests
         Assert.Equal(uploads.Count, Regex.Matches(workflow, @"retention-days: 7").Count);
     }
 
+    /// <summary>
+    /// Regressionstest (Review legal-3): die Stückliste entsteht aus den deps.json aller ausgelieferten Programme – auch
+    /// Riegel.Cli.exe für Windows, das System.CodeDom mitbringt – und nennt die WiX-Custom-Action der MSI.
+    /// </summary>
+    [Fact]
+    public void Stueckliste_kennt_alle_ausgelieferten_Programme_und_die_MSI_Erweiterung()
+    {
+        var workflow = File.ReadAllText(Path.Combine(RepoPaths.Root, ".github", "workflows", "build.yml"));
+        foreach (var deps in new[] { "src/Riegel.Cli/obj/Release/net10.0-windows10.0.19041.0/win-x64/Riegel.Cli.deps.json",
+                     "src/Riegel.Cli/obj/Release/net10.0/linux-x64/Riegel.Cli.deps.json", "src/Riegel.Cli/obj/Release/net10.0/linux-arm64/Riegel.Cli.deps.json" })
+            Assert.Contains(deps, workflow, StringComparison.Ordinal);
+        Assert.Contains("$deps.Count -ne 4", workflow, StringComparison.Ordinal);
+        Assert.Contains("-WixProject installer/Riegel.Installer.wixproj", workflow, StringComparison.Ordinal);
+        var script = File.ReadAllText(Path.Combine(RepoPaths.Root, ".github", "scripts", "sbom-shipped.ps1"));
+        Assert.Contains("'WixToolset.Util.wixext'", script, StringComparison.Ordinal);
+        Assert.Contains("MS-RL", script, StringComparison.Ordinal);
+        Assert.Contains("WixToolset.Util.wixext", File.ReadAllText(Path.Combine(RepoPaths.Root, "installer", "Riegel.Installer.wixproj")), StringComparison.Ordinal);
+    }
+
     [GeneratedRegex(@"\{\{[A-Z_]+\}\}")]
     private static partial Regex Placeholder();
 }

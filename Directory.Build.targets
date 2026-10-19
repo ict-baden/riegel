@@ -1,0 +1,18 @@
+<Project>
+  <!--
+    PDFsharp 6.2.4 bringt drei Bibliotheken mit, die Riegel nicht nutzt und nicht ausliefern darf bzw. muss:
+    - PdfSharp.WPFonts.dll enthält sechs Segoe-WP-Schriften von Microsoft („© 2010 Microsoft Corporation. All Rights
+      Reserved.“, Nutzung nur nach der EULA des Produkts, mit dem sie kamen) – kein Recht zur Weitergabe;
+    - PdfSharp.Snippets.dll und PdfSharp.Quality.dll sind Beispiel- und Prüfcode und die einzigen, die WPFonts verwenden.
+    Sie werden nach dem Auflösen der Paketdateien entfernt, bevor deps.json und die Ausgabe entstehen (Build, Publish,
+    Einzeldatei, MSI). ThirdPartyNoticesTests prüft das an den deps.json-Dateien, die CI an den ausgelieferten.
+  -->
+  <Target Name="RiegelOhnePdfSharpZusatzbibliotheken" AfterTargets="ResolvePackageAssets">
+    <ItemGroup>
+      <RuntimeCopyLocalItems Remove="@(RuntimeCopyLocalItems)"
+                             Condition="'%(Filename)' == 'PdfSharp.WPFonts' or '%(Filename)' == 'PdfSharp.Snippets' or '%(Filename)' == 'PdfSharp.Quality'" />
+      <RuntimePackAsset Remove="@(RuntimePackAsset)"
+                        Condition="'%(Filename)' == 'PdfSharp.WPFonts' or '%(Filename)' == 'PdfSharp.Snippets' or '%(Filename)' == 'PdfSharp.Quality'" />
+    </ItemGroup>
+  </Target>
+</Project>

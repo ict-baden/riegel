@@ -82,10 +82,10 @@ internal sealed class FactsDeriver : IFactsDeriver
             // ---- Fähigkeiten (aus der Tabelle, Kopf-Felder wie oben)
             foreach (var entry in catalogue.Capabilities.Capabilities.OrderBy(e => e.Capability, StringComparer.Ordinal))
             {
-                var exists = CapabilityMatcher.Exists(entry, facts.Kind, facts.Build, facts.Edition, facts.InstallationType);
+                var exists = CapabilityMatcher.Exists(entry, facts.Kind, facts.Build, facts.Ubr, facts.Edition, facts.InstallationType);
                 var name = FactNames.CapabilityPrefix + entry.Capability;
                 facts.Values[name] = exists is { } x ? JsonValues.Bool(x) : JsonValues.Null;
-                facts.Sources[name] = facts.SourcesOf(FactNames.OsKind).Union(facts.SourcesOf(FactNames.OsBuild))
+                facts.Sources[name] = facts.SourcesOf(FactNames.OsKind).Union(facts.SourcesOf(FactNames.OsBuild)).Union(facts.SourcesOf(FactNames.OsUbr))
                     .Union(facts.SourcesOf(FactNames.OsEdition)).Union(facts.SourcesOf(FactNames.OsInstallationType));
             }
         }
@@ -198,11 +198,27 @@ internal sealed class FactsDeriver : IFactsDeriver
         var service = JsonRead.Bool(row, "AMServiceEnabled");
         var rtp = JsonRead.Bool(row, "RealTimeProtectionEnabled");
         string derived;
-        if (av == false || service == false) derived = FactNames.Defender.Off;
+        if (av == false || service == false)
+        {
+            // Review evidence-12: mit eingeschränktem Token liefert MpComputerStatus Platzhalter („Not running“, alles
+            // false, Signaturalter 65535). Meldet die dokumentierte WSC-API Microsoft Defender als eingeschaltet, ist
+            // „aus“ widerlegt: unbekannt statt eines falschen „kein aktiver Virenschutz“.
+            if (WscReportsDefenderOn(store)) return JsonValues.Text(FactNames.Defender.Unknown);
+            derived = FactNames.Defender.Off;
+        }
         else if (av == true && rtp == true && facts.Bool(FactNames.AvThirdPartyActive) == false) derived = FactNames.Defender.Active;
         else return JsonValues.Text(FactNames.Defender.Unknown);
         facts.Derived.Add(FactNames.DefenderMode);
         return JsonValues.Text(derived);
+    }
+
+    /// <summary>Meldet die WSC-API (api:wsc-av) Microsoft Defender mit Zustand „on“?</summary>
+    private static bool WscReportsDefenderOn(EvidenceStore store)
+    {
+        var wsc = store.Item(ItemKeys.WscAntivirus);
+        return wsc.IsPresent && wsc.Value.ValueKind == JsonValueKind.Array && wsc.Value.EnumerateArray().Any(p =>
+            p.ValueKind == JsonValueKind.Object && IsDefenderName(JsonRead.String(p, "name"))
+            && string.Equals(JsonRead.String(p, "state"), "on", StringComparison.OrdinalIgnoreCase));
     }
 
     /// <summary>Microsoft Defender in den Produktnamen von WSC und SecurityCenter2.</summary>

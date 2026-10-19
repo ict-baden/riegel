@@ -85,7 +85,8 @@ internal sealed class MachinesViewModel : PageViewModel
         Raise(nameof(Summary));
     }
 
-    public string Summary => Plant is null ? "" : Loc.F("Machines_Summary", Rows.Count, Rows.Count(r => r.Stale), Rows.Sum(r => r.Worse));
+    public string Summary => Plant is null ? "" : Loc.F("Machines_Summary", Loc.P("Machines_SummaryMachines", Rows.Count, Rows.Count), Loc.F("Machines_SummaryStale", Rows.Count(r => r.Stale)),
+        Loc.P("Machines_SummaryWorse", Rows.Sum(r => r.Worse), Rows.Sum(r => r.Worse)));
 
     internal static MachineRow RowFor(PlantContext plant, MachineState m)
     {
@@ -109,7 +110,7 @@ internal sealed class MachinesViewModel : PageViewModel
             Role = Texts.Role(m.Group?.Role),
             Os = OsText(run?.Facts),
             Collected = run is null ? Loc.T("Machines_NoRun") : Texts.Date(run.CollectedAtUtc),
-            CollectedHint = run is null ? "" : Loc.F("Format_DaysAgo", age),
+            CollectedHint = run is null ? "" : Loc.P("Format_DaysAgo", age, age),
             Stale = stale,
             StaleText = stale ? Loc.T("Machines_Stale") : "",
             OpenHigh = run?.Summary.OpenHigh ?? 0,

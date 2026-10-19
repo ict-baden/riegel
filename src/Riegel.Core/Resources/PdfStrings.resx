@@ -707,7 +707,7 @@
     <value>Run</value>
   </data>
   <data name="Machine_ScoresValue" xml:space="preserve">
-    <value>hardening level {0} · documented {1} · checked share {2}</value>
+    <value>hardening score {0} · documented {1} · checked share {2}</value>
   </data>
   <data name="Machine_SnapshotSha" xml:space="preserve">
     <value>Export SHA-256</value>
@@ -830,7 +830,7 @@
     <value>Provenance of the expected values (rules: {0}): ACSC {1}, Microsoft Windows Server documentation (CC BY 4.0) {2}, Microsoft Learn facts {3}, DISA {4}; also found in a Microsoft security baseline (corroboration only): {5}.</value>
   </data>
   <data name="Method_Score" xml:space="preserve">
-    <value>Weights: high 3, medium 2, low 1, over the checkable results (met, not met, deliberately open). Hardening level = weighted met ÷ checkable; documented = (met + deliberately open) ÷ checkable. Exceptions never raise the hardening level; tailoring removes the rule from both values. The audit category contributes at most 12 weight points. Checked share = checkable ÷ (applicable − out of scope − inventory). Rounded at the end, half away from zero. Domain controllers get no hardening level.</value>
+    <value>Weights: high 3, medium 2, low 1, over the checkable results (met, not met, deliberately open). Hardening score = weighted met ÷ checkable; documented = (met + deliberately open) ÷ checkable. Exceptions never raise the hardening score; tailoring removes the rule from both values. The audit category contributes at most 12 weight points. Checked share = checkable ÷ (applicable − out of scope − inventory). Rounded at the end, half away from zero; the checked share is truncated to whole percent. Domain controllers get no hardening score.</value>
   </data>
   <data name="Method_Score_Heading" xml:space="preserve">
     <value>Values</value>
@@ -1034,13 +1034,13 @@
     <value>Documented</value>
   </data>
   <data name="Score_Explained" xml:space="preserve">
-    <value>Hardening level: weighted share of met rules among the checkable ones (high 3, medium 2, low 1). Documented: met plus deliberately open. Checked share: checkable among the applicable rules in scope.</value>
+    <value>Hardening score: weighted share of met rules among the checkable ones (high 3, medium 2, low 1). Documented: met plus deliberately open. Checked share: checkable among the applicable rules in scope.</value>
   </data>
   <data name="Score_Greyed" xml:space="preserve">
     <value>Incomplete check: only {0} checkable – the values are not reliable and shown in grey.</value>
   </data>
   <data name="Score_Hardening" xml:space="preserve">
-    <value>Hardening level</value>
+    <value>Hardening score</value>
   </data>
   <data name="Scores_Share" xml:space="preserve">
     <value>checked {0}</value>
@@ -1151,7 +1151,7 @@
     <value>Details per plant are in the plant reports. Riegel supports evidence; it makes no compliance statement.</value>
   </data>
   <data name="SummaryDoc_Legend" xml:space="preserve">
-    <value>Supported OS: share of machines on an operating system still in support. Trend: open high findings at the last four month-ends, then today. Worse: regressions since the last run. Values: hardening level / documented, below them the checked share; grey = incomplete check.</value>
+    <value>Supported OS: share of machines on an operating system still in support. Trend: open high findings at the last four month-ends, then today. Worse: regressions since the last run. Values: hardening score / documented, below them the checked share; grey = incomplete check.</value>
   </data>
   <data name="SummaryDoc_NoHighFindings" xml:space="preserve">
     <value>No open high findings.</value>

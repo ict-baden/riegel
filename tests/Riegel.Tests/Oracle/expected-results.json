@@ -500,36 +500,28 @@
           "why": "Integration 2026-10-18: rules-b scopes the Domain-profile rules to domain members (DISA Windows Firewall STIG V2R2); ORACLE-PC is a workgroup machine whose Domain profile never applies (S2.1 domain applicability is recorded per rule)."
         },
         "FW-02": {
-          "status": "pass",
-          "absentFlags": [
-            "fromDefault"
-          ],
-          "why": "R§3 Firewall: all 3 profiles on via HNetCfg.FwPolicy2 (runtime); Private profile enabled (S2.3 firewallProfile)."
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Review evidence-1: a set Group Policy value overrides the local enabled state that HNetCfg.FwPolicy2 reports (Microsoft Learn get_FirewallEnabled: 'enabled locally (the effective result may differ due to group policy settings)'). R does not report the GPO store SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile, so the snapshot has no coverage there and absence of a policy cannot be proven (S2.4.1). R§3 runtime: all profiles on, inbound block (Private)."
         },
         "FW-03": {
-          "status": "pass",
-          "absentFlags": [
-            "fromDefault"
-          ],
-          "why": "R§3 Firewall: all 3 profiles on via HNetCfg.FwPolicy2 (runtime); Public profile enabled (S2.3 firewallProfile)."
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Review evidence-1: a set Group Policy value overrides the local enabled state that HNetCfg.FwPolicy2 reports (Microsoft Learn get_FirewallEnabled: 'enabled locally (the effective result may differ due to group policy settings)'). R does not report the GPO store SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile, so the snapshot has no coverage there and absence of a policy cannot be proven (S2.4.1). R§3 runtime: all profiles on, inbound block (Public)."
         },
         "FW-04": {
           "status": "notApplicable",
           "why": "Integration 2026-10-18: rules-b scopes the Domain-profile rules to domain members (DISA Windows Firewall STIG V2R2); ORACLE-PC is a workgroup machine whose Domain profile never applies (S2.1 domain applicability is recorded per rule)."
         },
         "FW-05": {
-          "status": "pass",
-          "absentFlags": [
-            "fromDefault"
-          ],
-          "why": "R§3 Firewall and R§3.2: inbound block on all profiles in the active store while the persistent store says NotConfigured; runtime decides (Private, S2.4.6)."
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Review evidence-1: a set Group Policy value overrides the local default inbound action that HNetCfg.FwPolicy2 reports (Microsoft Learn get_FirewallEnabled: 'enabled locally (the effective result may differ due to group policy settings)'). R does not report the GPO store SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile, so the snapshot has no coverage there and absence of a policy cannot be proven (S2.4.1). R§3 runtime: all profiles on, inbound block (Private)."
         },
         "FW-06": {
-          "status": "pass",
-          "absentFlags": [
-            "fromDefault"
-          ],
-          "why": "R§3 Firewall and R§3.2: inbound block on all profiles in the active store while the persistent store says NotConfigured; runtime decides (Public, S2.4.6)."
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Review evidence-1: a set Group Policy value overrides the local default inbound action that HNetCfg.FwPolicy2 reports (Microsoft Learn get_FirewallEnabled: 'enabled locally (the effective result may differ due to group policy settings)'). R does not report the GPO store SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile, so the snapshot has no coverage there and absence of a policy cannot be proven (S2.4.1). R§3 runtime: all profiles on, inbound block (Public)."
         },
         "FW-07": {
           "status": "notApplicable",
@@ -1358,36 +1350,28 @@
           "why": "Integration 2026-10-18: rules-b scopes the Domain-profile rules to domain members (DISA Windows Firewall STIG V2R2); ORACLE-PC is a workgroup machine whose Domain profile never applies (S2.1 domain applicability is recorded per rule)."
         },
         "FW-02": {
-          "status": "pass",
-          "absentFlags": [
-            "fromDefault"
-          ],
-          "why": "R§3 Firewall: all 3 profiles on via HNetCfg.FwPolicy2 (runtime); Private profile enabled (S2.3 firewallProfile)."
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Review evidence-1: a set Group Policy value overrides the local enabled state that HNetCfg.FwPolicy2 reports (Microsoft Learn get_FirewallEnabled: 'enabled locally (the effective result may differ due to group policy settings)'). R does not report the GPO store SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile, so the snapshot has no coverage there and absence of a policy cannot be proven (S2.4.1). R§3 runtime: all profiles on, inbound block (Private)."
         },
         "FW-03": {
-          "status": "pass",
-          "absentFlags": [
-            "fromDefault"
-          ],
-          "why": "R§3 Firewall: all 3 profiles on via HNetCfg.FwPolicy2 (runtime); Public profile enabled (S2.3 firewallProfile)."
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Review evidence-1: a set Group Policy value overrides the local enabled state that HNetCfg.FwPolicy2 reports (Microsoft Learn get_FirewallEnabled: 'enabled locally (the effective result may differ due to group policy settings)'). R does not report the GPO store SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile, so the snapshot has no coverage there and absence of a policy cannot be proven (S2.4.1). R§3 runtime: all profiles on, inbound block (Public)."
         },
         "FW-04": {
           "status": "notApplicable",
           "why": "Integration 2026-10-18: rules-b scopes the Domain-profile rules to domain members (DISA Windows Firewall STIG V2R2); ORACLE-PC is a workgroup machine whose Domain profile never applies (S2.1 domain applicability is recorded per rule)."
         },
         "FW-05": {
-          "status": "pass",
-          "absentFlags": [
-            "fromDefault"
-          ],
-          "why": "R§3 Firewall and R§3.2: inbound block on all profiles in the active store while the persistent store says NotConfigured; runtime decides (Private, S2.4.6)."
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Review evidence-1: a set Group Policy value overrides the local default inbound action that HNetCfg.FwPolicy2 reports (Microsoft Learn get_FirewallEnabled: 'enabled locally (the effective result may differ due to group policy settings)'). R does not report the GPO store SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile, so the snapshot has no coverage there and absence of a policy cannot be proven (S2.4.1). R§3 runtime: all profiles on, inbound block (Private)."
         },
         "FW-06": {
-          "status": "pass",
-          "absentFlags": [
-            "fromDefault"
-          ],
-          "why": "R§3 Firewall and R§3.2: inbound block on all profiles in the active store while the persistent store says NotConfigured; runtime decides (Public, S2.4.6)."
+          "status": "notCheckable",
+          "researchGap": true,
+          "why": "Review evidence-1: a set Group Policy value overrides the local default inbound action that HNetCfg.FwPolicy2 reports (Microsoft Learn get_FirewallEnabled: 'enabled locally (the effective result may differ due to group policy settings)'). R does not report the GPO store SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile, so the snapshot has no coverage there and absence of a policy cannot be proven (S2.4.1). R§3 runtime: all profiles on, inbound block (Public)."
         },
         "FW-07": {
           "status": "notApplicable",

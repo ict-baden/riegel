@@ -107,11 +107,29 @@ public static class LicenseTexts
     public const string LicenseFile = "LICENSE";
     public const string NoticesFile = "THIRD-PARTY-NOTICES.txt";
 
+    /// <summary>
+    /// Die Hinweise der mitgelieferten .NET-Laufzeiten, unverändert (notices/, Review legal-2): dotnet/runtime und
+    /// dotnet/wpf zum Tag v10.0.13; THIRD-PARTY-NOTICES.txt Abschnitt 12 verweist darauf.
+    /// </summary>
+    public static readonly string[] RuntimeNoticesFiles = ["THIRD-PARTY-NOTICES-dotnet-runtime.txt", "THIRD-PARTY-NOTICES-dotnet-wpf.txt"];
+
     /// <summary>Lizenztext von Riegel, null wenn er in dieser Ausgabe fehlt.</summary>
     public static string? License() => Read(LicenseFile);
 
-    /// <summary>Lizenzen der mitgelieferten Bestandteile, null wenn sie fehlen.</summary>
-    public static string? ThirdPartyNotices() => Read(NoticesFile);
+    /// <summary>
+    /// Lizenzen der mitgelieferten Bestandteile, null wenn sie fehlen: THIRD-PARTY-NOTICES.txt, danach die Hinweise der
+    /// .NET-Laufzeiten (auch in der einzelnen Exe ohne Dateien daneben).
+    /// </summary>
+    public static string? ThirdPartyNotices()
+    {
+        var main = Read(NoticesFile);
+        if (main is null) return null;
+        var text = new System.Text.StringBuilder(main.TrimEnd());
+        foreach (var file in RuntimeNoticesFiles)
+            if (Read(file) is { } runtime)
+                text.Append("\n\n\n===== ").Append(file).Append(" (see section 12) =====\n\n").Append(runtime.TrimEnd());
+        return text.Append('\n').ToString();
+    }
 
     /// <summary>Eingebettete Fassung, sonst die Datei neben der Exe.</summary>
     internal static string? Read(string name)

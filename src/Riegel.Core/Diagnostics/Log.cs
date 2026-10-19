@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Riegel.Core.Diagnostics;
 
@@ -15,8 +16,16 @@ namespace Riegel.Core.Diagnostics;
 /// Schreibt erst nach <see cref="Start"/> (die App ruft es beim Start auf; Tests nicht). Fehler beim Schreiben werden
 /// verschluckt – das Protokoll darf nie selbst einen Absturz auslösen.
 /// </remarks>
-public static class Log
+public static partial class Log
 {
+    /// <summary>
+    /// Bereinigt jede Zeile vor dem Schreiben (Review legal-6): Meldungen von IO- und Zugriffsfehlern enthalten den
+    /// vollen Pfad („Could not find file 'C:\Users\…'“) – in Hochkomma gesetzte Pfade werden zu „'…'“, danach ersetzt
+    /// der Anonymisierer des Diagnosepakets Laufwerks- und UNC-Pfade, Rechner-, Benutzer- und Domänennamen, Konten,
+    /// SIDs, Adressen und E-Mail-Adressen.
+    /// </summary>
+    private static readonly Lazy<Anonymizer> Scrubber = new(() => new Anonymizer());
+
     /// <summary>So viele Tage bleiben Protokolle liegen.</summary>
     public const int KeepDays = 7;
 
@@ -115,7 +124,7 @@ public static class Log
                 var path = Path.Combine(_folder, FileName(now));
                 var info = new FileInfo(path);
                 if (info.Exists && info.Length >= MaxBytesPerDay) return;
-                var line = $"{now:yyyy-MM-dd HH:mm:ss.fff} {level,-6} {message.Replace("\r", "", StringComparison.Ordinal)}{Environment.NewLine}";
+                var line = $"{now:yyyy-MM-dd HH:mm:ss.fff} {level,-6} {Clean(message).Replace("\r", "", StringComparison.Ordinal)}{Environment.NewLine}";
                 using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete);
                 var bytes = Encoding.UTF8.GetBytes(line);
                 stream.Write(bytes);
@@ -150,6 +159,13 @@ public static class Log
             }
         }
     }
+
+    /// <summary>Pfade, Namen und Adressen aus einer Protokollzeile entfernen.</summary>
+    internal static string Clean(string message) => Scrubber.Value.Apply(QuotedPath().Replace(message, "'…'"));
+
+    /// <summary>Ein Text in Hochkomma mit einem Pfadtrenner, wie ihn .NET in IO-Meldungen setzt.</summary>
+    [GeneratedRegex(@"'[^'\r\n]*[\\/][^'\r\n]*'")]
+    private static partial Regex QuotedPath();
 
     private static string OneLine(string text) => text.Replace("\r", " ", StringComparison.Ordinal).Replace("\n", " ", StringComparison.Ordinal);
 }

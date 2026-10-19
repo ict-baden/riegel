@@ -4771,8 +4771,8 @@
         "de": "Sicherheitsprotokoll fasst mindestens 2 GB"
       },
       "rationale": {
-        "en": "A small Security log overwrites old events within hours or days, so the trail of an intrusion is gone before anyone looks. The check reads the Group Policy size first and the local log setting otherwise.",
-        "de": "Ein kleines Sicherheitsprotokoll überschreibt alte Ereignisse innerhalb von Stunden oder Tagen; die Spur eines Einbruchs ist dann weg, bevor jemand nachsieht. Geprüft wird zuerst die per Gruppenrichtlinie gesetzte Größe, sonst die lokale Protokolleinstellung."
+        "en": "A small Security log overwrites old events within hours or days, so the trail of an intrusion is gone before anyone looks. The check reads the Group Policy size first; the local log setting counts only where the policy size is provably not set, because a policy value takes precedence (a policy key that cannot be read makes the rule not checkable, never a pass from the local value).",
+        "de": "Ein kleines Sicherheitsprotokoll überschreibt alte Ereignisse innerhalb von Stunden oder Tagen; die Spur eines Einbruchs ist dann weg, bevor jemand nachsieht. Geprüft wird zuerst die per Gruppenrichtlinie gesetzte Größe; die lokale Protokolleinstellung zählt nur, wo die Größe der Richtlinie nachweislich nicht gesetzt ist, weil ein Richtlinienwert Vorrang hat (ist der Richtlinienschlüssel nicht lesbar, ist die Regel nicht prüfbar – nie ein „erfüllt“ aus dem lokalen Wert)."
       },
       "otNote": {
         "en": "Industrial PCs with small disks may not have 2 GB to spare. Forwarding events to a central collector, or a smaller size recorded as an exception, are the alternatives.",
@@ -4806,13 +4806,26 @@
             "whenMissing": "notCheckable"
           },
           {
-            "type": "registry",
-            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\EventLog\\Security",
-            "value": "MaxSize",
-            "valueType": "dword",
-            "op": "ge",
-            "expected": 2147483648,
-            "whenMissing": "fail"
+            "type": "allOf",
+            "checks": [
+              {
+                "type": "registry",
+                "key": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\EventLog\\Security",
+                "value": "MaxSize",
+                "valueType": "dword",
+                "op": "notExists",
+                "whenMissing": "fail"
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SYSTEM\\CurrentControlSet\\Services\\EventLog\\Security",
+                "value": "MaxSize",
+                "valueType": "dword",
+                "op": "ge",
+                "expected": 2147483648,
+                "whenMissing": "fail"
+              }
+            ]
           }
         ]
       },
@@ -5016,6 +5029,34 @@
             }
           },
           "expect": "pass"
+        },
+        {
+          "name": "policy key not readable, local 4 GB",
+          "machine": {
+            "build": 20348,
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\EventLog\\Security": {
+              "status": "denied"
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\EventLog\\Security": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "MaxSize": {
+                    "t": "dword",
+                    "v": 4194304000
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "notCheckable"
         },
         {
           "name": "no policy, local value missing",

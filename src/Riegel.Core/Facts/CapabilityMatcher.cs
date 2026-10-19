@@ -10,19 +10,19 @@ namespace Riegel.Core.Facts;
 /// </summary>
 internal static class CapabilityMatcher
 {
-    public static bool? Exists(CapabilityEntry entry, string? kind, int? build, string? edition, string? installationType)
+    public static bool? Exists(CapabilityEntry entry, string? kind, int? build, int? ubr, string? edition, string? installationType)
     {
         bool unknown = false;
         foreach (var condition in entry.Exists)
         {
-            var match = Matches(condition, kind, build, edition, installationType);
+            var match = Matches(condition, kind, build, ubr, edition, installationType);
             if (match == true) return true;
             if (match is null) unknown = true;
         }
         return unknown ? null : false;
     }
 
-    private static bool? Matches(CapabilityCondition c, string? kind, int? build, string? edition, string? installationType)
+    private static bool? Matches(CapabilityCondition c, string? kind, int? build, int? ubr, string? edition, string? installationType)
     {
         bool unknown = false;
         if (c.Os is not null)
@@ -34,6 +34,11 @@ internal static class CapabilityMatcher
         {
             if (build is null) unknown = true;
             else if ((c.MinBuild is { } min && build < min) || (c.MaxBuild is { } max && build > max)) return false;
+        }
+        if (c.MinUbr is { } minUbr)
+        {
+            if (ubr is null) unknown = true;
+            else if (ubr < minUbr) return false;
         }
         if (c.Editions is { Count: > 0 } editions)
         {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
@@ -338,7 +339,7 @@
     <value>Mes de parches</value>
   </data>
   <data name="Col_PlantSoftware" xml:space="preserve">
-    <value>Software de la instalación</value>
+    <value>Software de la planta</value>
   </data>
   <data name="Col_Pseudonymized" xml:space="preserve">
     <value>Seudonimizado</value>
@@ -560,7 +561,7 @@
     <value>El paquete de evidencias tiene demasiadas entradas ({0}, límite {1}).</value>
   </data>
   <data name="Error_RGL0567" xml:space="preserve">
-    <value>No se puede empaquetar {0}: fuera de la carpeta de la instalación, paquete en bruto de comandos integrados, inexistente o la suma no coincide con la ejecución.</value>
+    <value>No se puede empaquetar {0}: fuera de la carpeta de la planta, paquete en bruto de comandos integrados, inexistente o la suma no coincide con la ejecución.</value>
   </data>
   <data name="Error_RGL0568" xml:space="preserve">
     <value>No se puede empaquetar el archivo del informe {0} (inexistente, demasiado grande o nombre no válido).</value>
@@ -575,7 +576,7 @@
     <value>La ejecución del paquete no coincide con el manifiesto ({0} / {1}).</value>
   </data>
   <data name="EvidenceReadme_BaselineContentMissing" xml:space="preserve">
-    <value>Se solicitó el contenido de la línea base {0}, pero no está disponible en la carpeta de la instalación; solo metadatos.</value>
+    <value>Se solicitó el contenido de la línea base {0}, pero no está disponible en la carpeta de la planta; solo metadatos.</value>
   </data>
   <data name="EvidenceReadme_BaselineHeading" xml:space="preserve">
     <value>Líneas base del cliente importadas</value>
@@ -629,7 +630,7 @@
     <value>qué contiene el paquete y cómo se generó (riegel.evidence/1)</value>
   </data>
   <data name="EvidenceReadme_ContentPlant" xml:space="preserve">
-    <value>la instalación (grupos, equipos, configuración)</value>
+    <value>la planta (grupos, equipos, configuración)</value>
   </data>
   <data name="EvidenceReadme_ContentRegisters" xml:space="preserve">
     <value>excepciones, ajuste del alcance y medidas en las versiones que usaron las ejecuciones y el informe</value>
@@ -672,7 +673,7 @@
     <value>Avisos</value>
   </data>
   <data name="EvidenceReadme_RegisterMissing" xml:space="preserve">
-    <value>No se ha encontrado el registro {0} en la versión {1} en la carpeta de la instalación; las ejecuciones que lo usaron no son verificables.</value>
+    <value>No se ha encontrado el registro {0} en la versión {1} en la carpeta de la planta; las ejecuciones que lo usaron no son verificables.</value>
   </data>
   <data name="EvidenceReadme_SampleExit" xml:space="preserve">
     <value>Código de salida: 0 coherente, 1 difiere, 3 error.</value>
@@ -682,6 +683,7 @@
   </data>
   <data name="EvidenceReadme_SampleText" xml:space="preserve">
     <value>Vuelva a capturar un equipo (con testigo) y compare la exportación nueva con la exportación empaquetada del mismo equipo. Los valores volátiles (antigüedad de firmas, marcas de tiempo, tiempo de actividad) no cuentan. Resultado: "coherente" o "difiere en N puntos" con la lista.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="EvidenceReadme_Title" xml:space="preserve">
     <value>Paquete de evidencias de Riegel: {0}</value>
@@ -693,7 +695,8 @@
     <value>Verificar con verify</value>
   </data>
   <data name="EvidenceReadme_VerifyText" xml:space="preserve">
-    <value>verify lee el paquete sin descomprimirlo, comprueba cada suma, vuelve a evaluar cada exportación con el catálogo, la instalación y los registros incluidos y compara los resultados. Informa "reproducido con el motor X (empaquetado: Y)". Los resultados de líneas base importadas cuyo contenido no está en el paquete no son verificables.</value>
+    <value>verify lee el paquete sin descomprimirlo, comprueba cada suma, vuelve a evaluar cada exportación con el catálogo, la planta y los registros incluidos y compara los resultados. Informa "reproducido con el motor X (empaquetado: Y)". Los resultados de líneas base importadas cuyo contenido no está en el paquete no son verificables.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Evidence_Baseline" xml:space="preserve">
     <value>Línea base importada</value>
@@ -822,10 +825,10 @@
     <value>Realizado por</value>
   </data>
   <data name="Item_PlantId" xml:space="preserve">
-    <value>ID de la instalación</value>
+    <value>ID de la planta</value>
   </data>
   <data name="Item_PlantName" xml:space="preserve">
-    <value>Instalación</value>
+    <value>Planta</value>
   </data>
   <data name="Item_Preset" xml:space="preserve">
     <value>Tipo de informe</value>
@@ -1026,7 +1029,7 @@
     <value>Ninguna.</value>
   </data>
   <data name="Remediation_NotExecuted" xml:space="preserve">
-    <value>Riegel no ha ejecutado nada. Estos archivos son una propuesta para el fabricante y el responsable de la instalación; aplíquelos solo tras acordarlo y mediante su propio proceso de cambios.</value>
+    <value>Riegel no ha ejecutado nada. Estos archivos son una propuesta para el fabricante y el responsable de la planta; aplíquelos solo tras acordarlo y mediante su propio proceso de cambios.</value>
   </data>
   <data name="Remediation_OtNote" xml:space="preserve">
     <value>Nota OT: {0}</value>
@@ -1095,7 +1098,7 @@
     <value>difiere en {0} puntos</value>
   </data>
   <data name="Scope_All" xml:space="preserve">
-    <value>toda la instalación</value>
+    <value>toda la planta</value>
   </data>
   <data name="Scope_Groups" xml:space="preserve">
     <value>grupos: {0}</value>
@@ -1119,7 +1122,7 @@
     <value>Grupos y roles</value>
   </data>
   <data name="Section_Plant" xml:space="preserve">
-    <value>Instalación</value>
+    <value>Planta</value>
   </data>
   <data name="Section_Provenance" xml:space="preserve">
     <value>Origen de los valores objetivo</value>
@@ -1201,6 +1204,7 @@
   </data>
   <data name="TargetConfig_SignOffNote" xml:space="preserve">
     <value>La aprobación confirma la configuración objetivo del catálogo {0} con el ajuste del alcance {1}.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="ValueSource_DirectlySet" xml:space="preserve">
     <value>Establecido directamente</value>
@@ -1252,6 +1256,7 @@
   </data>
   <data name="Value_SignOffBinding" xml:space="preserve">
     <value>La aprobación confirma las excepciones del registro {0} ({1} entradas, {2} de ellas válidas) y el ajuste del alcance {3}.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Verify_BaselineNotVerifiable" xml:space="preserve">
     <value>contenido de la línea base no incluido: no verificable</value>

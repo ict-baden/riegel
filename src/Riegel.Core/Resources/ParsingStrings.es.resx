@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <data name="Baseline_Rationale" xml:space="preserve">
     <value>Requisito de la línea base importada «{0}».</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0250" xml:space="preserve">
     <value>{0} no es JSON válido (posición {1}); es posible que el archivo esté truncado.</value>
@@ -41,7 +43,7 @@
     <value>Los datos sin procesar {0} no están disponibles; no se pudo calcular la entrada derivada.</value>
   </data>
   <data name="Error_RGL0260" xml:space="preserve">
-    <value>No es un paquete de comandos integrados válido ({0}).</value>
+    <value>No es un paquete de comandos integrados válido ({0}). Una carpeta con nombre *.riegel-builtin o con hostname.txt o secedit.inf se lee como tal paquete.</value>
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0261" xml:space="preserve">

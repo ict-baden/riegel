@@ -618,7 +618,7 @@ public static class SampleData
             new(RegisterKind.Tailoring, tailoring[1].Id, tailoring[1].RuleId, "Kennwort vor dem Start auf Mobilgeräten", Severity.Low,
                 tailoring[1].Scope, null, tailoring[1].Reason, null, null, null, null, ContentHashes.Of(tailoring[1]), RegisterEntryState.Pending),
         };
-        return new ApprovalSheetData(PlantId, PlantName, "de", Date, Now, Tool, "FB-12", RegisterHashes.Exceptions, RegisterHashes.Tailoring,
+        return new ApprovalSheetData(PlantId, PlantName, "de", Date, Now, Tool, "GB-12", RegisterHashes.Exceptions, RegisterHashes.Tailoring,
             entries, [new(SignOffSteps.Approved, RoleIsb), new(SignOffSteps.Approved, RoleQa)], "Vertraulich – enthält Sicherheitskonfiguration", false);
     }
 

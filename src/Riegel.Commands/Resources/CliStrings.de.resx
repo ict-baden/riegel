@@ -80,7 +80,7 @@
     <value>geändert</value>
   </data>
   <data name="Change_ScopeChanged" xml:space="preserve">
-    <value>Prüfumfang geändert</value>
+    <value>Erhebung geändert</value>
   </data>
   <data name="Change_TailoringAdded" xml:space="preserve">
     <value>Zuschnitt hinzugekommen</value>
@@ -103,14 +103,8 @@
   <data name="Cli_BaselineContentWarning" xml:space="preserve">
     <value>Warnung: Das Nachweispaket enthält den vollständigen Inhalt importierter Baselines. Prüfen Sie, ob deren Lizenz die Weitergabe erlaubt (die Bedingungen von Microsoft, BSI und CIS erlauben es womöglich nicht).</value>
   </data>
-  <data name="Cli_BaselineImported" xml:space="preserve">
-    <value>Baseline {0} ({1}) importiert: {2} Regeln, SHA-256 der Quelle {3}</value>
-  </data>
   <data name="Cli_BaselineLicenceNote" xml:space="preserve">
     <value>Importierte Baselines bleiben in diesem Anlagenordner. Nachweispakete enthalten nur ihre Metadaten, außer mit report --evidence --include-baseline-content.</value>
-  </data>
-  <data name="Cli_BaselineLine" xml:space="preserve">
-    <value>{0}  {1}  {2} Regeln  importiert {3}  Quelle {4}</value>
   </data>
   <data name="Cli_BaselineNone" xml:space="preserve">
     <value>Keine importierten Baselines.</value>
@@ -139,9 +133,6 @@
   <data name="Cli_CheckOpen" xml:space="preserve">
     <value>  Offene Befunde: {0} hoch, {1} mittel, {2} niedrig</value>
   </data>
-  <data name="Cli_CheckOverall" xml:space="preserve">
-    <value>Gesamt: {0} (Exitcode {1}) für {2} Rechner</value>
-  </data>
   <data name="Cli_CheckPolicy" xml:space="preserve">
     <value>Alarmart {0}: kritisch {1}; Warnung {2}</value>
   </data>
@@ -161,10 +152,10 @@
     <value>  Lauf {0}, im Anlagenordner gespeichert</value>
   </data>
   <data name="Cli_CheckScore" xml:space="preserve">
-    <value>  Härtungsgrad: {0} % · dokumentiert: {1} % · Prüfumfang: {2} %</value>
+    <value>  Härtungsgrad: {0} % · dokumentiert: {1} % · Prüfabdeckung: {2} %</value>
   </data>
   <data name="Cli_CheckScoreNone" xml:space="preserve">
-    <value>  Härtungsgrad: nicht bewertet (Domänencontroller oder nichts prüfbar) · Prüfumfang: {0} %</value>
+    <value>  Härtungsgrad: nicht bewertet (Domänencontroller oder nichts prüfbar) · Prüfabdeckung: {0} %</value>
   </data>
   <data name="Cli_CheckVsApproved" xml:space="preserve">
     <value>  Verglichen mit dem freigegebenen Stand (Lauf {0})</value>
@@ -217,9 +208,6 @@ SHA-256: {1}</value>
   </data>
   <data name="Cli_GuiOnly" xml:space="preserve">
     <value>{0} gibt es nur in Riegel.exe (mit Fenster), nicht in der Befehlszeile.</value>
-  </data>
-  <data name="Cli_ImportDone" xml:space="preserve">
-    <value>Import {0}: {1} Exporte aufgenommen in {2}</value>
   </data>
   <data name="Cli_ImportNoSidecar" xml:space="preserve">
     <value>  {0}: keine passende .sha256-Datei – Unversehrtheit nicht belegt</value>
@@ -282,9 +270,6 @@ Daten und Datenschutz: {4}</value>
   <data name="Cli_RegisterLine" xml:space="preserve">
     <value>{0}  {1}  {2}  Prüftermin {3}  {4}</value>
   </data>
-  <data name="Cli_RegisterNoneExpiring" xml:space="preserve">
-    <value>{0}: In den nächsten {1} Tagen läuft nichts ab.</value>
-  </data>
   <data name="Cli_RegisterText" xml:space="preserve">
     <value>      {0}</value>
   </data>
@@ -292,7 +277,7 @@ Daten und Datenschutz: {4}</value>
     <value>Nur ein Vorschlag – Riegel führt nichts davon aus. Jede Änderung vor dem Anwenden mit dem Anlagenhersteller abstimmen.</value>
   </data>
   <data name="Cli_RemediationWritten" xml:space="preserve">
-    <value>Abhilfe-Vorschlag geschrieben nach {0}: {1} Regeln in den Dateien, {2} ausgelassen, {3} Handschritte</value>
+    <value>Abhilfe-Vorschlag geschrieben nach {0}: {1}, {2}, {3}</value>
   </data>
   <data name="Cli_RuleLine" xml:space="preserve">
     <value>{0}  {1}  {2}  {3}</value>
@@ -330,29 +315,20 @@ Daten und Datenschutz: {4}</value>
   <data name="Cli_SourceThisPc" xml:space="preserve">
     <value>dieser PC</value>
   </data>
-  <data name="Cli_TemplateImported" xml:space="preserve">
-    <value>{0} Einträge als beantragt in {1} aufgenommen – sie gelten erst nach einer Freigabe.</value>
-  </data>
   <data name="Cli_ValidateInvalid" xml:space="preserve">
-    <value>{0}: {1} Einträge, {2} Fehler, {3} Warnungen – ungültig.</value>
+    <value>{0}: {1}, {2}, {3} – ungültig.</value>
   </data>
   <data name="Cli_ValidateOk" xml:space="preserve">
-    <value>{0}: {1} Einträge, gültig.</value>
+    <value>{0}: {1}, gültig.</value>
   </data>
   <data name="Cli_ValidateWarnings" xml:space="preserve">
-    <value>{0}: {1} Einträge, {2} Fehler, {3} Warnungen.</value>
+    <value>{0}: {1}, {2}, {3}.</value>
   </data>
   <data name="Cli_VerifyCounts" xml:space="preserve">
     <value>Geprüfte Exporte: {0} · verglichene Ergebnisse: {1}</value>
   </data>
   <data name="Cli_VerifyError" xml:space="preserve">
     <value>Das Nachweispaket ließ sich nicht prüfen.</value>
-  </data>
-  <data name="Cli_VerifyMismatch" xml:space="preserve">
-    <value>Nicht reproduziert mit Engine {0} (gepackt: {1}): {2} Befunde.</value>
-  </data>
-  <data name="Cli_VerifyNotVerifiable" xml:space="preserve">
-    <value>Nicht nachprüfbar (Baseline-Inhalt nicht enthalten): {0} Ergebnisse ({1})</value>
   </data>
   <data name="Cli_VerifyReproduced" xml:space="preserve">
     <value>Reproduziert mit Engine {0} (gepackt: {1}).</value>
@@ -491,7 +467,7 @@ Exitcodes: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN.</value>
   <data name="Help_Collect" xml:space="preserve">
     <value>Aufruf: {0} collect [--out &lt;Ordner&gt;] [--gzip] [--minimal] [--deep] [--pseudonymize]
 
-Nur Windows. Schreibt einen Export dieses PCs (&lt;HOST&gt;_&lt;Zeit&gt;.snapshot.json und .sha256). Liest nur und ändert nichts;
+Nur Windows. Schreibt einen Export dieses PCs (&lt;HOST&gt;_&lt;Zeit&gt;.snapshot.json und .sha256). Liest nur und ändert keine Konfiguration;
 für einen vollständigen Export in einer Konsole als Administrator ausführen.
 
   --out &lt;Ordner&gt;     Zielordner (Standard: aktueller Ordner)
@@ -543,8 +519,9 @@ Exitcodes: 0 konsistent, 1 abweichend, 3 Fehler.</value>
   approval-sheet [--ids &lt;ID&gt;…|--pending] [--out &lt;Ordner&gt;] [--language &lt;Code&gt;]
                                                  Genehmigungsblatt (PDF); Standard: alle beantragten Einträge
   approve --ids &lt;ID&gt;… --role "&lt;Rolle&gt;" --record "&lt;Nachweis&gt;" [--review-by &lt;JJJJ-MM-TT&gt;] [--date &lt;JJJJ-MM-TT&gt;] [--name "&lt;Name&gt;"]
-                                                 unterschriebene Freigabe eintragen; ein Prüftermin ist Pflicht
-  import-template &lt;Vorlage.json&gt;                 Einträge einer Vorlage als beantragte Ausnahmen aufnehmen
+                                                 unterschriebene Genehmigung eintragen; ein Prüftermin ist Pflicht
+  import-template &lt;Vorlage.json|Name&gt;            Einträge einer Vorlage als beantragte Ausnahmen aufnehmen
+                                                 eingebaut: beispiel-anlagenbau
 
 Exitcodes: 0 Erfolg, 3 Fehler; validate wie oben.</value>
   </data>
@@ -558,6 +535,8 @@ verify: 0 reproduziert, 2 abweichend · compare-snapshot: 0 konsistent, 1 abweic
 
 Nimmt Exporte oder Bordmittel-Pakete in den Anlagenordner auf: prüft die .sha256-Dateien, schreibt den Importnachweis,
 wertet aus und speichert die Läufe. Ein Prüfsummenfehler stoppt den ganzen Import, bevor etwas geschrieben wird.
+Ein Ordner, der kein Bordmittel-Paket ist (Name *.riegel-builtin oder mit hostname.txt bzw. secedit.inf), steht für die
+Exporte darin (*.snapshot.json, *.snapshot.json.gz).
 
   --plant &lt;Ordner&gt;                  Anlagenordner
   --collected-by-role &lt;Rolle&gt;       Rolle der Person, die erfasst hat (Importnachweis)
@@ -677,8 +656,9 @@ Exitcodes: 0 Erfolg, 3 Fehler.</value>
   list [--format text|json]                      alle Zuschnitt-Einträge mit Zustand
   validate [--format text|json]                  Register prüfen; Exitcode 0 gültig, 1 Warnungen, 2 ungültig
   approve --ids &lt;ID&gt;… --role "&lt;Rolle&gt;" --record "&lt;Nachweis&gt;" [--review-by &lt;JJJJ-MM-TT&gt;] [--date &lt;JJJJ-MM-TT&gt;] [--name "&lt;Name&gt;"]
-                                                 unterschriebene Freigabe eintragen; ein Prüftermin ist Pflicht
-  import-template &lt;Vorlage.json&gt;                 Einträge einer Rollenvorlage als beantragten Zuschnitt aufnehmen
+                                                 unterschriebene Genehmigung eintragen; ein Prüftermin ist Pflicht
+  import-template &lt;Vorlage.json|Name&gt;            Einträge einer Rollenvorlage als beantragten Zuschnitt aufnehmen
+                                                 eingebaut: hmi, engineering-station, historian-server, jump-host
 
 Exitcodes: 0 Erfolg, 3 Fehler; validate wie oben.</value>
   </data>
@@ -745,5 +725,98 @@ Exitcodes: 0 reproduziert, 2 abweichend, 3 Fehler.</value>
   </data>
   <data name="State_Warning" xml:space="preserve">
     <value>WARNUNG</value>
+  </data>
+  <data name="Cli_RunSnapshotSkipped" xml:space="preserve">
+    <value>Hinweis: Der Export des Laufs {0} wird nicht verwendet – {1}</value>
+  </data>
+  <data name="Error_RGL0470" xml:space="preserve">
+    <value>Der Ordner {0} ist kein Bordmittel-Paket und enthält keine Exporte (*.snapshot.json, *.snapshot.json.gz).</value>
+  </data>
+  <data name="Error_RGL0471" xml:space="preserve">
+    <value>Keine Vorlagendatei und keine eingebaute Vorlage mit dem Namen {0}. Eingebaut: {1}.</value>
+  </data>
+  <data name="Cli_ImportDone_one" xml:space="preserve">
+    <value>Import {0}: {1} Export aufgenommen in {2}</value>
+  </data>
+  <data name="Cli_ImportDone_other" xml:space="preserve">
+    <value>Import {0}: {1} Exporte aufgenommen in {2}</value>
+  </data>
+  <data name="Cli_TemplateImported_one" xml:space="preserve">
+    <value>{0} Eintrag als beantragt in {1} aufgenommen – er gilt erst nach einer Genehmigung.</value>
+  </data>
+  <data name="Cli_TemplateImported_other" xml:space="preserve">
+    <value>{0} Einträge als beantragt in {1} aufgenommen – sie gelten erst nach einer Genehmigung.</value>
+  </data>
+  <data name="Cli_CountEntries_one" xml:space="preserve">
+    <value>{0} Eintrag</value>
+  </data>
+  <data name="Cli_CountEntries_other" xml:space="preserve">
+    <value>{0} Einträge</value>
+  </data>
+  <data name="Cli_CountErrors_one" xml:space="preserve">
+    <value>{0} Fehler</value>
+  </data>
+  <data name="Cli_CountErrors_other" xml:space="preserve">
+    <value>{0} Fehler</value>
+  </data>
+  <data name="Cli_CountWarnings_one" xml:space="preserve">
+    <value>{0} Warnung</value>
+  </data>
+  <data name="Cli_CountWarnings_other" xml:space="preserve">
+    <value>{0} Warnungen</value>
+  </data>
+  <data name="Cli_CheckOverall_one" xml:space="preserve">
+    <value>Gesamt: {0} (Exitcode {1}) für {2} Rechner</value>
+  </data>
+  <data name="Cli_CheckOverall_other" xml:space="preserve">
+    <value>Gesamt: {0} (Exitcode {1}) für {2} Rechner</value>
+  </data>
+  <data name="Cli_RegisterNoneExpiring_one" xml:space="preserve">
+    <value>{0}: Innerhalb von {1} Tag läuft nichts ab.</value>
+  </data>
+  <data name="Cli_RegisterNoneExpiring_other" xml:space="preserve">
+    <value>{0}: In den nächsten {1} Tagen läuft nichts ab.</value>
+  </data>
+  <data name="Cli_VerifyMismatch_one" xml:space="preserve">
+    <value>Nicht reproduziert mit Engine {0} (gepackt: {1}): {2} Befund.</value>
+  </data>
+  <data name="Cli_VerifyMismatch_other" xml:space="preserve">
+    <value>Nicht reproduziert mit Engine {0} (gepackt: {1}): {2} Befunde.</value>
+  </data>
+  <data name="Cli_VerifyNotVerifiable_one" xml:space="preserve">
+    <value>Nicht nachprüfbar (Baseline-Inhalt nicht enthalten): {0} Ergebnis ({1})</value>
+  </data>
+  <data name="Cli_VerifyNotVerifiable_other" xml:space="preserve">
+    <value>Nicht nachprüfbar (Baseline-Inhalt nicht enthalten): {0} Ergebnisse ({1})</value>
+  </data>
+  <data name="Cli_CountRulesInFiles_one" xml:space="preserve">
+    <value>{0} Regel in den Dateien</value>
+  </data>
+  <data name="Cli_CountRulesInFiles_other" xml:space="preserve">
+    <value>{0} Regeln in den Dateien</value>
+  </data>
+  <data name="Cli_CountLeftOut_one" xml:space="preserve">
+    <value>{0} ausgelassen</value>
+  </data>
+  <data name="Cli_CountLeftOut_other" xml:space="preserve">
+    <value>{0} ausgelassen</value>
+  </data>
+  <data name="Cli_CountManualSteps_one" xml:space="preserve">
+    <value>{0} Handschritt</value>
+  </data>
+  <data name="Cli_CountManualSteps_other" xml:space="preserve">
+    <value>{0} Handschritte</value>
+  </data>
+  <data name="Cli_BaselineImported_one" xml:space="preserve">
+    <value>Baseline {0} ({1}) importiert: {2} Regel, SHA-256 der Quelle {3}</value>
+  </data>
+  <data name="Cli_BaselineImported_other" xml:space="preserve">
+    <value>Baseline {0} ({1}) importiert: {2} Regeln, SHA-256 der Quelle {3}</value>
+  </data>
+  <data name="Cli_BaselineLine_one" xml:space="preserve">
+    <value>{0}  {1}  {2} Regel  importiert {3}  Quelle {4}</value>
+  </data>
+  <data name="Cli_BaselineLine_other" xml:space="preserve">
+    <value>{0}  {1}  {2} Regeln  importiert {3}  Quelle {4}</value>
   </data>
 </root>

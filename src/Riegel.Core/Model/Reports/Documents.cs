@@ -60,7 +60,7 @@ public sealed record TargetConfigRule(string RuleSetId, string RuleId, string Ti
 }
 
 /// <summary>„Ausnahmen zur Genehmigung“ (O12): neue und geänderte Einträge mit Inhalts-Hash und Unterschriftszeilen.</summary>
-/// <param name="SheetId">Kennung des Blatts, z. B. für approvalRecord („Freigabeblatt FB-12“).</param>
+/// <param name="SheetId">Kennung des Blatts, z. B. für approvalRecord („Genehmigungsblatt GB-12“).</param>
 public sealed record ApprovalSheetData(string PlantId, string PlantName, string Language, DateOnly Date,
     DateTimeOffset GeneratedAtUtc, ToolInfo Tool, string SheetId, string ExceptionsSha256, string TailoringSha256,
     IReadOnlyList<ApprovalSheetEntry> Entries, IReadOnlyList<SignOffRole> Approvers, string Confidentiality,

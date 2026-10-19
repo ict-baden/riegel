@@ -101,7 +101,7 @@ internal sealed class MainViewModel : ObservableObject
     public string PlantDetail => Session.Plant is not { } p ? Loc.T("Main_NoPlantHint")
         : p.IsDemo ? Loc.F("Main_DemoDetail", Texts.Date(p.Today))
         : p.ReadOnly ? Loc.T("Mode_ReadOnly")
-        : Loc.F("Main_PlantDetail", p.Machines.Count);
+        : Loc.P("Main_PlantDetail", p.Machines.Count, p.Machines.Count);
 
     /// <summary>Kennzeichen über allen Seiten: Prüfermodus (nichts wird geschrieben) bzw. Demo.</summary>
     public string? ModeBanner => Session.Plant is not { } p ? null

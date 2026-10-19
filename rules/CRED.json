@@ -3702,8 +3702,8 @@
         "de": "Entfernte SAM-Aufrufe sind auf Administratoren beschränkt"
       },
       "rationale": {
-        "en": "Remote calls to the Security Account Manager let any authenticated user enumerate local users and groups. RestrictRemoteSAM must allow only the local Administrators group. Windows 10 1607 and Server 2016 and later have this restriction built in when the value is missing; earlier releases are unrestricted.",
-        "de": "Entfernte Aufrufe an die Sicherheitskontenverwaltung erlauben jedem angemeldeten Benutzer, lokale Benutzer und Gruppen aufzuzählen. RestrictRemoteSAM darf nur die lokale Gruppe Administratoren zulassen. Ab Windows 10 1607 und Server 2016 ist diese Einschränkung bei fehlendem Wert eingebaut; ältere Versionen sind uneingeschränkt."
+        "en": "Remote calls to the Security Account Manager let any authenticated user enumerate local users and groups. RestrictRemoteSAM must allow only the local Administrators group. Windows 10 1607 and Server 2016 and later have this restriction built in when the value is missing; earlier releases are unrestricted. Audit-only mode (RestrictRemoteSamAuditOnlyMode = 1) performs the access check but does not fail the call, so the restriction has no effect; the rule then fails.",
+        "de": "Entfernte Aufrufe an die Sicherheitskontenverwaltung erlauben jedem angemeldeten Benutzer, lokale Benutzer und Gruppen aufzuzählen. RestrictRemoteSAM darf nur die lokale Gruppe Administratoren zulassen. Ab Windows 10 1607 und Server 2016 ist diese Einschränkung bei fehlendem Wert eingebaut; ältere Versionen sind uneingeschränkt. Der Nur-Überwachen-Modus (RestrictRemoteSamAuditOnlyMode = 1) prüft den Zugriff, lässt den Aufruf aber trotzdem zu – die Einschränkung wirkt dann nicht, und die Regel schlägt fehl."
       },
       "otNote": {
         "en": "Management and inventory tools that enumerate local groups remotely need an entry for their account; add it to the descriptor instead of removing the restriction.",
@@ -3725,39 +3725,58 @@
       },
       "needsAdmin": false,
       "check": {
-        "type": "firstOf",
+        "type": "allOf",
         "checks": [
           {
-            "type": "registry",
-            "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
-            "value": "RestrictRemoteSAM",
-            "valueType": "sz",
-            "op": "in",
-            "expected": [
-              "O:BAG:BAD:(A;;RC;;;BA)",
-              "O:SYG:SYD:(A;;RC;;;BA)"
-            ],
-            "whenMissing": "osDefault",
-            "osDefaults": [
+            "type": "firstOf",
+            "checks": [
               {
-                "minBuild": 14393,
-                "value": "O:SYG:SYD:(A;;RC;;;BA)",
-                "source": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-access-restrict-clients-allowed-to-make-remote-sam-calls",
-                "seen": "2026-10-18"
+                "type": "registry",
+                "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+                "value": "RestrictRemoteSAM",
+                "valueType": "sz",
+                "op": "in",
+                "expected": [
+                  "O:BAG:BAD:(A;;RC;;;BA)",
+                  "O:SYG:SYD:(A;;RC;;;BA)"
+                ],
+                "whenMissing": "osDefault",
+                "osDefaults": [
+                  {
+                    "minBuild": 14393,
+                    "value": "O:SYG:SYD:(A;;RC;;;BA)",
+                    "source": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-access-restrict-clients-allowed-to-make-remote-sam-calls",
+                    "seen": "2026-10-18"
+                  }
+                ]
+              },
+              {
+                "type": "registry",
+                "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
+                "value": "RestrictRemoteSAM",
+                "valueType": "sz",
+                "op": "in",
+                "expected": [
+                  "O:BAG:BAD:(A;;RC;;;BA)",
+                  "O:SYG:SYD:(A;;RC;;;BA)"
+                ],
+                "whenMissing": "fail"
               }
             ]
           },
           {
             "type": "registry",
             "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa",
-            "value": "RestrictRemoteSAM",
-            "valueType": "sz",
-            "op": "in",
-            "expected": [
-              "O:BAG:BAD:(A;;RC;;;BA)",
-              "O:SYG:SYD:(A;;RC;;;BA)"
-            ],
-            "whenMissing": "fail"
+            "value": "RestrictRemoteSamAuditOnlyMode",
+            "valueType": "dword",
+            "op": "ne",
+            "expected": 1,
+            "whenMissing": "pass",
+            "missingPass": {
+              "source": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-access-restrict-clients-allowed-to-make-remote-sam-calls",
+              "seen": "2026-10-18",
+              "note": "Audit only mode isn't configured by default; only RestrictRemoteSamAuditOnlyMode = 1 lets every call through and merely logs it."
+            }
           }
         ]
       },
@@ -3847,7 +3866,7 @@
           "src": "MSLEARN-FACT",
           "url": "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/network-access-restrict-clients-allowed-to-make-remote-sam-calls",
           "date": "2026-10-18",
-          "note": "Registry HKLM\\System\\CurrentControlSet\\Control\\Lsa\\RestrictRemoteSam; hard-coded default O:SYG:SYD:(A;;RC;;;BA) on Windows 10 1607 and later non-DCs; earlier versions perform no access check by default."
+          "note": "Registry HKLM\\System\\CurrentControlSet\\Control\\Lsa\\RestrictRemoteSam; hard-coded default O:SYG:SYD:(A;;RC;;;BA) on Windows 10 1607 and later non-DCs; earlier versions perform no access check by default. Audit-only mode: 'won't fail the call if the access check fails. Instead, the call will be allowed' (Lsa\\RestrictRemoteSamAuditOnlyMode REG_DWORD 1); 'Audit only mode isn't configured by default.'"
         }
       ],
       "tests": [
@@ -3870,6 +3889,99 @@
                   "RestrictRemoteSAM": {
                     "t": "sz",
                     "v": "O:BAG:BAD:(A;;RC;;;BA)"
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "Restricted to Administrators, but audit-only mode is on",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictRemoteSAM": {
+                    "t": "sz",
+                    "v": "O:BAG:BAD:(A;;RC;;;BA)"
+                  },
+                  "RestrictRemoteSamAuditOnlyMode": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Built-in default, but audit-only mode is on",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "LmCompatibilityLevel": {
+                    "t": "dword",
+                    "v": 5
+                  },
+                  "RestrictRemoteSamAuditOnlyMode": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "Restricted to Administrators, audit-only mode explicitly off",
+          "machine": {
+            "build": 26100,
+            "ubr": 6899,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RestrictRemoteSAM": {
+                    "t": "sz",
+                    "v": "O:BAG:BAD:(A;;RC;;;BA)"
+                  },
+                  "RestrictRemoteSamAuditOnlyMode": {
+                    "t": "dword",
+                    "v": 0
                   }
                 },
                 "subkeys": []

@@ -2399,8 +2399,8 @@
         "de": "ASR: Ausführung möglicherweise verschleierter Skripte blockieren"
       },
       "rationale": {
-        "en": "Attackers hide the purpose of PowerShell, JavaScript and VBScript code by obfuscation so that signatures do not match. This rule uses the Antimalware Scan Interface and cloud protection to block scripts that look obfuscated. Riegel counts the rule only in block mode and only while Microsoft Defender is the active antivirus with real-time protection on.",
-        "de": "Angreifer verschleiern PowerShell-, JavaScript- und VBScript-Code, damit Signaturen nicht greifen. Die Regel nutzt die Antimalware-Scan-Schnittstelle (AMSI) und den Cloud-Schutz, um verschleiert wirkende Skripte zu blockieren. Riegel zählt die Regel nur im Blockiermodus und nur, solange Microsoft Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist."
+        "en": "Attackers hide the purpose of PowerShell, JavaScript and VBScript code by obfuscation so that signatures do not match. This rule uses the Antimalware Scan Interface and cloud protection to block scripts that look obfuscated. Riegel counts the rule only in block mode and only while Microsoft Defender is the active antivirus with real-time protection on. Microsoft requires cloud-delivered protection for this rule (\"Dependencies: … Cloud Protection\"), so the rule also needs MAPSReporting 1 or 2.",
+        "de": "Angreifer verschleiern PowerShell-, JavaScript- und VBScript-Code, damit Signaturen nicht greifen. Die Regel nutzt die Antimalware-Scan-Schnittstelle (AMSI) und den Cloud-Schutz, um verschleiert wirkende Skripte zu blockieren. Riegel zählt die Regel nur im Blockiermodus und nur, solange Microsoft Defender der aktive Virenschutz mit eingeschaltetem Echtzeitschutz ist. Microsoft verlangt für diese Regel den Cloud-Schutz („Dependencies: … Cloud Protection“); die Regel braucht deshalb auch MAPSReporting 1 oder 2."
       },
       "remedy": {
         "en": "Set the ASR rule 5beb7efe-fd9a-4556-801d-275e5ffc04cc to block (1) in the policy 'Configure Attack Surface Reduction rules', after a test in audit mode.",
@@ -2568,6 +2568,109 @@
             }
           },
           "expect": "pass"
+        },
+        {
+          "name": "block mode but cloud-delivered protection off (MAPSReporting 0)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "5beb7efe-fd9a-4556-801d-275e5ffc04cc"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 0
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "block mode, cloud-delivered protection not readable",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "5beb7efe-fd9a-4556-801d-275e5ffc04cc"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "notCheckable"
         },
         {
           "name": "active, rule only in audit mode",

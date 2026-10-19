@@ -194,6 +194,8 @@ internal sealed class PlantStore(RiegelServices services) : IPlantStore
         return RiegelJson.ReadFile<Run>(file, ReadLimits.Default.MaxSnapshotBytes);
     }
 
+    public string RunSnapshotPath(Plant p, Run r) => PlantFiles.RunSnapshot(Folder(p), r);
+
     /// <summary>Ergebnisdatei eines Laufs in irgendeinem Rechnerordner, null wenn es sie nicht gibt.</summary>
     private static string? RunFile(string folder, string runId)
     {

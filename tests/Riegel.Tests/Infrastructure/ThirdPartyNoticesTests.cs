@@ -59,6 +59,66 @@ public sealed partial class ThirdPartyNoticesTests
         Assert.True(missing.Count == 0, "THIRD-PARTY-NOTICES.txt ist nicht aktuell:\n  " + string.Join("\n  ", missing));
     }
 
+    /// <summary>
+    /// Regressionstest (Review legal-1): PdfSharp.WPFonts.dll (Segoe-WP-Schriften von Microsoft, „All Rights Reserved“),
+    /// PdfSharp.Snippets.dll und PdfSharp.Quality.dll kommen in keine Ausgabe und in keine deps.json
+    /// (Directory.Build.targets). Die Testausgabe enthält die deps.json der App, des Konsolenprogramms und der Tests.
+    /// </summary>
+    [Fact]
+    public void PDFsharp_Zusatzbibliotheken_mit_Microsoft_Schriften_werden_nicht_ausgeliefert()
+    {
+        string[] names = ["PdfSharp.WPFonts", "PdfSharp.Snippets", "PdfSharp.Quality"];
+        var folder = AppContext.BaseDirectory;
+        foreach (var name in names)
+            Assert.False(File.Exists(Path.Combine(folder, name + ".dll")), $"{name}.dll liegt in der Ausgabe");
+        var depsFiles = Directory.GetFiles(folder, "*.deps.json");
+        Assert.NotEmpty(depsFiles);
+        foreach (var deps in depsFiles)
+        {
+            var text = File.ReadAllText(deps);
+            foreach (var name in names) Assert.DoesNotContain(name + ".dll", text, StringComparison.OrdinalIgnoreCase);
+        }
+        var targets = File.ReadAllText(Path.Combine(RepoPaths.Root, "Directory.Build.targets"));
+        foreach (var name in names) Assert.Contains($"'{name}'", targets, StringComparison.Ordinal);
+        var notices = File.ReadAllText(Path.Combine(RepoPaths.Root, "THIRD-PARTY-NOTICES.txt"));
+        Assert.DoesNotContain("under its licence (MIT)", notices, StringComparison.Ordinal);
+        Assert.Contains("Not shipped: the PDFsharp package also contains PdfSharp.WPFonts.dll", notices, StringComparison.Ordinal);
+    }
+
+    /// <summary>
+    /// Regressionstest (Review legal-2): die Hinweise der mitgelieferten .NET-Laufzeiten liegen versionsgenau im Repo,
+    /// werden mitgeliefert und in den einzelnen Programmen angehängt; THIRD-PARTY-NOTICES.txt verweist nicht mehr auf
+    /// den beweglichen Zweig main.
+    /// </summary>
+    [Fact]
+    public void Hinweise_der_Laufzeiten_sind_versionsgenau_und_eingebettet()
+    {
+        var notices = File.ReadAllText(Path.Combine(RepoPaths.Root, "THIRD-PARTY-NOTICES.txt"));
+        Assert.DoesNotContain("/blob/main/THIRD-PARTY-NOTICES.TXT", notices, StringComparison.Ordinal);
+        Assert.Contains("https://github.com/dotnet/runtime/blob/v10.0.13/THIRD-PARTY-NOTICES.TXT", notices, StringComparison.Ordinal);
+        Assert.Contains("https://github.com/dotnet/wpf/blob/v10.0.13/THIRD-PARTY-NOTICES.TXT", notices, StringComparison.Ordinal);
+        var all = Core.About.LicenseTexts.ThirdPartyNotices()!;
+        foreach (var file in Core.About.LicenseTexts.RuntimeNoticesFiles)
+        {
+            var text = File.ReadAllText(Path.Combine(RepoPaths.Root, "notices", file));
+            Assert.Contains(file, notices, StringComparison.Ordinal);
+            Assert.Contains("===== " + file, all, StringComparison.Ordinal);
+            Assert.Contains(text.TrimEnd().ReplaceLineEndings("\n"), all.ReplaceLineEndings("\n"), StringComparison.Ordinal);
+            foreach (var project in new[] { "src/Riegel/Riegel.csproj", "src/Riegel.Cli/Riegel.Cli.csproj" })
+                Assert.Contains(@"notices\THIRD-PARTY-NOTICES-dotnet-*.txt", File.ReadAllText(Path.Combine(RepoPaths.Root, project)), StringComparison.Ordinal);
+        }
+        var runtime = File.ReadAllText(Path.Combine(RepoPaths.Root, "notices", "THIRD-PARTY-NOTICES-dotnet-runtime.txt"));
+        Assert.StartsWith(".NET Runtime uses third-party libraries", runtime, StringComparison.Ordinal);
+        Assert.Contains("License notice for zlib-ng", runtime, StringComparison.Ordinal);
+        // Liegt das Runtime-Paket 10.0.13 im NuGet-Cache, muss der Text gleich sein (die CI prüft das an jedem Publish)
+        var cache = Environment.GetEnvironmentVariable("NUGET_PACKAGES") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages");
+        foreach (var rid in new[] { "win-x64", "linux-x64", "linux-arm64" })
+        {
+            var pack = Path.Combine(cache, "microsoft.netcore.app.runtime." + rid, "10.0.13", "THIRD-PARTY-NOTICES.TXT");
+            if (File.Exists(pack)) Assert.Equal(File.ReadAllText(pack).ReplaceLineEndings("\n"), runtime.ReplaceLineEndings("\n"));
+        }
+    }
+
     [Fact]
     public void Hinweise_enthalten_die_Namensnennungen_der_Regelquellen_und_Laufzeiten()
     {

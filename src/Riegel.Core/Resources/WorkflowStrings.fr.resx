@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
@@ -482,5 +483,14 @@
   </data>
   <data name="Service_State" xml:space="preserve">
     <value>état {0}</value>
+  </data>
+  <data name="Error_RGL0415" xml:space="preserve">
+    <value>L'export de l'exécution {0} n'est pas dans le dossier de l'installation ({1}) : seul un chemin relatif dans le dossier, sans lien, est utilisé.</value>
+  </data>
+  <data name="Error_RGL0416" xml:space="preserve">
+    <value>L'export {0} ne correspond pas à l'exécution {1} (SHA-256 attendu {2}, trouvé {3}). Il n'est utilisé ni pour une annulation, ni pour une comparaison, ni pour une réévaluation.</value>
+  </data>
+  <data name="Error_RGL0439_one" xml:space="preserve">
+    <value>Expire le {0} (dans {1} jour).</value>
   </data>
 </root>

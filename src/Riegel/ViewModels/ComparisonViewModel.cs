@@ -158,12 +158,16 @@ internal sealed class ComparisonViewModel : PageViewModel
             var result = await Task.Run(() =>
             {
                 Run? from = approved ? (machine.Approved is { } a ? TryLoad(plant, a.RunId) : null) : machine.Previous;
-                var fromSnapshot = from is null ? null : plant.ReadSnapshot(from);
-                var toSnapshot = plant.ReadSnapshot(to);
-                return (from, toSnapshot is null ? null : plant.Services.Comparison.Compare(from, fromSnapshot, to, toSnapshot, basis));
+                // Basis ohne brauchbaren Export: Vergleich ohne Rohwerte; Ziel ohne brauchbaren Export: kein Vergleich
+                // (RGL-0415/0416 stehen dann im Hinweis der Seite)
+                string? fromProblem = null;
+                var fromSnapshot = from is null ? null : plant.TryReadSnapshot(from, out fromProblem);
+                var toSnapshot = plant.TryReadSnapshot(to, out var toProblem);
+                return (from, toSnapshot is null ? null : plant.Services.Comparison.Compare(from, fromSnapshot, to, toSnapshot, basis), toProblem ?? fromProblem);
             });
             if (version != _version) return;
-            var (fromRun, comparison) = result;
+            var (fromRun, comparison, problem) = result;
+            if (problem is not null) EmptyText = problem;
             _comparison = comparison;
             ToText = Loc.F("Comparison_To", Texts.DateTime(to.CollectedAtUtc), to.Id);
             FromText = fromRun is null ? Loc.T(approved ? "Comparison_NoApprovedRun" : "Comparison_NoPrevious")
@@ -177,7 +181,7 @@ internal sealed class ComparisonViewModel : PageViewModel
                     (row.IsWorse || c.Kind == StatusChangeKind.ExceptionExpired ? Worse : Other).Add(row);
                 }
                 foreach (var d in comparison.Drift) Drift.Add(new DriftRow { Drift = d });
-                if (fromRun is not null && comparison.StatusChanges.Count == 0 && comparison.Drift.Count == 0) EmptyText = Loc.T("Comparison_NoChanges");
+                if (problem is null && fromRun is not null && comparison.StatusChanges.Count == 0 && comparison.Drift.Count == 0) EmptyText = Loc.T("Comparison_NoChanges");
             }
         }
         foreach (var n in new[] { nameof(HasWorse), nameof(HasOther), nameof(HasDrift), nameof(HasComparison), nameof(WorseHeader), nameof(OtherHeader),

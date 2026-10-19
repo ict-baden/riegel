@@ -83,7 +83,7 @@ internal sealed class StartViewModel : PageViewModel
 
     public bool HasPlantMode => PlantMode.Length > 0;
 
-    public string MachinesText => Plant is null ? "" : Loc.F("Start_Machines", Plant.Machines.Count, Plant.Machines.Count(m => m.Latest is not null));
+    public string MachinesText => Plant is null ? "" : Loc.P("Start_Machines", Plant.Machines.Count, Plant.Machines.Count, Plant.Machines.Count(m => m.Latest is not null));
 
     /// <summary>Zählungen zuerst: „Offene Befunde: 3 hoch, 12 mittel, 7 niedrig“.</summary>
     public string OpenCountsText => Plant is null ? "" : Counts(c => Loc.F("Start_OpenCounts", c.High, c.Medium, c.Low));

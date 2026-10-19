@@ -147,7 +147,7 @@ Decisions made in the integration step (the vectors and docs say the same):
 - **CRED-06** without `--deep`: "no Wininit event 12 since the last boot and no configuration" is *not checkable*, not a
   fail – the System log may have wrapped since the start, so the missing event proves nothing.
 - **ASR rules** with Defender active but `MSFT_MpPreference` not readable: a matching value in the Group Policy store is
-  *not checkable* with the flag ConfiguredOnly ("konfiguriert, Wirkung nicht nachgewiesen"), as in the engine's
+  *not checkable* with the flag ConfiguredOnly ("Configured, effect not proven"), as in the engine's
   documentation – runtime before configuration (spec 2.4.6).
 - **ACCT-17**: an enabled account that has never logged on counts as unused, as the DISA check counts "Never".
 - **FW-01/04/07** (Domain profile) and **FW-10** apply to domain members only, following the DISA Firewall STIG.

@@ -32,7 +32,8 @@ internal static class MiscCommands
         var plant = ctx.OpenPlant(a.Required("--plant", "<folder>"), forWrite: false, "remediate");
         var host = a.Required("--machine", "<host>");
         var run = a.Value("--run") is { } id ? CompareCommands.RunOf(ctx, plant, host, id) : CompareCommands.Latest(ctx, plant, host);
-        var snapshot = new Pipeline(ctx).TrySnapshotOf(plant, run) ?? throw RiegelException.Common(RglCodesCommon.NotFound, run.Snapshot.Path);
+        // Die Rücknahme braucht genau den Export dieses Laufs: nur aus dem Anlagenordner und mit passendem SHA-256
+        var snapshot = new Pipeline(ctx).SnapshotOf(plant, run);
         string outDir;
         if (a.Value("--out") is { } given) outDir = Path.GetFullPath(given);
         else if (ctx.ReadOnly || plant.ReadOnly) throw RglCodesCli.Error(RglCodesCli.ReadOnlyNeedsOut);
@@ -41,8 +42,10 @@ internal static class MiscCommands
         var catalogue = PlantBaselines.Catalogue(ctx, plant);
         var registers = ctx.Services.Registers.Load(plant);
         var result = ctx.Services.Remediation.Write(run, snapshot, catalogue, registers, outDir, language);
-        ctx.Line(CliStrings.Cli_RemediationWritten, result.Directory, CommandContext.N(result.IncludedRuleIds.Count),
-            CommandContext.N(result.Excluded.Count), CommandContext.N(result.ManualRuleIds.Count));
+        ctx.Line(CliStrings.Cli_RemediationWritten, result.Directory,
+            Plural.Text("Cli_CountRulesInFiles", result.IncludedRuleIds.Count, CommandContext.N(result.IncludedRuleIds.Count)),
+            Plural.Text("Cli_CountLeftOut", result.Excluded.Count, CommandContext.N(result.Excluded.Count)),
+            Plural.Text("Cli_CountManualSteps", result.ManualRuleIds.Count, CommandContext.N(result.ManualRuleIds.Count)));
         foreach (var file in result.Files) ctx.Written(file);
         ctx.Line(CliStrings.Cli_RemediationNote);
         return CommandApp.Ok;

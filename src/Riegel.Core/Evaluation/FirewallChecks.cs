@@ -44,29 +44,76 @@ internal sealed partial class EvaluationSession
         return (null, EvidenceClass.NotSet, null);
     }
 
+    /// <summary>Wirksamer Zustand eines Profils (eingeschaltet bzw. „eingehend blockieren“) und worauf er beruht.</summary>
+    private sealed record ProfileState(bool? Value, string? Reason, RegValueEvidence Policy, bool? Local, ItemEvidence Runtime)
+    {
+        /// <summary>Der Wert der Gruppenrichtlinie entscheidet (gesetzt).</summary>
+        public bool ByPolicy => Policy.Class == EvidenceClass.Present;
+    }
+
     /// <summary>
-    /// Firewall-Profil: enabled und defaultInboundBlock aus der Laufzeit (COM), ohne Laufzeit „nicht prüfbar“ (spec 2.9);
-    /// logDropped und allowLocalRules aus Richtlinie, dann lokal. Nicht gesetzt heißt „nicht konfiguriert“: das ist ein
-    /// Befund, wenn die Regel die gehärtete Einstellung verlangt (logDropped true, allowLocalRules false), sonst ohne
-    /// belegten Standardwert nicht prüfbar.
+    /// Wirksamer Zustand von enabled bzw. defaultInbound eines Profils (Review evidence-1). INetFwPolicy2 liefert nur
+    /// die lokale Einstellung: Microsoft Learn zu get_FirewallEnabled „Indicates whether a firewall is enabled locally
+    /// (the effective result may differ due to group policy settings)“ (gesehen 2026-10-18,
+    /// https://learn.microsoft.com/en-us/windows/win32/api/netfw/nf-netfw-inetfwpolicy2-get_firewallenabled). Deshalb:
+    /// ein gesetzter Wert im Richtlinienspeicher (GPO) entscheidet in beide Richtungen; ist er nicht lesbar, ist der
+    /// Zustand unbekannt; nicht gesetzt → die lokale Einstellung aus COM. Registry-Kodierung (DISA STIG V-241991 ff.):
+    /// EnableFirewall ≠ 0 = an; DefaultInboundAction 1 = blockieren, 0 = erlauben (anders als NET_FW_ACTION in COM).
+    /// </summary>
+    private ProfileState EffectiveProfile(FirewallProfileName profile, bool enabled)
+    {
+        var (policyKey, _) = Known.FirewallProfileKeys(profile);
+        var policy = Store.RegistryValue(policyKey, enabled ? "EnableFirewall" : "DefaultInboundAction");
+        var (runtime, state) = FirewallRuntime(profile);
+        bool? local = state is { } s ? (enabled ? JsonRead.Bool(s, "enabled") : InboundBlocks(s)) : null;
+        if (policy.Class == EvidenceClass.Unavailable) return new(null, policy.Reason ?? RglCodesEngine.ItemNotCollected, policy, local, runtime);
+        if (policy.Class == EvidenceClass.Present)
+        {
+            var (typed, wrong) = ConvertRegistry(policy.Type, policy.V, RegValueType.Dword, null);
+            bool? value = wrong || typed is not Typed.Num n ? null
+                : enabled ? n.Value != 0
+                : n.Value switch { 1 => true, 0 => false, _ => null };
+            return new(value, value is null ? RglCodesEngine.UnexpectedValue : null, policy, local, runtime);
+        }
+        if (state is null) return new(null, runtime.Reason ?? RglCodesEngine.UnexpectedValue, policy, null, runtime);
+        return new(local, local is null ? RglCodesEngine.UnexpectedValue : null, policy, local, runtime);
+    }
+
+    /// <summary>
+    /// Firewall-Profil: enabled und defaultInboundBlock wirksam (<see cref="EffectiveProfile"/>: gesetzte GPO vor der
+    /// lokalen Einstellung aus COM), sonst „nicht prüfbar“; logDropped und allowLocalRules aus Richtlinie, dann lokal.
+    /// Nicht gesetzt heißt „nicht konfiguriert“: das ist ein Befund, wenn die Regel die gehärtete Einstellung verlangt
+    /// (logDropped true, allowLocalRules false), sonst ohne belegten Standardwert nicht prüfbar.
     /// </summary>
     private Outcome FirewallProfile(FirewallProfileCheck c)
     {
         var expected = c.Expected ? "true" : "false";
         if (c.Property is FirewallProfileProperty.Enabled or FirewallProfileProperty.DefaultInboundBlock)
         {
-            var (item, profile) = FirewallRuntime(c.Profile);
-            if (profile is not { } p) return Unavailable(item.Reason, item.Key, null, expected);
-            bool? actual = c.Property == FirewallProfileProperty.Enabled ? JsonRead.Bool(p, "enabled") : InboundBlocks(p);
-            if (actual is null) return new Outcome(ResultStatus.NotCheckable, RglCodesEngine.UnexpectedValue) { Expected = expected };
+            bool enabled = c.Property == FirewallProfileProperty.Enabled;
+            var state = EffectiveProfile(c.Profile, enabled);
+            if (state.Policy.Class == EvidenceClass.Unavailable)
+                return Unavailable(state.Reason, state.Policy.ItemKey, null, expected);
+            if (!state.ByPolicy && state.Runtime is { IsPresent: false } runtime)
+                return Unavailable(runtime.Reason, runtime.Key, null, expected);
+            if (state.Value is not { } actual)
+                return new Outcome(ResultStatus.NotCheckable, RglCodesEngine.UnexpectedValue) { Expected = expected };
             var o = new Outcome(actual == c.Expected ? ResultStatus.Pass : ResultStatus.Fail)
             {
                 Expected = expected,
-                Actual = actual.Value ? "true" : "false",
+                Actual = actual ? "true" : "false",
                 Source = ValueSource.Runtime,
-            }.DecidedBy(ItemKeys.Firewall);
-            // Konfigurierter Wert als Kontext (spec 2.4 Punkt 6)
-            var (configured, cls, _) = FirewallRegistry(c.Profile, "", c.Property == FirewallProfileProperty.Enabled ? "EnableFirewall" : "DefaultInboundAction");
+            };
+            if (state.ByPolicy)
+            {
+                var (policySource, policyDetail) = SourceOf(state.Policy.ItemKey, state.Policy.ValueName, ValueOrigin.Policy);
+                return (o with { Source = policySource, SourceDetail = policyDetail }).DecidedBy(state.Policy.ItemKey)
+                    .With(T["Detail_FirewallPolicyDecides", state.Local is { } l ? (l ? "true" : "false") : T.Value(null)]);
+            }
+            // Ohne Gruppenrichtlinie (nachweislich nicht gesetzt): lokale Einstellung (COM)
+            o = (o with { SourceDetail = "local" }).DecidedBy(ItemKeys.Firewall);
+            // Konfigurierter lokaler Wert als Kontext (spec 2.4 Punkt 6)
+            var (configured, cls, _) = FirewallRegistry(c.Profile, "", enabled ? "EnableFirewall" : "DefaultInboundAction");
             if (cls == EvidenceClass.Present && configured?.V is { } cv) o = o.With(T["Detail_Configured", CanonicalValue.Render(cv)]);
             return o;
         }
@@ -129,13 +176,17 @@ internal sealed partial class EvaluationSession
         var exposedPorts = new SortedSet<string>(StringComparer.Ordinal);
         string PortText(PortSpec p) => (p.Protocol == NetProtocol.Tcp ? "tcp/" : "udp/") + p.Port.ToString(CultureInfo.InvariantCulture);
 
-        // Profil aus oder eingehend erlaubt: alles offen
+        // Profil aus oder eingehend erlaubt (wirksam: gesetzte GPO vor der lokalen Einstellung): alles offen
+        var profileKeys = new List<string>();
         foreach (var profile in considered)
         {
-            var (_, state) = FirewallRuntime(profile);
-            if (state is not { } s) { uncertain.Add(T["Detail_ProfileStateUnknown", Known.ProfileName(profile)]); continue; }
-            var enabled = JsonRead.Bool(s, "enabled");
-            var blocks = InboundBlocks(s);
+            var enabledState = EffectiveProfile(profile, enabled: true);
+            var inboundState = EffectiveProfile(profile, enabled: false);
+            // Ein gesetzter Richtlinienwert trägt die Entscheidung; „nicht gesetzt“ ist belegte Abwesenheit
+            if (enabledState.ByPolicy) profileKeys.Add(enabledState.Policy.ItemKey);
+            if (inboundState.ByPolicy) profileKeys.Add(inboundState.Policy.ItemKey);
+            var enabled = enabledState.Value;
+            var blocks = inboundState.Value;
             if (enabled == false || blocks == false)
             {
                 definite.Add(T[enabled == false ? "Detail_ProfileOff" : "Detail_ProfileInboundAllow", Known.ProfileName(profile)]);
@@ -208,7 +259,7 @@ internal sealed partial class EvaluationSession
         var actual = CanonicalValue.Render(JsonValues.Texts(exposedPorts));
         // Entscheidend: Laufzeit, Registry-Regeln und die Zusammenführung nur dort, wo sie eine Regel ein- oder ausschloss
         var outcome = new Outcome(ResultStatus.Fail) { Expected = expected, Actual = actual, Source = ValueSource.Runtime }
-            .DecidedBy([ItemKeys.Firewall, ItemKeys.ParsedFirewallRulesRegistry, .. mergeUsed.SelectMany(p => mergeKeys[p])]);
+            .DecidedBy([ItemKeys.Firewall, ItemKeys.ParsedFirewallRulesRegistry, .. profileKeys, .. mergeUsed.SelectMany(p => mergeKeys[p])]);
         if (definite.Count > 0) return definite.Aggregate(outcome, (o, d) => o.With(d));
         if (uncertain.Count > 0)
             return uncertain.Aggregate(outcome with { Status = ResultStatus.NotCheckable, ReasonCode = rulesCollected ? RglCodesEngine.NoDecisiveEvidence : RglCodesEngine.ItemNotCollected },

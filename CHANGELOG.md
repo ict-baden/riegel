@@ -4,6 +4,39 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 
 ## [Unveröffentlicht]
 
+### Sicherheit
+- Rücknahme (`remediate`), Vergleich, erneute Auswertung und die Vergleichsbasis eines Laufs lesen den Export eines gespeicherten Laufs nur noch aus dem Anlagenordner (kein absoluter Pfad, kein UNC-Pfad, kein „..“, keine Verknüpfung) und nur mit dem SHA-256 des Laufs (`RGL-0415`, `RGL-0416`). Vorher konnte ein manipulierter Lauf eine Rücknahme aus dem Export eines anderen Rechners oder von außerhalb der Anlage erzeugen.
+- Lizenz: `PdfSharp.WPFonts.dll` (sechs Segoe-WP-Schriften von Microsoft, „All Rights Reserved“, ohne Recht zur Weitergabe) sowie `PdfSharp.Snippets.dll` und `PdfSharp.Quality.dll` werden nicht mehr ausgeliefert; die Drittanbieter-Hinweise nannten die Schriften fälschlich MIT.
+- Protokoll: Pfade (auch aus IO-Fehlermeldungen), Rechner-, Benutzer- und Domänennamen, Konten, SIDs und Adressen werden vor dem Schreiben ersetzt; vorher standen Benutzerprofil- und Anlagenordner-Namen im Protokoll.
+
+### Behoben
+- FW-01…06 und FW-11: ein gesetzter Wert der Gruppenrichtlinie (EnableFirewall, DefaultInboundAction) entscheidet vor der lokalen Einstellung, die der Firewall-Dienst (INetFwPolicy2) meldet; eine per GPO abgeschaltete Firewall wurde vorher als „erfüllt“ gemeldet. Nicht lesbarer Richtlinienspeicher → „nicht prüfbar“.
+- ACCT-14 (Windows LAPS): wie Windows LAPS gilt der erste Richtlinienbereich mit irgendeiner Einstellung als aktiv (CSP, Gruppenrichtlinie, lokale Konfiguration, altes Microsoft LAPS); ein dort fehlendes BackupDirectory heißt „deaktiviert“. Neue Fähigkeit `windowsLaps` (Windows 11/10 und Server 2019/2022 mit dem Update vom 11.04.2023, Server 2025): auf Windows Server 2016 und älter schlägt die Regel fehl statt „erfüllt“. Dafür `registryEffective` mit `selection: root` und `minUbr` in den Fähigkeitstabellen.
+- Bordmittel-Weg: `collect-builtin.cmd` startet sich aus einem 32-Bit-`cmd` über `Sysnative` als 64-Bit-`cmd` neu und vermerkt `wow64` in `exitcodes.txt`; ein fehlendes Winlogon\AutoAdminLogon gilt nur bei `wow64=0` und errorlevel 1 als „nicht gesetzt“. Vorher ergab ein Lauf in der 32-Bit-Ansicht LOGON-10 (hoch) „erfüllt“.
+- LIFE-02: ohne Eintrag in der Build-Tabelle (z. B. Windows 7, 8.1, Server 2012 R2) belegt der neueste Hotfix nur noch einen Befund (seit mehr als `updateMaxDays` nichts installiert); ein junges Installationsdatum (auch eines Wartungsstapel- oder .NET-Updates) ergibt „nicht prüfbar“ statt „erfüllt“.
+- ASR-08 und DEF-09: die drei ASR-Regeln, die laut Microsoft den Cloud-Schutz brauchen (Verbreitung/Alter, verschleierte Skripte, erweiterter Ransomware-Schutz), sind nur mit MAPSReporting 1 oder 2 „erfüllt“; mit 0 „konfiguriert, aber nicht wirksam“.
+- ENC-04: verlangt neben der PIN-Richtlinie eine Schutzvorrichtung TPM und PIN (Typ 4 oder 6) auf dem Betriebssystemlaufwerk (`GetKeyProtectors`); ein früher nur mit dem TPM verschlüsseltes oder unverschlüsseltes Laufwerk war vorher „erfüllt“. Ohne Liste der Schutzvorrichtungen (ohne Admin) „nicht prüfbar“.
+- ENC-06: die gesetzte DMA-Richtlinie („Block all“) heißt jetzt „konfiguriert, Wirkung nicht nachgewiesen“ (nicht prüfbar), weil sie nur mit Kernel-DMA-Schutz der Firmware wirkt und Riegel diesen Zustand nicht erhebt; vorher „erfüllt“. Dafür `configuredOnly` an Registry-Prüfungen.
+- CRED-17: mit RestrictRemoteSamAuditOnlyMode = 1 (Nur-Überwachen-Modus, jeder Aufruf wird zugelassen) schlägt die Regel fehl; vorher „erfüllt“ mit dem Standard-SDDL.
+- SVC-01: verlangt den Starttyp „Deaktiviert“ der Druckwarteschlange statt nur „beendet“; eine beendete Warteschlange mit Starttyp Automatisch war „erfüllt“, startet aber beim nächsten Neustart wieder. Auch auf Bordmittel-Paketen damit prüfbar.
+- AUD-23: der lokale Wert der Protokollgröße zählt nur, wo die Größe der Gruppenrichtlinie nachweislich nicht gesetzt ist; ein nicht lesbarer Richtlinienschlüssel ergibt „nicht prüfbar“ statt „erfüllt“ aus dem lokalen Wert. Der Mutationstest prüft jetzt auch den Vorrang zwischen Konfigurationsquellen.
+- Prüfumfang: wird auf ganze Prozent abgeschnitten statt gerundet; 89,5 % erschienen vorher als 90 % ohne Hinweis „Unvollständige Prüfung“, ohne Graustufe und ohne Lauf-Flag `Incomplete`.
+- Defender ohne Admin: meldet die WSC-API Microsoft Defender als eingeschaltet, wird aus den Platzhaltern von MSFT_MpComputerStatus (eingeschränktes Token) nicht mehr „aus“ hergeleitet; DEF-01/02/12, LIFE-04 und ASR-xx sind dann „nicht prüfbar“ statt „kein aktiver Virenschutz“.
+- docs/rules.md nennt bei allen DISA-Verweisen die STIG-Kennungen (V-ID und Regel-ID); bei 33 Regeln stand vorher nur „DISA: “.
+- Konsolenprogramm: `import <Ordner>` nimmt die Exporte eines Ordners auf (wie im README, vorher RGL-0260), und `tailoring/exceptions import-template <Name>` erreicht die eingebauten Vorlagen (`hmi`, `engineering-station`, `historian-server`, `jump-host`), die in keinem Paket als Datei liegen; neue Codes RGL-0470 und RGL-0471.
+- Mehrzahl in Oberfläche, Konsolenprogramm und Registermeldungen über `_one`/`_other` nach den Regeln der Sprache (vorher „1 findings“, „1 exports added“, „1 errors“, „in 1 days“); Daten in den Meldungen der Registerprüfung folgen in der Oberfläche dem Gebietsschema, in JSON bleiben sie ISO 8601.
+- Entwicklerdoku: der Befehl zum Neuerzeugen von docs/error-codes.md schließt den Fehlercode-Test ein.
+- Oberfläche: Listenspalten werden nie schmaler als ihr Kopf in der gewählten Sprache („Geltungsbereich“, „Verantwortlich (Rolle)“, „Responsable (función)“ wurden abgeschnitten); die Layout-Prüfung der Screenshots meldet abgeschnittene Spaltenköpfe.
+- Zuschnitt: die Schaltflächen der Rollenvorlagen zeigen den Rollennamen in der Sprache der Oberfläche (z. B. „Bedienstation (HMI)“) statt des Dateinamens („hmi“, „jump-host“).
+
+### Geändert
+- Lizenzen: die Drittanbieter-Hinweise der mitgelieferten .NET-Laufzeit und von WPF (Stand v10.0.13) liegen jetzt als `THIRD-PARTY-NOTICES-dotnet-runtime.txt` und `THIRD-PARTY-NOTICES-dotnet-wpf.txt` neben den Programmen und sind in `--licenses` und der Info-Seite enthalten; vorher nur ein Link auf den Zweig main. Die CI vergleicht den Text mit den veröffentlichten Runtime-Paketen.
+- Stückliste (CycloneDX): enthält jetzt auch die Pakete von `Riegel.Cli.exe` für Windows (System.CodeDom) und die WiX-Erweiterung `WixToolset.Util.wixext` (MS-RL), deren Custom Action in der MSI steckt.
+- Doku: der Sammler „ändert keine Konfiguration, schreibt nur seinen Export, und Windows vermerkt, dass ein Programm lief“ (statt „ändert nichts“), mit Verweis auf die Spuren; data-and-privacy.md nennt Gateway-Adresse, WinHTTP-Proxy und Defender-IP-Ausnahmen im Export.
+- Einheitliche Begriffe: der prüfbare Anteil heißt auf Deutsch 
+- Sammlerpaket: der deutsche Teil von README.txt mit Umlauten (vorher „Pruefsummendatei“, „aendert“); README.txt und die Hilfe von `collect` sagen wie spec 4.4 „ändert keine Konfiguration“ statt „startet keinen Dienst, ändert nichts“ und verweisen auf die Spuren, die Windows selbst vermerkt.
+- Sprachdateien: eine Kennzeichnung der Vorübersetzung für es, fr und zh-Hans – oben in jeder Datei „Maschinell vorübersetzt – TODO-übersetzen“ (wie beim Sammler), besonders unsichere Einträge mit `TODO-übersetzen` in allen drei Sprachen; ein Test hält das einheitlich.
+
 ## [0.1.0] – 2026-10-18
 
 Erste Version. Sammler 0.1.0, Regelwerk 2026.10 (153 Regeln). Noch nicht signiert; kein Kundenpilot auf OT- oder validierten Rechnern mit dieser Version.

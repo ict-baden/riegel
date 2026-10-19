@@ -211,7 +211,7 @@ Folder `<HOST>_<yyyyMMdd>.riegel-builtin\`, written by `collect-builtin.cmd` or 
 | `services-start.txt` | `reg query HKLM\SYSTEM\CurrentControlSet\Services /s /v Start` (console code page, CRLF); type tokens like `REG_DWORD` are not localised; the localised footer line is ignored |
 | `winlogon.txt` | `reg query … /v AutoAdminLogon`, `/v DefaultUserName`, `/v DefaultDomainName`, then one line `DefaultPassword=present` or `DefaultPassword=absent` – never the value |
 | `hostname.txt`, `ver.txt` | outputs of `hostname` and `ver` |
-| `exitcodes.txt` | one line `<step>=<errorlevel>` per command, e.g. `secedit=0`, `reg-03=0`, `currentversion=0`, `services-start=0`; `reg-NN=1` means the key is missing or unreadable, and that file is skipped |
+| `exitcodes.txt` | one line `<step>=<errorlevel>` per command, e.g. `secedit=0`, `reg-03=0`, `currentversion=0`, `services-start=0`; `reg-NN=1` means the key is missing or unreadable, and that file is skipped. `wow64=0` records that the commands ran in the 64-bit registry view (`wow64=1`: a 32-bit `cmd` on 64-bit Windows without `Sysnative`, whose `reg` sees `WOW6432Node`; Winlogon is then not used). A Winlogon value missing from `winlogon.txt` counts as not set only with `wow64=0` and `winlogon-<value>=1` (`reg query` "value not found"); otherwise it is not collected |
 
 The reader converts a bundle into a snapshot with `origin: builtin`, a coverage list for exactly the exported keys
 (everything else `notCollected`), redaction re-applied and per-file size limits:
@@ -285,15 +285,15 @@ The closed set of spec 2.3. Every check has `"type"`; the fields are exactly the
 
 | `type` | Fields |
 |---|---|
-| `registry` | `key`, `value`, `valueType` (`dword qword sz expand_sz multi_sz binary`), `acceptTypes?`, `op`, `expected?`, `whenMissing` (`fail notCheckable osDefault pass`), `osDefaults?` [ `{ minBuild?, maxBuild?, editions?, installationTypes?, domainJoined?, value, source, seen }` ], `missingPass?` `{ source, seen, note }`, `multiSz?` (`set` default, `list`) |
-| `registryEffective` | `sources` [ `{ key, value, origin: policy\|mdm\|local\|other }` ] plus the registry comparison fields |
+| `registry` | `key`, `value`, `valueType` (`dword qword sz expand_sz multi_sz binary`), `acceptTypes?`, `op`, `expected?`, `whenMissing` (`fail notCheckable osDefault pass`), `osDefaults?` [ `{ minBuild?, maxBuild?, editions?, installationTypes?, domainJoined?, value, source, seen }` ], `missingPass?` `{ source, seen, note }`, `multiSz?` (`set` default, `list`), `configuredOnly?` (`true`: a met comparison is only configuration whose effect depends on something not collected – not checkable with flag `ConfiguredOnly`, never pass) |
+| `registryEffective` | `sources` [ `{ key, value, origin: policy\|mdm\|local\|other }` ], `selection?` (`value` default: the first source that has the value; `root`: the first source key that has any value is the active policy and a value missing there is not set, as Windows LAPS selects its policy root) plus the registry comparison fields |
 | `secedit` | `section`, `key`, `op`, `expected?`, `valueKind` (`number string registryValue`), `whenMissing` |
 | `accountPolicy` | `field` (`minPwLen maxPwAgeDays minPwAgeDays pwHistLen lockoutThreshold lockoutDurationMin lockoutWindowMin passwordComplexity clearTextPassword`), `op`, `expected?` |
 | `auditSubcategory` | `guid` (`{…}`), `expected` (`success failure successAndFailure includesSuccess includesFailure noAuditing`) |
 | `userRight` | `right`, `mode` (`mustInclude mustNotInclude onlyFrom empty`), `sids` (well-known SIDs or `*-<RID>`) |
 | `service` | `name`, `startMode?` (`Boot System Auto Manual Disabled`), `state?`, `ifAbsent` (`fail pass notApplicable`) |
 | `feature` | `name`, `installState` (1 enabled, 2 disabled, 3 absent), `ifAbsent` |
-| `wmiProperty` | `item`, `property`, `rowFilter?` `{ property, op, value }`, `rows` (`any all first`), `op`, `expected?`, `ifNoRows` (`notCheckable fail notApplicable pass`) |
+| `wmiProperty` | `item`, `property` (a per-row method output as `<Method>.<Output>`, e.g. `GetKeyProtectors.KeyProtectorTypes`), `rowFilter?` `{ property, op, value }`, `rows` (`any all first`), `op`, `expected?`, `ifNoRows` (`notCheckable fail notApplicable pass`) |
 | `defenderSetting` | `source` (`status preference`), `property`, `op`, `expected?` |
 | `asrRule` | `guid`, `accept?` (`block` default, `blockOrWarn`, `blockOrAudit`) |
 | `firewallProfile` | `profile` (`domain private public`), `property` (`enabled defaultInboundBlock logDropped allowLocalRules`), `expected` (bool) |
@@ -389,8 +389,10 @@ machine's OS kind (`ProductType` 1 = client, 2/3 = server; `BuildTable.Find(buil
 only `os`-specific entries there is no match and the update age is not checkable.
 
 **`rules/capabilities/*.json`** (`riegel.capabilities/1`): `{ schema, capabilities: [ { capability, exists: [ { os?,
-minBuild?, maxBuild?, editions?, installationTypes?, note? } ], source, seen, note? } ] }`. A capability exists on a
-machine when any `exists` entry matches (all of its given conditions hold). Duplicate names across files are a load
+minBuild?, maxBuild?, minUbr?, editions?, installationTypes?, note? } ], source, seen, note? } ] }`. A capability exists
+on a machine when any `exists` entry matches (all of its given conditions hold); `minUbr` requires at least that
+revision (UBR) of the build, for features that arrived with a cumulative update – an unknown UBR makes the entry
+unknown. Duplicate names across files are a load
 error. Every entry cites a Microsoft source.
 
 **`rules/data/*.json`** (`riegel.data/1`): `{ schema, kind: remoteAccessTools|officeDetection, remoteAccessTools?: [ {
@@ -460,6 +462,13 @@ releasedOn, sha256 }, baselines: [ BaselineRef ], registers: { exceptions, tailo
 isAdmin, options, results: [ RuleResult ], summary: RunSummary, categories: [ CategoryScore ], facts: { "<fact>":
 value|null }, previousRunId?, approvedRunId?, reEvaluationOf?, flags: [ staleSnapshot|clockSuspect|
 machineIdentityChanged|incomplete|domainController ] }`.
+
+`snapshot.path` is relative to the plant folder (`snapshots/<host>/<file>`). Run files are hostile input (spec 7.12):
+whoever reads a run's export again – remediation and its rollback, `compare`, re-evaluation, the comparison basis
+of a new run, report data – takes it only through `IPlantStore.RunSnapshotPath`, which rejects absolute paths, drive
+letters, UNC paths, `..` out of the folder, links (reparse points) and folders (`RGL-0415`) and a file whose SHA-256
+differs from `snapshot.sha256` (`RGL-0416`). `remediate` and the target of `compare` fail with that code; a
+comparison basis or the previous run of a monitoring `check` treats the export as missing and prints a note.
 
 `RuleResult`: `{ ruleSetId, ruleId, status: pass|fail|exception|outOfScope|notApplicable|notCheckable|info, severity,
 expected?, actual?, source: unknown|domainGpo|localPolicy|mdm|directlySet|osDefault|runtime|notSet, sourceDetail?,
@@ -637,7 +646,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 - **BuildRelease** (record): `int Ubr`, `DateOnly Date`, `string? Kb`, `string? Kind`
 - **BuildTable** (record): `string Schema`, `IReadOnlyList<BuildEntry> Builds`, `static BuildTable Empty`, `BuildEntry? Find(int build, string? osKind)`, `static string? OsKindOf(int? productType)`
 - **CanonicalValue** (static class): `const string Redacted`, `const string RedactedEmpty`, `const int BinaryPrefixBytes`, `static string Render(JsonElement? value)`, `static string RenderRegistry(JsonElement registryValue)`, `static string RenderRegistry(string? type, JsonElement v, bool truncated = false)`, `static string Binary(ReadOnlySpan<byte> bytes, bool truncated = false)`, `static bool AreEqual(string? a, string? b)`, `static bool TryParseInteger(string text, out ulong value)`, `static string Display(string? canonical)`
-- **CapabilityCondition** (record): `string? Os`, `int? MinBuild`, `int? MaxBuild`, `IReadOnlyList<string>? Editions`, `IReadOnlyList<string>? InstallationTypes`, `string? Note`
+- **CapabilityCondition** (record): `string? Os`, `int? MinBuild`, `int? MaxBuild`, `IReadOnlyList<string>? Editions`, `IReadOnlyList<string>? InstallationTypes`, `string? Note`, `int? MinUbr`
 - **CapabilityEntry** (record): `string Capability`, `string Source`, `DateOnly Seen`, `string? Note`, `IReadOnlyList<CapabilityCondition> Exists`
 - **CapabilityFile** (record): `string Schema`, `IReadOnlyList<CapabilityEntry> Capabilities`
 - **CapabilityTable** (record): `IReadOnlyList<CapabilityEntry> Capabilities`, `static CapabilityTable Empty`
@@ -665,6 +674,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 - **DeviceGuardService** (enum): CredentialGuard, Hvci, Vbs
 - **DomainScope** (enum): Any, Joined, Standalone
 - **DriftKind** (enum): Added, Removed, Changed
+- **EffectiveSelection** (enum): Value, Root
 - **EffectiveSource** (record): `string Key`, `string Value`, `ValueOrigin Origin`
 - **EvaluationContext** (record): `DateOnly EvaluationDate`, `DateTimeOffset EvaluatedAtUtc`, `DateTimeOffset? ImportedAtUtc`, `int UpdateMaxDays`, `int UnusedAccountDays`, `bool EsuCovered`, `string Language`
 - **EventPlanItem** (record): `string Key`, `string Log`, `string Provider`, `int EventId`, `string Xpath`, `bool AfterLastBoot`, `bool NeedsAdmin`, `PlanMode Mode`, `string? Note`
@@ -744,7 +754,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 - **RegisterSet** (record): `ExceptionFile Exceptions`, `TailoringFile Tailoring`, `MeasureFile Measures`, `RegisterHashes Hashes`
 - **RegistryAction** (record): `string Key`, `string Value`, `RegValueType? Type`, `JsonElement? Data`, `bool Delete`
 - **RegistryCheck** (record : CheckSpec): `string Key`, `string Value`, `RegValueType ValueType`, `IReadOnlyList<RegValueType>? AcceptTypes`, `CheckOperator Op`, `JsonElement? Expected`, `WhenMissing WhenMissing`, `IReadOnlyList<OsDefault>? OsDefaults`, `MissingPass? MissingPass`, `MultiSzMode? MultiSz`
-- **RegistryEffectiveCheck** (record : CheckSpec): `RegValueType ValueType`, `IReadOnlyList<RegValueType>? AcceptTypes`, `CheckOperator Op`, `JsonElement? Expected`, `WhenMissing WhenMissing`, `IReadOnlyList<OsDefault>? OsDefaults`, `MissingPass? MissingPass`, `MultiSzMode? MultiSz`, `IReadOnlyList<EffectiveSource> Sources`
+- **RegistryEffectiveCheck** (record : CheckSpec): `RegValueType ValueType`, `IReadOnlyList<RegValueType>? AcceptTypes`, `CheckOperator Op`, `JsonElement? Expected`, `WhenMissing WhenMissing`, `IReadOnlyList<OsDefault>? OsDefaults`, `MissingPass? MissingPass`, `MultiSzMode? MultiSz`, `IReadOnlyList<EffectiveSource> Sources`, `EffectiveSelection? Selection`
 - **RegistryPlan** (record): `IReadOnlyList<RegistryPlanEntry> Roots`, `IReadOnlyList<RegistryPlanEntry> Keys`
 - **RegistryPlanEntry** (record): `string Path`, `RegistryPlanKind Kind`, `int MaxDepth`, `IReadOnlyList<string>? Values`, `bool NeedsAdmin`, `PlanMode Mode`, `string? Note`
 - **RegistryPlanKind** (enum): Recursive, Key, Children
@@ -880,7 +890,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 - **IEvidencePack** (interface): `string Write(EvidenceRequest r)`, `VerifyResult Verify(string zipPath, ReadLimits l)`, `SampleResult CompareSample(string freshSnapshotPath, string zipPath, string? host, ReadLimits l)`
 - **IFactsDeriver** (interface): `IReadOnlyDictionary<string, JsonElement> Derive(Snapshot s, ICatalogue c)`
 - **IPdfWriter** (interface): `string WriteReport(ReportData d, PdfOptions o)`, `string WriteSummary(SummaryData d, PdfOptions o)`, `string WriteTargetConfig(TargetConfigData d, PdfOptions o)`, `string WriteApprovalSheet(ApprovalSheetData d, PdfOptions o)`, `string WriteCollectionRecord(CollectionRecordData d, PdfOptions o)`
-- **IPlantStore** (interface): `Plant Create(string dir, string name)`, `Plant Open(string dir, bool readOnly)`, `void SavePlant(Plant p, string expectedSha256)`, `ImportRecord Import(Plant p, IReadOnlyList<string> paths, ImportOptions o)`, `void SaveRun(Plant p, Run r)`, `IReadOnlyList<RunInfo> ListRuns(Plant p, string host)`, `Run LoadRun(Plant p, string runId)`, `ApprovedState LoadApproved(Plant p, string host)`, `void SaveApproved(Plant p, ApprovedState a)`
+- **IPlantStore** (interface): `Plant Create(string dir, string name)`, `Plant Open(string dir, bool readOnly)`, `void SavePlant(Plant p, string expectedSha256)`, `ImportRecord Import(Plant p, IReadOnlyList<string> paths, ImportOptions o)`, `void SaveRun(Plant p, Run r)`, `IReadOnlyList<RunInfo> ListRuns(Plant p, string host)`, `Run LoadRun(Plant p, string runId)`, `string RunSnapshotPath(Plant p, Run r)`, `ApprovedState LoadApproved(Plant p, string host)`, `void SaveApproved(Plant p, ApprovedState a)`
 - **IPlatform** (interface): `bool CanCollect`, `bool IsElevated`, `Snapshot CollectThisMachine(CollectOptions o, CancellationToken ct)`, `string CreateHandoffDirectory(string token)`, `HandoffResult RunElevatedCollect(string token, CancellationToken ct)`, `void OpenWithShell(string path)`, `string ExportCollectorBundle(string targetDir)`
 - **IRegisterService** (interface): `RegisterSet Load(Plant p)`, `void Save(Plant p, RegisterSet r, RegisterHashes expected)`, `IReadOnlyList<RuleResult> Apply(IReadOnlyList<RuleResult> raw, RegisterSet r, Plant p, string host, DateOnly today)`, `IReadOnlyList<ValidationIssue> Validate(RegisterSet r, ICatalogue c, Plant p, DateOnly today)`, `RegisterSet Approve(RegisterSet r, RegisterKind kind, IReadOnlyList<string> ids, Approval a)`, `RegisterSet ImportTemplate(RegisterSet r, string templatePath, ReadLimits l)`
 - **IRemediationWriter** (interface): `RemediationOutput Write(Run r, Snapshot s, ICatalogue c, RegisterSet reg, string outDir, string lang)`
@@ -903,6 +913,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 
 ### `Riegel.Core.Localization`
 
+- **Plural** (static class): `static string Category(string language, long n)`, `static string Format(ResourceManager resources, string key, long n, params object?[] args)`, `static bool Has(ResourceManager resources, string key)` – texts with a count come as `<key>_one` / `<key>_other` (CLDR: en, de, es exactly 1; fr 0 and 1; zh-Hans always other)
 - **UiLanguage** (static class): `static IReadOnlyList<string> Supported`, `static IReadOnlyList<string> ReviewedReportLanguages`, `static CultureInfo System`, `const string EnvironmentVariable`, `const string Fallback`, `static string Normalize(string? setting)`, `static string Resolve(CultureInfo system, params string[] choices)`, `static CultureInfo Apply(string? userSetting, string? machineDefault = null)`, `static bool IsReviewedReportLanguage(string language)`, `static string NativeName(string code)`
 
 ### `Riegel.Core.Diagnostics`

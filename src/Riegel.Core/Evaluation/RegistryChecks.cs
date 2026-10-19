@@ -22,6 +22,10 @@ internal sealed partial class EvaluationSession
         var rule = new RegistryRule(c.ValueType, c.AcceptTypes, c.Op, c.Expected, c.WhenMissing, c.OsDefaults, c.MissingPass, c.MultiSz);
         var evidence = Store.RegistryValue(c.Key, c.Value);
         var outcome = evidence.Class == EvidenceClass.NotSet ? Missing(rule, evidence) : CompareRegistry(rule, evidence, null);
+        // Nur Konfiguration (Review evidence-7): ein erfüllter Vergleich belegt die Wirkung nicht
+        if (c.ConfiguredOnly == true && outcome.Status == ResultStatus.Pass)
+            outcome = (outcome with { Status = ResultStatus.NotCheckable, ReasonCode = RglCodesEngine.ConfiguredOnly })
+                .WithFlags(ResultFlags.ConfiguredOnly).With(T["Detail_ConfiguredOnly"]);
         return AutoLogonTrap(c, outcome);
     }
 
@@ -37,6 +41,7 @@ internal sealed partial class EvaluationSession
     private Outcome RegistryEffective(RegistryEffectiveCheck c)
     {
         var rule = new RegistryRule(c.ValueType, c.AcceptTypes, c.Op, c.Expected, c.WhenMissing, c.OsDefaults, c.MissingPass, c.MultiSz);
+        if (c.Selection == EffectiveSelection.Root) return RegistryEffectiveRoot(c, rule);
         RegValueEvidence? last = null;
         foreach (var source in c.Sources)
         {
@@ -45,6 +50,42 @@ internal sealed partial class EvaluationSession
             if (evidence.Class == EvidenceClass.NotSet) continue;
             if (evidence.Class == EvidenceClass.Unavailable) return Unavailable(evidence.Reason, evidence.ItemKey, null, ExpectedText(rule));
             return CompareRegistry(rule, evidence, source.Origin).DecidedBy(evidence.ItemKey);
+        }
+        return last is null ? Outcome.NotCheckable(RglCodesEngine.InvalidRule) : Missing(rule, last);
+    }
+
+    /// <summary>
+    /// Auswahl nach Wurzel (Review evidence-2, Windows LAPS): „When a root that has at least one explicitly defined
+    /// setting is found, that root is used as the active policy. If the chosen root is missing any settings, the
+    /// settings are assigned their default values. Policy settings are never shared or inherited across policy key
+    /// roots.“ (Microsoft Learn, Configure Policy Settings for Windows LAPS, gesehen 2026-10-18). Der erste Schlüssel
+    /// mit irgendeinem Wert ist die aktive Richtlinie; ein dort fehlender Wert ist nicht gesetzt (whenMissing), auch
+    /// wenn eine spätere Wurzel ihn hat. Eine nicht beweisbare Wurzel davor → „nicht prüfbar“.
+    /// </summary>
+    private Outcome RegistryEffectiveRoot(RegistryEffectiveCheck c, RegistryRule rule)
+    {
+        RegValueEvidence? last = null;
+        foreach (var source in c.Sources)
+        {
+            var key = Store.RegistryKey(source.Key);
+            var evidence = Store.RegistryValue(source.Key, source.Value);
+            last = evidence;
+            if (key.Class == EvidenceClass.NotSet) continue;
+            if (key.Class == EvidenceClass.Unavailable) return Unavailable(key.Reason, key.Key, null, ExpectedText(rule));
+            if (!JsonRead.TryGet(key.Value, "values", out var values) || values.ValueKind != JsonValueKind.Object)
+                return Unavailable(RglCodesEngine.UnexpectedValue, key.Key, null, ExpectedText(rule));
+            bool any = values.EnumerateObject().Any();
+            if (!any)
+            {
+                // Leerer Schlüssel: nur mit vollständiger Werteliste (ohne Wertfilter) ist die Wurzel nachweislich leer
+                bool filtered = JsonRead.TryGet(key.Value, "valueFilter", out var filter) && filter.ValueKind == JsonValueKind.Array;
+                if (filtered) return Unavailable(RglCodesEngine.AbsenceNotProvable, key.Key, null, ExpectedText(rule));
+                if (evidence.Class == EvidenceClass.Unavailable) return Unavailable(evidence.Reason, evidence.ItemKey, null, ExpectedText(rule));
+                continue;
+            }
+            if (evidence.Class == EvidenceClass.Unavailable) return Unavailable(evidence.Reason, evidence.ItemKey, null, ExpectedText(rule));
+            var outcome = evidence.Class == EvidenceClass.NotSet ? Missing(rule, evidence) : CompareRegistry(rule, evidence, source.Origin);
+            return outcome.DecidedBy(evidence.ItemKey).With(T["Detail_ActiveRoot", Store.Canonical(key.Key)]);
         }
         return last is null ? Outcome.NotCheckable(RglCodesEngine.InvalidRule) : Missing(rule, last);
     }

@@ -130,7 +130,7 @@ public sealed class CatalogueProviderTests
     [Fact]
     public void Die_Felder_jeder_Pruefart_entsprechen_spec_2_3()
     {
-        Assert.Equal(["acceptTypes", "expected", "key", "missingPass", "multiSz", "op", "osDefaults", "value", "valueType", "whenMissing"],
+        Assert.Equal(["acceptTypes", "configuredOnly", "expected", "key", "missingPass", "multiSz", "op", "osDefaults", "value", "valueType", "whenMissing"],
             ClosedVocabulary.FieldsOf(CheckTypes.Registry));
         Assert.Equal(["accept", "guid"], ClosedVocabulary.FieldsOf(CheckTypes.AsrRule));
         Assert.Equal(["ports", "profiles"], ClosedVocabulary.FieldsOf(CheckTypes.FirewallExposure));

@@ -74,7 +74,7 @@ internal sealed partial class AppSession
     {
         var plant = RequireWritable();
         return SaveRegistersAsync(r => plant.Services.Registers.Approve(r, kind, ids, approval),
-            Loc.F("Notice_Approved", ids.Count, approval.ApprovalRecord));
+            Loc.P("Notice_Approved", ids.Count, ids.Count, approval.ApprovalRecord));
     }
 
     /// <summary>Vorlage importieren: neue Einträge sind immer „beantragt“ (spec 2.11, 2.12).</summary>
@@ -124,8 +124,8 @@ internal sealed partial class AppSession
         Log.Info($"Import: {record.Files.Count} Datei(en)");
         await ReloadAsync();
         Report(NoticeKind.Success, recordPath is null
-            ? Loc.F("Notice_Imported", record.Files.Count)
-            : Loc.F("Notice_ImportedWithRecord", record.Files.Count, Path.GetFileName(recordPath)));
+            ? Loc.P("Notice_Imported", record.Files.Count, record.Files.Count)
+            : Loc.P("Notice_ImportedWithRecord", record.Files.Count, record.Files.Count, Path.GetFileName(recordPath)));
         return record;
     }
 
@@ -134,6 +134,7 @@ internal sealed partial class AppSession
     {
         var plant = RequireWritable();
         var language = ReportLanguage;
+        var skipped = new List<string>();
         int count = await Work(Loc.T("Busy_Evaluating"), () =>
         {
             int n = 0;
@@ -141,15 +142,25 @@ internal sealed partial class AppSession
             {
                 if (hosts is not null && !hosts.Contains(m.HostName, StringComparer.OrdinalIgnoreCase)) continue;
                 if (m.Latest is not { } run || string.IsNullOrEmpty(run.Snapshot.Path)) continue;
-                var path = Path.Combine(plant.Folder, run.Snapshot.Path.Replace('/', Path.DirectorySeparatorChar));
-                if (!File.Exists(path)) continue;
+                // Nur der geprüfte Export im Anlagenordner (RGL-0415/0416): sonst würde ein fremder Pfad gelesen und
+                // als Export in die Anlage übernommen; dieser Rechner wird dann übersprungen
+                string? path;
+                try { path = plant.SnapshotPath(run); }
+                catch (RiegelException e)
+                {
+                    Log.Warning($"Neu auswerten: Export übersprungen ({e.Code})");
+                    skipped.Add($"{m.HostName} ({e.Code})");
+                    continue;
+                }
+                if (path is null) continue;
                 plant.Services.Runs.EvaluateAndStore(plant.Plant, path, new RunOptions(ImportedAtUtc: run.ImportedAtUtc, Language: language));
                 n++;
             }
             return n;
         });
         await ReloadAsync();
-        Report(NoticeKind.Success, Loc.F("Notice_Reevaluated", count));
+        Report(NoticeKind.Success, Loc.P("Notice_Reevaluated", count, count));
+        if (skipped.Count > 0) Report(NoticeKind.Warning, Loc.F("Notice_ReevaluateSkipped", string.Join(", ", skipped)));
     }
 
     /// <summary>„Diesen Lauf freigeben“: freigegebener Stand mit Rolle und Nachweis (spec 2.14).</summary>
@@ -332,7 +343,7 @@ internal sealed partial class AppSession
             return written;
         });
         Log.Info($"Dokument erzeugt: {d.Kind}");
-        Report(NoticeKind.Success, Loc.F("Notice_DocumentWritten", files.Count, d.OutDir));
+        Report(NoticeKind.Success, Loc.P("Notice_DocumentWritten", files.Count, files.Count, d.OutDir));
         return files;
     }
 

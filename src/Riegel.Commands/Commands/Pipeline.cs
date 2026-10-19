@@ -2,6 +2,7 @@
 using Riegel.Commands.Alerting;
 using Riegel.Commands.Resources;
 using Riegel.Core.Model;
+using Riegel.Core.Plants;
 using Riegel.Core.Services;
 
 namespace Riegel.Commands.Commands;
@@ -103,14 +104,26 @@ internal sealed class Pipeline(CommandContext ctx)
         catch (RiegelException) { return null; }
     }
 
-    /// <summary>Den Export eines Laufs aus dem Anlagenordner lesen; fehlt er, null (der Vergleich hat dann keine Rohwerte).</summary>
+    /// <summary>
+    /// Den Export eines Laufs aus dem Anlagenordner lesen; fehlt er, null (der Vergleich hat dann keine Rohwerte).
+    /// Liegt er außerhalb des Ordners oder passt er nicht zum Lauf (RGL-0415/0416), gilt er ebenfalls als fehlend, mit
+    /// Hinweis: ein schlechter alter Export darf die Überwachung nicht auf Exitcode 3 setzen. Wo der Export gebraucht
+    /// wird (Rücknahme, Ziel des Vergleichs), <see cref="SnapshotOf"/>.
+    /// </summary>
     public Snapshot? TrySnapshotOf(Plant plant, Run run)
     {
         if (plant.Folder is null || string.IsNullOrEmpty(run.Snapshot.Path)) return null;
-        var path = Path.GetFullPath(Path.Combine(plant.Folder, run.Snapshot.Path.Replace('/', Path.DirectorySeparatorChar)));
-        try { return File.Exists(path) || Directory.Exists(path) ? Read(path) : null; }
+        try { return SnapshotOf(plant, run); }
+        catch (RiegelException e) when (e.Code is RglCodesWorkflow.RunSnapshotOutsidePlant or RglCodesWorkflow.RunSnapshotMismatch)
+        {
+            ctx.Note(CliStrings.Cli_RunSnapshotSkipped, run.Id, e.ToString());
+            return null;
+        }
         catch (RiegelException) { return null; }
     }
+
+    /// <summary>Den geprüften Export eines Laufs lesen (Pfad im Anlagenordner, SHA-256 passend); sonst RGL-0415/0416/0002.</summary>
+    public Snapshot SnapshotOf(Plant plant, Run run) => S.Snapshots.Read(S.Plants.RunSnapshotPath(plant, run), ReadLimits.Default);
 
     private static bool IsInside(Plant plant, string path)
     {

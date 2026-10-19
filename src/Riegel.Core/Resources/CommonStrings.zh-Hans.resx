@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
@@ -128,7 +129,7 @@
     <value>无效的值：{0}</value>
   </data>
   <data name="Error_RGL0014" xml:space="preserve">
-    <value>只读模式：不会向设备文件夹写入任何内容。</value>
+    <value>只读模式：不会向装置文件夹写入任何内容。</value>
   </data>
   <data name="Error_RGL0015" xml:space="preserve">
     <value>无法写入诊断包：{0}</value>
@@ -259,7 +260,7 @@
     <value>工厂管理层</value>
   </data>
   <data name="Role_PlantOwner" xml:space="preserve">
-    <value>设备负责人</value>
+    <value>装置负责人</value>
   </data>
   <data name="Role_QualityAssurance" xml:space="preserve">
     <value>质量保证</value>

@@ -50,7 +50,7 @@
     <value>Sonstige Änderung</value>
   </data>
   <data name="ChangeKind_ScopeChanged" xml:space="preserve">
-    <value>Prüfumfang geändert</value>
+    <value>Erhebung geändert</value>
   </data>
   <data name="ChangeKind_TailoringAdded" xml:space="preserve">
     <value>Zuschnitt hinzugekommen</value>
@@ -128,7 +128,7 @@
     <value>Änderung</value>
   </data>
   <data name="Col_CheckedShare" xml:space="preserve">
-    <value>Prüfumfang (%)</value>
+    <value>Prüfabdeckung (%)</value>
   </data>
   <data name="Col_CollectedAt" xml:space="preserve">
     <value>Erfasst am (UTC)</value>
@@ -746,7 +746,7 @@
     <value>Kategorie Überwachung gedeckelt</value>
   </data>
   <data name="Item_CheckedShare" xml:space="preserve">
-    <value>Prüfumfang (%)</value>
+    <value>Prüfabdeckung (%)</value>
   </data>
   <data name="Item_Confidentiality" xml:space="preserve">
     <value>Vertraulichkeit</value>

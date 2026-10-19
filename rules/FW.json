@@ -14,8 +14,8 @@
         "de": "Windows-Firewall ist für das Profil „Domäne“ eingeschaltet"
       },
       "rationale": {
-        "en": "A host firewall limits which services of the machine can be reached from the network and slows down the spread of malware between machines. The rule reads the runtime state of the Domain profile from the firewall service, not only the policy. The Domain profile is used only on domain members, so the rule applies only there.",
-        "de": "Eine Host-Firewall begrenzt, welche Dienste des Rechners aus dem Netz erreichbar sind, und bremst die Ausbreitung von Schadsoftware zwischen Rechnern. Die Regel liest den Laufzeitzustand des Profils „Domäne“ vom Firewall-Dienst, nicht nur die Richtlinie. Das Domänenprofil wird nur auf Domänenmitgliedern verwendet; die Regel gilt daher nur dort."
+        "en": "A host firewall limits which services of the machine can be reached from the network and slows down the spread of malware between machines. A Group Policy value for the Domain profile decides, because it overrides the local setting; without a policy the rule reads the local setting from the firewall service. The Domain profile is used only on domain members, so the rule applies only there.",
+        "de": "Eine Host-Firewall begrenzt, welche Dienste des Rechners aus dem Netz erreichbar sind, und bremst die Ausbreitung von Schadsoftware zwischen Rechnern. Ein Wert der Gruppenrichtlinie für das Profil „Domäne“ entscheidet, weil er die lokale Einstellung überschreibt; ohne Richtlinie liest die Regel die lokale Einstellung vom Firewall-Dienst. Das Domänenprofil wird nur auf Domänenmitgliedern verwendet; die Regel gilt daher nur dort."
       },
       "otNote": {
         "en": "Plant vendors sometimes ask to switch the firewall off or to allow all inbound traffic for OPC DA/DCOM or proprietary ports. Open only the required ports for the required remote addresses, and document vendor requirements as exceptions.",
@@ -116,6 +116,13 @@
           "date": "2026-10-18",
           "section": "V-241989 (WNFWA-000001)",
           "note": "Windows Defender Firewall must be enabled for the Domain profile (EnableFirewall 1, policy value before local value); NA if the system is not a domain member."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "INetFwPolicy2::get_FirewallEnabled (netfw.h)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/api/netfw/nf-netfw-inetfwpolicy2-get_firewallenabled",
+          "date": "2026-10-18",
+          "note": "FirewallEnabled indicates whether a firewall is enabled locally; the effective result may differ due to group policy settings. A Group Policy value of the profile therefore decides before the local setting."
         }
       ],
       "tests": [
@@ -204,7 +211,7 @@
           "expect": "fail"
         },
         {
-          "name": "runtime off although the policy says on",
+          "name": "policy on overrides a local off (Group Policy decides)",
           "machine": {
             "build": 26100,
             "edition": "Enterprise",
@@ -255,7 +262,106 @@
               }
             }
           },
+          "expect": "pass"
+        },
+        {
+          "name": "policy switches the firewall off, local setting on",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableFirewall": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
           "expect": "fail"
+        },
+        {
+          "name": "policy key not readable",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
         },
         {
           "name": "no firewall policy (runtime decides)",
@@ -378,8 +484,8 @@
         "de": "Windows-Firewall ist für das Profil „Privat“ eingeschaltet"
       },
       "rationale": {
-        "en": "A host firewall limits which services of the machine can be reached from the network and slows down the spread of malware between machines. The rule reads the runtime state of the Private profile from the firewall service, not only the policy.",
-        "de": "Eine Host-Firewall begrenzt, welche Dienste des Rechners aus dem Netz erreichbar sind, und bremst die Ausbreitung von Schadsoftware zwischen Rechnern. Die Regel liest den Laufzeitzustand des Profils „Privat“ vom Firewall-Dienst, nicht nur die Richtlinie."
+        "en": "A host firewall limits which services of the machine can be reached from the network and slows down the spread of malware between machines. A Group Policy value for the Private profile decides, because it overrides the local setting; without a policy the rule reads the local setting from the firewall service.",
+        "de": "Eine Host-Firewall begrenzt, welche Dienste des Rechners aus dem Netz erreichbar sind, und bremst die Ausbreitung von Schadsoftware zwischen Rechnern. Ein Wert der Gruppenrichtlinie für das Profil „Privat“ entscheidet, weil er die lokale Einstellung überschreibt; ohne Richtlinie liest die Regel die lokale Einstellung vom Firewall-Dienst."
       },
       "otNote": {
         "en": "Plant vendors sometimes ask to switch the firewall off or to allow all inbound traffic for OPC DA/DCOM or proprietary ports. Open only the required ports for the required remote addresses, and document vendor requirements as exceptions.",
@@ -480,6 +586,13 @@
           "date": "2026-10-18",
           "section": "V-241990 (WNFWA-000002)",
           "note": "Windows Defender Firewall must be enabled for the Private profile (EnableFirewall 1, policy value before local value)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "INetFwPolicy2::get_FirewallEnabled (netfw.h)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/api/netfw/nf-netfw-inetfwpolicy2-get_firewallenabled",
+          "date": "2026-10-18",
+          "note": "FirewallEnabled indicates whether a firewall is enabled locally; the effective result may differ due to group policy settings. A Group Policy value of the profile therefore decides before the local setting."
         }
       ],
       "tests": [
@@ -562,7 +675,7 @@
           "expect": "fail"
         },
         {
-          "name": "runtime off although the policy says on",
+          "name": "policy on overrides a local off (Group Policy decides)",
           "machine": {
             "build": 26100,
             "edition": "Professional",
@@ -610,7 +723,100 @@
               }
             }
           },
+          "expect": "pass"
+        },
+        {
+          "name": "policy switches the firewall off, local setting on",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableFirewall": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
           "expect": "fail"
+        },
+        {
+          "name": "policy key not readable",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
         },
         {
           "name": "no firewall policy (runtime decides)",
@@ -724,8 +930,8 @@
         "de": "Windows-Firewall ist für das Profil „Öffentlich“ eingeschaltet"
       },
       "rationale": {
-        "en": "A host firewall limits which services of the machine can be reached from the network and slows down the spread of malware between machines. The rule reads the runtime state of the Public profile from the firewall service, not only the policy.",
-        "de": "Eine Host-Firewall begrenzt, welche Dienste des Rechners aus dem Netz erreichbar sind, und bremst die Ausbreitung von Schadsoftware zwischen Rechnern. Die Regel liest den Laufzeitzustand des Profils „Öffentlich“ vom Firewall-Dienst, nicht nur die Richtlinie."
+        "en": "A host firewall limits which services of the machine can be reached from the network and slows down the spread of malware between machines. A Group Policy value for the Public profile decides, because it overrides the local setting; without a policy the rule reads the local setting from the firewall service.",
+        "de": "Eine Host-Firewall begrenzt, welche Dienste des Rechners aus dem Netz erreichbar sind, und bremst die Ausbreitung von Schadsoftware zwischen Rechnern. Ein Wert der Gruppenrichtlinie für das Profil „Öffentlich“ entscheidet, weil er die lokale Einstellung überschreibt; ohne Richtlinie liest die Regel die lokale Einstellung vom Firewall-Dienst."
       },
       "otNote": {
         "en": "Plant vendors sometimes ask to switch the firewall off or to allow all inbound traffic for OPC DA/DCOM or proprietary ports. Open only the required ports for the required remote addresses, and document vendor requirements as exceptions.",
@@ -826,6 +1032,13 @@
           "date": "2026-10-18",
           "section": "V-241991 (WNFWA-000003)",
           "note": "Windows Defender Firewall must be enabled for the Public profile (EnableFirewall 1, policy value before local value)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "INetFwPolicy2::get_FirewallEnabled (netfw.h)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/api/netfw/nf-netfw-inetfwpolicy2-get_firewallenabled",
+          "date": "2026-10-18",
+          "note": "FirewallEnabled indicates whether a firewall is enabled locally; the effective result may differ due to group policy settings. A Group Policy value of the profile therefore decides before the local setting."
         }
       ],
       "tests": [
@@ -908,7 +1121,7 @@
           "expect": "fail"
         },
         {
-          "name": "runtime off although the policy says on",
+          "name": "policy on overrides a local off (Group Policy decides)",
           "machine": {
             "build": 26100,
             "edition": "Professional",
@@ -956,7 +1169,100 @@
               }
             }
           },
+          "expect": "pass"
+        },
+        {
+          "name": "policy switches the firewall off, local setting on",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableFirewall": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
           "expect": "fail"
+        },
+        {
+          "name": "policy key not readable",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
         },
         {
           "name": "no firewall policy (runtime decides)",
@@ -1070,8 +1376,8 @@
         "de": "Windows-Firewall blockiert unaufgeforderte eingehende Verbindungen (Profil „Domäne“)"
       },
       "rationale": {
-        "en": "With inbound connections allowed by default, every listening service is reachable from the network, including ones nobody intended to expose. Microsoft's default and recommendation is to block inbound traffic and allow it only through explicit rules. The rule reads the runtime state of the Domain profile. It applies only to domain members.",
-        "de": "Sind eingehende Verbindungen standardmäßig erlaubt, ist jeder lauschende Dienst aus dem Netz erreichbar – auch solche, die niemand freigeben wollte. Standard und Empfehlung von Microsoft ist, eingehenden Verkehr zu blockieren und nur über ausdrückliche Regeln zu erlauben. Die Regel liest den Laufzeitzustand des Profils „Domäne“. Sie gilt nur für Domänenmitglieder."
+        "en": "With inbound connections allowed by default, every listening service is reachable from the network, including ones nobody intended to expose. Microsoft's default and recommendation is to block inbound traffic and allow it only through explicit rules. A Group Policy value for the Domain profile decides, because it overrides the local setting; without a policy the rule reads the local setting from the firewall service. It applies only to domain members.",
+        "de": "Sind eingehende Verbindungen standardmäßig erlaubt, ist jeder lauschende Dienst aus dem Netz erreichbar – auch solche, die niemand freigeben wollte. Standard und Empfehlung von Microsoft ist, eingehenden Verkehr zu blockieren und nur über ausdrückliche Regeln zu erlauben. Ein Wert der Gruppenrichtlinie für das Profil „Domäne“ entscheidet, weil er die lokale Einstellung überschreibt; ohne Richtlinie liest die Regel die lokale Einstellung vom Firewall-Dienst. Sie gilt nur für Domänenmitglieder."
       },
       "otNote": {
         "en": "Plant vendors sometimes ask to switch the firewall off or to allow all inbound traffic for OPC DA/DCOM or proprietary ports. Open only the required ports for the required remote addresses, and document vendor requirements as exceptions.",
@@ -1163,6 +1469,13 @@
           "date": "2026-10-18",
           "section": "V-241992 (WNFWA-000004)",
           "note": "Unsolicited inbound connections must be blocked for the Domain profile (DefaultInboundAction 1)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "INetFwPolicy2::get_FirewallEnabled (netfw.h)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/api/netfw/nf-netfw-inetfwpolicy2-get_firewallenabled",
+          "date": "2026-10-18",
+          "note": "FirewallEnabled indicates whether a firewall is enabled locally; the effective result may differ due to group policy settings. A Group Policy value of the profile therefore decides before the local setting."
         }
       ],
       "tests": [
@@ -1249,6 +1562,159 @@
             }
           },
           "expect": "fail"
+        },
+        {
+          "name": "policy allows inbound by default, local setting blocks",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DefaultInboundAction": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policy blocks inbound, local setting allows (Group Policy decides)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "allow",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DefaultInboundAction": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "policy key not readable",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "domain.joined": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
         },
         {
           "name": "no firewall policy (runtime decides)",
@@ -1371,8 +1837,8 @@
         "de": "Windows-Firewall blockiert unaufgeforderte eingehende Verbindungen (Profil „Privat“)"
       },
       "rationale": {
-        "en": "With inbound connections allowed by default, every listening service is reachable from the network, including ones nobody intended to expose. Microsoft's default and recommendation is to block inbound traffic and allow it only through explicit rules. The rule reads the runtime state of the Private profile.",
-        "de": "Sind eingehende Verbindungen standardmäßig erlaubt, ist jeder lauschende Dienst aus dem Netz erreichbar – auch solche, die niemand freigeben wollte. Standard und Empfehlung von Microsoft ist, eingehenden Verkehr zu blockieren und nur über ausdrückliche Regeln zu erlauben. Die Regel liest den Laufzeitzustand des Profils „Privat“."
+        "en": "With inbound connections allowed by default, every listening service is reachable from the network, including ones nobody intended to expose. Microsoft's default and recommendation is to block inbound traffic and allow it only through explicit rules. A Group Policy value for the Private profile decides, because it overrides the local setting; without a policy the rule reads the local setting from the firewall service.",
+        "de": "Sind eingehende Verbindungen standardmäßig erlaubt, ist jeder lauschende Dienst aus dem Netz erreichbar – auch solche, die niemand freigeben wollte. Standard und Empfehlung von Microsoft ist, eingehenden Verkehr zu blockieren und nur über ausdrückliche Regeln zu erlauben. Ein Wert der Gruppenrichtlinie für das Profil „Privat“ entscheidet, weil er die lokale Einstellung überschreibt; ohne Richtlinie liest die Regel die lokale Einstellung vom Firewall-Dienst."
       },
       "otNote": {
         "en": "Plant vendors sometimes ask to switch the firewall off or to allow all inbound traffic for OPC DA/DCOM or proprietary ports. Open only the required ports for the required remote addresses, and document vendor requirements as exceptions.",
@@ -1464,6 +1930,13 @@
           "date": "2026-10-18",
           "section": "V-241997 (WNFWA-000012)",
           "note": "Unsolicited inbound connections must be blocked for the Private profile (DefaultInboundAction 1)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "INetFwPolicy2::get_FirewallEnabled (netfw.h)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/api/netfw/nf-netfw-inetfwpolicy2-get_firewallenabled",
+          "date": "2026-10-18",
+          "note": "FirewallEnabled indicates whether a firewall is enabled locally; the effective result may differ due to group policy settings. A Group Policy value of the profile therefore decides before the local setting."
         }
       ],
       "tests": [
@@ -1546,6 +2019,150 @@
           "expect": "fail"
         },
         {
+          "name": "policy allows inbound by default, local setting blocks",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DefaultInboundAction": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policy blocks inbound, local setting allows (Group Policy decides)",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "allow",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DefaultInboundAction": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "policy key not readable",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
+        },
+        {
           "name": "no firewall policy (runtime decides)",
           "machine": {
             "build": 26100,
@@ -1618,8 +2235,8 @@
         "de": "Windows-Firewall blockiert unaufgeforderte eingehende Verbindungen (Profil „Öffentlich“)"
       },
       "rationale": {
-        "en": "With inbound connections allowed by default, every listening service is reachable from the network, including ones nobody intended to expose. Microsoft's default and recommendation is to block inbound traffic and allow it only through explicit rules. The rule reads the runtime state of the Public profile.",
-        "de": "Sind eingehende Verbindungen standardmäßig erlaubt, ist jeder lauschende Dienst aus dem Netz erreichbar – auch solche, die niemand freigeben wollte. Standard und Empfehlung von Microsoft ist, eingehenden Verkehr zu blockieren und nur über ausdrückliche Regeln zu erlauben. Die Regel liest den Laufzeitzustand des Profils „Öffentlich“."
+        "en": "With inbound connections allowed by default, every listening service is reachable from the network, including ones nobody intended to expose. Microsoft's default and recommendation is to block inbound traffic and allow it only through explicit rules. A Group Policy value for the Public profile decides, because it overrides the local setting; without a policy the rule reads the local setting from the firewall service.",
+        "de": "Sind eingehende Verbindungen standardmäßig erlaubt, ist jeder lauschende Dienst aus dem Netz erreichbar – auch solche, die niemand freigeben wollte. Standard und Empfehlung von Microsoft ist, eingehenden Verkehr zu blockieren und nur über ausdrückliche Regeln zu erlauben. Ein Wert der Gruppenrichtlinie für das Profil „Öffentlich“ entscheidet, weil er die lokale Einstellung überschreibt; ohne Richtlinie liest die Regel die lokale Einstellung vom Firewall-Dienst."
       },
       "otNote": {
         "en": "Plant vendors sometimes ask to switch the firewall off or to allow all inbound traffic for OPC DA/DCOM or proprietary ports. Open only the required ports for the required remote addresses, and document vendor requirements as exceptions.",
@@ -1711,6 +2328,13 @@
           "date": "2026-10-18",
           "section": "V-242002 (WNFWA-000020)",
           "note": "Unsolicited inbound connections must be blocked for the Public profile (DefaultInboundAction 1)."
+        },
+        {
+          "src": "MSLEARN-FACT",
+          "doc": "INetFwPolicy2::get_FirewallEnabled (netfw.h)",
+          "url": "https://learn.microsoft.com/en-us/windows/win32/api/netfw/nf-netfw-inetfwpolicy2-get_firewallenabled",
+          "date": "2026-10-18",
+          "note": "FirewallEnabled indicates whether a firewall is enabled locally; the effective result may differ due to group policy settings. A Group Policy value of the profile therefore decides before the local setting."
         }
       ],
       "tests": [
@@ -1791,6 +2415,150 @@
             }
           },
           "expect": "fail"
+        },
+        {
+          "name": "policy allows inbound by default, local setting blocks",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DefaultInboundAction": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "policy blocks inbound, local setting allows (Group Policy decides)",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "allow",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "DefaultInboundAction": {
+                    "t": "dword",
+                    "v": 1
+                  }
+                },
+                "subkeys": []
+              }
+            }
+          },
+          "expect": "pass"
+        },
+        {
+          "name": "policy key not readable",
+          "machine": {
+            "build": 26100,
+            "edition": "Professional",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 0,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile": {
+              "status": "denied"
+            }
+          },
+          "expect": "notCheckable"
         },
         {
           "name": "no firewall policy (runtime decides)",
@@ -3672,6 +4440,85 @@
             },
             "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules": {
               "status": "keyMissing"
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "active profile switched off by policy (firewall service reports on)",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "items": {
+            "api:firewall": {
+              "status": "ok",
+              "value": {
+                "currentProfiles": 2,
+                "profiles": {
+                  "domain": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "private": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  },
+                  "public": {
+                    "enabled": true,
+                    "defaultInbound": "block",
+                    "defaultOutbound": "allow"
+                  }
+                },
+                "rulesCollected": true,
+                "rules": [
+                  {
+                    "name": "RDP Engineering",
+                    "enabled": true,
+                    "direction": "in",
+                    "action": "allow",
+                    "protocol": 6,
+                    "localPorts": "3389",
+                    "remoteAddresses": "192.0.2.0/255.255.255.0",
+                    "profiles": 7,
+                    "application": null,
+                    "service": null
+                  }
+                ]
+              }
+            },
+            "reg:HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "RDP-Engineering": {
+                    "t": "sz",
+                    "v": "v2.33|Action=Allow|Active=TRUE|Dir=In|Protocol=6|LPort=3389|RA4=192.0.2.0/24|Name=Beispielregel|"
+                  }
+                },
+                "subkeys": []
+              }
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\FirewallRules": {
+              "status": "keyMissing"
+            },
+            "reg:HKLM\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile": {
+              "status": "ok",
+              "value": {
+                "values": {
+                  "EnableFirewall": {
+                    "t": "dword",
+                    "v": 0
+                  }
+                },
+                "subkeys": []
+              }
             }
           },
           "expect": "fail"

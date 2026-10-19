@@ -489,7 +489,7 @@ internal sealed partial class ReportDataBuilder(RiegelServices services, ICatalo
                 t.Entry.Reason, null, null, null, MeasureFor(t.Entry.RuleId, t.Entry.Scope), t.ContentSha256, t.State));
 
         var material = string.Join("\n", new[] { registers.Hashes.Exceptions, registers.Hashes.Tailoring }.Concat(entries.Select(x => x.Id + "|" + x.ContentSha256)));
-        var sheetId = $"FB-{today.ToString("yyyyMMdd", CultureInfo.InvariantCulture)}-{Hashes.Sha256Hex(material)[..6]}";
+        var sheetId = $"GB-{today.ToString("yyyyMMdd", CultureInfo.InvariantCulture)}-{Hashes.Sha256Hex(material)[..6]}";
 
         var approvers = p.Settings.SignOff.Where(s => s.Step == SignOffSteps.Approved).ToList();
         bool riskAcceptance = entries.Any(x => x.Category == ReasonCategory.RiskAccepted && x.Severity == Severity.High);

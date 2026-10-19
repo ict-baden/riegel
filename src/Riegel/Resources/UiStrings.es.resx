@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
@@ -640,9 +641,6 @@
   <data name="Filter_WithCount" xml:space="preserve">
     <value>{0} ({1})</value>
   </data>
-  <data name="Format_DaysAgo" xml:space="preserve">
-    <value>hace {0} días</value>
-  </data>
   <data name="Format_Percent" xml:space="preserve">
     <value>{0} %</value>
   </data>
@@ -876,7 +874,7 @@
     <value>desactualizado</value>
   </data>
   <data name="Machines_Summary" xml:space="preserve">
-    <value>{0} equipos · {1} con recopilación desactualizada · {2} hallazgos empeorados</value>
+    <value>{0} · {1} · {2}</value>
   </data>
   <data name="Machines_TrendBetter" xml:space="preserve">
     <value>mejor que la ejecución anterior</value>
@@ -916,9 +914,6 @@
   </data>
   <data name="Main_NoPlantTitle" xml:space="preserve">
     <value>Esta página necesita una planta abierta</value>
-  </data>
-  <data name="Main_PlantDetail" xml:space="preserve">
-    <value>{0} equipos</value>
   </data>
   <data name="Main_ReadOnlyBanner" xml:space="preserve">
     <value>Modo auditor: no se escribe nada en la carpeta de la planta. Los documentos solo van a una carpeta elegida.</value>
@@ -1001,9 +996,6 @@
   <data name="NewPlant_Title" xml:space="preserve">
     <value>Nueva planta</value>
   </data>
-  <data name="Notice_Approved" xml:space="preserve">
-    <value>Aprobación registrada para {0} entradas (registro {1}).</value>
-  </data>
   <data name="Notice_BaselineImported" xml:space="preserve">
     <value>Línea base {0} importada.</value>
   </data>
@@ -1013,20 +1005,11 @@
   <data name="Notice_CollectorCopied" xml:space="preserve">
     <value>Recolector copiado en {0}.</value>
   </data>
-  <data name="Notice_DocumentWritten" xml:space="preserve">
-    <value>{0} archivo(s) escrito(s) en {1}.</value>
-  </data>
   <data name="Notice_ExceptionSaved" xml:space="preserve">
     <value>Excepción {0} guardada: queda pendiente hasta que se registre la aprobación.</value>
   </data>
   <data name="Notice_GroupsSaved" xml:space="preserve">
     <value>Grupos y funciones guardados.</value>
-  </data>
-  <data name="Notice_Imported" xml:space="preserve">
-    <value>{0} exportación(es) importada(s) y evaluada(s).</value>
-  </data>
-  <data name="Notice_ImportedWithRecord" xml:space="preserve">
-    <value>{0} exportación(es) importada(s) y evaluada(s); acta de recopilación {1} escrita.</value>
   </data>
   <data name="Notice_LogoSaved" xml:space="preserve">
     <value>Logotipo guardado en la carpeta de la planta.</value>
@@ -1039,9 +1022,6 @@
   </data>
   <data name="Notice_PlantSettingsSaved" xml:space="preserve">
     <value>Configuración de la planta guardada.</value>
-  </data>
-  <data name="Notice_Reevaluated" xml:space="preserve">
-    <value>{0} equipo(s) evaluado(s) de nuevo.</value>
   </data>
   <data name="Notice_ReportSettingsSaved" xml:space="preserve">
     <value>Datos del informe guardados en la planta.</value>
@@ -1295,9 +1275,6 @@
   <data name="Reports_HandoverText" xml:space="preserve">
     <value>Paquete del recolector con UEBERGABE.txt (sumas de verificación, versión, ejecución, qué deja).</value>
   </data>
-  <data name="Reports_ImportItem" xml:space="preserve">
-    <value>Importación del {0} ({1} archivo(s))</value>
-  </data>
   <data name="Reports_Language" xml:space="preserve">
     <value>Idioma del informe</value>
   </data>
@@ -1330,9 +1307,6 @@
   </data>
   <data name="Reports_OutputReadOnly" xml:space="preserve">
     <value>Modo auditor: elija una carpeta fuera de la carpeta de la planta.</value>
-  </data>
-  <data name="Reports_PendingEntries" xml:space="preserve">
-    <value>{0} excepción(es) pendiente(s) o modificada(s)</value>
   </data>
   <data name="Reports_PerformedBy" xml:space="preserve">
     <value>Realizado por (portada)</value>
@@ -1715,9 +1689,6 @@
   <data name="Start_Incomplete" xml:space="preserve">
     <value>Comprobación incompleta: solo el {0} % es comprobable; el valor se muestra en gris.</value>
   </data>
-  <data name="Start_Machines" xml:space="preserve">
-    <value>{0} equipos, {1} con ejecución</value>
-  </data>
   <data name="Start_Open" xml:space="preserve">
     <value>Abrir planta…</value>
   </data>
@@ -1825,5 +1796,83 @@
   </data>
   <data name="Toggle_On" xml:space="preserve">
     <value>Sí</value>
+  </data>
+  <data name="Notice_ReevaluateSkipped" xml:space="preserve">
+    <value>No se ha vuelto a evaluar; la exportación no pertenece a la ejecución o no está en la carpeta de la planta: {0}</value>
+  </data>
+  <data name="Format_DaysAgo_one" xml:space="preserve">
+    <value>hace {0} día</value>
+  </data>
+  <data name="Format_DaysAgo_other" xml:space="preserve">
+    <value>hace {0} días</value>
+  </data>
+  <data name="Machines_SummaryMachines_one" xml:space="preserve">
+    <value>{0} equipo</value>
+  </data>
+  <data name="Machines_SummaryMachines_other" xml:space="preserve">
+    <value>{0} equipos</value>
+  </data>
+  <data name="Machines_SummaryWorse_one" xml:space="preserve">
+    <value>{0} hallazgo empeorado</value>
+  </data>
+  <data name="Machines_SummaryWorse_other" xml:space="preserve">
+    <value>{0} hallazgos empeorados</value>
+  </data>
+  <data name="Main_PlantDetail_one" xml:space="preserve">
+    <value>{0} equipo</value>
+  </data>
+  <data name="Main_PlantDetail_other" xml:space="preserve">
+    <value>{0} equipos</value>
+  </data>
+  <data name="Start_Machines_one" xml:space="preserve">
+    <value>{0} equipo, {1} con ejecución</value>
+  </data>
+  <data name="Start_Machines_other" xml:space="preserve">
+    <value>{0} equipos, {1} con ejecución</value>
+  </data>
+  <data name="Notice_Approved_one" xml:space="preserve">
+    <value>Aprobación registrada para {0} entrada (registro {1}).</value>
+  </data>
+  <data name="Notice_Approved_other" xml:space="preserve">
+    <value>Aprobación registrada para {0} entradas (registro {1}).</value>
+  </data>
+  <data name="Notice_DocumentWritten_one" xml:space="preserve">
+    <value>{0} archivo escrito en {1}.</value>
+  </data>
+  <data name="Notice_DocumentWritten_other" xml:space="preserve">
+    <value>{0} archivos escritos en {1}.</value>
+  </data>
+  <data name="Notice_Imported_one" xml:space="preserve">
+    <value>{0} exportación importada y evaluada.</value>
+  </data>
+  <data name="Notice_Imported_other" xml:space="preserve">
+    <value>{0} exportaciones importadas y evaluadas.</value>
+  </data>
+  <data name="Notice_ImportedWithRecord_one" xml:space="preserve">
+    <value>{0} exportación importada y evaluada; acta de recopilación {1} escrita.</value>
+  </data>
+  <data name="Notice_ImportedWithRecord_other" xml:space="preserve">
+    <value>{0} exportaciones importadas y evaluadas; acta de recopilación {1} escrita.</value>
+  </data>
+  <data name="Notice_Reevaluated_one" xml:space="preserve">
+    <value>{0} equipo evaluado de nuevo.</value>
+  </data>
+  <data name="Notice_Reevaluated_other" xml:space="preserve">
+    <value>{0} equipos evaluados de nuevo.</value>
+  </data>
+  <data name="Reports_ImportItem_one" xml:space="preserve">
+    <value>Importación del {0} ({1} archivo)</value>
+  </data>
+  <data name="Reports_ImportItem_other" xml:space="preserve">
+    <value>Importación del {0} ({1} archivos)</value>
+  </data>
+  <data name="Reports_PendingEntries_one" xml:space="preserve">
+    <value>{0} excepción pendiente o modificada</value>
+  </data>
+  <data name="Reports_PendingEntries_other" xml:space="preserve">
+    <value>{0} excepciones pendientes o modificadas</value>
+  </data>
+  <data name="Machines_SummaryStale" xml:space="preserve">
+    <value>{0} con recopilación desactualizada</value>
   </data>
 </root>

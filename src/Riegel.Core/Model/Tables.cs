@@ -101,8 +101,12 @@ public sealed record CapabilityEntry(string Capability, IReadOnlyList<Capability
 }
 
 /// <summary>Alle angegebenen Bedingungen müssen gelten; fehlende Angaben gelten als „egal“.</summary>
+/// <param name="MinUbr">
+/// Mindest-UBR (Revision) des Builds, z. B. für eine Funktion, die erst mit einem bestimmten kumulativen Update kommt
+/// (Windows LAPS ab dem Update vom 11.04.2023). Nur zusammen mit einem Build-Bereich sinnvoll; UBR unbekannt → unbekannt.
+/// </param>
 public sealed record CapabilityCondition(string? Os, int? MinBuild, int? MaxBuild, IReadOnlyList<string>? Editions,
-    IReadOnlyList<string>? InstallationTypes, string? Note);
+    IReadOnlyList<string>? InstallationTypes, string? Note, int? MinUbr = null);
 
 /// <summary>Daten der Regeln (alle <c>rules/data/*.json</c> zusammen).</summary>
 public sealed record CatalogueData(IReadOnlyList<RemoteAccessTool> RemoteAccessTools, OfficeDetection? OfficeDetection)

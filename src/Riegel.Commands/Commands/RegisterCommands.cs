@@ -69,7 +69,9 @@ internal static class RegisterCommands
         var plant = ctx.OpenPlant(a.Required("--plant", "<folder>"), forWrite: false, name);
         var registers = ctx.Services.Registers.Load(plant);
         var catalogue = PlantBaselines.Catalogue(ctx, plant);
-        var issues = ctx.Services.Registers.Validate(registers, catalogue, plant, ctx.Services.Today).Where(i => i.Register == kind).ToList();
+        // Meldungen mit Datum: auf dem Bildschirm nach Gebietsschema, in JSON ISO 8601 (Review docs-ui-11)
+        var issues = CommandContext.Formatted(format == "json", () => ctx.Services.Registers.Validate(registers, catalogue, plant, ctx.Services.Today))
+            .Where(i => i.Register == kind).ToList();
         int exit = issues.Any(i => i.Severity == IssueSeverity.Error) ? CommandApp.Critical
             : issues.Count > 0 ? CommandApp.Warning : CommandApp.Ok;
 
@@ -93,13 +95,14 @@ internal static class RegisterCommands
         foreach (var issue in issues)
             ctx.Line(CliStrings.Cli_IssueLine, issue.Severity == IssueSeverity.Error ? CliStrings.Issue_Error : CliStrings.Issue_Warning,
                 issue.EntryId ?? "–", issue.Code, issue.Message);
+        int errors = issues.Count(i => i.Severity == IssueSeverity.Error), warnings = issues.Count(i => i.Severity == IssueSeverity.Warning);
         ctx.Line(exit switch
         {
             CommandApp.Ok => CliStrings.Cli_ValidateOk,
             CommandApp.Warning => CliStrings.Cli_ValidateWarnings,
             _ => CliStrings.Cli_ValidateInvalid,
-        }, Name(kind), CommandContext.N(entries), CommandContext.N(issues.Count(i => i.Severity == IssueSeverity.Error)),
-            CommandContext.N(issues.Count(i => i.Severity == IssueSeverity.Warning)));
+        }, Name(kind), Plural.Text("Cli_CountEntries", entries, CommandContext.N(entries)), Plural.Text("Cli_CountErrors", errors, CommandContext.N(errors)),
+            Plural.Text("Cli_CountWarnings", warnings, CommandContext.N(warnings)));
         return exit;
     }
 
@@ -148,7 +151,7 @@ internal static class RegisterCommands
         }
         if (rows.Count == 0)
         {
-            ctx.Line(expiringOnly ? CliStrings.Cli_RegisterNoneExpiring : CliStrings.Cli_RegisterEmpty, Name(kind), CommandContext.N(warnDays));
+            ctx.Line(expiringOnly ? Plural.Text("Cli_RegisterNoneExpiring", warnDays, Name(kind), CommandContext.N(warnDays)) : CommandContext.F(CliStrings.Cli_RegisterEmpty, Name(kind), CommandContext.N(warnDays)));
             return CommandApp.Ok;
         }
         foreach (var row in rows)
@@ -264,19 +267,37 @@ internal static class RegisterCommands
     {
         var name = Name(kind) + " import-template";
         var a = ArgumentParser.Parse(name, args, [Plant], maxPositional: 1);
-        if (a.Positional.Count == 0) throw RglCodesCli.Error(RglCodesCli.MissingOption, name, "<template.json>");
-        var template = Path.GetFullPath(a.Positional[0]);
-        if (!File.Exists(template)) throw RiegelException.Common(RglCodesCommon.NotFound, template);
+        if (a.Positional.Count == 0) throw RglCodesCli.Error(RglCodesCli.MissingOption, name, "<template.json|name>");
         var plant = ctx.OpenPlant(a.Required("--plant", "<folder>"), forWrite: true, name);
         var registers = ctx.Services.Registers.Load(plant);
-        var updated = ctx.Services.Registers.ImportTemplate(registers, template, ReadLimits.Default);
+        RegisterSet updated;
+        var file = Path.GetFullPath(a.Positional[0]);
+        if (File.Exists(file)) updated = ctx.Services.Registers.ImportTemplate(registers, file, ReadLimits.Default);
+        else
+        {
+            // Eingebaute Vorlage über ihren Namen (Review docs-ui-9): die Vorlagen gibt es nur eingebettet, in keinem Paket
+            // als Datei – so erreichen auch das Konsolenprogramm unter Linux und Skripte die Rollenvorlagen
+            var resource = BuiltinTemplates.Find(kind, a.Positional[0]);
+            if (resource is null)
+            {
+                if (LooksLikePath(a.Positional[0])) throw RiegelException.Common(RglCodesCommon.NotFound, file);
+                throw RglCodesCli.Error(RglCodesCli.UnknownTemplate, a.Positional[0], string.Join(", ", BuiltinTemplates.Names(kind)));
+            }
+            using var temp = new PrivateTemp();
+            var extracted = BuiltinTemplates.Extract(resource, temp.Path);
+            updated = ctx.Services.Registers.ImportTemplate(registers, extracted, ReadLimits.Default);
+        }
         int added = kind == RegisterKind.Exceptions
             ? updated.Exceptions.Exceptions.Count - registers.Exceptions.Exceptions.Count
             : updated.Tailoring.Entries.Count - registers.Tailoring.Entries.Count;
         ctx.Services.Registers.Save(plant, updated, registers.Hashes);
-        ctx.Line(CliStrings.Cli_TemplateImported, CommandContext.N(added), Name(kind));
+        ctx.Line(Plural.Text("Cli_TemplateImported", added, CommandContext.N(added), Name(kind)));
         return CommandApp.Ok;
     }
+
+    /// <summary>Ein Argument mit Pfadtrenner oder .json ist eine Datei, kein Vorlagenname.</summary>
+    private static bool LooksLikePath(string argument) =>
+        argument.Contains('/') || argument.Contains('\\') || argument.EndsWith(".json", StringComparison.OrdinalIgnoreCase);
 
     // ================= measures =================
 

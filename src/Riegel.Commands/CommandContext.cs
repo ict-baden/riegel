@@ -48,6 +48,19 @@ internal sealed class CommandContext(CommandServices services, TextWriter output
 
     public static string F(string format, params object?[] args) => string.Format(CultureInfo.CurrentCulture, format, args);
 
+    /// <summary>
+    /// <paramref name="work"/> mit invarianter Formatkultur, wenn <paramref name="invariant"/> (JSON, Dateien): Daten in
+    /// den Meldungen der Dienste erscheinen dann als ISO 8601 statt im Gebietsschema des Bildschirms.
+    /// </summary>
+    public static T Formatted<T>(bool invariant, Func<T> work)
+    {
+        if (!invariant) return work();
+        var previous = CultureInfo.CurrentCulture;
+        CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+        try { return work(); }
+        finally { CultureInfo.CurrentCulture = previous; }
+    }
+
     /// <summary>Zahl im Bildschirmtext.</summary>
     public static string N(int value) => value.ToString("N0", CultureInfo.CurrentCulture);
 

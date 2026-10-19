@@ -177,10 +177,8 @@ internal sealed class RunService(RiegelServices services, IEvaluator? evaluator 
 
     private Snapshot? BasisSnapshot(string folder, Run basis, ReadLimits limits)
     {
-        if (string.IsNullOrWhiteSpace(basis.Snapshot.Path)) return null;
-        var path = PlantFiles.Full(folder, basis.Snapshot.Path);
-        if (PlantFiles.Relative(folder, path) is null || !File.Exists(path)) return null;
-        try { return services.Snapshots.Read(path, limits); }
+        // Nur ein geprüfter Export im Anlagenordner, der zum Lauf passt; sonst gilt er als fehlend
+        try { return services.Snapshots.Read(PlantFiles.RunSnapshot(folder, basis), limits); }
         catch (RiegelException) { return null; }
     }
 }

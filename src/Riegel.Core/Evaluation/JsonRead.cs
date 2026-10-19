@@ -26,6 +26,18 @@ internal static class JsonRead
         return false;
     }
 
+    /// <summary>
+    /// Eigenschaft über einen Pfad mit „.“, z. B. die Ausgabe einer WMI-Methode je Zeile
+    /// (<c>GetKeyProtectors.KeyProtectorTypes</c>); WMI-Eigenschaften enthalten nie einen Punkt.
+    /// </summary>
+    public static bool TryGetPath(JsonElement obj, string path, out JsonElement value)
+    {
+        value = obj;
+        foreach (var part in path.Split('.'))
+            if (!TryGet(value, part, out value)) return false;
+        return true;
+    }
+
     /// <summary>Eigenschaft oder null (fehlend oder JSON null).</summary>
     public static JsonElement? Get(JsonElement obj, string name) =>
         TryGet(obj, name, out var v) && v.ValueKind is not (JsonValueKind.Null or JsonValueKind.Undefined) ? v : null;

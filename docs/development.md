@@ -78,7 +78,9 @@ Gates that guard the evaluation:
   [File formats › Test vectors](file-formats.md#test-vectors).
 - **Mutation test** (`Mutation/`): every evidence item of every rule set to denied, not collected, truncated, error or
   missing must never give a pass – except proven absence listed in `Rules/{A,B,C}/when-missing-pass.txt` or a cited OS
-  default (flagged *FromDefault*).
+  default (flagged *FromDefault*). A second pass checks precedence between configuration sources: in a `firstOf`, a
+  registry part that is made unavailable must never be skipped so that a lower-ranked registry part carries a pass (a
+  policy value would take precedence); a runtime part before a registry part may fall away as intended.
 - **Oracle** (`Oracle/`): expected results of all 153 rules for a workstation snapshot written from research
   measurements; only the oracle's author or a reviewer changes `expected-results.json`, with the reason in the commit
   message. `Compare-LocalRecording.ps1` compares a local recording of your own PC (kept outside the repository).
@@ -210,7 +212,8 @@ on Windows 7 SP1 to 11 and Server 2008 R2 to 2025 with whatever .NET Framework i
 - `dotnet tools/RuleTool/bin/Release/net10.0/RuleTool.dll rules-doc` regenerates [docs/rules.md](rules.md); a test (also
   on Linux) fails when it is out of date. `RuleTool coverage` lists evidence keys the collection plan does not read
   (must be none); `RuleTool verify-sources <folder>` checks references against local copies of the sources.
-- `RIEGEL_UPDATE_DOCS=1 dotnet test Riegel.sln -c Release --filter "FullyQualifiedName~DocsTests"` regenerates
+- `RIEGEL_UPDATE_DOCS=1 dotnet test Riegel.sln -c Release --filter "FullyQualifiedName~DocsTests|FullyQualifiedName~ErrorCodesDocTests"`
+  regenerates
   [docs/error-codes.md](error-codes.md) (from the `RglCodes*` classes) and the item list of
   [docs/collector-change-request.md](collector-change-request.md) (from the collection plan); without the variable the
   same tests fail when the pages are out of date.
@@ -226,7 +229,8 @@ on Windows 7 SP1 to 11 and Server 2008 R2 to 2025 with whatever .NET Framework i
   dialogs in light and dark (English, own data folder) into `docs/assets/screenshots`, and the banner from
   `tools/banner/banner.html` with the installed Chrome through `playwright-core` (`npm install` in `tools/banner`, or
   `NODE_PATH` pointing at an existing installation). `-Review` renders all five languages into a temporary folder and
-  prints layout findings; `-SkipBanner` skips the banner. WPF needs an interactive desktop session.
+  prints layout findings (`[layout]`: single-line texts that are cut off, and list column headers narrower than their
+  title – list columns grow to their header in every language); `-SkipBanner` skips the banner. WPF needs an interactive desktop session.
 - **Report pages:** `Riegel.exe --demo-report <folder>` (with `RIEGEL_LANGUAGE=en`, `de`, `zh-Hans`), then render the
   pages with [pypdfium2](https://pypi.org/project/pypdfium2/) in a virtual environment (licence BSD-3-Clause and
   Apache-2.0 plus the PDFium dependency licences, per its package metadata; never PyMuPDF, which is AGPL) into
@@ -284,7 +288,9 @@ Releases never depend on artifacts (the organisation's artifact storage may be f
 
 - Commit messages in German; code comments German; README and `docs/` English; `CLAUDE.md` German.
 - Every `.cs` file starts with `// SPDX-License-Identifier: MIT`.
-- UI texts only in `.resx` (en, de, es, fr, zh-Hans; unsure translations marked `TODO-übersetzen`); rule texts in the
+- UI texts only in `.resx` (en, de, es, fr, zh-Hans). es, fr and zh-Hans files start with the comment "Maschinell
+  vorübersetzt – TODO-übersetzen …" until a native speaker has reviewed them; especially uncertain entries carry the
+  comment `TODO-übersetzen` in all three (`TranslationMarkingTests`). Rule texts in the
   catalogue (en, de); collector texts in `messages.<lang>.txt`.
 - No person names or GitHub handles anywhere, also not in demo data, fixtures or screenshots.
 - Dependencies only with permissive licences, pinned exactly, listed in `THIRD-PARTY-NOTICES.txt`; see the licence

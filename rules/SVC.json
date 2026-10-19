@@ -10,12 +10,12 @@
       "severity": "medium",
       "kind": "check",
       "title": {
-        "en": "Print Spooler does not run on servers",
-        "de": "Druckwarteschlange läuft nicht auf Servern"
+        "en": "Print Spooler is disabled on servers",
+        "de": "Druckwarteschlange ist auf Servern deaktiviert"
       },
       "rationale": {
-        "en": "The Print Spooler service has had several severe vulnerabilities that allowed remote code execution with SYSTEM rights. On servers that are not print servers it is not needed. Whether a server prints cannot be collected, so the rule fails where the service runs; print servers record an exception with the reason 'technical necessity'. Domain controllers are excluded because Microsoft's service guidance treats them differently.",
-        "de": "Der Dienst Druckwarteschlange hatte mehrere schwere Schwachstellen, die Codeausführung aus der Ferne mit SYSTEM-Rechten erlaubten. Auf Servern, die keine Druckserver sind, wird er nicht gebraucht. Ob ein Server druckt, lässt sich nicht erheben; die Regel schlägt daher fehl, wo der Dienst läuft, und Druckserver erfassen eine Ausnahme mit dem Grund „technische Notwendigkeit“. Domänencontroller sind ausgenommen, weil die Dienst-Empfehlungen von Microsoft sie gesondert behandeln."
+        "en": "The Print Spooler service has had several severe vulnerabilities that allowed remote code execution with SYSTEM rights. On servers that are not print servers it is not needed. Whether a server prints cannot be collected, so the rule fails where the service is not disabled – a spooler that is only stopped at collection time starts again at the next restart or on demand, as Microsoft recommends disabling it; print servers record an exception with the reason 'technical necessity'. Domain controllers are excluded because Microsoft's service guidance treats them differently.",
+        "de": "Der Dienst Druckwarteschlange hatte mehrere schwere Schwachstellen, die Codeausführung aus der Ferne mit SYSTEM-Rechten erlaubten. Auf Servern, die keine Druckserver sind, wird er nicht gebraucht. Ob ein Server druckt, lässt sich nicht erheben; die Regel schlägt daher fehl, wo der Dienst nicht deaktiviert ist – eine zum Zeitpunkt der Erhebung nur beendete Druckwarteschlange startet beim nächsten Neustart oder bei Bedarf wieder, und Microsoft empfiehlt das Deaktivieren, und Druckserver erfassen eine Ausnahme mit dem Grund „technische Notwendigkeit“. Domänencontroller sind ausgenommen, weil die Dienst-Empfehlungen von Microsoft sie gesondert behandeln."
       },
       "otNote": {
         "en": "Servers that print labels, batch records or reports for the line are print servers in this sense; record an exception with the reason 'technical necessity' and keep the spooler patched and its remote endpoint restricted.",
@@ -38,8 +38,8 @@
       "check": {
         "type": "service",
         "name": "Spooler",
-        "state": [
-          "Stopped"
+        "startMode": [
+          "Disabled"
         ],
         "ifAbsent": "pass"
       },
@@ -78,7 +78,7 @@
       ],
       "tests": [
         {
-          "name": "spooler stopped",
+          "name": "spooler stopped and disabled",
           "machine": {
             "build": 20348,
             "edition": "ServerStandard",
@@ -103,6 +103,60 @@
             }
           },
           "expect": "pass"
+        },
+        {
+          "name": "spooler stopped, but startup type Automatic (starts again after a restart)",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Spooler",
+                    "DisplayName": "Print Spooler",
+                    "State": "Stopped",
+                    "StartMode": "Auto"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
+          "name": "spooler stopped, startup type Manual",
+          "machine": {
+            "build": 20348,
+            "edition": "ServerStandard",
+            "installationType": "Server",
+            "productType": 3,
+            "domainRole": 3,
+            "isAdmin": true
+          },
+          "items": {
+            "wmi:root\\cimv2:Win32_Service": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "Name": "Spooler",
+                    "DisplayName": "Print Spooler",
+                    "State": "Stopped",
+                    "StartMode": "Manual"
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
         },
         {
           "name": "spooler running",

@@ -92,7 +92,7 @@ risk.
 A measure records the plan to fix a finding: `action`, `ownerRole`, `dueDate`, optional `ticket`, `state`
 (`planned`, `done`, `dropped`).
 
-- Planned, and the finding is still `fail` → flag `MeasurePlanned` ("Behebung geplant bis …").
+- Planned, and the finding is still `fail` → flag `MeasurePlanned` ("Remediation planned", *Behebung geplant*).
 - Due date passed (`dueDate` before today) and still failing → flag `MeasureOverdue` instead (exit-code token `overdue`).
 - `done` but the rule still fails on an affected machine → register flag `measureDoneButFailing`.
 - `dropped` measures are ignored when results are evaluated; they stay in the register and the report.
@@ -126,9 +126,9 @@ Entries for retired rules are kept and marked `ruleRetired`.
    `riskAcceptanceRoles`). The sheet ID (`FB-<yyyyMMdd>-<6 hex>`) is derived from the register hashes and the entries, so
    the same register state gives the same ID.
 3. After signing, enter the approval for the listed IDs (`exceptions approve --ids … --role … --record …`, or
-   "Genehmigung eintragen" in the app). Role and record are required; `approvedOn` defaults to today; `reviewBy`
+   "Enter approval" (*Genehmigung eintragen*) in the app). Role and record are required; `approvedOn` defaults to today; `reviewBy`
    defaults to the entry's proposed date if it lies after the approval, otherwise to 12 months after the approval (the
-   longest period without a warning). Cite the sheet as the record, e.g. "Freigabeblatt FB-20261018-a1b2c3".
+   longest period without a warning). Cite the sheet as the record, e.g. "Genehmigungsblatt GB-20261018-a1b2c3".
 4. Riegel stores the content hash with the approval. The next `check` or report shows the entry as valid.
 
 ## Approval binding

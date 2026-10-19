@@ -65,7 +65,8 @@ internal sealed partial class EvaluationSession
     /// Tage seit dem letzten kumulativen Update, gemessen an CollectedAtUtc: Veröffentlichungstag von Build + UBR aus
     /// rules/lifecycle/builds.json; eine UBR zwischen zwei Einträgen wird über die Spanne entschieden; neuer als die
     /// Tabelle → „Regelwerk zu alt“; älter als ihr ältester Eintrag → „mindestens N Tage“. Ohne Tabellenentscheidung
-    /// das neueste QFE-InstalledOn; der Update-Verlauf kann nur einen Befund belegen (er enthält auch Signaturupdates).
+    /// können das neueste QFE-InstalledOn und der Update-Verlauf nur einen Befund belegen (beide nennen auch andere
+    /// Updates, und das Installationsdatum ist nicht das Veröffentlichungsdatum).
     /// </summary>
     private Outcome UpdateAge(UpdateAgeCheck c)
     {
@@ -100,19 +101,29 @@ internal sealed partial class EvaluationSession
             tableNote = T["Detail_UbrNotInTable", build, ubr];
         }
 
-        // 2. Neuestes QFE-InstalledOn
+        // 2. Neuestes QFE-InstalledOn: belegt nur einen Befund (Review evidence-4). Win32_QuickFixEngineering nennt alle
+        // CBS-Updates (auch Wartungsstapel und .NET), und InstalledOn ist der Installations-, nicht der
+        // Veröffentlichungstag – ein altes kumulatives Update, gestern installiert, wäre sonst „aktuell“. Ist aber seit
+        // mehr als maxDays nichts installiert worden, ist auch das letzte kumulative Update mindestens so alt.
         var qfe = Store.Item(Known.QuickFix);
+        string? qfeNote = null;
         if (qfe.IsPresent && JsonRead.Rows(qfe.Value) is { Count: > 0 } rows)
         {
             var newest = rows.Select(r => JsonRead.Time(JsonRead.Get(r, "InstalledOn"))).Where(t => t is not null).Max();
             if (newest is { } installed && ValueComparison.AgeDays(installed, CollectedAtUtc) is { } age)
-                return (o with { Status = age <= maxDays ? ResultStatus.Pass : ResultStatus.Fail, Actual = age.ToString(CultureInfo.InvariantCulture), Source = ValueSource.Runtime })
-                    .DecidedBy(Known.QuickFix).With(tableNote).With(T["Detail_NewestHotfix", installed.UtcDateTime.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)]);
+            {
+                var date = installed.UtcDateTime.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                if (age > maxDays)
+                    return (o with { Actual = ">=" + age.ToString(CultureInfo.InvariantCulture), Source = ValueSource.Runtime })
+                        .DecidedBy(Known.QuickFix).With(tableNote).With(T["Detail_NewestHotfix", date]);
+                qfeNote = T["Detail_HotfixNotProof", date];
+            }
         }
 
-        // 3. Update-Verlauf: nur ein Befund ist belegbar (erfolgreiche Installationen, WUA: resultCode 2/3, operation 1)
+        // 3. Update-Verlauf: nur ein Befund ist belegbar (erfolgreiche Installationen, WUA: resultCode 2/3, operation 1);
+        // nicht, wenn QFE eine jüngere Installation zeigt (offline installiert, nicht im Verlauf)
         var history = Store.Item(ItemKeys.WindowsUpdateHistory);
-        if (history.IsPresent && JsonRead.Get(history.Value, "entries") is { ValueKind: JsonValueKind.Array } entries)
+        if (qfeNote is null && history.IsPresent && JsonRead.Get(history.Value, "entries") is { ValueKind: JsonValueKind.Array } entries)
         {
             var newest = entries.EnumerateArray()
                 .Where(e => JsonRead.Integer(e, "resultCode") is 2 or 3 && JsonRead.Integer(e, "operation") is null or 1)
@@ -122,6 +133,6 @@ internal sealed partial class EvaluationSession
                     .DecidedBy(ItemKeys.WindowsUpdateHistory).With(tableNote).With(T["Detail_NewestHistory", last.UtcDateTime.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)]);
         }
         var reason = tableNote is not null || Catalogue.Builds.Builds.Count > 0 ? RglCodesEngine.CatalogueDataMissing : (qfe.Reason ?? RglCodesEngine.CatalogueDataMissing);
-        return (o with { Status = ResultStatus.NotCheckable, ReasonCode = reason }).With(tableNote ?? T["Detail_NoUpdateEvidence"]);
+        return (o with { Status = ResultStatus.NotCheckable, ReasonCode = reason }).With(tableNote ?? (qfeNote is null ? T["Detail_NoUpdateEvidence"] : null)).With(qfeNote);
     }
 }

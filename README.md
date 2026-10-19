@@ -28,13 +28,14 @@
 
 <p align="center">
   <b>Evidence of hardening for the Windows machines nobody manages centrally.</b><br>
-  Riegel reads the security configuration of plant, lab and control-room PCs without changing anything, checks it
+  Riegel reads the security configuration of plant, lab and control-room PCs without changing their configuration, checks it
   against 153 rules,<br>keeps what is deliberately open as justified and approved exceptions, and writes a report to sign.
 </p>
 
 > [!IMPORTANT]
 > **The MSI is not the way onto OT or validated machines.** Installing software there is a change in itself. On plant
-> PCs run the **portable collector** (`Riegel-Collector.zip`, installs nothing, changes nothing) or Windows' own
+> PCs run the **portable collector** (`Riegel-Collector.zip`: installs nothing, changes no configuration and writes only
+> its export; Windows itself records that a program ran – [what it leaves behind](docs/collector.md#what-it-leaves-behind)) or Windows' own
 > **built-in commands**, and evaluate the snapshot on an analysis PC. The MSI is for admin, engineering and auditor
 > PCs. **Not code-signed yet:** no customer pilot on OT or validated machines with this unsigned 0.1 version.
 
@@ -43,7 +44,8 @@
 > gegen ein eigenes Härtungs-Regelwerk mit 153 Regeln. Was nicht gehärtet werden kann, wird als begründete Ausnahme mit
 > Freigabe festgehalten, Zuschnitt und Maßnahmenplan inklusive; am Ende stehen ein Bericht zum Abzeichnen (PDF), Excel,
 > ein Nachweispaket mit `verify` und Abhilfe-Dateien für den Anlagenbauer. Riegel ändert auf den geprüften Rechnern
-> nichts. **Die MSI ist nicht der Weg auf OT-Rechner:** dort läuft nur der portable Sammler ohne Installation.
+> keine Konfiguration; der Sammler schreibt nur seinen Export, und Windows selbst vermerkt, dass ein Programm lief
+> ([was bleibt](docs/collector.md#what-it-leaves-behind)). **Die MSI ist nicht der Weg auf OT-Rechner:** dort läuft nur der portable Sammler ohne Installation.
 > Oberfläche und Berichte gibt es auf Deutsch, Englisch, Spanisch, Französisch und Chinesisch (die letzten drei
 > maschinell vorübersetzt); diese Dokumentation ist englisch.
 
@@ -107,7 +109,7 @@
   2025 (.NET Framework 3.5.1 or 4.x; older systems through the built-in commands), deterministic builds, AppLocker hash data and a published read-only proof per
   build; `--minimal` for sensitive HMIs starts no other program.
 - **Runtime before configuration:** SMB, VBS/HVCI/Credential Guard, LSA protection, firewall and Defender are read from
-  their running state first; cited OS defaults are flagged "Standardwert angenommen".
+  their running state first; cited OS defaults are flagged "Default value assumed" (*Standardwert angenommen*).
 - **Monitoring that alerts on change:** Nagios exit codes and an Icinga line for regressions, newly open high findings,
   expiring exceptions and overdue measures – not for the standing state.
 - **Auditors on Linux:** `riegel-linux-x64` re-evaluates evidence packs (`verify`) and compares a fresh collection with
@@ -152,13 +154,17 @@ console does not wait for it.
 Riegel.Cli.exe collect --out D:\Exporte
 
 # Evaluate a snapshot without a plant (exit code 0 OK, 1 warning, 2 critical, 3 error)
-Riegel.Cli.exe check --snapshot D:\Exporte\HMI-01_20261018T080000Z.snapshot.json --brief
+Riegel.Cli.exe check --snapshot D:\Exporte\HMI-01_20261018T080000Z.snapshot.json
 
-# A plant: import with collection record, report, evidence pack – and verify it like an auditor
+# A plant: import every export in D:\Exporte with collection record, report, evidence pack – and verify it like an auditor
 Riegel.Cli.exe plant init D:\Riegel\Linie3 --name "Linie 3"
 Riegel.Cli.exe import D:\Exporte --plant D:\Riegel\Linie3 --collected-by-role Servicetechniker --witness-role Anlagenverantwortlicher --record
 Riegel.Cli.exe report --plant D:\Riegel\Linie3 --format pdf,xlsx --evidence --out D:\Berichte
 riegel-linux-x64 verify Riegel-Evidence_Linie-3_2026-10-18.zip
+
+# Monitoring against the plant (scheduled task, Icinga): one line; with --plant the alert mode is "change", so the
+# exit code reports what got worse, expiring exceptions and overdue measures – not the permanent state
+Riegel.Cli.exe check --snapshot D:\Exporte\HMI-01_20261019T080000Z.snapshot.json --plant D:\Riegel\Linie3 --brief
 ```
 
 ```text
@@ -227,7 +233,7 @@ the matching version for `verify`" – once the repository and its tag releases 
 - **Some rules are inventory, not checks**, where no shippable source sets a value (IP forwarding, Remote Registry, RDP
   idle limit, RC4/DES/NULL/MD5); AppLocker enforcement is not recognised by APP-01 yet.
 - **Not checkable is a result:** without administrator rights, with `--minimal` or from built-in commands many rules
-  cannot be decided – the report then says "Unvollständige Prüfung" and greys the score.
+  cannot be decided – the report then says "Incomplete check" (*Unvollständige Prüfung*) and greys the score.
 - **No PDF/A, no electronic signatures**, and the evidence pack is not signed: its hashes prove that files were not
   changed after packing, not where they came from (collection record with a witness and `compare-snapshot` close the
   gap).

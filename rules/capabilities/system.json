@@ -66,6 +66,73 @@
       "source": "https://learn.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/configuring-additional-lsa-protection",
       "seen": "2026-10-18",
       "note": "Added LSA protection exists on Windows 8.1 and Windows Server 2012 R2 and later (build 9600)."
+    },
+    {
+      "capability": "windowsLaps",
+      "exists": [
+        {
+          "os": "client",
+          "minBuild": 22631,
+          "note": "Windows 11 23H2 and later."
+        },
+        {
+          "os": "client",
+          "minBuild": 22621,
+          "maxBuild": 22621,
+          "minUbr": 1555,
+          "note": "Windows 11 22H2 with the April 11, 2023 update KB5025239 (OS Build 22621.1555) or later."
+        },
+        {
+          "os": "client",
+          "minBuild": 22000,
+          "maxBuild": 22000,
+          "minUbr": 1817,
+          "note": "Windows 11 21H2 with the April 11, 2023 update KB5025224 (OS Build 22000.1817) or later."
+        },
+        {
+          "os": "client",
+          "minBuild": 19044,
+          "maxBuild": 19045,
+          "minUbr": 2846,
+          "note": "Windows 10 21H2/22H2 with the April 11, 2023 update KB5025221 (OS Builds 19044.2846, 19045.2846) or later."
+        },
+        {
+          "os": "client",
+          "minBuild": 19042,
+          "maxBuild": 19042,
+          "minUbr": 2846,
+          "note": "Windows 10 20H2 with the April 11, 2023 update KB5025221 (OS Build 19042.2846) or later."
+        },
+        {
+          "os": "client",
+          "minBuild": 17763,
+          "maxBuild": 17763,
+          "minUbr": 4252,
+          "note": "Windows 10 Enterprise LTSC 2019 with the April 11, 2023 update KB5025229 (OS Build 17763.4252) or later."
+        },
+        {
+          "os": "server",
+          "minBuild": 25398,
+          "note": "Windows Server 23H2 (Annual Channel) and Windows Server 2025 and later."
+        },
+        {
+          "os": "server",
+          "minBuild": 20348,
+          "maxBuild": 20348,
+          "minUbr": 1668,
+          "note": "Windows Server 2022 with the April 11, 2023 update KB5025230 (OS Build 20348.1668) or later."
+        },
+        {
+          "os": "server",
+          "minBuild": 17763,
+          "maxBuild": 17763,
+          "minUbr": 4252,
+          "note": "Windows Server 2019 with the April 11, 2023 update KB5025229 (OS Build 17763.4252) or later."
+        }
+      ],
+      "source": "https://learn.microsoft.com/en-us/windows-server/identity/laps/laps-overview",
+      "seen": "2026-10-18",
+      "note": "Windows LAPS supported platforms; the build numbers come from the linked update pages (support.microsoft.com/help/5025239, 5025224, 5025221, 5025229, 5025230, seen 2026-10-18), which say 'This update implements the new Windows Local Administrator Password Solution (LAPS) as a Windows inbox feature.' Windows 10 1607 / Server 2016 and older are not listed."
     }
   ]
 }

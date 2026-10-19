@@ -254,7 +254,7 @@ public sealed partial class RulesBTests
             if (item.StartsWith("wmi:", StringComparison.OrdinalIgnoreCase))
             {
                 if (!wmi.TryGetValue(item, out var entry)) { problems.Add($"{ruleId}: {item} nicht im Plan"); return; }
-                if (property is not null && !entry.Properties.Contains(property, StringComparer.OrdinalIgnoreCase))
+                if (property is not null && !entry.Properties.Contains(property, StringComparer.OrdinalIgnoreCase) && !MethodOutput(entry, property))
                     problems.Add($"{ruleId}: {item} ohne Eigenschaft {property} im Plan");
                 return;
             }
@@ -288,6 +288,21 @@ public sealed partial class RulesBTests
                     Item(rule.Id, key);
         }
         Assert.True(problems.Count == 0, string.Join("\n", problems));
+    }
+
+    /// <summary>
+    /// „Methode.Ausgabe“ einer Methode je Zeile im Plan (docs/file-formats.md: Methoden stehen je Zeile unter ihrem
+    /// Namen); GetKeyProtectors.KeyProtectorTypes legt der Sammler zu den IDs an (gleiche erlaubte Methode mit Filter).
+    /// </summary>
+    private static bool MethodOutput(WmiPlanItem entry, string path)
+    {
+        int dot = path.IndexOf('.');
+        if (dot <= 0) return false;
+        var (name, output) = (path[..dot], path[(dot + 1)..]);
+        var method = entry.Methods.FirstOrDefault(m => string.Equals(m.Name, name, StringComparison.OrdinalIgnoreCase));
+        if (method is null) return false;
+        return (method.OutProperties ?? []).Contains(output, StringComparer.OrdinalIgnoreCase)
+               || (name.Equals("GetKeyProtectors", StringComparison.OrdinalIgnoreCase) && output.Equals("KeyProtectorTypes", StringComparison.OrdinalIgnoreCase));
     }
 
     /// <summary>Liegt der Schlüssel in einem rekursiven Bereich (innerhalb der Tiefe) oder ist er ein Einzelschlüssel des Plans?</summary>

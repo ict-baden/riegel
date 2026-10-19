@@ -1669,6 +1669,58 @@
           "expect": "pass"
         },
         {
+          "name": "active, only a cloud-dependent ASR rule in block mode, cloud-delivered protection off",
+          "machine": {
+            "build": 26100,
+            "edition": "Enterprise",
+            "installationType": "Client",
+            "productType": 1,
+            "domainRole": 1,
+            "isAdmin": true
+          },
+          "facts": {
+            "defender.mode": "active",
+            "defender.rtp": true,
+            "av.thirdPartyActive": false
+          },
+          "items": {
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpComputerStatus": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AMRunningMode": "Normal",
+                    "AMServiceEnabled": true,
+                    "AntivirusEnabled": true,
+                    "RealTimeProtectionEnabled": true,
+                    "BehaviorMonitorEnabled": true,
+                    "IsTamperProtected": true,
+                    "AntivirusSignatureLastUpdated": "2026-10-15T04:00:00Z",
+                    "AntivirusSignatureAge": 0
+                  }
+                ]
+              }
+            },
+            "wmi:root\\Microsoft\\Windows\\Defender:MSFT_MpPreference": {
+              "status": "ok",
+              "value": {
+                "rows": [
+                  {
+                    "AttackSurfaceReductionRules_Ids": [
+                      "01443614-cd74-433a-b99e-2ecdc07bfc25"
+                    ],
+                    "AttackSurfaceReductionRules_Actions": [
+                      1
+                    ],
+                    "MAPSReporting": 0
+                  }
+                ]
+              }
+            }
+          },
+          "expect": "fail"
+        },
+        {
           "name": "active, ASR rules only in audit mode",
           "machine": {
             "build": 26100,

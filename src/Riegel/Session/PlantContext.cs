@@ -138,12 +138,30 @@ internal sealed class PlantContext
 
     public string Category(string ruleId) => Catalogue.Find(ruleId)?.Category ?? "system";
 
-    /// <summary>Snapshot eines Laufs lesen (Pfad relativ zum Anlagenordner).</summary>
-    public Snapshot? ReadSnapshot(Run run)
+    /// <summary>
+    /// Geprüften Export eines Laufs lesen (nur im Anlagenordner, SHA-256 passend, <see cref="Riegel.Core.Services.IPlantStore.RunSnapshotPath"/>).
+    /// Fehlt er, null; liegt er außerhalb oder passt er nicht zum Lauf, RiegelException mit RGL-0415/0416.
+    /// </summary>
+    public Snapshot? ReadSnapshot(Run run) => SnapshotPath(run) is { } path ? Services.Snapshots.Read(path, ReadLimits.Default) : null;
+
+    /// <summary>Geprüfter Pfad des Exports eines Laufs; null, wenn er fehlt (RGL-0415/0416 als Ausnahme).</summary>
+    public string? SnapshotPath(Run run)
     {
         if (string.IsNullOrEmpty(run.Snapshot.Path)) return null;
-        var path = Path.Combine(Folder, run.Snapshot.Path.Replace('/', Path.DirectorySeparatorChar));
-        return File.Exists(path) ? Services.Snapshots.Read(path, ReadLimits.Default) : null;
+        try { return Services.Plants.RunSnapshotPath(Plant, run); }
+        catch (RiegelException e) when (e.Code == RglCodesCommon.NotFound) { return null; }
+    }
+
+    /// <summary>Wie <see cref="ReadSnapshot"/>, aber ein unbrauchbarer Export gilt als fehlend; der Grund kommt in <paramref name="problem"/>.</summary>
+    public Snapshot? TryReadSnapshot(Run run, out string? problem)
+    {
+        problem = null;
+        try { return ReadSnapshot(run); }
+        catch (RiegelException e)
+        {
+            problem = e.ToString();
+            return null;
+        }
     }
 
     // ---------------------------------------------------------------- Register

@@ -18,7 +18,7 @@ the engine implements it. File formats are in [file-formats.md](file-formats.md)
 
 A rule is **erfüllt (pass)** only when the snapshot contains positive evidence that meets the expected value – or when
 the value is proven to be absent and the rule cites a published default for exactly this kind of machine (then the
-result carries the flag **"Standardwert angenommen"**). Everything the engine could not read – access denied, an error,
+result carries the flag **"Default value assumed"** (*Standardwert angenommen*)). Everything the engine could not read – access denied, an error,
 not collected, a truncated value, a key outside the collected area – is **nicht prüfbar (not checkable)** with a reason
 code, never a pass and never a silent fail. Where Windows has a runtime state (a running service, the firewall as it
 is active, Microsoft Defender's own status), that runtime state decides before any configured registry value. A
@@ -67,7 +67,7 @@ What a proven-missing value means is part of each registry rule (`whenMissing`):
 |---|---|
 | `fail` | `fail`, detail "Wert nicht gesetzt" |
 | `notCheckable` | `notCheckable`, RGL-0227 |
-| `osDefault` | the first `osDefaults` entry that matches the machine (build range, edition, installation type, domain membership) supplies the value, which is then compared. A pass carries **FromDefault** ("Standardwert angenommen"), the value source is `osDefault`, and the details name the default, its source URL and the date it was seen. No matching entry → `notCheckable` "Standardwert unbekannt" (RGL-0228). If a machine field the entry needs is unknown, the search stops: a later entry may not replace an earlier one that might have matched. |
+| `osDefault` | the first `osDefaults` entry that matches the machine (build range, edition, installation type, domain membership) supplies the value, which is then compared. A pass carries **FromDefault** ("Default value assumed"), the value source is `osDefault`, and the details name the default, its source URL and the date it was seen. No matching entry → `notCheckable` "Value not set, default value unknown" (RGL-0228). If a machine field the entry needs is unknown, the search stops: a later entry may not replace an earlier one that might have matched. |
 | `pass` | allowed only with a `missingPass` record (source URL, date seen, note) and an entry in the rules package's allow-list file; the pass carries **FromDefault** |
 
 Every `osDefaults` and `missingPass` entry must cite an `https://` source and a date; the catalogue refuses to load
@@ -106,7 +106,10 @@ protection value without proof that LSASS really started protected. Therefore:
   not checkable or not applicable are skipped. A runtime "not required" therefore beats a cited default "required":
   the result is fail.
 - Several check types have the order built in (see [Check types](#check-types)): the firewall's enabled state and
-  default inbound action come only from the runtime (`HNetCfg.FwPolicy2`); Defender settings from Defender's own status;
+  default inbound action come from a Group Policy value of the profile when one is set (it overrides the local
+  setting in both directions), otherwise from the firewall service (`HNetCfg.FwPolicy2`), which reports only the local
+  setting – Microsoft: FirewallEnabled "indicates whether a firewall is enabled locally (the effective result may differ
+  due to group policy settings)"; Defender settings from Defender's own status;
   VBS, memory integrity and Credential Guard only from the list of **running** security services.
 - `anyOf` is never used to combine a runtime source with a configured or default value, because a cited default would
   then override a runtime "not required".
@@ -134,12 +137,12 @@ A rule declares where it applies (`appliesTo`). The engine checks, in this order
    domain membership (`joined`/`standalone`), a domain controller for rules marked `excludeDc`, a `when` condition on a
    fact that is false, or a capability the operating system lacks when the rule says `ifCapabilityAbsent:
    notApplicable`.
-2. Otherwise, any of these that cannot be determined gives `notCheckable` "Anwendbarkeit nicht bestimmbar"
+2. Otherwise, any of these that cannot be determined gives `notCheckable` "Applicability cannot be determined"
    (RGL-0229) – never `notApplicable` and never pass. A built-in-commands bundle without a domain role, for example,
    cannot be evaluated against domain-only rules.
 3. Otherwise, a missing capability with `ifCapabilityAbsent: fail` is a **fail**: for protection rules (encryption,
    antivirus, credential isolation, application control) the absence of the protection is the gap, with an exception
-   route ("Verschlüsselung durch Drittprodukt").
+   route (for example "encryption by a third-party product", *Verschlüsselung durch Drittprodukt*).
 
 Facts (operating system, domain, Defender mode, Office, network …) are derived from the snapshot; each is a value or
 unknown. When a capability exists on the operating system but its data source is missing (a WMI namespace or class),
@@ -156,13 +159,15 @@ values **Normal**, **Passive** and **EDR Block Mode** ("Microsoft Defender Antiv
 products", https://learn.microsoft.com/en-us/defender-endpoint/microsoft-defender-antivirus-compatibility, seen
 2026-10-18). Without a readable mode the engine derives it, flagged **Derived**: antivirus or the antimalware service
 disabled → off; antivirus and real-time protection on and no other antivirus registered → active; anything else
-unknown. A missing Defender WMI namespace means Defender is absent.
+unknown. A derived "off" is unknown when the documented Windows Security Center API reports Microsoft Defender as on:
+with a restricted token `MSFT_MpComputerStatus` returns placeholders (`AMRunningMode` "Not running", every switch
+false, signature age 65535) for a Defender that is running. A missing Defender WMI namespace means Defender is absent.
 
 | Defender mode | Third-party antivirus active | Defender settings (DEF-01/02/03/12, LIFE-04) | ASR rules and "ASR configured" (DEF-09) |
 |---|---|---|---|
 | active | any | evaluated | evaluated; pass only with real-time protection on |
-| passive, EDR block, off | yes | not applicable "Drittanbieter-Virenschutz aktiv" | not applicable |
-| passive, EDR block, off | no | fail "kein aktiver Virenschutz" | fail "ASR konfiguriert, aber nicht wirksam" or "nicht konfiguriert" |
+| passive, EDR block, off | yes | not applicable "Third-party antivirus active" | not applicable |
+| passive, EDR block, off | no | fail "No active antivirus" | fail "ASR configured, but not effective" or "not configured" |
 | absent | yes | not applicable | not applicable |
 | absent | no | fail | DEF-09 fail; a single ASR rule not applicable |
 | unknown, or third party unknown | – | not checkable | not checkable |
@@ -177,7 +182,7 @@ applicable, because DEF-09 already reports the gap.
 ASR rule modes: 0 off, 1 block, 2 audit, 5 not configured, 6 warn. `accept` allows block (default), block or warn, or
 block or audit. The effective list in `MSFT_MpPreference` decides. Only if it cannot be read does the engine look at
 the Group Policy store (`…\Windows Defender Exploit Guard\ASR\Rules`) and then the MDM store; a matching mode found
-there is "konfiguriert, Wirkung nicht nachgewiesen" (not checkable, ConfiguredOnly), a non-matching mode is a fail.
+there is "Configured, effect not proven" (not checkable, ConfiguredOnly), a non-matching mode is a fail.
 
 ## Check types
 
@@ -185,8 +190,8 @@ Evidence is read in the order shown; the first source that can decide does so.
 
 | Check type | Evidence (in order) | Rules of decision |
 |---|---|---|
-| `registry` | `reg:` item | evidence classes, `whenMissing`, strict types |
-| `registryEffective` | the listed sources, e.g. policy before MDM before local | first present source decides; an unavailable source before it → not checkable; all missing → `whenMissing` |
+| `registry` | `reg:` item | evidence classes, `whenMissing`, strict types; with `configuredOnly: true` a met comparison is not checkable with flag `ConfiguredOnly` (e.g. ENC-06: the policy works only with firmware support) |
+| `registryEffective` | the listed sources, e.g. policy before MDM before local | first present source decides; an unavailable source before it → not checkable; all missing → `whenMissing`. With `selection: root` (Windows LAPS) the first source key with any value is the active policy and a value missing there goes to `whenMissing`, even if a later key has it |
 | `secedit` | `parsed:secedit` | a key missing from the exported template → `whenMissing`; `[Registry Values]` entries are `type,value` (4 DWORD, 1 SZ, 2 EXPAND_SZ, 7 MULTI_SZ) and strictly typed |
 | `accountPolicy` | `api:netusermodals`, then `parsed:secedit` `[System Access]` | password age "unlimited" (API null, secedit ≤ 0) fails every upper bound; lockout threshold 0 ("never locks") satisfies no bound; lockout duration 0 or unlimited = until an administrator unlocks |
 | `auditSubcategory` | `api:audit-policy` (GUID → 0–3) | numbers only, never localised text; a GUID that is absent from the item was not collected |
@@ -195,13 +200,13 @@ Evidence is read in the order shown; the first source that can decide does so.
 | `feature` | `Win32_OptionalFeature` | absent row → `ifAbsent` |
 | `wmiProperty` | the named `wmi:` item (rows or method `out`) | row filter, then `any`/`all`/`first`; no rows → `ifNoRows`; JSON null counts as "not set" only for `exists`/`notExists` |
 | `defenderSetting` | `MSFT_MpComputerStatus` or `MSFT_MpPreference` | [Defender gating](#microsoft-defender-gating) first |
-| `asrRule` | `MSFT_MpPreference`, then policy store, then MDM | gating, modes, real-time protection |
-| `firewallProfile` | runtime profile state for enabled/default inbound; policy store, then local store for logging and local-rule merge | without runtime state not checkable; "not configured" logging/merge is a fail when the rule asks for the hardened setting, otherwise not checkable |
-| `firewallExposure` | runtime state, runtime rule list, `parsed:firewall-rules-registry` (GPO and local store), merge setting per profile | fail if a profile is off, allows inbound by default, or an enabled inbound allow rule opens a listed port to any address (`*`, `Any`, empty) on a considered profile; local rules do not count where merging is off; pass only with the runtime list **and** the registry stores; anything unclear → not checkable |
-| `lifecycle` | machine header, `rules/lifecycle/windows.json`, plant `esuCovered` | first matching product; evaluation date ≤ end of support → pass; with ESU covered and an ESU end listed by Microsoft → pass until that date; a build older than every entry of its kind whose support has ended → fail; otherwise not checkable "Regelwerk ergänzen" |
-| `updateAge` | `rules/lifecycle/builds.json`, then newest hotfix `InstalledOn`, then Windows Update history | release day of build + UBR; between two listed updates decided by the span; newer than the table → not checkable "Regelwerk zu alt"; older than the oldest entry → fail "mindestens N Tage" when that already exceeds the limit; the update history can only prove a finding (it also contains signature updates) |
+| `asrRule` | `MSFT_MpPreference`, then policy store, then MDM | gating, modes, real-time protection; the three rules that Microsoft says need cloud-delivered protection (prevalence/age/trusted list `01443614…`, obfuscated scripts `5beb7efe…`, advanced ransomware protection `c1db55ab…`) pass only with `MAPSReporting` 1 or 2, fail "configured but not effective" with 0 and are not checkable when it cannot be read |
+| `firewallProfile` | enabled/default inbound: a set Group Policy value (`EnableFirewall`, `DefaultInboundAction` 1 = block, 0 = allow) decides, otherwise the local setting from the firewall service; policy store, then local store for logging and local-rule merge | policy store not readable, or no policy and no service state → not checkable; "not configured" logging/merge is a fail when the rule asks for the hardened setting, otherwise not checkable |
+| `firewallExposure` | effective profile state (as `firewallProfile`), runtime rule list, `parsed:firewall-rules-registry` (GPO and local store), merge setting per profile | fail if a profile is off, allows inbound by default, or an enabled inbound allow rule opens a listed port to any address (`*`, `Any`, empty) on a considered profile; local rules do not count where merging is off; pass only with the runtime list **and** the registry stores; anything unclear → not checkable |
+| `lifecycle` | machine header, `rules/lifecycle/windows.json`, plant `esuCovered` | first matching product; evaluation date ≤ end of support → pass; with ESU covered and an ESU end listed by Microsoft → pass until that date; a build older than every entry of its kind whose support has ended → fail; otherwise not checkable ("No lifecycle entry …": extend the catalogue) |
+| `updateAge` | `rules/lifecycle/builds.json`, then newest hotfix `InstalledOn`, then Windows Update history | release day of build + UBR; between two listed updates decided by the span; newer than the table → not checkable "catalogue too old"; older than the oldest entry → fail "mindestens N Tage" when that already exceeds the limit; the newest hotfix `InstalledOn` and the update history can only prove a finding: `Win32_QuickFixEngineering` lists every CBS update (also servicing stack and .NET) with its installation date, not the release date, and the history also contains signature updates – a recent date alone is not checkable |
 | `lsaProtection` | `api:lsass-protection` (only with `--deep`), then Wininit event 12 after the last start, then `RunAsPPL` | registry alone is never pass: configured → not checkable with ConfiguredOnly; not configured → not checkable (a UEFI-locked or default-on protection is not visible in the registry) |
-| `deviceGuard` | `Win32_DeviceGuard` | running services only (1 Credential Guard, 2 memory integrity; VBS status 2 = running); configured but not running → fail "konfiguriert, läuft nicht" (with `requireRunning: false` not checkable, ConfiguredOnly) |
+| `deviceGuard` | `Win32_DeviceGuard` | running services only (1 Credential Guard, 2 memory integrity; VBS status 2 = running); configured but not running → fail "Configured, not running" (with `requireRunning: false` not checkable, ConfiguredOnly) |
 | `avStatus` | Defender status, then Windows Security Center API, then SecurityCenter2 | Defender active with real-time protection and current signatures → pass; another product on and current (Security Center API) → pass; heuristic evidence only → not checkable with Heuristic; no antivirus at all → fail |
 | `localAccount` | `Win32_UserAccount` (local accounts), then `api:netuserenum` | by RID, never by name; account not found → not checkable |
 | `localAccounts` | `api:netuserenum` | any matching (enabled) account fails and is listed; "unused" = last logon older than the plant's `unusedAccountDays`, or never logged on (as DISA counts "Never") |
@@ -276,7 +281,7 @@ file (0211), customer baseline conflict (0212). An invalid catalogue is never us
 
 - **Automatic logon:** `AutoAdminLogon = 1` is a finding whether or not `DefaultPassword` is in the registry; the
   password may be stored as an LSA secret. The engine adds "Kennwort in Registry" when the (redacted) value is present,
-  otherwise "Ablage des Kennworts nicht prüfbar".
+  otherwise "Storage of the password not checkable".
 - **LSA protection:** configuration alone is never a pass (see the check type table). Microsoft names Wininit event 12
   "LSASS.exe was started as a protected process" as the way to verify it ("Configure added LSA protection",
   https://learn.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/configuring-additional-lsa-protection,
@@ -314,6 +319,10 @@ file (0211), customer baseline conflict (0212). An invalid catalogue is never us
   `SOFTWARE\Policies\Microsoft\WindowsFirewall\{Domain,Private,Public}Profile`, local
   `…\SharedAccess\Parameters\FirewallPolicy\{Domain,Standard,Public}Profile`. That `AllowLocalPolicyMerge` also exists in
   the local store is *(unverified)*; when it is not set, merging counts as allowed, which can only add rules.
+- The firewall profile state is the Group Policy value when set, else the local setting from `INetFwPolicy2`. An MDM
+  (Firewall CSP) setting is not read separately, and the effective state of the firewall service itself
+  (`MSFT_NetFirewallProfile` in the active store, Windows 8 / Server 2012 and later) is not collected yet; that would be
+  a collector change. *(open)*
 - Firewall port keywords such as `RPC` or `RPC-EPMap` denote dynamic or service ports and are not treated as the fixed
   ports of a rule. Block rules are not considered (an allow rule may be overridden by a block rule; that can only cause
   a fail, never a pass).

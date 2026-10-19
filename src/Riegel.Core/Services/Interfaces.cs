@@ -71,6 +71,12 @@ public interface IPlantStore
 
     Run LoadRun(Plant p, string runId);
 
+    /// <summary>
+    /// Vollständiger Pfad des Exports eines Laufs im Anlagenordner, geprüft: nur ein Pfad im Ordner ohne Verknüpfung
+    /// (sonst RGL-0415), vorhanden (sonst RGL-0002) und mit dem SHA-256 des Laufs (sonst RGL-0416).
+    /// </summary>
+    string RunSnapshotPath(Plant p, Run r);
+
     ApprovedState? LoadApproved(Plant p, string host);
 
     void SaveApproved(Plant p, ApprovedState a);

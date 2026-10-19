@@ -124,7 +124,7 @@ Parsing (snapshots, built-in bundles, baselines).
 | `RGL-0257` | SnapshotInvalid | {0} is not a valid snapshot ({1}). |
 | `RGL-0258` | ParsedItemRecomputed | {0} derived entries (parsed:*) in a collected snapshot were discarded and recomputed from the raw data. |
 | `RGL-0259` | RawSourceUnavailable | Raw data {0} is not available; the derived entry could not be computed. |
-| `RGL-0260` | BundleInvalid | Not a valid built-in-commands bundle ({0}). |
+| `RGL-0260` | BundleInvalid | Not a valid built-in-commands bundle ({0}). A folder named *.riegel-builtin or holding hostname.txt or secedit.inf is read as such a bundle. |
 | `RGL-0261` | BundleFileTooLarge | {0} is larger than allowed (maximum {1} bytes). |
 | `RGL-0262` | InvalidEncoding | {0} is not valid {1} text. |
 | `RGL-0263` | RegFileInvalid | {0}: line {1} is not a valid registry export line. |
@@ -180,6 +180,8 @@ Workflow (plant folder, runs, registers).
 | `RGL-0412` | InvalidPlant | riegel-plant.json is invalid at {0} (missing, duplicate or unknown entry). |
 | `RGL-0413` | MeasuresNeedNoApproval | Measures need no approval; the sign-off of the plant report covers the plan. |
 | `RGL-0414` | RawStatusUnknown | The tailoring is no longer in force and the original result is unknown: evaluate the export again. |
+| `RGL-0415` | RunSnapshotOutsidePlant | The export of run {0} is not in the plant folder ({1}): only a relative path inside the folder without links is used. |
+| `RGL-0416` | RunSnapshotMismatch | The export {0} does not match run {1} (SHA-256 expected {2}, found {3}). It is not used for a rollback, comparison or re-evaluation. |
 | `RGL-0420` | DuplicateId | ID {0} is used more than once. |
 | `RGL-0421` | IdFormat | ID {0} does not have the form {1}. |
 | `RGL-0422` | UnknownRule | Rule {0} is not in the catalogue or in an imported baseline. |
@@ -235,6 +237,8 @@ Command line.
 | `RGL-0467` | RunOfOtherMachine | Run {0} belongs to machine {1}, not to {2}. |
 | `RGL-0468` | PlantNotFound | No plant folder at {0} (riegel-plant.json is missing). Create one with plant init <folder> --name <name>. |
 | `RGL-0469` | Cancelled | Cancelled. |
+| `RGL-0470` | NoExportsInFolder | The folder {0} is not a built-in-commands bundle and contains no exports (*.snapshot.json, *.snapshot.json.gz). |
+| `RGL-0471` | UnknownTemplate | No template file and no built-in template named {0}. Built-in: {1}. |
 
 ## RGL-0500–0549
 

@@ -90,19 +90,30 @@ public static class CheckTypes
 /// <param name="OsDefaults">Belegte Standardwerte je Build/Edition (nur mit whenMissing osDefault).</param>
 /// <param name="MissingPass">Beleg für whenMissing pass (zusätzlich Eintrag in der Erlaubnisliste des Regelpakets).</param>
 /// <param name="MultiSz">Vergleich von multi_sz als Menge (Standard) oder Liste.</param>
+/// <param name="ConfiguredOnly">true: der Wert ist nur Konfiguration, deren Wirkung von etwas Nicht-Erhobenem abhängt
+/// (z. B. Firmware-Unterstützung) – ein erfüllter Vergleich ergibt „nicht prüfbar“ mit ConfiguredOnly, nie pass;
+/// ein Befund bleibt ein Befund.</param>
 public sealed record RegistryCheck(string Key, string Value, RegValueType ValueType, IReadOnlyList<RegValueType>? AcceptTypes,
     CheckOperator Op, JsonElement? Expected, WhenMissing WhenMissing, IReadOnlyList<OsDefault>? OsDefaults,
-    MissingPass? MissingPass, MultiSzMode? MultiSz) : CheckSpec(CheckTypes.Registry);
+    MissingPass? MissingPass, MultiSzMode? MultiSz, bool? ConfiguredOnly = null) : CheckSpec(CheckTypes.Registry);
 
 /// <summary>Wirksamer Wert aus mehreren Quellen: die erste vorhandene gewinnt; Herkunft wird berichtet.</summary>
 /// <param name="Sources">Geordnet, z. B. Richtlinie vor MDM vor lokal. Eine nicht verfügbare Quelle vor der ersten
 /// vorhandenen ergibt notCheckable.</param>
+/// <param name="Selection">Wie die wirksame Quelle gewählt wird: <c>value</c> (Standard, null) – die erste Quelle, in der
+/// der Wert steht; <c>root</c> – der erste Schlüssel mit irgendeinem Wert ist die aktive Richtlinie, ein dort fehlender
+/// Wert gilt als nicht gesetzt (Windows LAPS: Einstellungen werden nie über Wurzeln hinweg geteilt).</param>
 public sealed record RegistryEffectiveCheck(IReadOnlyList<EffectiveSource> Sources, RegValueType ValueType,
     IReadOnlyList<RegValueType>? AcceptTypes, CheckOperator Op, JsonElement? Expected, WhenMissing WhenMissing,
-    IReadOnlyList<OsDefault>? OsDefaults, MissingPass? MissingPass, MultiSzMode? MultiSz) : CheckSpec(CheckTypes.RegistryEffective)
+    IReadOnlyList<OsDefault>? OsDefaults, MissingPass? MissingPass, MultiSzMode? MultiSz, EffectiveSelection? Selection = null)
+    : CheckSpec(CheckTypes.RegistryEffective)
 {
     public IReadOnlyList<EffectiveSource> Sources { get; init; } = Sources ?? [];
 }
+
+/// <summary>Auswahl der wirksamen Quelle von <see cref="RegistryEffectiveCheck"/>.</summary>
+[JsonConverter(typeof(CamelCaseEnumConverter<EffectiveSelection>))]
+public enum EffectiveSelection { Value, Root }
 
 /// <summary>Eine Quelle von <see cref="RegistryEffectiveCheck"/>.</summary>
 public sealed record EffectiveSource(string Key, string Value, ValueOrigin Origin);

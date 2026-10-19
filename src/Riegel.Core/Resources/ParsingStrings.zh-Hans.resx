@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
@@ -42,7 +43,7 @@
     <value>原始数据 {0} 不可用；无法计算派生条目。</value>
   </data>
   <data name="Error_RGL0260" xml:space="preserve">
-    <value>不是有效的内置命令包（{0}）。</value>
+    <value>不是有效的内置命令包（{0}）。名称为 *.riegel-builtin 或含有 hostname.txt 或 secedit.inf 的文件夹会作为此类包读取。</value>
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0261" xml:space="preserve">

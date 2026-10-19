@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
@@ -128,7 +129,7 @@
     <value>Valor no válido: {0}</value>
   </data>
   <data name="Error_RGL0014" xml:space="preserve">
-    <value>Modo de solo lectura: no se escribe nada en la carpeta de la instalación.</value>
+    <value>Modo de solo lectura: no se escribe nada en la carpeta de la planta.</value>
   </data>
   <data name="Error_RGL0015" xml:space="preserve">
     <value>No se pudo escribir el paquete de diagnóstico: {0}</value>
@@ -253,13 +254,13 @@
     <value>El valor difiere</value>
   </data>
   <data name="Remediation_Header" xml:space="preserve">
-    <value>Propuesta: Riegel no la ejecuta. Acuérdela con el fabricante de la instalación antes de aplicarla.</value>
+    <value>Propuesta: Riegel no la ejecuta. Acuérdela con el fabricante de la planta antes de aplicarla.</value>
   </data>
   <data name="Role_PlantManagement" xml:space="preserve">
     <value>Dirección de planta</value>
   </data>
   <data name="Role_PlantOwner" xml:space="preserve">
-    <value>Responsable de la instalación</value>
+    <value>Responsable de la planta</value>
   </data>
   <data name="Role_QualityAssurance" xml:space="preserve">
     <value>Aseguramiento de la calidad</value>

@@ -151,6 +151,28 @@ public sealed partial class CollectorDocsTests
         }
     }
 
+    /// <summary>
+    /// README.txt des Sammlerpakets (Review docs-ui-14, legal-7): UTF-8 mit BOM und CRLF für den Editor ab Windows 7,
+    /// der deutsche Teil mit Umlauten statt Umschreibung, und kein „ändert nichts“ ohne Einschränkung (spec 4.4).
+    /// </summary>
+    [Fact]
+    public void Sammler_Liesmich_mit_Umlauten_BOM_und_ehrlicher_Aussage()
+    {
+        var bytes = File.ReadAllBytes(Path.Combine(RepoPaths.Src, "Riegel.Collector", "README.txt"));
+        Assert.True(bytes is [0xEF, 0xBB, 0xBF, ..], "UTF-8-BOM fehlt");
+        var text = new UTF8Encoding(false, true).GetString(bytes, 3, bytes.Length - 3);
+        Assert.DoesNotContain(Regex.Replace(text, "\r\n", ""), "\n");
+        var german = text[text.IndexOf("\r\nDeutsch\r\n", StringComparison.Ordinal)..];
+        Assert.Contains("Prüfsummendatei", german);
+        Assert.Contains("Was er hinterlässt", german);
+        foreach (var transliterated in new[] { "Pruef", "pruef", "aendert", "Laeuft", "fuer", "geloescht", "hinterlaesst", "schreibgeschuetzt", "Haelfte", "oeffnen" })
+            Assert.DoesNotContain(transliterated, german);
+        foreach (var promise in new[] { "changes no setting", "changes nothing", "starts no service", "ändert nichts", "keinen Dienst" })
+            Assert.DoesNotContain(promise, text);
+        Assert.Contains("changes no configuration", text);
+        Assert.Contains("ändert keine Konfiguration", german);
+    }
+
     private static string Normalize(string s) => Regex.Replace(s.Replace("%BUNDLE%", "<bundle>").Replace("%WL%", @"HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"), @"\s+", " ").Trim();
 
     // secedit/auditpol/reg-Zeilen (ohne Umleitungen), so wie man sie abtippt

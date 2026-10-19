@@ -12,7 +12,9 @@ What Riegel reads, which files it writes, where they live, what personal data th
 
 ## In short
 
-- Riegel **reads** the security configuration of a Windows machine and **changes nothing** there.
+- Riegel **reads** the security configuration of a Windows machine and **changes no configuration** there. It writes
+  only its export, and Windows itself records that a program ran (execution traces, event log entries – see
+  [On the checked machine](#on-the-checked-machine) and [What it leaves behind](collector.md#what-it-leaves-behind)).
 - It writes only: the snapshot export (and its checksum file) where you choose, the plant folder you open, the output
   folder you choose and its own data folder `%LocalAppData%\Riegel`.
 - It opens **no network connection** and sends **no data to ICT-Baden**: no telemetry, no update check, no crash
@@ -78,13 +80,16 @@ SMB settings, services (name, display name, state, start mode, account, path), o
 **local user accounts** (name, SID, disabled, lockout, password flags, **date of the last logon**, password age),
 members of the local Administrators and Remote Desktop Users groups, Defender status and preferences (including
 **exclusion paths**, only with administrator rights), firewall profiles and rules (including **program paths**),
-shares and their permissions, network adapters (no IP addresses), the WinHTTP proxy, installed software (display name,
+shares and their permissions, network adapters (no host IP addresses, but the **default gateway address**), the
+WinHTTP proxy (proxy server and bypass list, which can name hosts or addresses), installed software (display name,
 version, publisher), BitLocker and TPM state, the Wininit event 12, the host name, domain, machine GUID and the version
 values of `CurrentVersion` (not the registered owner or product IDs).
 
 Personal data in it: **host names, local account names and SIDs, last-logon dates of local accounts, the
 automatic-logon user name, user-profile path segments, names of local group members** – and whatever the customer's
-software writes into paths or display names.
+software writes into paths or display names. Network data in it: the **default gateway address** of each adapter, the
+**WinHTTP proxy** settings and, with administrator rights, Defender's **IP address exclusions**
+(`ExclusionIpAddress`) – infrastructure addresses rather than personal data, but confidential like the rest.
 
 ## Reports, evidence pack and remediation
 
@@ -104,7 +109,7 @@ software writes into paths or display names.
 | What | Where | Content |
 |---|---|---|
 | `settings.json` | `%LocalAppData%\Riegel` (Linux `~/.local/share/riegel`; `RIEGEL_DATA_DIR` overrides) | language, theme, default plant folder, thresholds, recently opened plant folders (paths) |
-| `logs\riegel-<date>.log` | same folder | 7 days, at most 1 MB per day; never setting values, host names, accounts or paths |
+| `logs\riegel-<date>.log` | same folder | 7 days, at most 1 MB per day; never setting values, host names, accounts or paths (paths, host, user and domain names, accounts, SIDs and addresses in error messages are replaced before a line is written) |
 | `handoff\<token>\` | same folder | the snapshot and checksum of *Check as administrator*; kept after the import (the plant folder holds the imported copy) – delete it with the data folder |
 | `Riegel-Erfassung-<8 hex>\` | `%TEMP%` | the snapshot of *Check this PC* without elevation; kept after the import – delete it, or let Windows clean the temporary folder |
 | `defaults.json` | `%ProgramData%\ICT-Baden\Riegel` | presets of the administrator, read only |

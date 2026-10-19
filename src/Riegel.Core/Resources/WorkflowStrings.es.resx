@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
@@ -482,5 +483,14 @@
   </data>
   <data name="Service_State" xml:space="preserve">
     <value>estado {0}</value>
+  </data>
+  <data name="Error_RGL0415" xml:space="preserve">
+    <value>La exportación de la ejecución {0} no está en la carpeta de la planta ({1}): solo se usa una ruta relativa dentro de la carpeta sin enlaces.</value>
+  </data>
+  <data name="Error_RGL0416" xml:space="preserve">
+    <value>La exportación {0} no corresponde a la ejecución {1} (SHA-256 esperado {2}, encontrado {3}). No se usa para una reversión, una comparación ni una nueva evaluación.</value>
+  </data>
+  <data name="Error_RGL0439_one" xml:space="preserve">
+    <value>Caduca el {0} (en {1} día).</value>
   </data>
 </root>

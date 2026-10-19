@@ -865,6 +865,9 @@
             "set",
             "list"
           ]
+        },
+        "configuredOnly": {
+          "type": "boolean"
         }
       },
       "required": [
@@ -971,6 +974,13 @@
             "additionalProperties": false
           },
           "minItems": 1
+        },
+        "selection": {
+          "type": "string",
+          "enum": [
+            "value",
+            "root"
+          ]
         },
         "valueType": {
           "$ref": "#/$defs/regValueType"

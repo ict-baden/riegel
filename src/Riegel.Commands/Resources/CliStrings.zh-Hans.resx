@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
@@ -98,20 +99,14 @@
     <value>{0}：运行 {1} 已记录为已批准状态 – {2}，{3}，{4}</value>
   </data>
   <data name="Cli_ApprovedRunMissing" xml:space="preserve">
-    <value>提示：{0} 的已批准运行 {1} 已不在设备文件夹中 – 无法与已批准状态比较。</value>
+    <value>提示：{0} 的已批准运行 {1} 已不在装置文件夹中 – 无法与已批准状态比较。</value>
   </data>
   <data name="Cli_BaselineContentWarning" xml:space="preserve">
     <value>警告：证据包包含已导入基线的完整内容。请确认其许可证允许转交（Microsoft、BSI 和 CIS 的条款可能不允许）。</value>
     <comment>TODO-übersetzen</comment>
   </data>
-  <data name="Cli_BaselineImported" xml:space="preserve">
-    <value>基线 {0}（{1}）已导入：{2} 条规则，来源 SHA-256 {3}</value>
-  </data>
   <data name="Cli_BaselineLicenceNote" xml:space="preserve">
-    <value>导入的基线保留在此设备文件夹中。除非使用 report --evidence --include-baseline-content，否则证据包只包含其元数据。</value>
-  </data>
-  <data name="Cli_BaselineLine" xml:space="preserve">
-    <value>{0}  {1}  {2} 条规则  导入于 {3}  来源 {4}</value>
+    <value>导入的基线保留在此装置文件夹中。除非使用 report --evidence --include-baseline-content，否则证据包只包含其元数据。</value>
   </data>
   <data name="Cli_BaselineNone" xml:space="preserve">
     <value>没有已导入的基线。</value>
@@ -140,9 +135,6 @@
   <data name="Cli_CheckOpen" xml:space="preserve">
     <value>  未解决的发现：高 {0}，中 {1}，低 {2}</value>
   </data>
-  <data name="Cli_CheckOverall" xml:space="preserve">
-    <value>总体：{0}（退出代码 {1}），共 {2} 台计算机</value>
-  </data>
   <data name="Cli_CheckPolicy" xml:space="preserve">
     <value>告警模式 {0}：严重 {1}；警告 {2}</value>
   </data>
@@ -159,13 +151,13 @@
     <value>  运行 {0}，未保存</value>
   </data>
   <data name="Cli_CheckRunStored" xml:space="preserve">
-    <value>  运行 {0}，已保存到设备文件夹</value>
+    <value>  运行 {0}，已保存到装置文件夹</value>
   </data>
   <data name="Cli_CheckScore" xml:space="preserve">
-    <value>  加固程度：{0}% · 已记录：{1}% · 已检查比例：{2}%</value>
+    <value>  加固程度：{0}% · 已记录：{1}% · 检查覆盖率：{2}%</value>
   </data>
   <data name="Cli_CheckScoreNone" xml:space="preserve">
-    <value>  加固程度：未评估（域控制器或无可检查项）· 已检查比例：{0}%</value>
+    <value>  加固程度：未评估（域控制器或无可检查项）· 检查覆盖率：{0}%</value>
   </data>
   <data name="Cli_CheckVsApproved" xml:space="preserve">
     <value>  已与已批准状态（运行 {0}）比较</value>
@@ -208,7 +200,7 @@ SHA-256：{1}</value>
     <value>{0}：没有可比较的先前运行（最新运行 {1}）。</value>
   </data>
   <data name="Cli_Description" xml:space="preserve">
-    <value>对照加固基线检查工厂、实验室和控制室中的 Windows 计算机（只读、离线），记录有正当理由的例外，并生成可供签署的证据报告。</value>
+    <value>对照加固基线检查装置、实验室和控制室中的 Windows 计算机（只读、离线），记录有正当理由的例外，并生成可供签署的证据报告。</value>
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Cli_DriftLine" xml:space="preserve">
@@ -219,9 +211,6 @@ SHA-256：{1}</value>
   </data>
   <data name="Cli_GuiOnly" xml:space="preserve">
     <value>{0} 仅在 Riegel.exe（窗口程序）中可用，命令行中不可用。</value>
-  </data>
-  <data name="Cli_ImportDone" xml:space="preserve">
-    <value>导入 {0}：已将 {1} 个导出文件添加到 {2}</value>
   </data>
   <data name="Cli_ImportNoSidecar" xml:space="preserve">
     <value>  {0}：没有匹配的 .sha256 文件 – 完整性未经证明</value>
@@ -273,19 +262,16 @@ SHA-256：{1}</value>
     <value>选项 {0} 指定了两次。</value>
   </data>
   <data name="Cli_PlantCreated" xml:space="preserve">
-    <value>已创建设备文件夹：{0}</value>
+    <value>已创建装置文件夹：{0}</value>
   </data>
   <data name="Cli_PlantInitialized" xml:space="preserve">
-    <value>已在 {2} 中创建设备 {0}（{1}）</value>
+    <value>已在 {2} 中创建装置 {0}（{1}）</value>
   </data>
   <data name="Cli_RegisterEmpty" xml:space="preserve">
     <value>{0}：没有条目。</value>
   </data>
   <data name="Cli_RegisterLine" xml:space="preserve">
     <value>{0}  {1}  {2}  复审日期 {3}  {4}</value>
-  </data>
-  <data name="Cli_RegisterNoneExpiring" xml:space="preserve">
-    <value>{0}：{1} 天内没有到期的条目。</value>
   </data>
   <data name="Cli_RegisterText" xml:space="preserve">
     <value>      {0}</value>
@@ -294,7 +280,7 @@ SHA-256：{1}</value>
     <value>仅为建议 – Riegel 不会执行。应用前请与设备制造商协商每项更改。</value>
   </data>
   <data name="Cli_RemediationWritten" xml:space="preserve">
-    <value>修复建议已写入 {0}：文件中 {1} 条规则，{2} 条省略，{3} 个手动步骤</value>
+    <value>修复建议已写入 {0}：{1}，{2}，{3}</value>
   </data>
   <data name="Cli_RuleLine" xml:space="preserve">
     <value>{0}  {1}  {2}  {3}</value>
@@ -332,29 +318,20 @@ SHA-256：{1}</value>
   <data name="Cli_SourceThisPc" xml:space="preserve">
     <value>本机</value>
   </data>
-  <data name="Cli_TemplateImported" xml:space="preserve">
-    <value>已将 {0} 个条目以“已申请”状态添加到 {1} – 只有批准后才生效。</value>
-  </data>
   <data name="Cli_ValidateInvalid" xml:space="preserve">
-    <value>{0}：{1} 个条目，{2} 个错误，{3} 个警告 – 无效。</value>
+    <value>{0}：{1}，{2}，{3} – 无效。</value>
   </data>
   <data name="Cli_ValidateOk" xml:space="preserve">
-    <value>{0}：{1} 个条目，有效。</value>
+    <value>{0}：{1}，有效。</value>
   </data>
   <data name="Cli_ValidateWarnings" xml:space="preserve">
-    <value>{0}：{1} 个条目，{2} 个错误，{3} 个警告。</value>
+    <value>{0}：{1}，{2}，{3}。</value>
   </data>
   <data name="Cli_VerifyCounts" xml:space="preserve">
     <value>已检查的导出文件：{0} · 已比较的结果：{1}</value>
   </data>
   <data name="Cli_VerifyError" xml:space="preserve">
     <value>无法验证证据包。</value>
-  </data>
-  <data name="Cli_VerifyMismatch" xml:space="preserve">
-    <value>未能使用引擎 {0} 重现（包内：{1}）：{2} 项发现。</value>
-  </data>
-  <data name="Cli_VerifyNotVerifiable" xml:space="preserve">
-    <value>无法核实（未包含基线内容）：{0} 个结果（{1}）</value>
   </data>
   <data name="Cli_VerifyReproduced" xml:space="preserve">
     <value>已使用引擎 {0} 重现（包内：{1}）。</value>
@@ -414,19 +391,19 @@ SHA-256：{1}</value>
     <value>交接令牌无效。</value>
   </data>
   <data name="Error_RGL0457" xml:space="preserve">
-    <value>只读模式：{0} 会写入设备文件夹。请在不带 --read-only 的情况下运行。</value>
+    <value>只读模式：{0} 会写入装置文件夹。请在不带 --read-only 的情况下运行。</value>
   </data>
   <data name="Error_RGL0458" xml:space="preserve">
-    <value>只读模式：不会向设备文件夹写入任何内容 – 请使用 --out 指定输出文件夹。</value>
+    <value>只读模式：不会向装置文件夹写入任何内容 – 请使用 --out 指定输出文件夹。</value>
   </data>
   <data name="Error_RGL0459" xml:space="preserve">
-    <value>此设备中没有计算机 {0} 的运行。请先导入或检查一个导出文件。</value>
+    <value>此装置中没有计算机 {0} 的运行。请先导入或检查一个导出文件。</value>
   </data>
   <data name="Error_RGL0460" xml:space="preserve">
     <value>计算机 {0} 没有已批准状态。请先使用 approve --machine {0} 批准一次运行。</value>
   </data>
   <data name="Error_RGL0461" xml:space="preserve">
-    <value>此设备中没有导入记录 {0}。请先导入导出文件：import &lt;文件&gt; --plant &lt;文件夹&gt;。</value>
+    <value>此装置中没有导入记录 {0}。请先导入导出文件：import &lt;文件&gt; --plant &lt;文件夹&gt;。</value>
   </data>
   <data name="Error_RGL0462" xml:space="preserve">
     <value>不在登记册中：{0}。未做任何更改。</value>
@@ -435,7 +412,7 @@ SHA-256：{1}</value>
     <value>未知规则：{0}。</value>
   </data>
   <data name="Error_RGL0464" xml:space="preserve">
-    <value>此设备文件夹中没有基线 {0}。</value>
+    <value>此装置文件夹中没有基线 {0}。</value>
   </data>
   <data name="Error_RGL0465" xml:space="preserve">
     <value>{0}：SHA-256 与其 .sha256 文件不符（应为 {1}，实际 {2}）。导出文件已被更改或损坏；Riegel 不会使用它。</value>
@@ -447,7 +424,7 @@ SHA-256：{1}</value>
     <value>运行 {0} 属于计算机 {1}，而不是 {2}。</value>
   </data>
   <data name="Error_RGL0468" xml:space="preserve">
-    <value>{0} 处没有设备文件夹（缺少 riegel-plant.json）。请使用 plant init &lt;文件夹&gt; --name &lt;名称&gt; 创建。</value>
+    <value>{0} 处没有装置文件夹（缺少 riegel-plant.json）。请使用 plant init &lt;文件夹&gt; --name &lt;名称&gt; 创建。</value>
   </data>
   <data name="Error_RGL0469" xml:space="preserve">
     <value>已取消。</value>
@@ -473,10 +450,10 @@ SHA-256：{1}</value>
   <data name="Help_Check" xml:space="preserve">
     <value>用法：{0} check [--plant &lt;文件夹&gt;] [--snapshot &lt;文件&gt;…|--this-pc] [选项]
 
-对照规则目录评估导出文件（或本机）。不使用 --plant 时仅评估并输出。使用 --plant 时应用设备的登记册、保存运行，
+对照规则目录评估导出文件（或本机）。不使用 --plant 时仅评估并输出。使用 --plant 时应用装置的登记册、保存运行，
 并与上次运行和已批准状态进行比较。
 
-  --plant &lt;文件夹&gt;        设备文件夹；不存在时自动创建
+  --plant &lt;文件夹&gt;        装置文件夹；不存在时自动创建
   --snapshot &lt;文件&gt;…      导出文件（.snapshot.json、.json.gz）或内置工具包文件夹；可指定多个
   --this-pc               先采集本机（Windows；在 Windows 上未指定 --snapshot 时为默认）
   --no-store              与 --plant 一起使用：评估并比较，但不写入任何内容
@@ -495,7 +472,7 @@ SHA-256：{1}</value>
   <data name="Help_Collect" xml:space="preserve">
     <value>用法：{0} collect [--out &lt;文件夹&gt;] [--gzip] [--minimal] [--deep] [--pseudonymize]
 
-仅限 Windows。写入本机的导出文件（&lt;HOST&gt;_&lt;时间&gt;.snapshot.json 和 .sha256）。只读取、不做任何更改；
+仅限 Windows。写入本机的导出文件（&lt;HOST&gt;_&lt;时间&gt;.snapshot.json 和 .sha256）。只读取、不更改任何配置；
 如需完整导出，请在提升权限的控制台中运行。
 
   --out &lt;文件夹&gt;     目标文件夹（默认：当前文件夹）
@@ -542,12 +519,13 @@ SHA-256：{1}</value>
 
   validate [--format text|json]                  检查登记册；退出代码 0 有效，1 有警告，2 无效
   list [--format text|json]                      所有例外及其状态
-  expiring [--days &lt;n&gt;] [--format text|json]     即将过期和已过期的例外（默认：设备的 warnDays）
+  expiring [--days &lt;n&gt;] [--format text|json]     即将过期和已过期的例外（默认：装置的 warnDays）
   approval-sheet [--ids &lt;ID&gt;…|--pending] [--out &lt;文件夹&gt;] [--language &lt;代码&gt;]
                                                  批准单（PDF）；默认：所有已申请的条目
   approve --ids &lt;ID&gt;… --role "&lt;角色&gt;" --record "&lt;参考编号&gt;" [--review-by &lt;yyyy-MM-dd&gt;] [--date &lt;yyyy-MM-dd&gt;] [--name "&lt;姓名&gt;"]
                                                  录入已签署的批准；必须提供复审日期
-  import-template &lt;模板.json&gt;                    将模板中的条目作为已申请的例外添加
+  import-template &lt;模板.json|名称&gt;                   将模板中的条目作为已申请的例外添加
+                                                 内置：beispiel-anlagenbau
 
 退出代码：0 成功，3 错误；validate 见上。</value>
     <comment>TODO-übersetzen</comment>
@@ -560,10 +538,12 @@ verify：0 已重现，2 不一致 · compare-snapshot：0 一致，1 不同 · 
   <data name="Help_Import" xml:space="preserve">
     <value>用法：{0} import &lt;文件|文件夹&gt;… --plant &lt;文件夹&gt; [--collected-by-role &lt;角色&gt;] [--witness-role &lt;角色&gt;] [--record]
 
-将导出文件或内置工具包添加到设备文件夹：检查 .sha256 文件，写入导入记录，评估并保存运行。
+将导出文件或内置工具包添加到装置文件夹：检查 .sha256 文件，写入导入记录，评估并保存运行。
 校验和不符时，在写入任何内容之前停止整个导入。
+不是内置工具包的文件夹（名称不是 *.riegel-builtin，也不含 hostname.txt 或 secedit.inf）代表其中的导出文件
+（*.snapshot.json、*.snapshot.json.gz）。
 
-  --plant &lt;文件夹&gt;                  设备文件夹
+  --plant &lt;文件夹&gt;                  装置文件夹
   --collected-by-role &lt;角色&gt;        执行采集人员的角色（导入记录）
   --witness-role &lt;角色&gt;             运营方见证人的角色（导入记录）
   --record                          同时写入采集记录（PDF）
@@ -592,13 +572,13 @@ verify：0 已重现，2 不一致 · compare-snapshot：0 一致，1 不同 · 
 检查和监控：
   check              评估本机或导出文件；使用 --plant 时：保存、比较、在发生变化时告警
   collect            Windows：写入本机的导出文件
-  import             将导出文件或内置工具包添加到设备文件夹
+  import             将导出文件或内置工具包添加到装置文件夹
   compare            某台计算机的状态变化和偏差
   approve            将一次运行记录为已批准状态
 
 文档：
-  report             设备报告（PDF、Excel、CSV、JSON）和证据包
-  summary            跨多个设备的一页摘要
+  report             装置报告（PDF、Excel、CSV、JSON）和证据包
+  summary            跨多个装置的一页摘要
   target-config      供签署的目标配置（PDF、Excel）
   collection-record  供签署的导入采集记录
   remediate          以文件形式给出的修复建议 – 从不执行
@@ -614,8 +594,8 @@ verify：0 已重现，2 不一致 · compare-snapshot：0 一致，1 不同 · 
   verify             检查证据包的哈希值并重新评估
   compare-snapshot   将新导出文件与包内导出文件进行比较
 
-设备文件夹和采集器：
-  plant init         创建设备文件夹
+装置文件夹和采集器：
+  plant init         创建装置文件夹
   collector export   Windows：复制便携式采集器及交接说明
 
 全局选项：
@@ -623,20 +603,20 @@ verify：0 已重现，2 不一致 · compare-snapshot：0 一致，1 不同 · 
   --version                    Riegel、采集器和规则目录的版本
   --info                       产品、许可证、链接和数据文件夹
   --licenses, --lizenzen       许可证文本
-  --nur-lesen, --read-only     不向设备文件夹写入任何内容（文档只写入 --out）</value>
+  --nur-lesen, --read-only     不向装置文件夹写入任何内容（文档只写入 --out）</value>
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Plant" xml:space="preserve">
     <value>用法：{0} plant init &lt;文件夹&gt; --name &lt;名称&gt;
 
-创建设备文件夹（riegel-plant.json）。check --plant 在文件夹不存在时也会创建。
+创建装置文件夹（riegel-plant.json）。check --plant 在文件夹不存在时也会创建。
 
 退出代码：0 成功，3 错误。</value>
   </data>
   <data name="Help_Remediate" xml:space="preserve">
     <value>用法：{0} remediate --plant &lt;文件夹&gt; --machine &lt;计算机&gt; [--run &lt;ID&gt;] [--out &lt;文件夹&gt;] [--language &lt;代码&gt;]
 
-仅以文件形式写入修复建议（.reg 及回滚 .reg、GptTmpl.inf、audit.csv、README.txt），位于 --out 或设备文件夹中的
+仅以文件形式写入修复建议（.reg 及回滚 .reg、GptTmpl.inf、audit.csv、README.txt），位于 --out 或装置文件夹中的
 remediation/&lt;计算机&gt;/&lt;运行&gt;/ 下。Riegel 从不执行这些文件；请事先与设备制造商协商每项更改。
 
 退出代码：0 成功，3 错误。</value>
@@ -645,18 +625,18 @@ remediation/&lt;计算机&gt;/&lt;运行&gt;/ 下。Riegel 从不执行这些文
   <data name="Help_Report" xml:space="preserve">
     <value>用法：{0} report --plant &lt;文件夹&gt; [选项]
 
-根据每台计算机的最新运行写入设备报告和其他输出。
+根据每台计算机的最新运行写入装置报告和其他输出。
 
   --machine &lt;计算机&gt;…               仅限这些计算机
   --format pdf,xlsx,csv,json        格式（默认：pdf,xlsx）；json 写入运行结果（results.json）
   --per-machine                     另外为每台计算机生成一个 PDF
   --no-appendix                     不含每台计算机的附录
-  --preset audit|as-delivered       报告模板（默认：取自设备设置）
+  --preset audit|as-delivered       报告模板（默认：取自装置设置）
   --evidence                        同时生成证据包（ZIP）
   --include-baseline-content        与 --evidence 一起使用：打包已导入基线的内容（请检查其许可证）
   --pdfa                            PDF/A（如果此版本支持）
-  --language &lt;代码&gt;                 en, de, es, fr, zh-Hans（默认：设备设置，其次为界面语言）
-  --out &lt;文件夹&gt;                    目标文件夹（默认：设备文件夹中的 reports/&lt;时间&gt;/）
+  --language &lt;代码&gt;                 en, de, es, fr, zh-Hans（默认：装置设置，其次为界面语言）
+  --out &lt;文件夹&gt;                    目标文件夹（默认：装置文件夹中的 reports/&lt;时间&gt;/）
 
 退出代码：0 成功，3 错误。</value>
     <comment>TODO-übersetzen</comment>
@@ -674,7 +654,7 @@ remediation/&lt;计算机&gt;/&lt;运行&gt;/ 下。Riegel 从不执行这些文
   <data name="Help_Summary" xml:space="preserve">
     <value>用法：{0} summary --plant &lt;文件夹&gt; [--plant &lt;文件夹&gt;…] [--out &lt;文件夹&gt;] [--language &lt;代码&gt;]
 
-供管理层使用的跨设备 A4 单页：计算机、受支持的操作系统、含趋势的未解决高严重性发现、恶化项、
+供管理层使用的跨装置 A4 单页：计算机、受支持的操作系统、含趋势的未解决高严重性发现、恶化项、
 即将过期的例外和逾期措施。写入 --out 或当前文件夹。
 
 退出代码：0 成功，3 错误。</value>
@@ -687,7 +667,8 @@ remediation/&lt;计算机&gt;/&lt;运行&gt;/ 下。Riegel 从不执行这些文
   validate [--format text|json]                  检查登记册；退出代码 0 有效，1 有警告，2 无效
   approve --ids &lt;ID&gt;… --role "&lt;角色&gt;" --record "&lt;参考编号&gt;" [--review-by &lt;yyyy-MM-dd&gt;] [--date &lt;yyyy-MM-dd&gt;] [--name "&lt;姓名&gt;"]
                                                  录入已签署的批准；必须提供复审日期
-  import-template &lt;模板.json&gt;                    将角色模板中的条目作为已申请的范围裁剪添加
+  import-template &lt;模板.json|名称&gt;                   将角色模板中的条目作为已申请的范围裁剪添加
+                                                 内置：hmi, engineering-station, historian-server, jump-host
 
 退出代码：0 成功，3 错误；validate 见上。</value>
     <comment>TODO-übersetzen</comment>
@@ -755,5 +736,98 @@ remediation/&lt;计算机&gt;/&lt;运行&gt;/ 下。Riegel 从不执行这些文
   </data>
   <data name="State_Warning" xml:space="preserve">
     <value>警告</value>
+  </data>
+  <data name="Cli_RunSnapshotSkipped" xml:space="preserve">
+    <value>提示：不使用运行 {0} 的导出 – {1}</value>
+  </data>
+  <data name="Error_RGL0470" xml:space="preserve">
+    <value>文件夹 {0} 不是内置命令包，也不含导出文件（*.snapshot.json、*.snapshot.json.gz）。</value>
+  </data>
+  <data name="Error_RGL0471" xml:space="preserve">
+    <value>没有名为 {0} 的模板文件或内置模板。内置模板：{1}。</value>
+  </data>
+  <data name="Cli_ImportDone_one" xml:space="preserve">
+    <value>导入 {0}：已将 {1} 个导出文件添加到 {2}</value>
+  </data>
+  <data name="Cli_ImportDone_other" xml:space="preserve">
+    <value>导入 {0}：已将 {1} 个导出文件添加到 {2}</value>
+  </data>
+  <data name="Cli_TemplateImported_one" xml:space="preserve">
+    <value>已将 {0} 个条目以“已申请”状态添加到 {1} – 只有批准后才生效。</value>
+  </data>
+  <data name="Cli_TemplateImported_other" xml:space="preserve">
+    <value>已将 {0} 个条目以“已申请”状态添加到 {1} – 只有批准后才生效。</value>
+  </data>
+  <data name="Cli_CountEntries_one" xml:space="preserve">
+    <value>{0} 个条目</value>
+  </data>
+  <data name="Cli_CountEntries_other" xml:space="preserve">
+    <value>{0} 个条目</value>
+  </data>
+  <data name="Cli_CountErrors_one" xml:space="preserve">
+    <value>{0} 个错误</value>
+  </data>
+  <data name="Cli_CountErrors_other" xml:space="preserve">
+    <value>{0} 个错误</value>
+  </data>
+  <data name="Cli_CountWarnings_one" xml:space="preserve">
+    <value>{0} 个警告</value>
+  </data>
+  <data name="Cli_CountWarnings_other" xml:space="preserve">
+    <value>{0} 个警告</value>
+  </data>
+  <data name="Cli_CheckOverall_one" xml:space="preserve">
+    <value>总体：{0}（退出代码 {1}），共 {2} 台计算机</value>
+  </data>
+  <data name="Cli_CheckOverall_other" xml:space="preserve">
+    <value>总体：{0}（退出代码 {1}），共 {2} 台计算机</value>
+  </data>
+  <data name="Cli_RegisterNoneExpiring_one" xml:space="preserve">
+    <value>{0}：{1} 天内没有到期的条目。</value>
+  </data>
+  <data name="Cli_RegisterNoneExpiring_other" xml:space="preserve">
+    <value>{0}：{1} 天内没有到期的条目。</value>
+  </data>
+  <data name="Cli_VerifyMismatch_one" xml:space="preserve">
+    <value>未能使用引擎 {0} 重现（包内：{1}）：{2} 项发现。</value>
+  </data>
+  <data name="Cli_VerifyMismatch_other" xml:space="preserve">
+    <value>未能使用引擎 {0} 重现（包内：{1}）：{2} 项发现。</value>
+  </data>
+  <data name="Cli_VerifyNotVerifiable_one" xml:space="preserve">
+    <value>无法核实（未包含基线内容）：{0} 个结果（{1}）</value>
+  </data>
+  <data name="Cli_VerifyNotVerifiable_other" xml:space="preserve">
+    <value>无法核实（未包含基线内容）：{0} 个结果（{1}）</value>
+  </data>
+  <data name="Cli_CountRulesInFiles_one" xml:space="preserve">
+    <value>文件中 {0} 条规则</value>
+  </data>
+  <data name="Cli_CountRulesInFiles_other" xml:space="preserve">
+    <value>文件中 {0} 条规则</value>
+  </data>
+  <data name="Cli_CountLeftOut_one" xml:space="preserve">
+    <value>{0} 条省略</value>
+  </data>
+  <data name="Cli_CountLeftOut_other" xml:space="preserve">
+    <value>{0} 条省略</value>
+  </data>
+  <data name="Cli_CountManualSteps_one" xml:space="preserve">
+    <value>{0} 个手动步骤</value>
+  </data>
+  <data name="Cli_CountManualSteps_other" xml:space="preserve">
+    <value>{0} 个手动步骤</value>
+  </data>
+  <data name="Cli_BaselineImported_one" xml:space="preserve">
+    <value>基线 {0}（{1}）已导入：{2} 条规则，来源 SHA-256 {3}</value>
+  </data>
+  <data name="Cli_BaselineImported_other" xml:space="preserve">
+    <value>基线 {0}（{1}）已导入：{2} 条规则，来源 SHA-256 {3}</value>
+  </data>
+  <data name="Cli_BaselineLine_one" xml:space="preserve">
+    <value>{0}  {1}  {2} 条规则  导入于 {3}  来源 {4}</value>
+  </data>
+  <data name="Cli_BaselineLine_other" xml:space="preserve">
+    <value>{0}  {1}  {2} 条规则  导入于 {3}  来源 {4}</value>
   </data>
 </root>

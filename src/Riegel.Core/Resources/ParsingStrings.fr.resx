@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
@@ -42,7 +43,7 @@
     <value>Les données brutes {0} ne sont pas disponibles ; l'entrée dérivée n'a pas pu être calculée.</value>
   </data>
   <data name="Error_RGL0260" xml:space="preserve">
-    <value>Ce n'est pas un paquet de commandes intégrées valide ({0}).</value>
+    <value>Ce n'est pas un paquet de commandes intégrées valide ({0}). Un dossier nommé *.riegel-builtin ou contenant hostname.txt ou secedit.inf est lu comme un tel paquet.</value>
     <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0261" xml:space="preserve">

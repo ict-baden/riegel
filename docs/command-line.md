@@ -247,7 +247,7 @@ Exit codes: 0 complete, 1 written but incomplete (not elevated, or items denied)
 ## import
 
 ```bat
-Riegel.Cli.exe import E:\Exporte\*.snapshot.json E:\PG-ALT-01_20261010.riegel-builtin --plant D:\Riegel\Linie3 ^
+Riegel.Cli.exe import E:\Exporte E:\PG-ALT-01_20261010.riegel-builtin --plant D:\Riegel\Linie3 ^
   --collected-by-role "Servicetechniker" --witness-role "Anlagenverantwortlicher" --record
 ```
 
@@ -256,7 +256,10 @@ import before anything is written), copies the exports to `snapshots/<host>/`, w
 `imports/<ts>-<6hex>.import.json`, evaluates and stores a run per export, and compares each with the previous run and
 the approved state. `--record` also writes the collection record PDF (Erhebungsprotokoll) for signing.
 `--brief`, `--format`, `--alert`, `--critical` and `--warning` work as for `check`; the default alert mode is `change`.
-cmd does not expand `*`; in cmd list the files, in PowerShell use `(Get-ChildItem E:\Exporte\*.snapshot.json).FullName`.
+A folder argument is a builtin bundle when its name ends in `.riegel-builtin` or it holds `hostname.txt` or
+`secedit.inf`; any other folder stands for the exports in it (`*.snapshot.json`, `*.snapshot.json.gz`, not
+recursive) – so the folder of `collect --out` can be passed as it is. A folder with neither is `RGL-0470`. Files can
+be listed one by one as well; cmd does not expand `*`.
 
 ## Documents
 
@@ -299,8 +302,8 @@ Riegel.Cli.exe exceptions validate --plant D:\Riegel\Linie3
 Riegel.Cli.exe exceptions expiring --plant D:\Riegel\Linie3 --days 60
 Riegel.Cli.exe exceptions approval-sheet --plant D:\Riegel\Linie3 --pending --out D:\Freigabe
 Riegel.Cli.exe exceptions approve --plant D:\Riegel\Linie3 --ids EX-0002 EX-0005 --role "Informationssicherheitsbeauftragter" ^
-  --record "Freigabeblatt FB-12 vom 2026-10-20" --review-by 2027-10-01
-Riegel.Cli.exe tailoring import-template templates\tailoring\hmi.tailoring-template.json --plant D:\Riegel\Linie3
+  --record "Genehmigungsblatt GB-12 vom 2026-10-20" --review-by 2027-10-01
+Riegel.Cli.exe tailoring import-template hmi --plant D:\Riegel\Linie3
 Riegel.Cli.exe measures add --plant D:\Riegel\Linie3 --rule ENC-01 --action "BitLocker im Wartungsfenster aktivieren" ^
   --owner-role "Anlagenverantwortlicher" --due 2026-12-15 --machine ENG-L3-01 --ticket TICKET-311
 Riegel.Cli.exe measures close M-0003 --plant D:\Riegel\Linie3
@@ -313,7 +316,7 @@ Riegel.Cli.exe measures close M-0003 --plant D:\Riegel\Linie3
 | `exceptions expiring [--days <n>]` | expiring and expired exceptions (default: the plant's `warnDays`) |
 | `exceptions approval-sheet [--ids <id>…\|--pending] [--out <folder>]` | the approval sheet PDF for signing; default: all pending entries (exceptions and tailoring) |
 | `exceptions approve`, `tailoring approve` | enter a signed approval: `--ids`, `--role`, `--record` required, `--date` (default today), `--name` optional, `--review-by <date>` required unless the entry already has a review date |
-| `exceptions import-template`, `tailoring import-template` | add a template's entries as **pending** entries (never approved automatically) |
+| `exceptions import-template`, `tailoring import-template` | add a template's entries as **pending** entries (never approved automatically); the argument is a template file or the name of a built-in template – tailoring: `hmi`, `engineering-station`, `historian-server`, `jump-host`; exceptions: `beispiel-anlagenbau` (an unknown name is `RGL-0471`) |
 | `measures list`, `measures overdue` | the remediation plan; planned measures past their due date |
 | `measures add` | `--rule`, `--action`, `--owner-role`, `--due` required; scope `--machine …`, `--group …` or `--all-machines` (default); `--ticket`, `--comment`, `--created-by-role` optional |
 | `measures close <id> [--state done\|dropped] [--comment …]` | close a measure (default: done) |
