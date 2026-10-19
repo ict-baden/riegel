@@ -288,7 +288,9 @@ Releases never depend on artifacts (the organisation's artifact storage may be f
 
 - Commit messages in German; code comments German; README and `docs/` English; `CLAUDE.md` German.
 - Every `.cs` file starts with `// SPDX-License-Identifier: MIT`.
-- UI texts only in `.resx` (en, de, es, fr, zh-Hans; unsure translations marked `TODO-übersetzen`); rule texts in the
+- UI texts only in `.resx` (en, de, es, fr, zh-Hans). es, fr and zh-Hans files start with the comment "Maschinell
+  vorübersetzt – TODO-übersetzen …" until a native speaker has reviewed them; especially uncertain entries carry the
+  comment `TODO-übersetzen` in all three (`TranslationMarkingTests`). Rule texts in the
   catalogue (en, de); collector texts in `messages.<lang>.txt`.
 - No person names or GitHub handles anywhere, also not in demo data, fixtures or screenshots.
 - Dependencies only with permissive licences, pinned exactly, listed in `THIRD-PARTY-NOTICES.txt`; see the licence

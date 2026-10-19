@@ -147,9 +147,10 @@ These are open tasks for a lab and a real OT environment (gate for version 1.0):
 
 ## Languages
 
-- English and German are complete. Spanish, French and Chinese are machine pre-translations; texts marked
-  `TODO-übersetzen` and documents carry "Machine pre-translation – not reviewed". Rule texts are English in those
-  languages.
+- English and German are complete. Spanish, French and Chinese are machine pre-translations, not yet reviewed by
+  native speakers: every language file says so at the top ("Maschinell vorübersetzt – TODO-übersetzen"), entries
+  that are especially uncertain also carry `TODO-übersetzen`, and documents carry "Machine pre-translation – not
+  reviewed". Rule texts are English in those languages.
 - German remedies quote the English Group Policy names.
 
 ## Releases and signing

@@ -35,6 +35,7 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 - Doku: der Sammler „ändert keine Konfiguration, schreibt nur seinen Export, und Windows vermerkt, dass ein Programm lief“ (statt „ändert nichts“), mit Verweis auf die Spuren; data-and-privacy.md nennt Gateway-Adresse, WinHTTP-Proxy und Defender-IP-Ausnahmen im Export.
 - Einheitliche Begriffe: der prüfbare Anteil heißt auf Deutsch 
 - Sammlerpaket: der deutsche Teil von README.txt mit Umlauten (vorher „Pruefsummendatei“, „aendert“); README.txt und die Hilfe von `collect` sagen wie spec 4.4 „ändert keine Konfiguration“ statt „startet keinen Dienst, ändert nichts“ und verweisen auf die Spuren, die Windows selbst vermerkt.
+- Sprachdateien: eine Kennzeichnung der Vorübersetzung für es, fr und zh-Hans – oben in jeder Datei „Maschinell vorübersetzt – TODO-übersetzen“ (wie beim Sammler), besonders unsichere Einträge mit `TODO-übersetzen` in allen drei Sprachen; ein Test hält das einheitlich.
 
 ## [0.1.0] – 2026-10-18
 

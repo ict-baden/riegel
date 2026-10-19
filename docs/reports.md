@@ -183,8 +183,10 @@ es, fr and zh-Hans and never for en and de, even if the data contains it.
 
 The document language is `ReportHeader.Language` (or the `Language` of the other records): en, de, es, fr or
 zh-Hans; anything else becomes English. en and de are complete and reviewed (`UiLanguage.ReviewedReportLanguages`).
-es, fr and zh-Hans are machine pre-translated; entries the translator was unsure about carry the comment
-`TODO-übersetzen` in the `.resx` and are read by a native speaker before the first public release (guideline 13).
+es, fr and zh-Hans are machine pre-translated: each of their `.resx` files (and the collector's `messages.<lang>.txt`)
+starts with the comment "Maschinell vorübersetzt – TODO-übersetzen", entries that are especially uncertain carry the
+comment `TODO-übersetzen` in all three languages, and a native speaker reads the whole file before the first public
+release (guideline 13). A test keeps this marking uniform.
 Until a language is marked reviewed, its documents carry "Maschinelle Vorübersetzung – nicht geprüft" in that
 language and in English on the cover and in every footer.
 

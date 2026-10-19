@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
@@ -102,6 +103,7 @@
   </data>
   <data name="Cli_BaselineContentWarning" xml:space="preserve">
     <value>Avertissement : le paquet de preuves contient le contenu complet des bases importées. Vérifiez que leur licence autorise leur transmission (les conditions de Microsoft, du BSI et du CIS peuvent l'interdire).</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Cli_BaselineLicenceNote" xml:space="preserve">
     <value>Les bases importées restent dans ce dossier de l'installation. Les paquets de preuves ne contiennent que leurs métadonnées, sauf avec report --evidence --include-baseline-content.</value>
@@ -435,6 +437,7 @@ en service, la réception sur site ou la visite du fabricant. --record est votre
 d'approbation.
 
 Codes de sortie : 0 succès, 3 erreur.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Baseline" xml:space="preserve">
     <value>Utilisation : {0} baseline &lt;sous-commande&gt; --plant &lt;dossier&gt; …
@@ -465,6 +468,7 @@ Jetons : regression, newhigh, high, medium, low, expired, expiring, pending, ove
   change : critique regression,newhigh · avertissement expired,expiring,pending,overdue,incomplete,stale,clock
   state :  critique regression,high · avertissement medium,low,expired,expiring,pending,overdue,incomplete,stale,clock
 Codes de sortie : 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Collect" xml:space="preserve">
     <value>Utilisation : {0} collect [--out &lt;dossier&gt;] [--gzip] [--minimal] [--deep] [--pseudonymize]
@@ -479,6 +483,7 @@ aucune configuration ; pour un export complet, exécutez-le dans une console ave
   --pseudonymize     remplacer les noms de machine, de compte et de chemin
 
 Codes de sortie : 0 complet, 1 écrit mais incomplet (sans élévation ou éléments refusés), 3 rien écrit.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_CollectionRecord" xml:space="preserve">
     <value>Utilisation : {0} collection-record --plant &lt;dossier&gt; [--import &lt;id&gt;|--latest] [--out &lt;dossier&gt;] [--language &lt;code&gt;]
@@ -487,6 +492,7 @@ Codes de sortie : 0 complet, 1 écrit mais incomplet (sans élévation ou élém
 options, rôles de la personne qui collecte et du témoin, et lignes de signature.
 
 Codes de sortie : 0 succès, 3 erreur.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Collector" xml:space="preserve">
     <value>Utilisation : {0} collector export &lt;dossier&gt;
@@ -526,6 +532,7 @@ Codes de sortie : 0 cohérent, 1 diffère, 3 erreur.</value>
                                                  intégrés: beispiel-anlagenbau
 
 Codes de sortie : 0 succès, 3 erreur ; validate comme ci-dessus.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_ExitCodes" xml:space="preserve">
     <value>Codes de sortie : 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN (erreur d'utilisation, export illisible ou endommagé, somme de contrôle incorrecte, erreur d'E/S).
@@ -548,6 +555,7 @@ vaut pour les exports qu'il contient (*.snapshot.json, *.snapshot.json.gz).
   --brief, --format, --alert, --critical, --warning    comme pour check (mode d'alerte par défaut : change)
 
 Codes de sortie comme pour check.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Measures" xml:space="preserve">
     <value>Utilisation : {0} measures &lt;sous-commande&gt; --plant &lt;dossier&gt; …
@@ -561,6 +569,7 @@ Codes de sortie comme pour check.</value>
                                                  clôturer une mesure (par défaut : réalisée)
 
 Codes de sortie : 0 succès, 3 erreur.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Overview" xml:space="preserve">
     <value>Utilisation : {0} &lt;commande&gt; [options]        {0} &lt;commande&gt; --help affiche les options d'une commande
@@ -600,6 +609,7 @@ Options globales :
   --info                       produit, licence, liens et dossier de données
   --licenses, --lizenzen       textes de licence
   --nur-lesen, --read-only     ne rien écrire dans le dossier de l'installation (documents uniquement dans --out)</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Plant" xml:space="preserve">
     <value>Utilisation : {0} plant init &lt;dossier&gt; --name &lt;nom&gt;
@@ -616,6 +626,7 @@ audit.csv, README.txt) dans remediation/&lt;machine&gt;/&lt;exécution&gt;/ sous
 ne les applique jamais ; convenez d'abord de chaque modification avec le fabricant de l'installation.
 
 Codes de sortie : 0 succès, 3 erreur.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Report" xml:space="preserve">
     <value>Utilisation : {0} report --plant &lt;dossier&gt; [options]
@@ -634,6 +645,7 @@ Codes de sortie : 0 succès, 3 erreur.</value>
   --out &lt;dossier&gt;                   dossier cible (par défaut : reports/&lt;heure&gt;/ dans le dossier de l'installation)
 
 Codes de sortie : 0 succès, 3 erreur.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Rules" xml:space="preserve">
     <value>Utilisation : {0} rules [--id &lt;ID&gt;] [--format text|json|md]
@@ -653,6 +665,7 @@ Une page A4 pour la direction sur plusieurs installations : machines, systèmes 
 le dossier courant.
 
 Codes de sortie : 0 succès, 3 erreur.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Tailoring" xml:space="preserve">
     <value>Utilisation : {0} tailoring &lt;sous-commande&gt; --plant &lt;dossier&gt; …
@@ -665,6 +678,7 @@ Codes de sortie : 0 succès, 3 erreur.</value>
                                                  intégrés: hmi, engineering-station, historian-server, jump-host
 
 Codes de sortie : 0 succès, 3 erreur ; validate comme ci-dessus.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_TargetConfig" xml:space="preserve">
     <value>Utilisation : {0} target-config --plant &lt;dossier&gt; [--group &lt;id&gt;] [--out &lt;dossier&gt;] [--language &lt;code&gt;]
@@ -673,6 +687,7 @@ Codes de sortie : 0 succès, 3 erreur ; validate comme ci-dessus.</value>
 attendues, les décisions d'ajustement du périmètre, les bases importées et l'origine des valeurs attendues.
 
 Codes de sortie : 0 succès, 3 erreur.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Verify" xml:space="preserve">
     <value>Utilisation : {0} verify &lt;paquet.zip&gt; [--format text|json]

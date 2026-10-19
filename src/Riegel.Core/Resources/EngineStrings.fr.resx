@@ -1,388 +1,294 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <data name="Detail_AccountNotFound" xml:space="preserve">
     <value>Compte local avec le RID {0} introuvable</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_ActiveProfileUnknown" xml:space="preserve">
     <value>Profil de pare-feu actif inconnu</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_ApplicabilityUnknown" xml:space="preserve">
     <value>Applicabilité impossible à déterminer : {0} inconnu</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_AsrNotConfigured" xml:space="preserve">
     <value>Règle ASR non configurée</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_AsrNotEffective" xml:space="preserve">
     <value>ASR configuré, mais pas effectif</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_AtLeastDays" xml:space="preserve">
     <value>La mise à jour installée {1}.{2} a au moins {0} jours</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_AtMostDays" xml:space="preserve">
     <value>La mise à jour installée {1}.{2} a au plus {0} jours</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_AuditGuidMissing" xml:space="preserve">
     <value>Sous-catégorie {0} absente de la stratégie d'audit collectée</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_AutoLogonPasswordElsewhere" xml:space="preserve">
     <value>Stockage du mot de passe non vérifiable (un secret LSA est possible)</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_AutoLogonPasswordInRegistry" xml:space="preserve">
     <value>Mot de passe dans le registre (DefaultPassword)</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_AvOutOfDate" xml:space="preserve">
     <value>Antivirus actif mais obsolète : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_CapabilityAbsentFail" xml:space="preserve">
     <value>La fonction de protection {0} n'existe pas sur ce système d'exploitation</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_CatalogueTooOld" xml:space="preserve">
     <value>La mise à jour {0}.{1} est plus récente que la table des builds – catalogue trop ancien</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_ClockSuspect" xml:space="preserve">
     <value>Horloge de la machine cible peu plausible – âge non vérifiable</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_Configured" xml:space="preserve">
     <value>Valeur configurée : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_ConfiguredNotRunning" xml:space="preserve">
     <value>Configuré, non exécuté</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_ConfiguredOnly" xml:space="preserve">
     <value>Configuré, effet non prouvé</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_DefaultAssumed" xml:space="preserve">
     <value>Valeur par défaut supposée : {0} (source : {1}, consultée le {2})</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_DefaultUnknown" xml:space="preserve">
     <value>Non défini ; valeur par défaut inconnue</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_DefenderAbsent" xml:space="preserve">
     <value>Microsoft Defender absent</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_DefenderUnknown" xml:space="preserve">
     <value>État de Microsoft Defender impossible à déterminer</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_EditionUnknown" xml:space="preserve">
     <value>Édition ou type d'installation inconnu</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_EsuEnded" xml:space="preserve">
     <value>Les mises à jour de sécurité étendues (ESU) ont pris fin le {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_EsuNotOffered" xml:space="preserve">
     <value>ESU indiqué pour la machine, mais Microsoft n'indique pas de fin d'ESU pour ce produit</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_EsuUntil" xml:space="preserve">
     <value>Couvert par les mises à jour de sécurité étendues (ESU) jusqu'au {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_EvaluationFailed" xml:space="preserve">
     <value>Échec de l'évaluation ({0})</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_Evidence" xml:space="preserve">
     <value>Preuve {0} : {1}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_ExclusionsNeedAdmin" xml:space="preserve">
     <value>Les exclusions de Defender ne sont lisibles qu'en tant qu'administrateur</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_FeatureAbsent" xml:space="preserve">
     <value>Fonctionnalité {0} absente</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_HeuristicProduct" xml:space="preserve">
     <value>Centre de sécurité (heuristique) : {0} – {1}, signatures {2}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_InstalledRelease" xml:space="preserve">
     <value>Installé : {0}.{1}, publié le {2} ({3})</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_ItemAbsent" xml:space="preserve">
     <value>absent</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_LifecycleSource" xml:space="preserve">
     <value>{0} (source : {1}, consultée le {2})</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_LsaEvent" xml:space="preserve">
     <value>Événement Wininit 12 après le dernier démarrage : LSASS démarré comme processus protégé ({0})</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_LsaNoRuntime" xml:space="preserve">
     <value>Aucune preuve d'exécution de la protection LSA (requête uniquement avec --deep)</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_LsaNotConfigured" xml:space="preserve">
     <value>RunAsPPL non configuré ; aucune preuve d'exécution</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_MachineSidUnknown" xml:space="preserve">
     <value>SID de la machine inconnu – les comptes locaux ne peuvent pas être distingués</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_Member" xml:space="preserve">
     <value>{0} ({1}, {2})</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_MemberNotAllowed" xml:space="preserve">
     <value>Membre non autorisé : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_MissingPass" xml:space="preserve">
     <value>La valeur absente est considérée comme sûre : {0} (source : {1}, consultée le {2})</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NaBuild" xml:space="preserve">
     <value>Build {0} hors de la plage de la règle</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NaCapability" xml:space="preserve">
     <value>Fonction {0} absente de ce système d'exploitation</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NaCondition" xml:space="preserve">
     <value>Condition non remplie : {0} = {1}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NaDc" xml:space="preserve">
     <value>Contrôleur de domaine – le catalogue 2026.10 n'est pas conçu pour les contrôleurs de domaine</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NaDomainJoined" xml:space="preserve">
     <value>La machine est membre d'un domaine ; la règle s'applique aux machines autonomes</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NaDomainStandalone" xml:space="preserve">
     <value>La machine n'est pas membre d'un domaine ; la règle s'applique aux membres du domaine</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NaOs" xml:space="preserve">
     <value>Pas pour ce type de système d'exploitation ({0})</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NeverLocks" xml:space="preserve">
     <value>Seuil de verrouillage 0 : les comptes ne sont jamais verrouillés</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NewestHistory" xml:space="preserve">
     <value>Dernière installation Windows Update réussie le {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NewestHotfix" xml:space="preserve">
     <value>Dernier correctif installé le {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NoActiveAv" xml:space="preserve">
     <value>Aucun antivirus actif (Microsoft Defender : {0})</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NoAv" xml:space="preserve">
     <value>Aucun antivirus actif</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NoLifecycleEntry" xml:space="preserve">
     <value>Aucune entrée de cycle de vie pour {0} build {1}, édition {2}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NoLifecycleTable" xml:space="preserve">
     <value>Table de cycle de vie absente du catalogue</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NoRows" xml:space="preserve">
     <value>Aucune ligne correspondante dans {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NoToolPatterns" xml:space="preserve">
     <value>Aucun motif d'outil d'accès à distance dans le catalogue</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NoUpdateEvidence" xml:space="preserve">
     <value>Aucune preuve de l'état des mises à jour</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NotConfigured" xml:space="preserve">
     <value>Non configuré</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_NotSet" xml:space="preserve">
     <value>Valeur non définie</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_OlderThanTable" xml:space="preserve">
     <value>Le build {0} est plus ancien que toutes les entrées de cycle de vie (la plus ancienne : {1}) ; leur support a pris fin le {2}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_OsUnknown" xml:space="preserve">
     <value>Système d'exploitation impossible à déterminer</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_ProfileInboundAllow" xml:space="preserve">
     <value>Profil {0} : connexions entrantes autorisées par défaut</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_ProfileOff" xml:space="preserve">
     <value>Profil {0} : pare-feu désactivé</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_ProfileStateUnknown" xml:space="preserve">
     <value>Profil {0} : état inconnu</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_RegistryRulesMissing" xml:space="preserve">
     <value>Règles de pare-feu des magasins du registre manquantes ({0})</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_RightHeldBy" xml:space="preserve">
     <value>Droit attribué à : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_RightMissing" xml:space="preserve">
     <value>Droit manquant pour : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_RtpOff" xml:space="preserve">
     <value>Protection en temps réel désactivée</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_RuleExposes" xml:space="preserve">
     <value>La règle « {0} » ouvre {1} à toute adresse (profil {2})</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_RulesNotCollected" xml:space="preserve">
     <value>Liste des règles de pare-feu non collectée (--minimal)</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_ServiceAbsent" xml:space="preserve">
     <value>Service {0} absent</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_ServiceStateUnknown" xml:space="preserve">
     <value>État d'exécution inconnu (type de démarrage du registre uniquement)</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_SignaturesOld" xml:space="preserve">
     <value>Signatures vieilles de {0} jours</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_SupportEnded" xml:space="preserve">
     <value>Le support a pris fin le {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_SupportedUntil" xml:space="preserve">
     <value>Pris en charge jusqu'au {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_ThirdPartyAv" xml:space="preserve">
     <value>Antivirus tiers actif</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_ThirdPartyUnknown" xml:space="preserve">
     <value>Microsoft Defender {0} ; impossible de déterminer si un autre antivirus est actif</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_TooManyMembers" xml:space="preserve">
     <value>{0} membres, {1} au maximum autorisés</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_UbrNotInTable" xml:space="preserve">
     <value>Mise à jour {0}.{1} absente de la table des builds</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_Unlimited" xml:space="preserve">
     <value>Illimité (jamais)</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_UnresolvedNames" xml:space="preserve">
     <value>Noms non résolus en SID : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_WrongType" xml:space="preserve">
     <value>Type de valeur incorrect : {0} au lieu de {1}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_WrongTypeSecedit" xml:space="preserve">
     <value>Type de valeur incorrect dans le modèle de sécurité</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0200" xml:space="preserve">
     <value>Le catalogue de règles n'est pas valide : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0201" xml:space="preserve">
     <value>Type de contrôle inconnu : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0202" xml:space="preserve">
     <value>Champ inconnu : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0203" xml:space="preserve">
     <value>L'opérateur ne correspond pas au type de valeur ou à la valeur attendue : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0204" xml:space="preserve">
     <value>Valeur par défaut sans source (https) ou date de consultation : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0205" xml:space="preserve">
     <value>Règle pour les valeurs absentes incomplète : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0206" xml:space="preserve">
     <value>Capacité inconnue : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0207" xml:space="preserve">
     <value>Fait inconnu ou type de valeur incorrect dans une condition : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0208" xml:space="preserve">
     <value>Capacité définie plusieurs fois : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0209" xml:space="preserve">
     <value>ID de règle en double : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0210" xml:space="preserve">
     <value>Règle non valide : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0211" xml:space="preserve">
     <value>Table ou fichier du catalogue non valide : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0212" xml:space="preserve">
     <value>La baseline client ne convient pas : {0}</value>
@@ -390,191 +296,144 @@
   </data>
   <data name="Error_RGL0220" xml:space="preserve">
     <value>Accès à la preuve refusé</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0221" xml:space="preserve">
     <value>La preuve n'a pas pu être collectée (erreur)</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0222" xml:space="preserve">
     <value>La preuve n'a pas été collectée</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0223" xml:space="preserve">
     <value>Espace de noms ou classe WMI manquant</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0224" xml:space="preserve">
     <value>Preuve tronquée ou zone de collecte incomplète</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0225" xml:space="preserve">
     <value>Le collecteur a marqué la preuve comme non applicable</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0226" xml:space="preserve">
     <value>L'absence ne peut pas être prouvée (hors de la zone collectée)</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0227" xml:space="preserve">
     <value>Valeur non définie ; la règle ne suppose pas de valeur par défaut</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0228" xml:space="preserve">
     <value>Valeur non définie, valeur par défaut inconnue</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0229" xml:space="preserve">
     <value>Applicabilité impossible à déterminer</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0230" xml:space="preserve">
     <value>Configuré, effet non prouvé</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0231" xml:space="preserve">
     <value>Preuves heuristiques uniquement</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0232" xml:space="preserve">
     <value>Horloge de la machine cible peu plausible – les âges ne peuvent pas être vérifiés</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0233" xml:space="preserve">
     <value>Valeur inattendue dans les données brutes</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0234" xml:space="preserve">
     <value>Une valeur masquée ne peut pas être comparée</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0235" xml:space="preserve">
     <value>Données du catalogue manquantes ou trop anciennes</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0236" xml:space="preserve">
     <value>État de Microsoft Defender impossible à déterminer</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0237" xml:space="preserve">
     <value>Aucune preuve décisive</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0238" xml:space="preserve">
     <value>Noms de compte dans les droits utilisateur non résolus en SID</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0239" xml:space="preserve">
     <value>Échec de l'évaluation de la règle</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0240" xml:space="preserve">
     <value>Pas pour ce type de système d'exploitation</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0241" xml:space="preserve">
     <value>Build hors de la plage de la règle</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0242" xml:space="preserve">
     <value>L'appartenance au domaine ne correspond pas</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0243" xml:space="preserve">
     <value>Contrôleur de domaine – la règle ne s'y applique pas</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0244" xml:space="preserve">
     <value>La condition de la règle ne s'applique pas</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0245" xml:space="preserve">
     <value>Fonction absente de ce système d'exploitation</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0246" xml:space="preserve">
     <value>Antivirus tiers actif</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0247" xml:space="preserve">
     <value>Service, fonctionnalité ou données absents</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Error_RGL0248" xml:space="preserve">
     <value>Règle retirée</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_AppIdService" xml:space="preserve">
     <value>Service Identité de l'application (AppIDSvc) : {0}, type de démarrage {1}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_AppLocker" xml:space="preserve">
     <value>Stratégie AppLocker : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_AutoShare" xml:space="preserve">
     <value>{0} = {1}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_CodeIntegrity" xml:space="preserve">
     <value>App Control : mode noyau {0}, mode utilisateur {1} (0 désactivé, 1 audit, 2 appliqué)</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_DriverBlocklist" xml:space="preserve">
     <value>Liste de blocage des pilotes vulnérables : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_Exclusion" xml:space="preserve">
     <value>{0} : {1}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_Fact" xml:space="preserve">
     <value>{0} : {1}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_MemberCount" xml:space="preserve">
     <value>{0} membres</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_NoExclusions" xml:space="preserve">
     <value>Aucune exclusion</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_NoShares" xml:space="preserve">
     <value>Aucun partage</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_NoTools" xml:space="preserve">
     <value>Aucun outil d'accès à distance connu trouvé</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_RdpEnabled" xml:space="preserve">
     <value>Bureau à distance autorisé : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_RdpNla" xml:space="preserve">
     <value>Authentification au niveau du réseau : stratégie {0}, local {1}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_RdpPort" xml:space="preserve">
     <value>Port : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_RdpService" xml:space="preserve">
     <value>Service Bureau à distance : {0}, type de démarrage {1}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_RdpUsers" xml:space="preserve">
     <value>Membres des Utilisateurs du Bureau à distance : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_Share" xml:space="preserve">
     <value>{0} ({1})</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_ShareOpen" xml:space="preserve">
     <value>{0} ({1}) – accès pour {2}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_SmartAppControl" xml:space="preserve">
     <value>État du Contrôle intelligent des applications (VerifiedAndReputablePolicyState) : {0}</value>
@@ -582,51 +441,39 @@
   </data>
   <data name="Inv_ToolInstalled" xml:space="preserve">
     <value>{0} : installé sous « {1} »</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_ToolService" xml:space="preserve">
     <value>{0} : service {1} ({2}, type de démarrage {3})</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_Wireless" xml:space="preserve">
     <value>Adaptateurs sans fil présents : {0}</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Inv_WirelessAdapter" xml:space="preserve">
     <value>{0} (actif : {1})</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Word_No" xml:space="preserve">
     <value>non</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Word_None" xml:space="preserve">
     <value>aucune</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Word_Off" xml:space="preserve">
     <value>désactivé</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Word_On" xml:space="preserve">
     <value>activé</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Word_OutOfDate" xml:space="preserve">
     <value>obsolètes</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Word_Unknown" xml:space="preserve">
     <value>inconnu</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Word_UpToDate" xml:space="preserve">
     <value>à jour</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Word_Yes" xml:space="preserve">
     <value>oui</value>
-    <comment>Maschinelle Vorübersetzung (ungeprüft)</comment>
   </data>
   <data name="Detail_FirewallPolicyDecides" xml:space="preserve">
     <value>La valeur de la stratégie de groupe l'emporte ; le service de pare-feu indique comme paramètre local : {0}</value>

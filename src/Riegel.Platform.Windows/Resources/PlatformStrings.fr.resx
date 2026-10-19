@@ -1,76 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <data name="Error_RGL0110" xml:space="preserve">
     <value>Identifiant de transfert non valide. Seuls les lettres, les chiffres et « - » (8 à 64 caractères) sont autorisés.</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0111" xml:space="preserve">
     <value>Le dossier de transfert existe déjà et n'est jamais réutilisé : {0}</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0112" xml:space="preserve">
     <value>Refusé : une partie du chemin de transfert est un lien ou une jonction (point d'analyse) : {0}</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0113" xml:space="preserve">
     <value>L'élévation des privilèges a été annulée. Rien n'a été collecté.</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0114" xml:space="preserve">
     <value>Impossible de démarrer Riegel avec des droits d'administrateur (erreur {0}).</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0115" xml:space="preserve">
     <value>La collecte avec droits d'administrateur s'est terminée sans export dans le dossier de transfert.</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0116" xml:space="preserve">
     <value>La collecte s'est exécutée sous un autre compte (« par-dessus l'épaule »), son export se trouve donc dans le profil de ce compte. Avec ce compte, ouvrez une invite de commandes avec « Exécuter en tant qu'administrateur », lancez Riegel.Cli.exe collect --out &lt;dossier&gt; et importez le fichier.</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0120" xml:space="preserve">
     <value>Riegel n'ouvre que les fichiers qu'il a créés (PDF, Excel, CSV, JSON, texte, ZIP), les dossiers et les liens http/https : {0}</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0121" xml:space="preserve">
     <value>Impossible d'ouvrir {0} (erreur {1}).</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0130" xml:space="preserve">
     <value>Le paquet du collecteur est absent à côté de l'application ({0}). Le fichier unique Riegel.exe ne le contient pas : utilisez plutôt Riegel-Collector.zip de la version publiée.</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0131" xml:space="preserve">
     <value>Le dossier cible contient déjà {0}. Choisissez un dossier vide.</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0140" xml:space="preserve">
     <value>La collecte de ce PC a échoué ({0}).</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Handover_Title" xml:space="preserve">
     <value>Collecteur Riegel - fiche de remise</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Handover_Version" xml:space="preserve">
     <value>Version du collecteur : {0}</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Handover_Copied" xml:space="preserve">
     <value>Copié : {0}</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Handover_Files" xml:space="preserve">
     <value>Fichiers (SHA-256) :</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Handover_Check" xml:space="preserve">
     <value>À vérifier avant utilisation : « certutil -hashfile Riegel.Collector.exe SHA256 » doit afficher la valeur ci-dessus.</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Handover_HowTo" xml:space="preserve">
     <value>Exécution (sur la machine à vérifier) :
@@ -81,17 +82,17 @@
 Codes de sortie : 0 complet, 1 écrit mais incomplet, 3 rien écrit.
 Options : --minimal (ne lancer aucun autre programme), --gzip, --pseudonymize, --deep.
 Machines sur lesquelles aucun programme tiers ne peut s'exécuter : collect-builtin.cmd (commandes intégrées de Windows uniquement).</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Handover_LeavesBehind" xml:space="preserve">
     <value>Ce qu'il laisse : il ne modifie aucune configuration. Il n'écrit que son export (et le fichier de somme de contrôle) dans le dossier choisi. Windows enregistre lui-même qu'un programme a été exécuté : fichiers temporaires de secedit et gpresult dans un nouveau dossier %TEMP%\riegel-&lt;aléatoire&gt; (supprimé ensuite), un journal d'utilisation du CLR sous %LocalAppData%\Microsoft\CLR_v4.0\UsageLogs, des traces d'exécution comme Prefetch et AmCache et éventuellement des événements du journal de sécurité (4688, 4798, 4799, utilisation de privilèges). Informez votre SOC avant une campagne de collecte : le collecteur lit la stratégie de mot de passe, les administrateurs locaux et les droits des utilisateurs.</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Handover_Record" xml:space="preserve">
     <value>Procès-verbal :
 Machine : ____________________   Date et heure : ____________________
 Collecté par (rôle) : ____________________   Témoin (rôle) : ____________________
 SHA-256 de l'export : ________________________________________________________________</value>
-    <comment>TODO-übersetzen: maschinell vorübersetzt, vor der ersten öffentlichen Version prüfen lassen</comment>
+    <comment>TODO-übersetzen</comment>
   </data>
 </root>

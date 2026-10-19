@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
@@ -682,6 +683,7 @@
   </data>
   <data name="EvidenceReadme_SampleText" xml:space="preserve">
     <value>Vuelva a capturar un equipo (con testigo) y compare la exportación nueva con la exportación empaquetada del mismo equipo. Los valores volátiles (antigüedad de firmas, marcas de tiempo, tiempo de actividad) no cuentan. Resultado: "coherente" o "difiere en N puntos" con la lista.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="EvidenceReadme_Title" xml:space="preserve">
     <value>Paquete de evidencias de Riegel: {0}</value>
@@ -694,6 +696,7 @@
   </data>
   <data name="EvidenceReadme_VerifyText" xml:space="preserve">
     <value>verify lee el paquete sin descomprimirlo, comprueba cada suma, vuelve a evaluar cada exportación con el catálogo, la planta y los registros incluidos y compara los resultados. Informa "reproducido con el motor X (empaquetado: Y)". Los resultados de líneas base importadas cuyo contenido no está en el paquete no son verificables.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Evidence_Baseline" xml:space="preserve">
     <value>Línea base importada</value>
@@ -1201,6 +1204,7 @@
   </data>
   <data name="TargetConfig_SignOffNote" xml:space="preserve">
     <value>La aprobación confirma la configuración objetivo del catálogo {0} con el ajuste del alcance {1}.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="ValueSource_DirectlySet" xml:space="preserve">
     <value>Establecido directamente</value>
@@ -1252,6 +1256,7 @@
   </data>
   <data name="Value_SignOffBinding" xml:space="preserve">
     <value>La aprobación confirma las excepciones del registro {0} ({1} entradas, {2} de ellas válidas) y el ajuste del alcance {3}.</value>
+    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Verify_BaselineNotVerifiable" xml:space="preserve">
     <value>contenido de la línea base no incluido: no verificable</value>
