@@ -233,7 +233,32 @@ internal static class LayoutAudit
                 count++;
             }
         }
+        foreach (var problem in ClippedHeaders(window))
+        {
+            Console.WriteLine($"  [layout] {page}: {problem}");
+            count++;
+        }
         return count;
+    }
+
+    /// <summary>
+    /// Spaltenköpfe, die die Spaltenbreite abschneidet – der Kopf-Text selbst ist so breit wie sein Inhalt, gekürzt wird
+    /// erst an der Spalte, deshalb fiele er bei der Prüfung der Textblöcke nicht auf.
+    /// </summary>
+    internal static IEnumerable<string> ClippedHeaders(DependencyObject root, bool onlyVisible = true)
+    {
+        foreach (var list in Ui.FindChildren<ListView>(root))
+        {
+            if ((onlyVisible && !list.IsVisible) || list.View is not GridView view) continue;
+            var headers = ListTable.Headers(list);
+            foreach (var column in view.Columns)
+            {
+                if (!headers.ContainsKey(column) || column.ActualWidth <= 0) continue;
+                double needed = ListTable.HeaderWidth(list, column, headers);
+                if (needed > column.ActualWidth + 1.5)
+                    yield return $"column header „{Shorten(ListTable.TitleOf(column))}“ needs {needed:0} px, has {column.ActualWidth:0} px";
+            }
+        }
     }
 
     private static bool InsideList(DependencyObject d)

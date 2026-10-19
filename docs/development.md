@@ -212,7 +212,8 @@ on Windows 7 SP1 to 11 and Server 2008 R2 to 2025 with whatever .NET Framework i
 - `dotnet tools/RuleTool/bin/Release/net10.0/RuleTool.dll rules-doc` regenerates [docs/rules.md](rules.md); a test (also
   on Linux) fails when it is out of date. `RuleTool coverage` lists evidence keys the collection plan does not read
   (must be none); `RuleTool verify-sources <folder>` checks references against local copies of the sources.
-- `RIEGEL_UPDATE_DOCS=1 dotnet test Riegel.sln -c Release --filter "FullyQualifiedName~DocsTests"` regenerates
+- `RIEGEL_UPDATE_DOCS=1 dotnet test Riegel.sln -c Release --filter "FullyQualifiedName~DocsTests|FullyQualifiedName~ErrorCodesDocTests"`
+  regenerates
   [docs/error-codes.md](error-codes.md) (from the `RglCodes*` classes) and the item list of
   [docs/collector-change-request.md](collector-change-request.md) (from the collection plan); without the variable the
   same tests fail when the pages are out of date.
@@ -228,7 +229,8 @@ on Windows 7 SP1 to 11 and Server 2008 R2 to 2025 with whatever .NET Framework i
   dialogs in light and dark (English, own data folder) into `docs/assets/screenshots`, and the banner from
   `tools/banner/banner.html` with the installed Chrome through `playwright-core` (`npm install` in `tools/banner`, or
   `NODE_PATH` pointing at an existing installation). `-Review` renders all five languages into a temporary folder and
-  prints layout findings; `-SkipBanner` skips the banner. WPF needs an interactive desktop session.
+  prints layout findings (`[layout]`: single-line texts that are cut off, and list column headers narrower than their
+  title – list columns grow to their header in every language); `-SkipBanner` skips the banner. WPF needs an interactive desktop session.
 - **Report pages:** `Riegel.exe --demo-report <folder>` (with `RIEGEL_LANGUAGE=en`, `de`, `zh-Hans`), then render the
   pages with [pypdfium2](https://pypi.org/project/pypdfium2/) in a virtual environment (licence BSD-3-Clause and
   Apache-2.0 plus the PDFium dependency licences, per its package metadata; never PyMuPDF, which is AGPL) into

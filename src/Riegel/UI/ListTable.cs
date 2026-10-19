@@ -15,7 +15,8 @@ namespace Riegel.UI;
 /// </summary>
 /// <remarks>
 /// GridView kennt keine Sternspalten: <see cref="ColumnsProperty"/> („76, 1.35*:110, 1*“ – fest, Stern mit
-/// Mindestbreite) verteilt die Breite bei jeder Größenänderung neu. Spalten mit <see cref="SortByProperty"/> lassen sich
+/// Mindestbreite) verteilt die Breite bei jeder Größenänderung neu; keine Spalte wird schmaler als ihr Kopf in der
+/// aktuellen Sprache. Spalten mit <see cref="SortByProperty"/> lassen sich
 /// per Klick auf den Kopf sortieren (Pfeil am Kopf, zweiter Klick dreht um).
 /// </remarks>
 public static class ListTable
@@ -65,18 +66,90 @@ public static class ListTable
         int n = Math.Min(specs.Count, view.Columns.Count);
         // Ohne senkrechte Bildlaufleiste, mit etwas Luft – sonst erschiene eine waagrechte
         double available = list.ActualWidth - list.BorderThickness.Left - list.BorderThickness.Right - SystemParameters.VerticalScrollBarWidth - 8;
-        double fixedWidth = specs.Take(n).Where(s => !s.IsStar).Sum(s => s.Value);
-        double stars = specs.Take(n).Where(s => s.IsStar).Sum(s => s.Value);
-        double rest = Math.Max(0, available - fixedWidth);
-        for (int i = 0; i < n; i++)
-        {
-            var s = specs[i];
-            double width = s.IsStar ? Math.Max(s.Min, stars > 0 ? rest * s.Value / stars : 0) : s.Value;
-            view.Columns[i].Width = Math.Floor(width);
-        }
+        // Mindestbreite jeder Spalte: der Kopf in der aktuellen Sprache passt ganz hinein (Richtlinie 13 Punkt 4) –
+        // „Geltungsbereich“ oder „Responsable (función)“ sind breiter als die Mindestbreite aus dem XAML.
+        var headers = Headers(list);
+        var widths = Distribute(available, specs.Take(n).Select((s, i) => s with { Min = Math.Max(s.Min, HeaderWidth(list, view.Columns[i], headers)) }).ToList());
+        for (int i = 0; i < n; i++) view.Columns[i].Width = Math.Floor(widths[i]);
     }
 
-    private readonly record struct ColumnSpec(double Value, bool IsStar, double Min);
+    /// <summary>
+    /// Breiten verteilen: feste Spalten mindestens so breit wie ihr Kopf, Sternspalten anteilig am Rest. Eine Sternspalte,
+    /// deren Anteil unter ihrer Mindestbreite liegt, bekommt die Mindestbreite, und der Rest wird unter den übrigen neu
+    /// verteilt – so wachsen die anderen Spalten nicht über die verfügbare Breite hinaus.
+    /// </summary>
+    internal static double[] Distribute(double available, IReadOnlyList<ColumnSpec> specs)
+    {
+        var widths = new double[specs.Count];
+        var open = new List<int>();
+        double rest = available;
+        for (int i = 0; i < specs.Count; i++)
+        {
+            if (specs[i].IsStar) open.Add(i);
+            else rest -= widths[i] = Math.Max(specs[i].Value, specs[i].Min);
+        }
+        while (open.Count > 0)
+        {
+            double stars = open.Sum(i => specs[i].Value);
+            var tooNarrow = open.Where(i => stars <= 0 || Math.Max(0, rest) * specs[i].Value / stars < specs[i].Min).ToList();
+            if (tooNarrow.Count == 0)
+            {
+                foreach (var i in open) widths[i] = rest * specs[i].Value / stars;
+                break;
+            }
+            foreach (var i in tooNarrow)
+            {
+                widths[i] = specs[i].Min;
+                rest -= specs[i].Min;
+                open.Remove(i);
+            }
+        }
+        return widths;
+    }
+
+    // Innenabstand des Kopfs, solange der Kopf noch nicht erzeugt ist, und Platz für den Sortierpfeil (Abstand 6 + Zeichen)
+    private const double HeaderPaddingFallback = 24;
+    private const double SortArrowWidth = 18;
+
+    /// <summary>Breite, die der Kopf einer Spalte braucht: Titel in Kopf-Schrift, Innenabstand, Rahmen und – bei sortierbaren Spalten – der Pfeil.</summary>
+    internal static double HeaderWidth(ListView list, GridViewColumn column, IReadOnlyDictionary<GridViewColumn, GridViewColumnHeader>? headers = null)
+    {
+        var title = TitleOf(column);
+        if (title.Length == 0) return 0;
+        GridViewColumnHeader? header = null;
+        (headers ?? Headers(list)).TryGetValue(column, out header);
+        var font = (Control?)header ?? list;
+        var weight = header?.FontWeight ?? (list.TryFindResource("ListTableHeader") is Style ? FontWeights.SemiBold : list.FontWeight);
+        var text = new System.Windows.Media.FormattedText(title, CultureInfo.CurrentUICulture, list.FlowDirection,
+            new System.Windows.Media.Typeface(font.FontFamily, font.FontStyle, weight, font.FontStretch), font.FontSize,
+            System.Windows.Media.Brushes.Black, System.Windows.Media.VisualTreeHelper.GetDpi(list).PixelsPerDip);
+        double padding = header is null ? HeaderPaddingFallback
+            : header.Padding.Left + header.Padding.Right + header.BorderThickness.Left + header.BorderThickness.Right;
+        double arrow = GetSortBy(column) is null ? 0 : SortArrowWidth;
+        return Math.Ceiling(text.WidthIncludingTrailingWhitespace + padding + arrow + 2);
+    }
+
+    /// <summary>Erzeugte Spaltenköpfe der Liste – die Zeilen selbst werden nicht durchsucht (bei vielen Zeilen teuer).</summary>
+    internal static Dictionary<GridViewColumn, GridViewColumnHeader> Headers(ListView list)
+    {
+        var found = new Dictionary<GridViewColumn, GridViewColumnHeader>();
+        var queue = new Queue<DependencyObject>();
+        queue.Enqueue(list);
+        while (queue.Count > 0)
+        {
+            var current = queue.Dequeue();
+            int count = System.Windows.Media.VisualTreeHelper.GetChildrenCount(current);
+            for (int i = 0; i < count; i++)
+            {
+                var child = System.Windows.Media.VisualTreeHelper.GetChild(current, i);
+                if (child is GridViewColumnHeader { Column: { } column } header) found[column] = header;
+                else if (child is not ListViewItem and not ItemsPresenter) queue.Enqueue(child);
+            }
+        }
+        return found;
+    }
+
+    internal readonly record struct ColumnSpec(double Value, bool IsStar, double Min);
 
     private static ColumnSpec Parse(string text)
     {
