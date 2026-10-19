@@ -471,7 +471,7 @@ SHA-256：{1}</value>
   <data name="Help_Collect" xml:space="preserve">
     <value>用法：{0} collect [--out &lt;文件夹&gt;] [--gzip] [--minimal] [--deep] [--pseudonymize]
 
-仅限 Windows。写入本机的导出文件（&lt;HOST&gt;_&lt;时间&gt;.snapshot.json 和 .sha256）。只读取、不做任何更改；
+仅限 Windows。写入本机的导出文件（&lt;HOST&gt;_&lt;时间&gt;.snapshot.json 和 .sha256）。只读取、不更改任何配置；
 如需完整导出，请在提升权限的控制台中运行。
 
   --out &lt;文件夹&gt;     目标文件夹（默认：当前文件夹）

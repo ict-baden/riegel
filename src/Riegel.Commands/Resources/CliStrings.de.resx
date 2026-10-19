@@ -467,7 +467,7 @@ Exitcodes: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN.</value>
   <data name="Help_Collect" xml:space="preserve">
     <value>Aufruf: {0} collect [--out &lt;Ordner&gt;] [--gzip] [--minimal] [--deep] [--pseudonymize]
 
-Nur Windows. Schreibt einen Export dieses PCs (&lt;HOST&gt;_&lt;Zeit&gt;.snapshot.json und .sha256). Liest nur und ändert nichts;
+Nur Windows. Schreibt einen Export dieses PCs (&lt;HOST&gt;_&lt;Zeit&gt;.snapshot.json und .sha256). Liest nur und ändert keine Konfiguration;
 für einen vollständigen Export in einer Konsole als Administrator ausführen.
 
   --out &lt;Ordner&gt;     Zielordner (Standard: aktueller Ordner)

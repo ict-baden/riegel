@@ -468,7 +468,7 @@ Códigos de salida: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN.</value>
   <data name="Help_Collect" xml:space="preserve">
     <value>Uso: {0} collect [--out &lt;carpeta&gt;] [--gzip] [--minimal] [--deep] [--pseudonymize]
 
-Solo Windows. Escribe una exportación de este equipo (&lt;HOST&gt;_&lt;hora&gt;.snapshot.json y .sha256). Solo lee y no cambia nada;
+Solo Windows. Escribe una exportación de este equipo (&lt;HOST&gt;_&lt;hora&gt;.snapshot.json y .sha256). Solo lee y no cambia ninguna configuración;
 para una exportación completa, ejecútelo en una consola con privilegios elevados.
 
   --out &lt;carpeta&gt;    carpeta de destino (predeterminada: carpeta actual)

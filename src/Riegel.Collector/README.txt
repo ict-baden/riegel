@@ -7,9 +7,9 @@ What it is
 ----------
 Riegel.Collector.exe reads the security configuration of this Windows machine and writes one
 snapshot file (*.snapshot.json) and its checksum file (*.sha256) next to itself or into the
-folder you name. It installs nothing, starts no service, changes no setting and opens no network
-connection. Evaluate the snapshot on another PC with Riegel (Riegel-x64.msi, Riegel.exe or
-riegel-win-x64.exe).
+folder you name. It installs nothing, changes no configuration and opens no network connection;
+what Windows itself records is listed under "What it leaves behind". Evaluate the snapshot on
+another PC with Riegel (Riegel-x64.msi, Riegel.exe or riegel-win-x64.exe).
 
 Runs on Windows 7 SP1 to Windows 11 and Server 2008 R2 to 2025, with the .NET Framework that
 ships with Windows (4.x or 3.5). Keep Riegel.Collector.exe.config next to the exe.
@@ -75,65 +75,66 @@ Deutsch
 Was er macht
 ------------
 Riegel.Collector.exe liest die Sicherheitskonfiguration dieses Windows-Rechners und schreibt eine
-Exportdatei (*.snapshot.json) und ihre Pruefsummendatei (*.sha256) neben sich oder in den
-angegebenen Ordner. Er installiert nichts, startet keinen Dienst, aendert keine Einstellung und
-baut keine Netzwerkverbindung auf. Ausgewertet wird auf einem anderen PC mit Riegel
-(Riegel-x64.msi, Riegel.exe oder riegel-win-x64.exe).
+Exportdatei (*.snapshot.json) und ihre Prüfsummendatei (*.sha256) neben sich oder in den
+angegebenen Ordner. Er installiert nichts, ändert keine Konfiguration und baut keine
+Netzwerkverbindung auf; was Windows selbst vermerkt, steht unter „Was er hinterlässt“.
+Ausgewertet wird auf einem anderen PC mit Riegel (Riegel-x64.msi, Riegel.exe oder
+riegel-win-x64.exe).
 
-Laeuft auf Windows 7 SP1 bis Windows 11 und Server 2008 R2 bis 2025, mit dem .NET Framework, das
+Läuft auf Windows 7 SP1 bis Windows 11 und Server 2008 R2 bis 2025, mit dem .NET Framework, das
 Windows mitbringt (4.x oder 3.5). Riegel.Collector.exe.config neben der Exe lassen.
 
-Vorher pruefen: Ist .NET Framework vorhanden?
+Vorher prüfen: Ist .NET Framework vorhanden?
 --------------------------------------------
 In einer Eingabeaufforderung:
 
     reg query "HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP"
 
-Der Sammler kann starten, wenn die Ausgabe einen Schluessel "v4" (darunter "Full") oder "v3.5"
-nennt (unter Windows 7 oft zusammen mit v2.0.50727). Fehlt der Schluessel oder steht keiner von
+Der Sammler kann starten, wenn die Ausgabe einen Schlüssel „v4“ (darunter „Full“) oder „v3.5“
+nennt (unter Windows 7 oft zusammen mit v2.0.50727). Fehlt der Schlüssel oder steht keiner von
 beiden darin, den Sammler auf diesem Rechner nicht verwenden, sondern die Bordmittel
-(collect-builtin.cmd). Auf einem validierten Rechner nicht eigens fuer Riegel .NET installieren.
+(collect-builtin.cmd). Auf einem validierten Rechner nicht eigens für Riegel .NET installieren.
 Server 2008 R2: Dort ist .NET 3.5.1 ein Feature; ob der Sammler ohne es startet, ist noch nicht
-geprueft - mit dem Befehl oben pruefen.
+geprüft – mit dem Befehl oben prüfen.
 
-Dateien pruefen
----------------
+Dateien prüfen
+--------------
 SHA256SUMS.txt nennt den SHA-256 jeder Datei dieses Pakets. Ab Windows 7:
 
     certutil -hashfile Riegel.Collector.exe SHA256
 
 Aufruf
 ------
-1. Eingabeaufforderung mit "Als Administrator ausfuehren" oeffnen (ohne Administratorrechte
-   wird etwa die Haelfte der Bereiche als "nicht pruefbar" markiert).
+1. Eingabeaufforderung mit „Als Administrator ausführen“ öffnen (ohne Administratorrechte
+   wird etwa die Hälfte der Bereiche als „nicht prüfbar“ markiert).
 2. In diesen Ordner wechseln und aufrufen:
 
        Riegel.Collector.exe
 
-   Ist dieser Datentraeger schreibgeschuetzt: Riegel.Collector.exe --out \\Server\Freigabe\Ordner
+   Ist dieser Datenträger schreibgeschützt: Riegel.Collector.exe --out \\Server\Freigabe\Ordner
 3. Pfad und SHA-256 notieren, die er ausgibt. Beide Dateien zur Auswertung mitnehmen.
 
-Optionen: --out <Ordner>, --gzip, --minimal (kein anderes Programm starten), --deep (zusaetzlich
+Optionen: --out <Ordner>, --gzip, --minimal (kein anderes Programm starten), --deep (zusätzlich
 die LSASS-Schutzstufe), --pseudonymize (Benutzernamen als Pseudonyme), --quiet, --nur-lesen,
 --version, --help.
-Exitcodes: 0 vollstaendig, 1 geschrieben, aber unvollstaendig, 3 nichts geschrieben.
+Exitcodes: 0 vollständig, 1 geschrieben, aber unvollständig, 3 nichts geschrieben.
 
-Was er hinterlaesst
--------------------
-Er aendert keine Konfiguration und schreibt nur seinen Export und die Pruefsummendatei. Windows
-selbst vermerkt, dass ein Programm lief: temporaere Dateien von secedit und gpresult in einem
-frischen Ordner %TEMP%\riegel-<zufaellig> (danach geloescht), ein CLR-Nutzungsprotokoll,
-Ausfuehrungsspuren (Prefetch, AmCache) und moeglicherweise Ereignisse im Sicherheitsprotokoll
-(4688, 4798, 4799, Rechteverwendung). gpresult kann dazu fuehren, dass Windows den Dienst
+Was er hinterlässt
+------------------
+Er ändert keine Konfiguration und schreibt nur seinen Export und die Prüfsummendatei. Windows
+selbst vermerkt, dass ein Programm lief: temporäre Dateien von secedit und gpresult in einem
+frischen Ordner %TEMP%\riegel-<zufällig> (danach gelöscht), ein CLR-Nutzungsprotokoll,
+Ausführungsspuren (Prefetch, AmCache) und möglicherweise Ereignisse im Sicherheitsprotokoll
+(4688, 4798, 4799, Rechteverwendung). gpresult kann dazu führen, dass Windows den Dienst
 Gruppenrichtlinienclient bei Bedarf startet (--minimal vermeidet das). Vor einer Erhebungsrunde
 das SOC informieren.
 
 Bordmittel
 ----------
 collect-builtin.cmd [Ordner] erhebt nur mit Windows-eigenen Programmen (secedit, auditpol, reg)
-in einen neuen Ordner <HOST>_<yyyyMMdd>.riegel-builtin. Fuer Rechner, auf denen kein fremdes
-Programm laufen darf, und fuer Windows XP, Vista und Server 2003/2008. Das Paket ist vertraulich;
-nach dem Import loeschen.
+in einen neuen Ordner <HOST>_<yyyyMMdd>.riegel-builtin. Für Rechner, auf denen kein fremdes
+Programm laufen darf, und für Windows XP, Vista und Server 2003/2008. Das Paket ist vertraulich;
+nach dem Import löschen.
 
 Dokumentation: https://github.com/ict-baden/riegel/blob/main/docs/collector.md
 Lizenz: MIT (LICENSE). Hinweise zu Software Dritter: THIRD-PARTY-NOTICES.txt.

@@ -479,7 +479,7 @@ Exit codes: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN.</value>
   <data name="Help_Collect" xml:space="preserve">
     <value>Usage: {0} collect [--out &lt;folder&gt;] [--gzip] [--minimal] [--deep] [--pseudonymize]
 
-Windows only. Writes a snapshot of this PC (&lt;HOST&gt;_&lt;time&gt;.snapshot.json and .sha256). Reads only and changes nothing;
+Windows only. Writes a snapshot of this PC (&lt;HOST&gt;_&lt;time&gt;.snapshot.json and .sha256). Reads only and changes no configuration;
 run it in an elevated console for a complete snapshot.
 
   --out &lt;folder&gt;     target folder (default: current folder)

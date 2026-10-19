@@ -34,6 +34,7 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 - Stückliste (CycloneDX): enthält jetzt auch die Pakete von `Riegel.Cli.exe` für Windows (System.CodeDom) und die WiX-Erweiterung `WixToolset.Util.wixext` (MS-RL), deren Custom Action in der MSI steckt.
 - Doku: der Sammler „ändert keine Konfiguration, schreibt nur seinen Export, und Windows vermerkt, dass ein Programm lief“ (statt „ändert nichts“), mit Verweis auf die Spuren; data-and-privacy.md nennt Gateway-Adresse, WinHTTP-Proxy und Defender-IP-Ausnahmen im Export.
 - Einheitliche Begriffe: der prüfbare Anteil heißt auf Deutsch 
+- Sammlerpaket: der deutsche Teil von README.txt mit Umlauten (vorher „Pruefsummendatei“, „aendert“); README.txt und die Hilfe von `collect` sagen wie spec 4.4 „ändert keine Konfiguration“ statt „startet keinen Dienst, ändert nichts“ und verweisen auf die Spuren, die Windows selbst vermerkt.
 
 ## [0.1.0] – 2026-10-18
 
