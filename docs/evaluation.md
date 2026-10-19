@@ -142,7 +142,7 @@ A rule declares where it applies (`appliesTo`). The engine checks, in this order
    cannot be evaluated against domain-only rules.
 3. Otherwise, a missing capability with `ifCapabilityAbsent: fail` is a **fail**: for protection rules (encryption,
    antivirus, credential isolation, application control) the absence of the protection is the gap, with an exception
-   route ("Verschlüsselung durch Drittprodukt").
+   route (for example "encryption by a third-party product", *Verschlüsselung durch Drittprodukt*).
 
 Facts (operating system, domain, Defender mode, Office, network …) are derived from the snapshot; each is a value or
 unknown. When a capability exists on the operating system but its data source is missing (a WMI namespace or class),
