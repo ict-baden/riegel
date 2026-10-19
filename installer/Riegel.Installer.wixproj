@@ -4,7 +4,7 @@
     THIRD-PARTY-NOTICES.txt aus $(PublishDir). Für Admin-, Engineering- und Prüfer-PCs und IT-verwaltete Rechner –
     nicht der Weg auf OT- oder validierte Rechner (dort der portable Sammler). Bauen:
       dotnet publish src/Riegel/Riegel.csproj -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=true -o publish
-      dotnet publish src/Riegel.Cli/Riegel.Cli.csproj -c Release -f net10.0-windows10.0.19041.0 -r win-x64 -p:PublishSingleFile=true -p:SelfContained=true -o publish
+      dotnet publish src/Riegel.Cli/Riegel.Cli.csproj -c Release -f net10.0-windows -r win-x64 -p:PublishSingleFile=true -p:SelfContained=true -o publish
       (Sammler-Paket nach publish/collector)
       dotnet build installer/Riegel.Installer.wixproj -c Release -p:ProductVersion=0.1.0
 

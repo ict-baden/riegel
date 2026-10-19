@@ -86,7 +86,7 @@ jobs:
       - name: Riegel.Cli (net10) und Anonymisierer bauen
         shell: pwsh
         run: |
-          dotnet build src/Riegel.Cli/Riegel.Cli.csproj -c Release -f net10.0-windows10.0.19041.0 -o "$env:OUT/cli"
+          dotnet build src/Riegel.Cli/Riegel.Cli.csproj -c Release -f net10.0-windows -o "$env:OUT/cli"
           if ($LASTEXITCODE -ne 0) { throw "Riegel.Cli-Build fehlgeschlagen" }
           dotnet build tools/SnapshotAnonymizer/SnapshotAnonymizer.csproj -c Release -o "$env:OUT/anonymizer"
           if ($LASTEXITCODE -ne 0) { throw "Anonymisierer-Build fehlgeschlagen" }

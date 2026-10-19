@@ -86,6 +86,28 @@ public sealed partial class ThirdPartyNoticesTests
     }
 
     /// <summary>
+    /// Regressionstest (Review legal-4): Die Windows-Projekte zielen auf net10.0-windows ohne SDK-Version, damit
+    /// Microsoft.Windows.SDK.NET.dll (Lizenz des Windows SDK, nicht MIT) und WinRT.Runtime.dll nicht ausgeliefert werden.
+    /// </summary>
+    [Fact]
+    public void Windows_SDK_Projektion_wird_nicht_ausgeliefert()
+    {
+        string[] names = ["Microsoft.Windows.SDK.NET", "WinRT.Runtime"];
+        var folder = AppContext.BaseDirectory;
+        foreach (var name in names)
+            Assert.False(File.Exists(Path.Combine(folder, name + ".dll")), $"{name}.dll liegt in der Ausgabe");
+        foreach (var deps in Directory.GetFiles(folder, "*.deps.json"))
+        {
+            var text = File.ReadAllText(deps);
+            foreach (var name in names) Assert.DoesNotContain(name + ".dll", text, StringComparison.OrdinalIgnoreCase);
+        }
+        foreach (var project in Directory.GetFiles(RepoPaths.Root, "*.csproj", SearchOption.AllDirectories))
+            Assert.DoesNotContain("net10.0-windows10.", File.ReadAllText(project), StringComparison.Ordinal);
+        var notices = File.ReadAllText(Path.Combine(RepoPaths.Root, "THIRD-PARTY-NOTICES.txt"));
+        Assert.DoesNotContain("Microsoft.Windows.SDK.NET", notices, StringComparison.Ordinal);
+    }
+
+    /// <summary>
     /// Regressionstest (Review legal-2): die Hinweise der mitgelieferten .NET-Laufzeiten liegen versionsgenau im Repo,
     /// werden mitgeliefert und in den einzelnen Programmen angehängt; THIRD-PARTY-NOTICES.txt verweist nicht mehr auf
     /// den beweglichen Zweig main.
@@ -128,7 +150,7 @@ public sealed partial class ThirdPartyNoticesTests
             "© Commonwealth of Australia 2026", "CC BY 4.0", "windowsserverdocs",
             "© 2026 The MITRE Corporation. This work is reproduced and distributed with the permission of The MITRE Corporation.",
             "Grundschutz++", "CC BY-SA 4.0", "endoflife.date", "Copyright 2020 endoflife.date contributors", "DISA",
-            "Microsoft.NETCore.App.Runtime.linux-x64", "Microsoft.NETCore.App.Runtime.linux-arm64", "Windows Desktop", "Microsoft.Windows.SDK.NET",
+            "Microsoft.NETCore.App.Runtime.linux-x64", "Microsoft.NETCore.App.Runtime.linux-arm64", "Windows Desktop",
             "Microsoft Reciprocal License", "Apache License", "SixLabors.Fonts",
         ];
         var missing = required.Where(r => !text.Contains(r, StringComparison.Ordinal)).ToList();

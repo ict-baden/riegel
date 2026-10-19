@@ -76,8 +76,6 @@ These are open tasks for a lab and a real OT environment (gate for version 1.0):
 
 ## Collector
 
-- **net35 needs consent.** The collector targets .NET Framework 3.5/4.x, a deviation from the ICT-Baden guideline that
-  needs the management's approval; no customer use before that.
 - `windows-11-arm`: `gpresult /x` answers "Access Denied" even to an elevated administrator, so an elevated collection
   there exits with 1 (`raw:gpresult-xml` is an error and value sources stay unknown).
 - `--deep` is needed for the LSASS protection level; without it CRED-06 relies on Wininit event 12 and is *not

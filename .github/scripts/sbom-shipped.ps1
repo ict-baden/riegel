@@ -33,7 +33,7 @@
 
 .EXAMPLE
     ./.github/scripts/sbom-shipped.ps1 -Sbom dist/Riegel-sbom.cdx.json -CollectorVersion 0.1.0 -DepsJson `
-        src/Riegel/obj/Release/net10.0-windows10.0.19041.0/win-x64/Riegel.deps.json, `
+        src/Riegel/obj/Release/net10.0-windows/win-x64/Riegel.deps.json, `
         src/Riegel.Cli/obj/Release/net10.0/linux-x64/Riegel.Cli.deps.json
 #>
 param(
@@ -84,10 +84,6 @@ function RuntimeInfo([string] $id) {
         }
         'Microsoft.WindowsDesktop.App.Runtime.*' {
             return @{ Text = 'Windows Desktop runtime (WPF), only in the self-contained packages (MSI and Riegel.exe)'; Licence = @{ id = 'MIT' } }
-        }
-        'Microsoft.Windows.SDK.NET.Ref*' {
-            return @{ Text = 'C#/WinRT and the Windows SDK projection (WinRT.Runtime.dll, Microsoft.Windows.SDK.NET.dll), in every Windows package'
-                      Licence = @{ name = 'MIT (WinRT.Runtime.dll); Microsoft Software License Terms for the Windows SDK (Microsoft.Windows.SDK.NET.dll)'; url = 'https://aka.ms/WinSDKLicenseURL' } }
         }
     }
     throw "Unbekanntes Runtime-Paket $id – in sbom-shipped.ps1 und THIRD-PARTY-NOTICES.txt eintragen."

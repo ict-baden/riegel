@@ -203,7 +203,7 @@ jobs:
           dotnet publish @gui --self-contained true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o out/standalone
           if ($LASTEXITCODE -ne 0) { throw "Publish (Einzeldatei) fehlgeschlagen ($LASTEXITCODE)" }
           # Konsolenprogramm Riegel.Cli.exe (spec 4.2) neben die Oberfläche, dazu als einzelne Datei riegel-win-x64.exe
-          $cli = @('src/Riegel.Cli/Riegel.Cli.csproj', '-c', 'Release', '-f', 'net10.0-windows10.0.19041.0', '-r', 'win-x64', '-p:PublishSingleFile=true', "-p:Version=$v", '-p:DebugType=none')
+          $cli = @('src/Riegel.Cli/Riegel.Cli.csproj', '-c', 'Release', '-f', 'net10.0-windows', '-r', 'win-x64', '-p:PublishSingleFile=true', "-p:Version=$v", '-p:DebugType=none')
           dotnet publish @cli --self-contained false -o out/framework
           if ($LASTEXITCODE -ne 0) { throw "Publish CLI (framework) fehlgeschlagen ($LASTEXITCODE)" }
           dotnet publish @cli --self-contained true -o out/self-contained
@@ -222,6 +222,11 @@ jobs:
           $found = @(Get-ChildItem out -Recurse -File | Where-Object Name -Match "^$extras$") +
                    @(Get-ChildItem src -Recurse -Filter *.deps.json | Select-String -Pattern $extras -List)
           if ($found.Count -gt 0) { $found | Out-String | Write-Host; throw "PDFsharp-Zusatzbibliotheken in der Ausgabe oder einer deps.json" }
+          # Windows-SDK-Projektion (Lizenz des Windows SDK, nicht MIT) nie ausliefern: Ziel bleibt net10.0-windows ohne SDK-Version
+          $sdk = '(Microsoft\.Windows\.SDK\.NET|WinRT\.Runtime)\.dll'
+          $found = @(Get-ChildItem out -Recurse -File | Where-Object Name -Match "^$sdk$") +
+                   @(Get-ChildItem src -Recurse -Filter *.deps.json | Select-String -Pattern $sdk -List)
+          if ($found.Count -gt 0) { $found | Out-String | Write-Host; throw "Windows-SDK-Projektion in der Ausgabe oder einer deps.json" }
           # Die mitgelieferten Hinweise der .NET-Laufzeit müssen die der veröffentlichten Runtime-Pakete sein (notices/README.md)
           $cache = if ($env:NUGET_PACKAGES) { $env:NUGET_PACKAGES } else { Join-Path $HOME '.nuget/packages' }
           $ours = (Get-Content notices/THIRD-PARTY-NOTICES-dotnet-runtime.txt -Raw) -replace "`r`n", "`n"
@@ -400,6 +405,8 @@ jobs:
 
       - name: AppLocker-Daten des Sammlers
         # Nur auf dem Runner: liest Dateiinformationen und gibt eine Hash-Regel als XML aus – wendet nichts an (spec 4.3)
+        # Dauert sonst 1 s; ein hängender Runner hat hier einmal 33 Minuten verbraucht
+        timeout-minutes: 5
         shell: powershell
         run: |
           $ErrorActionPreference = 'Stop'
@@ -459,7 +466,7 @@ jobs:
           # Alle ausgelieferten Programme: Oberfläche, Riegel.Cli.exe für Windows (bringt System.CodeDom mit, das die
           # Windows-Desktop-Runtime der Oberfläche schon enthält) und die Linux-Programme
           $deps = @(Get-ChildItem "src/$env:APP/obj/Release/*/win-x64/$env:APP.deps.json") +
-                  @(Get-ChildItem 'src/Riegel.Cli/obj/Release/net10.0-windows10.0.19041.0/win-x64/Riegel.Cli.deps.json') +
+                  @(Get-ChildItem 'src/Riegel.Cli/obj/Release/net10.0-windows/win-x64/Riegel.Cli.deps.json') +
                   @(Get-ChildItem 'src/Riegel.Cli/obj/Release/net10.0/linux-x64/Riegel.Cli.deps.json') +
                   @(Get-ChildItem 'src/Riegel.Cli/obj/Release/net10.0/linux-arm64/Riegel.Cli.deps.json')
           if ($deps.Count -ne 4) { throw "deps.json der Publish-Läufe nicht eindeutig gefunden ($($deps.Count))" }

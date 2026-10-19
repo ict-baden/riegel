@@ -48,7 +48,7 @@ function Invoke-Screenshots([string]$exe, [string]$language, [string]$target, [s
 try {
     dotnet build (Join-Path $repo 'src\Riegel\Riegel.csproj') -c Release -nologo -v q
     if ($LASTEXITCODE -ne 0) { throw "Build fehlgeschlagen ($LASTEXITCODE)" }
-    $exe = Join-Path $repo 'src\Riegel\bin\Release\net10.0-windows10.0.19041.0\Riegel.exe'
+    $exe = Join-Path $repo 'src\Riegel\bin\Release\net10.0-windows\Riegel.exe'
 
     # fester Name, weil die Info-Seite den Datenordner zeigt (%TEMP%\Riegel-Screenshots statt eines Zufallsnamens)
     $data = Join-Path ([IO.Path]::GetTempPath()) 'Riegel-Screenshots'

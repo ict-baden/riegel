@@ -85,7 +85,7 @@ public sealed partial class RepositoryTests
     public void Stueckliste_kennt_alle_ausgelieferten_Programme_und_die_MSI_Erweiterung()
     {
         var workflow = File.ReadAllText(Path.Combine(RepoPaths.Root, ".github", "workflows", "build.yml"));
-        foreach (var deps in new[] { "src/Riegel.Cli/obj/Release/net10.0-windows10.0.19041.0/win-x64/Riegel.Cli.deps.json",
+        foreach (var deps in new[] { "src/Riegel.Cli/obj/Release/net10.0-windows/win-x64/Riegel.Cli.deps.json",
                      "src/Riegel.Cli/obj/Release/net10.0/linux-x64/Riegel.Cli.deps.json", "src/Riegel.Cli/obj/Release/net10.0/linux-arm64/Riegel.Cli.deps.json" })
             Assert.Contains(deps, workflow, StringComparison.Ordinal);
         Assert.Contains("$deps.Count -ne 4", workflow, StringComparison.Ordinal);

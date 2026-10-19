@@ -44,7 +44,7 @@ dotnet test Riegel.sln                          # both target frameworks; Window
 dotnet test tests/Riegel.Tests -f net10.0       # the platform-neutral part, as in the Linux CI job
 ```
 
-The test project targets `net10.0-windows10.0.19041.0` (everything, incl. the WPF app, the Windows platform and the
+The test project targets `net10.0-windows` (everything, incl. the WPF app, the Windows platform and the
 collector exe) and `net10.0` (no `Windows/` folder). Tests that need Windows use `[WindowsFact]`.
 
 The infrastructure tests in `tests/Riegel.Tests/Infrastructure` guard the repository as a whole: third-party notices

@@ -224,8 +224,8 @@ the matching version for `verify`" – once the repository and its tag releases 
 
 - **Windows targets only.** Linux machines (edge devices, Linux HMIs) are **not checked**; the Linux command line only
   evaluates Windows snapshots. Machine settings only, no per-user policies; domain controllers get no score.
-- **Pre-release, not code-signed.** SmartScreen may warn; the collector can only be allow-listed by hash. The net35
-  collector still needs the management's approval before any customer use.
+- **Pre-release, not code-signed.** SmartScreen may warn; the collector can only be allow-listed by hash. No customer
+  pilot on OT or validated machines before the collector is signed.
 - **Tested on fixtures and CI runners** (Windows Server 2022, Server 2025, Windows 11 Arm64, a Windows 11 workstation
   oracle). Not yet on real Windows 7/8.1/2008 R2/2012 R2 machines, in a real domain, with third-party antivirus or EDR,
   or with real AppLocker enforcement – see [Limitations](docs/limitations.md).

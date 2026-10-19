@@ -3,7 +3,7 @@
     <!-- Konsolenprogramm (spec 4.2): Riegel.Cli.exe unter Windows (Konsolen-Subsystem, $LASTEXITCODE verlässlich),
          riegel-linux-x64/-arm64 unter Linux. Windows-Ziel mit Erfassung über Riegel.Platform.Windows, net10.0 ohne. -->
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net10.0;net10.0-windows10.0.19041.0</TargetFrameworks>
+    <TargetFrameworks>net10.0;net10.0-windows</TargetFrameworks>
     <!-- auch unter Linux wiederherstellbar (das Windows-Ziel wird dort nur nicht gebaut und ausgeführt) -->
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <RootNamespace>Riegel.Cli</RootNamespace>
@@ -11,8 +11,7 @@
     <Description>Riegel (Härtungs-Check) – Befehlszeile</Description>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-windows10.0.19041.0'">
-    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
@@ -22,7 +21,7 @@
   </ItemGroup>
 
   <!-- Nur Windows: Erfassung dieses Rechners (Riegel.Cli.exe collect) -->
-  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows10.0.19041.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
     <ProjectReference Include="..\Riegel.Platform.Windows\Riegel.Platform.Windows.csproj" />
   </ItemGroup>
 

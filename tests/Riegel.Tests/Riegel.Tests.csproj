@@ -3,16 +3,12 @@
     <!-- Windows-Ziel: alle Tests (Core, Befehle, Windows-Anbindung, App). net10.0: nur die plattformneutralen Tests, die
          auch unter Linux laufen (ohne Windows/**). Tests ändern nie die Konfiguration des Rechners: nur Fixtures,
          Temp-Ordner und lesende Abfragen (spec 8). -->
-    <TargetFrameworks>net10.0-windows10.0.19041.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <!-- auch unter Linux wiederherstellbar (das Windows-Ziel wird dort nur nicht ausgeführt) -->
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <IsPackable>false</IsPackable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RootNamespace>Riegel.Tests</RootNamespace>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-windows10.0.19041.0'">
-    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <!--
@@ -44,17 +40,17 @@
   </ItemGroup>
 
   <!-- Nur unter Windows: Windows-Anbindung, die WPF-App und der gebaute net35-Sammler (Referenztest, spec 8.13) -->
-  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows10.0.19041.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
     <ProjectReference Include="..\..\src\Riegel.Platform.Windows\Riegel.Platform.Windows.csproj" />
     <ProjectReference Include="..\..\src\Riegel\Riegel.csproj" />
     <ProjectReference Include="..\..\src\Riegel.Collector\Riegel.Collector.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=net35" Private="false" />
     <!-- Riegel.Cli.exe als eigener Prozess (ConsoleHostTests): nur bauen -->
-    <ProjectReference Include="..\..\src\Riegel.Cli\Riegel.Cli.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=net10.0-windows10.0.19041.0" Private="false" />
+    <ProjectReference Include="..\..\src\Riegel.Cli\Riegel.Cli.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=net10.0-windows" Private="false" />
   </ItemGroup>
 
   <!-- Das Sammler-Paket neben die Tests (wie collector\ neben Riegel.exe in MSI und ZIP), für „Sammler auf Datenträger
        kopieren“ (O15) im Demo-Bericht und in den Ende-zu-Ende-Tests -->
-  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows10.0.19041.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
     <None Include="..\..\src\Riegel.Collector\bin\$(Configuration)\net35\Riegel.Collector.exe" Link="collector\Riegel.Collector.exe" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\src\Riegel.Collector\bin\$(Configuration)\net35\Riegel.Collector.exe.config" Link="collector\Riegel.Collector.exe.config" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\tools\collect-builtin\collect-builtin.cmd" Link="collector\collect-builtin.cmd" CopyToOutputDirectory="PreserveNewest" />

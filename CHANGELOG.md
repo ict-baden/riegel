@@ -4,6 +4,11 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 
 ## [Unveröffentlicht]
 
+### Geändert
+- Windows-Projekte zielen auf `net10.0-windows` statt `net10.0-windows10.0.19041.0`. Damit liegt `Microsoft.Windows.SDK.NET.dll` (Lizenz des Windows SDK, nicht MIT) nicht mehr in den Windows-Paketen; Riegel nutzt keine WinRT-API. Offener Punkt legal-4 aus der Prüfung damit erledigt.
+- Sammler als net35-Exe, Anlagenordner als JSON und Regeltexte im Katalog sind als Abweichungen von den Richtlinien freigegeben.
+- CI: Zeitlimit für den Schritt „AppLocker-Daten des Sammlers“ (hing einmal 33 Minuten); Dependabot stößt keine Rebase-Läufe mehr an.
+
 ## [0.1.0] – 2026-10-19
 
 Erste Version. Sammler 0.1.0, Regelwerk 2026.10 (153 Regeln). Noch nicht signiert; kein Kundenpilot auf OT- oder validierten Rechnern mit dieser Version.

@@ -1,7 +1,9 @@
 version: 2
+# Kein automatisches Rebase: jedes Rebase startet Build und Sammler-Läufe und kostet Actions-Minuten.
 updates:
   - package-ecosystem: nuget
     directory: "/"
+    rebase-strategy: disabled
     schedule:
       interval: weekly
     groups:
@@ -23,10 +25,12 @@ updates:
         update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: "/"
+    rebase-strategy: disabled
     schedule:
       interval: monthly
   # Banner der Doku (playwright-core)
   - package-ecosystem: npm
     directory: "/tools/banner"
+    rebase-strategy: disabled
     schedule:
       interval: monthly

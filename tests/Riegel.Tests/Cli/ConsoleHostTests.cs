@@ -91,7 +91,7 @@ public sealed class ConsoleHostTests
     private static string Exe()
     {
         var configuration = typeof(ConsoleHostTests).Assembly.GetCustomAttribute<AssemblyConfigurationAttribute>()?.Configuration ?? "Release";
-        var exe = Path.Combine(RepoPaths.Src, "Riegel.Cli", "bin", configuration, "net10.0-windows10.0.19041.0", "Riegel.Cli.exe");
+        var exe = Path.Combine(RepoPaths.Src, "Riegel.Cli", "bin", configuration, "net10.0-windows", "Riegel.Cli.exe");
         Assert.True(File.Exists(exe), $"{exe} fehlt – erst die Lösung bauen: dotnet build Riegel.sln -c {configuration}");
         return exe;
     }
