@@ -198,9 +198,10 @@ internal sealed class PlantStore(RiegelServices services) : IPlantStore
         {
             var name = Path.GetFileName(file);
             if (!RunIds.IsValid(name[..^PlantFiles.RunExtension.Length])) continue; // fremde Dateien, keine Läufe
-            var r = RiegelJson.ReadFile<Run>(file, ReadLimits.Default.MaxSnapshotBytes);
-            list.Add(new RunInfo(r.Id, r.HostName, r.EvaluatedAtUtc, r.EvaluationDate, r.CollectedAtUtc, r.Snapshot.Sha256,
-                r.Catalogue.Version, r.ReEvaluationOf, r.Flags, r.Summary.Score, r.Summary.OpenHigh));
+            // Nur die Kopfangaben: Ergebnisse und Fakten werden überlesen (etwa dreimal schneller bei vielen Läufen)
+            var length = new FileInfo(file).Length;
+            if (length > ReadLimits.Default.MaxSnapshotBytes) throw RiegelException.Common(RglCodesCommon.LimitExceeded, file, ReadLimits.Default.MaxSnapshotBytes);
+            list.Add(RunHeaderJsonContext.Read(File.ReadAllBytes(file), PlantFiles.Runs + "/" + Path.GetFileName(folder) + "/" + name));
         }
         return [.. list.OrderBy(r => r.CollectedAtUtc).ThenBy(r => r.EvaluatedAtUtc).ThenBy(r => r.Id, StringComparer.Ordinal)];
     }
