@@ -32,7 +32,7 @@ Korrekturen nach der zweiten unabhängigen Prüfung (2026-10-20). Die Sammler-Ex
 - Sammler als net35-Exe, Anlagenordner als JSON und Regeltexte im Katalog sind als Abweichungen von den Richtlinien freigegeben.
 - Läufe eines Rechners werden beim Auflisten nur noch mit ihren Kopfangaben gelesen (bei vielen Läufen etwa dreimal schneller).
 - Impressum unter `https://ict-baden.de/index.html?page=imprint` (die bisherige Adresse lieferte 404).
-- Doku: Linux-Pakete, Inhalt des Gruppenrichtlinienergebnisses im Export (von `--pseudonymize` nicht verändert), „ausgelegt für / getestet auf“ statt unbelegter Zusagen zu Windows-Versionen, englische Zitate in der englischen Doku, Basisversion nach jedem Tag anheben.
+- Doku: Linux-Pakete, Inhalt des Gruppenrichtlinienergebnisses im Export (von `--pseudonymize` nicht verändert), „ausgelegt für / getestet auf“ statt unbelegter Zusagen zu Windows-Versionen, englische Zitate in der englischen Doku, Basisversion nach jedem Tag anheben, Sprach-Badge „en, de (+ es, fr, zh preview)“ statt „5 languages“, jede Änderung am Regelwerk mit neuer Katalogversion (`docs/development.md`).
 - CI: Zeitlimit für den Schritt „AppLocker-Daten des Sammlers“ (hing einmal 33 Minuten); Dependabot stößt keine Rebase-Läufe mehr an; Test der Linux-Befehlszeile in `debian:12-slim`.
 
 ## [0.1.0] – 2026-10-19

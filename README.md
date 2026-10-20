@@ -9,7 +9,7 @@
   <img alt=".NET 10" src="https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white">
   <img alt="Read-only" src="https://img.shields.io/badge/Access-read--only-2E7D32">
   <img alt="Data stays local" src="https://img.shields.io/badge/Data-stays%20local-2E7D32">
-  <img alt="UI: 5 languages" src="https://img.shields.io/badge/UI-5%20languages-6B7280">
+  <img alt="UI: English and German; Spanish, French and Chinese as machine-translated preview" src="https://img.shields.io/badge/UI-en%2C%20de%20(%2B%20es%2C%20fr%2C%20zh%20preview)-6B7280">
   <img alt="Licence: MIT" src="https://img.shields.io/badge/Licence-MIT-blue">
   <img alt="Status: pre-release, not signed" src="https://img.shields.io/badge/Status-0.1%20pre--release%2C%20not%20signed-E3A008">
   <a href="https://github.com/ict-baden/riegel/actions/workflows/build.yml"><img alt="Build" src="https://github.com/ict-baden/riegel/actions/workflows/build.yml/badge.svg"></a>
