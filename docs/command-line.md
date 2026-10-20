@@ -71,6 +71,9 @@ Riegel.Cli.exe --help | --hilfe | --version | --info | --licenses | --lizenzen
 - `--option value` and `--option=value` are the same. Options that take several values (`--snapshot`, `--machine`,
   `--ids`, `--plant` for `summary`) take everything up to the next `--option`, and can be repeated; `--machine` and
   `--ids` also accept commas (`--ids EX-0002,EX-0004`).
+- `--machine` must name a machine of the plant (an entry of the plant or a machine with runs; case does not matter).
+  An unknown name in `report`, `remediate` or `measures add` ends with `RGL-0452`, which lists the known machines, and
+  exit code 3 – a typo no longer produces an empty report for sign-off.
 - Dates are `yyyy-MM-dd`. "Today" is the UTC date of the machine.
 - An unknown command or option, a missing value or a missing required option ends with a message on stderr
   (`RGL-0450` … `RGL-0454`) and exit code 3. Nothing is written in that case.

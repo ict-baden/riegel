@@ -381,6 +381,7 @@ internal static class RegisterCommands
         var rule = catalogue.Find(ruleId) ?? catalogue.Rules.FirstOrDefault(r => string.Equals(r.Id, ruleId, StringComparison.OrdinalIgnoreCase))
                    ?? throw RglCodesCli.Error(RglCodesCli.UnknownRule, ruleId);
         var machines = a.Values("--machine");
+        PlantHosts.Require(plant, machines, "--machine");
         var groups = a.Values("--group");
         foreach (var g in groups.Where(g => !plant.Groups.Any(x => string.Equals(x.Id, g, StringComparison.OrdinalIgnoreCase))))
             throw RglCodesCli.Error(RglCodesCli.InvalidValue, "--group", g, plant.Groups.Count == 0 ? "–" : string.Join(", ", plant.Groups.Select(x => x.Id)));

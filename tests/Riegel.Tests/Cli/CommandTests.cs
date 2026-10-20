@@ -334,6 +334,33 @@ public sealed class CommandTests
     }
 
     [Fact]
+    public void Unbekannter_Rechner_in_machine_ist_ein_Fehler_statt_eines_leeren_Berichts()
+    {
+        // Prüfung vom 2026-10-20: report --machine NOPE schrieb ein leeres PDF zum Abzeichnen mit Exitcode 0
+        using var temp = new TempFolder();
+        using var plant = PlantWithRuns(temp);
+        var outDir = temp.Sub("out");
+        var report = Cli.Run("report", "--plant", plant.Folder, "--machine", "NOPE", "--out", outDir);
+        Assert.Equal(3, report.Exit);
+        Assert.Contains(RglCodesCli.InvalidValue + ": ", report.Err, StringComparison.Ordinal);
+        Assert.Contains("NOPE", report.Err, StringComparison.Ordinal);
+        Assert.Contains("HMI-TEST", report.Err, StringComparison.Ordinal);
+        Assert.Empty(Directory.GetFiles(outDir));
+        // Groß/klein egal, wie überall
+        Assert.Equal(0, Cli.Run("report", "--plant", plant.Folder, "--machine", "hmi-test", "--format", "csv", "--out", outDir).Exit);
+
+        Assert.Equal(3, Cli.Run("remediate", "--plant", plant.Folder, "--machine", "NOPE", "--out", temp.Sub("rem")).Exit);
+        var measures = File.ReadAllBytes(plant.PathOf("measures.json"));
+        var add = Cli.Run("measures", "add", "--plant", plant.Folder, "--rule", "NET-08", "--action", "a", "--owner-role", "r", "--due", "2026-12-31",
+            "--machine", "DOES-NOT-EXIST");
+        Assert.Equal(3, add.Exit);
+        Assert.Contains(RglCodesCli.InvalidValue, add.Err, StringComparison.Ordinal);
+        Assert.Equal(measures, File.ReadAllBytes(plant.PathOf("measures.json")));
+        Assert.Equal(0, Cli.Run("measures", "add", "--plant", plant.Folder, "--rule", "NET-08", "--action", "a", "--owner-role", "r", "--due", "2026-12-31",
+            "--machine", "HMI-TEST").Exit);
+    }
+
+    [Fact]
     public void Report_ohne_out_in_den_Anlagenordner_im_Pruefermodus_nur_mit_out()
     {
         using var temp = new TempFolder();

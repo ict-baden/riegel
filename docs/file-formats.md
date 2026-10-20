@@ -753,7 +753,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 - **RegValueType** (enum): Dword, Qword, Sz, ExpandSz ("expand_sz"), MultiSz ("multi_sz"), Binary
 - **RegisterHashes** (record): `string Exceptions`, `string Tailoring`, `string Measures`, `static RegisterHashes Empty`
 - **RegisterKind** (enum): Exceptions, Tailoring, Measures
-- **RegisterScope** (record): `bool AllMachines`, `IReadOnlyList<string> Machines`, `IReadOnlyList<string> Groups`
+- **RegisterScope** (record): `bool AllMachines`, `IReadOnlyList<string> Machines`, `IReadOnlyList<string> Groups`, `static RegisterScope Empty`
 - **RegisterSet** (record): `ExceptionFile Exceptions`, `TailoringFile Tailoring`, `MeasureFile Measures`, `RegisterHashes Hashes`
 - **RegistryAction** (record): `string Key`, `string Value`, `RegValueType? Type`, `JsonElement? Data`, `bool Delete`
 - **RegistryCheck** (record : CheckSpec): `string Key`, `string Value`, `RegValueType ValueType`, `IReadOnlyList<RegValueType>? AcceptTypes`, `CheckOperator Op`, `JsonElement? Expected`, `WhenMissing WhenMissing`, `IReadOnlyList<OsDefault>? OsDefaults`, `MissingPass? MissingPass`, `MultiSzMode? MultiSz`
@@ -770,7 +770,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 - **ReportPreset** (enum): Audit, AsDelivered
 - **ResultFlags** (enum [Flags]): None, Regression, NewRule, ExceptionExpired, ExceptionExpiring, ExceptionPending, ExceptionValueMismatch, ExceptionChangedAfterApproval, TailoringPending, MeasurePlanned, MeasureOverdue, FromDefault, ConfiguredOnly, Heuristic, Derived, StaleSnapshot, ClockSuspect
 - **ResultStatus** (enum): Pass, Fail, Exception, OutOfScope, NotApplicable, NotCheckable, Info
-- **RglCodesCommon** (static class): `static IReadOnlyList<string> All`, `const string Unexpected`, `const string NotFound`, `const string NotImplemented`, `const string InvalidJson`, `const string UnsupportedSchema`, `const string LimitExceeded`, `const string IoError`, `const string AccessDenied`, `const string HashMismatch`, `const string SettingsUnreadable`, `const string DefaultsUnreadable`, `const string PlatformNotSupported`, `const string InvalidArgument`, `const string ReadOnlyMode`, `const string DiagnosticsFailed`, `const string AlreadyExists`, `static string Message(string code, params object[] args)`
+- **RglCodesCommon** (static class): `static IReadOnlyList<string> All`, `const string Unexpected`, `const string NotFound`, `const string NotImplemented`, `const string InvalidJson`, `const string UnsupportedSchema`, `const string LimitExceeded`, `const string IoError`, `const string AccessDenied`, `const string HashMismatch`, `const string SettingsUnreadable`, `const string DefaultsUnreadable`, `const string PlatformNotSupported`, `const string InvalidArgument`, `const string ReadOnlyMode`, `const string DiagnosticsFailed`, `const string AlreadyExists`, `const string IcuMissing`, `const string OpenSslMissing`, `static string Message(string code, params object[] args)`
 - **RiegelException** (class : Exception): `string Code`, `static RiegelException Common(string code, params object[] args)`
 - **RowFilter** (record): `string Property`, `CheckOperator Op`, `JsonElement Value`
 - **RowsMode** (enum): Any, All, First
@@ -823,7 +823,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 - **VectorMachine** (record): `int Build`, `int? Ubr`, `string? Edition`, `string? InstallationType`, `int ProductType`, `int DomainRole`, `bool IsAdmin`
 - **VerificationNote** (record): `string Src`, `string? Doc`, `string? Url`, `DateOnly Date`, `string? Section`, `string? Note`
 - **VerifyFinding** (record): `string Code`, `string? File`, `string? HostName`, `string? RuleId`, `string Message`
-- **VerifyResult** (record): `VerifyStatus Status`, `string EngineVersion`, `string? PackedEngineVersion`, `int SnapshotsChecked`, `int ResultsCompared`, `IReadOnlyList<VerifyFinding> Findings`, `IReadOnlyList<string> NotVerifiable`, `int ExitCode` (not in JSON)
+- **VerifyResult** (record): `VerifyStatus Status`, `string EngineVersion`, `string? PackedEngineVersion`, `int SnapshotsChecked`, `int ResultsCompared`, `IReadOnlyList<VerifyFinding> Findings`, `IReadOnlyList<string> NotVerifiable`, `CatalogueRef? Catalogue` (the packed catalogue), `bool CatalogueBuiltIn` (identical to the catalogue built into this Riegel version), `int ExitCode` (not in JSON; 0 reproduced, 1 reproduced with a catalogue that is not the built-in one, 2 mismatch, 3 error)
 - **VerifyStatus** (enum): Reproduced, Mismatch, Error
 - **WhenMissing** (enum): NotCheckable, Fail, OsDefault, Pass
 - **WmiMethodKind** (enum): Static, PerRow
@@ -958,7 +958,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 ### `Riegel.Core.Evidence`
 
 - **EvidenceFactory** (static class): `static IEvidencePack Create(RiegelServices services)`
-- **RglCodesDataOutputs** (static class): `static IReadOnlyList<string> All`, `const int First`, `const int Last`, one `const string <Name>` per code of the range (all listed in [Error codes](error-codes.md)) (`ZipUnreadable` … `RunManifestMismatch`, RGL-0550–0571), `static string Message(string code, params object?[] args)`, `static string Message(CultureInfo culture, string code, params object?[] args)`
+- **RglCodesDataOutputs** (static class): `static IReadOnlyList<string> All`, `const int First`, `const int Last`, one `const string <Name>` per code of the range (all listed in [Error codes](error-codes.md)) (`ZipUnreadable` … `CatalogueNotReference`, RGL-0550–0573), `static string Message(string code, params object?[] args)`, `static string Message(CultureInfo culture, string code, params object?[] args)`
 
 ### `Riegel.Core.Facts`
 
@@ -971,11 +971,12 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 ### `Riegel.Core.Plants`
 
 - **PlantsFactory** (static class): `static IPlantStore Create(RiegelServices services)`
-- **RglCodesWorkflow** (static class): `static IReadOnlyList<string> All`, `const int First`, `const int Last`, `const string ChangedByOthers`, `const string LockTimeout`, one `const string <Name>` per code of the range (all listed in [Error codes](error-codes.md)) (`ReadOnlyPlant` … `InventoryRule`, RGL-0401–0447), `static string Message(string code, params object?[] args)`
+- **RglCodesWorkflow** (static class): `static IReadOnlyList<string> All`, `const int First`, `const int Last`, `const string ChangedByOthers`, `const string LockTimeout`, one `const string <Name>` per code of the range (all listed in [Error codes](error-codes.md)) (`ReadOnlyPlant` … `InvalidNotApproved`, RGL-0401–0448), `static string Message(string code, params object?[] args)`
 
 ### `Riegel.Core.Registers`
 
 - **RegistersFactory** (static class): `static IRegisterService Create(RiegelServices services)`
+- **RegisterApproval** (static class): `static void ThrowIfInvalid(IEnumerable<ValidationIssue> issuesAfterApproval, RegisterKind kind, IEnumerable<string> ids)` (RGL-0448: only valid entries are approved), `static IReadOnlySet<string> InvalidIds(IEnumerable<ValidationIssue> issues, RegisterKind kind)`
 
 ### `Riegel.Core.Remediation`
 
