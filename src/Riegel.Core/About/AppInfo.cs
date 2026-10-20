@@ -19,11 +19,10 @@ public static class AppInfo
     public const string LicenseUrl = RepositoryUrl + "/blob/main/LICENSE";
 
     /// <summary>
-    /// Impressum – es gibt nur eines, auf der Webseite (Richtlinie 07).
-    /// ⚠ Domain und Webseite sind noch offen (OFFEN.md); die Adresse lieferte am 2026-10-18 „404“. Bis dahin dieselbe
-    /// Adresse wie in den übrigen Repos von ICT-Baden (Rückfall nach Richtlinie 07/CLAUDE.md).
+    /// Impressum – es gibt nur eines, auf der Webseite (Richtlinie 07). Diese Adresse funktioniert heute; die neue
+    /// Webseite leitet sie später um (https://ict-baden.de/impressum lieferte am 2026-10-18 HTTP 404).
     /// </summary>
-    public const string ImpressumUrl = "https://ict-baden.de/impressum";
+    public const string ImpressumUrl = "https://ict-baden.de/index.html?page=imprint";
 
     /// <summary>Webseite – ⚠ noch offen (OFFEN.md); bis dahin die Organisation auf GitHub.</summary>
     public const string WebsiteUrl = "https://github.com/ict-baden";

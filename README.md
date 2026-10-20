@@ -261,7 +261,6 @@ Needs the .NET 10 SDK. Architecture, tests, CI, releases and the documentation i
 third-party licences and rule-source attributions: <a href="THIRD-PARTY-NOTICES.txt">THIRD-PARTY-NOTICES.txt</a> ·
 support: free via GitHub, guaranteed with a <a href="SUPPORT.md">support contract</a> ·
 <a href="SECURITY.md">Security</a> ·
-<!-- ⚠ Impressum-Adresse offen (richtlinien OFFEN.md): https://ict-baden.de/impressum lieferte am 2026-10-18 HTTP 404. -->
-<a href="https://ict-baden.de/impressum">Impressum</a><br>
+<a href="https://ict-baden.de/index.html?page=imprint">Impressum</a><br>
 This software sends no data to ICT-Baden.
 </sub></p>
