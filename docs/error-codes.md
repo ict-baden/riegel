@@ -32,6 +32,8 @@ Common.
 | `RGL-0014` | ReadOnlyMode | Read-only mode: nothing is written to the plant folder. |
 | `RGL-0015` | DiagnosticsFailed | The diagnostics package could not be written: {0} |
 | `RGL-0016` | AlreadyExists | Already exists and is not overwritten: {0} |
+| `RGL-0017` | IcuMissing | ICU (libicu) was not found, so Riegel runs without culture data: texts are translated, but dates and numbers are not localised. For localised output install libicu (Debian 12: libicu72, Ubuntu 24.04: libicu74, Fedora and RHEL: libicu). |
+| `RGL-0018` | OpenSslMissing | OpenSSL (libssl) was not found. Riegel needs it for SHA-256 checksums. Install it (Debian 12 and Ubuntu 22.04 or later: libssl3, Fedora and RHEL: openssl-libs) and run the command again. |
 
 ## RGL-0100–0199
 

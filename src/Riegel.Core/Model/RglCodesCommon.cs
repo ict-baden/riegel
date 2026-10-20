@@ -59,12 +59,18 @@ public static class RglCodesCommon
     /// <summary>Ziel existiert schon und wird nicht überschrieben.</summary>
     public const string AlreadyExists = "RGL-0016";
 
+    /// <summary>Linux: ICU fehlt – Riegel läuft ohne Kulturdaten weiter (Hinweis, Datum und Zahlen nicht lokalisiert).</summary>
+    public const string IcuMissing = "RGL-0017";
+
+    /// <summary>Linux: OpenSSL (libssl) fehlt – ohne SHA-256 geht kein Befehl außer der Hilfe.</summary>
+    public const string OpenSslMissing = "RGL-0018";
+
     /// <summary>Alle Codes dieses Bereichs (für docs/error-codes.md und Tests).</summary>
     public static IReadOnlyList<string> All { get; } =
     [
         Unexpected, NotFound, NotImplemented, InvalidJson, UnsupportedSchema, LimitExceeded, IoError, AccessDenied,
         HashMismatch, SettingsUnreadable, DefaultsUnreadable, PlatformNotSupported, InvalidArgument, ReadOnlyMode,
-        DiagnosticsFailed, AlreadyExists,
+        DiagnosticsFailed, AlreadyExists, IcuMissing, OpenSslMissing,
     ];
 
     /// <summary>Text zu einem gemeinsamen Code in der aktuellen Sprache, mit Platzhaltern.</summary>

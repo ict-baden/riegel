@@ -136,6 +136,12 @@
   <data name="Error_RGL0016" xml:space="preserve">
     <value>Existiert bereits und wird nicht überschrieben: {0}</value>
   </data>
+  <data name="Error_RGL0017" xml:space="preserve">
+    <value>ICU (libicu) wurde nicht gefunden, Riegel läuft deshalb ohne Kulturdaten: Texte sind übersetzt, Datum und Zahlen aber nicht landesüblich formatiert. Dafür libicu installieren (Debian 12: libicu72, Ubuntu 24.04: libicu74, Fedora und RHEL: libicu).</value>
+  </data>
+  <data name="Error_RGL0018" xml:space="preserve">
+    <value>OpenSSL (libssl) wurde nicht gefunden. Riegel braucht es für SHA-256-Prüfsummen. Bitte installieren (Debian 12 und Ubuntu ab 22.04: libssl3, Fedora und RHEL: openssl-libs) und den Befehl erneut ausführen.</value>
+  </data>
   <data name="Flag_ClockSuspect" xml:space="preserve">
     <value>Uhr unplausibel</value>
   </data>

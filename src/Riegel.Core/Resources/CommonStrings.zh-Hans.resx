@@ -137,6 +137,12 @@
   <data name="Error_RGL0016" xml:space="preserve">
     <value>已存在，不会覆盖：{0}</value>
   </data>
+  <data name="Error_RGL0017" xml:space="preserve">
+    <value>未找到 ICU（libicu），因此 Riegel 在没有区域文化数据的情况下运行：文本已翻译，但日期和数字不会按本地格式显示。如需本地格式，请安装 libicu（Debian 12：libicu72，Ubuntu 24.04：libicu74，Fedora 和 RHEL：libicu）。</value>
+  </data>
+  <data name="Error_RGL0018" xml:space="preserve">
+    <value>未找到 OpenSSL（libssl）。Riegel 需要它来计算 SHA-256 校验和。请安装（Debian 12 和 Ubuntu 22.04 及更高版本：libssl3，Fedora 和 RHEL：openssl-libs）后重新运行该命令。</value>
+  </data>
   <data name="Flag_ClockSuspect" xml:space="preserve">
     <value>时钟不可信</value>
   </data>

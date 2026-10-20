@@ -39,7 +39,7 @@ scheduled tasks.
 |---|---|
 | Analysis app and `Riegel.Cli.exe` | 64-bit Windows 10 version 1809 (build 17763) or Windows Server 2019 or later. No .NET for the MSI, `Riegel.exe` and `riegel-win-x64.exe` (they carry the .NET 10 runtime); the framework ZIP needs the .NET 10 Desktop Runtime. |
 | Portable collector | .NET Framework 4.x (preinstalled from Windows 8 / Server 2012) or 3.5.1 (on by default on Windows 7 SP1). On Server 2008 R2 the 3.5.1 feature must be enabled through the Server Manager; whether the collector starts without it is **unverified** ([Limitations](limitations.md)). |
-| Linux command line | x64 or arm64, a glibc-based distribution; nothing else (self-contained). arm64 is cross-built and not run in CI. |
+| Linux command line | x64 or arm64, a glibc-based distribution (not Alpine/musl). The .NET runtime is inside the file, but it takes three things from the system: **OpenSSL** (`libssl`, needed for every command except the help), **ICU** (`libicu`, for localised dates and numbers) and, for PDF documents, a **font** – see [Linux packages](#linux-packages). arm64 is cross-built; CI runs the x64 file in `debian:12-slim`. |
 | Network | none. Riegel opens no network connection; plant folders may lie on a share. |
 
 ## Downloads: latest and tag releases
@@ -146,6 +146,31 @@ chmod +x riegel-linux-x64
 ```
 
 Every command, option and exit code: [Command line](command-line.md).
+
+### Linux packages
+
+Desktop and server installations usually have all of them. Minimal and container images (`debian:12-slim`,
+`ubuntu:24.04`) do not:
+
+| Distribution | Install |
+|---|---|
+| Debian 12 | `apt-get install --no-install-recommends libssl3 libicu72 fonts-dejavu-core` |
+| Ubuntu 24.04 | `apt-get install --no-install-recommends libssl3t64 libicu74 fonts-dejavu-core` |
+| Ubuntu 22.04 | `apt-get install --no-install-recommends libssl3 libicu70 fonts-dejavu-core` |
+| Fedora, RHEL 9 and derivatives | `dnf install openssl-libs libicu dejavu-sans-fonts` |
+
+For Chinese PDF documents add a TrueType CJK font, e.g. `fonts-wqy-microhei` ([Reports](reports.md)).
+
+What happens without them:
+
+- **No OpenSSL:** every command except the help stops with `RGL-0018` and exit code 3 (with `--brief` also the
+  `RIEGEL UNKNOWN` line), naming the package to install.
+- **No ICU:** Riegel runs without culture data and says so on stderr (`RGL-0017`): texts are still translated (the
+  language comes from `LC_ALL`, `LC_MESSAGES` or `LANG`, or from `RIEGEL_LANGUAGE`), but dates and numbers are not
+  localised. Install libicu for localised documents.
+- **No font:** `report` with PDF stops with `RGL-0501` and exit code 3; CSV, Excel, JSON, `check` and `verify` work.
+
+Riegel 0.1.0 aborted with exit code 134 and a .NET message when OpenSSL or ICU was missing.
 
 ## Scheduled tasks
 

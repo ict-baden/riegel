@@ -113,7 +113,8 @@
 - **Monitoring that alerts on change:** Nagios exit codes and an Icinga line for regressions, newly open high findings,
   expiring exceptions and overdue measures – not for the standing state.
 - **Auditors on Linux:** `riegel-linux-x64` re-evaluates evidence packs (`verify`) and compares a fresh collection with
-  a packed snapshot (`compare-snapshot`).
+  a packed snapshot (`compare-snapshot`); it needs OpenSSL, ICU and a font from the system
+  ([Linux packages](docs/installation.md#linux-packages)).
 - **Customer baselines:** import GPO backups (including the ones inside downloaded security baselines) or write your
   own requirements as `riegel.baseline/1` JSON or CSV.
 - **Machine builders:** an *as-delivered* report preset with machine identity and the justified deviations of the

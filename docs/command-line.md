@@ -477,6 +477,17 @@ riegel compare-snapshot ~/audit/HMI-L3-01_20261102T101500Z.snapshot.json --evide
 `--read-only` makes sure nothing is written into the customer's folder. The Linux binaries contain the same engine and
 catalogue as the Windows programs; `riegel --version` names both.
 
+The Linux file carries the .NET runtime but needs OpenSSL, ICU and, for PDF, a font from the system. On a minimal
+Debian 12 (for example `debian:12-slim`):
+
+```bash
+apt-get install --no-install-recommends libssl3 libicu72 fonts-dejavu-core
+```
+
+Without OpenSSL every command except the help ends with `RGL-0018` and exit code 3; without ICU Riegel warns
+(`RGL-0017`) and formats dates and numbers invariantly; without a font, PDF output fails with `RGL-0501`. Other
+distributions: [Installation › Linux packages](installation.md#linux-packages).
+
 ## Riegel.exe does not wait
 
 `Riegel.exe` is a Windows (GUI) program that attaches to the calling console for its output. cmd and PowerShell do
