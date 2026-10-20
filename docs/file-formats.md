@@ -971,6 +971,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 ### `Riegel.Core.Plants`
 
 - **PlantsFactory** (static class): `static IPlantStore Create(RiegelServices services)`
+- **ImportPaths** (static class): `static bool IsBuiltinBundle(string folder)`, `static IReadOnlyList<string> ExportsIn(string folder)`, `static IReadOnlyList<string> Expand(IEnumerable<string> paths)` – the same folder rules for the command line and the app
 - **RglCodesWorkflow** (static class): `static IReadOnlyList<string> All`, `const int First`, `const int Last`, `const string ChangedByOthers`, `const string LockTimeout`, one `const string <Name>` per code of the range (all listed in [Error codes](error-codes.md)) (`ReadOnlyPlant` … `InvalidNotApproved`, RGL-0401–0448), `static string Message(string code, params object?[] args)`
 
 ### `Riegel.Core.Registers`

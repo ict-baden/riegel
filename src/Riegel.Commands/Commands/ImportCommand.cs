@@ -4,6 +4,7 @@ using Riegel.Commands.Output;
 using Riegel.Commands.Parsing;
 using Riegel.Commands.Resources;
 using Riegel.Core.Model;
+using Riegel.Core.Plants;
 
 namespace Riegel.Commands.Commands;
 
@@ -107,27 +108,13 @@ internal static class ImportCommand
     /// </summary>
     internal static List<string> Expand(IEnumerable<string> arguments)
     {
-        var paths = new List<string>();
-        foreach (var argument in arguments)
-        {
-            var path = Path.GetFullPath(argument);
-            if (!Directory.Exists(path) || IsBuiltinBundle(path))
-            {
-                paths.Add(path);
-                continue;
-            }
-            var exports = Directory.EnumerateFiles(path)
-                .Where(f => f.EndsWith(SnapshotFile.Extension, StringComparison.OrdinalIgnoreCase) || f.EndsWith(SnapshotFile.GzipExtension, StringComparison.OrdinalIgnoreCase))
-                .Order(StringComparer.Ordinal)
-                .ToList();
-            if (exports.Count == 0) throw RglCodesCli.Error(RglCodesCli.NoExportsInFolder, path);
-            paths.AddRange(exports);
-        }
-        return paths;
+        var list = arguments.ToList();
+        foreach (var path in list.Select(Path.GetFullPath))
+            if (Directory.Exists(path) && !ImportPaths.IsBuiltinBundle(path) && ImportPaths.ExportsIn(path).Count == 0)
+                throw RglCodesCli.Error(RglCodesCli.NoExportsInFolder, path);
+        return [.. ImportPaths.Expand(list)];
     }
 
-    /// <summary>Bordmittel-Paket statt Ordner mit Exporten.</summary>
-    internal static bool IsBuiltinBundle(string folder) =>
-        Path.TrimEndingDirectorySeparator(folder).EndsWith(".riegel-builtin", StringComparison.OrdinalIgnoreCase)
-        || File.Exists(Path.Combine(folder, "hostname.txt")) || File.Exists(Path.Combine(folder, "secedit.inf"));
+    /// <summary>Bordmittel-Paket statt Ordner mit Exporten (wie in der Oberfläche, <see cref="ImportPaths"/>).</summary>
+    internal static bool IsBuiltinBundle(string folder) => ImportPaths.IsBuiltinBundle(folder);
 }

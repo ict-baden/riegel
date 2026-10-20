@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 using System.Collections.ObjectModel;
 using Riegel.Core.Model;
+using Riegel.Core.Plants;
 using Riegel.Session;
 using Riegel.UI;
 
@@ -174,7 +175,8 @@ internal sealed class ImportDialogViewModel : ObservableObject, IDialogViewModel
     {
         _dialogs = dialogs;
         _witnessRole = operatorRole ?? "";
-        foreach (var p in paths) Files.Add(p);
+        // Ein Ordner mit Exporten steht für die Exporte darin, wie in der Befehlszeile (ImportPaths)
+        foreach (var p in ImportPaths.Expand(paths)) if (!Files.Contains(p, StringComparer.OrdinalIgnoreCase)) Files.Add(p);
         AddFilesCommand = new RelayCommand(AddFiles);
         AddFolderCommand = new RelayCommand(AddFolder);
         RemoveCommand = new RelayCommand(() => { if (Selected is { } s) Files.Remove(s); }, () => Selected is not null);
@@ -209,13 +211,14 @@ internal sealed class ImportDialogViewModel : ObservableObject, IDialogViewModel
 
     private void AddFolder()
     {
-        if (_dialogs.PickFolder(Loc.T("Import_PickBundle")) is { } folder && !Files.Contains(folder, StringComparer.OrdinalIgnoreCase)) Files.Add(folder);
+        if (_dialogs.PickFolder(Loc.T("Import_PickBundle")) is not { } folder) return;
+        foreach (var p in ImportPaths.Expand([folder])) if (!Files.Contains(p, StringComparer.OrdinalIgnoreCase)) Files.Add(p);
     }
 
-    /// <summary>Was sich importieren lässt: Exporte (.snapshot.json, .json.gz) und Ordner von Bordmittel-Paketen.</summary>
+    /// <summary>Was sich importieren lässt: Exporte (.snapshot.json, .json.gz), Bordmittel-Pakete und Ordner mit Exporten.</summary>
     public static bool IsImportable(string path) =>
         Directory.Exists(path)
-            ? path.EndsWith(".riegel-builtin", StringComparison.OrdinalIgnoreCase) || File.Exists(Path.Combine(path, "secedit.inf"))
+            ? ImportPaths.IsBuiltinBundle(path) || ImportPaths.ExportsIn(path).Count > 0
             : path.EndsWith(SnapshotFile.Extension, StringComparison.OrdinalIgnoreCase) || path.EndsWith(SnapshotFile.GzipExtension, StringComparison.OrdinalIgnoreCase);
 }
 

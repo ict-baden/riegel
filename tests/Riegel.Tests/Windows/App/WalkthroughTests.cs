@@ -213,6 +213,19 @@ public sealed class WalkthroughTests
     }
 
     [Fact]
+    public void Ordner_mit_Exporten_laesst_sich_ablegen_und_steht_fuer_die_Exporte()
+    {
+        // Prüfung vom 2026-10-20: die Oberfläche hielt einen Ordner mit Exporten für ein Bordmittel-Paket (RGL-0260)
+        using var temp = new TempFolder();
+        var share = temp.Sub("freigabe");
+        var export = SnapshotBuilder.Windows10Ltsc2019("HMI-A").WriteTo(share);
+        Assert.True(ImportDialogViewModel.IsImportable(share));
+        Assert.False(ImportDialogViewModel.IsImportable(temp.Sub("leer")));
+        var dialog = new ImportDialogViewModel(new TestDialogs(), [share], null);
+        Assert.Equal([export], dialog.Files);
+    }
+
+    [Fact]
     public void Pfade_ohne_Benutzernamen()
     {
         var temp = Path.Combine(Path.GetTempPath(), "Riegel-Demo-1234", "Musterwerk");
