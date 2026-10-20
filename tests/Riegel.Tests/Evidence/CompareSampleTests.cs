@@ -91,10 +91,10 @@ public sealed class CompareSampleTests
 /// <summary>Kunden-Baselines im Paket (spec 2.15): nur Metadaten (nicht nachprüfbar) oder mit Inhalt und Lizenzwarnung.</summary>
 public sealed class EvidenceBaselineTests
 {
-    private const string Id = "kunde";
+    internal const string Id = "kunde";
 
     /// <summary>Gespeicherte Baseline (baselines/kunde.json), daraus Regeln, damit ausgewertet; der Lauf nennt die Baseline.</summary>
-    private static (Run Run, BaselineRef Baseline) EvaluateWithBaseline(EvidenceFixture f)
+    internal static (Run Run, BaselineRef Baseline) EvaluateWithBaseline(EvidenceFixture f)
     {
         f.WriteRegisters();
         var stored = Path.Combine(f.Plant.Folder, "baselines", Id + ".json");

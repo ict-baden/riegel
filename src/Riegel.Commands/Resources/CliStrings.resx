@@ -338,6 +338,12 @@ Data and privacy: {4}</value>
   <data name="Cli_VerifyCounts" xml:space="preserve">
     <value>Snapshots checked: {0} · results compared: {1}</value>
   </data>
+  <data name="Cli_VerifyCatalogueBuiltIn" xml:space="preserve">
+    <value>Catalogue: {0} {1}, SHA-256 {2} – identical to the catalogue built into this Riegel version.</value>
+  </data>
+  <data name="Cli_VerifyCatalogueOther" xml:space="preserve">
+    <value>Catalogue: {0} {1}, SHA-256 {2} – not the catalogue built into this Riegel version ({3}); the results were only reproduced with the packed catalogue.</value>
+  </data>
   <data name="Cli_VerifyError" xml:space="preserve">
     <value>The evidence pack could not be verified.</value>
   </data>

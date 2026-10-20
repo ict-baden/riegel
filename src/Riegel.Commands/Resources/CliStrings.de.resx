@@ -327,6 +327,12 @@ Daten und Datenschutz: {4}</value>
   <data name="Cli_VerifyCounts" xml:space="preserve">
     <value>Geprüfte Exporte: {0} · verglichene Ergebnisse: {1}</value>
   </data>
+  <data name="Cli_VerifyCatalogueBuiltIn" xml:space="preserve">
+    <value>Regelwerk: {0} {1}, SHA-256 {2} – identisch mit dem in diese Riegel-Version eingebauten.</value>
+  </data>
+  <data name="Cli_VerifyCatalogueOther" xml:space="preserve">
+    <value>Regelwerk: {0} {1}, SHA-256 {2} – nicht das in diese Riegel-Version eingebaute ({3}); die Ergebnisse wurden nur mit dem gepackten Regelwerk reproduziert.</value>
+  </data>
   <data name="Cli_VerifyError" xml:space="preserve">
     <value>Das Nachweispaket ließ sich nicht prüfen.</value>
   </data>

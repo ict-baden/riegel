@@ -93,8 +93,8 @@ on (Microsoft Security Compliance Toolkit, BSI, CIS; spec 2.15). By default the 
 
 The rule `key` names what a rule checks (its identity: registry key and value, service, audit GUID, user right), not
 the expected value; titles and texts of the baseline are not copied. `verify` reports the results of these baselines as
-**"Baseline-Inhalt nicht enthalten – nicht nachprüfbar"** (finding `RGL-0562`, listed in `notVerifiable`) and still
-checks every other result.
+**"Baseline … content not included – not verifiable"** (finding `RGL-0562`, listed in `notVerifiable`; the text is
+localised) and still checks every other result and the counts of each run.
 
 With `--include-baseline-content` the pack also holds the stored baseline (`baselines/<id>.json`), the rules Riegel
 formed from it (`baselines/<id>.rules.json`, `riegel.rules/1`, used by `verify`) and `baselines/LICENSE-WARNING.txt`;
@@ -114,14 +114,18 @@ riegel verify <evidence.zip>
    missing from the list (`RGL-0556`, `RGL-0557`, `RGL-0558`);
 2. reads `manifest.json` (`riegel.evidence/1` only) and checks every file reference in it the same way;
 3. loads the packed catalogue through the catalogue loader and compares its SHA-256 and version with the manifest
-   (`RGL-0559`);
+   (`RGL-0559`), then with the catalogue **built into the Riegel version doing the check**: same ID and version but a
+   different SHA-256 means the rules were changed (`RGL-0572`, mismatch); another version cannot be compared with a
+   reference (`RGL-0573`, exit code 1, see below);
 4. for every packed run: reads the export with the same export reader as an import (redaction, `parsed:*`
    recomputation, limits), takes the register versions the run names and the packed plant, and evaluates the export
    again with **the evaluation clock and date of the packed run** (so time-dependent flags such as `clockSuspect` and
    stale snapshots come out the same);
 5. compares each result field by field: status, severity, expected, actual, value source and detail, evidence keys,
    exception, tailoring and measure IDs, reason code, flags and details (`RGL-0560`), and the history-independent
-   counts of the run (`RGL-0561`).
+   counts and scores of the run (`RGL-0561`). With a customer baseline whose content is not in the pack, the counts are
+   computed from the re-evaluated results plus the packed results of that baseline, so a changed summary is still
+   found; the hardening score and the documented share count only Riegel's own catalogue and are fully recomputed.
 
 Not compared, because a single export cannot reproduce them: the evaluation timestamp and the run ID, the path of the
 export, the tool information, `previousRunId`, `approvedRunId`, `reEvaluationOf`, the flags `regression` and `newRule`
@@ -134,14 +138,23 @@ Result and exit code (spec 7.7):
 
 | Status | Exit | Meaning |
 |---|---|---|
-| `reproduced` | 0 | every hash matches and every result was reproduced, except results of baselines without content (listed as not verifiable) |
-| `mismatch` | 2 | a file was changed, is missing or not listed, the catalogue differs, a result or count differs, or a run cannot be verified (other catalogue, register version not in the pack, unreadable export) |
+| `reproduced` | 0 | every hash matches, the packed catalogue is the one built into this Riegel version, and every result was reproduced, except results of baselines without content (listed as not verifiable) |
+| `reproduced` | 1 | as above, but the packed catalogue has another version than the built-in one (`RGL-0573`): the results follow from the packed catalogue, whose rules could not be compared with a reference. Verify with the Riegel version that wrote the pack |
+| `mismatch` | 2 | a file was changed, is missing or not listed, the catalogue differs from the manifest or from the built-in catalogue of the same version, a result or count differs, or a run cannot be verified (other catalogue, register version not in the pack, unreadable export) |
 | `error` | 3 | the pack cannot be read: not a ZIP, over a limit, unsafe entry names, `SHA256SUMS.txt` or `manifest.json` missing or invalid |
 
-The text output reports **"reproduziert mit Engine X (gepackt: Y)"** (`DataOutputStrings.Verify_Reproduced`): X is
-the version doing the check, Y the version that wrote the pack. A run evaluated with another catalogue than the
-packed one is "nicht nachprüfbar" and makes the result `mismatch`: re-evaluate the plant with the current catalogue
-before packing, or keep the older Riegel version for the audit.
+The text output reports **"Reproduced with engine X (packed: Y)."** (the line is localised): X is the version doing
+the check, Y the version that wrote the pack. The next lines give the number of snapshots and results compared and
+the catalogue: ID, version and full SHA-256, and whether it is identical to the catalogue built into this Riegel
+version. In JSON (`--format json`) the same is in `result.catalogue` and `result.catalogueBuiltIn`.
+
+Why the built-in catalogue matters: `verify` re-evaluates with the **packed** catalogue. Whoever changes a rule in
+the packed catalogue, the results that follow from it and every checksum gets a pack that is consistent in itself.
+Only the comparison with the catalogue shipped inside Riegel shows the change. Riegel carries one catalogue version, so
+check a pack with the Riegel version that wrote it (the tag release named in `tool.version` of the manifest).
+
+A run evaluated with another catalogue than the packed one is "not verifiable" and makes the result `mismatch`:
+re-evaluate the plant with the current catalogue before packing, or keep the older Riegel version for the audit.
 
 ## compare-snapshot
 
@@ -158,9 +171,13 @@ versions, timestamps, update history dates, uptime, durations).
 
 | Status | Exit | Text |
 |---|---|---|
-| `consistent` | 0 | "konsistent" |
-| `different` | 1 | "weicht in N Punkten ab" with the list of differences |
+| `consistent` | 0 | "consistent" |
+| `different` | 1 | "differs in N points" with the list of differences |
 | `error` | 3 | host not in the pack (`RGL-0564`), pack changed or unreadable, fresh export unreadable |
+
+`compare-snapshot` checks the checksums of the pack and compares two exports. It does **not** re-evaluate, does not
+check the packed catalogue, results or summaries and does not print a catalogue hash: run `verify` on the same pack
+first.
 
 ## What the hashes prove and do not prove
 
@@ -171,12 +188,14 @@ together. That is what the collection record with a witness (O14) and the sample
 In detail:
 
 - **Proven:** each file in the pack is the one the pack lists; the packed results follow from the packed exports,
-  catalogue, registers and plant with this engine (`verify`); a fresh collection of a machine matches the packed one
+  catalogue, registers and plant with this engine (`verify`); the packed catalogue is the one built into this Riegel
+  version (only when `verify` says so, exit code 0); a fresh collection of a machine matches the packed one
   (`compare-snapshot`).
 - **Not proven:** that the packed export really came from that machine, that nobody changed the machine between the
   collection and the audit (only the sample shows that for the sampled machines), that the person who wrote the pack
-  did not rebuild the whole pack with matching hashes (the pack is not signed in 0.1.0), and anything Riegel cannot
-  read from a machine (MFA, backups, network segmentation).
+  did not rebuild the whole pack with matching hashes (the pack is not signed in 0.1.0), the results of customer
+  baselines whose content is not in the pack (they are counted as packed), and anything Riegel cannot read from a
+  machine (MFA, backups, network segmentation).
 - **No compliance statement.** A reproduced pack shows that the evaluation is traceable, not that the plant is secure.
 
 ## Hostile packs
@@ -220,8 +239,9 @@ The pack usually contains the workbook and `results.csv` of the report. Both are
 hash mismatch · 0557 listed file missing · 0558 file not listed · 0559 catalogue differs · 0560 result differs · 0561
 counts differ · 0562 baseline content not included (note) · 0563 run not verifiable · 0564 host not in the pack · 0565
 packed file unreadable · 0566 too many entries · 0567 run cannot be packed · 0568 report file cannot be packed · 0569
-remediation entry not allowed · 0570 old value not in the rollback · 0571 run does not match the manifest. The texts are
-in `DataOutputStrings` (five languages).
+remediation entry not allowed · 0570 old value not in the rollback · 0571 run does not match the manifest · 0572
+catalogue differs from the built-in catalogue of the same version · 0573 catalogue not built into this Riegel version
+(note, exit code 1). The texts are in `DataOutputStrings` (five languages).
 
 ## Sources
 

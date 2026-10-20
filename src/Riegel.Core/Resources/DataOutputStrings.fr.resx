@@ -575,6 +575,12 @@
   <data name="Error_RGL0571" xml:space="preserve">
     <value>L'exécution du dossier ne correspond pas au manifeste ({0} / {1}).</value>
   </data>
+  <data name="Error_RGL0572" xml:space="preserve">
+    <value>Le catalogue empaqueté {0} ({1}) diffère du catalogue {0} intégré à Riegel ({2}) : ses règles ont été modifiées.</value>
+  </data>
+  <data name="Error_RGL0573" xml:space="preserve">
+    <value>Le catalogue empaqueté {0} n'est pas intégré à cette version de Riegel (intégré : {1}) ; ses règles n'ont donc pas pu être comparées à une référence. Vérifiez le paquet avec la version de Riegel qui l'a créé ({2}).</value>
+  </data>
   <data name="EvidenceReadme_BaselineContentMissing" xml:space="preserve">
     <value>Contenu du référentiel {0} demandé mais indisponible dans le dossier de l'installation ; métadonnées uniquement.</value>
   </data>

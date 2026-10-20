@@ -330,6 +330,12 @@ Données et confidentialité : {4}</value>
   <data name="Cli_VerifyCounts" xml:space="preserve">
     <value>Exports vérifiés : {0} · résultats comparés : {1}</value>
   </data>
+  <data name="Cli_VerifyCatalogueBuiltIn" xml:space="preserve">
+    <value>Catalogue : {0} {1}, SHA-256 {2} – identique au catalogue intégré à cette version de Riegel.</value>
+  </data>
+  <data name="Cli_VerifyCatalogueOther" xml:space="preserve">
+    <value>Catalogue : {0} {1}, SHA-256 {2} – ce n'est pas le catalogue intégré à cette version de Riegel ({3}) ; les résultats n'ont été reproduits qu'avec le catalogue empaqueté.</value>
+  </data>
   <data name="Cli_VerifyError" xml:space="preserve">
     <value>Le paquet de preuves n'a pas pu être vérifié.</value>
   </data>

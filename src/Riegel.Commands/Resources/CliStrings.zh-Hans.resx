@@ -330,6 +330,12 @@ SHA-256：{1}</value>
   <data name="Cli_VerifyCounts" xml:space="preserve">
     <value>已检查的导出文件：{0} · 已比较的结果：{1}</value>
   </data>
+  <data name="Cli_VerifyCatalogueBuiltIn" xml:space="preserve">
+    <value>规则目录：{0} {1}，SHA-256 {2} – 与此 Riegel 版本内置的规则目录相同。</value>
+  </data>
+  <data name="Cli_VerifyCatalogueOther" xml:space="preserve">
+    <value>规则目录：{0} {1}，SHA-256 {2} – 并非此 Riegel 版本内置的规则目录（{3}）；结果仅使用包内规则目录重现。</value>
+  </data>
   <data name="Cli_VerifyError" xml:space="preserve">
     <value>无法验证证据包。</value>
   </data>

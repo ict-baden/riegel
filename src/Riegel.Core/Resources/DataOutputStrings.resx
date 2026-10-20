@@ -574,6 +574,12 @@
   <data name="Error_RGL0571" xml:space="preserve">
     <value>Run in the pack does not match the manifest ({0} / {1}).</value>
   </data>
+  <data name="Error_RGL0572" xml:space="preserve">
+    <value>The packed catalogue {0} ({1}) differs from the catalogue {0} built into Riegel ({2}): its rules were changed.</value>
+  </data>
+  <data name="Error_RGL0573" xml:space="preserve">
+    <value>The packed catalogue {0} is not built into this Riegel version (built in: {1}), so its rules could not be compared with a reference. Verify the pack with the Riegel version that wrote it ({2}).</value>
+  </data>
   <data name="EvidenceReadme_BaselineContentMissing" xml:space="preserve">
     <value>Content of baseline {0} requested but not available in the plant folder; metadata only.</value>
   </data>

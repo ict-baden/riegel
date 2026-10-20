@@ -575,6 +575,12 @@
   <data name="Error_RGL0571" xml:space="preserve">
     <value>La ejecución del paquete no coincide con el manifiesto ({0} / {1}).</value>
   </data>
+  <data name="Error_RGL0572" xml:space="preserve">
+    <value>El catálogo empaquetado {0} ({1}) difiere del catálogo {0} integrado en Riegel ({2}): sus reglas se han modificado.</value>
+  </data>
+  <data name="Error_RGL0573" xml:space="preserve">
+    <value>El catálogo empaquetado {0} no está integrado en esta versión de Riegel (integrado: {1}), por lo que sus reglas no se pudieron comparar con una referencia. Verifique el paquete con la versión de Riegel que lo generó ({2}).</value>
+  </data>
   <data name="EvidenceReadme_BaselineContentMissing" xml:space="preserve">
     <value>Se solicitó el contenido de la línea base {0}, pero no está disponible en la carpeta de la planta; solo metadatos.</value>
   </data>

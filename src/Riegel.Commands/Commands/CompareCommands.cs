@@ -176,6 +176,16 @@ internal static class CompareCommands
                 break;
         }
         ctx.Line(CliStrings.Cli_VerifyCounts, CommandContext.N(result.SnapshotsChecked), CommandContext.N(result.ResultsCompared));
+        if (result.Catalogue is { } catalogue)
+        {
+            // Welches Regelwerk die erneute Auswertung nahm – nur „identisch mit dem eingebauten“ beruht nicht allein auf dem Paket
+            if (result.CatalogueBuiltIn) ctx.Line(CliStrings.Cli_VerifyCatalogueBuiltIn, catalogue.Id, catalogue.Version, catalogue.Sha256);
+            else
+            {
+                var builtIn = ctx.Services.Catalogue.LoadEmbedded();
+                ctx.Line(CliStrings.Cli_VerifyCatalogueOther, catalogue.Id, catalogue.Version, catalogue.Sha256, builtIn.Id + " " + builtIn.Version);
+            }
+        }
         foreach (var finding in result.Findings.Take(MaxLines))
         {
             var where = string.Join(" · ", new[] { finding.File, finding.HostName, finding.RuleId }.Where(x => !string.IsNullOrEmpty(x)));

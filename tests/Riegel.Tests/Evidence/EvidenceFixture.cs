@@ -28,7 +28,8 @@ internal sealed class EvidenceFixture : IDisposable
 
     public RiegelServices Services { get; }
 
-    public ICatalogue Catalogue { get; private set; }
+    /// <summary>Katalog, mit dem die Anlage ausgewertet und das Paket geschrieben wird (Tests setzen einen veränderten).</summary>
+    public ICatalogue Catalogue { get; set; }
 
     public TempPlant Plant { get; }
 
@@ -53,9 +54,9 @@ internal sealed class EvidenceFixture : IDisposable
             .Verified("ACSC", "https://www.cyber.gov.au/").Build(),
     ];
 
-    public static ICatalogue LoadCatalogue(RiegelServices services, IReadOnlyList<Rule> rules)
+    public static ICatalogue LoadCatalogue(RiegelServices services, IReadOnlyList<Rule> rules, string version = "2026.10")
     {
-        var document = new CatalogueDocument(SchemaIds.Catalogue, "riegel", "2026.10", new DateOnly(2026, 10, 18), rules,
+        var document = new CatalogueDocument(SchemaIds.Catalogue, "riegel", version, new DateOnly(2026, 10, 18), rules,
             LifecycleTable.Empty, BuildTable.Empty, CapabilityTable.Empty, CatalogueData.Empty);
         using var stream = new MemoryStream(RiegelJson.SerializeToUtf8Bytes(document));
         return services.Catalogue.Load(stream, ReadLimits.Default);

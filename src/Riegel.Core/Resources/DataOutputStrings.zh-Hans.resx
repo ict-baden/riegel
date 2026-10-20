@@ -575,6 +575,12 @@
   <data name="Error_RGL0571" xml:space="preserve">
     <value>包中的运行与清单不符（{0} / {1}）。</value>
   </data>
+  <data name="Error_RGL0572" xml:space="preserve">
+    <value>包内规则目录 {0}（{1}）与 Riegel 内置的规则目录 {0}（{2}）不同：其规则已被修改。</value>
+  </data>
+  <data name="Error_RGL0573" xml:space="preserve">
+    <value>包内规则目录 {0} 未内置于此 Riegel 版本（内置：{1}），因此无法将其规则与参照进行比较。请使用生成该证据包的 Riegel 版本（{2}）进行验证。</value>
+  </data>
   <data name="EvidenceReadme_BaselineContentMissing" xml:space="preserve">
     <value>已请求基线 {0} 的内容，但装置文件夹中没有；仅有元数据。</value>
   </data>

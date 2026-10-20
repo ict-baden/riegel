@@ -17,7 +17,7 @@ public static class EvidenceFactory
 internal sealed class EvidencePack(RiegelServices services, Func<ICatalogue> catalogue) : IEvidencePack
 {
     private readonly EvidenceWriter _writer = new(services, catalogue);
-    private readonly EvidenceVerifier _verifier = new(services);
+    private readonly EvidenceVerifier _verifier = new(services, catalogue);
 
     public string Write(EvidenceRequest r) => _writer.Write(r);
 

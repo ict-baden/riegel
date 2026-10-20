@@ -13,9 +13,13 @@ namespace Riegel.Core.Evidence;
 /// <c>verify</c> und <c>compare-snapshot</c> (spec 5 O9, 2.14, 7.7). Liest das Paket nur im Speicher, prüft
 /// SHA256SUMS.txt und die Prüfsummen im Manifest, wertet jeden gepackten Export mit dem gepackten Katalog, der
 /// gepackten Anlage und den gepackten Registern neu aus (mit der Auswertungsuhr des gepackten Laufs) und vergleicht
-/// mit den gepackten Ergebnissen. Ergebnisse importierter Baselines ohne Inhalt sind „nicht nachprüfbar“.
+/// mit den gepackten Ergebnissen. Ergebnisse importierter Baselines ohne Inhalt sind „nicht nachprüfbar“; die Zählungen
+/// und der Härtungsgrad werden trotzdem nachgerechnet (mit den gepackten Ergebnissen dieser Baselines).
+/// Der gepackte Katalog wird mit dem eingebauten verglichen (<paramref name="builtIn"/>): Hätte er dieselbe Version und
+/// einen anderen Inhalt, ließen sich Katalog und Ergebnisse gemeinsam fälschen, denn die erneute Auswertung nimmt den
+/// gepackten Katalog.
 /// </summary>
-internal sealed class EvidenceVerifier(RiegelServices services)
+internal sealed class EvidenceVerifier(RiegelServices services, Func<ICatalogue> builtIn)
 {
     /// <summary>Höchstzahl der Befunde; danach nur noch ein Sammelbefund.</summary>
     public const int MaxFindings = 1000;
@@ -26,6 +30,7 @@ internal sealed class EvidenceVerifier(RiegelServices services)
         RglCodesDataOutputs.FileHashMismatch, RglCodesDataOutputs.FileMissing, RglCodesDataOutputs.FileNotListed,
         RglCodesDataOutputs.CatalogueMismatch, RglCodesDataOutputs.ResultMismatch, RglCodesDataOutputs.SummaryMismatch,
         RglCodesDataOutputs.RunNotVerifiable, RglCodesDataOutputs.PackedFileUnreadable, RglCodesDataOutputs.RunManifestMismatch,
+        RglCodesDataOutputs.CatalogueNotBuiltIn,
     ];
 
     /// <summary>
@@ -72,6 +77,7 @@ internal sealed class EvidenceVerifier(RiegelServices services)
 
         // Katalog, Baselines, Anlage, Register aus dem Paket
         ICatalogue? core = null;
+        bool builtInCatalogue = false;
         var catalogueBytes = archive.Get(manifest.CatalogueFile.Path);
         if (catalogueBytes is not null)
         {
@@ -83,6 +89,7 @@ internal sealed class EvidenceVerifier(RiegelServices services)
                     || core.Version != manifest.Catalogue.Version)
                     findings.Add(RglCodesDataOutputs.CatalogueMismatch, manifest.CatalogueFile.Path, null, null,
                         RglCodesDataOutputs.Message(RglCodesDataOutputs.CatalogueMismatch, Hashes.Short(core.Sha256), Hashes.Short(manifest.Catalogue.Sha256)));
+                builtInCatalogue = CompareWithBuiltIn(core, manifest.CatalogueFile.Path, packedEngine, findings);
             }
             catch (RiegelException e)
             {
@@ -145,7 +152,33 @@ internal sealed class EvidenceVerifier(RiegelServices services)
         }
         findings.Close();
         var status = findings.AnyMismatch ? VerifyStatus.Mismatch : VerifyStatus.Reproduced;
-        return new VerifyResult(status, engine, packedEngine, findings.List, snapshots, compared, notVerifiable);
+        return new VerifyResult(status, engine, packedEngine, findings.List, snapshots, compared, notVerifiable)
+        {
+            Catalogue = core is null ? null : new CatalogueRef(core.Id, core.Version, core.ReleasedOn, core.Sha256),
+            CatalogueBuiltIn = builtInCatalogue,
+        };
+    }
+
+    /// <summary>
+    /// Vergleicht den gepackten Katalog mit dem eingebauten. Gleiche ID und Version, anderer SHA-256: die Regeln wurden
+    /// verändert (RGL-0572, abweichend). Andere ID oder Version: keine Referenz in dieser Riegel-Version (RGL-0573,
+    /// Hinweis, Exitcode 1). true nur bei einem bytegleichen (kanonischen) Katalog.
+    /// </summary>
+    private bool CompareWithBuiltIn(ICatalogue packed, string file, string packedEngine, Findings findings)
+    {
+        var reference = builtIn();
+        if (string.Equals(packed.Id, reference.Id, StringComparison.Ordinal) && packed.Version == reference.Version)
+        {
+            if (Same(packed.Sha256, reference.Sha256)) return true;
+            findings.Add(RglCodesDataOutputs.CatalogueNotBuiltIn, file, null, null,
+                RglCodesDataOutputs.Message(RglCodesDataOutputs.CatalogueNotBuiltIn, packed.Id + " " + packed.Version, Hashes.Short(packed.Sha256),
+                    Hashes.Short(reference.Sha256)));
+            return false;
+        }
+        findings.Add(RglCodesDataOutputs.CatalogueNotReference, file, null, null,
+            RglCodesDataOutputs.Message(RglCodesDataOutputs.CatalogueNotReference, packed.Id + " " + packed.Version,
+                reference.Id + " " + reference.Version, packedEngine));
+        return false;
     }
 
     private readonly record struct RunOutcome(bool Evaluated, int Compared);
@@ -230,8 +263,19 @@ internal sealed class EvidenceVerifier(RiegelServices services)
 
         // Neu auswerten mit der Uhr des gepackten Laufs; Detailtexte hängen von der Sprache ab, deshalb notfalls weitere Sprachen
         var clockServices = RiegelServices.Create(services.Platform, new FixedTimeProvider(packed.EvaluatedAtUtc));
-        Run Evaluate(string language) => clockServices.Runs.EvaluateOnly(snapshot, new RunOptions(packed.EvaluationDate, packed.ImportedAtUtc,
-            language, Store: false, Limits: l, Catalogue: catalogue, Registers: registers, Plant: plant with { Folder = null, ReadOnly = true }));
+        var unverifiable = packed.Results.Where(r => withoutContent.Contains(r.RuleSetId)).ToList();
+        Run Evaluate(string language)
+        {
+            var run = clockServices.Runs.EvaluateOnly(snapshot, new RunOptions(packed.EvaluationDate, packed.ImportedAtUtc,
+                language, Store: false, Limits: l, Catalogue: catalogue, Registers: registers, Plant: plant with { Folder = null, ReadOnly = true }));
+            if (unverifiable.Count == 0) return run;
+            // Baselines ohne Inhalt: Zählungen und Wert über die neu ausgewerteten Ergebnisse und die (nicht nachprüfbaren)
+            // gepackten Ergebnisse dieser Baselines – so fällt eine geänderte Zusammenfassung trotzdem auf. Der Härtungsgrad
+            // zählt nur den eigenen Katalog und ist damit vollständig nachgerechnet.
+            List<RuleResult> merged = [.. run.Results.Where(r => !withoutContent.Contains(r.RuleSetId)), .. unverifiable];
+            var (summary, categories) = clockServices.Scoring.Score(merged, catalogue, null, (run.Flags & RunFlags.DomainController) != 0);
+            return run with { Summary = summary, Categories = categories };
+        }
         Run fresh;
         List<Difference> differences;
         try
@@ -316,25 +360,23 @@ internal sealed class EvidenceVerifier(RiegelServices services)
             if (!notVerifiableRuleSets.Contains(r.RuleSetId) && !seen.Contains((r.RuleSetId, r.RuleId)))
                 result.Add(new Difference(r.RuleId, "(∅ → " + OutputText.Camel(r.Status) + ")", false, false));
 
-        // Zählungen nur, wenn alle Ergebnisse nachprüfbar sind (sonst fehlen die Baseline-Ergebnisse)
-        if (!packed.Results.Any(r => notVerifiableRuleSets.Contains(r.RuleSetId)))
-        {
-            var s = packed.Summary;
-            var f = fresh.Summary;
-            var summary = new List<string>();
-            void Check(string name, int? x, int? y) { if (x != y) summary.Add($"{name}: {N(x)} → {N(y)}"); }
-            Check("pass", s.Pass, f.Pass); Check("fail", s.Fail, f.Fail); Check("exception", s.Exception, f.Exception);
-            Check("outOfScope", s.OutOfScope, f.OutOfScope); Check("notApplicable", s.NotApplicable, f.NotApplicable);
-            Check("notCheckable", s.NotCheckable, f.NotCheckable); Check("info", s.Info, f.Info);
-            Check("openHigh", s.OpenHigh, f.OpenHigh); Check("openMedium", s.OpenMedium, f.OpenMedium); Check("openLow", s.OpenLow, f.OpenLow);
-            Check("exceptionsExpiring", s.ExceptionsExpiring, f.ExceptionsExpiring); Check("exceptionsExpired", s.ExceptionsExpired, f.ExceptionsExpired);
-            Check("exceptionsPending", s.ExceptionsPending, f.ExceptionsPending); Check("measuresOverdue", s.MeasuresOverdue, f.MeasuresOverdue);
-            Check("score", s.Score, f.Score); Check("documented", s.Documented, f.Documented); Check("checkedShare", s.CheckedShare, f.CheckedShare);
-            var pf = packed.Flags & ~HistoryRunFlags;
-            var ff = fresh.Flags & ~HistoryRunFlags;
-            if (pf != ff) summary.Add("flags: " + string.Join(",", FlagsArrayConverter<RunFlags>.Names(pf)) + " → " + string.Join(",", FlagsArrayConverter<RunFlags>.Names(ff)));
-            if (summary.Count > 0) result.Add(new Difference(null, string.Join("; ", summary), false, true));
-        }
+        // Zählungen immer: bei Baselines ohne Inhalt hat der Aufrufer die gepackten Ergebnisse dieser Baselines in die
+        // Zählungen von fresh übernommen (VerifyRun)
+        var s = packed.Summary;
+        var f = fresh.Summary;
+        var summary = new List<string>();
+        void Check(string name, int? x, int? y) { if (x != y) summary.Add($"{name}: {N(x)} → {N(y)}"); }
+        Check("pass", s.Pass, f.Pass); Check("fail", s.Fail, f.Fail); Check("exception", s.Exception, f.Exception);
+        Check("outOfScope", s.OutOfScope, f.OutOfScope); Check("notApplicable", s.NotApplicable, f.NotApplicable);
+        Check("notCheckable", s.NotCheckable, f.NotCheckable); Check("info", s.Info, f.Info);
+        Check("openHigh", s.OpenHigh, f.OpenHigh); Check("openMedium", s.OpenMedium, f.OpenMedium); Check("openLow", s.OpenLow, f.OpenLow);
+        Check("exceptionsExpiring", s.ExceptionsExpiring, f.ExceptionsExpiring); Check("exceptionsExpired", s.ExceptionsExpired, f.ExceptionsExpired);
+        Check("exceptionsPending", s.ExceptionsPending, f.ExceptionsPending); Check("measuresOverdue", s.MeasuresOverdue, f.MeasuresOverdue);
+        Check("score", s.Score, f.Score); Check("documented", s.Documented, f.Documented); Check("checkedShare", s.CheckedShare, f.CheckedShare);
+        var pf = packed.Flags & ~HistoryRunFlags;
+        var ff = fresh.Flags & ~HistoryRunFlags;
+        if (pf != ff) summary.Add("flags: " + string.Join(",", FlagsArrayConverter<RunFlags>.Names(pf)) + " → " + string.Join(",", FlagsArrayConverter<RunFlags>.Names(ff)));
+        if (summary.Count > 0) result.Add(new Difference(null, string.Join("; ", summary), false, true));
         return result;
     }
 
