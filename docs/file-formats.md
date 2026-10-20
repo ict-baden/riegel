@@ -702,7 +702,7 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 - **HashCheckStatus** (enum): Ok, Mismatch, Missing, Malformed
 - **Hashes** (static class): `static string Sha256Hex(ReadOnlySpan<byte> data)`, `static string Sha256Hex(string text)`, `static string Sha256File(string path)`, `static string Short(string sha256)`, `static bool IsSha256(string? text)`
 - **ICatalogue** (interface): `string Id`, `string Version`, `DateOnly ReleasedOn`, `string Sha256`, `IReadOnlyList<Rule> Rules`, `LifecycleTable Lifecycle`, `BuildTable Builds`, `CapabilityTable Capabilities`, `CatalogueData Data`, `Rule Find(string id)`
-- **ImportOptions** (record): `string? CollectedByRole`, `string? WitnessRole`, `string? OperatorRole`, `bool Evaluate`, `ReadLimits? Limits`
+- **ImportOptions** (record): `string? CollectedByRole`, `string? WitnessRole`, `string? OperatorRole`, `bool Evaluate`, `ReadLimits? Limits`, `bool SkipKnown` (skip exports already in the plant with a run; if all are known, no import record is written and the returned record has no files)
 - **ImportRecord** (record): `string Schema`, `string Id`, `DateTimeOffset ImportedAtUtc`, `string? CollectedByRole`, `string? WitnessRole`, `string? OperatorRole`, `IReadOnlyList<ImportedFile> Files`
 - **ImportedBaseline** (record): `BaselineRef Baseline`, `bool ContentIncluded`, `IReadOnlyList<Rule> Rules`
 - **ImportedFile** (record): `string FileName`, `string Sha256`, `bool SidecarOk`, `string HostName`, `DateTimeOffset CollectedAtUtc`, `string CollectorName`, `string CollectorVersion`, `string? CollectorExeSha256`, `bool IsAdmin`, `CollectionOptions Options`, `SnapshotOrigin Origin`, `string? RunId`

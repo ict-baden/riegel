@@ -38,7 +38,7 @@ The examples use `Riegel.Cli.exe`; on Linux write `riegel` (the downloaded file 
 Riegel.Cli.exe check [--plant <folder>] [--snapshot <file>…|--this-pc] [--brief] [--alert change|state]
                      [--critical <list>] [--warning <list>] [--no-store] [--format text|json]
 Riegel.Cli.exe collect [--out <folder>] [--gzip] [--minimal] [--deep] [--pseudonymize]
-Riegel.Cli.exe import <file|folder>… --plant <folder> [--collected-by-role <role>] [--witness-role <role>] [--record]
+Riegel.Cli.exe import <file|folder>… --plant <folder> [--collected-by-role <role>] [--witness-role <role>] [--record] [--reevaluate]
 Riegel.Cli.exe report --plant <folder> [--machine <host>…] [--format pdf,xlsx,csv,json] [--per-machine] [--no-appendix]
                       [--preset audit|as-delivered] [--evidence] [--include-baseline-content] [--pdfa]
                       [--language <code>] [--out <folder>]
@@ -264,6 +264,12 @@ A folder argument is a builtin bundle when its name ends in `.riegel-builtin` or
 `secedit.inf`; any other folder stands for the exports in it (`*.snapshot.json`, `*.snapshot.json.gz`, not
 recursive) – so the folder of `collect --out` can be passed as it is. A folder with neither is `RGL-0470`. Files can
 be listed one by one as well; cmd does not expand `*`.
+
+An export that is already in the plant with a run (same SHA-256) is **skipped**: no new run, no new import record,
+no new alert – the text output names it ("already in the plant with a run"). So a share folder can be imported again
+and again; only new exports count. If every export is known, nothing is written and the exit code is 0.
+`--reevaluate` evaluates known exports again (for example after an update of the catalogue), as Riegel 0.1.0 did on
+every import. The app skips known exports the same way; *Evaluate again* on the machines page re-evaluates.
 
 ## Documents
 

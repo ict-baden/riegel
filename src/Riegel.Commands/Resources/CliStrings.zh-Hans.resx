@@ -215,6 +215,9 @@ SHA-256：{1}</value>
   <data name="Cli_ImportNoSidecar" xml:space="preserve">
     <value>  {0}：没有匹配的 .sha256 文件 – 完整性未经证明</value>
   </data>
+  <data name="Cli_ImportSkipped" xml:space="preserve">
+    <value>{0}：已在装置中且有运行记录（SHA-256 相同）– 不再导入或评估。如需重新评估，请使用 --reevaluate。</value>
+  </data>
   <data name="Cli_InfoCatalogue" xml:space="preserve">
     <value>规则目录：{0} {1}</value>
   </data>
@@ -542,7 +545,7 @@ check 和 import 在使用 --plant 时针对变化告警（严重：regression,n
 verify：0 已重现，2 不一致 · compare-snapshot：0 一致，1 不同 · validate：0 有效，1 有警告，2 无效。</value>
   </data>
   <data name="Help_Import" xml:space="preserve">
-    <value>用法：{0} import &lt;文件|文件夹&gt;… --plant &lt;文件夹&gt; [--collected-by-role &lt;角色&gt;] [--witness-role &lt;角色&gt;] [--record]
+    <value>用法：{0} import &lt;文件|文件夹&gt;… --plant &lt;文件夹&gt; [--collected-by-role &lt;角色&gt;] [--witness-role &lt;角色&gt;] [--record] [--reevaluate]
 
 将导出文件或内置工具包添加到装置文件夹：检查 .sha256 文件，写入导入记录，评估并保存运行。
 校验和不符时，在写入任何内容之前停止整个导入。
@@ -553,6 +556,7 @@ verify：0 已重现，2 不一致 · compare-snapshot：0 一致，1 不同 · 
   --collected-by-role &lt;角色&gt;        执行采集人员的角色（导入记录）
   --witness-role &lt;角色&gt;             运营方见证人的角色（导入记录）
   --record                          同时写入采集记录（PDF）
+  --reevaluate                      重新评估已在装置中且有运行记录的导出文件（否则跳过）
   --brief, --format, --alert, --critical, --warning    与 check 相同（默认告警模式：change）
 
 退出代码与 check 相同。</value>

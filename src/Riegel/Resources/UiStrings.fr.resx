@@ -1848,6 +1848,12 @@
   <data name="Notice_Imported_other" xml:space="preserve">
     <value>{0} exports importés et évalués.</value>
   </data>
+  <data name="Notice_AlreadyImported_one" xml:space="preserve">
+    <value>{0} export est déjà dans l’installation avec une exécution et n’a pas été réimporté (pour le réévaluer : Réévaluer).</value>
+  </data>
+  <data name="Notice_AlreadyImported_other" xml:space="preserve">
+    <value>{0} exports sont déjà dans l’installation avec une exécution et n’ont pas été réimportés (pour les réévaluer : Réévaluer).</value>
+  </data>
   <data name="Notice_ImportedWithRecord_one" xml:space="preserve">
     <value>{0} export importé et évalué ; procès-verbal de collecte {1} écrit.</value>
   </data>

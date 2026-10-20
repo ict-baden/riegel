@@ -1831,6 +1831,12 @@
   <data name="Notice_Imported_other" xml:space="preserve">
     <value>{0} Exporte importiert und ausgewertet.</value>
   </data>
+  <data name="Notice_AlreadyImported_one" xml:space="preserve">
+    <value>{0} Export liegt schon mit Lauf in der Anlage und wurde nicht erneut importiert (erneut auswerten: Neu auswerten).</value>
+  </data>
+  <data name="Notice_AlreadyImported_other" xml:space="preserve">
+    <value>{0} Exporte liegen schon mit Lauf in der Anlage und wurden nicht erneut importiert (erneut auswerten: Neu auswerten).</value>
+  </data>
   <data name="Notice_ImportedWithRecord_one" xml:space="preserve">
     <value>{0} Export importiert und ausgewertet; Erhebungsprotokoll {1} geschrieben.</value>
   </data>

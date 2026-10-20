@@ -212,6 +212,9 @@ SHA-256: {1}</value>
   <data name="Cli_ImportNoSidecar" xml:space="preserve">
     <value>  {0}: keine passende .sha256-Datei – Unversehrtheit nicht belegt</value>
   </data>
+  <data name="Cli_ImportSkipped" xml:space="preserve">
+    <value>{0}: liegt schon mit Lauf in der Anlage (gleicher SHA-256) – nicht erneut importiert oder ausgewertet. Erneut auswerten mit --reevaluate.</value>
+  </data>
   <data name="Cli_InfoCatalogue" xml:space="preserve">
     <value>Regelwerk: {0} {1}</value>
   </data>
@@ -537,7 +540,7 @@ check und import melden mit --plant Veränderungen (kritisch: regression,newhigh
 verify: 0 reproduziert, 2 abweichend · compare-snapshot: 0 konsistent, 1 abweichend · validate: 0 gültig, 1 Warnungen, 2 ungültig.</value>
   </data>
   <data name="Help_Import" xml:space="preserve">
-    <value>Aufruf: {0} import &lt;Datei|Ordner&gt;… --plant &lt;Ordner&gt; [--collected-by-role &lt;Rolle&gt;] [--witness-role &lt;Rolle&gt;] [--record]
+    <value>Aufruf: {0} import &lt;Datei|Ordner&gt;… --plant &lt;Ordner&gt; [--collected-by-role &lt;Rolle&gt;] [--witness-role &lt;Rolle&gt;] [--record] [--reevaluate]
 
 Nimmt Exporte oder Bordmittel-Pakete in den Anlagenordner auf: prüft die .sha256-Dateien, schreibt den Importnachweis,
 wertet aus und speichert die Läufe. Ein Prüfsummenfehler stoppt den ganzen Import, bevor etwas geschrieben wird.
@@ -548,6 +551,7 @@ Exporte darin (*.snapshot.json, *.snapshot.json.gz).
   --collected-by-role &lt;Rolle&gt;       Rolle der Person, die erfasst hat (Importnachweis)
   --witness-role &lt;Rolle&gt;            Rolle des Zeugen beim Betreiber (Importnachweis)
   --record                          zusätzlich das Erhebungsprotokoll (PDF) schreiben
+  --reevaluate                      Exporte, die schon mit Lauf in der Anlage liegen, erneut auswerten (sonst übersprungen)
   --brief, --format, --alert, --critical, --warning    wie bei check (Standard-Alarmart: change)
 
 Exitcodes wie bei check.</value>

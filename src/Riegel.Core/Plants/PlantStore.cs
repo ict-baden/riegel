@@ -109,6 +109,24 @@ internal sealed class PlantStore(RiegelServices services) : IPlantStore
             targets[target] = sha;
         }
 
+        // Schon importierte Exporte (gleicher SHA-256, mit Lauf) auf Wunsch überspringen – sonst entstünden bei jedem
+        // wiederkehrenden Import eines Ordners neue Läufe, Importnachweise und Alarme (Prüfung vom 2026-10-20)
+        if (o.SkipKnown)
+        {
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            prepared = [.. prepared.Where(item =>
+            {
+                var sha = Hashes.Sha256Hex(item.Content);
+                if (!seen.Add(sha)) return false;
+                var target = PlantFiles.SnapshotTarget(folder, item.Snapshot, item.Gzip);
+                return !(File.Exists(target) && ListRuns(p, item.Snapshot.Machine.HostName)
+                    .Any(r => string.Equals(r.SnapshotSha256, sha, StringComparison.OrdinalIgnoreCase)));
+            })];
+            if (prepared.Count == 0)
+                return new ImportRecord(SchemaIds.Import, FileNames.Timestamp(now) + "-000000", now, Clean(o.CollectedByRole), Clean(o.WitnessRole),
+                    Clean(o.OperatorRole) ?? p.Settings.OperatorRole, []);
+        }
+
         // 2. Ablegen, auswerten, Nachweis schreiben
         var id = FileNames.Timestamp(now) + "-" + Hashes.Sha256Hex(string.Join("\n", prepared.Select(x => x.Sha256)))[..6];
         var language = WorkflowText.CurrentLanguage();

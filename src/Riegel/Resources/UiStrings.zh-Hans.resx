@@ -1848,6 +1848,12 @@
   <data name="Notice_Imported_other" xml:space="preserve">
     <value>已导入并评估 {0} 个导出文件。</value>
   </data>
+  <data name="Notice_AlreadyImported_one" xml:space="preserve">
+    <value>{0} 个导出文件已在装置中且有运行记录，未再次导入（如需重新评估：重新评估）。</value>
+  </data>
+  <data name="Notice_AlreadyImported_other" xml:space="preserve">
+    <value>{0} 个导出文件已在装置中且有运行记录，未再次导入（如需重新评估：重新评估）。</value>
+  </data>
   <data name="Notice_ImportedWithRecord_one" xml:space="preserve">
     <value>已导入并评估 {0} 个导出文件；已写入采集记录 {1}。</value>
   </data>

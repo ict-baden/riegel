@@ -119,9 +119,12 @@ internal sealed partial class AppSession
         var language = ReportLanguage;
         var (record, recordPath) = await Work(Loc.T("Busy_Importing"), () =>
         {
-            var r = plant.Services.Plants.Import(plant.Plant, paths, new ImportOptions(Blank(collectedByRole), Blank(witnessRole), plant.Plant.Settings.OperatorRole));
+            // Exporte, die schon mit Lauf in der Anlage liegen, nicht noch einmal (Prüfung vom 2026-10-20); neu auswerten
+            // geht über „Neu auswerten“
+            var r = plant.Services.Plants.Import(plant.Plant, paths,
+                new ImportOptions(Blank(collectedByRole), Blank(witnessRole), plant.Plant.Settings.OperatorRole, SkipKnown: true));
             string? pdf = null;
-            if (writeRecord)
+            if (writeRecord && r.Files.Count > 0)
             {
                 var out1 = ReportsFolder(plant);
                 pdf = plant.Services.Pdf.WriteCollectionRecord(plant.Services.ReportData.BuildCollectionRecord(plant.Plant, r.Id, language), new PdfOptions(out1));
@@ -130,9 +133,12 @@ internal sealed partial class AppSession
         });
         Log.Info($"Import: {record.Files.Count} Datei(en)");
         await ReloadAsync();
-        Report(NoticeKind.Success, recordPath is null
+        int skipped = Math.Max(0, paths.Count - record.Files.Count);
+        if (record.Files.Count == 0) Report(NoticeKind.Info, Loc.P("Notice_AlreadyImported", skipped, skipped));
+        else Report(NoticeKind.Success, (recordPath is null
             ? Loc.P("Notice_Imported", record.Files.Count, record.Files.Count)
-            : Loc.P("Notice_ImportedWithRecord", record.Files.Count, record.Files.Count, Path.GetFileName(recordPath)));
+            : Loc.P("Notice_ImportedWithRecord", record.Files.Count, record.Files.Count, Path.GetFileName(recordPath)))
+            + (skipped > 0 ? " " + Loc.P("Notice_AlreadyImported", skipped, skipped) : ""));
         return record;
     }
 

@@ -215,6 +215,9 @@ SHA-256 : {1}</value>
   <data name="Cli_ImportNoSidecar" xml:space="preserve">
     <value>  {0} : aucun fichier .sha256 correspondant – intégrité non prouvée</value>
   </data>
+  <data name="Cli_ImportSkipped" xml:space="preserve">
+    <value>{0} : déjà dans l'installation avec une exécution (même SHA-256) – ni réimporté ni réévalué. Pour le réévaluer, utilisez --reevaluate.</value>
+  </data>
   <data name="Cli_InfoCatalogue" xml:space="preserve">
     <value>Catalogue : {0} {1}</value>
   </data>
@@ -546,7 +549,7 @@ check et import alertent sur les changements avec --plant (critique : regression
 verify : 0 reproduit, 2 divergent · compare-snapshot : 0 cohérent, 1 diffère · validate : 0 valide, 1 avertissements, 2 non valide.</value>
   </data>
   <data name="Help_Import" xml:space="preserve">
-    <value>Utilisation : {0} import &lt;fichier|dossier&gt;… --plant &lt;dossier&gt; [--collected-by-role &lt;rôle&gt;] [--witness-role &lt;rôle&gt;] [--record]
+    <value>Utilisation : {0} import &lt;fichier|dossier&gt;… --plant &lt;dossier&gt; [--collected-by-role &lt;rôle&gt;] [--witness-role &lt;rôle&gt;] [--record] [--reevaluate]
 
 Ajoute des exports ou des paquets d'outils intégrés au dossier de l'installation : vérifie les fichiers .sha256, écrit
 l'enregistrement d'import, évalue et enregistre les exécutions. Une somme de contrôle incorrecte arrête tout l'import
@@ -558,6 +561,7 @@ vaut pour les exports qu'il contient (*.snapshot.json, *.snapshot.json.gz).
   --collected-by-role &lt;rôle&gt;        rôle de la personne qui a collecté (enregistrement d'import)
   --witness-role &lt;rôle&gt;             rôle du témoin de l'exploitant (enregistrement d'import)
   --record                          écrire aussi le procès-verbal de collecte (PDF)
+  --reevaluate                      réévaluer les exports déjà présents dans l'installation avec une exécution (sinon ignorés)
   --brief, --format, --alert, --critical, --warning    comme pour check (mode d'alerte par défaut : change)
 
 Codes de sortie comme pour check.</value>

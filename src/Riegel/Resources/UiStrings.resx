@@ -1848,6 +1848,14 @@
     <value>{0} exports imported and evaluated.</value>
     <comment>plural form for other counts (Plural.Format)</comment>
   </data>
+  <data name="Notice_AlreadyImported_one" xml:space="preserve">
+    <value>{0} export is already in the plant with a run and was not imported again (to evaluate it again: Evaluate again).</value>
+    <comment>plural form for 1 (Plural.Format)</comment>
+  </data>
+  <data name="Notice_AlreadyImported_other" xml:space="preserve">
+    <value>{0} exports are already in the plant with a run and were not imported again (to evaluate them again: Evaluate again).</value>
+    <comment>plural form for other counts (Plural.Format)</comment>
+  </data>
   <data name="Notice_ImportedWithRecord_one" xml:space="preserve">
     <value>{0} export imported and evaluated; collection record {1} written.</value>
     <comment>plural form for 1 (Plural.Format)</comment>

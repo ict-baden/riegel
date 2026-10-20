@@ -11,7 +11,8 @@ namespace Riegel.Commands.Commands;
 /// <c>import &lt;file|folder&gt;… --plant &lt;dir&gt; [--collected-by-role &lt;r&gt;] [--witness-role &lt;r&gt;] [--record]</c>
 /// (spec 7.7): Exporte oder Bordmittel-Pakete aufnehmen, Begleitdateien prüfen, Importnachweis schreiben, auswerten und
 /// speichern; <c>--record</c> schreibt zusätzlich das Erhebungsprotokoll (O14). Exitcodes wie check (Alarmart
-/// „change“, mit <c>--alert</c>/<c>--critical</c>/<c>--warning</c> änderbar).
+/// „change“, mit <c>--alert</c>/<c>--critical</c>/<c>--warning</c> änderbar). Exporte, die schon mit Lauf in der Anlage
+/// liegen, werden übersprungen (wiederkehrender Import eines Ordners); <c>--reevaluate</c> wertet sie erneut aus.
 /// </summary>
 internal static class ImportCommand
 {
@@ -21,6 +22,7 @@ internal static class ImportCommand
         new("--collected-by-role", OptionKind.Value),
         new("--witness-role", OptionKind.Value),
         new("--record", OptionKind.Flag),
+        new("--reevaluate", OptionKind.Flag),
         new("--alert", OptionKind.Value),
         new("--critical", OptionKind.Value),
         new("--warning", OptionKind.Value),
@@ -49,7 +51,8 @@ internal static class ImportCommand
 
         var record = ctx.Services.Plants.Import(plant, paths,
             new ImportOptions(a.Value("--collected-by-role"), a.Value("--witness-role"), plant.Settings.OperatorRole, Evaluate: true,
-                Limits: ReadLimits.Default));
+                Limits: ReadLimits.Default, SkipKnown: !a.Has("--reevaluate")));
+        var skipped = Skipped(paths, record);
         var assessments = new List<RunAssessment>();
         foreach (var file in record.Files)
         {
@@ -60,7 +63,7 @@ internal static class ImportCommand
         }
 
         string? recordPdf = null;
-        if (a.Has("--record"))
+        if (a.Has("--record") && record.Files.Count > 0)
         {
             var language = ctx.ReportLanguage(plant, null);
             var data = ctx.Services.ReportData.BuildCollectionRecord(plant, record.Id, language);
@@ -71,7 +74,9 @@ internal static class ImportCommand
         else if (format == "json") CheckOutput.Json(ctx, assessments, policy, record);
         else
         {
-            ctx.Line(Plural.Text("Cli_ImportDone", record.Files.Count, record.Id, CommandContext.N(record.Files.Count), plant.Folder));
+            if (record.Files.Count > 0)
+                ctx.Line(Plural.Text("Cli_ImportDone", record.Files.Count, record.Id, CommandContext.N(record.Files.Count), plant.Folder));
+            foreach (var name in skipped) ctx.Line(CliStrings.Cli_ImportSkipped, name);
             foreach (var file in record.Files.Where(f => !f.SidecarOk))
                 ctx.Line(CliStrings.Cli_ImportNoSidecar, file.FileName);
             ctx.Line();
@@ -79,6 +84,19 @@ internal static class ImportCommand
             if (recordPdf is not null) ctx.Written(recordPdf);
         }
         return assessments.Count == 0 ? CommandApp.Ok : assessments.Max(x => x.Outcome.ExitCode);
+    }
+
+    /// <summary>Namen der übersprungenen Exporte: angegebene Dateien, die nicht im Importnachweis stehen (Anzahl je Name).</summary>
+    internal static List<string> Skipped(IEnumerable<string> paths, ImportRecord record)
+    {
+        var imported = record.Files.GroupBy(f => f.FileName, StringComparer.Ordinal).ToDictionary(g => g.Key, g => g.Count(), StringComparer.Ordinal);
+        var skipped = new List<string>();
+        foreach (var name in paths.Select(p => Path.GetFileName(Path.TrimEndingDirectorySeparator(p))))
+        {
+            if (imported.TryGetValue(name, out var n) && n > 0) imported[name] = n - 1;
+            else skipped.Add(name);
+        }
+        return skipped;
     }
 
     /// <summary>

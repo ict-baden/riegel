@@ -316,6 +316,45 @@ public sealed class CommandTests
     }
 
     [Fact]
+    public void Wiederholter_Import_desselben_Ordners_ueberspringt_bekannte_Exporte()
+    {
+        // Prüfung vom 2026-10-20: dreimal derselbe Ordner gab drei Importnachweise, drei Läufe je Rechner und jedes Mal CRITICAL
+        using var _ = new UiCulture("en");
+        using var temp = new TempFolder();
+        using var plant = new TempPlant();
+        var clock = new FixedClock();
+        var services = Cli.Services(clock: clock);
+        Snapshot(temp, "HMI-TEST", sub: "share");
+        Snapshot(temp, "W11-TEST", sub: "share");
+        var share = Path.Combine(temp.Path, "share");
+        var first = Cli.Run(services, "import", share, "--plant", plant.Folder);
+        Assert.True(first.Exit is 0 or 1 or 2, first.ToString());
+
+        var again = Cli.Run(services, "import", share, "--plant", plant.Folder);
+        Assert.Equal(0, again.Exit);
+        Assert.Contains("already in the plant with a run", again.Out, StringComparison.Ordinal);
+        Assert.Single(Directory.GetFiles(plant.PathOf("imports")));
+        Assert.Single(Directory.GetFiles(plant.PathOf("runs/HMI-TEST"), "*.results.json"));
+        Assert.Single(Directory.GetFiles(plant.PathOf("runs/W11-TEST"), "*.results.json"));
+        var json = Cli.Run(services, "import", share, "--plant", plant.Folder, "--format", "json");
+        Assert.Equal(0, json.Exit);
+        Assert.Equal(0, json.Json().GetProperty("machines").GetArrayLength());
+
+        // Ein neuer Export kommt dazu, die bekannten nicht
+        SnapshotBuilder.Windows10Ltsc2019("HMI-TEST").CollectedAt(TestRuns.Collected.AddDays(1)).WriteTo(share);
+        var mixed = Cli.Run(services, "import", share, "--plant", plant.Folder);
+        Assert.True(mixed.Exit is 0 or 1 or 2, mixed.ToString());
+        Assert.Equal(2, Directory.GetFiles(plant.PathOf("runs/HMI-TEST"), "*.results.json").Length);
+        Assert.Single(Directory.GetFiles(plant.PathOf("runs/W11-TEST"), "*.results.json"));
+
+        // --reevaluate wertet bekannte Exporte erneut aus (neue Auswertungszeit, neuer Lauf)
+        clock.Advance(TimeSpan.FromHours(1));
+        var re = Cli.Run(services, "import", share, "--plant", plant.Folder, "--reevaluate");
+        Assert.True(re.Exit is 0 or 1 or 2, re.ToString());
+        Assert.Equal(2, Directory.GetFiles(plant.PathOf("runs/W11-TEST"), "*.results.json").Length);
+    }
+
+    [Fact]
     public void Report_schreibt_alle_Formate_und_das_Nachweispaket()
     {
         using var temp = new TempFolder();

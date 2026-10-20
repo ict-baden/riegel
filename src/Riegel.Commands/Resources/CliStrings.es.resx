@@ -215,6 +215,9 @@ SHA-256: {1}</value>
   <data name="Cli_ImportNoSidecar" xml:space="preserve">
     <value>  {0}: no hay un archivo .sha256 correspondiente; integridad no demostrada</value>
   </data>
+  <data name="Cli_ImportSkipped" xml:space="preserve">
+    <value>{0}: ya está en la planta con una ejecución (mismo SHA-256); no se vuelve a importar ni a evaluar. Para evaluarlo de nuevo, use --reevaluate.</value>
+  </data>
   <data name="Cli_InfoCatalogue" xml:space="preserve">
     <value>Catálogo: {0} {1}</value>
   </data>
@@ -545,7 +548,7 @@ check e import alertan ante cambios con --plant (crítico: regression,newhigh) y
 verify: 0 reproducido, 2 diferente · compare-snapshot: 0 coherente, 1 difiere · validate: 0 válido, 1 advertencias, 2 no válido.</value>
   </data>
   <data name="Help_Import" xml:space="preserve">
-    <value>Uso: {0} import &lt;archivo|carpeta&gt;… --plant &lt;carpeta&gt; [--collected-by-role &lt;rol&gt;] [--witness-role &lt;rol&gt;] [--record]
+    <value>Uso: {0} import &lt;archivo|carpeta&gt;… --plant &lt;carpeta&gt; [--collected-by-role &lt;rol&gt;] [--witness-role &lt;rol&gt;] [--record] [--reevaluate]
 
 Añade exportaciones o paquetes de herramientas integradas a la carpeta de la planta: comprueba los archivos .sha256,
 escribe el registro de importación, evalúa y guarda las ejecuciones. Un error de suma de comprobación detiene toda la
@@ -557,6 +560,7 @@ equivale a las exportaciones que contiene (*.snapshot.json, *.snapshot.json.gz).
   --collected-by-role &lt;rol&gt;         rol de la persona que realizó la captura (registro de importación)
   --witness-role &lt;rol&gt;              rol del testigo del operador (registro de importación)
   --record                          escribir también el acta de captura (PDF)
+  --reevaluate                      volver a evaluar las exportaciones que ya están en la planta con una ejecución (si no, se omiten)
   --brief, --format, --alert, --critical, --warning    como en check (modo de alerta predeterminado: change)
 
 Códigos de salida como en check.</value>

@@ -219,6 +219,9 @@ SHA-256: {1}</value>
   <data name="Cli_ImportNoSidecar" xml:space="preserve">
     <value>  {0}: no matching .sha256 file – integrity not proven</value>
   </data>
+  <data name="Cli_ImportSkipped" xml:space="preserve">
+    <value>{0}: already in the plant with a run (same SHA-256) – not imported or evaluated again. To evaluate it again, use --reevaluate.</value>
+  </data>
   <data name="Cli_InfoCatalogue" xml:space="preserve">
     <value>Catalogue: {0} {1}</value>
   </data>
@@ -549,7 +552,7 @@ check and import alert on change with --plant (critical: regression,newhigh) and
 verify: 0 reproduced, 2 mismatch · compare-snapshot: 0 consistent, 1 differs · validate: 0 valid, 1 warnings, 2 invalid.</value>
   </data>
   <data name="Help_Import" xml:space="preserve">
-    <value>Usage: {0} import &lt;file|folder&gt;… --plant &lt;folder&gt; [--collected-by-role &lt;role&gt;] [--witness-role &lt;role&gt;] [--record]
+    <value>Usage: {0} import &lt;file|folder&gt;… --plant &lt;folder&gt; [--collected-by-role &lt;role&gt;] [--witness-role &lt;role&gt;] [--record] [--reevaluate]
 
 Adds exports or builtin bundles to the plant folder: checks the .sha256 files, writes the import record, evaluates and
 stores the runs. A checksum mismatch stops the whole import before anything is written.
@@ -560,6 +563,7 @@ exports in it (*.snapshot.json, *.snapshot.json.gz).
   --collected-by-role &lt;role&gt;        role of the person who collected (import record)
   --witness-role &lt;role&gt;             role of the operator's witness (import record)
   --record                          also write the collection record (PDF)
+  --reevaluate                      evaluate exports again that are already in the plant with a run (otherwise skipped)
   --brief, --format, --alert, --critical, --warning    as for check (default alert mode: change)
 
 Exit codes as for check.</value>

@@ -1848,6 +1848,12 @@
   <data name="Notice_Imported_other" xml:space="preserve">
     <value>{0} exportaciones importadas y evaluadas.</value>
   </data>
+  <data name="Notice_AlreadyImported_one" xml:space="preserve">
+    <value>{0} exportación ya está en la planta con una ejecución y no se volvió a importar (para evaluarla de nuevo: Evaluar de nuevo).</value>
+  </data>
+  <data name="Notice_AlreadyImported_other" xml:space="preserve">
+    <value>{0} exportaciones ya están en la planta con una ejecución y no se volvieron a importar (para evaluarlas de nuevo: Evaluar de nuevo).</value>
+  </data>
   <data name="Notice_ImportedWithRecord_one" xml:space="preserve">
     <value>{0} exportación importada y evaluada; acta de recopilación {1} escrita.</value>
   </data>

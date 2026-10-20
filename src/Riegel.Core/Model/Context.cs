@@ -78,8 +78,13 @@ public sealed record ValueAttribution(ValueSource Source, string? Detail, bool E
 /// <summary>Optionen des Imports (spec 7.7 <c>import</c>).</summary>
 /// <param name="Evaluate">Nach dem Import auswerten und Läufe speichern.</param>
 /// <param name="Limits">null = <see cref="ReadLimits.Default"/>.</param>
+/// <param name="SkipKnown">
+/// Exporte, die schon in der Anlage liegen und einen Lauf haben (gleicher SHA-256), überspringen: kein neuer Lauf, kein
+/// neuer Eintrag im Importnachweis (wiederkehrender Import eines Freigabeordners). Sind alle bekannt, entsteht kein
+/// Importnachweis; der zurückgegebene hat dann keine Dateien.
+/// </param>
 public sealed record ImportOptions(string? CollectedByRole, string? WitnessRole, string? OperatorRole, bool Evaluate = true,
-    ReadLimits? Limits = null);
+    ReadLimits? Limits = null, bool SkipKnown = false);
 
 /// <summary>Optionen einer Auswertung.</summary>
 /// <param name="EvaluationDate">null = heute (UTC) laut Uhr der Dienste.</param>
