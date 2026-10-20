@@ -31,6 +31,8 @@ internal sealed class SnapshotReader : ISnapshotReader
         var bytes = ReadBytes(path, l);
         Prescan(bytes, l, Path.GetFileName(path));
         var snapshot = RiegelJson.Deserialize<Snapshot>(bytes);
+        // Fehlende Pflichtfelder sind ein ungültiger Export (RGL-0257), kein Programmfehler (Prüfung vom 2026-10-20)
+        if (snapshot.Schema is null) throw Invalid(Path.GetFileName(path), "schema");
         if (!string.Equals(snapshot.Schema, SchemaIds.Snapshot, StringComparison.Ordinal))
         {
             if (snapshot.Schema.StartsWith("riegel.snapshot/", StringComparison.Ordinal))
@@ -144,6 +146,7 @@ internal sealed class SnapshotReader : ISnapshotReader
     /// <summary>Grenzen und Form prüfen (spec 7.12, schemas/snapshot.schema.json).</summary>
     internal static void Validate(Snapshot s, ReadLimits l, string source)
     {
+        RequiredMembers(s, source);
         if (s.Items.Count > l.MaxItems) throw RglCodesParsing.Error(RglCodesParsing.TooManyItems, source, l.MaxItems);
         if (string.IsNullOrWhiteSpace(s.Machine.HostName) || s.Machine.HostName.Length > 255 || TextFiles.HasControlCharacters(s.Machine.HostName))
             throw Invalid(source, "machine.hostName");
@@ -203,7 +206,11 @@ internal sealed class SnapshotReader : ISnapshotReader
         switch (e.ValueKind)
         {
             case JsonValueKind.String:
-                CheckLength(e.GetString()!, max, source);
+                string text;
+                // ein einzelnes Ersatzzeichen („\udc00“) lässt GetString scheitern: ungültiger Export, kein Programmfehler
+                try { text = e.GetString()!; }
+                catch (InvalidOperationException) { throw Invalid(source, "text"); }
+                CheckLength(text, max, source);
                 break;
             case JsonValueKind.Array:
                 foreach (var x in e.EnumerateArray()) CheckStrings(x, max, source, depth + 1, maxDepth);
@@ -211,7 +218,10 @@ internal sealed class SnapshotReader : ISnapshotReader
             case JsonValueKind.Object:
                 foreach (var p in e.EnumerateObject())
                 {
-                    CheckLength(p.Name, max, source);
+                    string name;
+                    try { name = p.Name; }
+                    catch (InvalidOperationException) { throw Invalid(source, "text"); }
+                    CheckLength(name, max, source);
                     CheckStrings(p.Value, max, source, depth + 1, maxDepth);
                 }
                 break;
@@ -221,6 +231,34 @@ internal sealed class SnapshotReader : ISnapshotReader
     private static void CheckLength(string text, long max, string source)
     {
         if (text.Length > max) throw RglCodesParsing.Error(RglCodesParsing.StringTooLong, source, max);
+        if (HasLoneSurrogate(text)) throw Invalid(source, "text");
+    }
+
+    /// <summary>
+    /// Pflichtfelder, die im JSON fehlen dürfen, ohne dass der Leser scheitert (fehlend = null): Sammler, Optionen, Rechner,
+    /// leere Einträge in Listen. Ohne diese Prüfung endete ein solcher Export mit RGL-0001 statt RGL-0257.
+    /// </summary>
+    private static void RequiredMembers(Snapshot s, string source)
+    {
+        if (s.Collector is not { Name: not null, Version: not null, Clr: not null }) throw Invalid(source, "collector");
+        if (s.Options is null) throw Invalid(source, "options");
+        if (s.Machine is null) throw Invalid(source, "machine");
+        foreach (var text in new[] { s.Machine.DnsDomain, s.Machine.EditionId, s.Machine.InstallationType, s.Machine.DisplayVersion,
+                     s.Machine.Architecture, s.Machine.MachineGuid, s.Machine.OsLanguage, s.Collector.Name, s.Collector.Version, s.Collector.Clr })
+            if (text is not null && HasLoneSurrogate(text)) throw Invalid(source, "text");
+        if (s.Coverage.Any(c => c is null || c.Root is null || c.DeniedSubkeys.Any(d => d is null))) throw Invalid(source, "coverage");
+        if (s.Items.Any(i => i is null || i.Key is null)) throw Invalid(source, "items");
+    }
+
+    /// <summary>Ein Ersatzzeichen ohne Partner (z. B. „\ud800“ im JSON) – kein gültiger Unicode-Text.</summary>
+    private static bool HasLoneSurrogate(string text)
+    {
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (char.IsHighSurrogate(text[i]) && i + 1 < text.Length && char.IsLowSurrogate(text[i + 1])) { i++; continue; }
+            if (char.IsSurrogate(text[i])) return true;
+        }
+        return false;
     }
 
     private static RiegelException Invalid(string source, string what) => RglCodesParsing.Error(RglCodesParsing.SnapshotInvalid, source, what);

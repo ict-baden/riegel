@@ -171,6 +171,11 @@ public sealed class SnapshotReaderTests
     [InlineData("\"t\": \"dword\"", "\"t\": \"word\"", RglCodesParsing.SnapshotInvalid)]
     [InlineData("\"hostName\": \"W11-PARSE\"", "\"hostName\": \"\"", RglCodesParsing.SnapshotInvalid)]
     [InlineData("\"root\": \"HKLM\\\\SOFTWARE\\\\Policies\"", "\"root\": \"HKCU\\\\SOFTWARE\\\\Policies\"", RglCodesParsing.SnapshotInvalid)]
+    // Prüfung vom 2026-10-20: fehlende Pflichtfelder, leere Einträge und einzelne Ersatzzeichen ergaben RGL-0001
+    [InlineData("\"schema\": \"riegel.snapshot/1\",", "", RglCodesParsing.SnapshotInvalid)]
+    [InlineData("\"hostName\": \"W11-PARSE\"", "\"hostName\": \"W11-\\ud800PARSE\"", RglCodesCommon.InvalidJson)]
+    [InlineData("\"minPwLen\": 12", "\"minPwLen\": \"\\udc00\"", RglCodesParsing.SnapshotInvalid)]
+    [InlineData("\"items\": [", "\"items\": [ null,", RglCodesParsing.SnapshotInvalid)]
     public void Ungueltige_Exporte_ergeben_RGL_Codes(string find, string replace, string code)
     {
         using var temp = new TempFolder();
