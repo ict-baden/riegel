@@ -293,7 +293,7 @@ Releases never depend on artifacts (the organisation's artifact storage may be f
 3. `git tag vX.Y.Z && git push origin vX.Y.Z`: the tag build creates the release with the versioned file names, and
    release-check verifies it.
 4. **Right after the tag, raise `<Version>` in `Directory.Build.props`** to the next planned version (for example
-   0.1.1 → 0.1.2) and add an empty "Unveröffentlicht" section. Otherwise every following `main` build is
+   0.1.1 → 0.1.2); `CHANGELOG.md` keeps an empty "Unveröffentlicht" section on top. Otherwise every following `main` build is
    `X.Y.Z-ci.<run>`, which sorts *before* the tag `X.Y.Z` (SemVer), and its MSI `X.Y.Z.<run>` is not seen as a
    downgrade when the tag's MSI is installed over it (Windows Installer compares three fields).
 5. Follow the release checklist of the ICT-Baden guidelines (`CHECKLISTE-RELEASE.md`).
