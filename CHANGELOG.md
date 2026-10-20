@@ -23,6 +23,7 @@ Korrekturen nach der zweiten unabhängigen Prüfung (2026-10-20). Die Sammler-Ex
 - „Diesen PC prüfen“ löscht den Übergabeordner (`%TEMP%\Riegel-Erfassung-…`, `handoff\<token>`) nach dem Import; der Info-Text nennt ihn.
 - Export-Leser: fehlende Pflichtfelder und einzelne Ersatzzeichen ergeben `RGL-0257` statt RGL-0001.
 - Start neben einer Instanz mit Administratorrechten stürzt nicht mehr ab; Prüfermodus lehnt Nachbarordner wie „Linie3-Berichte“ nicht mehr ab.
+- Die Oberfläche importiert einen Ordner mit Exporten wie die Befehlszeile (bisher RGL-0260); Ziehen und Ablegen nimmt ihn an.
 - PDF-Schriften werden auch unter macOS gefunden (Entwicklung, Prüfer).
 
 ### Geändert

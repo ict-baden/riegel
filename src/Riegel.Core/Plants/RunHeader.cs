@@ -48,8 +48,11 @@ internal sealed partial class RunHeaderJsonContext : JsonSerializerContext
         if (utf8.StartsWith((ReadOnlySpan<byte>)[0xEF, 0xBB, 0xBF])) utf8 = utf8[3..];
         try
         {
-            return (JsonSerializer.Deserialize(utf8, Default.RunHeader)
-                    ?? throw RiegelException.Common(RglCodesCommon.InvalidJson, fileName)).Info();
+            var header = JsonSerializer.Deserialize(utf8, Default.RunHeader);
+            // fehlende Pflichtteile (von Hand bearbeitete Datei) sind RGL-0004 mit dem Dateinamen, kein Programmfehler
+            if (header is not { Id: not null, HostName: not null, Snapshot.Sha256: not null, Catalogue.Version: not null, Summary: not null })
+                throw RiegelException.Common(RglCodesCommon.InvalidJson, fileName);
+            return header.Info();
         }
         catch (JsonException e)
         {
