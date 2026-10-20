@@ -71,7 +71,11 @@ internal static class CheckOutput
         }
     }
 
-    public static void Json(CommandContext ctx, IReadOnlyList<RunAssessment> assessments, AlertPolicy policy, ImportRecord? import = null)
+    /// <summary>
+    /// JSON von check und import. Für import (<paramref name="import"/> gesetzt): <c>import</c> ist der Importnachweis
+    /// oder null, wenn nichts Neues importiert wurde (dann gibt es keinen); <c>skipped</c> nennt die übersprungenen Exporte.
+    /// </summary>
+    public static void Json(CommandContext ctx, IReadOnlyList<RunAssessment> assessments, AlertPolicy policy, ImportOutput? import = null)
     {
         int exit = assessments.Count == 0 ? CommandApp.Ok : assessments.Max(x => x.Outcome.ExitCode);
         JsonOutput.Write(ctx.Out, w =>
@@ -85,7 +89,12 @@ internal static class CheckOutput
             JsonOutput.Strings(w, "critical", policy.Critical.Select(AlertTokens.Name));
             JsonOutput.Strings(w, "warning", policy.Warning.Select(AlertTokens.Name));
             w.WriteEndObject();
-            if (import is not null) JsonOutput.Contract(w, "import", import);
+            if (import is not null)
+            {
+                if (import.Record is { Files.Count: > 0 } record) JsonOutput.Contract(w, "import", record);
+                else w.WriteNull("import");
+                JsonOutput.Strings(w, "skipped", import.Skipped);
+            }
             w.WriteStartArray("machines");
             foreach (var a in assessments) Machine(w, a);
             w.WriteEndArray();
@@ -141,3 +150,6 @@ internal static class CheckOutput
 
     private static string Tokens(IReadOnlyList<AlertToken> tokens) => tokens.Count == 0 ? "none" : string.Join(",", tokens.Select(AlertTokens.Name));
 }
+
+/// <summary>Was import zusätzlich ausgibt: Importnachweis (null oder ohne Dateien: nichts Neues) und übersprungene Exporte.</summary>
+internal sealed record ImportOutput(ImportRecord? Record, IReadOnlyList<string> Skipped);

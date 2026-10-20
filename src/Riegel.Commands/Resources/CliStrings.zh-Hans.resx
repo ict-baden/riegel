@@ -35,6 +35,12 @@
   <data name="Brief_NewHigh_other" xml:space="preserve">
     <value>{0} 项新出现的高严重性项</value>
   </data>
+  <data name="Brief_NothingNew_one" xml:space="preserve">
+    <value>没有新的导出文件（{0} 个已在装置中）</value>
+  </data>
+  <data name="Brief_NothingNew_other" xml:space="preserve">
+    <value>没有新的导出文件（{0} 个已在装置中）</value>
+  </data>
   <data name="Brief_Open_one" xml:space="preserve">
     <value>{0} 项未解决（{1}）</value>
   </data>

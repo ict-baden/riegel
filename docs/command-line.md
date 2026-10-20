@@ -267,7 +267,9 @@ be listed one by one as well; cmd does not expand `*`.
 
 An export that is already in the plant with a run (same SHA-256) is **skipped**: no new run, no new import record,
 no new alert – the text output names it ("already in the plant with a run"). So a share folder can be imported again
-and again; only new exports count. If every export is known, nothing is written and the exit code is 0.
+and again; only new exports count. If every export is known, nothing is written and the exit code is 0; `--brief`
+then prints one line, `RIEGEL OK - <plant>: no new exports (N already in the plant) | imported=0 skipped=N`, and
+`--format json` has `"import": null` (there is no import record) and the names in `skipped`.
 `--reevaluate` evaluates known exports again (for example after an update of the catalogue), as Riegel 0.1.0 did on
 every import. The app skips known exports the same way; *Evaluate again* on the machines page re-evaluates.
 
@@ -528,7 +530,7 @@ documentation therefore use `Riegel.Cli.exe`. The CI checks this on every build:
 | Command | `schema` | Main fields |
 |---|---|---|
 | `check` | `riegel.cli.check/1` | `status` (ok/warning/critical), `exitCode`, `alert` {`mode`, `critical`, `warning`}, `machines[]` {`host`, `source`, `runId`, `stored`, `status`, `exitCode`, `firedCritical`, `firedWarning`, `tokens` (count per token), `open`, `regressions[]` {`ruleSetId`, `ruleId`, `severity`, `basis`}, `newHigh[]`, `previousRunId`, `approvedRunId`, `run` (riegel.run/1), `comparisons` {`previous`, `approved`}} |
-| `import` | `riegel.cli.import/1` | as `check`, plus `import` (the import record) |
+| `import` | `riegel.cli.import/1` | as `check`, plus `import` (the import record, `null` when nothing new was imported) and `skipped[]` (file names already in the plant) |
 | `compare` | `riegel.cli.compare/1` | `host`, `against`, `toRunId`, `fromRunId`, `comparison` |
 | `compare-snapshot` | `riegel.cli.compare-snapshot/1` | `exitCode`, `result` (status, comparison) |
 | `verify` | `riegel.cli.verify/1` | `exitCode`, `result` (status, engine versions, findings, `catalogue` {`id`, `version`, `releasedOn`, `sha256`}, `catalogueBuiltIn`, `catalogueReleased`) |

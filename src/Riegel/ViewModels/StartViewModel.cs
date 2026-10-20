@@ -215,10 +215,13 @@ internal sealed class ImportDialogViewModel : ObservableObject, IDialogViewModel
         foreach (var p in ImportPaths.Expand([folder])) if (!Files.Contains(p, StringComparer.OrdinalIgnoreCase)) Files.Add(p);
     }
 
-    /// <summary>Was sich importieren lässt: Exporte (.snapshot.json, .json.gz), Bordmittel-Pakete und Ordner mit Exporten.</summary>
+    /// <summary>
+    /// Was sich importieren lässt: Exporte (.snapshot.json, .json.gz), Bordmittel-Pakete und Ordner mit Exporten. Liest
+    /// einen Ordner nur bis zum ersten Export; ein unlesbarer Ordner ist nicht importierbar (kein Fehler beim Ziehen).
+    /// </summary>
     public static bool IsImportable(string path) =>
         Directory.Exists(path)
-            ? ImportPaths.IsBuiltinBundle(path) || ImportPaths.ExportsIn(path).Count > 0
+            ? ImportPaths.IsBuiltinBundle(path) || ImportPaths.ContainsExports(path)
             : path.EndsWith(SnapshotFile.Extension, StringComparison.OrdinalIgnoreCase) || path.EndsWith(SnapshotFile.GzipExtension, StringComparison.OrdinalIgnoreCase);
 }
 

@@ -34,6 +34,13 @@
   <data name="Brief_NewHigh_other" xml:space="preserve">
     <value>{0} neu offen hoch</value>
   </data>
+  <data name="Brief_NothingNew_one" xml:space="preserve">
+    <value>keine neuen Exporte ({0} schon in der Anlage)</value>
+    <comment>import --brief, nothing imported; {0} = exports already in the plant</comment>
+  </data>
+  <data name="Brief_NothingNew_other" xml:space="preserve">
+    <value>keine neuen Exporte ({0} schon in der Anlage)</value>
+  </data>
   <data name="Brief_Open_one" xml:space="preserve">
     <value>{0} offen ({1})</value>
   </data>

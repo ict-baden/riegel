@@ -35,6 +35,12 @@
   <data name="Brief_NewHigh_other" xml:space="preserve">
     <value>{0} élevés nouvellement ouverts</value>
   </data>
+  <data name="Brief_NothingNew_one" xml:space="preserve">
+    <value>aucun nouvel export ({0} déjà dans l'installation)</value>
+  </data>
+  <data name="Brief_NothingNew_other" xml:space="preserve">
+    <value>aucun nouvel export ({0} déjà dans l'installation)</value>
+  </data>
   <data name="Brief_Open_one" xml:space="preserve">
     <value>{0} ouvert ({1})</value>
   </data>

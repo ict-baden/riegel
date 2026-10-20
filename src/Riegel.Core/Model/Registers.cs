@@ -49,9 +49,13 @@ public sealed record ExceptionFile(string Schema, string PlantId, IReadOnlyList<
 {
     public IReadOnlyList<ExceptionEntry> Exceptions { get; init; } = Exceptions ?? [];
 
+    /// <summary>Leerer Eintrag an Stelle von <c>null</c> in der Liste (von Hand bearbeitet): ungültig, wirkt nicht.</summary>
+    internal static ExceptionEntry Empty { get; } = new("", "", RegisterScope.Empty, default, "", null, null, null, Approval.None,
+        default, null, null, null, null);
+
     ExceptionFile IAfterRead<ExceptionFile>.AfterRead() => this with
     {
-        Exceptions = [.. Exceptions.Select(e => e with
+        Exceptions = [.. Exceptions.Select(e => e is null ? Empty : e with
         {
             Id = e.Id ?? "", RuleId = e.RuleId ?? "", Scope = e.Scope ?? RegisterScope.Empty, Justification = e.Justification ?? "",
             Approval = e.Approval ?? Approval.None,
@@ -70,9 +74,12 @@ public sealed record TailoringFile(string Schema, string PlantId, IReadOnlyList<
 {
     public IReadOnlyList<TailoringEntry> Entries { get; init; } = Entries ?? [];
 
+    /// <summary>Leerer Eintrag an Stelle von <c>null</c> in der Liste (von Hand bearbeitet): ungültig, wirkt nicht.</summary>
+    internal static TailoringEntry Empty { get; } = new("", "", RegisterScope.Empty, "", Approval.None, default, null, null, null);
+
     TailoringFile IAfterRead<TailoringFile>.AfterRead() => this with
     {
-        Entries = [.. Entries.Select(e => e with
+        Entries = [.. Entries.Select(e => e is null ? Empty : e with
         {
             Id = e.Id ?? "", RuleId = e.RuleId ?? "", Scope = e.Scope ?? RegisterScope.Empty, Reason = e.Reason ?? "", Approval = e.Approval ?? Approval.None,
         })],
@@ -93,9 +100,12 @@ public sealed record MeasureFile(string Schema, string PlantId, IReadOnlyList<Me
 {
     public IReadOnlyList<MeasureEntry> Measures { get; init; } = Measures ?? [];
 
+    /// <summary>Leerer Eintrag an Stelle von <c>null</c> in der Liste (von Hand bearbeitet): ungültig, wirkt nicht.</summary>
+    internal static MeasureEntry Empty { get; } = new("", "", RegisterScope.Empty, "", "", default, null, default, default, null, null, null);
+
     MeasureFile IAfterRead<MeasureFile>.AfterRead() => this with
     {
-        Measures = [.. Measures.Select(e => e with
+        Measures = [.. Measures.Select(e => e is null ? Empty : e with
         {
             Id = e.Id ?? "", RuleId = e.RuleId ?? "", Scope = e.Scope ?? RegisterScope.Empty, Action = e.Action ?? "", OwnerRole = e.OwnerRole ?? "",
         })],

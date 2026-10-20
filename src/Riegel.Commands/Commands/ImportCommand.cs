@@ -71,8 +71,13 @@ internal static class ImportCommand
             recordPdf = ctx.Services.Pdf.WriteCollectionRecord(data, new PdfOptions(ctx.ReportFolder(plant, null)));
         }
 
-        if (a.Has("--brief")) CheckOutput.Brief(ctx, assessments);
-        else if (format == "json") CheckOutput.Json(ctx, assessments, policy, record);
+        if (a.Has("--brief"))
+        {
+            // Nichts Neues: trotzdem genau eine Zeile für Icinga/Nagios
+            if (assessments.Count == 0) ctx.Line(BriefLine.NothingNew(plant.Name, skipped.Count));
+            else CheckOutput.Brief(ctx, assessments);
+        }
+        else if (format == "json") CheckOutput.Json(ctx, assessments, policy, new ImportOutput(record, skipped));
         else
         {
             if (record.Files.Count > 0)

@@ -35,6 +35,12 @@
   <data name="Brief_NewHigh_other" xml:space="preserve">
     <value>{0} altos recién abiertos</value>
   </data>
+  <data name="Brief_NothingNew_one" xml:space="preserve">
+    <value>ninguna exportación nueva ({0} ya en la planta)</value>
+  </data>
+  <data name="Brief_NothingNew_other" xml:space="preserve">
+    <value>ninguna exportación nueva ({0} ya en la planta)</value>
+  </data>
   <data name="Brief_Open_one" xml:space="preserve">
     <value>{0} abierto ({1})</value>
   </data>

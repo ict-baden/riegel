@@ -339,11 +339,23 @@ public sealed class CommandTests
         var json = Cli.Run(services, "import", share, "--plant", plant.Folder, "--format", "json");
         Assert.Equal(0, json.Exit);
         Assert.Equal(0, json.Json().GetProperty("machines").GetArrayLength());
+        // Unabhängige Prüfung: kein Importnachweis, also keine erfundene ID; die übersprungenen Exporte stehen in skipped
+        Assert.Equal(JsonValueKind.Null, json.Json().GetProperty("import").ValueKind);
+        Assert.Equal(2, json.Json().GetProperty("skipped").GetArrayLength());
+        // … und --brief gibt trotzdem genau eine Zeile für Icinga/Nagios aus
+        var brief = Cli.Run(services, "import", share, "--plant", plant.Folder, "--brief");
+        Assert.Equal(0, brief.Exit);
+        var line = Assert.Single(brief.Out.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+        Assert.Equal($"RIEGEL OK - {plant.Plant.Name}: no new exports (2 already in the plant) | imported=0 skipped=2", line);
+        Assert.Single(Directory.GetFiles(plant.PathOf("imports")));
 
         // Ein neuer Export kommt dazu, die bekannten nicht
         SnapshotBuilder.Windows10Ltsc2019("HMI-TEST").CollectedAt(TestRuns.Collected.AddDays(1)).WriteTo(share);
-        var mixed = Cli.Run(services, "import", share, "--plant", plant.Folder);
+        var mixed = Cli.Run(services, "import", share, "--plant", plant.Folder, "--format", "json");
         Assert.True(mixed.Exit is 0 or 1 or 2, mixed.ToString());
+        var record = mixed.Json().GetProperty("import");
+        Assert.True(File.Exists(plant.PathOf("imports/" + record.GetProperty("id").GetString() + ".import.json")), mixed.Out);
+        Assert.Equal(2, mixed.Json().GetProperty("skipped").GetArrayLength());
         Assert.Equal(2, Directory.GetFiles(plant.PathOf("runs/HMI-TEST"), "*.results.json").Length);
         Assert.Single(Directory.GetFiles(plant.PathOf("runs/W11-TEST"), "*.results.json"));
 

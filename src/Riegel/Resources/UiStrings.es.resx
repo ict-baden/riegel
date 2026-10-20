@@ -155,6 +155,9 @@
   <data name="About_WebsiteText" xml:space="preserve">
     <value>ICT-Baden en GitHub</value>
   </data>
+  <data name="App_AlreadyRunningElevated" xml:space="preserve">
+    <value>Riegel ya se está ejecutando con derechos de administrador en esta sesión de Windows. Cambie a esa ventana, o ciérrela y vuelva a iniciar Riegel.</value>
+  </data>
   <data name="App_DemoReportWritten" xml:space="preserve">
     <value>Todos los documentos de la planta de demostración se escribieron en {0}</value>
   </data>

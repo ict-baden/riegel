@@ -32,4 +32,22 @@ public sealed class ImportPathsTests
         Assert.Equal([a, b], ImportPaths.ExportsIn(share).Order(StringComparer.Ordinal));
         Assert.Equal([.. new[] { a, b }.Order(StringComparer.Ordinal), bundle, withSecedit], ImportPaths.Expand([share, bundle, withSecedit, empty]));
     }
+
+    /// <summary>
+    /// Unabhängige Prüfung: Beim Ziehen über das Fenster las die Oberfläche jeden Ordner ganz und sortierte ihn; ein
+    /// unlesbarer Ordner warf eine Ausnahme. ContainsExports hört beim ersten Export auf und gibt sonst false zurück.
+    /// </summary>
+    [Fact]
+    public void Ordner_mit_Exporten_erkennen_ohne_Ausnahme()
+    {
+        using var temp = new TempFolder();
+        var share = temp.Sub("freigabe");
+        SnapshotBuilder.Windows10Ltsc2019("HMI-A").WriteTo(share);
+        var notes = temp.Sub("notizen");
+        File.WriteAllText(Path.Combine(notes, "notiz.txt"), "x");
+        Assert.True(ImportPaths.ContainsExports(share));
+        Assert.False(ImportPaths.ContainsExports(notes));
+        Assert.False(ImportPaths.ContainsExports(temp.Sub("leer")));
+        Assert.False(ImportPaths.ContainsExports(Path.Combine(temp.Path, "fehlt")));
+    }
 }

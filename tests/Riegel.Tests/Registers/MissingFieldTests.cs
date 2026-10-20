@@ -125,6 +125,44 @@ public sealed class MissingFieldTests
         }
     }
 
+    /// <summary>
+    /// Unabhängige Prüfung: <c>null</c> als Eintrag (von Hand bearbeitet) endete in RGL-0001 (NullReferenceException beim
+    /// Lesen). Jetzt steht dort ein leerer, ungültiger Eintrag, und die Befehle laufen.
+    /// </summary>
+    [Fact]
+    public void Null_als_Registereintrag_bleibt_lesbar_und_ist_ungueltig()
+    {
+        using var plant = new TempPlant();
+        File.WriteAllText(plant.PathOf("exceptions.json"), "{\"schema\": \"riegel.exceptions/1\", \"plantId\": \"testanlage\", \"exceptions\": [ null ] }");
+        File.WriteAllText(plant.PathOf("tailoring.json"), "{\"schema\": \"riegel.tailoring/1\", \"plantId\": \"testanlage\", \"entries\": [ null ] }");
+        File.WriteAllText(plant.PathOf("measures.json"), "{\"schema\": \"riegel.measures/1\", \"plantId\": \"testanlage\", \"measures\": [ null ] }");
+
+        var services = Services();
+        var opened = services.Plants.Open(plant.Folder, readOnly: true);
+        var registers = services.Registers.Load(opened);
+        Assert.Equal(RegisterScope.Empty, Assert.Single(registers.Exceptions.Exceptions).Scope);
+        Assert.Equal(Approval.None, registers.Exceptions.Exceptions[0].Approval);
+        Assert.Equal("", Assert.Single(registers.Tailoring.Entries).Reason);
+        Assert.Equal("", Assert.Single(registers.Measures.Measures).Action);
+        var issues = services.Registers.Validate(registers, services.Catalogue.LoadEmbedded(), opened, Today);
+        foreach (var kind in new[] { RegisterKind.Exceptions, RegisterKind.Tailoring, RegisterKind.Measures })
+            Assert.Contains(issues, i => i.Register == kind && i.Severity == IssueSeverity.Error);
+
+        foreach (var args in new[]
+        {
+            new[] { "exceptions", "list", "--plant", plant.Folder },
+            ["exceptions", "validate", "--plant", plant.Folder],
+            ["tailoring", "list", "--plant", plant.Folder],
+            ["measures", "list", "--plant", plant.Folder],
+            ["check", "--snapshot", RepoPaths.Synthetic("win11-24h2-workgroup-admin"), "--plant", plant.Folder, "--read-only"],
+        })
+        {
+            var run = CliRunner.Run(args);
+            Assert.True(run.Exit is 0 or 1 or 2, string.Join(" ", args) + "\n" + run);
+            Assert.DoesNotContain(RglCodesCommon.Unexpected, run.Err, StringComparison.Ordinal);
+        }
+    }
+
     [Fact]
     public void Register_mit_kaputtem_JSON_nennt_die_Datei()
     {

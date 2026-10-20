@@ -52,11 +52,14 @@ internal static class Program
         SingleInstance? instance = null;
         if (options.Mode is StartMode.Gui or StartMode.Demo)
         {
-            instance = SingleInstance.TryAcquire();
+            instance = SingleInstance.TryAcquire(out bool denied);
             if (instance is null)
             {
-                // Riegel läuft schon in dieser Sitzung: das Fenster nach vorn holen und beenden
-                SingleInstance.SignalFirst();
+                // Riegel läuft schon in dieser Sitzung: das Fenster nach vorn holen und beenden. Läuft es mit
+                // Administratorrechten, erreicht dieser Prozess es nicht – dann ein Hinweis statt eines stillen Endes
+                if (!SingleInstance.SignalFirst() && denied)
+                    System.Windows.MessageBox.Show(Riegel.UI.Loc.T("App_AlreadyRunningElevated"), "Riegel",
+                        System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
                 return CommandApp.Ok;
             }
         }

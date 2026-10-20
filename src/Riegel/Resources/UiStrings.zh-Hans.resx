@@ -155,6 +155,9 @@
   <data name="About_WebsiteText" xml:space="preserve">
     <value>ICT-Baden 在 GitHub 上</value>
   </data>
+  <data name="App_AlreadyRunningElevated" xml:space="preserve">
+    <value>Riegel 已在此 Windows 会话中以管理员权限运行。请切换到该窗口，或将其关闭后重新启动 Riegel。</value>
+  </data>
   <data name="App_DemoReportWritten" xml:space="preserve">
     <value>演示装置的所有文档已写入 {0}</value>
   </data>

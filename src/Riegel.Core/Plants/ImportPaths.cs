@@ -20,10 +20,22 @@ public static class ImportPaths
     /// <summary>Exporte direkt in <paramref name="folder"/> (nicht rekursiv), nach Namen sortiert.</summary>
     public static IReadOnlyList<string> ExportsIn(string folder) =>
     [
-        .. Directory.EnumerateFiles(folder)
-            .Where(f => f.EndsWith(SnapshotFile.Extension, StringComparison.OrdinalIgnoreCase) || f.EndsWith(SnapshotFile.GzipExtension, StringComparison.OrdinalIgnoreCase))
-            .Order(StringComparer.Ordinal),
+        .. Directory.EnumerateFiles(folder).Where(IsExport).Order(StringComparer.Ordinal),
     ];
+
+    /// <summary>
+    /// Liegt mindestens ein Export direkt in <paramref name="folder"/>? Bricht beim ersten Treffer ab und gibt bei einem
+    /// unlesbaren Ordner false zurück – für die Prüfung beim Ziehen über das Fenster, die oft und auf dem UI-Thread läuft
+    /// (unabhängige Prüfung vom 2026-10-20).
+    /// </summary>
+    public static bool ContainsExports(string folder)
+    {
+        try { return Directory.EnumerateFiles(folder).Any(IsExport); }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or System.Security.SecurityException) { return false; }
+    }
+
+    private static bool IsExport(string file) =>
+        file.EndsWith(SnapshotFile.Extension, StringComparison.OrdinalIgnoreCase) || file.EndsWith(SnapshotFile.GzipExtension, StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
     /// Pfade zum Import: Dateien und Bordmittel-Pakete bleiben, jeder andere Ordner wird durch seine Exporte ersetzt (ein
