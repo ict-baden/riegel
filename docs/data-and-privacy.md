@@ -16,7 +16,9 @@ What Riegel reads, which files it writes, where they live, what personal data th
   only its export, and Windows itself records that a program ran (execution traces, event log entries – see
   [On the checked machine](#on-the-checked-machine) and [What it leaves behind](collector.md#what-it-leaves-behind)).
 - It writes only: the snapshot export (and its checksum file) where you choose, the plant folder you open, the output
-  folder you choose and its own data folder `%LocalAppData%\Riegel`.
+  folder you choose and its own data folder `%LocalAppData%\Riegel`. *Check this PC* passes its snapshot through a
+  temporary folder (`%TEMP%\Riegel-Erfassung-<8 hex>` or `handoff\<token>` in the data folder) and deletes it after the
+  import; the demo plant lives in `%TEMP%` while Riegel runs ([On the analysis PC](#on-the-analysis-pc)).
 - It opens **no network connection** and sends **no data to ICT-Baden**: no telemetry, no update check, no crash
   reports.
 - Snapshots, registers and reports describe the security configuration of the customer's machines and contain host
@@ -87,7 +89,17 @@ values of `CurrentVersion` (not the registered owner or product IDs).
 
 Personal data in it: **host names, local account names and SIDs, last-logon dates of local accounts, the
 automatic-logon user name, user-profile path segments, names of local group members** – and whatever the customer's
-software writes into paths or display names. Network data in it: the **default gateway address** of each adapter, the
+software writes into paths or display names.
+
+**The Group Policy result** (`raw:gpresult-xml`, from `gpresult /scope computer /x`, not with `--minimal`) is stored as
+the complete XML that Windows produces. It contains the computer name and domain, the site, the distinguished name of
+the computer's OU, the names and links of applied and filtered GPOs, the domain controller that served them, the
+security groups of the computer account and the settings the GPOs set (including registry values and file and
+service settings). On a domain member that is a map of the domain's policy structure. `--pseudonymize` does **not**
+change this XML (it changes the security template and the account items only); if that is not acceptable, collect with
+`--minimal` (the rules that need gpresult become "not checkable"). Riegel uses it for the value source of policy
+settings ([Evaluation](evaluation.md)). This has been checked with the synthetic fixtures; a capture from a real
+domain member is still open. Network data in it: the **default gateway address** of each adapter, the
 **WinHTTP proxy** settings and, with administrator rights, Defender's **IP address exclusions**
 (`ExclusionIpAddress`) – infrastructure addresses rather than personal data, but confidential like the rest.
 
@@ -110,8 +122,8 @@ software writes into paths or display names. Network data in it: the **default g
 |---|---|---|
 | `settings.json` | `%LocalAppData%\Riegel` (Linux `~/.local/share/riegel`; `RIEGEL_DATA_DIR` overrides) | language, theme, default plant folder, thresholds, recently opened plant folders (paths) |
 | `logs\riegel-<date>.log` | same folder | 7 days, at most 1 MB per day; never setting values, host names, accounts or paths (paths, host, user and domain names, accounts, SIDs and addresses in error messages are replaced before a line is written) |
-| `handoff\<token>\` | same folder | the snapshot and checksum of *Check as administrator*; kept after the import (the plant folder holds the imported copy) – delete it with the data folder |
-| `Riegel-Erfassung-<8 hex>\` | `%TEMP%` | the snapshot of *Check this PC* without elevation; kept after the import – delete it, or let Windows clean the temporary folder |
+| `handoff\<token>\` | same folder | the snapshot and checksum of *Check as administrator*; deleted after a successful import (the plant folder holds the imported copy). If the import fails, or the elevated account's files cannot be deleted, it stays – delete it with the data folder |
+| `Riegel-Erfassung-<8 hex>\` | `%TEMP%` | the snapshot of *Check this PC* without elevation; deleted after a successful import, kept if the import fails. Riegel 0.1.0 kept it – delete old ones by hand |
 | `defaults.json` | `%ProgramData%\ICT-Baden\Riegel` | presets of the administrator, read only |
 | Demo plant | `%TEMP%\Riegel-Demo-<8 hex>` | fictitious data; deleted when Riegel closes (older leftovers after a day) |
 

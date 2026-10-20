@@ -113,7 +113,7 @@
     <value>Riegel (Härtungs-Check)</value>
   </data>
   <data name="About_ReadOnly" xml:space="preserve">
-    <value>Riegel liest Konfiguration und schreibt nur in den Anlagenordner, den gewählten Ausgabeordner und seinen Datenordner. Es ändert keine Konfiguration und baut keine Netzwerkverbindungen auf.</value>
+    <value>Riegel liest Konfiguration und schreibt nur in den Anlagenordner, den gewählten Ausgabeordner und seinen Datenordner; „Diesen PC prüfen“ übergibt den Export über einen temporären Ordner, der nach dem Import gelöscht wird. Es ändert keine Konfiguration und baut keine Netzwerkverbindungen auf.</value>
   </data>
   <data name="About_ReadOnlyTitle" xml:space="preserve">
     <value>Nur lesend, Daten bleiben hier</value>

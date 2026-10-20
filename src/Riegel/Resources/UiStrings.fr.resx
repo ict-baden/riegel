@@ -114,7 +114,7 @@
     <value>Riegel (Härtungs-Check)</value>
   </data>
   <data name="About_ReadOnly" xml:space="preserve">
-    <value>Riegel lit la configuration et n’écrit que dans le dossier de l’installation, le dossier de sortie choisi et son dossier de données. Il ne modifie aucune configuration et n’ouvre aucune connexion réseau.</value>
+    <value>Riegel lit la configuration et n’écrit que dans le dossier de l’installation, le dossier de sortie choisi et son dossier de données ; « Contrôler ce PC » fait transiter l’export par un dossier temporaire supprimé après l’importation. Il ne modifie aucune configuration et n’ouvre aucune connexion réseau.</value>
   </data>
   <data name="About_ReadOnlyTitle" xml:space="preserve">
     <value>Lecture seule, les données restent ici</value>

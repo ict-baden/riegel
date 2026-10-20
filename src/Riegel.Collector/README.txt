@@ -11,8 +11,10 @@ folder you name. It installs nothing, changes no configuration and opens no netw
 what Windows itself records is listed under "What it leaves behind". Evaluate the snapshot on
 another PC with Riegel (Riegel-x64.msi, Riegel.exe or riegel-win-x64.exe).
 
-Runs on Windows 7 SP1 to Windows 11 and Server 2008 R2 to 2025, with the .NET Framework that
-ships with Windows (4.x or 3.5). Keep Riegel.Collector.exe.config next to the exe.
+Designed for Windows 7 SP1 to Windows 11 and Server 2008 R2 to 2025, with the .NET Framework
+that ships with Windows (4.x or 3.5). Tested so far on Windows Server 2022 and 2025 and on
+Windows 11; Windows 7, 8.1, Server 2008 R2 and 2012 R2 are not yet tested on real machines.
+Keep Riegel.Collector.exe.config next to the exe.
 
 Before you start: is .NET Framework there?
 ------------------------------------------
@@ -62,7 +64,8 @@ Built-in commands
 -----------------
 collect-builtin.cmd [folder] collects with Windows' own programs only (secedit, auditpol, reg)
 into a new folder <HOST>_<yyyyMMdd>.riegel-builtin. Use it where no foreign program may run and
-on Windows XP, Vista and Server 2003/2008. The bundle is confidential; delete it after import.
+on Windows XP, Vista and Server 2003/2008 (best effort, not tested on those systems). The bundle
+is confidential; delete it after import.
 
 Documentation: https://github.com/ict-baden/riegel/blob/main/docs/collector.md
 Licence: MIT (LICENSE). Third-party notices: THIRD-PARTY-NOTICES.txt.
@@ -81,8 +84,10 @@ Netzwerkverbindung auf; was Windows selbst vermerkt, steht unter „Was er hinte
 Ausgewertet wird auf einem anderen PC mit Riegel (Riegel-x64.msi, Riegel.exe oder
 riegel-win-x64.exe).
 
-Läuft auf Windows 7 SP1 bis Windows 11 und Server 2008 R2 bis 2025, mit dem .NET Framework, das
-Windows mitbringt (4.x oder 3.5). Riegel.Collector.exe.config neben der Exe lassen.
+Ausgelegt für Windows 7 SP1 bis Windows 11 und Server 2008 R2 bis 2025, mit dem .NET Framework,
+das Windows mitbringt (4.x oder 3.5). Getestet bisher auf Windows Server 2022 und 2025 und auf
+Windows 11; Windows 7, 8.1, Server 2008 R2 und 2012 R2 sind auf echten Rechnern noch nicht
+getestet. Riegel.Collector.exe.config neben der Exe lassen.
 
 Vorher prüfen: Ist .NET Framework vorhanden?
 --------------------------------------------
@@ -133,8 +138,8 @@ Bordmittel
 ----------
 collect-builtin.cmd [Ordner] erhebt nur mit Windows-eigenen Programmen (secedit, auditpol, reg)
 in einen neuen Ordner <HOST>_<yyyyMMdd>.riegel-builtin. Für Rechner, auf denen kein fremdes
-Programm laufen darf, und für Windows XP, Vista und Server 2003/2008. Das Paket ist vertraulich;
-nach dem Import löschen.
+Programm laufen darf, und für Windows XP, Vista und Server 2003/2008 (ohne Gewähr, auf diesen
+Systemen nicht getestet). Das Paket ist vertraulich; nach dem Import löschen.
 
 Dokumentation: https://github.com/ict-baden/riegel/blob/main/docs/collector.md
 Lizenz: MIT (LICENSE). Hinweise zu Software Dritter: THIRD-PARTY-NOTICES.txt.

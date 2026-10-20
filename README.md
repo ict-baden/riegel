@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://github.com/ict-baden/riegel/releases/tag/latest"><img alt="Download: latest" src="https://img.shields.io/badge/Download-latest-2ea44f?logo=github&logoColor=white"></a>
-  <img alt="Checks Windows 7 SP1 to 11 and Server 2008 R2 to 2025" src="https://img.shields.io/badge/Checks-Windows%207%E2%80%9311%20%7C%20Server%202008%20R2%E2%80%932025-0078D4">
+  <img alt="Designed for Windows 7 SP1 to 11 and Server 2008 R2 to 2025; tested on Server 2022, Server 2025 and Windows 11" src="https://img.shields.io/badge/Designed%20for-Windows%207%E2%80%9311%20%7C%20Server%202008%20R2%E2%80%932025-0078D4">
   <img alt="Evaluation on Windows and Linux" src="https://img.shields.io/badge/Evaluation-Windows%20%7C%20Linux-0078D4">
   <img alt=".NET 10" src="https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white">
   <img alt="Read-only" src="https://img.shields.io/badge/Access-read--only-2E7D32">
@@ -105,9 +105,10 @@
 
 ### And also
 
-- **Runs offline, installs nothing on the target:** a ~130 KB collector for Windows 7 SP1 to 11 and Server 2008 R2 to
-  2025 (.NET Framework 3.5.1 or 4.x; older systems through the built-in commands), deterministic builds, AppLocker hash data and a published read-only proof per
-  build; `--minimal` for sensitive HMIs starts no other program.
+- **Runs offline, installs nothing on the target:** a ~130 KB collector designed for Windows 7 SP1 to 11 and Server
+  2008 R2 to 2025 (.NET Framework 3.5.1 or 4.x; tested so far on Server 2022, Server 2025 and Windows 11; older systems
+  through the built-in commands, best effort), deterministic builds, AppLocker hash data and a published read-only
+  proof per build; `--minimal` for sensitive HMIs starts no other program.
 - **Runtime before configuration:** SMB, VBS/HVCI/Credential Guard, LSA protection, firewall and Defender are read from
   their running state first; cited OS defaults are flagged "Default value assumed" (*Standardwert angenommen*).
 - **Monitoring that alerts on change:** Nagios exit codes and an Icinga line for regressions, newly open high findings,

@@ -28,8 +28,8 @@ scheduled tasks.
 | Machine | Package | Why |
 |---|---|---|
 | Admin, engineering and auditor PCs, IT-managed clients and servers (Windows 10 1809 / Server 2019 or later) | `Riegel-x64.msi` (Intune, GPO, SCCM), or `Riegel.exe` without installation | the analysis app: plant folders, registers, reports, and *Check this PC* |
-| Plant, lab and control-room PCs, Windows 7 SP1 to 11 and Server 2008 R2 to 2025 | `Riegel-Collector.zip` (portable collector, net35) – **from a tag release** | reads the configuration, writes one snapshot, installs nothing and changes no configuration (Windows records that a program ran, see [What it leaves behind](collector.md#what-it-leaves-behind)) |
-| Machines where no foreign program may run, and Windows XP / Vista / Server 2003 / 2008 | `collect-builtin.cmd` (in the collector ZIP) or the same commands typed by hand | only Windows' own `secedit`, `auditpol` and `reg` |
+| Plant, lab and control-room PCs, designed for Windows 7 SP1 to 11 and Server 2008 R2 to 2025 (tested so far on Server 2022, Server 2025 and Windows 11) | `Riegel-Collector.zip` (portable collector, net35) – **from a tag release** | reads the configuration, writes one snapshot, installs nothing and changes no configuration (Windows records that a program ran, see [What it leaves behind](collector.md#what-it-leaves-behind)) |
+| Machines where no foreign program may run, and Windows XP / Vista / Server 2003 / 2008 (best effort, not tested on these) | `collect-builtin.cmd` (in the collector ZIP) or the same commands typed by hand | only Windows' own `secedit`, `auditpol` and `reg` |
 | Scripts, scheduled checks and FAT pipelines on Windows | `riegel-win-x64.exe` (single file) or `Riegel.Cli.exe` from the MSI or ZIP | the console program with reliable exit codes |
 | Auditors and CI on Linux | `riegel-linux-x64`, `riegel-linux-arm64` | evaluate snapshots, `verify` evidence packs, `compare-snapshot` – no collection |
 

@@ -114,7 +114,7 @@
     <value>Riegel (Härtungs-Check)</value>
   </data>
   <data name="About_ReadOnly" xml:space="preserve">
-    <value>Riegel 只读取配置，只写入装置文件夹、所选输出文件夹及其数据文件夹。它不更改任何配置，也不建立任何网络连接。</value>
+    <value>Riegel 只读取配置，只写入装置文件夹、所选输出文件夹及其数据文件夹；“检查此电脑”通过一个临时文件夹传递导出文件，导入后即删除该文件夹。它不更改任何配置，也不建立任何网络连接。</value>
   </data>
   <data name="About_ReadOnlyTitle" xml:space="preserve">
     <value>只读，数据保留在本地</value>

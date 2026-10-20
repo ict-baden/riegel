@@ -6,6 +6,7 @@ using Riegel.Core.Model;
 using Riegel.Core.Model.Json;
 using Riegel.Core.Model.Reports;
 using Riegel.Core.Registers;
+using Riegel.Core.Settings;
 using Riegel.UI;
 
 namespace Riegel.Session;
@@ -210,6 +211,26 @@ internal sealed partial class AppSession
             return result.SnapshotPath;
         });
         await ImportAsync([path], Loc.T("Role_ThisPc"), null, writeRecord: false);
+        // Der Anlagenordner hält jetzt die importierte Kopie: die Zwischenablage (%TEMP%\Riegel-Erfassung-… oder
+        // handoff\<token>\) mit Konten, SIDs, Defender-Ausnahmen und Proxy nicht liegen lassen (Prüfung vom 2026-10-20)
+        DeleteTransferFolder(Path.GetDirectoryName(path));
+    }
+
+    /// <summary>
+    /// Löscht den Ordner, über den „Diesen PC prüfen“ den Export übergab – nur einen eigenen (Riegel-Erfassung-* im
+    /// Temp-Ordner oder unter handoff\), und ohne Fehler, wenn das nicht geht (die Datei gehört dann z. B. dem Administrator).
+    /// </summary>
+    internal static void DeleteTransferFolder(string? folder)
+    {
+        if (folder is null) return;
+        var full = Path.GetFullPath(folder);
+        bool own = Path.GetFileName(full).StartsWith("Riegel-Erfassung-", StringComparison.Ordinal) &&
+                   string.Equals(Path.GetDirectoryName(full), Path.GetFullPath(Path.GetTempPath()).TrimEnd(Path.DirectorySeparatorChar), StringComparison.OrdinalIgnoreCase)
+                   || string.Equals(Path.GetDirectoryName(full), Path.GetFullPath(AppPaths.HandoffFolder), StringComparison.OrdinalIgnoreCase);
+        if (!own || !Directory.Exists(full)) return;
+        try { Directory.Delete(full, recursive: true); }
+        catch (IOException e) { Log.Warning($"Übergabeordner nicht gelöscht ({e.GetType().Name})"); }
+        catch (UnauthorizedAccessException e) { Log.Warning($"Übergabeordner nicht gelöscht ({e.GetType().Name})"); }
     }
 
     /// <summary>„Sammler auf Datenträger kopieren“ (O15).</summary>
