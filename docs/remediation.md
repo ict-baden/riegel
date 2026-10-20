@@ -22,8 +22,8 @@ writes a proposal for the open findings of one run into `remediation/<host>/<run
 | `README.txt` | per setting: rule, old → new value, OT note, planned measure; rules left out; manual steps |
 
 **Riegel never applies anything.** It writes no script (no `.ps1` in v1), starts no program, and has no code that
-writes to the registry, the security policy or the audit policy. Every file starts with the notice "Vorschlag – wird
-von Riegel nicht ausgeführt. Vor Anwendung mit dem Anlagenhersteller abstimmen." in the report language (as a comment
+writes to the registry, the security policy or the audit policy. Every file starts with the notice "Proposal – not
+executed by Riegel. Agree with the plant vendor before applying." in the report language (as a comment
 where the format has comments; see the notes per file). The plant owner agrees the proposal with the plant vendor and
 applies it through the customer's own change process.
 
@@ -42,8 +42,8 @@ README with the reason and the register entry:
 The results are authoritative (the register service has already applied the registers). In addition the writer checks
 the register entries that name **this machine or the whole plant**: a valid or requested exception or a tailoring
 entry for the rule there also leaves the rule out. Group-scoped entries cannot be resolved without the plant and are
-taken from the results. An **expired** exception does not leave a rule out; the README says "Ausnahme … ist
-abgelaufen – erneuern oder den Vorschlag umsetzen".
+taken from the results. An **expired** exception does not leave a rule out; the README says "Exception … has
+expired – renew it or apply the proposal".
 
 ## riegel-remediation.reg
 
@@ -71,8 +71,8 @@ Same format. For every value in the remediation file, the old value from the exp
 - **present and type-checked** → written back with its old type and data;
 - **provably not set** (the key item is `keyMissing`, or the key was read completely and the value is absent) → deleted
   again (`"Name"=-`);
-- **unknown or not safe** → left out, with a README line "Rücknahme: alter Wert von … nicht übernommen (reason,
-  RGL-0570) – vor der Änderung notieren". Reasons: not collected (missing, denied, under a denied subkey, an
+- **unknown or not safe** → left out, with a README line "Rollback: old value of … not taken over (reason,
+  RGL-0570) – note it before the change". Reasons: not collected (missing, denied, under a denied subkey, an
   incomplete root, a value filter), truncated or redacted at collection, a type that does not match the value
   (a DWORD that is not a number in 0…4,294,967,295, a QWORD that is not an unsigned decimal), an unsupported type
   (`none`, `unknown`), a string with CR, LF, NUL or any other control character (also U+2028/U+2029), a `multi_sz`

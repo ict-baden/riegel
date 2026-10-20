@@ -191,6 +191,28 @@ public sealed class WalkthroughTests
     });
 
     [Fact]
+    public void Pruefermodus_erkennt_nur_den_Anlagenordner_selbst_als_innen()
+    {
+        // Prüfung vom 2026-10-20: der Vergleich per Zeichenkettenanfang hielt „Linie3-Berichte“ für einen Teil von „Linie3“
+        Assert.True(AppSession.IsInside(@"D:\Anlagen\Linie3", @"D:\Anlagen\Linie3"));
+        Assert.True(AppSession.IsInside(@"D:\Anlagen\Linie3\", @"d:\anlagen\linie3\reports\2026"));
+        Assert.False(AppSession.IsInside(@"D:\Anlagen\Linie3", @"D:\Anlagen\Linie3-Berichte"));
+        Assert.False(AppSession.IsInside(@"D:\Anlagen\Linie3", @"D:\Anlagen"));
+        // die eigene Übergabe von „Diesen PC prüfen“ wird gelöscht, fremde Ordner nie
+        var own = Path.Combine(Path.GetTempPath(), "Riegel-Erfassung-" + Guid.NewGuid().ToString("N")[..8]);
+        var foreign = Path.Combine(Path.GetTempPath(), "riegel-fremd-" + Guid.NewGuid().ToString("N")[..8]);
+        foreach (var d in new[] { own, foreign }) { Directory.CreateDirectory(d); File.WriteAllText(Path.Combine(d, "x.snapshot.json"), "{}"); }
+        try
+        {
+            AppSession.DeleteTransferFolder(own);
+            AppSession.DeleteTransferFolder(foreign);
+            Assert.False(Directory.Exists(own));
+            Assert.True(Directory.Exists(foreign));
+        }
+        finally { Directory.Delete(foreign, recursive: true); }
+    }
+
+    [Fact]
     public void Pfade_ohne_Benutzernamen()
     {
         var temp = Path.Combine(Path.GetTempPath(), "Riegel-Demo-1234", "Musterwerk");

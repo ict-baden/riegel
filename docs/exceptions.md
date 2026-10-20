@@ -68,8 +68,8 @@ severity `high` is valid only if `approvedByRole` is one of these roles (compare
 warning (a yearly review is recommended).
 
 Exceptions apply only to results with status `fail`. A rule that passes, is not applicable or not checkable is not
-changed; an exception for a rule that now passes everywhere is marked `unused` in the report ("Ausnahme nicht mehr
-nötig?"). An exception for an inventory rule has no effect (inventory rules are always `info`); validation warns.
+changed; an exception for a rule that now passes everywhere is marked `unused` in the report ("No longer
+needed?"). An exception for an inventory rule has no effect (inventory rules are always `info`); validation warns.
 
 ## Tailoring ("nicht im Prüfumfang")
 

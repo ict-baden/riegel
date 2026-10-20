@@ -89,9 +89,9 @@ Layout as in the product specification, section 5:
     (`CommonStrings.Integrity_Statement`) and the limitations (no compliance statement, no GMP validation package,
     what the machine cannot show, state at collection time; experimental domain GPO attribution and domain
     controllers when they occur).
-12. **Review and approval** (new page) – an introduction, the **register binding sentence** "Mit der Freigabe werden
-    die Ausnahmen im Register `<sha8>` (Einträge: n, davon gültig: m) und der Zuschnitt `<sha8>` (Einträge: k)
-    bestätigt." and the remediation plan's hash, the reference line with report ID, run IDs and the page count
+12. **Review and approval** (new page) – an introduction, the **register binding sentence** "With this approval,
+    the exceptions in register `<sha8>` (entries: n, of which valid: m) and the tailoring `<sha8>` (entries: k) are
+    confirmed." (in the report language) and the remediation plan's hash, the reference line with report ID, run IDs and the page count
     (a field, so it is always right), then one signature block per role: step and role, lines for name, date,
     signature and remarks. Each block stays on one page.
 13. **Appendix A: machines in detail** (`IncludeAppendix`, default on; `--no-appendix` leaves it out) – one page
@@ -166,14 +166,14 @@ export SHA-256, whether the `.sha256` sidecar matches (red when missing or diffe
 - **Banners** come from `ReportData.Banners` / `SummaryData.Banners` and appear on the cover (plant and machine
   report) or at the top (one-pager), in data order:
 
-| `BannerKind` | Text (de) |
+| `BannerKind` | Text (en; the PDF uses the report language) |
 |---|---|
 | `IncompleteCheck` | "Incomplete check: only X % checkable" (*Unvollständige Prüfung: nur X % prüfbar*) – affected machines and missing areas |
-| `StaleSnapshot` | Veraltete Erfassung: Stand der Erfassung vor N Tagen – affected machines |
-| `StaleCatalogue` | Regelwerk älter als 6 Monate – Lebenszyklus- und Patchangaben können veraltet sein |
-| `PreTranslation` | Maschinelle Vorübersetzung – nicht geprüft / Machine pre-translation – not reviewed |
-| `ExperimentalGpoAttribution` | Quelle: Domänen-GPO (nicht in echter Domäne getestet) |
-| `ClockSuspect` | Uhr unplausibel: altersabhängige Ergebnisse sind nicht prüfbar |
+| `StaleSnapshot` | "Outdated collection: collected N days before the evaluation date" – affected machines |
+| `StaleCatalogue` | "Rule catalogue older than 6 months – lifecycle and patch data may be outdated" |
+| `PreTranslation` | "Machine pre-translation – not reviewed" (es, fr, zh-Hans) |
+| `ExperimentalGpoAttribution` | "Source: domain GPO (not tested in a real domain)" |
+| `ClockSuspect` | "Implausible clock: age-based results are not checkable" |
 | `DomainController` | "Domain controllers: not scored – catalogue 2026.10 is not designed for domain controllers" (*Domänencontroller: nicht bewertet*) |
 
 The pre-translation banner follows the language the document is actually written in, not the data: it appears for

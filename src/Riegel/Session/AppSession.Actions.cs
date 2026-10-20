@@ -294,13 +294,24 @@ internal sealed partial class AppSession
     public string NewOutputFolder(string baseFolder) =>
         Path.Combine(baseFolder, Services.Clock.GetUtcNow().UtcDateTime.ToString("yyyy-MM-dd'T'HHmmss'Z'", CultureInfo.InvariantCulture));
 
+    /// <summary>
+    /// Liegt <paramref name="path"/> im Ordner <paramref name="folder"/> (oder ist er es)? Mit Trennzeichen verglichen, damit
+    /// ein Nachbarordner wie „Linie3-Berichte“ neben „Linie3“ nicht als innen gilt (Prüfung vom 2026-10-20).
+    /// </summary>
+    internal static bool IsInside(string folder, string path)
+    {
+        var root = Path.TrimEndingDirectorySeparator(Path.GetFullPath(folder));
+        var full = Path.TrimEndingDirectorySeparator(Path.GetFullPath(path));
+        var prefix = root.EndsWith(Path.DirectorySeparatorChar) ? root : root + Path.DirectorySeparatorChar;
+        return string.Equals(full, root, StringComparison.OrdinalIgnoreCase) || full.StartsWith(prefix, StringComparison.OrdinalIgnoreCase);
+    }
+
     /// <summary>Ein Dokument erzeugen; gibt die geschriebenen Dateien zurück.</summary>
     public async Task<IReadOnlyList<string>> GenerateAsync(DocumentRequest d)
     {
         var plant = RequirePlant();
         if (string.IsNullOrWhiteSpace(d.OutDir)) throw new RiegelException(RglCodesApp.OutputFolderRequired, RglCodesApp.Text(RglCodesApp.OutputFolderRequired));
-        if (plant.ReadOnly && Path.GetFullPath(d.OutDir).StartsWith(Path.GetFullPath(plant.Folder), StringComparison.OrdinalIgnoreCase))
-            throw RiegelException.Common(RglCodesCommon.ReadOnlyMode);
+        if (plant.ReadOnly && IsInside(plant.Folder, d.OutDir)) throw RiegelException.Common(RglCodesCommon.ReadOnlyMode);
         var services = plant.Services;
         var p = d.Settings is null ? plant.Plant : plant.Plant with { Settings = d.Settings };
         var today = services.Today;

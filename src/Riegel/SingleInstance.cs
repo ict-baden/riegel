@@ -23,16 +23,29 @@ internal sealed class SingleInstance : IDisposable
         _show = show;
     }
 
-    /// <summary>Erste Instanz: Besitz übernehmen. Läuft schon eine, null.</summary>
+    /// <summary>
+    /// Erste Instanz: Besitz übernehmen. Läuft schon eine, null – auch wenn eine Instanz mit Administratorrechten Mutex
+    /// oder Ereignis hält und dieser Prozess sie nicht öffnen darf (sonst Absturz beim Start, Prüfung vom 2026-10-20).
+    /// </summary>
     public static SingleInstance? TryAcquire()
     {
-        var mutex = new Mutex(initiallyOwned: true, MutexName, out bool created);
+        Mutex mutex;
+        bool created;
+        try { mutex = new Mutex(initiallyOwned: true, MutexName, out created); }
+        catch (UnauthorizedAccessException) { return null; }
         if (!created)
         {
             mutex.Dispose();
             return null;
         }
-        return new SingleInstance(mutex, new EventWaitHandle(false, EventResetMode.AutoReset, ShowEventName));
+        EventWaitHandle show;
+        try { show = new EventWaitHandle(false, EventResetMode.AutoReset, ShowEventName); }
+        catch (UnauthorizedAccessException)
+        {
+            mutex.Dispose();
+            return null;
+        }
+        return new SingleInstance(mutex, show);
     }
 
     /// <summary>Zweite Instanz: die erste bitten, ihr Fenster zu zeigen.</summary>

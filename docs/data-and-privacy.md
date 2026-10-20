@@ -22,8 +22,8 @@ What Riegel reads, which files it writes, where they live, what personal data th
 - It opens **no network connection** and sends **no data to ICT-Baden**: no telemetry, no update check, no crash
   reports.
 - Snapshots, registers and reports describe the security configuration of the customer's machines and contain host
-  names, local account names and SIDs. Treat them as **confidential**; the PDF marks every page "Vertraulich – enthält
-  Sicherheitskonfiguration" by default.
+  names, local account names and SIDs. Treat them as **confidential**; the PDF marks every page "Confidential – contains
+  security configuration" (in the report language) by default.
 
 ## No network
 
