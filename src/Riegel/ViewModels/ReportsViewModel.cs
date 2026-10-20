@@ -203,15 +203,25 @@ internal sealed class ReportsViewModel : PageViewModel
         if (Csv) formats.Add(ReportFormat.Csv);
         if (Json) formats.Add(ReportFormat.Json);
         var settings = ReportSettings(Plant.Plant.Settings);
+        // Auswahl vor dem Speichern festhalten: SavePlantAsync lädt die Anlage neu, und OnPlantChanged setzt Rechner und
+        // Ausgabeordner zurück – sonst entstünde der Bericht über alle Rechner im Standardordner (Prüfung vom 2026-10-20)
+        var request = new DocumentRequest(DocumentKind.PlantReport, "", Language.Value, settings.ReportPreset, PerMachine, Appendix, formats, Evidence,
+            BaselineContent, Host.Value is { } h ? [h] : null, Settings: settings);
+        var host = Host.Value;
+        var outputRoot = OutputFolder;
         if (SaveToPlant && Session.CanWrite)
+        {
             await Session.SavePlantAsync(p => p with { Settings = settings }, Loc.T("Notice_ReportSettingsSaved"));
-        await GenerateAsync(new DocumentRequest(DocumentKind.PlantReport, "", Language.Value, settings.ReportPreset, PerMachine, Appendix, formats, Evidence,
-            BaselineContent, Host.Value is { } h ? [h] : null, Settings: settings));
+            // dieselbe Anlage, neu geladen: die Auswahl auf der Seite bleibt
+            Host = HostChoices.FirstOrDefault(c => c.Value == host) ?? HostChoices[0];
+            OutputFolder = outputRoot;
+        }
+        await GenerateAsync(request, outputRoot);
     }
 
-    private async Task GenerateAsync(DocumentRequest request)
+    private async Task GenerateAsync(DocumentRequest request, string? outputRoot = null)
     {
-        var folder = TargetFolder();
+        var folder = TargetFolder(outputRoot);
         if (folder is null) return;
         var files = await Session.GenerateAsync(request with { OutDir = folder });
         Written.Clear();
@@ -221,9 +231,10 @@ internal sealed class ReportsViewModel : PageViewModel
     }
 
     /// <summary>Ausgabeordner: gewählter Ordner oder reports/ der Anlage, jeweils mit Unterordner je Erzeugung (spec 7.6).</summary>
-    private string? TargetFolder()
+    /// <param name="outputRoot">Vorher festgehaltener Ordner; null = der jetzt gewählte.</param>
+    private string? TargetFolder(string? outputRoot = null)
     {
-        var root = Environment.ExpandEnvironmentVariables(OutputFolder.Trim());
+        var root = Environment.ExpandEnvironmentVariables((outputRoot ?? OutputFolder).Trim());
         if (root.Length == 0)
         {
             Browse();

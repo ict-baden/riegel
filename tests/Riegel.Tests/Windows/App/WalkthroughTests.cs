@@ -154,6 +154,43 @@ public sealed class WalkthroughTests
     });
 
     [Fact]
+    public void Bericht_mit_Einstellungen_in_der_Anlage_behaelt_Rechner_und_Ordner() => Sta.Run(async () =>
+    {
+        // Prüfung vom 2026-10-20: Speichern der Einstellungen lud die Anlage neu, und der Bericht entstand danach über alle
+        // Rechner im Standardordner statt für den gewählten Rechner im gewählten Ordner
+        var errors = new List<Exception>();
+        AsyncCommand.Failed = errors.Add;
+        AsyncCommand.Strict = false;
+        using var session = DemoSession();
+        await session.OpenDemoAsync();
+        var vm = new MainViewModel(session, new TestDialogs());
+        using var temp = new TempFolder();
+        try
+        {
+            var reports = vm.Reports;
+            var other = session.Plant!.Machines.First(m => m.Latest is not null && m.HostName != DemoData.ApprovedHost).HostName;
+            reports.Host = reports.HostChoices.Single(c => c.Value == DemoData.ApprovedHost);
+            reports.OutputFolder = temp.Path;
+            (reports.Pdf, reports.Xlsx, reports.Csv, reports.Json) = (false, false, true, false);
+            reports.SaveToPlant = true;
+            await reports.PlantReportCommand.ExecuteAsync();
+            Assert.Empty(errors);
+
+            var csv = Assert.Single(Directory.GetFiles(temp.Path, "results.csv", SearchOption.AllDirectories));
+            var text = File.ReadAllText(csv);
+            Assert.Contains(DemoData.ApprovedHost, text, StringComparison.Ordinal);
+            Assert.DoesNotContain(other, text, StringComparison.Ordinal);
+            Assert.Equal(DemoData.ApprovedHost, reports.Host.Value);
+            Assert.Equal(temp.Path, reports.OutputFolder);
+        }
+        finally
+        {
+            vm.Detach();
+            AsyncCommand.Failed = null;
+        }
+    });
+
+    [Fact]
     public void Pfade_ohne_Benutzernamen()
     {
         var temp = Path.Combine(Path.GetTempPath(), "Riegel-Demo-1234", "Musterwerk");
