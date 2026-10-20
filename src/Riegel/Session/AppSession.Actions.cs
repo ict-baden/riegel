@@ -5,6 +5,7 @@ using Riegel.Core.Diagnostics;
 using Riegel.Core.Model;
 using Riegel.Core.Model.Json;
 using Riegel.Core.Model.Reports;
+using Riegel.Core.Registers;
 using Riegel.UI;
 
 namespace Riegel.Session;
@@ -73,8 +74,13 @@ internal sealed partial class AppSession
     public Task ApproveEntriesAsync(RegisterKind kind, IReadOnlyList<string> ids, Approval approval)
     {
         var plant = RequireWritable();
-        return SaveRegistersAsync(r => plant.Services.Registers.Approve(r, kind, ids, approval),
-            Loc.P("Notice_Approved", ids.Count, ids.Count, approval.ApprovalRecord));
+        return SaveRegistersAsync(r =>
+        {
+            var approved = plant.Services.Registers.Approve(r, kind, ids, approval);
+            // Nur gültige Einträge freigeben (wie die Befehlszeile): sonst RGL-0448 und nichts gespeichert
+            RegisterApproval.ThrowIfInvalid(plant.Services.Registers.Validate(approved, plant.Catalogue, plant.Plant, plant.Today), kind, ids);
+            return approved;
+        }, Loc.P("Notice_Approved", ids.Count, ids.Count, approval.ApprovalRecord));
     }
 
     /// <summary>Vorlage importieren: neue Einträge sind immer „beantragt“ (spec 2.11, 2.12).</summary>

@@ -212,6 +212,7 @@ Workflow (plant folder, runs, registers).
 | `RGL-0445` | PlantIdMismatch | plantId {0} in the file does not match the plant {1}. |
 | `RGL-0446` | ApprovedInFuture | approvedOn {0} lies in the future: the approval is not in force yet. |
 | `RGL-0447` | InventoryRule | Rule {0} is an inventory rule and never fails: the exception has no effect. |
+| `RGL-0448` | InvalidNotApproved | Not approved: {0} is invalid ({1}: {2}). Correct the entry first – validate lists every issue. |
 
 ## RGL-0450–0499
 

@@ -149,6 +149,9 @@ public static class RglCodesWorkflow
     /// <summary>Ausnahme für eine Bestandsregel (die nie „nicht erfüllt“ ist).</summary>
     public const string InventoryRule = "RGL-0447";
 
+    /// <summary>Freigabe abgelehnt: der Eintrag hätte auch freigegeben noch Fehler der Prüfung.</summary>
+    public const string InvalidNotApproved = "RGL-0448";
+
     /// <summary>Alle Codes dieses Bereichs (für docs/error-codes.md und Tests).</summary>
     public static IReadOnlyList<string> All { get; } =
     [
@@ -158,7 +161,7 @@ public static class RglCodesWorkflow
         TextTooShort, ReferenceRequired, CompensatingMeasureRequired, AcceptedValueRequired, AcceptedValueAny,
         ApprovalPending, ApprovalNotBound, ChangedAfterApproval, ReviewByTooLate, ReviewByLong, ReviewByBeforeApproval,
         Expired, Expiring, RiskAcceptanceRole, Overlap, TailoringHighSeverity, MeasureOverdue, FieldRequired,
-        PlantIdMismatch, ApprovedInFuture, InventoryRule,
+        PlantIdMismatch, ApprovedInFuture, InventoryRule, InvalidNotApproved,
     ];
 
     /// <summary>Text zu einem Code dieses Bereichs in der aktuellen Sprache, mit Platzhaltern.</summary>

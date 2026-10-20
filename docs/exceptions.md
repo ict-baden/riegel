@@ -129,6 +129,10 @@ Entries for retired rules are kept and marked `ruleRetired`.
    "Enter approval" (*Genehmigung eintragen*) in the app). Role and record are required; `approvedOn` defaults to today; `reviewBy`
    defaults to the entry's proposed date if it lies after the approval, otherwise to 12 months after the approval (the
    longest period without a warning). Cite the sheet as the record, e.g. "Genehmigungsblatt GB-20261018-a1b2c3".
+   Only valid entries can be approved: if an entry would still have a validation error with the approval (missing
+   `acceptedValue`, justification too short, `reviewBy` too late …), the command and the app refuse with `RGL-0448`,
+   naming the entry and the first error, and nothing is saved. `exceptions list` and `tailoring list` show such entries
+   as **invalid**, as `validate` does.
 4. Riegel stores the content hash with the approval. The next `check` or report shows the entry as valid.
 
 ## Approval binding
