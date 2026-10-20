@@ -54,9 +54,9 @@ internal sealed class EvidenceFixture : IDisposable
             .Verified("ACSC", "https://www.cyber.gov.au/").Build(),
     ];
 
-    public static ICatalogue LoadCatalogue(RiegelServices services, IReadOnlyList<Rule> rules, string version = "2026.10")
+    public static ICatalogue LoadCatalogue(RiegelServices services, IReadOnlyList<Rule> rules, string version = "2026.10", DateOnly? releasedOn = null)
     {
-        var document = new CatalogueDocument(SchemaIds.Catalogue, "riegel", version, new DateOnly(2026, 10, 18), rules,
+        var document = new CatalogueDocument(SchemaIds.Catalogue, "riegel", version, releasedOn ?? new DateOnly(2026, 10, 18), rules,
             LifecycleTable.Empty, BuildTable.Empty, CapabilityTable.Empty, CatalogueData.Empty);
         using var stream = new MemoryStream(RiegelJson.SerializeToUtf8Bytes(document));
         return services.Catalogue.Load(stream, ReadLimits.Default);

@@ -576,10 +576,10 @@
     <value>包中的运行与清单不符（{0} / {1}）。</value>
   </data>
   <data name="Error_RGL0572" xml:space="preserve">
-    <value>包内规则目录 {0}（{1}）与 Riegel 内置的规则目录 {0}（{2}）不同：其规则已被修改。</value>
+    <value>包内规则目录 {0}（{1}）与此 Riegel 版本已知的已发布规则目录 {0}（{2}）不同：其规则已被修改。</value>
   </data>
   <data name="Error_RGL0573" xml:space="preserve">
-    <value>包内规则目录 {0} 未内置于此 Riegel 版本（内置：{1}），因此无法将其规则与参照进行比较。请使用生成该证据包的 Riegel 版本（{2}）进行验证。</value>
+    <value>此 Riegel 版本不认识包内规则目录 {0}（内置：{1}），因此无法将其规则与参照进行比较，该证据包未经验证。请使用生成该证据包的 Riegel 版本（{2}）或更新的版本进行验证。</value>
   </data>
   <data name="EvidenceReadme_BaselineContentMissing" xml:space="preserve">
     <value>已请求基线 {0} 的内容，但装置文件夹中没有；仅有元数据。</value>
@@ -695,7 +695,7 @@
     <value>Riegel 证据包 – {0}</value>
   </data>
   <data name="EvidenceReadme_VerifyExit" xml:space="preserve">
-    <value>退出代码：0 已复现，2 存在差异，3 错误。</value>
+    <value>退出代码：0 已复现，1 未经验证（此 Riegel 版本不认识该规则目录），2 存在差异，3 错误。</value>
   </data>
   <data name="EvidenceReadme_VerifyHeading" xml:space="preserve">
     <value>使用 verify 复核</value>

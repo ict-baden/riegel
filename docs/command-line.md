@@ -181,7 +181,7 @@ documented state does not page anybody every day. `--critical` and `--warning` r
 (`--critical high,regression --warning none`). In Windows PowerShell 5.1 an empty string argument is dropped, so write
 `none` rather than `""`.
 
-**Other commands:** `verify` 0 reproduced, 1 reproduced with a catalogue that is not the built-in one, 2 mismatch, 3
+**Other commands:** `verify` 0 reproduced, 1 not verified (catalogue unknown to this Riegel version), 2 mismatch, 3
 error · `compare-snapshot` 0 consistent, 1 differs, 3 error ·
 `exceptions validate`/`tailoring validate` 0 valid, 1 warnings, 2 invalid, 3 error · `collect` 0 complete, 1 written but
 incomplete, 3 nothing written (as the portable collector) · all others 0 success, 3 error.
@@ -377,13 +377,14 @@ riegel verify Riegel-Evidence_Linie-3_2026-10-18.zip
 riegel compare-snapshot HMI-L3-01_20261102T101500Z.snapshot.json --evidence Riegel-Evidence_Linie-3_2026-10-18.zip
 ```
 
-`verify` checks every hash in the pack, compares the packed catalogue with the one built into this Riegel version,
-re-evaluates the packed snapshots with the packed catalogue and registers and compares the results and counts with
-the packed ones: "Reproduced with engine X (packed: Y)" and 0, a mismatch with 2 and the differing results, an error
-with 3. It prints the catalogue ID, version and SHA-256 and whether it is the built-in one; a pack with another
-catalogue version is reproduced with exit code 1 (`RGL-0573`): verify it with the Riegel version that wrote it.
-Results of imported baselines whose content was not packed are listed as not verifiable; the counts of their runs are
-still checked. `compare-snapshot` does not re-evaluate anything – run `verify` first
+`verify` checks every hash in the pack, compares the packed catalogue with the one built into this Riegel version (or
+with the released catalogue of an earlier version), re-evaluates the packed snapshots with the packed catalogue and
+registers and compares the results and counts with the packed ones: "Reproduced with engine X (packed: Y)" and 0, a
+mismatch with 2 and the differing results, an error with 3. It prints the catalogue ID, version and SHA-256 and
+whether it is the built-in or a known released one; a catalogue version this Riegel does not know is "not verified"
+with exit code 1 (`RGL-0573`, status `catalogueUnknown`): verify it with the Riegel version that wrote it or a newer
+one. Results of imported baselines whose content was not packed are listed as not verifiable; the counts of their runs
+are still checked. `compare-snapshot` does not re-evaluate anything – run `verify` first
 ([Evidence pack](evidence.md#verify)).
 
 `compare-snapshot` is the sampling step: an auditor collects one machine again and compares that fresh snapshot with
@@ -530,7 +531,7 @@ documentation therefore use `Riegel.Cli.exe`. The CI checks this on every build:
 | `import` | `riegel.cli.import/1` | as `check`, plus `import` (the import record) |
 | `compare` | `riegel.cli.compare/1` | `host`, `against`, `toRunId`, `fromRunId`, `comparison` |
 | `compare-snapshot` | `riegel.cli.compare-snapshot/1` | `exitCode`, `result` (status, comparison) |
-| `verify` | `riegel.cli.verify/1` | `exitCode`, `result` (status, engine versions, findings, `catalogue` {`id`, `version`, `releasedOn`, `sha256`}, `catalogueBuiltIn`) |
+| `verify` | `riegel.cli.verify/1` | `exitCode`, `result` (status, engine versions, findings, `catalogue` {`id`, `version`, `releasedOn`, `sha256`}, `catalogueBuiltIn`, `catalogueReleased`) |
 | `exceptions/tailoring validate` | `riegel.cli.validate/1` | `register`, `status` (valid/warnings/invalid), `exitCode`, `issues[]` |
 | `exceptions/tailoring/measures list` | `riegel.cli.register/1` | `register`, `today`, `entries[]` {`state` or `overdue`, `entry`} |
 | `baseline list` | `riegel.cli.baselines/1` | `baselines[]` {`id`, `name`, `rules`, `sourceFileName`, `sourceSha256`, `importedAtUtc`} |

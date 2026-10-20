@@ -13,7 +13,7 @@
     },
     "version": {
       "type": "string",
-      "pattern": "^\\d{4}\\.\\d{2}$"
+      "pattern": "^\\d{4}\\.\\d{2}(\\.[1-9]\\d{0,2})?$"
     },
     "releasedOn": {
       "$ref": "#/$defs/date"

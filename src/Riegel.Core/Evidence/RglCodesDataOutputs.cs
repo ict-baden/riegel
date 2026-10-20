@@ -81,13 +81,15 @@ public static class RglCodesDataOutputs
     public const string RunManifestMismatch = "RGL-0571";
 
     /// <summary>
-    /// Gepackter Katalog hat ID und Version des eingebauten, aber einen anderen Inhalt (Regeln verändert) – abweichend.
+    /// Gepackter Katalog hat ID und Version des eingebauten oder einer veröffentlichten Fassung, aber einen anderen Inhalt
+    /// (Regeln verändert) – abweichend.
     /// </summary>
     public const string CatalogueNotBuiltIn = "RGL-0572";
 
     /// <summary>
-    /// Gepackter Katalog ist nicht der eingebaute (andere Version): seine Regeln ließen sich nicht mit einer Referenz
-    /// vergleichen. Kein Fehler, aber Exitcode 1 (mit der Riegel-Version prüfen, die das Paket schrieb).
+    /// Version des gepackten Katalogs ist dieser Riegel-Version unbekannt (neuer oder erfunden): seine Regeln ließen sich
+    /// nicht mit einer Referenz vergleichen. Status „catalogueUnknown“, Exitcode 1 (mit der Riegel-Version prüfen, die das
+    /// Paket schrieb, oder einer neueren).
     /// </summary>
     public const string CatalogueNotReference = "RGL-0573";
 

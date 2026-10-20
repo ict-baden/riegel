@@ -7,9 +7,10 @@ using Riegel.Tests.TestSupport;
 namespace Riegel.Tests.Evidence;
 
 /// <summary>
-/// Gefälschte Nachweispakete aus der Prüfung vom 2026-10-20: ein Katalog, der zusammen mit den Ergebnissen geändert
-/// wurde (alle Prüfsummen passend), und eine geänderte Zusammenfassung in einem Paket mit einer Kunden-Baseline ohne
-/// Inhalt. verify muss beide als abweichend melden.
+/// Gefälschte Nachweispakete aus der Prüfung vom 2026-10-20 und der unabhängigen Prüfung danach: ein Katalog, der
+/// zusammen mit den Ergebnissen geändert wurde (alle Prüfsummen passend), eine geänderte Zusammenfassung in einem Paket
+/// mit einer Kunden-Baseline ohne Inhalt, eine angebliche Baseline „riegel“ und eigene Ergebnisse unter einer Baseline.
+/// verify darf keines davon als reproduziert melden.
 /// </summary>
 public sealed class VerifyTamperTests
 {
@@ -53,22 +54,157 @@ public sealed class VerifyTamperTests
         Assert.Contains(Hashes.Short(builtIn.Sha256), finding.Message, StringComparison.Ordinal);
     }
 
+    /// <summary>
+    /// Unabhängige Prüfung: Ein Katalog mit einer Version, die diese Riegel-Version nicht kennt (neuer oder erfunden), ist
+    /// in sich stimmig, aber nicht nachgeprüft – eigener Status, damit Skripte, die nur „status“ lesen, ihn nicht für
+    /// „reproduced“ halten.
+    /// </summary>
     [Fact]
-    public void Katalog_einer_anderen_Version_wird_reproduziert_aber_mit_Hinweis_und_Exitcode_1()
+    public void Katalog_einer_unbekannten_Version_ist_nicht_nachgeprueft_mit_Exitcode_1()
     {
         using var f = new EvidenceFixture();
         var builtIn = f.Catalogue;
-        f.Catalogue = EvidenceFixture.LoadCatalogue(f.Services, EvidenceFixture.Rules(), version: "2026.07");
+        f.Catalogue = EvidenceFixture.LoadCatalogue(f.Services, ForgedRules(), version: "2026.07");
         f.Standard();
-        var result = new EvidencePack(f.Services, () => builtIn).Verify(f.Write(), ReadLimits.Default);
-        Assert.True(result.Status == VerifyStatus.Reproduced, Codes(result));
+        var result = new EvidencePack(f.Services, () => builtIn, NoneReleased).Verify(f.Write(), ReadLimits.Default);
+        Assert.True(result.Status == VerifyStatus.CatalogueUnknown, Codes(result));
         Assert.Equal(1, result.ExitCode);
         Assert.False(result.CatalogueBuiltIn);
+        Assert.False(result.CatalogueReleased);
         Assert.Equal("2026.07", result.Catalogue!.Version);
         var finding = Assert.Single(result.Findings);
         Assert.Equal(RglCodesDataOutputs.CatalogueNotReference, finding.Code);
         Assert.Contains("2026.07", finding.Message, StringComparison.Ordinal);
         Assert.Contains("2026.10", finding.Message, StringComparison.Ordinal);
+    }
+
+    private static string? NoneReleased(string id, string version) => null;
+
+    /// <summary>
+    /// Unabhängige Prüfung: Eine neuere Riegel-Version mit geändertem Katalog (neue Version) prüft ein echtes Paket einer
+    /// früheren Version gegen deren veröffentlichten SHA-256 – reproduziert, Exitcode 0. Vorher meldete jede Änderung am
+    /// Katalog, die nur releasedOn anhob, alle älteren Pakete als gefälscht (RGL-0572).
+    /// </summary>
+    [Fact]
+    public void Paket_eines_frueheren_veroeffentlichten_Katalogs_wird_reproduziert()
+    {
+        using var f = new EvidenceFixture();
+        var earlier = f.Catalogue;
+        f.Standard();
+        var zip = f.Write();
+
+        // Nur das Datum ändern ändert den Inhalt: dieselbe Version wäre nicht mehr eindeutig (CatalogueLockTests)
+        var sameVersion = EvidenceFixture.LoadCatalogue(f.Services, EvidenceFixture.Rules(), releasedOn: new DateOnly(2026, 11, 2));
+        Assert.Equal(earlier.Version, sameVersion.Version);
+        Assert.NotEqual(earlier.Sha256, sameVersion.Sha256);
+
+        var newer = EvidenceFixture.LoadCatalogue(f.Services, ForgedRules(), version: "2026.11", releasedOn: new DateOnly(2026, 11, 2));
+        string? Released(string id, string version) => id == "riegel" && version == "2026.10" ? earlier.Sha256 : null;
+        var result = new EvidencePack(f.Services, () => newer, Released).Verify(zip, ReadLimits.Default);
+        Assert.True(result.Status == VerifyStatus.Reproduced, Codes(result));
+        Assert.Equal(0, result.ExitCode);
+        Assert.False(result.CatalogueBuiltIn);
+        Assert.True(result.CatalogueReleased);
+        Assert.Empty(result.Findings);
+
+        // Ein Katalog, der sich als diese veröffentlichte Version ausgibt, aber andere Regeln hat, ist abweichend
+        using var g = new EvidenceFixture();
+        g.Catalogue = EvidenceFixture.LoadCatalogue(g.Services, ForgedRules());
+        g.Standard();
+        var forged = new EvidencePack(g.Services, () => newer, Released).Verify(g.Write(), ReadLimits.Default);
+        Assert.Equal(VerifyStatus.Mismatch, forged.Status);
+        Assert.Equal(2, forged.ExitCode);
+        Assert.False(forged.CatalogueReleased);
+        var finding = Assert.Single(forged.Findings);
+        Assert.Equal(RglCodesDataOutputs.CatalogueNotBuiltIn, finding.Code);
+        Assert.Contains(Hashes.Short(earlier.Sha256), finding.Message, StringComparison.Ordinal);
+    }
+
+    /// <summary>
+    /// Unabhängige Prüfung: alle „fail“ zu „pass“, Zusammenfassung geschönt und im Manifest eine Baseline „riegel“ ohne
+    /// Inhalt – vorher nahm verify damit alle eigenen Ergebnisse aus dem Vergleich und meldete „reproduziert“.
+    /// </summary>
+    [Fact]
+    public void Angebliche_Baseline_riegel_ohne_Inhalt_macht_das_Manifest_ungueltig()
+    {
+        using var f = new EvidenceFixture();
+        var runs = f.Standard();
+        Assert.Contains(runs.SelectMany(r => r.Results), r => r.Status == ResultStatus.Fail);
+        var zip = f.Write();
+        foreach (var id in new[] { "riegel", "Riegel", "../x", "" })
+        {
+            var copy = Path.Combine(f.Out.Path, "copy.zip");
+            File.Copy(zip, copy, overwrite: true);
+            EvidenceFixture.Rewrite(copy, e =>
+            {
+                Beautify(e);
+                var m = RiegelJson.Deserialize<EvidenceManifest>(e[EvidenceLayout.Manifest]);
+                e[EvidenceLayout.Manifest] = RiegelJson.SerializeToUtf8Bytes(m with { Baselines = [.. m.Baselines, FakeBaseline(id, f.Clock.Now)] });
+            }, rehash: true);
+            var result = f.Pack.Verify(copy, ReadLimits.Default);
+            Assert.True(result.Status == VerifyStatus.Error, id + ": " + Codes(result));
+            Assert.Equal(3, result.ExitCode);
+            Assert.Equal(RglCodesDataOutputs.ManifestInvalid, Assert.Single(result.Findings).Code);
+        }
+
+        // Dieselbe Fälschung ohne die Baseline fällt bei der erneuten Auswertung auf
+        EvidenceFixture.Rewrite(zip, Beautify, rehash: true);
+        var plain = f.Pack.Verify(zip, ReadLimits.Default);
+        Assert.Equal(VerifyStatus.Mismatch, plain.Status);
+        Assert.Contains(plain.Findings, x => x.Code == RglCodesDataOutputs.ResultMismatch);
+        Assert.Contains(plain.Findings, x => x.Code == RglCodesDataOutputs.SummaryMismatch);
+    }
+
+    /// <summary>
+    /// Unabhängige Prüfung, zweite Form: eine gültige Baseline-ID ohne Inhalt, und die eigenen Ergebnisse tragen deren
+    /// RuleSetId. Ergebnisse einer Baseline haben Regel-IDs „IMP-&lt;id&gt;-…“ – alles andere ist abweichend.
+    /// </summary>
+    [Fact]
+    public void Eigene_Ergebnisse_als_Ergebnisse_einer_Baseline_ohne_Inhalt_sind_abweichend()
+    {
+        using var f = new EvidenceFixture();
+        f.Standard();
+        var zip = f.Write();
+        var fake = FakeBaseline("fremd", f.Clock.Now);
+        EvidenceFixture.Rewrite(zip, e =>
+        {
+            foreach (var path in e.Keys.Where(k => k.EndsWith(".results.json", StringComparison.Ordinal)).ToList())
+            {
+                var run = RiegelJson.Deserialize<Run>(e[path]);
+                e[path] = RiegelJson.SerializeToUtf8Bytes(run with
+                {
+                    Results = [.. run.Results.Select(r => r with { RuleSetId = "fremd", Status = r.Status == ResultStatus.Fail ? ResultStatus.Pass : r.Status })],
+                    Baselines = [.. run.Baselines, fake.Baseline],
+                });
+            }
+            var m = RiegelJson.Deserialize<EvidenceManifest>(e[EvidenceLayout.Manifest]);
+            e[EvidenceLayout.Manifest] = RiegelJson.SerializeToUtf8Bytes(m with { Baselines = [.. m.Baselines, fake] });
+        }, rehash: true);
+        var result = f.Pack.Verify(zip, ReadLimits.Default);
+        Assert.Equal(VerifyStatus.Mismatch, result.Status);
+        Assert.Equal(2, result.ExitCode);
+        Assert.Contains(result.Findings, x => x.Code == RglCodesDataOutputs.ResultMismatch && x.Message.Contains("not a rule of this baseline", StringComparison.Ordinal));
+    }
+
+    private static EvidenceBaseline FakeBaseline(string id, DateTimeOffset now) =>
+        new(new BaselineRef(id, "Riegel", BaselineSourceKind.RiegelJson, new string('0', 64), null, now, 0), false, null);
+
+    /// <summary>Alle „fail“ zu „pass“ und eine Zusammenfassung ohne offene Punkte.</summary>
+    private static void Beautify(SortedDictionary<string, byte[]> e)
+    {
+        foreach (var path in e.Keys.Where(k => k.EndsWith(".results.json", StringComparison.Ordinal)).ToList())
+        {
+            var run = RiegelJson.Deserialize<Run>(e[path]);
+            int fails = run.Results.Count(r => r.Status == ResultStatus.Fail);
+            e[path] = RiegelJson.SerializeToUtf8Bytes(run with
+            {
+                Results = [.. run.Results.Select(r => r.Status == ResultStatus.Fail ? r with { Status = ResultStatus.Pass } : r)],
+                Summary = run.Summary with
+                {
+                    Pass = run.Summary.Pass + fails, Fail = 0, OpenHigh = 0, OpenMedium = 0, OpenLow = 0, Score = 100, Documented = 100,
+                },
+            });
+        }
     }
 
     [Fact]

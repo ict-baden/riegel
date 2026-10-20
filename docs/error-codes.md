@@ -285,8 +285,8 @@ Data outputs (Excel, CSV, evidence pack, remediation).
 | `RGL-0569` | RemediationActionInvalid | Remediation entry in the catalogue not allowed – left out: {0} |
 | `RGL-0570` | RollbackValueOmitted | Old value not taken into the rollback: {0} |
 | `RGL-0571` | RunManifestMismatch | Run in the pack does not match the manifest ({0} / {1}). |
-| `RGL-0572` | CatalogueNotBuiltIn | The packed catalogue {0} ({1}) differs from the catalogue {0} built into Riegel ({2}): its rules were changed. |
-| `RGL-0573` | CatalogueNotReference | The packed catalogue {0} is not built into this Riegel version (built in: {1}), so its rules could not be compared with a reference. Verify the pack with the Riegel version that wrote it ({2}). |
+| `RGL-0572` | CatalogueNotBuiltIn | The packed catalogue {0} ({1}) differs from the released catalogue {0} known to this Riegel version ({2}): its rules were changed. |
+| `RGL-0573` | CatalogueNotReference | The packed catalogue {0} is not known to this Riegel version (built in: {1}), so its rules could not be compared with a reference and the pack is not verified. Verify it with the Riegel version that wrote it ({2}) or a newer one. |
 
 ## RGL-0600–0699
 

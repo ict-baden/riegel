@@ -553,7 +553,7 @@ public sealed class CommandTests
     }
 
     [Fact]
-    public void Verify_Exitcodes_0_2_und_3()
+    public void Verify_Exitcodes_0_1_2_und_3()
     {
         using var temp = new TempFolder();
         var zip = Path.Combine(temp.Path, "Riegel-Evidence_x.zip");
@@ -564,23 +564,36 @@ public sealed class CommandTests
             Assert.Equal(0, ok.Exit);
             Assert.Contains("Reproduced with engine 0.1.0 (packed: 0.1.0)", ok.Out, StringComparison.Ordinal);
 
-            // Katalog mit ID, Version und SHA-256; einer, der nicht der eingebaute ist: Exitcode 1
+            // Katalog mit ID, Version und SHA-256: eingebaut oder veröffentlicht → 0; unbekannt → „nicht nachgeprüft“, Exitcode 1
             var sha = new string('a', 64);
             var builtIn = new VerifyResult(VerifyStatus.Reproduced, "0.1.0", "0.1.0", [], 3, 459, [])
             {
-                Catalogue = new CatalogueRef("riegel", "2026.10", new DateOnly(2026, 10, 18), sha), CatalogueBuiltIn = true,
+                Catalogue = new CatalogueRef("riegel", "2026.10", new DateOnly(2026, 10, 18), sha), CatalogueBuiltIn = true, CatalogueReleased = true,
             };
             var same = Cli.Run(Cli.With(evidence: new FakeEvidence(builtIn)), "verify", zip);
             Assert.Equal(0, same.Exit);
             Assert.Contains($"Catalogue: riegel 2026.10, SHA-256 {sha} – identical to the catalogue built into this Riegel version.", same.Out, StringComparison.Ordinal);
-            var other = Cli.Run(Cli.With(evidence: new FakeEvidence(builtIn with
+            var released = Cli.Run(Cli.With(evidence: new FakeEvidence(builtIn with
             {
                 Catalogue = builtIn.Catalogue! with { Version = "2026.07" }, CatalogueBuiltIn = false,
-                Findings = [new VerifyFinding("RGL-0573", "catalogue/riegel-catalogue-2026.07.json", null, null, "not built in")],
             })), "verify", zip);
+            Assert.Equal(0, released.Exit);
+            Assert.Contains($"Catalogue: riegel 2026.07, SHA-256 {sha} – identical to the released catalogue riegel 2026.07 that this Riegel version knows",
+                released.Out, StringComparison.Ordinal);
+            var unknown = builtIn with
+            {
+                Status = VerifyStatus.CatalogueUnknown, Catalogue = builtIn.Catalogue! with { Version = "2026.07" }, CatalogueBuiltIn = false,
+                CatalogueReleased = false, Findings = [new VerifyFinding("RGL-0573", "catalogue/riegel-catalogue-2026.07.json", null, null, "not known")],
+            };
+            var other = Cli.Run(Cli.With(evidence: new FakeEvidence(unknown)), "verify", zip);
             Assert.Equal(1, other.Exit);
+            Assert.Contains("Not verified with engine 0.1.0 (packed: 0.1.0)", other.Out, StringComparison.Ordinal);
             Assert.Contains($"Catalogue: riegel 2026.07, SHA-256 {sha} – not the catalogue built into this Riegel version", other.Out, StringComparison.Ordinal);
             Assert.Contains("RGL-0573", other.Out, StringComparison.Ordinal);
+            var otherJson = Cli.Run(Cli.With(evidence: new FakeEvidence(unknown)), "verify", zip, "--format", "json");
+            Assert.Equal(1, otherJson.Exit);
+            Assert.Equal("catalogueUnknown", otherJson.Json().GetProperty("result").GetProperty("status").GetString());
+            Assert.False(otherJson.Json().GetProperty("result").GetProperty("catalogueReleased").GetBoolean());
         }
         var mismatch = new VerifyResult(VerifyStatus.Mismatch, "0.1.0", "0.0.9", [new VerifyFinding("RGL-0560", "runs/x.json", "HMI-TEST", "NET-01", "differs")], 1, 153, []);
         var bad = Cli.Run(Cli.With(evidence: new FakeEvidence(mismatch)), "verify", zip, "--format", "json");

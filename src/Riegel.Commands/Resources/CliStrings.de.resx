@@ -336,6 +336,12 @@ Daten und Datenschutz: {4}</value>
   <data name="Cli_VerifyCatalogueOther" xml:space="preserve">
     <value>Regelwerk: {0} {1}, SHA-256 {2} – nicht das in diese Riegel-Version eingebaute ({3}); die Ergebnisse wurden nur mit dem gepackten Regelwerk reproduziert.</value>
   </data>
+  <data name="Cli_VerifyCatalogueReleased" xml:space="preserve">
+    <value>Regelwerk: {0} {1}, SHA-256 {2} – identisch mit dem veröffentlichten Regelwerk {0} {1}, das diese Riegel-Version kennt (eingebaut: {3}).</value>
+  </data>
+  <data name="Cli_VerifyCatalogueUnknown" xml:space="preserve">
+    <value>Nicht nachgeprüft mit Engine {0} (gepackt: {1}): diese Riegel-Version kennt das gepackte Regelwerk nicht.</value>
+  </data>
   <data name="Cli_VerifyError" xml:space="preserve">
     <value>Das Nachweispaket ließ sich nicht prüfen.</value>
   </data>
@@ -537,7 +543,7 @@ Exitcodes: 0 Erfolg, 3 Fehler; validate wie oben.</value>
   <data name="Help_ExitCodes" xml:space="preserve">
     <value>Exitcodes: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN (Aufruffehler, unlesbarer oder beschädigter Export, Prüfsummenfehler, E/A-Fehler).
 check und import melden mit --plant Veränderungen (kritisch: regression,newhigh), ohne den Zustand (kritisch: regression,high).
-verify: 0 reproduziert, 2 abweichend · compare-snapshot: 0 konsistent, 1 abweichend · validate: 0 gültig, 1 Warnungen, 2 ungültig.</value>
+verify: 0 reproduziert, 1 nicht nachgeprüft, 2 abweichend · compare-snapshot: 0 konsistent, 1 abweichend · validate: 0 gültig, 1 Warnungen, 2 ungültig.</value>
   </data>
   <data name="Help_Import" xml:space="preserve">
     <value>Aufruf: {0} import &lt;Datei|Ordner&gt;… --plant &lt;Ordner&gt; [--collected-by-role &lt;Rolle&gt;] [--witness-role &lt;Rolle&gt;] [--record] [--reevaluate]
@@ -686,7 +692,7 @@ Exitcodes: 0 Erfolg, 3 Fehler.</value>
 Prüft jede Prüfsumme in einem Nachweispaket, wertet die gepackten Exporte mit dem gepackten Regelwerk und den gepackten
 Registern neu aus und vergleicht mit den gepackten Ergebnissen.
 
-Exitcodes: 0 reproduziert, 2 abweichend, 3 Fehler.</value>
+Exitcodes: 0 reproduziert, 1 nicht nachgeprüft (Regelwerk dieser Riegel-Version unbekannt), 2 abweichend, 3 Fehler.</value>
   </data>
   <data name="Issue_Error" xml:space="preserve">
     <value>Fehler</value>

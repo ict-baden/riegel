@@ -347,6 +347,12 @@ Data and privacy: {4}</value>
   <data name="Cli_VerifyCatalogueOther" xml:space="preserve">
     <value>Catalogue: {0} {1}, SHA-256 {2} – not the catalogue built into this Riegel version ({3}); the results were only reproduced with the packed catalogue.</value>
   </data>
+  <data name="Cli_VerifyCatalogueReleased" xml:space="preserve">
+    <value>Catalogue: {0} {1}, SHA-256 {2} – identical to the released catalogue {0} {1} that this Riegel version knows (built in: {3}).</value>
+  </data>
+  <data name="Cli_VerifyCatalogueUnknown" xml:space="preserve">
+    <value>Not verified with engine {0} (packed: {1}): this Riegel version does not know the packed catalogue.</value>
+  </data>
   <data name="Cli_VerifyError" xml:space="preserve">
     <value>The evidence pack could not be verified.</value>
   </data>
@@ -549,7 +555,7 @@ Exit codes: 0 success, 3 error; validate as above.</value>
   <data name="Help_ExitCodes" xml:space="preserve">
     <value>Exit codes: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN (usage error, unreadable or corrupt snapshot, checksum mismatch, I/O error).
 check and import alert on change with --plant (critical: regression,newhigh) and on state without (critical: regression,high).
-verify: 0 reproduced, 2 mismatch · compare-snapshot: 0 consistent, 1 differs · validate: 0 valid, 1 warnings, 2 invalid.</value>
+verify: 0 reproduced, 1 not verified, 2 mismatch · compare-snapshot: 0 consistent, 1 differs · validate: 0 valid, 1 warnings, 2 invalid.</value>
   </data>
   <data name="Help_Import" xml:space="preserve">
     <value>Usage: {0} import &lt;file|folder&gt;… --plant &lt;folder&gt; [--collected-by-role &lt;role&gt;] [--witness-role &lt;role&gt;] [--record] [--reevaluate]
@@ -699,7 +705,7 @@ Exit codes: 0 success, 3 error.</value>
 Checks every hash in an evidence pack, re-evaluates the packed snapshots with the packed catalogue and registers and
 compares the results with the packed ones.
 
-Exit codes: 0 reproduced, 2 mismatch, 3 error.</value>
+Exit codes: 0 reproduced, 1 not verified (catalogue unknown to this Riegel version), 2 mismatch, 3 error.</value>
   </data>
   <data name="Issue_Error" xml:space="preserve">
     <value>Error</value>

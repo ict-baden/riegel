@@ -575,10 +575,10 @@
     <value>Run in the pack does not match the manifest ({0} / {1}).</value>
   </data>
   <data name="Error_RGL0572" xml:space="preserve">
-    <value>The packed catalogue {0} ({1}) differs from the catalogue {0} built into Riegel ({2}): its rules were changed.</value>
+    <value>The packed catalogue {0} ({1}) differs from the released catalogue {0} known to this Riegel version ({2}): its rules were changed.</value>
   </data>
   <data name="Error_RGL0573" xml:space="preserve">
-    <value>The packed catalogue {0} is not built into this Riegel version (built in: {1}), so its rules could not be compared with a reference. Verify the pack with the Riegel version that wrote it ({2}).</value>
+    <value>The packed catalogue {0} is not known to this Riegel version (built in: {1}), so its rules could not be compared with a reference and the pack is not verified. Verify it with the Riegel version that wrote it ({2}) or a newer one.</value>
   </data>
   <data name="EvidenceReadme_BaselineContentMissing" xml:space="preserve">
     <value>Content of baseline {0} requested but not available in the plant folder; metadata only.</value>
@@ -692,7 +692,7 @@
     <value>Riegel evidence pack – {0}</value>
   </data>
   <data name="EvidenceReadme_VerifyExit" xml:space="preserve">
-    <value>Exit code: 0 reproduced, 2 differences, 3 error.</value>
+    <value>Exit code: 0 reproduced, 1 not verified (catalogue unknown to this Riegel version), 2 differences, 3 error.</value>
   </data>
   <data name="EvidenceReadme_VerifyHeading" xml:space="preserve">
     <value>Re-evaluating with verify</value>

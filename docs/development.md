@@ -287,8 +287,8 @@ Releases never depend on artifacts (the organisation's artifact storage may be f
 ## Releases
 
 1. `CHANGELOG.md`: rename "Unveröffentlicht" to `## [x.y.z] – <date>`; `Directory.Build.props` `<Version>`; the
-   catalogue's `releasedOn` in `rules/catalogue.json` when the catalogue changes; the collector version and hash when
-   the collector changes.
+   collector version and hash when the collector changes. The catalogue version is not a release step: it changes
+   with every change to the catalogue (below).
 2. Push `main`, wait for a green build (it updates `latest`; release-check verifies it), check the asset list.
 3. `git tag vX.Y.Z && git push origin vX.Y.Z`: the tag build creates the release with the versioned file names, and
    release-check verifies it.
@@ -297,6 +297,13 @@ Releases never depend on artifacts (the organisation's artifact storage may be f
    `X.Y.Z-ci.<run>`, which sorts *before* the tag `X.Y.Z` (SemVer), and its MSI `X.Y.Z.<run>` is not seen as a
    downgrade when the tag's MSI is installed over it (Windows Installer compares three fields).
 5. Follow the release checklist of the ICT-Baden guidelines (`CHECKLISTE-RELEASE.md`).
+
+**Catalogue versions.** Every change to the catalogue (rules, tables, the header) that reaches `main` is released
+through `latest`. It therefore needs a new `version` (`YYYY.MM`, or `YYYY.MM.N` for a further change in the same month)
+and `releasedOn` in `rules/catalogue.json`, and a new line with the canonical SHA-256 in
+`src/Riegel.Core/Catalogue/ReleasedCatalogues.cs`; `CatalogueLockTests` fails until both are done and prints the hash.
+Never change or remove a line once it is on `main`: `verify` checks packs written by earlier Riegel versions against
+these hashes (a known version with another hash is `RGL-0572`, an unknown version is "not verified", exit code 1).
 
 ## Rules for this repository
 

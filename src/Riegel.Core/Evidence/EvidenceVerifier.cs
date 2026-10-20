@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: MIT
 using System.Globalization;
 using Riegel.Core.About;
+using Riegel.Core.Baselines;
 using Riegel.Core.Localization;
 using Riegel.Core.Model;
 using Riegel.Core.Model.Json;
 using Riegel.Core.Resources;
+using Riegel.Core.Scoring;
 using Riegel.Core.Services;
 
 namespace Riegel.Core.Evidence;
@@ -15,11 +17,12 @@ namespace Riegel.Core.Evidence;
 /// gepackten Anlage und den gepackten Registern neu aus (mit der Auswertungsuhr des gepackten Laufs) und vergleicht
 /// mit den gepackten Ergebnissen. Ergebnisse importierter Baselines ohne Inhalt sind „nicht nachprüfbar“; die Zählungen
 /// und der Härtungsgrad werden trotzdem nachgerechnet (mit den gepackten Ergebnissen dieser Baselines).
-/// Der gepackte Katalog wird mit dem eingebauten verglichen (<paramref name="builtIn"/>): Hätte er dieselbe Version und
+/// Der gepackte Katalog wird mit dem eingebauten (<paramref name="builtIn"/>) bzw. mit einer veröffentlichten Fassung
+/// derselben Version (<paramref name="released"/>, SHA-256 zu ID und Version) verglichen: Hätte er dieselbe Version und
 /// einen anderen Inhalt, ließen sich Katalog und Ergebnisse gemeinsam fälschen, denn die erneute Auswertung nimmt den
-/// gepackten Katalog.
+/// gepackten Katalog. Ein Katalog, den diese Riegel-Version nicht kennt, ergibt „nicht nachgeprüft“ (Exitcode 1).
 /// </summary>
-internal sealed class EvidenceVerifier(RiegelServices services, Func<ICatalogue> builtIn)
+internal sealed class EvidenceVerifier(RiegelServices services, Func<ICatalogue> builtIn, Func<string, string, string?> released)
 {
     /// <summary>Höchstzahl der Befunde; danach nur noch ein Sammelbefund.</summary>
     public const int MaxFindings = 1000;
@@ -77,7 +80,7 @@ internal sealed class EvidenceVerifier(RiegelServices services, Func<ICatalogue>
 
         // Katalog, Baselines, Anlage, Register aus dem Paket
         ICatalogue? core = null;
-        bool builtInCatalogue = false;
+        var origin = CatalogueOrigin.Unknown;
         var catalogueBytes = archive.Get(manifest.CatalogueFile.Path);
         if (catalogueBytes is not null)
         {
@@ -89,7 +92,7 @@ internal sealed class EvidenceVerifier(RiegelServices services, Func<ICatalogue>
                     || core.Version != manifest.Catalogue.Version)
                     findings.Add(RglCodesDataOutputs.CatalogueMismatch, manifest.CatalogueFile.Path, null, null,
                         RglCodesDataOutputs.Message(RglCodesDataOutputs.CatalogueMismatch, Hashes.Short(core.Sha256), Hashes.Short(manifest.Catalogue.Sha256)));
-                builtInCatalogue = CompareWithBuiltIn(core, manifest.CatalogueFile.Path, packedEngine, findings);
+                origin = CompareWithReference(core, manifest.CatalogueFile.Path, packedEngine, findings);
             }
             catch (RiegelException e)
             {
@@ -151,34 +154,43 @@ internal sealed class EvidenceVerifier(RiegelServices services, Func<ICatalogue>
             compared += outcome.Compared;
         }
         findings.Close();
-        var status = findings.AnyMismatch ? VerifyStatus.Mismatch : VerifyStatus.Reproduced;
+        var status = findings.AnyMismatch ? VerifyStatus.Mismatch
+            : origin is CatalogueOrigin.BuiltIn or CatalogueOrigin.Released ? VerifyStatus.Reproduced
+            : VerifyStatus.CatalogueUnknown;
         return new VerifyResult(status, engine, packedEngine, findings.List, snapshots, compared, notVerifiable)
         {
             Catalogue = core is null ? null : new CatalogueRef(core.Id, core.Version, core.ReleasedOn, core.Sha256),
-            CatalogueBuiltIn = builtInCatalogue,
+            CatalogueBuiltIn = origin == CatalogueOrigin.BuiltIn,
+            CatalogueReleased = origin is CatalogueOrigin.BuiltIn or CatalogueOrigin.Released,
         };
     }
 
+    /// <summary>Herkunft des gepackten Katalogs aus Sicht dieser Riegel-Version.</summary>
+    private enum CatalogueOrigin { Unknown, BuiltIn, Released, Changed }
+
     /// <summary>
-    /// Vergleicht den gepackten Katalog mit dem eingebauten. Gleiche ID und Version, anderer SHA-256: die Regeln wurden
-    /// verändert (RGL-0572, abweichend). Andere ID oder Version: keine Referenz in dieser Riegel-Version (RGL-0573,
-    /// Hinweis, Exitcode 1). true nur bei einem bytegleichen (kanonischen) Katalog.
+    /// Vergleicht den gepackten Katalog mit dem eingebauten derselben ID und Version, sonst mit der veröffentlichten
+    /// Fassung dieser Version (<see cref="Catalogue.ReleasedCatalogues"/>). Gleiche Version, anderer SHA-256: die Regeln
+    /// wurden verändert (RGL-0572, abweichend). Version unbekannt (neuer als diese Riegel-Version oder erfunden): keine
+    /// Referenz (RGL-0573, „nicht nachgeprüft“, Exitcode 1).
     /// </summary>
-    private bool CompareWithBuiltIn(ICatalogue packed, string file, string packedEngine, Findings findings)
+    private CatalogueOrigin CompareWithReference(ICatalogue packed, string file, string packedEngine, Findings findings)
     {
         var reference = builtIn();
-        if (string.Equals(packed.Id, reference.Id, StringComparison.Ordinal) && packed.Version == reference.Version)
+        bool isBuiltInVersion = string.Equals(packed.Id, reference.Id, StringComparison.Ordinal) && packed.Version == reference.Version;
+        var expected = isBuiltInVersion ? reference.Sha256 : released(packed.Id, packed.Version);
+        if (expected is null)
         {
-            if (Same(packed.Sha256, reference.Sha256)) return true;
-            findings.Add(RglCodesDataOutputs.CatalogueNotBuiltIn, file, null, null,
-                RglCodesDataOutputs.Message(RglCodesDataOutputs.CatalogueNotBuiltIn, packed.Id + " " + packed.Version, Hashes.Short(packed.Sha256),
-                    Hashes.Short(reference.Sha256)));
-            return false;
+            findings.Add(RglCodesDataOutputs.CatalogueNotReference, file, null, null,
+                RglCodesDataOutputs.Message(RglCodesDataOutputs.CatalogueNotReference, packed.Id + " " + packed.Version,
+                    reference.Id + " " + reference.Version, packedEngine));
+            return CatalogueOrigin.Unknown;
         }
-        findings.Add(RglCodesDataOutputs.CatalogueNotReference, file, null, null,
-            RglCodesDataOutputs.Message(RglCodesDataOutputs.CatalogueNotReference, packed.Id + " " + packed.Version,
-                reference.Id + " " + reference.Version, packedEngine));
-        return false;
+        if (Same(packed.Sha256, expected)) return isBuiltInVersion ? CatalogueOrigin.BuiltIn : CatalogueOrigin.Released;
+        findings.Add(RglCodesDataOutputs.CatalogueNotBuiltIn, file, null, null,
+            RglCodesDataOutputs.Message(RglCodesDataOutputs.CatalogueNotBuiltIn, packed.Id + " " + packed.Version, Hashes.Short(packed.Sha256),
+                Hashes.Short(expected)));
+        return CatalogueOrigin.Changed;
     }
 
     private readonly record struct RunOutcome(bool Evaluated, int Compared);
@@ -264,6 +276,13 @@ internal sealed class EvidenceVerifier(RiegelServices services, Func<ICatalogue>
         // Neu auswerten mit der Uhr des gepackten Laufs; Detailtexte hängen von der Sprache ab, deshalb notfalls weitere Sprachen
         var clockServices = RiegelServices.Create(services.Platform, new FixedTimeProvider(packed.EvaluatedAtUtc));
         var unverifiable = packed.Results.Where(r => withoutContent.Contains(r.RuleSetId)).ToList();
+        // Ein nicht nachprüfbares Ergebnis gehört zu einer Baseline dieses Laufs und hat deren Regel-ID (IMP-<id>-…): sonst
+        // ließen sich eigene Regeln als Baseline-Ergebnisse ausgeben und dem Vergleich entziehen (unabhängige Prüfung)
+        foreach (var r in unverifiable)
+            if (r.RuleId is null || !r.RuleId.StartsWith(BaselineImporter.RuleId(r.RuleSetId, ""), StringComparison.Ordinal)
+                || !packed.Baselines.Any(b => b.Id == r.RuleSetId))
+                findings.Add(RglCodesDataOutputs.ResultMismatch, entry.Results.Path, host, r.RuleId,
+                    RglCodesDataOutputs.Message(RglCodesDataOutputs.ResultMismatch, r.RuleId ?? "∅", "ruleSetId " + r.RuleSetId + ": not a rule of this baseline"));
         Run Evaluate(string language)
         {
             var run = clockServices.Runs.EvaluateOnly(snapshot, new RunOptions(packed.EvaluationDate, packed.ImportedAtUtc,
@@ -453,6 +472,22 @@ internal sealed class EvidenceVerifier(RiegelServices services, Func<ICatalogue>
                 RglCodesDataOutputs.Message(RglCodesDataOutputs.ManifestInvalid, e.Code + " " + e.Message));
             manifest = null;
             return false;
+        }
+
+        // Baselines: gültige, eindeutige IDs und nie die des eigenen Katalogs – eine angebliche Baseline „riegel“ ohne
+        // Inhalt nähme sonst alle eigenen Ergebnisse aus dem Vergleich (unabhängige Prüfung vom 2026-10-20)
+        var baselineIds = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var b in manifest.Baselines)
+        {
+            var id = b?.Baseline?.Id;
+            if (id is null || !BaselineImporter.BaselineIdPattern().IsMatch(id) || id == ScoreCalculator.OwnRuleSet
+                || string.Equals(id, manifest.Catalogue?.Id, StringComparison.OrdinalIgnoreCase) || !baselineIds.Add(id))
+            {
+                error = new Failure(RglCodesDataOutputs.ManifestInvalid, EvidenceLayout.Manifest,
+                    RglCodesDataOutputs.Message(RglCodesDataOutputs.ManifestInvalid, "baseline id \"" + EvidenceArchive.Printable(id ?? "∅") + "\""));
+                manifest = null;
+                return false;
+            }
         }
 
         // Jede Datei außer manifest.json und SHA256SUMS.txt steht im Manifest – und umgekehrt

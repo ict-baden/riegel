@@ -235,7 +235,7 @@ evidence pack. The synthetic fixtures `PG-ALT-01_20261010.riegel-builtin` (Windo
 
 | File | Format |
 |---|---|
-| `rules/catalogue.json` | `riegel.catalogue/1` header: `{ schema, id: "riegel", version: "2026.10", releasedOn }` |
+| `rules/catalogue.json` | `riegel.catalogue/1` header: `{ schema, id: "riegel", version: "2026.10", releasedOn }`; `version` is `YYYY.MM`, or `YYYY.MM.N` for a further change in the same month, and belongs to exactly one content (`ReleasedCatalogues`, see [development](development.md#releases)) |
 | `rules/<PREFIX>.json` | `riegel.rules/1`: `{ schema, prefix, rules: [ Rule ] }`, one file per prefix (20 files, 153 rules in 2026.10) |
 | `rules/lifecycle/windows.json` | `riegel.lifecycle/1` (see [catalogue tables](#catalogue-tables)) |
 | `rules/lifecycle/builds.json` | `riegel.builds/1` |
@@ -823,8 +823,8 @@ order (which is also the JSON order); `?` marks optional values. A test keeps th
 - **VectorMachine** (record): `int Build`, `int? Ubr`, `string? Edition`, `string? InstallationType`, `int ProductType`, `int DomainRole`, `bool IsAdmin`
 - **VerificationNote** (record): `string Src`, `string? Doc`, `string? Url`, `DateOnly Date`, `string? Section`, `string? Note`
 - **VerifyFinding** (record): `string Code`, `string? File`, `string? HostName`, `string? RuleId`, `string Message`
-- **VerifyResult** (record): `VerifyStatus Status`, `string EngineVersion`, `string? PackedEngineVersion`, `int SnapshotsChecked`, `int ResultsCompared`, `IReadOnlyList<VerifyFinding> Findings`, `IReadOnlyList<string> NotVerifiable`, `CatalogueRef? Catalogue` (the packed catalogue), `bool CatalogueBuiltIn` (identical to the catalogue built into this Riegel version), `int ExitCode` (not in JSON; 0 reproduced, 1 reproduced with a catalogue that is not the built-in one, 2 mismatch, 3 error)
-- **VerifyStatus** (enum): Reproduced, Mismatch, Error
+- **VerifyResult** (record): `VerifyStatus Status`, `string EngineVersion`, `string? PackedEngineVersion`, `int SnapshotsChecked`, `int ResultsCompared`, `IReadOnlyList<VerifyFinding> Findings`, `IReadOnlyList<string> NotVerifiable`, `CatalogueRef? Catalogue` (the packed catalogue), `bool CatalogueBuiltIn` (identical to the catalogue built into this Riegel version), `bool CatalogueReleased` (the built-in catalogue or a released catalogue this Riegel version knows by its SHA-256), `int ExitCode` (not in JSON; 0 reproduced, 1 catalogue unknown – not verified, 2 mismatch, 3 error)
+- **VerifyStatus** (enum): Reproduced, CatalogueUnknown, Mismatch, Error
 - **WhenMissing** (enum): NotCheckable, Fail, OsDefault, Pass
 - **WmiMethodKind** (enum): Static, PerRow
 - **WmiPlanItem** (record): `string Key`, `string Namespace`, `string Class`, `string? Where`, `IReadOnlyList<string>? AdminOnlyProperties`, `bool NeedsAdmin`, `PlanMode Mode`, `string? Note`, `IReadOnlyList<string> Properties`, `IReadOnlyList<WmiPlanMethod> Methods`

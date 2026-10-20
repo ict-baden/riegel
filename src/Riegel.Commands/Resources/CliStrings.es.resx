@@ -339,6 +339,12 @@ Datos y privacidad: {4}</value>
   <data name="Cli_VerifyCatalogueOther" xml:space="preserve">
     <value>Catálogo: {0} {1}, SHA-256 {2}: no es el catálogo integrado en esta versión de Riegel ({3}); los resultados solo se reprodujeron con el catálogo empaquetado.</value>
   </data>
+  <data name="Cli_VerifyCatalogueReleased" xml:space="preserve">
+    <value>Catálogo: {0} {1}, SHA-256 {2}: idéntico al catálogo publicado {0} {1} que conoce esta versión de Riegel (integrado: {3}).</value>
+  </data>
+  <data name="Cli_VerifyCatalogueUnknown" xml:space="preserve">
+    <value>No verificado con el motor {0} (empaquetado: {1}): esta versión de Riegel no conoce el catálogo empaquetado.</value>
+  </data>
   <data name="Cli_VerifyError" xml:space="preserve">
     <value>No se pudo verificar el paquete de evidencias.</value>
   </data>
@@ -545,7 +551,7 @@ Códigos de salida: 0 correcto, 3 error; validate como arriba.</value>
   <data name="Help_ExitCodes" xml:space="preserve">
     <value>Códigos de salida: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN (error de uso, exportación ilegible o dañada, error de suma de comprobación, error de E/S).
 check e import alertan ante cambios con --plant (crítico: regression,newhigh) y sobre el estado sin él (crítico: regression,high).
-verify: 0 reproducido, 2 diferente · compare-snapshot: 0 coherente, 1 difiere · validate: 0 válido, 1 advertencias, 2 no válido.</value>
+verify: 0 reproducido, 1 no verificado, 2 diferente · compare-snapshot: 0 coherente, 1 difiere · validate: 0 válido, 1 advertencias, 2 no válido.</value>
   </data>
   <data name="Help_Import" xml:space="preserve">
     <value>Uso: {0} import &lt;archivo|carpeta&gt;… --plant &lt;carpeta&gt; [--collected-by-role &lt;rol&gt;] [--witness-role &lt;rol&gt;] [--record] [--reevaluate]
@@ -703,7 +709,7 @@ Códigos de salida: 0 correcto, 3 error.</value>
 Comprueba cada hash de un paquete de evidencias, vuelve a evaluar las exportaciones empaquetadas con el catálogo y los
 registros empaquetados y compara los resultados con los empaquetados.
 
-Códigos de salida: 0 reproducido, 2 diferente, 3 error.</value>
+Códigos de salida: 0 reproducido, 1 no verificado (catálogo desconocido para esta versión de Riegel), 2 diferente, 3 error.</value>
   </data>
   <data name="Issue_Error" xml:space="preserve">
     <value>Error</value>

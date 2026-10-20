@@ -339,6 +339,12 @@ SHA-256：{1}</value>
   <data name="Cli_VerifyCatalogueOther" xml:space="preserve">
     <value>规则目录：{0} {1}，SHA-256 {2} – 并非此 Riegel 版本内置的规则目录（{3}）；结果仅使用包内规则目录重现。</value>
   </data>
+  <data name="Cli_VerifyCatalogueReleased" xml:space="preserve">
+    <value>规则目录：{0} {1}，SHA-256 {2} – 与此 Riegel 版本已知的已发布规则目录 {0} {1} 相同（内置：{3}）。</value>
+  </data>
+  <data name="Cli_VerifyCatalogueUnknown" xml:space="preserve">
+    <value>未经验证，引擎 {0}（包内：{1}）：此 Riegel 版本不认识包内规则目录。</value>
+  </data>
   <data name="Cli_VerifyError" xml:space="preserve">
     <value>无法验证证据包。</value>
   </data>
@@ -542,7 +548,7 @@ SHA-256：{1}</value>
   <data name="Help_ExitCodes" xml:space="preserve">
     <value>退出代码：0 OK，1 WARNING，2 CRITICAL，3 UNKNOWN（用法错误、导出文件无法读取或已损坏、校验和不符、I/O 错误）。
 check 和 import 在使用 --plant 时针对变化告警（严重：regression,newhigh），不使用时针对状态告警（严重：regression,high）。
-verify：0 已重现，2 不一致 · compare-snapshot：0 一致，1 不同 · validate：0 有效，1 有警告，2 无效。</value>
+verify：0 已重现，1 未经验证，2 不一致 · compare-snapshot：0 一致，1 不同 · validate：0 有效，1 有警告，2 无效。</value>
   </data>
   <data name="Help_Import" xml:space="preserve">
     <value>用法：{0} import &lt;文件|文件夹&gt;… --plant &lt;文件夹&gt; [--collected-by-role &lt;角色&gt;] [--witness-role &lt;角色&gt;] [--record] [--reevaluate]
@@ -697,7 +703,7 @@ remediation/&lt;计算机&gt;/&lt;运行&gt;/ 下。Riegel 从不执行这些文
 
 检查证据包中的每个哈希值，使用包内的规则目录和登记册重新评估包内的导出文件，并与包内结果进行比较。
 
-退出代码：0 已重现，2 不一致，3 错误。</value>
+退出代码：0 已重现，1 未经验证（此 Riegel 版本不认识该规则目录），2 不一致，3 错误。</value>
   </data>
   <data name="Issue_Error" xml:space="preserve">
     <value>错误</value>

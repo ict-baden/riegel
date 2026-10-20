@@ -576,10 +576,10 @@
     <value>L'exécution du dossier ne correspond pas au manifeste ({0} / {1}).</value>
   </data>
   <data name="Error_RGL0572" xml:space="preserve">
-    <value>Le catalogue empaqueté {0} ({1}) diffère du catalogue {0} intégré à Riegel ({2}) : ses règles ont été modifiées.</value>
+    <value>Le catalogue empaqueté {0} ({1}) diffère du catalogue publié {0} connu de cette version de Riegel ({2}) : ses règles ont été modifiées.</value>
   </data>
   <data name="Error_RGL0573" xml:space="preserve">
-    <value>Le catalogue empaqueté {0} n'est pas intégré à cette version de Riegel (intégré : {1}) ; ses règles n'ont donc pas pu être comparées à une référence. Vérifiez le paquet avec la version de Riegel qui l'a créé ({2}).</value>
+    <value>Le catalogue empaqueté {0} n'est pas connu de cette version de Riegel (intégré : {1}) ; ses règles n'ont donc pas pu être comparées à une référence et le paquet n'est pas vérifié. Vérifiez-le avec la version de Riegel qui l'a créé ({2}) ou une version plus récente.</value>
   </data>
   <data name="EvidenceReadme_BaselineContentMissing" xml:space="preserve">
     <value>Contenu du référentiel {0} demandé mais indisponible dans le dossier de l'installation ; métadonnées uniquement.</value>
@@ -695,7 +695,7 @@
     <value>Dossier de preuves Riegel – {0}</value>
   </data>
   <data name="EvidenceReadme_VerifyExit" xml:space="preserve">
-    <value>Code de sortie : 0 reproduit, 2 écarts, 3 erreur.</value>
+    <value>Code de sortie : 0 reproduit, 1 non vérifié (catalogue inconnu de cette version de Riegel), 2 écarts, 3 erreur.</value>
   </data>
   <data name="EvidenceReadme_VerifyHeading" xml:space="preserve">
     <value>Contrôler avec verify</value>
