@@ -12,6 +12,9 @@ public sealed record RegisterScope(IReadOnlyList<string> Machines, IReadOnlyList
 {
     public IReadOnlyList<string> Machines { get; init; } = Machines ?? [];
     public IReadOnlyList<string> Groups { get; init; } = Groups ?? [];
+
+    /// <summary>Leer: trifft keinen Rechner (die Prüfung meldet RGL-0424).</summary>
+    public static RegisterScope Empty { get; } = new([], [], false);
 }
 
 /// <summary>
@@ -42,9 +45,18 @@ public sealed record ExceptionEntry(string Id, string RuleId, RegisterScope Scop
 public enum ReasonCategory { VendorRequirement, TechnicalNecessity, CompensatingControl, RiskAccepted, NotRelevantHere }
 
 /// <summary><c>exceptions.json</c> (<c>riegel.exceptions/1</c>); Vorlagen <c>*.exceptions-template.json</c> haben dieselbe Form ohne Freigaben.</summary>
-public sealed record ExceptionFile(string Schema, string PlantId, IReadOnlyList<ExceptionEntry> Exceptions)
+public sealed record ExceptionFile(string Schema, string PlantId, IReadOnlyList<ExceptionEntry> Exceptions) : IAfterRead<ExceptionFile>
 {
     public IReadOnlyList<ExceptionEntry> Exceptions { get; init; } = Exceptions ?? [];
+
+    ExceptionFile IAfterRead<ExceptionFile>.AfterRead() => this with
+    {
+        Exceptions = [.. Exceptions.Select(e => e with
+        {
+            Id = e.Id ?? "", RuleId = e.RuleId ?? "", Scope = e.Scope ?? RegisterScope.Empty, Justification = e.Justification ?? "",
+            Approval = e.Approval ?? Approval.None,
+        })],
+    };
 }
 
 /// <summary>Zuschnitt („nicht im Prüfumfang“, spec 2.12).</summary>
@@ -54,9 +66,17 @@ public sealed record TailoringEntry(string Id, string RuleId, RegisterScope Scop
     DateOnly CreatedOn, string? CreatedByRole, DateOnly? ModifiedOn, string? Comment);
 
 /// <summary><c>tailoring.json</c> (<c>riegel.tailoring/1</c>).</summary>
-public sealed record TailoringFile(string Schema, string PlantId, IReadOnlyList<TailoringEntry> Entries)
+public sealed record TailoringFile(string Schema, string PlantId, IReadOnlyList<TailoringEntry> Entries) : IAfterRead<TailoringFile>
 {
     public IReadOnlyList<TailoringEntry> Entries { get; init; } = Entries ?? [];
+
+    TailoringFile IAfterRead<TailoringFile>.AfterRead() => this with
+    {
+        Entries = [.. Entries.Select(e => e with
+        {
+            Id = e.Id ?? "", RuleId = e.RuleId ?? "", Scope = e.Scope ?? RegisterScope.Empty, Reason = e.Reason ?? "", Approval = e.Approval ?? Approval.None,
+        })],
+    };
 }
 
 /// <summary>Maßnahme (Maßnahmenplan, spec 2.13). Braucht keine Freigabe.</summary>
@@ -69,9 +89,17 @@ public sealed record MeasureEntry(string Id, string RuleId, RegisterScope Scope,
 public enum MeasureState { Planned, Done, Dropped }
 
 /// <summary><c>measures.json</c> (<c>riegel.measures/1</c>).</summary>
-public sealed record MeasureFile(string Schema, string PlantId, IReadOnlyList<MeasureEntry> Measures)
+public sealed record MeasureFile(string Schema, string PlantId, IReadOnlyList<MeasureEntry> Measures) : IAfterRead<MeasureFile>
 {
     public IReadOnlyList<MeasureEntry> Measures { get; init; } = Measures ?? [];
+
+    MeasureFile IAfterRead<MeasureFile>.AfterRead() => this with
+    {
+        Measures = [.. Measures.Select(e => e with
+        {
+            Id = e.Id ?? "", RuleId = e.RuleId ?? "", Scope = e.Scope ?? RegisterScope.Empty, Action = e.Action ?? "", OwnerRole = e.OwnerRole ?? "",
+        })],
+    };
 }
 
 /// <summary>Die drei Register einer Anlage mit ihren SHA-256 beim Laden (für optimistische Nebenläufigkeit).</summary>

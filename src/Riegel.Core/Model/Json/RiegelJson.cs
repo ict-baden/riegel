@@ -73,8 +73,9 @@ public static class RiegelJson
         if (utf8.StartsWith(Utf8BomBytes)) utf8 = utf8[3..];
         try
         {
-            return JsonSerializer.Deserialize(utf8, TypeInfo<T>())
-                   ?? throw RiegelException.Common(RglCodesCommon.InvalidJson, typeof(T).Name);
+            var value = JsonSerializer.Deserialize(utf8, TypeInfo<T>())
+                        ?? throw RiegelException.Common(RglCodesCommon.InvalidJson, typeof(T).Name);
+            return value is IAfterRead<T> repair ? repair.AfterRead() : value;
         }
         catch (JsonException e)
         {

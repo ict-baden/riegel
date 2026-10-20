@@ -451,8 +451,11 @@ ownerRole, dueDate, ticket?, state: planned|done|dropped, createdOn, createdByRo
 Entries are sorted by `id`. **Content hash** (`ContentHashes.Of`): SHA-256 over the compact canonical JSON of the
 entry with an empty `approval` object; it is stored as `approvedContentSha256` at approval, so any later edit (also of
 `modifiedOn`) is detected. Templates (`*.exceptions-template.json`, `*.tailoring-template.json`) have the same entries
-with `approval: {}`; importing one creates pending entries. The validity rules are spec 2.11–2.13 (workflow package,
-`docs/exceptions.md`).
+with `approval: {}`; importing one creates pending entries and needs the required fields of every entry (otherwise
+`RGL-0004` with file, entry and field). When a register file lacks a required field of an entry, the entry is read
+with an empty value (empty scope, empty text, no approval) and fails validation instead of making the plant
+unreadable; a plant file without `settings` uses the defaults. The validity rules are spec 2.11–2.13 (workflow
+package, `docs/exceptions.md`).
 
 ## Runs (`riegel.run/1`)
 

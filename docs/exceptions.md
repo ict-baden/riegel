@@ -174,6 +174,15 @@ register as **pending** entries: approval fields are cleared (also if a template
 `createdByRole` is kept. An ID that already exists in the register gets the next free number. Templates are never
 applied automatically – the imported entries need the normal approval.
 
+Every entry of a template must have `ruleId`, `scope` (with `machines`, `groups` and `allMachines`) and, for
+exceptions, `category` and `justification`, for tailoring `reason`. A template that lacks one of them is refused as a
+whole with `RGL-0004`, naming the file, the entry and the field (for example
+`hersteller.exceptions-template.json: exceptions[2].scope`); nothing is added.
+
+A register file that already holds an entry without a required field (edited by hand, or imported with Riegel 0.1.0,
+which did not check templates) still opens: the entry gets an empty scope, empty texts or no approval, so validation
+reports it as invalid (`RGL-0421`, `RGL-0424`, `RGL-0427`, `RGL-0444`) and it applies to no machine. Fix or delete it.
+
 ## Validation
 
 `exceptions validate` and `tailoring validate` (and the app's inline checks) report every issue with an RGL code. Exit
