@@ -73,7 +73,7 @@ public sealed partial class RepositoryTests
                      "Riegel-sbom.cdx.json", "SHA256SUMS.txt" })
             Assert.Contains($"'{name}'", workflow, StringComparison.Ordinal);
         // Artefakte dürfen kein Release tragen (Speicher der Organisation): jeder Upload ist klein und blockiert nicht
-        var uploads = Regex.Matches(workflow, @"uses: actions/upload-artifact@v\d+");
+        var uploads = Regex.Matches(workflow, @"uses: actions/upload-artifact@[0-9a-f]{40}");
         Assert.Equal(uploads.Count, Regex.Matches(workflow, @"retention-days: 7").Count);
     }
 
