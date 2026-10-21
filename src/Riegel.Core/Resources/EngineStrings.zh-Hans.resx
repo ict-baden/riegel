@@ -27,7 +27,7 @@
     <value>已安装的更新 {1}.{2} 最多已有 {0} 天</value>
   </data>
   <data name="Detail_AuditGuidMissing" xml:space="preserve">
-    <value>收集的审核策略中没有子类别 {0}</value>
+    <value>采集的审核策略中没有子类别 {0}</value>
   </data>
   <data name="Detail_AutoLogonPasswordElsewhere" xml:space="preserve">
     <value>无法检查密码的存储位置（可能为 LSA 机密）</value>
@@ -213,7 +213,7 @@
     <value>规则“{0}”向任意地址开放 {1}（配置文件 {2}）</value>
   </data>
   <data name="Detail_RulesNotCollected" xml:space="preserve">
-    <value>未收集防火墙规则列表（--minimal）</value>
+    <value>未采集防火墙规则列表（--minimal）</value>
   </data>
   <data name="Detail_ServiceAbsent" xml:space="preserve">
     <value>服务 {0} 不存在</value>
@@ -297,22 +297,22 @@
     <value>拒绝访问证据</value>
   </data>
   <data name="Error_RGL0221" xml:space="preserve">
-    <value>因错误未能收集证据</value>
+    <value>因错误未能采集证据</value>
   </data>
   <data name="Error_RGL0222" xml:space="preserve">
-    <value>未收集证据</value>
+    <value>未采集证据</value>
   </data>
   <data name="Error_RGL0223" xml:space="preserve">
     <value>缺少 WMI 命名空间或类</value>
   </data>
   <data name="Error_RGL0224" xml:space="preserve">
-    <value>证据被截断或收集范围不完整</value>
+    <value>证据被截断或采集范围不完整</value>
   </data>
   <data name="Error_RGL0225" xml:space="preserve">
-    <value>收集器将该证据标记为不适用</value>
+    <value>采集器将该证据标记为不适用</value>
   </data>
   <data name="Error_RGL0226" xml:space="preserve">
-    <value>无法证明缺失（在收集范围之外）</value>
+    <value>无法证明缺失（在采集范围之外）</value>
   </data>
   <data name="Error_RGL0227" xml:space="preserve">
     <value>未设置值；该规则不假定默认值</value>

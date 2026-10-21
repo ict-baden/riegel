@@ -21,7 +21,7 @@ internal static partial class ReleasedCatalogues
         // andere Regeln – deren Pakete meldet verify als RGL-0572 (mit v0.1.0 oder neuer neu erstellen).
         ["2026.10"] = "17afec3c0c9ea3c0da569dd156b2ee7dcbae361ffb88c39ffdcd4fb5126142dc",
         // v0.1.2 (2026-10-21): NET-25 nimmt Domänencontroller aus, deutlicherer Hinweis für Server.
-        ["2026.10.1"] = "56986d9e558673170ea23bf76f013f0fef66612f88b0da9bcfe890156b3d641d",
+        ["2026.10.1"] = "e4ad34a04c3b6760eb5d93fbfe167959e63813f2be402e9ead838cb47725acce",
     };
 
     /// <summary>SHA-256 der veröffentlichten Fassung <paramref name="id"/> <paramref name="version"/>; null, wenn unbekannt.</summary>

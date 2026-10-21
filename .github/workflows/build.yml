@@ -557,7 +557,8 @@ jobs:
                     "- **Riegel-Collector$s.zip**: portable collector for OT and legacy machines (Windows 7 SP1 to 11), installs nothing`n" +
                     "- Riegel-Collector-allowlist$s.zip: AppLocker data for the collector`n" +
                     "- Riegel-Collector-ReadOnlyProof$s.txt: read-only proof of this build`n" +
-                    "- $env:APP$s-sbom.cdx.json: bill of materials (CycloneDX)`n
+                    "- $env:APP$s-sbom.cdx.json: bill of materials (CycloneDX)`n" +
+                    "- SHA256SUMS.txt: checksums`n"
           Write-Host $notes
           gh release create $env:GITHUB_REF_NAME $files.FullName --title "$env:APP $env:GITHUB_REF_NAME" --notes $notes --generate-notes @pre
           if ($LASTEXITCODE -ne 0) { throw "Release ließ sich nicht anlegen ($LASTEXITCODE)" }
