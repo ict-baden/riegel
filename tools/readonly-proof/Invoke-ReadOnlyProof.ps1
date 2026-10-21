@@ -236,8 +236,10 @@ function Invoke-Traced([string] $target, [string] $outDir) {
 # Aenderungen geplanter Aufgaben, die Windows selbst vornimmt (Belege in docs/collector.md): Aufgabe, Art der Aenderung,
 # Ereignis-ID und das Programm, das sie laut Sicherheitsprotokoll vornimmt. Nur diese werden entschuldigt.
 $knownTaskChanges = @(
-    # Server 2025: die Aufgabe schaltet sich nach ihrem ersten Lauf selbst ab (4701 vom Aufgabenhost taskhostw.exe)
-    [pscustomobject]@{ Task = '\Microsoft\Windows\Printing\PrintJobCleanupTask'; Key = 'State'; Before = 'enabled'; After = 'disabled'; Event = 4701; Image = 'taskhostw.exe' }
+    # Server 2025: die Aufgabe schaltet sich nach ihrem ersten Lauf selbst ab (4701 vom Aufgabenhost taskhostw.exe, den
+    # der Dienst Aufgabenplanung startet)
+    [pscustomobject]@{ Task = '\Microsoft\Windows\Printing\PrintJobCleanupTask'; Key = 'State'; Before = 'enabled'; After = 'disabled'; Event = 4701
+                       Image = 'taskhostw.exe'; ParentService = 'Schedule' }
 )
 
 # Programm einer PID zum Zeitpunkt $at: das juengste Ereignis 4688 mit dieser PID davor (PIDs werden wiederverwendet);
@@ -274,8 +276,16 @@ function Get-TaskChangers([string] $taskPath, [datetime] $from, [datetime] $to) 
     }
 }
 
+# PID des Prozesses, der einen Dienst beherbergt; -1, wenn es ihn nicht gibt (StrictMode: kein Zugriff auf $null)
+function Get-ServicePid([string] $name) {
+    $svc = Get-CimInstance Win32_Service -Filter "Name='$name'" -Property ProcessId -ErrorAction SilentlyContinue
+    if ($null -eq $svc) { return -1 }
+    return [int] $svc.ProcessId
+}
+
 # Aenderung einer geplanten Aufgabe ($key task:<Pfad>[:State], Werte vorher/nachher) im Fenster: ByWindows nur, wenn jedes
-# Ereignis dazu in $knownTaskChanges steht und weder der Client- noch dessen Elternprozess zu einem Lauf gehoert.
+# Ereignis dazu in $knownTaskChanges steht (Programm laut 4688, Elternprozess = Prozess des genannten Dienstes) und weder
+# der Client- noch dessen Elternprozess zu einem Lauf gehoert.
 # Text nennt die Ereignisse und Programme (leer: nichts protokolliert - dann zaehlt die Aenderung).
 function Get-TaskChange([string] $key, [string] $before, [string] $after, [datetime] $from, [datetime] $to, $trees) {
     $path = $key.Substring(5) -replace ':State$', ''
@@ -284,7 +294,8 @@ function Get-TaskChange([string] $key, [string] $before, [string] $after, [datet
     $byWindows = $changers.Count -gt 0
     foreach ($c in $changers) {
         $known = @($knownTaskChanges | Where-Object { $_.Task -eq $path -and $_.Key -eq $kind -and $_.Before -eq $before -and $_.After -eq $after -and
-                                                      $_.Event -eq $c.Id -and $c.Image -and $_.Image -eq $c.Image })
+                                                      $_.Event -eq $c.Id -and $c.Image -and $_.Image -eq $c.Image -and $c.Parent -and
+                                                      $c.Parent -eq (Get-ServicePid $_.ParentService) })
         if ($c.Pid -eq 0 -or $known.Count -eq 0) { $byWindows = $false }
         foreach ($t in $trees) { if ($t.Contains([int] $c.Pid) -or ($c.Parent -and $t.Contains([int] $c.Parent))) { $byWindows = $false } }
     }
@@ -505,7 +516,6 @@ Line ''
 # Hintergrund; ein Dienst, der nicht zurueckkehrt, bleibt ein Fehler.
 if ($recheck.Count -gt 0) {
     Line '== Repetition of service state changes (every target 3 times, each run with the service in its previous state)'
-    $repFrom = $cal2End # ab dem Lesen von $s9
     $checks = @($recheck | Group-Object Key | ForEach-Object { $_.Group[0] })
     $valid = @{}
     $failed = @{}
@@ -532,6 +542,9 @@ if ($recheck.Count -gt 0) {
         $pending = @($pending | Where-Object { $notBack -notcontains $_ })
         if ($pending.Count -eq 0) { break }
         Line "  round $round (waited $([Math]::Round($wait.Elapsed.TotalSeconds)) s for $(($pending | ForEach-Object { $_.Key.Split(':')[1] + '=' + $_.Before }) -join ', '))"
+        # Einstellungen je Lauf wie bei den gemessenen Laeufen (die Wartezeit davor gehoert zu keinem Lauf)
+        $stateFrom = Get-Date
+        $state = Get-RunnerState
         foreach ($t in $Target) {
             $pre = @{}
             foreach ($c in $pending) { $pre[$c.Key] = Get-ServiceState $c.Key; Undo-LateChange $c $pre[$c.Key] }
@@ -547,6 +560,14 @@ if ($recheck.Count -gt 0) {
             } while ($watch.Elapsed.TotalSeconds -lt 20)
             if ($run.ExitCode -notin 0, 1) { Fail "$t exited with $($run.ExitCode) in repetition round $round" }
             if (-not (Test-OutputFolder $t $run.Out)) { Fail "$t wrote something else than its export and checksum in repetition round $round" }
+            $nextFrom = Get-Date
+            $next = Get-RunnerState
+            foreach ($key in @(Compare-State $state $next | Where-Object { -not (Test-Runtime $_) -and $_ -notin $excluded -and $_ -notin $excluded2 })) {
+                if ($key -like 'task:*' -and (Test-TaskChangeByWindows $key $state $next $stateFrom (Get-Date) $allTrees "repetition round $round, $t`: ")) { continue }
+                Fail "$t changed in repetition round $round`: $(Describe $state $next $key)"
+            }
+            $state = $next
+            $stateFrom = $nextFrom
             $notes = foreach ($c in $pending) {
                 $name = $c.Key.Split(':')[1]
                 if ($failed.ContainsKey($c.Key)) { "$name already failed"; continue }
@@ -570,14 +591,6 @@ if ($recheck.Count -gt 0) {
         $short = @($Target | Where-Object { $valid["$($c.Key)|$_"] -lt 3 })
         if ($short.Count -eq 0) { Line "  not reproducible: no target repeated it in 3 runs each - a change by Windows (listed, not counted): $($c.Target): $($c.Text)" }
         else { Fail "$($c.Target) changed: $($c.Text) (could not be repeated three times for: $($short -join ', '))" }
-    }
-    # Die Wiederholungen selbst: Einstellungen, Aufgaben und %TEMP%\riegel-* wie bei jedem Lauf
-    $s10 = Get-RunnerState
-    $repTo = Get-Date
-    foreach ($key in @(Compare-State $s9 $s10)) {
-        if ($key -like 'task:*' -and (Test-TaskChangeByWindows $key $s9 $s10 $repFrom $repTo $allTrees 'repetitions: ')) { continue }
-        if (-not (Test-Runtime $key)) { Fail "configuration changed during the repetitions: $(Describe $s9 $s10 $key)" }
-        else { Line "  service state after the repetitions (listed; the repetitions judged the checked services): $(Describe $s9 $s10 $key)" }
     }
     Line ''
 }
