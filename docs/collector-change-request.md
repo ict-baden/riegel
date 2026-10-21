@@ -175,8 +175,10 @@ The collector changes no configuration. Windows records that a program ran:
   start trigger; its start mode does not change; not with `--minimal`);
 - possibly RSoP data in temporary WMI namespaces built by `gpresult` (**unverified**).
 
-The read-only proof lists, per runner, the Security-log event IDs one run created, every on-demand service start and
-every demand-start service that Windows ended when idle during a run (start mode unchanged).
+The read-only proof lists, per runner, the Security-log event IDs one run created, every on-demand service start,
+every demand-start service that Windows ended when idle during a run (start mode unchanged), and every change that it
+judged to be Windows' own after repeating each target three times or after reading its originator from the Security
+log ([rules and evidence](collector.md#how-the-proof-tells-the-collector-from-windows)).
 
 ## CPU, time and size footprint
 
@@ -203,5 +205,8 @@ registry keys `HKLM\SOFTWARE\Policies`, `…\Control\Lsa`, `…\LanmanServer\Par
 start mode and running state of every service (including `wuauserv`), the Defender preferences, the scheduled tasks
 (path, name, state), the firewall profiles and rules, and the hash of `Registry.pol`; a calibration run without the
 collector first; the Security-log event IDs and Defender detections during the run; and the result. Any difference
-fails the release build. The workflow `collector.yml` runs the same proof on Windows Server 2022, Windows Server 2025
+fails the release build, except the changes Windows makes by itself, which the proof lists with the rule it applied:
+services with a start trigger, servicing and idle-ended services, a service start that no target repeats in three
+further runs each, and a scheduled-task change that the Security log attributes to a process outside the runs
+([how the proof tells the collector from Windows](collector.md#how-the-proof-tells-the-collector-from-windows)). The workflow `collector.yml` runs the same proof on Windows Server 2022, Windows Server 2025
 and Windows 11 Arm64 for the collector, `--deep`, `--minimal`, `Riegel.Cli.exe collect` and `collect-builtin.cmd`.

@@ -86,6 +86,11 @@ These are open tasks for a lab and a real OT environment (gate for version 1.0):
   derived from `IUnknown`, the SDK header from `IDispatch`; the collector uses the header's dual interface.
 - The Security-log 4688 cross-check of the read-only proof works only where process-creation auditing is on.
 - Demand-start services that Windows ends when idle during a run are listed in the proof but not counted as a change.
+- A service start that no target repeats in three further runs each is listed as Windows' own and not counted; a change
+  that the collector caused in fewer than one of three runs would therefore not fail the proof. Scheduled-task changes
+  are excused only with a Security-log event (4698–4702) that names a process outside the runs; where *Other Object
+  Access Events* are not audited, every task change fails the proof
+  ([rules and evidence](collector.md#how-the-proof-tells-the-collector-from-windows)).
 
 ## Built-in-commands bundles
 

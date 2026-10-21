@@ -7,7 +7,8 @@
 [Options and exit codes](#options-and-exit-codes) · [What it reads](#what-it-reads) ·
 [What it leaves behind](#what-it-leaves-behind) · [Built-in commands](#built-in-commands) ·
 [Allow-listing (AppLocker)](#allow-listing-applocker) · [Versions and releases](#versions-and-releases) ·
-[From the app and the CLI](#from-the-app-and-the-command-line) · [Verified and not verified](#verified-and-not-verified)
+[From the app and the CLI](#from-the-app-and-the-command-line) · [Verified and not verified](#verified-and-not-verified) ·
+[How the proof tells the collector from Windows](#how-the-proof-tells-the-collector-from-windows)
 
 ## What it is
 
@@ -167,7 +168,9 @@ selbst vermerkt, dass ein Programm lief." In detail:
   it is likely but **unverified**. Its start mode does not change either. Demand-start services (start mode
   *Manual*, such as the Windows Update Medic Service on Server 2025) that Windows ends when idle during a run are listed
   in the proof as well and do not count as a change: a reading program cannot stop a service. A service that is
-  *started* without a start trigger, any start-mode change and any change of `wuauserv` stay failures. The servicing
+  *started* without a start trigger is measured again, every target three more times, and stays a failure if the start
+  comes back ([how the proof tells the collector from Windows](#how-the-proof-tells-the-collector-from-windows)); any
+  start-mode change and any change of `wuauserv` stay failures. The servicing
   services of Windows Update and Windows Installer (`WaaSMedicSvc`, `UsoSvc`, `TrustedInstaller`), which Windows starts
   and stops on its own schedule, are listed and not counted as long as their start mode does not change. For a
   changed registry export, security template or audit policy the proof names the changed lines.
@@ -315,3 +318,56 @@ interface identifiers, the method order and the state values.
 Not testable without real machines (see the limitations page): Windows 7, 8.1, 2008 R2, 2012 R2 and 2016 starts; UNC
 start under CLR 2; real AppLocker/App Control enforcement; German, French and Chinese Windows; domain GPOs; domain
 controllers; Server Core; third-party antivirus and EDR reactions; Windows XP built-in collection.
+
+## How the proof tells the collector from Windows
+
+A runner is a live Windows machine: services start and stop, scheduled tasks run, Windows Update and Defender do their
+work. The proof must not count that as the collector's doing, and it must not explain away anything the collector
+does. These are its rules, in the order it applies them:
+
+1. **Configuration never changes.** Security template, audit policy, the registry exports, every service's start mode,
+   the Defender preferences, the firewall profiles and rules, `Registry.pol` and the set of scheduled tasks with their
+   enabled state are compared before and after every run (warm-up, measured runs, repetitions). Any difference fails
+   the proof. The one exception is a scheduled task whose change the Security log attributes to a process outside every
+   run: events 4698–4702 name the client process (`ClientProcessId`), and the proof excuses the change only if that
+   process belongs to none of the runs' process trees (collected from a WMI process trace and from event 4688). Without
+   such an event – auditing of *Other Object Access Events* off, or an older Windows – the change fails.
+2. **Calibration.** A null run of the same length without any target, before and after the measured runs, shows what
+   changes on its own; running states that change there are listed, not counted. Configuration values that change on
+   their own are reported as a warning.
+3. **Services Windows starts and stops by design** are listed, not counted, as long as their start mode stays the same:
+   services with a start trigger (Windows starts them on demand, e.g. the Group Policy Client when `gpresult` calls it),
+   the servicing services of Windows Update and Windows Installer, and demand-start services that Windows ends when idle
+   (a reading program cannot stop a service).
+4. **Any other start, and any other change of a running state, is measured again.** Once the service is back in its
+   previous state, every target runs three more times, with the service's state read directly before and after each
+   run. If the change comes back once, or the service does not return to its previous state within eight minutes, the
+   proof fails. Only a change that no target repeats in three runs each is listed as a change by Windows. This covers
+   starts in a measured run, starts during the warm-up (a service such as VSS, which ends only after three minutes
+   idle, would otherwise still be running in the measured run and hide a repeat) and starts of a service that the
+   calibration saw changing on its own. `wuauserv` is never repeated or excused (V1).
+
+Every listed change stays in `Riegel-Collector-ReadOnlyProof-<version>.txt` with its rule, so a reviewer can check it.
+What the rules cannot exclude: a change that the collector causes only now and then, in fewer than one of three runs,
+would be listed as a change by Windows rather than counted.
+
+**Why rules 1 and 4 exist (diagnosis of 2026-10-21).** The collector workflow on `main` failed once on `windows-2025`
+with `svc:swprv:State` and `svc:VSS:State` changing from `Stopped` to `Running` during a measured collector run, and on
+2026-10-20 with `\Microsoft\Windows\Printing\PrintJobCleanupTask` changing from enabled to disabled during a `--deep`
+run; the collector exe was the same bytes as in every passing run. A diagnosis workflow on a separate branch measured
+this on six Server 2025 runners (image 20261018.275.1):
+
+- **VSS and the Microsoft Software Shadow Copy Provider (swprv) start on every runner by themselves, 11 to 13 minutes
+  after boot** (671, 673, 676, 687, 687 and 758 s), through a COM activation by the DCOM launcher (the Service Control
+  Manager logs the DcomLaunch host as the requesting process). On three runners nothing ran at all apart from a loop
+  reading the event log – no checkout, no build, no collector. VSS ends after three minutes idle (event 8224), swprv
+  three minutes later. Earlier proofs on `windows-2025` that showed the same two services starting during a calibration
+  run fit this pattern, and so does the failed run.
+- **The collector never started them:** in 21 collector runs with VSS and swprv stopped beforehand, in `--minimal` and
+  in every source of the collector run on its own (each WMI class of the collection plan, including BitLocker's
+  `Win32_EncryptableVolume` with its four methods, `secedit /export`, `gpresult`, `HNetCfg.FwPolicy2` and the Windows
+  Update history) neither service started. The collector queries no shadow-copy or volume class (`Win32_ShadowCopy`,
+  `Win32_Volume`, `MSFT_Volume`) and calls no VSS interface.
+- **`PrintJobCleanupTask` disables itself:** the Security log records event 4701 (task disabled) from `taskhostw.exe`,
+  the host that runs the task, right after the task's first run about five minutes after boot. The collector does not
+  use the Task Scheduler at all.
