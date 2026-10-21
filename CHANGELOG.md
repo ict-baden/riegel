@@ -6,6 +6,40 @@ Jeder Versionsabschnitt endet mit „English“: Das ist der Text des Releases a
 
 ## [Unveröffentlicht]
 
+## [0.1.3] – 2026-10-21
+
+Nur-Lesen-Nachweis und Veröffentlichung. Sammler unverändert (0.1.0, dieselben Bytes), Regelwerk 2026.10.1.
+
+### Nur-Lesen-Nachweis
+- **Ursache der roten Läufe auf `windows-2025` geklärt:** Windows startet VSS und swprv auf jedem Server-2025-Runner 11 bis 13 Minuten nach dem Boot selbst (COM-Aktivierung über DcomLaunch), auch wenn gar nichts läuft; `PrintJobCleanupTask` schaltet sich nach ihrem ersten Lauf selbst ab (Ereignis 4701 von `taskhostw.exe`). Der Sammler startete VSS in keinem von 21 Läufen und in keiner seiner Quellen einzeln. Belege und Regeln in `docs/collector.md` („How the proof tells the collector from Windows“).
+- Ein Dienst, der ohne Starttrigger startet oder seinen Zustand anders wechselt, wird wiederholt gemessen: Jedes Ziel läuft noch dreimal, jeweils erst wenn der Dienst wieder im alten Zustand ist. Kehrt der Wechsel wieder oder lässt er sich nicht wiederholen, scheitert der Nachweis wie bisher; nur ein nicht reproduzierbarer Wechsel gilt als Hintergrund und wird aufgeführt.
+- **Strenger als bisher:** Ein Dienststart beim Aufwärmen blieb im gemessenen Lauf unsichtbar, solange der Dienst noch lief (VSS endet erst nach drei Minuten Leerlauf, die Kalibrierung dauert 30 s); ebenso der Start eines Dienstes, den die Kalibrierung ausgeschlossen hatte. Beides wird jetzt wiederholt.
+- Eine geänderte geplante Aufgabe gilt nur noch dann als Windows, wenn das Sicherheitsprotokoll (4698–4702) einen Prozess außerhalb aller Läufe als Urheber nennt; der Nachweis nennt den Urheber in jedem Fall.
+
+### Geändert
+- *Datenschutz* auf der Info-Seite und in `--info` führt auf `https://ict-baden.de/datenschutz/riegel/`, wie bei den anderen Programmen von ICT-Baden; die Einzelheiten bleiben in `docs/data-and-privacy.md`.
+- README, Doku, `THIRD-PARTY-NOTICES.txt` und RGL-0130 nennen die Dateien der Tag-Releases mit Version (`Riegel-Collector-<version>.zip` …); ein Test hält die Versionsnummern in den Beispielen aktuell.
+- Releases tragen den englischen Teil des CHANGELOG-Abschnitts mit Sammler-Hash und Dateiliste als Text statt automatisch erzeugter Notizen; jeder Versionsabschnitt hat dafür einen Teil „English“.
+- CI: `actions/checkout` 7.0.1, `actions/setup-dotnet` 6.0.0 und `actions/upload-artifact` 7.0.2 (Node 24), weiter per Commit-SHA gepinnt.
+- Doku ohne Verweise auf die interne Spezifikation; Kopfvermerk der es/fr/zh-Hans-Sprachdateien ohne veralteten Hinweis auf einzeln markierte Einträge.
+
+### English
+
+Read-only proof and release housekeeping. Collector unchanged (0.1.0, same bytes), rule catalogue 2026.10.1.
+
+#### Read-only proof
+- **Cause of the red runs on `windows-2025` found:** Windows itself starts VSS and swprv on every Server 2025 runner 11 to 13 minutes after boot (a COM activation through DcomLaunch), even when nothing else runs; `PrintJobCleanupTask` disables itself after its first run (event 4701 from `taskhostw.exe`). The collector started VSS in none of 21 runs and in none of its sources run on their own. Evidence and rules: `docs/collector.md` ("How the proof tells the collector from Windows").
+- A service that starts without a start trigger, or changes its state otherwise, is measured again: every target runs three more times, each once the service is back in its previous state. If the change comes back or cannot be repeated, the proof fails as before; only a change that does not come back is listed as background.
+- **Stricter than before:** a service start during the warm-up stayed invisible in the measured run while the service was still running (VSS ends only after three minutes idle, the calibration lasts 30 s), and so did the start of a service that the calibration had excluded. Both are now repeated.
+- A changed scheduled task counts as Windows' own only if the Security log (4698–4702) names a process outside all runs as its originator; the proof names the originator in every case.
+
+#### Changed
+- *Privacy* on the *About* page and in `--info` opens `https://ict-baden.de/datenschutz/riegel/`, as for the other ICT-Baden programs; the details remain in `docs/data-and-privacy.md`.
+- README, documentation, `THIRD-PARTY-NOTICES.txt` and RGL-0130 name the files of tag releases with their version (`Riegel-Collector-<version>.zip` …); a test keeps the version numbers in the examples current.
+- Releases carry the English part of the changelog section with the collector hash and the list of files as their notes instead of generated notes; every version section has an "English" part for this.
+- CI: `actions/checkout` 7.0.1, `actions/setup-dotnet` 6.0.0 and `actions/upload-artifact` 7.0.2 (Node 24), still pinned by commit SHA.
+- Documentation without references to the internal specification; the header note of the es/fr/zh-Hans language files no longer mentions individually marked entries.
+
 ## [0.1.2] – 2026-10-21
 
 Release-Bereinigung. Sammler unverändert (0.1.0, dieselben Bytes), Regelwerk 2026.10.1.
