@@ -42,6 +42,26 @@ public sealed class EvidenceWriteTests
     }
 
     [Fact]
+    public void Laeufe_aus_format_json_stehen_nur_unter_runs_und_nicht_flach_in_der_Wurzel()
+    {
+        // report --format json --evidence gibt die Läufe als Dokumente mit; sie gehören nur einmal unter runs/<host>/
+        using var f = new EvidenceFixture();
+        var runs = f.Standard();
+        var documents = new List<string>();
+        foreach (var run in runs)
+        {
+            var path = Path.Combine(f.Out.Sub("documents", "runs", run.HostName), run.Id + ".results.json");
+            RiegelJson.WriteFile(path, run);
+            documents.Add(path);
+        }
+        var zip = f.Pack.Write(new EvidenceRequest(f.Plant.Plant, null, new DateOnly(2026, 10, 18), documents, false,
+            "Anlagenverantwortlicher", "de", f.Out.Sub("evidence")));
+        var entries = EvidenceFixture.ReadAll(zip);
+        Assert.DoesNotContain(entries.Keys, k => !k.Contains('/') && k.EndsWith(".results.json", StringComparison.Ordinal));
+        foreach (var run in runs) Assert.Contains($"runs/{run.HostName}/{run.Id}.results.json", entries.Keys);
+    }
+
+    [Fact]
     public void Manifest_ist_schema_gueltig_und_nennt_jede_Datei_mit_Pruefsumme()
     {
         using var f = new EvidenceFixture();

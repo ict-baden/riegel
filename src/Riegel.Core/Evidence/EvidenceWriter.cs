@@ -39,11 +39,13 @@ internal sealed class EvidenceWriter(RiegelServices services, Func<ICatalogue> c
                 throw RglCodesDataOutputs.Error(RglCodesDataOutputs.DocumentNotPackable, path);
         }
 
-        // Berichtsdateien (PDF, Excel, CSV) in die Wurzel des Pakets
+        // Berichtsdateien (PDF, Excel, CSV) in die Wurzel des Pakets. Läufe aus --format json (runs/<host>/<runId>.results.json)
+        // stehen schon unter runs/ im Paket und kämen sonst ein zweites Mal flach in die Wurzel.
         var documents = new List<string>();
         foreach (var document in r.Documents)
         {
             var name = Path.GetFileName(document);
+            if (name.EndsWith(".results.json", StringComparison.OrdinalIgnoreCase)) continue;
             if (!File.Exists(document) || !EvidenceLayout.DocumentName().IsMatch(name))
                 throw RglCodesDataOutputs.Error(RglCodesDataOutputs.DocumentNotPackable, document);
             Add(name, ReadLimited(document, limits.MaxEvidenceEntryBytes, RglCodesDataOutputs.DocumentNotPackable));
