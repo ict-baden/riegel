@@ -68,7 +68,7 @@ What a proven-missing value means is part of each registry rule (`whenMissing`):
 | `fail` | `fail`, detail "Value not set" |
 | `notCheckable` | `notCheckable`, RGL-0227 |
 | `osDefault` | the first `osDefaults` entry that matches the machine (build range, edition, installation type, domain membership) supplies the value, which is then compared. A pass carries **FromDefault** ("Default value assumed"), the value source is `osDefault`, and the details name the default, its source URL and the date it was seen. No matching entry → `notCheckable` "Value not set, default value unknown" (RGL-0228). If a machine field the entry needs is unknown, the search stops: a later entry may not replace an earlier one that might have matched. |
-| `pass` | allowed only with a `missingPass` record (source URL, date seen, note) and an entry in the rules package's allow-list file; the pass carries **FromDefault** |
+| `pass` | allowed only with a `missingPass` record (source URL, date seen, note) and an entry in the allow-list file `tests/Riegel.Tests/Rules/{A,B,C}/when-missing-pass.txt`; the pass carries **FromDefault** |
 
 Every `osDefaults` and `missingPass` entry must cite an `https://` source and a date; the catalogue refuses to load
 otherwise (RGL-0204). `secedit` checks know only `fail` and `notCheckable`.

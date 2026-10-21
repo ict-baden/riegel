@@ -14,7 +14,7 @@ Riegel writes six kinds of PDF documents. All of them are A4 portrait, embed the
 page and take their fixed texts from `src/Riegel.Core/Resources/PdfStrings*.resx` (five languages) and
 `CommonStrings*.resx` (statuses, severities, categories, flags). Everything that comes from data – rule titles,
 register texts, host names – arrives already resolved in the report language in the report data records
-(`Riegel.Core.Model.Reports`, built by the workflow package). The PDF writer (`IPdfWriter`, folder
+(`Riegel.Core.Model.Reports`, built by the workflow layer). The PDF writer (`IPdfWriter`, folder
 `src/Riegel.Core/Reports/Pdf`) only lays them out: it reads the cover logo and the system fonts, writes only into the
 output folder, starts no process and opens no network connection.
 
@@ -83,7 +83,7 @@ Layout as in the product specification, section 5:
     level and documented with the checked share (grey when incomplete); run flags. Domain controllers show
     "not rated". Below: one row per imported **customer baseline** with its own values and whether its content is
     in the evidence pack.
-11. **Method and sources** – collection, the evidence rules of spec 2.4 in plain words, the scoring rules, catalogue
+11. **Method and sources** – collection, the evidence rules in plain words, the scoring rules, catalogue
     and provenance of the expected values, every source with licence and attribution (`MethodInfo.Sources`), the
     sentence that report and catalogue contain no CIS or BSI content, the **integrity statement**
     (`CommonStrings.Integrity_Statement`) and the limitations (no compliance statement, no GMP validation package,
@@ -255,7 +255,7 @@ AGPL-3.0-only and not an option).
 ## Cover logo
 
 `ReportHeader.LogoPath` points to a customer- or partner-supplied PNG or JPEG in the plant folder; Riegel never ships
-one. The file is hostile input (spec 7.12):
+one. The file is hostile input:
 
 - at most 1 MB (RGL-0502), read exactly once and embedded from memory (`base64:` image source), so it cannot be
   swapped between the check and the layout;

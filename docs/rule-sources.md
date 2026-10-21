@@ -107,7 +107,7 @@ the repository.
 - `rules/capabilities/system.json`: Credential Guard, VBS, memory integrity and LSA protection availability per build, each
   with its Microsoft Learn or Windows Server documentation page.
 - Next expected update: builds monthly after Patch Tuesday; lifecycle dates when Microsoft announces changes. A catalogue
-  more than six months old gets a banner in the reports (spec 2.8).
+  more than six months old gets a banner in the reports.
 
 ## STIG status
 
@@ -124,13 +124,13 @@ returned HTTP 200 for the current files (an earlier attempt the same day with an
 
 STIG IDs in the rules are taken from the XCCDF files in these archives. Releases V2R3 to V3R1 of the Firewall STIG
 returned HTTP 404 on dl.dod.cyber.mil (checked 2026-10-18). The audit, PowerShell, RDP, removable media and TLS rules
-carry no STIG references: no current XCCDF was retrieved for them (spec open point 10).
+carry no STIG references: no current XCCDF has been retrieved for them yet.
 
 ## Deviations from the planned catalogue
 
-The catalogue keeps the 153 rule IDs and the 20 prefix files of spec 2.1. Where a rules package found no shippable
-source for an expected value, it turned the planned check into an inventory rule (spec 2.1 "verification decides the
-kind"); the reason is in each rule's text and in the package's report:
+The catalogue keeps the 153 planned rule IDs and the 20 prefix files. Where no shippable source for an expected value
+was found, the planned check became an inventory rule (verification decides the kind); the reason is in each rule's
+text:
 
 | Rule | Planned | Shipped | Reason |
 |---|---|---|---|
@@ -142,13 +142,13 @@ kind"); the reason is in each rule's text and in the package's report:
 The planned inventory rules ACCT-15, APP-06, RDP-09, NETX-01, DEF-11, SYS-07 and SYS-08 are inventory as specified.
 ACCT-16 and ACCT-17 stay checks, backed by the current DISA STIGs.
 
-Decisions made in the integration step (the vectors and docs say the same):
+Decisions on the evaluation (the vectors and docs say the same):
 
 - **CRED-06** without `--deep`: "no Wininit event 12 since the last boot and no configuration" is *not checkable*, not a
   fail – the System log may have wrapped since the start, so the missing event proves nothing.
 - **ASR rules** with Defender active but `MSFT_MpPreference` not readable: a matching value in the Group Policy store is
   *not checkable* with the flag ConfiguredOnly ("Configured, effect not proven"), as in the engine's
-  documentation – runtime before configuration (spec 2.4.6).
+  documentation – runtime before configuration.
 - **ACCT-17**: an enabled account that has never logged on counts as unused, as the DISA check counts "Never".
 - **FW-01/04/07** (Domain profile) and **FW-10** apply to domain members only, following the DISA Firewall STIG.
 - **TLS-09/10** on 32-bit Windows: the `WOW6432Node` part does not apply there (no 32-bit registry view), so the rule is

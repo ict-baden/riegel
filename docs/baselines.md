@@ -166,7 +166,7 @@ A UTF-8 JSON file (schema [`schemas/baseline.schema.json`](../schemas/baseline.s
 
 ## Limits and errors
 
-Baselines are treated as hostile input (spec 7.12): no code execution, a closed vocabulary and these limits
+Baselines are treated as hostile input: no code execution, a closed vocabulary and these limits
 (`ReadLimits`):
 
 | Limit | Value |

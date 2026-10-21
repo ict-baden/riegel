@@ -78,7 +78,7 @@ On Windows, per file: `Get-FileHash -Algorithm SHA256 <file>` and compare with t
 ## Customer baselines
 
 Imported baselines (GPO backups, `riegel.baseline/1`) may contain third-party content whose terms forbid passing it
-on (Microsoft Security Compliance Toolkit, BSI, CIS; spec 2.15). By default the pack holds **metadata only**:
+on (Microsoft Security Compliance Toolkit, BSI, CIS). By default the pack holds **metadata only**:
 `baselines/<id>.metadata.json`
 
 ```json
@@ -140,7 +140,7 @@ export, the tool information, `previousRunId`, `approvedRunId`, `reEvaluationOf`
 differences are in details, `verify` evaluates again in the plant's report language and the other UI languages and
 accepts the first exact match.
 
-Result and exit code (spec 7.7):
+Result and exit code:
 
 | Status | Exit | Meaning |
 |---|---|---|
@@ -172,10 +172,10 @@ re-evaluate the plant with the current catalogue before packing, or keep the old
 Riegel.Cli.exe compare-snapshot <fresh.snapshot.json> --evidence <evidence.zip> [--host <h>] [--format text|json]
 ```
 
-The auditor's sample check (spec 2.14): collect a machine again, ideally with a witness, and compare the fresh export
+The auditor's sample check: collect a machine again, ideally with a witness, and compare the fresh export
 with the packed export of the same host. The host is taken from the fresh export unless `--host` names another one;
 of several packed runs of that host the newest is used. The pack is checked first (`SHA256SUMS.txt` and manifest); a
-changed pack is not used as a basis (exit 3). The comparison uses the drift engine of the workflow package
+changed pack is not used as a basis (exit 3). The comparison uses the drift engine
 (`IRunComparer.CompareSnapshots`): a normalised diff of all items without the volatile list (signature ages and
 versions, timestamps, update history dates, uptime, durations).
 
@@ -210,7 +210,7 @@ In detail:
 
 ## Hostile packs
 
-Evidence packs come from outside and are treated as hostile input (spec 7.12):
+Evidence packs come from outside and are treated as hostile input:
 
 - size limits from `ReadLimits`: the ZIP file (512 MB), each entry (64 MB) and the sum of all unpacked entries
   (512 MB); the declared size is checked before reading and the real size while reading, so a lying header or a ZIP
@@ -230,7 +230,7 @@ The pack usually contains the workbook and `results.csv` of the report. Both are
 - **`results.csv`** (O3): RFC 4180 (comma, CRLF, fields with comma, quote or line break in double quotes, quotes
   doubled), UTF-8 without BOM, invariant: codes instead of translated names (`fail`, `notCheckable`, `high`,
   `domainGpo`), flags as camelCase names joined with `;`, ISO 8601 dates. Columns: `plant` (the plant ID), `host`,
-  `runId`, `evaluatedAtUtc` (the time stamp of the run ID, which is the evaluation time, spec 7.6), `ruleSet`, `ruleId`,
+  `runId`, `evaluatedAtUtc` (the time stamp of the run ID, which is the evaluation time), `ruleSet`, `ruleId`,
   `category`, `severity`, `status`, `flags`, `expected`, `actual`, `valueSource`, `exceptionId`, `exceptionReviewBy`,
   `tailoringId`, `measureId`, `measureDue`, `title_en` (English title from the catalogue; imported baseline rules keep
   their author's title).
@@ -259,5 +259,5 @@ catalogue differs from the released catalogue of the same version · 0573 catalo
   sidecars (`SnapshotFile.SidecarLine`, [file formats](file-formats.md)). Checked on 2026-10-18: a pack written by
   this package, unpacked into a scratch folder, passes `sha256sum -c SHA256SUMS.txt` (GNU coreutils 8.32, Git for
   Windows) for every file, and `sha256sum -c` accepts each snapshot sidecar.
-- Integrity statement: spec 5 (German and English text in `CommonStrings.Integrity_Statement`).
+- Integrity statement: German and English text in `CommonStrings.Integrity_Statement`.
 - [MS-GPAC] and [MS-GPSB] for the remediation formats: see [Remediation](remediation.md#sources).

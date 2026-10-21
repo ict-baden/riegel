@@ -15,7 +15,7 @@
 This page is the reference for every file Riegel reads or writes and for the public contract types in
 `src/Riegel.Core/Model` and `src/Riegel.Core/Services`. The binding product specification is the source; this page
 records the concrete formats the scaffold fixed. JSON Schemas (2020-12) for every format are in [`schemas/`](../schemas/).
-Changes to a contract go through an integration request and update this page and the schema together.
+A change to a contract updates this page, the schema and the tests together.
 
 ## Conventions
 
@@ -36,7 +36,7 @@ Changes to a contract go through an integration request and update this page and
 - **Closed vocabulary:** unknown properties and unknown check types are errors (`RGL-0004`). The discriminator
   `"type"` of a check may appear anywhere in its object.
 - **Hashes:** SHA-256, lower-case hex, over the exact file bytes. Short form (`sha8`) = first 8 characters.
-- **Limits** for hostile input are in `ReadLimits` (defaults from spec 7.12): snapshot 64 MB decompressed, 500,000
+- **Limits** for hostile input are in `ReadLimits` (defaults): snapshot 64 MB decompressed, 500,000
   items, strings 1 MB, JSON depth 64, registers 10 MB / 10,000 entries, `registry.pol` and INF/CSV/`.reg`/`reg query`
   16 MB each, baseline CSV 10 MB / 50,000 rows, evidence ZIP 512 MB (64 MB per entry), logo 1 MB, plant files 10 MB,
   catalogue 64 MB, collector sub-process timeout 60 s.
@@ -54,7 +54,7 @@ converted from a built-in bundle (origin `builtin`). Raw facts only, no evaluati
 |---|---|---|
 | `schema` | string | `riegel.snapshot/1` |
 | `collector` | object | `name`, `version`, `exeSha256?` (SHA-256 of the collector exe), `clr` (e.g. `4.0.30319.42000`, `2.0.50727.8000`), `is64BitProcess` |
-| `collectedAtUtc` | timestamp | clock of the target machine at collection (time base for ages, spec 2.8) |
+| `collectedAtUtc` | timestamp | clock of the target machine at collection (time base for ages) |
 | `isAdmin` | bool | collected with an elevated token |
 | `origin` | enum | `collector`, `app`, `builtin`, `recorded`, `synthetic` |
 | `options` | object | `minimal`, `deep`, `pseudonymized` |
@@ -92,7 +92,7 @@ collection plan's registry section:
 - `complete: false` when the value limit (50,000 values in total) was reached or the root could not be read;
   `truncatedAt` then names the first key that was not read. `deniedSubkeys` lists full paths without read access.
 
-Evidence classes (spec 2.4), decided by the engine from items and coverage:
+Evidence classes, decided by the engine from items and coverage:
 
 | Class | When |
 |---|---|
@@ -137,10 +137,10 @@ then carries `"valueFilter": [ … ]`; a value outside the filter is **not colle
 The constants for these keys are in `ItemKeys` (`ItemKeys.Registry(path)`, `ItemKeys.Wmi(ns, class)`,
 `ItemKeys.WmiMethod(ns, class, method)`, `ItemKeys.LocalGroup(sid)`).
 
-**Encoding details** (as the collector writes them and the engine reads them; fixed in the integration step):
+**Encoding details** (as the collector writes them and the engine reads them):
 
 - **Absent means not collected.** A WMI property that is missing from a row, a subcategory GUID missing from
-  `api:audit-policy` and a right missing from `api:lsa-rights` are **not collected** (Unavailable, spec 2.4.1) – never
+  `api:audit-policy` and a right missing from `api:lsa-rights` are **not collected** (Unavailable) – never
   "no auditing", "nobody" or "no value". An admin-only WMI property that could not be read is left out and marked
   `"<Prop>@denied": true` (for example `ExclusionPath@denied` in `MSFT_MpPreference` without admin); the engine never
   reads that as "no exclusions". WMI properties that an older OS does not have are left out as well. A right the OS
@@ -156,8 +156,8 @@ The constants for these keys are in `ItemKeys` (`ItemKeys.Registry(path)`, `Item
   `protectionByte >> 4`). `evt:system:wininit-12.eventData` is the event's data as an array of strings (`["4"]`).
 - **Secrets:** DWORD and QWORD values with a secret-like name (`LimitBlankPasswordUse`, `EnablePlainTextPassword`,
   `DisablePasswordSaving`, `fPromptForPassword` …) stay readable – they are switches that rules check, not secrets
-  (decision of the integration step on the parsing and collector requests; a deviation from the literal rule of spec
-  7.3). `DefaultPassword` and `AltDefaultPassword` are always redacted, whatever their type. Under
+  (deliberately, although their names look like secrets). `DefaultPassword` and `AltDefaultPassword` are always
+  redacted, whatever their type. Under
   `…\SNMP\Parameters\TrapConfiguration` the subkey names become `redacted-<n>` as the value names under
   `ValidCommunities` do.
 - **Derived items** (`parsed:*`, computed by the reader): `parsed:gpresult` may carry `policies: [ { name, gpo } ]`
@@ -174,14 +174,14 @@ The constants for these keys are in `ItemKeys` (`ItemKeys.Registry(path)`, `Item
 ## Collection plan (`riegel.collection-plan/1`)
 
 [`contracts/collection-plan.json`](../contracts/collection-plan.json) is the contract between collector and rules. It
-is embedded into `Riegel.Collector.exe`; the collection code reads nothing outside it. A change to the plan is an
-integration request and bumps the collector version (`collector-version.txt`).
+is embedded into `Riegel.Collector.exe`; the collection code reads nothing outside it. A change to the plan bumps
+the collector version (`collector-version.txt`).
 
 | Section | Content |
 |---|---|
 | `limits` | `maxValuesTotal` 50,000, `recursiveMaxDepth` 8, `maxBinaryBytes` 4096, `toolTimeoutSeconds` 60, `maxRawTextBytes` 4 MB, `windowsUpdateHistoryEntries` 100, `tempPathMaxChars` 127, `maxStringChars` 1,048,576 |
 | `registry.roots` | `{ path, kind: recursive, maxDepth, needsAdmin, mode, note? }`: SOFTWARE\Policies, CurrentVersion\Policies, PolicyManager\current\device, Control\Lsa, Control\SecurityProviders, Control\Terminal Server, Control\DeviceGuard, NetBT\Parameters, FirewallPolicy, Windows Defender, the LAPS roots, Control\CI |
-| `registry.keys` | single keys (`kind: key`) and one-level children (`kind: children`, e.g. Uninstall), with `values` filters where the spec limits them; 32-bit views as `WOW6432Node` paths |
+| `registry.keys` | single keys (`kind: key`) and one-level children (`kind: children`, e.g. Uninstall), with `values` filters where the plan limits them; 32-bit views as `WOW6432Node` paths |
 | `wmi` | `{ key, namespace, class, where?, properties, adminOnlyProperties?, methods: [ { name, kind: static\|perRow, viaClass?, keyProperty?, outProperties? } ], needsAdmin, mode, note? }` |
 | `api` | `{ key, api, needsAdmin, mode, rights?, sid?, condition?, note? }`; `api:lsa-rights` lists 45 rights |
 | `events` | `{ key, log, provider, eventId, xpath, afterLastBoot, needsAdmin, mode }` |
@@ -200,7 +200,7 @@ The right list of `api:lsa-rights` contains every constant of Microsoft's
 
 ## Built-in-commands bundle
 
-Folder `<HOST>_<yyyyMMdd>.riegel-builtin\`, written by `collect-builtin.cmd` or by hand (spec 7.5):
+Folder `<HOST>_<yyyyMMdd>.riegel-builtin\`, written by `collect-builtin.cmd` or by hand:
 
 | File | Content and encoding |
 |---|---|
@@ -273,15 +273,15 @@ setting: none|success|failure|successAndFailure } ], manual?: { en, de } }`. Rem
 files.
 
 The catalogue invariant tests (`tests/Riegel.Tests/Infrastructure/CatalogueInvariantTests.cs`) enforce: schema
-validity, unique IDs, prefix = file name, the IDs and counts of spec 2.1 per existing file, en+de texts, value
+validity, unique IDs, prefix = file name, the planned IDs and counts per existing file, en+de texts, value
 provenance, cited `osDefaults`, `whenMissing: pass` only with `missingPass` and an entry in
 `tests/Riegel.Tests/Rules/{A,B,C}/when-missing-pass.txt` (one rule ID per line, `#` comments), no CIS, SiSyPHuS or
 IT-Grundschutz module IDs, and vectors for pass, fail, a `notCollected` item and a `keyMissing`/`valueMissing` item
-for every active check rule. `CatalogueComplete` is set to `true` by the integration step.
+for every active check rule. `CatalogueComplete` is `true` once every planned rule exists.
 
 ## Check vocabulary
 
-The closed set of spec 2.3. Every check has `"type"`; the fields are exactly these (`?` = optional):
+A closed set. Every check has `"type"`; the fields are exactly these (`?` = optional):
 
 | `type` | Fields |
 |---|---|
@@ -311,8 +311,7 @@ The closed set of spec 2.3. Every check has `"type"`; the fields are exactly the
 
 Operators (`op`): `eq ne lt le gt ge in notIn bitsSet bitsClear containsAll containsNone exists notExists ageDaysLe
 ageDaysGt`; `expected` is required except for `exists`/`notExists`. Their semantics per value type, the three-valued
-composites and `firstOf` precedence are defined in spec 2.4 and documented by the engine package in
-`docs/evaluation.md`.
+composites and `firstOf` precedence are documented in `docs/evaluation.md`.
 
 ## Test vectors
 
@@ -335,12 +334,12 @@ coverage?, facts?, items: { "<key>": { status, value?, truncated? } }, expect, e
 - **Proven absence that passes** must be listed in the package's allow-list `tests/Riegel.Tests/Rules/{A,B,C}/
   when-missing-pass.txt`: `whenMissing: pass` (with `missingPass`), and every rule that may pass because something is
   proven absent – `notExists`, a `service`/`feature` with `ifAbsent: pass` reached through registry absence, and
-  `not`/`noneOf` over a part that fails when missing. The mutation test (spec 8.3) allows a pass from a `keyMissing`
+  `not`/`noneOf` over a part that fails when missing. The mutation test allows a pass from a `keyMissing`
   item only for these rules or with a cited OS default.
 
 ## Canonical value rendering
 
-Shared by `expected`, `actual` and `acceptedValue` (`CanonicalValue`, spec 7.3):
+Shared by `expected`, `actual` and `acceptedValue` (`CanonicalValue`):
 
 | Value | Canonical text |
 |---|---|
@@ -369,7 +368,7 @@ Shared by `expected`, `actual` and `acceptedValue` (`CanonicalValue`, spec 7.3):
 | `passwordComplexity` | – | `PasswordComplexity` | secedit only (`0`/`1`) |
 | `clearTextPassword` | – | `ClearTextPassword` | secedit only (`0`/`1`, reversible encryption) |
 
-How secedit encodes "never expires" for `MaximumPasswordAge` is for the engine package to verify against a recorded
+How secedit encodes "never expires" for `MaximumPasswordAge` is to be verified against a recorded
 export; this table fixes only the key mapping.
 
 ## Catalogue tables
@@ -403,7 +402,7 @@ expressions.
 
 ## Plant folder
 
-Any folder; layout and write rules in spec 7.6:
+Any folder; layout and write rules:
 
 ```
 <plant>/
@@ -454,8 +453,8 @@ entry with an empty `approval` object; it is stored as `approvedContentSha256` a
 with `approval: {}`; importing one creates pending entries and needs the required fields of every entry (otherwise
 `RGL-0004` with file, entry and field). When a register file lacks a required field of an entry, the entry is read
 with an empty value (empty scope, empty text, no approval) and fails validation instead of making the plant
-unreadable; a plant file without `settings` uses the defaults. The validity rules are spec 2.11–2.13 (workflow
-package, `docs/exceptions.md`).
+unreadable; a plant file without `settings` uses the defaults. The validity rules are in
+`docs/exceptions.md`.
 
 ## Runs (`riegel.run/1`)
 
@@ -466,7 +465,7 @@ isAdmin, options, results: [ RuleResult ], summary: RunSummary, categories: [ Ca
 value|null }, previousRunId?, approvedRunId?, reEvaluationOf?, flags: [ staleSnapshot|clockSuspect|
 machineIdentityChanged|incomplete|domainController ] }`.
 
-`snapshot.path` is relative to the plant folder (`snapshots/<host>/<file>`). Run files are hostile input (spec 7.12):
+`snapshot.path` is relative to the plant folder (`snapshots/<host>/<file>`). Run files are hostile input:
 whoever reads a run's export again – remediation and its rollback, `compare`, re-evaluation, the comparison basis
 of a new run, report data – takes it only through `IPlantStore.RunSnapshotPath`, which rejects absolute paths, drive
 letters, UNC paths, `..` out of the folder, links (reparse points) and folders (`RGL-0415`) and a file whose SHA-256
@@ -495,8 +494,8 @@ collectorExeSha256?, isAdmin, options, origin, runId? } ] }`.
 
 Authorable JSON: `{ schema, id ([a-z0-9-], ≤ 40), name, description?, sourceFileName?, sourceSha256?, importedAtUtc?,
 rules: [ { id?, title, severity?, category?, check, rationale?, reference? } ] }`. `check` uses the closed vocabulary
-above. On import the rules get IDs `IMP-<id>-<authorId>` or `IMP-<id>-<sha1-8 of normalised key + check type>` (spec
-2.15) and `ruleSetId` = baseline id; the stored copy under `baselines/<id>.json` records the source SHA-256 and the
+above. On import the rules get IDs `IMP-<id>-<authorId>` or `IMP-<id>-<sha1-8 of normalised key + check type>`
+and `ruleSetId` = baseline id; the stored copy under `baselines/<id>.json` records the source SHA-256 and the
 import time. The CSV template (`docs/assets/baseline-template.csv`) and the GPO-backup mapping are described in
 [Customer baselines](baselines.md).
 
@@ -519,7 +518,7 @@ results); with `--include-baseline-content` also `baselines/<id>.json`, `baselin
 
 ## Output file names
 
-From `ReportFileNames` (spec 5; plant names sanitised with `FileNames.Token`):
+From `ReportFileNames` (plant names sanitised with `FileNames.Token`):
 
 | Output | Name |
 |---|---|
@@ -569,15 +568,15 @@ signatures stay fixed.
 | Factory (folder) | Interface | Owner | Behaviour |
 |---|---|---|---|
 | `CatalogueFactory` (Catalogue/) | `ICatalogueProvider` | engine | loads the embedded `rules/**` (and a `riegel.catalogue/1` stream) with size and depth limits, checks the closed vocabulary and the semantics (RGL-0201–0212), combines customer baselines; SHA-256 over the canonical document |
-| `FactsFactory` (Facts/) | `IFactsDeriver` | engine | every fact of spec 2.5; unknown is `null`; `defender.mode`, `av.thirdPartyActive` (WSC before SecurityCenter2, then flag Heuristic), `rdp.enabled` (policy before the local value), network and capability facts |
+| `FactsFactory` (Facts/) | `IFactsDeriver` | engine | every fact; unknown is `null`; `defender.mode`, `av.thirdPartyActive` (WSC before SecurityCenter2, then flag Heuristic), `rdp.enabled` (policy before the local value), network and capability facts |
 | `EvaluationFactory` (Evaluation/) | `IEvaluator` | engine | all 27 check types, evidence classes, three-valued logic, Defender gating, value source, flags; never crashes – a program error makes that rule not checkable (RGL-0239) |
-| `SnapshotsFactory` (Snapshots/) | `ISnapshotReader` | parsing | reads `.snapshot.json`/`.json.gz` with every limit of spec 7.12, checks the sidecar, redacts again, recomputes `parsed:*`, reads built-in bundles |
+| `SnapshotsFactory` (Snapshots/) | `ISnapshotReader` | parsing | reads `.snapshot.json`/`.json.gz` with every limit above, checks the sidecar, redacts again, recomputes `parsed:*`, reads built-in bundles |
 | `AttributionFactory` (Attribution/) | `IValueSourceAttributor` | parsing | `domainGpo` (experimental), `localPolicy`, `mdm`, `directlySet` (only as admin with gpresult), otherwise `unknown` |
 | `BaselinesFactory` (Baselines/) | `IBaselineImporter` | parsing | GPO backups, `riegel.baseline/1` JSON and the CSV template; stable `IMP-` IDs, collision detection, source SHA-256 |
 | `PlantsFactory` (Plants/) | `IPlantStore` | workflow | plant folder with atomic writes, `.riegel.lock`, optimistic concurrency, history, import records, read-only mode |
 | `RegistersFactory` (Registers/) | `IRegisterService` | workflow | load/save sorted with history, validation RGL-0420–0447, apply (most specific scope wins), approve, templates |
 | `ComparisonFactory` (Comparison/) | `IRunComparer` | workflow | status changes of every kind, raw-value drift without the volatile list, sampling |
-| `ScoringFactory` (Scoring/) | `IScoring` | workflow | spec 2.6 with the audit cap, no score for domain controllers |
+| `ScoringFactory` (Scoring/) | `IScoring` | workflow | hardening score with the audit cap, no score for domain controllers |
 | `RunsFactory` (Runs/) | `IRunService` | workflow | read → facts → evaluate → registers → score → flags → store; byte-identical results for the same inputs |
 | `ReportDataFactory` (ReportData/, namespace `Riegel.Core.ReportBuilding`) | `IReportDataBuilder` | workflow | report, summary, target configuration, approval sheet and collection record data |
 | `PdfFactory` (Reports/Pdf/) | `IPdfWriter` | pdf | O4/O5, O6, O12, O13, O14 with PDFsharp-MigraDoc 6.2.4; CJK from a system TrueType face or English with RGL-0510 |
@@ -595,7 +594,7 @@ and `Riegel.Core.Samples.SampleData` for deterministic report data.
 
 ## Error codes
 
-Codes are `RGL-nnnn`; texts are localised, the code stays (guideline 13). Ranges (spec 7.13), each with its class:
+Codes are `RGL-nnnn`; texts are localised, the code stays (guideline 13). Ranges, each with its class:
 
 | Range | Class (folder) | Owner |
 |---|---|---|

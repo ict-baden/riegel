@@ -129,7 +129,7 @@ control characters are replaced, so the README stays readable.
 
 ## Generated files are attack surface
 
-Exports come from the machines being checked and may be hostile (spec 7.12). The writer therefore:
+Exports come from the machines being checked and may be hostile. The writer therefore:
 
 - takes key paths and value names **only from the catalogue**, never from the export; a catalogue key must be under
   `HKLM\`, every part printable ASCII without `[`, `]`, `"` or `\`, at most 255 characters, without leading or trailing
