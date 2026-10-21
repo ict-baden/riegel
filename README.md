@@ -179,7 +179,7 @@ Every command, the alert modes and a scheduled-task and Icinga example: **[Comma
 
 ## The rule catalogue
 
-Catalogue **2026.10** has **153 rules** in 17 report categories, with texts written by ICT-Baden. Every expected value
+Catalogue **2026.10.1** has **153 rules** in 17 report categories, with texts written by ICT-Baden. Every expected value
 is backed by ACSC (CC BY 4.0), the CC BY 4.0 Microsoft Windows Server documentation, a Microsoft Learn fact page or a
 DISA STIG; Microsoft Security Baselines only corroborate (document and setting name, never a value). References name
 MITRE ATT&CK mitigations and Grundschutz++ identifiers. The catalogue contains **no CIS and no BSI SiSyPHuS content**.

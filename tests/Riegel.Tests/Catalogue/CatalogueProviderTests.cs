@@ -59,7 +59,7 @@ public sealed class CatalogueProviderTests
         var a = provider.LoadEmbedded();
         Assert.Same(a, provider.LoadEmbedded());
         Assert.Equal("riegel", a.Id);
-        Assert.Equal("2026.10", a.Version);
+        Assert.Equal("2026.10.1", a.Version);
         Assert.True(Hashes.IsSha256(a.Sha256));
     }
 

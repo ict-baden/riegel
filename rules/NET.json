@@ -3843,8 +3843,8 @@
         "de": "RPC-Schnittstellen ohne Authentifizierung vergrößern die Angriffsfläche jedes Dienstes, der eine anbietet. Die Richtlinie „Nicht authentifizierte RPC-Clients einschränken“ muss auf „Authentifiziert“ (1) oder „Authentifiziert ohne Ausnahmen“ (2) stehen. Ohne Richtlinie verhalten sich Windows-Clients wie „Authentifiziert“, Windows Server wie „Keine“."
       },
       "otNote": {
-        "en": "Some DCOM-based plant interfaces (OPC DA) call RPC without authentication. Test \"Authenticated\" on such servers first.",
-        "de": "Manche DCOM-basierte Anlagenschnittstellen (OPC DA) rufen RPC ohne Authentifizierung auf. „Authentifiziert“ auf solchen Servern zuerst testen."
+        "en": "Some DCOM-based plant interfaces (OPC DA) and older backup or monitoring agents call RPC without authentication and stop working once the policy is set. On servers (historians, OPC and SCADA servers) test \"Authenticated\" (1) in a maintenance window first and never use \"Authenticated without exceptions\" (2): it allows no exceptions, not even for interfaces such as the endpoint mapper, and Microsoft advises against it. Domain controllers are not checked – the setting is meant for clients and member servers.",
+        "de": "Manche DCOM-basierte Anlagenschnittstellen (OPC DA) und ältere Sicherungs- oder Überwachungsagenten rufen RPC ohne Authentifizierung auf und funktionieren mit der Richtlinie nicht mehr. Auf Servern (Historian, OPC- und SCADA-Server) „Authentifiziert“ (1) zuerst in einem Wartungsfenster testen und nie „Authentifiziert ohne Ausnahmen“ (2) setzen: sie lÃ¤sst keine Ausnahmen zu, auch nicht fÃ¼r Schnittstellen wie die Endpunktzuordnung, und Microsoft rÃ¤t davon ab. Domänencontroller werden nicht geprüft – die Einstellung ist für Clients und Mitgliedsserver gedacht."
       },
       "remedy": {
         "en": "Set System > Remote Procedure Call > \"Restrict Unauthenticated RPC clients\" to Enabled with \"Authenticated\".",
@@ -3857,7 +3857,7 @@
           "server"
         ],
         "domain": "any",
-        "excludeDc": false,
+        "excludeDc": true,
         "when": []
       },
       "needsAdmin": false,

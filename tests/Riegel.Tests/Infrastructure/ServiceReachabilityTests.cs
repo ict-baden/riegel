@@ -41,7 +41,7 @@ public sealed class ServiceReachabilityTests
         var s = Services();
         var catalogue = s.Catalogue.LoadEmbedded();
         Assert.Equal("riegel", catalogue.Id);
-        Assert.Equal("2026.10", catalogue.Version);
+        Assert.Equal("2026.10.1", catalogue.Version);
         Assert.True(Core.Model.Hashes.IsSha256(catalogue.Sha256));
         var snapshot = s.Snapshots.Read(RepoPaths.Synthetic("win11-24h2-workgroup-admin"), ReadLimits.Default);
         Assert.NotNull(s.Facts.Derive(snapshot, catalogue));
@@ -157,7 +157,7 @@ public sealed class ServiceReachabilityTests
         var output = new StringWriter();
         var error = new StringWriter();
         Assert.Equal(CommandApp.Ok, CommandApp.Run(["--version"], new NullPlatform(), output, error));
-        Assert.Contains("2026.10", output.ToString(), StringComparison.Ordinal);
+        Assert.Contains("2026.10.1", output.ToString(), StringComparison.Ordinal);
         Assert.Equal(CommandApp.Unknown, CommandApp.Run(["--gibt-es-nicht"], new NullPlatform(), output, error));
         Assert.Contains(RglCodesCli.UsageError, error.ToString(), StringComparison.Ordinal);
         Assert.Equal(CommandApp.Unknown, CommandApp.Run(["collect"], new NullPlatform(), output, error));

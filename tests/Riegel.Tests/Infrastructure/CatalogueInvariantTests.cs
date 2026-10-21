@@ -211,7 +211,7 @@ public sealed partial class CatalogueInvariantTests
         var header = RiegelJson.ReadFile<CatalogueDocument>(Path.Combine(RepoPaths.Rules, "catalogue.json"), 1024 * 1024);
         Assert.Equal(SchemaIds.Catalogue, header.Schema);
         Assert.Equal("riegel", header.Id);
-        Assert.Equal("2026.10", header.Version);
+        Assert.Equal("2026.10.1", header.Version);
         Assert.True(header.ReleasedOn >= new DateOnly(2026, 10, 18), "releasedOn ist frühestens der Tag des Gerüsts");
         Assert.Null(header.Rules);
     }
