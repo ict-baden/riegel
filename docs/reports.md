@@ -174,7 +174,7 @@ export SHA-256, whether the `.sha256` sidecar matches (red when missing or diffe
 | `PreTranslation` | "Machine pre-translation – not reviewed" (es, fr, zh-Hans) |
 | `ExperimentalGpoAttribution` | "Source: domain GPO (not tested in a real domain)" |
 | `ClockSuspect` | "Implausible clock: age-based results are not checkable" |
-| `DomainController` | "Domain controllers: not scored – catalogue 2026.10 is not designed for domain controllers" (*Domänencontroller: nicht bewertet*) |
+| `DomainController` | "Domain controllers: not scored – catalogue 2026.10.1 is not designed for domain controllers" (*Domänencontroller: nicht bewertet*) |
 
 The pre-translation banner follows the language the document is actually written in, not the data: it appears for
 es, fr and zh-Hans and never for en and de, even if the data contains it.
@@ -184,9 +184,10 @@ es, fr and zh-Hans and never for en and de, even if the data contains it.
 The document language is `ReportHeader.Language` (or the `Language` of the other records): en, de, es, fr or
 zh-Hans; anything else becomes English. en and de are complete and reviewed (`UiLanguage.ReviewedReportLanguages`).
 es, fr and zh-Hans are machine pre-translated: each of their `.resx` files (and the collector's `messages.<lang>.txt`)
-starts with the comment "Maschinell vorübersetzt – TODO-übersetzen", entries that are especially uncertain carry the
-comment `TODO-übersetzen` in all three languages, and a native speaker reads the whole file before the first public
-release (guideline 13). A test keeps this marking uniform.
+starts with the comment "Maschinell vorübersetzt – TODO-übersetzen"; a new entry whose translation is especially
+uncertain carries the comment `TODO-übersetzen` in all three languages until it is checked, and a native speaker reads
+the whole file (guideline 13). The language lists in the app add "machine translation" (in that language) to these
+three (`UiLanguage.ChoiceName`). A test keeps this marking uniform.
 Until a language is marked reviewed, its documents carry "Maschinelle Vorübersetzung – nicht geprüft" in that
 language and in English on the cover and in every footer.
 

@@ -220,6 +220,9 @@
   <data name="Item_ValueMissing" xml:space="preserve">
     <value>Wert nicht gesetzt</value>
   </data>
+  <data name="Language_MachineTranslation" xml:space="preserve">
+    <value>maschinelle Übersetzung</value>
+  </data>
   <data name="Placeholder_Document" xml:space="preserve">
     <value>Platzhalter: Dieses Dokument erzeugt ein späteres Arbeitspaket von Riegel 0.1.0.</value>
   </data>

@@ -76,6 +76,18 @@ public static class UiLanguage
         return name.Length == 0 ? code : char.ToUpper(name[0], culture) + name[1..];
     }
 
+    /// <summary>
+    /// Eintrag der Auswahlliste: der Name der Sprache, bei nicht geprüften Sprachen (es, fr, zh-Hans) mit dem Zusatz
+    /// „maschinelle Übersetzung“ in der Sprache selbst („Español (traducción automática)“).
+    /// </summary>
+    public static string ChoiceName(string code)
+    {
+        var name = NativeName(code);
+        if (IsReviewedReportLanguage(code)) return name;
+        var note = Resources.CommonStrings.ResourceManager.GetString("Language_MachineTranslation", CultureInfo.GetCultureInfo(code));
+        return string.IsNullOrEmpty(note) ? name : name + " (" + note + ")";
+    }
+
     private static string? FromCulture(CultureInfo culture)
     {
         for (var c = culture; !c.Equals(CultureInfo.InvariantCulture); c = c.Parent)

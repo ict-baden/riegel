@@ -15,7 +15,7 @@ real machines. When in doubt Riegel reports *nicht prüfbar* (not checkable) ins
 - **Windows machines only.** Linux targets (edge devices, Linux-based HMIs) are not checked; use Lynis or OpenSCAP
   there. The Linux command line evaluates Windows snapshots only.
 - **Machine settings only**, no per-user policies.
-- **Domain controllers** are detected; catalogue 2026.10 is not designed for them, rules marked `excludeDc` do not
+- **Domain controllers** are detected; catalogue 2026.10.1 is not designed for them, rules marked `excludeDc` do not
   apply there, and DCs get no hardening score.
 - **No manual attestation** (BIOS password, boot order, locked cabinet) in 0.1.0; reserved for a later catalogue.
 - **Not a compliance statement.** Riegel supports evidence for NIS2/BSIG, ISO 27001 A.8.9, IEC 62443, TISAX and GMP
@@ -151,8 +151,8 @@ These are open tasks for a lab and a real OT environment (gate for version 1.0):
 ## Languages
 
 - English and German are complete. Spanish, French and Chinese are machine pre-translations, not yet reviewed by
-  native speakers: every language file says so at the top ("Maschinell vorübersetzt – TODO-übersetzen"), entries
-  that are especially uncertain also carry `TODO-übersetzen`, and documents carry "Machine pre-translation – not
+  native speakers: every language file says so at the top ("Maschinell vorübersetzt – TODO-übersetzen"), the
+  language lists in the app say "machine translation" next to them, and documents carry "Machine pre-translation – not
   reviewed". Rule texts are English in those languages.
 - German remedies quote the English Group Policy names.
 

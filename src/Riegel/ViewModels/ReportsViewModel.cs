@@ -47,7 +47,7 @@ internal sealed class ReportsViewModel : PageViewModel
 
     public ReportsViewModel(AppSession session, IDialogs dialogs) : base(session, dialogs, "reports", "")
     {
-        Languages = [.. UiLanguage.Supported.Select(c => new Choice<string>(c, UiLanguage.NativeName(c)))];
+        Languages = [.. UiLanguage.Supported.Select(c => new Choice<string>(c, UiLanguage.ChoiceName(c)))];
         _language = Languages[0];
         _host = _group = _import = _remediationHost = new Choice<string?>(null, Loc.T("Reports_All"));
         BrowseCommand = new RelayCommand(Browse);
