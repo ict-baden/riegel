@@ -4,7 +4,7 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 
 ## [Unveröffentlicht]
 
-## [0.1.1] – 2026-10-20
+## [0.1.1] – 2026-10-21
 
 Korrekturen nach der zweiten unabhängigen Prüfung (2026-10-20). Die Sammler-Exe ist unverändert (0.1.0, dieselben Bytes, Hash-Sperre unverändert; im Sammlerpaket ändert sich nur README.txt), das Regelwerk bleibt 2026.10. 0.1.1 ersetzt 0.1.0 vor allem, weil 0.1.0 noch `Microsoft.Windows.SDK.NET.dll` ausliefert.
 
