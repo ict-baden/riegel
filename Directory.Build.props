@@ -10,10 +10,10 @@
     <Company>ICT-Baden</Company>
     <Product>Riegel</Product>
     <Copyright>© 2026 ICT-Baden</Copyright>
-    <!-- Basisversion für alle Teile außer dem Sammler (Richtlinie 04). CI-Builds setzen -p:Version=0.1.0-ci.<Lauf>;
+    <!-- Basisversion für alle Teile außer dem Sammler (Richtlinie 04). CI-Builds setzen -p:Version=<Basis>-ci.<Lauf>;
          der Sammler hat seine eigene Version in src/Riegel.Collector/collector-version.txt und ignoriert -p:Version
          (TreatAsLocalProperty in seiner csproj), damit seine Bytes stabil bleiben. -->
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <!-- *Strings.resx ist Englisch und Rückfallsprache, siehe richtlinien/13 -->
     <NeutralLanguage>en</NeutralLanguage>
     <!-- Nur unsere fünf Sprachen mitliefern (eigene und fremde Pakete) -->

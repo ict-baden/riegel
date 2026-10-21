@@ -168,6 +168,9 @@ internal static class CompareCommands
             case VerifyStatus.Reproduced:
                 ctx.Line(CliStrings.Cli_VerifyReproduced, result.EngineVersion, packed);
                 break;
+            case VerifyStatus.CatalogueUnknown:
+                ctx.Line(CliStrings.Cli_VerifyCatalogueUnknown, result.EngineVersion, packed);
+                break;
             case VerifyStatus.Mismatch:
                 ctx.Line(Plural.Text("Cli_VerifyMismatch", result.Findings.Count, result.EngineVersion, packed, CommandContext.N(result.Findings.Count)));
                 break;
@@ -176,6 +179,18 @@ internal static class CompareCommands
                 break;
         }
         ctx.Line(CliStrings.Cli_VerifyCounts, CommandContext.N(result.SnapshotsChecked), CommandContext.N(result.ResultsCompared));
+        if (result.Catalogue is { } catalogue)
+        {
+            // Welches Regelwerk die erneute Auswertung nahm – nur der eingebaute oder ein veröffentlichter, den diese
+            // Riegel-Version kennt, beruht nicht allein auf dem Paket
+            if (result.CatalogueBuiltIn) ctx.Line(CliStrings.Cli_VerifyCatalogueBuiltIn, catalogue.Id, catalogue.Version, catalogue.Sha256);
+            else
+            {
+                var builtIn = ctx.Services.Catalogue.LoadEmbedded();
+                ctx.Line(result.CatalogueReleased ? CliStrings.Cli_VerifyCatalogueReleased : CliStrings.Cli_VerifyCatalogueOther,
+                    catalogue.Id, catalogue.Version, catalogue.Sha256, builtIn.Id + " " + builtIn.Version);
+            }
+        }
         foreach (var finding in result.Findings.Take(MaxLines))
         {
             var where = string.Join(" · ", new[] { finding.File, finding.HostName, finding.RuleId }.Where(x => !string.IsNullOrEmpty(x)));

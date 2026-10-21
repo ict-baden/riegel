@@ -575,6 +575,12 @@
   <data name="Error_RGL0571" xml:space="preserve">
     <value>La ejecución del paquete no coincide con el manifiesto ({0} / {1}).</value>
   </data>
+  <data name="Error_RGL0572" xml:space="preserve">
+    <value>El catálogo empaquetado {0} ({1}) difiere del catálogo publicado {0} que conoce esta versión de Riegel ({2}): sus reglas se han modificado.</value>
+  </data>
+  <data name="Error_RGL0573" xml:space="preserve">
+    <value>Esta versión de Riegel no conoce el catálogo empaquetado {0} (integrado: {1}), por lo que sus reglas no se pudieron comparar con una referencia y el paquete no está verificado. Verifíquelo con la versión de Riegel que lo generó ({2}) o con una más reciente.</value>
+  </data>
   <data name="EvidenceReadme_BaselineContentMissing" xml:space="preserve">
     <value>Se solicitó el contenido de la línea base {0}, pero no está disponible en la carpeta de la planta; solo metadatos.</value>
   </data>
@@ -689,7 +695,7 @@
     <value>Paquete de evidencias de Riegel: {0}</value>
   </data>
   <data name="EvidenceReadme_VerifyExit" xml:space="preserve">
-    <value>Código de salida: 0 reproducido, 2 diferencias, 3 error.</value>
+    <value>Código de salida: 0 reproducido, 1 no verificado (catálogo desconocido para esta versión de Riegel), 2 diferencias, 3 error.</value>
   </data>
   <data name="EvidenceReadme_VerifyHeading" xml:space="preserve">
     <value>Verificar con verify</value>

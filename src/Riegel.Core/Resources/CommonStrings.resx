@@ -138,6 +138,12 @@
   <data name="Error_RGL0016" xml:space="preserve">
     <value>Already exists and is not overwritten: {0}</value>
   </data>
+  <data name="Error_RGL0017" xml:space="preserve">
+    <value>ICU (libicu) was not found, so Riegel runs without culture data: texts are translated, but dates and numbers are not localised. For localised output install libicu (Debian 12: libicu72, Ubuntu 24.04: libicu74, Fedora and RHEL: libicu).</value>
+  </data>
+  <data name="Error_RGL0018" xml:space="preserve">
+    <value>OpenSSL (libssl) was not found. Riegel needs it for SHA-256 checksums. Install it (Debian 12 and Ubuntu 22.04 or later: libssl3, Fedora and RHEL: openssl-libs) and run the command again.</value>
+  </data>
   <data name="Flag_ClockSuspect" xml:space="preserve">
     <value>Clock implausible</value>
   </data>

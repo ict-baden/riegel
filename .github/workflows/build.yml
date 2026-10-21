@@ -95,6 +95,15 @@ jobs:
           "$cli" verify "$work"/out/Riegel-Evidence_*.zip
           echo "verify: reproduziert"
 
+      - name: Linux-Befehlszeile auf einem Minimal-System (debian:12-slim)
+        # ubuntu-latest hat OpenSSL, ICU und Schriften; Minimal-Systeme nicht. Ohne sie: klare Meldungen (RGL-0018 mit
+        # Exitcode 3, Hinweis RGL-0017) statt Abbruch mit 134; mit den Paketen aus docs/installation.md: check, report
+        # und verify. Befund der Prüfung vom 2026-10-20.
+        shell: bash
+        run: >
+          docker run --rm -v "$PWD/out/linux-x64:/app:ro" -v "$PWD/tests/Riegel.Tests/Fixtures/synthetic:/fx:ro"
+          -v "$PWD/.github/scripts:/s:ro" debian:12-slim bash /s/linux-minimal-smoke.sh /app/Riegel.Cli /fx
+
       - name: Testergebnisse
         if: always()
         # Nur zur Fehlersuche: Ist der Artefaktspeicher der Organisation voll, bleibt der Lauf trotzdem grün

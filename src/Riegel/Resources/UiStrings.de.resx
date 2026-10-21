@@ -113,7 +113,7 @@
     <value>Riegel (Härtungs-Check)</value>
   </data>
   <data name="About_ReadOnly" xml:space="preserve">
-    <value>Riegel liest Konfiguration und schreibt nur in den Anlagenordner, den gewählten Ausgabeordner und seinen Datenordner. Es ändert keine Konfiguration und baut keine Netzwerkverbindungen auf.</value>
+    <value>Riegel liest Konfiguration und schreibt nur in den Anlagenordner, den gewählten Ausgabeordner und seinen Datenordner; „Diesen PC prüfen“ übergibt den Export über einen temporären Ordner, der nach dem Import gelöscht wird. Es ändert keine Konfiguration und baut keine Netzwerkverbindungen auf.</value>
   </data>
   <data name="About_ReadOnlyTitle" xml:space="preserve">
     <value>Nur lesend, Daten bleiben hier</value>
@@ -153,6 +153,9 @@
   </data>
   <data name="About_WebsiteText" xml:space="preserve">
     <value>ICT-Baden auf GitHub</value>
+  </data>
+  <data name="App_AlreadyRunningElevated" xml:space="preserve">
+    <value>Riegel läuft in dieser Windows-Sitzung schon mit Administratorrechten. Wechseln Sie zu diesem Fenster oder schließen Sie es und starten Sie Riegel erneut.</value>
   </data>
   <data name="App_DemoReportWritten" xml:space="preserve">
     <value>Alle Dokumente der Demo-Anlage wurden nach {0} geschrieben</value>
@@ -1830,6 +1833,12 @@
   </data>
   <data name="Notice_Imported_other" xml:space="preserve">
     <value>{0} Exporte importiert und ausgewertet.</value>
+  </data>
+  <data name="Notice_AlreadyImported_one" xml:space="preserve">
+    <value>{0} Export liegt schon mit Lauf in der Anlage und wurde nicht erneut importiert (erneut auswerten: Neu auswerten).</value>
+  </data>
+  <data name="Notice_AlreadyImported_other" xml:space="preserve">
+    <value>{0} Exporte liegen schon mit Lauf in der Anlage und wurden nicht erneut importiert (erneut auswerten: Neu auswerten).</value>
   </data>
   <data name="Notice_ImportedWithRecord_one" xml:space="preserve">
     <value>{0} Export importiert und ausgewertet; Erhebungsprotokoll {1} geschrieben.</value>

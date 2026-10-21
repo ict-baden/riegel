@@ -114,7 +114,7 @@
     <value>Riegel (Härtungs-Check)</value>
   </data>
   <data name="About_ReadOnly" xml:space="preserve">
-    <value>Riegel lit la configuration et n’écrit que dans le dossier de l’installation, le dossier de sortie choisi et son dossier de données. Il ne modifie aucune configuration et n’ouvre aucune connexion réseau.</value>
+    <value>Riegel lit la configuration et n’écrit que dans le dossier de l’installation, le dossier de sortie choisi et son dossier de données ; « Contrôler ce PC » fait transiter l’export par un dossier temporaire supprimé après l’importation. Il ne modifie aucune configuration et n’ouvre aucune connexion réseau.</value>
   </data>
   <data name="About_ReadOnlyTitle" xml:space="preserve">
     <value>Lecture seule, les données restent ici</value>
@@ -154,6 +154,9 @@
   </data>
   <data name="About_WebsiteText" xml:space="preserve">
     <value>ICT-Baden sur GitHub</value>
+  </data>
+  <data name="App_AlreadyRunningElevated" xml:space="preserve">
+    <value>Riegel est déjà en cours d’exécution avec des droits d’administrateur dans cette session Windows. Passez à cette fenêtre, ou fermez-la et relancez Riegel.</value>
   </data>
   <data name="App_DemoReportWritten" xml:space="preserve">
     <value>Tous les documents de l’installation de démonstration ont été écrits dans {0}</value>
@@ -1847,6 +1850,12 @@
   </data>
   <data name="Notice_Imported_other" xml:space="preserve">
     <value>{0} exports importés et évalués.</value>
+  </data>
+  <data name="Notice_AlreadyImported_one" xml:space="preserve">
+    <value>{0} export est déjà dans l’installation avec une exécution et n’a pas été réimporté (pour le réévaluer : Réévaluer).</value>
+  </data>
+  <data name="Notice_AlreadyImported_other" xml:space="preserve">
+    <value>{0} exports sont déjà dans l’installation avec une exécution et n’ont pas été réimportés (pour les réévaluer : Réévaluer).</value>
   </data>
   <data name="Notice_ImportedWithRecord_one" xml:space="preserve">
     <value>{0} export importé et évalué ; procès-verbal de collecte {1} écrit.</value>

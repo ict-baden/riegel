@@ -5,6 +5,8 @@ using Riegel.Core.Diagnostics;
 using Riegel.Core.Model;
 using Riegel.Core.Model.Json;
 using Riegel.Core.Model.Reports;
+using Riegel.Core.Registers;
+using Riegel.Core.Settings;
 using Riegel.UI;
 
 namespace Riegel.Session;
@@ -73,8 +75,13 @@ internal sealed partial class AppSession
     public Task ApproveEntriesAsync(RegisterKind kind, IReadOnlyList<string> ids, Approval approval)
     {
         var plant = RequireWritable();
-        return SaveRegistersAsync(r => plant.Services.Registers.Approve(r, kind, ids, approval),
-            Loc.P("Notice_Approved", ids.Count, ids.Count, approval.ApprovalRecord));
+        return SaveRegistersAsync(r =>
+        {
+            var approved = plant.Services.Registers.Approve(r, kind, ids, approval);
+            // Nur gültige Einträge freigeben (wie die Befehlszeile): sonst RGL-0448 und nichts gespeichert
+            RegisterApproval.ThrowIfInvalid(plant.Services.Registers.Validate(approved, plant.Catalogue, plant.Plant, plant.Today), kind, ids);
+            return approved;
+        }, Loc.P("Notice_Approved", ids.Count, ids.Count, approval.ApprovalRecord));
     }
 
     /// <summary>Vorlage importieren: neue Einträge sind immer „beantragt“ (spec 2.11, 2.12).</summary>
@@ -112,9 +119,12 @@ internal sealed partial class AppSession
         var language = ReportLanguage;
         var (record, recordPath) = await Work(Loc.T("Busy_Importing"), () =>
         {
-            var r = plant.Services.Plants.Import(plant.Plant, paths, new ImportOptions(Blank(collectedByRole), Blank(witnessRole), plant.Plant.Settings.OperatorRole));
+            // Exporte, die schon mit Lauf in der Anlage liegen, nicht noch einmal (Prüfung vom 2026-10-20); neu auswerten
+            // geht über „Neu auswerten“
+            var r = plant.Services.Plants.Import(plant.Plant, paths,
+                new ImportOptions(Blank(collectedByRole), Blank(witnessRole), plant.Plant.Settings.OperatorRole, SkipKnown: true));
             string? pdf = null;
-            if (writeRecord)
+            if (writeRecord && r.Files.Count > 0)
             {
                 var out1 = ReportsFolder(plant);
                 pdf = plant.Services.Pdf.WriteCollectionRecord(plant.Services.ReportData.BuildCollectionRecord(plant.Plant, r.Id, language), new PdfOptions(out1));
@@ -123,9 +133,12 @@ internal sealed partial class AppSession
         });
         Log.Info($"Import: {record.Files.Count} Datei(en)");
         await ReloadAsync();
-        Report(NoticeKind.Success, recordPath is null
+        int skipped = Math.Max(0, paths.Count - record.Files.Count);
+        if (record.Files.Count == 0) Report(NoticeKind.Info, Loc.P("Notice_AlreadyImported", skipped, skipped));
+        else Report(NoticeKind.Success, (recordPath is null
             ? Loc.P("Notice_Imported", record.Files.Count, record.Files.Count)
-            : Loc.P("Notice_ImportedWithRecord", record.Files.Count, record.Files.Count, Path.GetFileName(recordPath)));
+            : Loc.P("Notice_ImportedWithRecord", record.Files.Count, record.Files.Count, Path.GetFileName(recordPath)))
+            + (skipped > 0 ? " " + Loc.P("Notice_AlreadyImported", skipped, skipped) : ""));
         return record;
     }
 
@@ -204,6 +217,26 @@ internal sealed partial class AppSession
             return result.SnapshotPath;
         });
         await ImportAsync([path], Loc.T("Role_ThisPc"), null, writeRecord: false);
+        // Der Anlagenordner hält jetzt die importierte Kopie: die Zwischenablage (%TEMP%\Riegel-Erfassung-… oder
+        // handoff\<token>\) mit Konten, SIDs, Defender-Ausnahmen und Proxy nicht liegen lassen (Prüfung vom 2026-10-20)
+        DeleteTransferFolder(Path.GetDirectoryName(path));
+    }
+
+    /// <summary>
+    /// Löscht den Ordner, über den „Diesen PC prüfen“ den Export übergab – nur einen eigenen (Riegel-Erfassung-* im
+    /// Temp-Ordner oder unter handoff\), und ohne Fehler, wenn das nicht geht (die Datei gehört dann z. B. dem Administrator).
+    /// </summary>
+    internal static void DeleteTransferFolder(string? folder)
+    {
+        if (folder is null) return;
+        var full = Path.GetFullPath(folder);
+        bool own = Path.GetFileName(full).StartsWith("Riegel-Erfassung-", StringComparison.Ordinal) &&
+                   string.Equals(Path.GetDirectoryName(full), Path.GetFullPath(Path.GetTempPath()).TrimEnd(Path.DirectorySeparatorChar), StringComparison.OrdinalIgnoreCase)
+                   || string.Equals(Path.GetDirectoryName(full), Path.GetFullPath(AppPaths.HandoffFolder), StringComparison.OrdinalIgnoreCase);
+        if (!own || !Directory.Exists(full)) return;
+        try { Directory.Delete(full, recursive: true); }
+        catch (IOException e) { Log.Warning($"Übergabeordner nicht gelöscht ({e.GetType().Name})"); }
+        catch (UnauthorizedAccessException e) { Log.Warning($"Übergabeordner nicht gelöscht ({e.GetType().Name})"); }
     }
 
     /// <summary>„Sammler auf Datenträger kopieren“ (O15).</summary>
@@ -261,13 +294,24 @@ internal sealed partial class AppSession
     public string NewOutputFolder(string baseFolder) =>
         Path.Combine(baseFolder, Services.Clock.GetUtcNow().UtcDateTime.ToString("yyyy-MM-dd'T'HHmmss'Z'", CultureInfo.InvariantCulture));
 
+    /// <summary>
+    /// Liegt <paramref name="path"/> im Ordner <paramref name="folder"/> (oder ist er es)? Mit Trennzeichen verglichen, damit
+    /// ein Nachbarordner wie „Linie3-Berichte“ neben „Linie3“ nicht als innen gilt (Prüfung vom 2026-10-20).
+    /// </summary>
+    internal static bool IsInside(string folder, string path)
+    {
+        var root = Path.TrimEndingDirectorySeparator(Path.GetFullPath(folder));
+        var full = Path.TrimEndingDirectorySeparator(Path.GetFullPath(path));
+        var prefix = root.EndsWith(Path.DirectorySeparatorChar) ? root : root + Path.DirectorySeparatorChar;
+        return string.Equals(full, root, StringComparison.OrdinalIgnoreCase) || full.StartsWith(prefix, StringComparison.OrdinalIgnoreCase);
+    }
+
     /// <summary>Ein Dokument erzeugen; gibt die geschriebenen Dateien zurück.</summary>
     public async Task<IReadOnlyList<string>> GenerateAsync(DocumentRequest d)
     {
         var plant = RequirePlant();
         if (string.IsNullOrWhiteSpace(d.OutDir)) throw new RiegelException(RglCodesApp.OutputFolderRequired, RglCodesApp.Text(RglCodesApp.OutputFolderRequired));
-        if (plant.ReadOnly && Path.GetFullPath(d.OutDir).StartsWith(Path.GetFullPath(plant.Folder), StringComparison.OrdinalIgnoreCase))
-            throw RiegelException.Common(RglCodesCommon.ReadOnlyMode);
+        if (plant.ReadOnly && IsInside(plant.Folder, d.OutDir)) throw RiegelException.Common(RglCodesCommon.ReadOnlyMode);
         var services = plant.Services;
         var p = d.Settings is null ? plant.Plant : plant.Plant with { Settings = d.Settings };
         var today = services.Today;

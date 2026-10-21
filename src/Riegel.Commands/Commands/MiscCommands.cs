@@ -31,6 +31,7 @@ internal static class MiscCommands
         var a = ArgumentParser.Parse("remediate", args, RemediateOptions);
         var plant = ctx.OpenPlant(a.Required("--plant", "<folder>"), forWrite: false, "remediate");
         var host = a.Required("--machine", "<host>");
+        PlantHosts.Require(plant, [host], "--machine");
         var run = a.Value("--run") is { } id ? CompareCommands.RunOf(ctx, plant, host, id) : CompareCommands.Latest(ctx, plant, host);
         // Die Rücknahme braucht genau den Export dieses Laufs: nur aus dem Anlagenordner und mit passendem SHA-256
         var snapshot = new Pipeline(ctx).SnapshotOf(plant, run);

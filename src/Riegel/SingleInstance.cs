@@ -23,30 +23,52 @@ internal sealed class SingleInstance : IDisposable
         _show = show;
     }
 
-    /// <summary>Erste Instanz: Besitz übernehmen. Läuft schon eine, null.</summary>
-    public static SingleInstance? TryAcquire()
+    /// <summary>
+    /// Erste Instanz: Besitz übernehmen. Läuft schon eine, null – auch wenn eine Instanz mit Administratorrechten Mutex
+    /// oder Ereignis hält und dieser Prozess sie nicht öffnen darf (sonst Absturz beim Start, Prüfung vom 2026-10-20);
+    /// dann ist <paramref name="accessDenied"/> true.
+    /// </summary>
+    public static SingleInstance? TryAcquire(out bool accessDenied)
     {
-        var mutex = new Mutex(initiallyOwned: true, MutexName, out bool created);
+        accessDenied = false;
+        Mutex mutex;
+        bool created;
+        try { mutex = new Mutex(initiallyOwned: true, MutexName, out created); }
+        catch (UnauthorizedAccessException)
+        {
+            accessDenied = true;
+            return null;
+        }
         if (!created)
         {
             mutex.Dispose();
             return null;
         }
-        return new SingleInstance(mutex, new EventWaitHandle(false, EventResetMode.AutoReset, ShowEventName));
+        EventWaitHandle show;
+        try { show = new EventWaitHandle(false, EventResetMode.AutoReset, ShowEventName); }
+        catch (UnauthorizedAccessException)
+        {
+            accessDenied = true;
+            mutex.Dispose();
+            return null;
+        }
+        return new SingleInstance(mutex, show);
     }
 
-    /// <summary>Zweite Instanz: die erste bitten, ihr Fenster zu zeigen.</summary>
-    public static void SignalFirst()
+    /// <summary>Zweite Instanz: die erste bitten, ihr Fenster zu zeigen. false, wenn sie nicht erreichbar ist.</summary>
+    public static bool SignalFirst()
     {
         Native.AllowSetForegroundWindow(Native.ASFW_ANY);
         try
         {
             using var signal = EventWaitHandle.OpenExisting(ShowEventName);
             signal.Set();
+            return true;
         }
         catch (Exception e) when (e is WaitHandleCannotBeOpenedException or UnauthorizedAccessException or IOException)
         {
-            // Die erste Instanz startet gerade oder beendet sich
+            // Die erste Instanz startet gerade, beendet sich oder läuft mit Administratorrechten
+            return false;
         }
     }
 

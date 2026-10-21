@@ -68,8 +68,8 @@ severity `high` is valid only if `approvedByRole` is one of these roles (compare
 warning (a yearly review is recommended).
 
 Exceptions apply only to results with status `fail`. A rule that passes, is not applicable or not checkable is not
-changed; an exception for a rule that now passes everywhere is marked `unused` in the report ("Ausnahme nicht mehr
-nötig?"). An exception for an inventory rule has no effect (inventory rules are always `info`); validation warns.
+changed; an exception for a rule that now passes everywhere is marked `unused` in the report ("No longer
+needed?"). An exception for an inventory rule has no effect (inventory rules are always `info`); validation warns.
 
 ## Tailoring ("nicht im Prüfumfang")
 
@@ -129,6 +129,10 @@ Entries for retired rules are kept and marked `ruleRetired`.
    "Enter approval" (*Genehmigung eintragen*) in the app). Role and record are required; `approvedOn` defaults to today; `reviewBy`
    defaults to the entry's proposed date if it lies after the approval, otherwise to 12 months after the approval (the
    longest period without a warning). Cite the sheet as the record, e.g. "Genehmigungsblatt GB-20261018-a1b2c3".
+   Only valid entries can be approved: if an entry would still have a validation error with the approval (missing
+   `acceptedValue`, justification too short, `reviewBy` too late …), the command and the app refuse with `RGL-0448`,
+   naming the entry and the first error, and nothing is saved. `exceptions list` and `tailoring list` show such entries
+   as **invalid**, as `validate` does.
 4. Riegel stores the content hash with the approval. The next `check` or report shows the entry as valid.
 
 ## Approval binding
@@ -173,6 +177,15 @@ Importing a template (`exceptions import-template`, `tailoring import-template`,
 register as **pending** entries: approval fields are cleared (also if a template contains some), `createdOn` is today,
 `createdByRole` is kept. An ID that already exists in the register gets the next free number. Templates are never
 applied automatically – the imported entries need the normal approval.
+
+Every entry of a template must have `ruleId`, `scope` (with `machines`, `groups` and `allMachines`) and, for
+exceptions, `category` and `justification`, for tailoring `reason`. A template that lacks one of them is refused as a
+whole with `RGL-0004`, naming the file, the entry and the field (for example
+`hersteller.exceptions-template.json: exceptions[2].scope`); nothing is added.
+
+A register file that already holds an entry without a required field (edited by hand, or imported with Riegel 0.1.0,
+which did not check templates) still opens: the entry gets an empty scope, empty texts or no approval, so validation
+reports it as invalid (`RGL-0421`, `RGL-0424`, `RGL-0427`, `RGL-0444`) and it applies to no machine. Fix or delete it.
 
 ## Validation
 

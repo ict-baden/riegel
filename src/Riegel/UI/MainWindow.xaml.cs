@@ -24,6 +24,7 @@ public partial class MainWindow : Window, IThemedWindow
         SourceInitialized += (_, _) => { if (!_screenshot) ThemeManager.ApplyWindowChrome(this); };
         PreviewKeyDown += OnPreviewKeyDown;
         DragOver += OnDragOver;
+        DragLeave += (_, _) => _drag = null;
         Drop += OnDrop;
         Closed += (_, _) => vm.Detach();
         Loaded += (_, _) => FocusPage();
@@ -72,8 +73,16 @@ public partial class MainWindow : Window, IThemedWindow
         target?.Focus();
     }
 
-    private static IReadOnlyList<string> Importable(DragEventArgs e) =>
-        e.Data.GetData(DataFormats.FileDrop) is string[] files ? [.. files.Where(ImportDialogViewModel.IsImportable)] : [];
+    // Ergebnis der Prüfung je Ziehvorgang: DragOver kommt bei jeder Mausbewegung, Ordner werden nur einmal gelesen
+    private (IDataObject Data, IReadOnlyList<string> Files)? _drag;
+
+    private IReadOnlyList<string> Importable(DragEventArgs e)
+    {
+        if (_drag is { } cached && ReferenceEquals(cached.Data, e.Data)) return cached.Files;
+        IReadOnlyList<string> files = e.Data.GetData(DataFormats.FileDrop) is string[] dropped ? [.. dropped.Where(ImportDialogViewModel.IsImportable)] : [];
+        _drag = (e.Data, files);
+        return files;
+    }
 
     private void OnDragOver(object sender, DragEventArgs e)
     {
@@ -84,6 +93,7 @@ public partial class MainWindow : Window, IThemedWindow
     private void OnDrop(object sender, DragEventArgs e)
     {
         var files = Importable(e);
+        _drag = null;
         if (files.Count == 0) return;
         e.Handled = true;
         ViewModel.Select(ViewModel.Start);

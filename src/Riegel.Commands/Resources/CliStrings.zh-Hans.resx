@@ -35,6 +35,12 @@
   <data name="Brief_NewHigh_other" xml:space="preserve">
     <value>{0} 项新出现的高严重性项</value>
   </data>
+  <data name="Brief_NothingNew_one" xml:space="preserve">
+    <value>没有新的导出文件（{0} 个已在装置中）</value>
+  </data>
+  <data name="Brief_NothingNew_other" xml:space="preserve">
+    <value>没有新的导出文件（{0} 个已在装置中）</value>
+  </data>
   <data name="Brief_Open_one" xml:space="preserve">
     <value>{0} 项未解决（{1}）</value>
   </data>
@@ -215,6 +221,9 @@ SHA-256：{1}</value>
   <data name="Cli_ImportNoSidecar" xml:space="preserve">
     <value>  {0}：没有匹配的 .sha256 文件 – 完整性未经证明</value>
   </data>
+  <data name="Cli_ImportSkipped" xml:space="preserve">
+    <value>{0}：已在装置中且有运行记录（SHA-256 相同）– 不再导入或评估。如需重新评估，请使用 --reevaluate。</value>
+  </data>
   <data name="Cli_InfoCatalogue" xml:space="preserve">
     <value>规则目录：{0} {1}</value>
   </data>
@@ -329,6 +338,18 @@ SHA-256：{1}</value>
   </data>
   <data name="Cli_VerifyCounts" xml:space="preserve">
     <value>已检查的导出文件：{0} · 已比较的结果：{1}</value>
+  </data>
+  <data name="Cli_VerifyCatalogueBuiltIn" xml:space="preserve">
+    <value>规则目录：{0} {1}，SHA-256 {2} – 与此 Riegel 版本内置的规则目录相同。</value>
+  </data>
+  <data name="Cli_VerifyCatalogueOther" xml:space="preserve">
+    <value>规则目录：{0} {1}，SHA-256 {2} – 并非此 Riegel 版本内置的规则目录（{3}）；结果仅使用包内规则目录重现。</value>
+  </data>
+  <data name="Cli_VerifyCatalogueReleased" xml:space="preserve">
+    <value>规则目录：{0} {1}，SHA-256 {2} – 与此 Riegel 版本已知的已发布规则目录 {0} {1} 相同（内置：{3}）。</value>
+  </data>
+  <data name="Cli_VerifyCatalogueUnknown" xml:space="preserve">
+    <value>未经验证，引擎 {0}（包内：{1}）：此 Riegel 版本不认识包内规则目录。</value>
   </data>
   <data name="Cli_VerifyError" xml:space="preserve">
     <value>无法验证证据包。</value>
@@ -533,10 +554,10 @@ SHA-256：{1}</value>
   <data name="Help_ExitCodes" xml:space="preserve">
     <value>退出代码：0 OK，1 WARNING，2 CRITICAL，3 UNKNOWN（用法错误、导出文件无法读取或已损坏、校验和不符、I/O 错误）。
 check 和 import 在使用 --plant 时针对变化告警（严重：regression,newhigh），不使用时针对状态告警（严重：regression,high）。
-verify：0 已重现，2 不一致 · compare-snapshot：0 一致，1 不同 · validate：0 有效，1 有警告，2 无效。</value>
+verify：0 已重现，1 未经验证，2 不一致 · compare-snapshot：0 一致，1 不同 · validate：0 有效，1 有警告，2 无效。</value>
   </data>
   <data name="Help_Import" xml:space="preserve">
-    <value>用法：{0} import &lt;文件|文件夹&gt;… --plant &lt;文件夹&gt; [--collected-by-role &lt;角色&gt;] [--witness-role &lt;角色&gt;] [--record]
+    <value>用法：{0} import &lt;文件|文件夹&gt;… --plant &lt;文件夹&gt; [--collected-by-role &lt;角色&gt;] [--witness-role &lt;角色&gt;] [--record] [--reevaluate]
 
 将导出文件或内置工具包添加到装置文件夹：检查 .sha256 文件，写入导入记录，评估并保存运行。
 校验和不符时，在写入任何内容之前停止整个导入。
@@ -547,6 +568,7 @@ verify：0 已重现，2 不一致 · compare-snapshot：0 一致，1 不同 · 
   --collected-by-role &lt;角色&gt;        执行采集人员的角色（导入记录）
   --witness-role &lt;角色&gt;             运营方见证人的角色（导入记录）
   --record                          同时写入采集记录（PDF）
+  --reevaluate                      重新评估已在装置中且有运行记录的导出文件（否则跳过）
   --brief, --format, --alert, --critical, --warning    与 check 相同（默认告警模式：change）
 
 退出代码与 check 相同。</value>
@@ -687,7 +709,7 @@ remediation/&lt;计算机&gt;/&lt;运行&gt;/ 下。Riegel 从不执行这些文
 
 检查证据包中的每个哈希值，使用包内的规则目录和登记册重新评估包内的导出文件，并与包内结果进行比较。
 
-退出代码：0 已重现，2 不一致，3 错误。</value>
+退出代码：0 已重现，1 未经验证（此 Riegel 版本不认识该规则目录），2 不一致，3 错误。</value>
   </data>
   <data name="Issue_Error" xml:space="preserve">
     <value>错误</value>

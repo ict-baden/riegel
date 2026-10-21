@@ -32,6 +32,8 @@ Common.
 | `RGL-0014` | ReadOnlyMode | Read-only mode: nothing is written to the plant folder. |
 | `RGL-0015` | DiagnosticsFailed | The diagnostics package could not be written: {0} |
 | `RGL-0016` | AlreadyExists | Already exists and is not overwritten: {0} |
+| `RGL-0017` | IcuMissing | ICU (libicu) was not found, so Riegel runs without culture data: texts are translated, but dates and numbers are not localised. For localised output install libicu (Debian 12: libicu72, Ubuntu 24.04: libicu74, Fedora and RHEL: libicu). |
+| `RGL-0018` | OpenSslMissing | OpenSSL (libssl) was not found. Riegel needs it for SHA-256 checksums. Install it (Debian 12 and Ubuntu 22.04 or later: libssl3, Fedora and RHEL: openssl-libs) and run the command again. |
 
 ## RGL-0100–0199
 
@@ -210,6 +212,7 @@ Workflow (plant folder, runs, registers).
 | `RGL-0445` | PlantIdMismatch | plantId {0} in the file does not match the plant {1}. |
 | `RGL-0446` | ApprovedInFuture | approvedOn {0} lies in the future: the approval is not in force yet. |
 | `RGL-0447` | InventoryRule | Rule {0} is an inventory rule and never fails: the exception has no effect. |
+| `RGL-0448` | InvalidNotApproved | Not approved: {0} is invalid ({1}: {2}). Correct the entry first – validate lists every issue. |
 
 ## RGL-0450–0499
 
@@ -282,6 +285,8 @@ Data outputs (Excel, CSV, evidence pack, remediation).
 | `RGL-0569` | RemediationActionInvalid | Remediation entry in the catalogue not allowed – left out: {0} |
 | `RGL-0570` | RollbackValueOmitted | Old value not taken into the rollback: {0} |
 | `RGL-0571` | RunManifestMismatch | Run in the pack does not match the manifest ({0} / {1}). |
+| `RGL-0572` | CatalogueNotBuiltIn | The packed catalogue {0} ({1}) differs from the released catalogue {0} known to this Riegel version ({2}): its rules were changed. |
+| `RGL-0573` | CatalogueNotReference | The packed catalogue {0} is not known to this Riegel version (built in: {1}), so its rules could not be compared with a reference and the pack is not verified. Verify it with the Riegel version that wrote it ({2}) or a newer one. |
 
 ## RGL-0600–0699
 

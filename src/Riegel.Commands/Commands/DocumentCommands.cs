@@ -48,6 +48,8 @@ internal static class DocumentCommands
             _ => plant.Settings.ReportPreset,
         };
         var hosts = a.Values("--machine") is { Count: > 0 } list ? list : null;
+        // Ein Tippfehler ergäbe sonst einen leeren Bericht zum Abzeichnen (Exitcode 0)
+        if (hosts is not null) PlantHosts.Require(plant, hosts, "--machine");
         var language = ctx.ReportLanguage(plant, a.Value("--language"));
         var outDir = ctx.ReportFolder(plant, a.Value("--out"));
         var date = ctx.Services.Today;

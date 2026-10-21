@@ -24,7 +24,10 @@ public sealed record EvidenceRequest(Plant Plant, IReadOnlyList<string>? Hosts, 
     public IReadOnlyList<string> Documents { get; init; } = Documents ?? [];
 }
 
-/// <summary>Ergebnis von <c>verify</c> (Exitcodes 0 reproduziert, 2 abweichend, 3 Fehler).</summary>
+/// <summary>
+/// Ergebnis von <c>verify</c> (Exitcodes 0 reproduziert, 1 nicht nachgeprüft – Katalog dieser Riegel-Version unbekannt,
+/// 2 abweichend, 3 Fehler).
+/// </summary>
 /// <param name="EngineVersion">Version, mit der jetzt ausgewertet wurde.</param>
 /// <param name="PackedEngineVersion">Version laut Paket.</param>
 /// <param name="NotVerifiable">Ergebnisse ohne Baseline-Inhalt („nicht nachprüfbar“).</param>
@@ -34,13 +37,35 @@ public sealed record VerifyResult(VerifyStatus Status, string EngineVersion, str
     public IReadOnlyList<VerifyFinding> Findings { get; init; } = Findings ?? [];
     public IReadOnlyList<string> NotVerifiable { get; init; } = NotVerifiable ?? [];
 
-    /// <summary>0 reproduziert, 2 Abweichung, 3 Fehler (spec 7.7).</summary>
+    /// <summary>Der gepackte Katalog (ID, Version, Datum, SHA-256 der kanonischen Form); null, wenn er fehlt oder unlesbar ist.</summary>
+    public CatalogueRef? Catalogue { get; init; }
+
+    /// <summary>true: der gepackte Katalog ist der in diese Riegel-Version eingebaute (gleiche ID, Version und SHA-256).</summary>
+    public bool CatalogueBuiltIn { get; init; }
+
+    /// <summary>
+    /// true: der gepackte Katalog ist der eingebaute oder eine veröffentlichte Fassung, die diese Riegel-Version mit
+    /// ihrem SHA-256 kennt. Nur dann beruht „reproduziert“ auf einem Regelwerk, das nicht aus dem Paket selbst stammt.
+    /// </summary>
+    public bool CatalogueReleased { get; init; }
+
+    /// <summary>0 reproduziert, 1 nicht nachgeprüft (Katalog unbekannt), 2 Abweichung, 3 Fehler (spec 7.7).</summary>
     [JsonIgnore]
-    public int ExitCode => Status switch { VerifyStatus.Reproduced => 0, VerifyStatus.Mismatch => 2, _ => 3 };
+    public int ExitCode => Status switch
+    {
+        VerifyStatus.Reproduced => 0,
+        VerifyStatus.CatalogueUnknown => 1,
+        VerifyStatus.Mismatch => 2,
+        _ => 3,
+    };
 }
 
+/// <summary>
+/// Ergebnis von verify. <see cref="CatalogueUnknown"/>: die Ergebnisse folgen aus dem gepackten Katalog, den diese
+/// Riegel-Version nicht kennt (RGL-0573) – das Paket ist damit nicht nachgeprüft.
+/// </summary>
 [JsonConverter(typeof(CamelCaseEnumConverter<VerifyStatus>))]
-public enum VerifyStatus { Reproduced, Mismatch, Error }
+public enum VerifyStatus { Reproduced, CatalogueUnknown, Mismatch, Error }
 
 /// <summary>Ein Befund von verify (falsche Prüfsumme, fehlende Datei, abweichendes Ergebnis …).</summary>
 public sealed record VerifyFinding(string Code, string? File, string? HostName, string? RuleId, string Message);

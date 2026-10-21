@@ -84,7 +84,7 @@ internal sealed class RegisterService(RiegelServices services) : IRegisterServic
     {
         if (!File.Exists(path)) return (empty(), "");
         var bytes = ReadBytes(path, limits.MaxRegisterBytes);
-        var value = RiegelJson.Deserialize<T>(bytes);
+        var value = Deserialize<T>(bytes, path);
         if (schemaOf(value) != schema) throw RiegelException.Common(RglCodesCommon.UnsupportedSchema, schemaOf(value));
         if (count(value) > limits.MaxRegisterEntries) throw RiegelException.Common(RglCodesCommon.LimitExceeded, path, limits.MaxRegisterEntries);
         return (value, Hashes.Sha256Hex(bytes));
@@ -152,6 +152,9 @@ internal sealed class RegisterService(RiegelServices services) : IRegisterServic
     /// Übernimmt eine Vorlage (<c>*.exceptions-template.json</c>, <c>*.tailoring-template.json</c>): jeder Eintrag wird
     /// beantragt (Freigabefelder leer), createdOn = heute, createdByRole bleibt (z. B. „Hersteller“). IDs, die es im
     /// Register schon gibt, bekommen die nächste freie Nummer. Vorlagen werden nie automatisch angewendet.
+    /// Pflichtfelder der Einträge (ohne id, approval, createdOn, die der Import setzt) müssen in der Vorlage stehen,
+    /// sonst RGL-0004 mit Datei, Eintrag und Feld – vorher wurde ein Eintrag ohne „scope“ übernommen und machte die
+    /// Anlage unlesbar.
     /// </summary>
     public RegisterSet ImportTemplate(RegisterSet r, string templatePath, ReadLimits l)
     {
@@ -160,8 +163,11 @@ internal sealed class RegisterService(RiegelServices services) : IRegisterServic
         try
         {
             using var document = JsonDocument.Parse(bytes, new JsonDocumentOptions { MaxDepth = l.MaxJsonDepth });
-            schema = document.RootElement.ValueKind == JsonValueKind.Object && document.RootElement.TryGetProperty("schema", out var s) &&
+            var root = document.RootElement;
+            schema = root.ValueKind == JsonValueKind.Object && root.TryGetProperty("schema", out var s) &&
                      s.ValueKind == JsonValueKind.String ? s.GetString() : null;
+            if (schema == SchemaIds.ExceptionsTemplate) RequireFields(root, "exceptions", ExceptionTemplateFields, templatePath);
+            else if (schema == SchemaIds.TailoringTemplate) RequireFields(root, "entries", TailoringTemplateFields, templatePath);
         }
         catch (JsonException e)
         {
@@ -170,7 +176,7 @@ internal sealed class RegisterService(RiegelServices services) : IRegisterServic
         var today = services.Today;
         if (schema == SchemaIds.ExceptionsTemplate)
         {
-            var template = RiegelJson.Deserialize<ExceptionFile>(bytes);
+            var template = Deserialize<ExceptionFile>(bytes, templatePath);
             CheckCount(r.Exceptions.Exceptions.Count + template.Exceptions.Count, l, templatePath);
             var ids = new Ids("EX-", r.Exceptions.Exceptions.Select(e => e.Id));
             var added = template.Exceptions.Select(e => e with
@@ -181,7 +187,7 @@ internal sealed class RegisterService(RiegelServices services) : IRegisterServic
         }
         if (schema == SchemaIds.TailoringTemplate)
         {
-            var template = RiegelJson.Deserialize<TailoringFile>(bytes);
+            var template = Deserialize<TailoringFile>(bytes, templatePath);
             CheckCount(r.Tailoring.Entries.Count + template.Entries.Count, l, templatePath);
             var ids = new Ids("TL-", r.Tailoring.Entries.Select(e => e.Id));
             var added = template.Entries.Select(e => e with
@@ -191,6 +197,49 @@ internal sealed class RegisterService(RiegelServices services) : IRegisterServic
             return r with { Tailoring = r.Tailoring with { Entries = [.. r.Tailoring.Entries, .. added] } };
         }
         throw RiegelException.Common(RglCodesCommon.UnsupportedSchema, schema ?? "?");
+    }
+
+    /// <summary>Pflichtfelder der Vorlagen-Einträge (schemas/*-template.schema.json ohne id, approval, createdOn).</summary>
+    private static readonly string[] ExceptionTemplateFields = ["ruleId", "scope", "category", "justification"];
+
+    private static readonly string[] TailoringTemplateFields = ["ruleId", "scope", "reason"];
+
+    private static readonly string[] ScopeFields = ["machines", "groups", "allMachines"];
+
+    /// <summary>
+    /// Jeder Eintrag der Liste <paramref name="list"/> hat die Felder <paramref name="fields"/> (nicht null), der
+    /// Geltungsbereich seine drei Felder; sonst RGL-0004 „Datei: liste[i].feld“.
+    /// </summary>
+    private static void RequireFields(JsonElement root, string list, string[] fields, string path)
+    {
+        RiegelException Missing(string where) =>
+            RiegelException.Common(RglCodesCommon.InvalidJson, Path.GetFileName(path) + ": " + where);
+        if (root.ValueKind != JsonValueKind.Object || !root.TryGetProperty(list, out var entries) || entries.ValueKind != JsonValueKind.Array)
+            throw Missing(list);
+        int i = 0;
+        foreach (var entry in entries.EnumerateArray())
+        {
+            var at = $"{list}[{i.ToString(System.Globalization.CultureInfo.InvariantCulture)}]";
+            if (entry.ValueKind != JsonValueKind.Object) throw Missing(at);
+            foreach (var field in fields)
+                if (!entry.TryGetProperty(field, out var value) || value.ValueKind == JsonValueKind.Null) throw Missing(at + "." + field);
+            var scope = entry.GetProperty("scope");
+            if (scope.ValueKind != JsonValueKind.Object) throw Missing(at + ".scope");
+            foreach (var field in ScopeFields)
+                if (!scope.TryGetProperty(field, out var value) || value.ValueKind == JsonValueKind.Null) throw Missing(at + ".scope." + field);
+            i++;
+        }
+    }
+
+    /// <summary>RiegelJson.Deserialize, bei RGL-0004 mit dem Dateinamen vor der Stelle im JSON.</summary>
+    private static T Deserialize<T>(byte[] bytes, string path)
+    {
+        try { return RiegelJson.Deserialize<T>(bytes); }
+        catch (RiegelException e) when (e.Code == RglCodesCommon.InvalidJson)
+        {
+            throw new RiegelException(e.Code, RglCodesCommon.Message(RglCodesCommon.InvalidJson, Path.GetFileName(path) + ": " +
+                (e.InnerException is JsonException j && j.Path is { } p ? p : typeof(T).Name)), e);
+        }
     }
 
     private static void CheckCount(int count, ReadLimits l, string path)

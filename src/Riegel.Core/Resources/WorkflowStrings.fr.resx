@@ -256,6 +256,9 @@
   <data name="Error_RGL0447" xml:space="preserve">
     <value>La règle {0} est une règle d'inventaire et n'échoue jamais : l'exception n'a aucun effet.</value>
   </data>
+  <data name="Error_RGL0448" xml:space="preserve">
+    <value>Non approuvé : {0} n'est pas valide ({1} : {2}). Corrigez d'abord l'entrée – validate liste tous les problèmes.</value>
+  </data>
   <data name="Expect_AllowedSids" xml:space="preserve">
     <value>uniquement {0}</value>
   </data>

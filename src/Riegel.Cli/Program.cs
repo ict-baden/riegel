@@ -15,8 +15,14 @@ internal static class Program
 {
     public static int Main(string[] args)
     {
+        // Linux: ICU und OpenSSL prüfen, bevor irgendetwas Kulturdaten braucht (sonst Abbruch der Laufzeit mit 134)
+        var native = NativePrerequisites.Prepare();
         ConsoleOutput.Configure();
-        UiLanguage.Apply(SettingsStore.Load().Language, SettingsStore.LoadMachineDefaults().Language);
+        // Ohne ICU liest .NET die Systemsprache nicht – dann aus LANG, mit dem Rang der Systemsprache (zuletzt)
+        var machineDefault = SettingsStore.LoadMachineDefaults().Language;
+        if (native.IcuMissing && string.IsNullOrWhiteSpace(machineDefault)) machineDefault = NativePrerequisites.LanguageFromEnvironment();
+        UiLanguage.Apply(SettingsStore.Load().Language, machineDefault);
+        if (NativePrerequisites.Report(native, args, Console.Out, Console.Error) is { } stop) return stop;
 
         // Strg+C: erst sauber abbrechen (Exitcode 3, RGL-0469), ein zweites Strg+C beendet sofort
         using var cancel = new CancellationTokenSource();

@@ -11,8 +11,11 @@ namespace Riegel.Core.Model;
 /// und <see cref="FileSha256"/> stehen nicht in der Datei; der Anlagenspeicher setzt sie beim Öffnen.
 /// </summary>
 public sealed record Plant(string Schema, string Id, string Name, string? Description, IReadOnlyList<MachineGroup> Groups,
-    IReadOnlyList<PlantMachine> Machines, PlantSettings Settings)
+    IReadOnlyList<PlantMachine> Machines, PlantSettings Settings) : IAfterRead<Plant>
 {
+    /// <summary>Fehlen die Einstellungen in der Datei, gelten die Standardwerte (statt dass die Anlage unlesbar wird).</summary>
+    Plant IAfterRead<Plant>.AfterRead() => Settings is null ? this with { Settings = PlantSettings.Default } : this;
+
     public IReadOnlyList<MachineGroup> Groups { get; init; } = Groups ?? [];
     public IReadOnlyList<PlantMachine> Machines { get; init; } = Machines ?? [];
 

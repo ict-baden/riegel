@@ -80,13 +80,26 @@ public static class RglCodesDataOutputs
     /// <summary>Lauf im Paket passt nicht zum Manifest (ID oder Rechner).</summary>
     public const string RunManifestMismatch = "RGL-0571";
 
+    /// <summary>
+    /// Gepackter Katalog hat ID und Version des eingebauten oder einer veröffentlichten Fassung, aber einen anderen Inhalt
+    /// (Regeln verändert) – abweichend.
+    /// </summary>
+    public const string CatalogueNotBuiltIn = "RGL-0572";
+
+    /// <summary>
+    /// Version des gepackten Katalogs ist dieser Riegel-Version unbekannt (neuer oder erfunden): seine Regeln ließen sich
+    /// nicht mit einer Referenz vergleichen. Status „catalogueUnknown“, Exitcode 1 (mit der Riegel-Version prüfen, die das
+    /// Paket schrieb, oder einer neueren).
+    /// </summary>
+    public const string CatalogueNotReference = "RGL-0573";
+
     /// <summary>Alle Codes dieses Bereichs (für docs/error-codes.md und Tests).</summary>
     public static IReadOnlyList<string> All { get; } =
     [
         ZipUnreadable, ZipTooLarge, EntryTooLarge, UnsafeEntryName, ChecksumFileInvalid, ManifestInvalid, FileHashMismatch,
         FileMissing, FileNotListed, CatalogueMismatch, ResultMismatch, SummaryMismatch, BaselineNotVerifiable,
         RunNotVerifiable, HostNotInPack, PackedFileUnreadable, TooManyEntries, RunNotPackable, DocumentNotPackable,
-        RemediationActionInvalid, RollbackValueOmitted, RunManifestMismatch,
+        RemediationActionInvalid, RollbackValueOmitted, RunManifestMismatch, CatalogueNotBuiltIn, CatalogueNotReference,
     ];
 
     /// <summary>Text zu einem Code in der aktuellen Sprache, mit Platzhaltern.</summary>

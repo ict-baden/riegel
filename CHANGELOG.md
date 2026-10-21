@@ -4,10 +4,36 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 
 ## [Unveröffentlicht]
 
+## [0.1.1] – 2026-10-20
+
+Korrekturen nach der zweiten unabhängigen Prüfung (2026-10-20). Die Sammler-Exe ist unverändert (0.1.0, dieselben Bytes, Hash-Sperre unverändert; im Sammlerpaket ändert sich nur README.txt), das Regelwerk bleibt 2026.10. 0.1.1 ersetzt 0.1.0 vor allem, weil 0.1.0 noch `Microsoft.Windows.SDK.NET.dll` ausliefert.
+
+### Nachweis und verify
+- **verify vergleicht den gepackten Katalog mit dem eingebauten** bzw. mit der veröffentlichten Fassung seiner Version. Bisher meldete verify „reproduziert“ (Exitcode 0) für ein Paket, dessen Katalog zusammen mit den Ergebnissen und allen Prüfsummen geändert war, weil die erneute Auswertung den gepackten Katalog nimmt. Jetzt: bekannte Version, anderer SHA-256 → `RGL-0572`, abweichend (Exitcode 2); eine Version, die diese Riegel-Version nicht kennt → `RGL-0573`, neuer Status `catalogueUnknown` („nicht nachgeprüft“, Exitcode 1). verify nennt Katalog-ID, Version und SHA-256 (Text und JSON: `catalogue`, `catalogueBuiltIn`, `catalogueReleased`).
+- **Eine Katalogversion gehört zu genau einem Inhalt.** Riegel führt den SHA-256 jeder veröffentlichten Katalogversion; ein Test verlangt bei jeder Änderung am Regelwerk eine neue Version (`JJJJ.MM` oder `JJJJ.MM.N`). So prüft eine neuere Riegel-Version auch Pakete älterer Versionen nach, statt sie nach der nächsten Regeländerung als gefälscht zu melden.
+- **verify rechnet Zählungen und Härtungsgrad auch mit einer Kunden-Baseline ohne Inhalt nach** (Voreinstellung). Bisher ging eine geschönte Zusammenfassung in einem solchen Paket als „reproduziert“ durch. Eine Baseline im Manifest mit ungültiger oder reservierter ID (etwa „riegel“) macht das Manifest ungültig (`RGL-0555`), und Ergebnisse einer Baseline ohne Inhalt müssen deren Regel-ID `IMP-<id>-…` tragen (`RGL-0560`) – sonst ließen sich die eigenen Ergebnisse als „nicht nachprüfbar“ dem Vergleich entziehen.
+- Doku: was `compare-snapshot` nicht prüft (es wertet nicht neu aus).
+
+### Behoben
+- **Register-Vorlagen ohne Pflichtfelder** (z. B. ohne `scope`) werden beim Import mit `RGL-0004` (Datei, Eintrag, Feld) abgelehnt. Bisher wurden sie übernommen und machten die Anlage unbrauchbar (RGL-0001 in list, validate, report …, UNKNOWN bei check, Oberfläche ließ sich nicht öffnen). Register und Anlagen, in denen solche Einträge schon stehen, öffnen wieder; der Eintrag gilt als ungültig (auch `null` als Eintrag). Unlesbare Register und Läufe nennen die Datei.
+- **Linux-Befehlszeile ohne OpenSSL oder ICU** (z. B. `debian:12-slim`): statt Abbruch mit Exitcode 134 eine klare Meldung (`RGL-0018`, Exitcode 3) bzw. ein Hinweis (`RGL-0017`, Betrieb ohne Kulturdaten). Die nötigen Pakete stehen in `docs/installation.md`; die CI prüft das in `debian:12-slim`.
+- **Freigabe nur für gültige Einträge:** `exceptions/tailoring approve` und die Oberfläche lehnen Einträge ab, die auch freigegeben noch Fehler haben (`RGL-0448`); `list` zeigt sie als „invalid“.
+- **`--machine` wird geprüft** (report, remediate, measures add): ein unbekannter Rechner ergibt `RGL-0452` mit der Liste der bekannten statt eines leeren Berichts mit Exitcode 0.
+- **Wiederholter Import** desselben Ordners überspringt Exporte, die schon mit Lauf in der Anlage liegen (keine doppelten Läufe, Importnachweise und Alarme); `import --reevaluate` wertet sie erneut aus. Ist nichts neu, gibt `--brief` trotzdem eine Zeile aus (`RIEGEL OK - <Anlage>: no new exports …`), JSON hat `"import": null` und `skipped`.
+- Berichtsseite: mit „Einstellungen in der Anlage speichern“ entstand der Bericht über alle Rechner im Standardordner statt für die Auswahl.
+- „Diesen PC prüfen“ löscht den Übergabeordner (`%TEMP%\Riegel-Erfassung-…`, `handoff\<token>`) nach dem Import; der Info-Text nennt ihn.
+- Export-Leser: fehlende Pflichtfelder und einzelne Ersatzzeichen ergeben `RGL-0257` statt RGL-0001.
+- Start neben einer Instanz mit Administratorrechten stürzt nicht mehr ab und endet nicht still, sondern mit einem Hinweis; Prüfermodus lehnt Nachbarordner wie „Linie3-Berichte“ nicht mehr ab.
+- Die Oberfläche importiert einen Ordner mit Exporten wie die Befehlszeile (bisher RGL-0260); Ziehen und Ablegen nimmt ihn an und liest dabei jeden Ordner nur bis zum ersten Export (ein unlesbarer Ordner ergibt keine Fehlermeldung mehr).
+- PDF-Schriften werden auch unter macOS gefunden (Entwicklung, Prüfer).
+
 ### Geändert
 - Windows-Projekte zielen auf `net10.0-windows` statt `net10.0-windows10.0.19041.0`. Damit liegt `Microsoft.Windows.SDK.NET.dll` (Lizenz des Windows SDK, nicht MIT) nicht mehr in den Windows-Paketen; Riegel nutzt keine WinRT-API. Offener Punkt legal-4 aus der Prüfung damit erledigt.
 - Sammler als net35-Exe, Anlagenordner als JSON und Regeltexte im Katalog sind als Abweichungen von den Richtlinien freigegeben.
-- CI: Zeitlimit für den Schritt „AppLocker-Daten des Sammlers“ (hing einmal 33 Minuten); Dependabot stößt keine Rebase-Läufe mehr an.
+- Läufe eines Rechners werden beim Auflisten nur noch mit ihren Kopfangaben gelesen (bei vielen Läufen etwa dreimal schneller).
+- Impressum unter `https://ict-baden.de/index.html?page=imprint` (die bisherige Adresse lieferte 404).
+- Doku: Linux-Pakete, Inhalt des Gruppenrichtlinienergebnisses im Export (von `--pseudonymize` nicht verändert), „ausgelegt für / getestet auf“ statt unbelegter Zusagen zu Windows-Versionen, englische Zitate in der englischen Doku, Basisversion nach jedem Tag anheben, Sprach-Badge „en, de (+ es, fr, zh preview)“ statt „5 languages“, jede Änderung am Regelwerk mit neuer Katalogversion (`docs/development.md`).
+- CI: Zeitlimit für den Schritt „AppLocker-Daten des Sammlers“ (hing einmal 33 Minuten); Dependabot stößt keine Rebase-Läufe mehr an; Test der Linux-Befehlszeile in `debian:12-slim`.
 
 ## [0.1.0] – 2026-10-19
 

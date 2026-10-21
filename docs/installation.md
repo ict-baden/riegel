@@ -19,7 +19,7 @@ scheduled tasks.
 > see [Portable collector](collector.md).
 
 > [!WARNING]
-> **Version 0.1.0, not code-signed yet.** Until code signing is set up for ICT-Baden, Windows SmartScreen may warn and
+> **Version 0.1, not code-signed yet.** Until code signing is set up for ICT-Baden, Windows SmartScreen may warn and
 > AppLocker can only allow the collector by its hash. Check every download against `SHA256SUMS.txt`. No customer pilot
 > on OT or validated machines with an unsigned collector.
 
@@ -28,8 +28,8 @@ scheduled tasks.
 | Machine | Package | Why |
 |---|---|---|
 | Admin, engineering and auditor PCs, IT-managed clients and servers (Windows 10 1809 / Server 2019 or later) | `Riegel-x64.msi` (Intune, GPO, SCCM), or `Riegel.exe` without installation | the analysis app: plant folders, registers, reports, and *Check this PC* |
-| Plant, lab and control-room PCs, Windows 7 SP1 to 11 and Server 2008 R2 to 2025 | `Riegel-Collector.zip` (portable collector, net35) – **from a tag release** | reads the configuration, writes one snapshot, installs nothing and changes no configuration (Windows records that a program ran, see [What it leaves behind](collector.md#what-it-leaves-behind)) |
-| Machines where no foreign program may run, and Windows XP / Vista / Server 2003 / 2008 | `collect-builtin.cmd` (in the collector ZIP) or the same commands typed by hand | only Windows' own `secedit`, `auditpol` and `reg` |
+| Plant, lab and control-room PCs, designed for Windows 7 SP1 to 11 and Server 2008 R2 to 2025 (tested so far on Server 2022, Server 2025 and Windows 11) | `Riegel-Collector.zip` (portable collector, net35) – **from a tag release** | reads the configuration, writes one snapshot, installs nothing and changes no configuration (Windows records that a program ran, see [What it leaves behind](collector.md#what-it-leaves-behind)) |
+| Machines where no foreign program may run, and Windows XP / Vista / Server 2003 / 2008 (best effort, not tested on these) | `collect-builtin.cmd` (in the collector ZIP) or the same commands typed by hand | only Windows' own `secedit`, `auditpol` and `reg` |
 | Scripts, scheduled checks and FAT pipelines on Windows | `riegel-win-x64.exe` (single file) or `Riegel.Cli.exe` from the MSI or ZIP | the console program with reliable exit codes |
 | Auditors and CI on Linux | `riegel-linux-x64`, `riegel-linux-arm64` | evaluate snapshots, `verify` evidence packs, `compare-snapshot` – no collection |
 
@@ -39,15 +39,15 @@ scheduled tasks.
 |---|---|
 | Analysis app and `Riegel.Cli.exe` | 64-bit Windows 10 version 1809 (build 17763) or Windows Server 2019 or later. No .NET for the MSI, `Riegel.exe` and `riegel-win-x64.exe` (they carry the .NET 10 runtime); the framework ZIP needs the .NET 10 Desktop Runtime. |
 | Portable collector | .NET Framework 4.x (preinstalled from Windows 8 / Server 2012) or 3.5.1 (on by default on Windows 7 SP1). On Server 2008 R2 the 3.5.1 feature must be enabled through the Server Manager; whether the collector starts without it is **unverified** ([Limitations](limitations.md)). |
-| Linux command line | x64 or arm64, a glibc-based distribution; nothing else (self-contained). arm64 is cross-built and not run in CI. |
+| Linux command line | x64 or arm64, a glibc-based distribution (not Alpine/musl). The .NET runtime is inside the file, but it takes three things from the system: **OpenSSL** (`libssl`, needed for every command except the help), **ICU** (`libicu`, for localised dates and numbers) and, for PDF documents, a **font** – see [Linux packages](#linux-packages). arm64 is cross-built; CI runs the x64 file in `debian:12-slim`. |
 | Network | none. Riegel opens no network connection; plant folders may lie on a share. |
 
 ## Downloads: latest and tag releases
 
 - **[latest](https://github.com/ict-baden/riegel/releases/tag/latest)** is the newest build of `main`, replaced in
-  place on every push, with fixed file names (version `0.1.0-ci.<run>`). Use it to try Riegel and on analysis PCs.
-- **Tag releases** (`v0.1.0` …) keep their files. Their names carry the version, e.g. `Riegel-0.1.0-x64.msi`,
-  `Riegel-Collector-0.1.0.zip`, `riegel-0.1.0-linux-x64` (`Riegel.exe` keeps its name).
+  place on every push, with fixed file names (version `<base version>-ci.<run>`). Use it to try Riegel and on analysis PCs.
+- **Tag releases** (`v0.1.1` …) keep their files. Their names carry the version, e.g. `Riegel-0.1.1-x64.msi`,
+  `Riegel-Collector-0.1.1.zip`, `riegel-0.1.1-linux-x64` (`Riegel.exe` keeps its name).
 - **OT customers use tag releases, never `latest`:** the collector's hash, its AppLocker data and its read-only proof
   belong to exactly that release, and a change request names that version. The collector has its own version
   (currently 0.1.0, SHA-256 in the release notes); release notes say "Sammler unverändert seit <tag>" when its bytes
@@ -146,6 +146,31 @@ chmod +x riegel-linux-x64
 ```
 
 Every command, option and exit code: [Command line](command-line.md).
+
+### Linux packages
+
+Desktop and server installations usually have all of them. Minimal and container images (`debian:12-slim`,
+`ubuntu:24.04`) do not:
+
+| Distribution | Install |
+|---|---|
+| Debian 12 | `apt-get install --no-install-recommends libssl3 libicu72 fonts-dejavu-core` |
+| Ubuntu 24.04 | `apt-get install --no-install-recommends libssl3t64 libicu74 fonts-dejavu-core` |
+| Ubuntu 22.04 | `apt-get install --no-install-recommends libssl3 libicu70 fonts-dejavu-core` |
+| Fedora, RHEL 9 and derivatives | `dnf install openssl-libs libicu dejavu-sans-fonts` |
+
+For Chinese PDF documents add a TrueType CJK font, e.g. `fonts-wqy-microhei` ([Reports](reports.md)).
+
+What happens without them:
+
+- **No OpenSSL:** every command except the help stops with `RGL-0018` and exit code 3 (with `--brief` also the
+  `RIEGEL UNKNOWN` line), naming the package to install.
+- **No ICU:** Riegel runs without culture data and says so on stderr (`RGL-0017`): texts are still translated (the
+  language comes from `LC_ALL`, `LC_MESSAGES` or `LANG`, or from `RIEGEL_LANGUAGE`), but dates and numbers are not
+  localised. Install libicu for localised documents.
+- **No font:** `report` with PDF stops with `RGL-0501` and exit code 3; CSV, Excel, JSON, `check` and `verify` work.
+
+Riegel 0.1.0 aborted with exit code 134 and a .NET message when OpenSSL or ICU was missing.
 
 ## Scheduled tasks
 

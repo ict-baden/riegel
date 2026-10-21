@@ -5,6 +5,7 @@ using Riegel.Commands.Parsing;
 using Riegel.Commands.Resources;
 using Riegel.Core.Model;
 using Riegel.Core.Model.Reports;
+using Riegel.Core.Registers;
 
 namespace Riegel.Commands.Commands;
 
@@ -119,10 +120,14 @@ internal static class RegisterCommands
         int warnDays = a.Int("--days", 0, 3650) ?? plant.Settings.WarnDays;
         var today = ctx.Services.Today;
         var registers = ctx.Services.Registers.Load(plant);
+        // Was validate als ungültig meldet, ist hier „ungültig“ – auch mit vollständiger Freigabe
+        var invalid = RegisterApproval.InvalidIds(ctx.Services.Registers.Validate(registers, PlantBaselines.Catalogue(ctx, plant), plant, today), kind);
+        RegisterEntryState State(string id, Approval approval, string content) =>
+            invalid.Contains(id) ? RegisterEntryState.Invalid : EntryState(approval, content, today, warnDays);
         var rows = kind == RegisterKind.Exceptions
-            ? registers.Exceptions.Exceptions.Select(e => new Row(e.Id, e.RuleId, Scope(e.Scope), EntryState(e.Approval, ContentHashes.Of(e), today, warnDays),
+            ? registers.Exceptions.Exceptions.Select(e => new Row(e.Id, e.RuleId, Scope(e.Scope), State(e.Id, e.Approval, ContentHashes.Of(e)),
                 e.Approval.ReviewBy, ReasonText(e.Category), e.Justification, Entry: e, Tailored: null)).ToList()
-            : registers.Tailoring.Entries.Select(e => new Row(e.Id, e.RuleId, Scope(e.Scope), EntryState(e.Approval, ContentHashes.Of(e), today, warnDays),
+            : registers.Tailoring.Entries.Select(e => new Row(e.Id, e.RuleId, Scope(e.Scope), State(e.Id, e.Approval, ContentHashes.Of(e)),
                 e.Approval.ReviewBy, null, e.Reason, Entry: null, Tailored: e)).ToList();
         if (expiringOnly) rows = rows.Where(r => r.State is RegisterEntryState.Expiring or RegisterEntryState.Expired).ToList();
         rows = rows.OrderBy(r => r.Id, StringComparer.Ordinal).ToList();
@@ -255,6 +260,9 @@ internal static class RegisterCommands
         foreach (var group in approvals.GroupBy(x => x.ReviewBy))
             updated = ctx.Services.Registers.Approve(updated, kind, [.. group.Select(x => x.Id)],
                 new Approval(role, a.Value("--name"), date, group.Key, record, null));
+        // Nur gültige Einträge: was auch freigegeben noch Fehler hat, bleibt beantragt (RGL-0448, nichts gespeichert)
+        RegisterApproval.ThrowIfInvalid(ctx.Services.Registers.Validate(updated, PlantBaselines.Catalogue(ctx, plant), plant, ctx.Services.Today),
+            kind, approvals.Select(x => x.Id));
         ctx.Services.Registers.Save(plant, updated, registers.Hashes);
         foreach (var (id, review) in approvals)
             ctx.Line(CliStrings.Cli_EntryApproved, id, role, record, CommandContext.D(date), CommandContext.D(review));
@@ -373,6 +381,7 @@ internal static class RegisterCommands
         var rule = catalogue.Find(ruleId) ?? catalogue.Rules.FirstOrDefault(r => string.Equals(r.Id, ruleId, StringComparison.OrdinalIgnoreCase))
                    ?? throw RglCodesCli.Error(RglCodesCli.UnknownRule, ruleId);
         var machines = a.Values("--machine");
+        PlantHosts.Require(plant, machines, "--machine");
         var groups = a.Values("--group");
         foreach (var g in groups.Where(g => !plant.Groups.Any(x => string.Equals(x.Id, g, StringComparison.OrdinalIgnoreCase))))
             throw RglCodesCli.Error(RglCodesCli.InvalidValue, "--group", g, plant.Groups.Count == 0 ? "–" : string.Join(", ", plant.Groups.Select(x => x.Id)));

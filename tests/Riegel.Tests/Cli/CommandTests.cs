@@ -33,7 +33,7 @@ public sealed class CommandTests
 
         var info = Cli.Run("--info");
         Assert.Equal(0, info.Exit);
-        foreach (var text in new[] { "Riegel (Härtungs-Check)", "© 2026 ICT-Baden", "MIT", "https://github.com/ict-baden/riegel", "https://ict-baden.de/impressum", "--licenses" })
+        foreach (var text in new[] { "Riegel (Härtungs-Check)", "© 2026 ICT-Baden", "MIT", "https://github.com/ict-baden/riegel", "https://ict-baden.de/index.html?page=imprint", "--licenses" })
             Assert.Contains(text, info.Out, StringComparison.Ordinal);
 
         foreach (var word in new[] { "--licenses", "--lizenzen" })
@@ -316,6 +316,57 @@ public sealed class CommandTests
     }
 
     [Fact]
+    public void Wiederholter_Import_desselben_Ordners_ueberspringt_bekannte_Exporte()
+    {
+        // Prüfung vom 2026-10-20: dreimal derselbe Ordner gab drei Importnachweise, drei Läufe je Rechner und jedes Mal CRITICAL
+        using var _ = new UiCulture("en");
+        using var temp = new TempFolder();
+        using var plant = new TempPlant();
+        var clock = new FixedClock();
+        var services = Cli.Services(clock: clock);
+        Snapshot(temp, "HMI-TEST", sub: "share");
+        Snapshot(temp, "W11-TEST", sub: "share");
+        var share = Path.Combine(temp.Path, "share");
+        var first = Cli.Run(services, "import", share, "--plant", plant.Folder);
+        Assert.True(first.Exit is 0 or 1 or 2, first.ToString());
+
+        var again = Cli.Run(services, "import", share, "--plant", plant.Folder);
+        Assert.Equal(0, again.Exit);
+        Assert.Contains("already in the plant with a run", again.Out, StringComparison.Ordinal);
+        Assert.Single(Directory.GetFiles(plant.PathOf("imports")));
+        Assert.Single(Directory.GetFiles(plant.PathOf("runs/HMI-TEST"), "*.results.json"));
+        Assert.Single(Directory.GetFiles(plant.PathOf("runs/W11-TEST"), "*.results.json"));
+        var json = Cli.Run(services, "import", share, "--plant", plant.Folder, "--format", "json");
+        Assert.Equal(0, json.Exit);
+        Assert.Equal(0, json.Json().GetProperty("machines").GetArrayLength());
+        // Unabhängige Prüfung: kein Importnachweis, also keine erfundene ID; die übersprungenen Exporte stehen in skipped
+        Assert.Equal(JsonValueKind.Null, json.Json().GetProperty("import").ValueKind);
+        Assert.Equal(2, json.Json().GetProperty("skipped").GetArrayLength());
+        // … und --brief gibt trotzdem genau eine Zeile für Icinga/Nagios aus
+        var brief = Cli.Run(services, "import", share, "--plant", plant.Folder, "--brief");
+        Assert.Equal(0, brief.Exit);
+        var line = Assert.Single(brief.Out.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+        Assert.Equal($"RIEGEL OK - {plant.Plant.Name}: no new exports (2 already in the plant) | imported=0 skipped=2", line);
+        Assert.Single(Directory.GetFiles(plant.PathOf("imports")));
+
+        // Ein neuer Export kommt dazu, die bekannten nicht
+        SnapshotBuilder.Windows10Ltsc2019("HMI-TEST").CollectedAt(TestRuns.Collected.AddDays(1)).WriteTo(share);
+        var mixed = Cli.Run(services, "import", share, "--plant", plant.Folder, "--format", "json");
+        Assert.True(mixed.Exit is 0 or 1 or 2, mixed.ToString());
+        var record = mixed.Json().GetProperty("import");
+        Assert.True(File.Exists(plant.PathOf("imports/" + record.GetProperty("id").GetString() + ".import.json")), mixed.Out);
+        Assert.Equal(2, mixed.Json().GetProperty("skipped").GetArrayLength());
+        Assert.Equal(2, Directory.GetFiles(plant.PathOf("runs/HMI-TEST"), "*.results.json").Length);
+        Assert.Single(Directory.GetFiles(plant.PathOf("runs/W11-TEST"), "*.results.json"));
+
+        // --reevaluate wertet bekannte Exporte erneut aus (neue Auswertungszeit, neuer Lauf)
+        clock.Advance(TimeSpan.FromHours(1));
+        var re = Cli.Run(services, "import", share, "--plant", plant.Folder, "--reevaluate");
+        Assert.True(re.Exit is 0 or 1 or 2, re.ToString());
+        Assert.Equal(2, Directory.GetFiles(plant.PathOf("runs/W11-TEST"), "*.results.json").Length);
+    }
+
+    [Fact]
     public void Report_schreibt_alle_Formate_und_das_Nachweispaket()
     {
         using var temp = new TempFolder();
@@ -331,6 +382,33 @@ public sealed class CommandTests
         var runFile = Assert.Single(Directory.GetFiles(Path.Combine(outDir, "runs", "HMI-TEST"), "*.results.json"));
         var stored = plant.PathOf($"runs/HMI-TEST/{Path.GetFileName(runFile)}");
         Assert.Equal(File.ReadAllBytes(stored), File.ReadAllBytes(runFile));
+    }
+
+    [Fact]
+    public void Unbekannter_Rechner_in_machine_ist_ein_Fehler_statt_eines_leeren_Berichts()
+    {
+        // Prüfung vom 2026-10-20: report --machine NOPE schrieb ein leeres PDF zum Abzeichnen mit Exitcode 0
+        using var temp = new TempFolder();
+        using var plant = PlantWithRuns(temp);
+        var outDir = temp.Sub("out");
+        var report = Cli.Run("report", "--plant", plant.Folder, "--machine", "NOPE", "--out", outDir);
+        Assert.Equal(3, report.Exit);
+        Assert.Contains(RglCodesCli.InvalidValue + ": ", report.Err, StringComparison.Ordinal);
+        Assert.Contains("NOPE", report.Err, StringComparison.Ordinal);
+        Assert.Contains("HMI-TEST", report.Err, StringComparison.Ordinal);
+        Assert.Empty(Directory.GetFiles(outDir));
+        // Groß/klein egal, wie überall
+        Assert.Equal(0, Cli.Run("report", "--plant", plant.Folder, "--machine", "hmi-test", "--format", "csv", "--out", outDir).Exit);
+
+        Assert.Equal(3, Cli.Run("remediate", "--plant", plant.Folder, "--machine", "NOPE", "--out", temp.Sub("rem")).Exit);
+        var measures = File.ReadAllBytes(plant.PathOf("measures.json"));
+        var add = Cli.Run("measures", "add", "--plant", plant.Folder, "--rule", "NET-08", "--action", "a", "--owner-role", "r", "--due", "2026-12-31",
+            "--machine", "DOES-NOT-EXIST");
+        Assert.Equal(3, add.Exit);
+        Assert.Contains(RglCodesCli.InvalidValue, add.Err, StringComparison.Ordinal);
+        Assert.Equal(measures, File.ReadAllBytes(plant.PathOf("measures.json")));
+        Assert.Equal(0, Cli.Run("measures", "add", "--plant", plant.Folder, "--rule", "NET-08", "--action", "a", "--owner-role", "r", "--due", "2026-12-31",
+            "--machine", "HMI-TEST").Exit);
     }
 
     [Fact]
@@ -487,7 +565,7 @@ public sealed class CommandTests
     }
 
     [Fact]
-    public void Verify_Exitcodes_0_2_und_3()
+    public void Verify_Exitcodes_0_1_2_und_3()
     {
         using var temp = new TempFolder();
         var zip = Path.Combine(temp.Path, "Riegel-Evidence_x.zip");
@@ -497,6 +575,37 @@ public sealed class CommandTests
             var ok = Cli.Run(Cli.With(evidence: new FakeEvidence(new VerifyResult(VerifyStatus.Reproduced, "0.1.0", "0.1.0", [], 3, 459, []))), "verify", zip);
             Assert.Equal(0, ok.Exit);
             Assert.Contains("Reproduced with engine 0.1.0 (packed: 0.1.0)", ok.Out, StringComparison.Ordinal);
+
+            // Katalog mit ID, Version und SHA-256: eingebaut oder veröffentlicht → 0; unbekannt → „nicht nachgeprüft“, Exitcode 1
+            var sha = new string('a', 64);
+            var builtIn = new VerifyResult(VerifyStatus.Reproduced, "0.1.0", "0.1.0", [], 3, 459, [])
+            {
+                Catalogue = new CatalogueRef("riegel", "2026.10", new DateOnly(2026, 10, 18), sha), CatalogueBuiltIn = true, CatalogueReleased = true,
+            };
+            var same = Cli.Run(Cli.With(evidence: new FakeEvidence(builtIn)), "verify", zip);
+            Assert.Equal(0, same.Exit);
+            Assert.Contains($"Catalogue: riegel 2026.10, SHA-256 {sha} – identical to the catalogue built into this Riegel version.", same.Out, StringComparison.Ordinal);
+            var released = Cli.Run(Cli.With(evidence: new FakeEvidence(builtIn with
+            {
+                Catalogue = builtIn.Catalogue! with { Version = "2026.07" }, CatalogueBuiltIn = false,
+            })), "verify", zip);
+            Assert.Equal(0, released.Exit);
+            Assert.Contains($"Catalogue: riegel 2026.07, SHA-256 {sha} – identical to the released catalogue riegel 2026.07 that this Riegel version knows",
+                released.Out, StringComparison.Ordinal);
+            var unknown = builtIn with
+            {
+                Status = VerifyStatus.CatalogueUnknown, Catalogue = builtIn.Catalogue! with { Version = "2026.07" }, CatalogueBuiltIn = false,
+                CatalogueReleased = false, Findings = [new VerifyFinding("RGL-0573", "catalogue/riegel-catalogue-2026.07.json", null, null, "not known")],
+            };
+            var other = Cli.Run(Cli.With(evidence: new FakeEvidence(unknown)), "verify", zip);
+            Assert.Equal(1, other.Exit);
+            Assert.Contains("Not verified with engine 0.1.0 (packed: 0.1.0)", other.Out, StringComparison.Ordinal);
+            Assert.Contains($"Catalogue: riegel 2026.07, SHA-256 {sha} – not the catalogue built into this Riegel version", other.Out, StringComparison.Ordinal);
+            Assert.Contains("RGL-0573", other.Out, StringComparison.Ordinal);
+            var otherJson = Cli.Run(Cli.With(evidence: new FakeEvidence(unknown)), "verify", zip, "--format", "json");
+            Assert.Equal(1, otherJson.Exit);
+            Assert.Equal("catalogueUnknown", otherJson.Json().GetProperty("result").GetProperty("status").GetString());
+            Assert.False(otherJson.Json().GetProperty("result").GetProperty("catalogueReleased").GetBoolean());
         }
         var mismatch = new VerifyResult(VerifyStatus.Mismatch, "0.1.0", "0.0.9", [new VerifyFinding("RGL-0560", "runs/x.json", "HMI-TEST", "NET-01", "differs")], 1, 153, []);
         var bad = Cli.Run(Cli.With(evidence: new FakeEvidence(mismatch)), "verify", zip, "--format", "json");

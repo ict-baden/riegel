@@ -574,6 +574,12 @@
   <data name="Error_RGL0571" xml:space="preserve">
     <value>Lauf im Paket passt nicht zum Manifest ({0} / {1}).</value>
   </data>
+  <data name="Error_RGL0572" xml:space="preserve">
+    <value>Das gepackte Regelwerk {0} ({1}) weicht vom veröffentlichten Regelwerk {0} ab, das diese Riegel-Version kennt ({2}): seine Regeln wurden verändert.</value>
+  </data>
+  <data name="Error_RGL0573" xml:space="preserve">
+    <value>Das gepackte Regelwerk {0} ist dieser Riegel-Version nicht bekannt (eingebaut: {1}); seine Regeln ließen sich nicht mit einer Referenz vergleichen, das Paket ist nicht nachgeprüft. Das Paket mit der Riegel-Version prüfen, die es geschrieben hat ({2}), oder mit einer neueren.</value>
+  </data>
   <data name="EvidenceReadme_BaselineContentMissing" xml:space="preserve">
     <value>Inhalt der Baseline {0} angefordert, aber nicht im Anlagenordner verfügbar; nur Metadaten.</value>
   </data>
@@ -686,7 +692,7 @@
     <value>Riegel-Nachweispaket – {0}</value>
   </data>
   <data name="EvidenceReadme_VerifyExit" xml:space="preserve">
-    <value>Exitcode: 0 reproduziert, 2 Abweichungen, 3 Fehler.</value>
+    <value>Exitcode: 0 reproduziert, 1 nicht nachgeprüft (Regelwerk dieser Riegel-Version unbekannt), 2 Abweichungen, 3 Fehler.</value>
   </data>
   <data name="EvidenceReadme_VerifyHeading" xml:space="preserve">
     <value>Nachprüfen mit verify</value>

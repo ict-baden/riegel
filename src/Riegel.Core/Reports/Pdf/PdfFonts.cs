@@ -30,12 +30,21 @@ internal sealed class PdfFonts : IFontResolver
     internal static readonly FaceSet[] LatinCandidates =
     [
         new("Segoe UI", "segoeui.ttf", "segoeuib.ttf", "segoeuii.ttf", "segoeuiz.ttf"),
+        // macOS (Entwicklung, Prüfer): Arial und Verdana liegen dort unter anderen Dateinamen; nur unter macOS, damit unter
+        // Linux mit msttcorefonts weiterhin der vollständige Satz mit den Windows-Namen gewinnt
+        .. (OperatingSystem.IsMacOS() ? MacCandidates : []),
         new("Arial", "arial.ttf", "arialbd.ttf", "ariali.ttf", "arialbi.ttf"),
         new("Tahoma", "tahoma.ttf", "tahomabd.ttf", null, null),
         new("Verdana", "verdana.ttf", "verdanab.ttf", "verdanai.ttf", "verdanaz.ttf"),
         // Liberation Sans (Maße wie Arial) vor DejaVu Sans: näher an den Breiten von Segoe UI, auf die die Spalten abgestimmt sind
         new("Liberation Sans", "LiberationSans-Regular.ttf", "LiberationSans-Bold.ttf", "LiberationSans-Italic.ttf", "LiberationSans-BoldItalic.ttf"),
         new("DejaVu Sans", "DejaVuSans.ttf", "DejaVuSans-Bold.ttf", "DejaVuSans-Oblique.ttf", "DejaVuSans-BoldOblique.ttf"),
+    ];
+
+    private static FaceSet[] MacCandidates =>
+    [
+        new("Arial", "Arial.ttf", "Arial Bold.ttf", "Arial Italic.ttf", "Arial Bold Italic.ttf"),
+        new("Verdana", "Verdana.ttf", "Verdana Bold.ttf", "Verdana Italic.ttf", "Verdana Bold Italic.ttf"),
     ];
 
     /// <summary>
@@ -163,7 +172,7 @@ internal sealed class PdfFonts : IFontResolver
 
     /// <summary>
     /// Ordner, in denen gesucht wird: der Schriftordner des Systems (unter Windows %WINDIR%\Fonts), der Schriftordner des
-    /// Benutzers unter Windows, dann die üblichen Ordner unter Linux. Unterordner werden mit durchsucht.
+    /// Benutzers unter Windows, dann die üblichen Ordner unter Linux und macOS. Unterordner werden mit durchsucht.
     /// </summary>
     internal static IEnumerable<string> Directories()
     {
@@ -180,6 +189,9 @@ internal sealed class PdfFonts : IFontResolver
             "/usr/local/share/fonts",
             home.Length > 0 ? Path.Combine(home, ".local", "share", "fonts") : null,
             home.Length > 0 ? Path.Combine(home, ".fonts") : null,
+            // macOS: Schriften des Systems (mit Supplemental/) und aller Benutzer
+            OperatingSystem.IsMacOS() ? "/System/Library/Fonts" : null,
+            OperatingSystem.IsMacOS() ? "/Library/Fonts" : null,
         ];
         return all.Where(d => !string.IsNullOrEmpty(d)).Distinct(StringComparer.Ordinal)!;
     }

@@ -256,6 +256,9 @@
   <data name="Error_RGL0447" xml:space="preserve">
     <value>规则 {0} 是清单规则，永远不会不合格：该例外无效。</value>
   </data>
+  <data name="Error_RGL0448" xml:space="preserve">
+    <value>未批准：{0} 无效（{1}：{2}）。请先更正该条目 – validate 会列出所有问题。</value>
+  </data>
   <data name="Expect_AllowedSids" xml:space="preserve">
     <value>仅 {0}</value>
   </data>

@@ -137,6 +137,12 @@
   <data name="Error_RGL0016" xml:space="preserve">
     <value>Existe déjà et n'est pas écrasé : {0}</value>
   </data>
+  <data name="Error_RGL0017" xml:space="preserve">
+    <value>ICU (libicu) est introuvable ; Riegel fonctionne donc sans données culturelles : les textes sont traduits, mais les dates et les nombres ne sont pas au format local. Pour cela, installez libicu (Debian 12 : libicu72, Ubuntu 24.04 : libicu74, Fedora et RHEL : libicu).</value>
+  </data>
+  <data name="Error_RGL0018" xml:space="preserve">
+    <value>OpenSSL (libssl) est introuvable. Riegel en a besoin pour les sommes de contrôle SHA-256. Installez-le (Debian 12 et Ubuntu 22.04 ou plus récent : libssl3, Fedora et RHEL : openssl-libs), puis relancez la commande.</value>
+  </data>
   <data name="Flag_ClockSuspect" xml:space="preserve">
     <value>Horloge invraisemblable</value>
   </data>

@@ -256,6 +256,9 @@
   <data name="Error_RGL0447" xml:space="preserve">
     <value>La regla {0} es una regla de inventario y nunca falla: la excepción no tiene efecto.</value>
   </data>
+  <data name="Error_RGL0448" xml:space="preserve">
+    <value>No aprobado: {0} no es válido ({1}: {2}). Corrija primero la entrada; validate enumera todos los problemas.</value>
+  </data>
   <data name="Expect_AllowedSids" xml:space="preserve">
     <value>solo {0}</value>
   </data>

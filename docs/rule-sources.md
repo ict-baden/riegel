@@ -49,9 +49,10 @@ the repository.
   (page 2024-10-30): https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gpac/77878370-0712-47cd-997d-b07053429f6d
   and https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gpac/5e1c7528-62d1-4613-a4a2-e1b028ecc521 – the
   58 audit subcategory GUIDs.
-- Advanced security auditing reference, one page per subcategory (updated 2026-04-27):
-  https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/ – the
-  recommendation table where ACSC names no subcategory value.
+- Advanced security auditing reference, one page per subcategory (updated 2026-04-27), index:
+  https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/advanced-security-audit-policy-settings
+  – the recommendation table where ACSC names no subcategory value (the bare folder URL returns HTTP 404, checked
+  2026-10-20).
 - Force audit subcategory settings and the `SCENoApplyLegacyAuditPolicy` path:
   https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/audit-force-audit-policy-subcategory-settings-to-override,
   https://learn.microsoft.com/en-us/troubleshoot/windows-server/windows-security/security-auditing-settings-not-applied-when-deploy-domain-based-policy
@@ -118,7 +119,6 @@ returned HTTP 200 for the current files (an earlier attempt the same day with an
 | `U_MS_Windows_11_V2R11_STIG.zip` (Windows 11 STIG V2R11) | `5a1337e899f113a2482debd3ef240a867fdd205423cbf134e8961de249260d54` |
 | `U_MS_Windows_Server_2022_V2R11_STIG.zip` (Windows Server 2022 STIG V2R11) | `808e83970c4f27590f31435856be9810e02d8f72d3c0a67c0a195cae46dbf48e` |
 | `U_MS_Windows_Server_2025_V1R4_STIG.zip` (Windows Server 2025 STIG V1R4) | `0b83a3d42789577e5850d1bc60474af2e4c28b28b155f21f7b6a486ee0c1d84e` |
-
 | `U_MS_Defender_Antivirus_V2R10_STIG.zip` (Microsoft Defender Antivirus STIG V2R10) | `041d01252d6d9e2446e509b11d894fe3454953f919353b93c94f8bd341a06283` |
 | `U_MS_Windows_Defender_Firewall_V2R2_STIG.zip` (Windows Defender Firewall STIG V2R2) | `4fd9e65948717c06e00605b11e12958eedde409ac50040958e7c13e7146d25b3` |
 

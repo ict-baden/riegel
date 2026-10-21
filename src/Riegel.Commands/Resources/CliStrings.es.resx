@@ -35,6 +35,12 @@
   <data name="Brief_NewHigh_other" xml:space="preserve">
     <value>{0} altos recién abiertos</value>
   </data>
+  <data name="Brief_NothingNew_one" xml:space="preserve">
+    <value>ninguna exportación nueva ({0} ya en la planta)</value>
+  </data>
+  <data name="Brief_NothingNew_other" xml:space="preserve">
+    <value>ninguna exportación nueva ({0} ya en la planta)</value>
+  </data>
   <data name="Brief_Open_one" xml:space="preserve">
     <value>{0} abierto ({1})</value>
   </data>
@@ -215,6 +221,9 @@ SHA-256: {1}</value>
   <data name="Cli_ImportNoSidecar" xml:space="preserve">
     <value>  {0}: no hay un archivo .sha256 correspondiente; integridad no demostrada</value>
   </data>
+  <data name="Cli_ImportSkipped" xml:space="preserve">
+    <value>{0}: ya está en la planta con una ejecución (mismo SHA-256); no se vuelve a importar ni a evaluar. Para evaluarlo de nuevo, use --reevaluate.</value>
+  </data>
   <data name="Cli_InfoCatalogue" xml:space="preserve">
     <value>Catálogo: {0} {1}</value>
   </data>
@@ -329,6 +338,18 @@ Datos y privacidad: {4}</value>
   </data>
   <data name="Cli_VerifyCounts" xml:space="preserve">
     <value>Exportaciones comprobadas: {0} · resultados comparados: {1}</value>
+  </data>
+  <data name="Cli_VerifyCatalogueBuiltIn" xml:space="preserve">
+    <value>Catálogo: {0} {1}, SHA-256 {2}: idéntico al catálogo integrado en esta versión de Riegel.</value>
+  </data>
+  <data name="Cli_VerifyCatalogueOther" xml:space="preserve">
+    <value>Catálogo: {0} {1}, SHA-256 {2}: no es el catálogo integrado en esta versión de Riegel ({3}); los resultados solo se reprodujeron con el catálogo empaquetado.</value>
+  </data>
+  <data name="Cli_VerifyCatalogueReleased" xml:space="preserve">
+    <value>Catálogo: {0} {1}, SHA-256 {2}: idéntico al catálogo publicado {0} {1} que conoce esta versión de Riegel (integrado: {3}).</value>
+  </data>
+  <data name="Cli_VerifyCatalogueUnknown" xml:space="preserve">
+    <value>No verificado con el motor {0} (empaquetado: {1}): esta versión de Riegel no conoce el catálogo empaquetado.</value>
   </data>
   <data name="Cli_VerifyError" xml:space="preserve">
     <value>No se pudo verificar el paquete de evidencias.</value>
@@ -536,10 +557,10 @@ Códigos de salida: 0 correcto, 3 error; validate como arriba.</value>
   <data name="Help_ExitCodes" xml:space="preserve">
     <value>Códigos de salida: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN (error de uso, exportación ilegible o dañada, error de suma de comprobación, error de E/S).
 check e import alertan ante cambios con --plant (crítico: regression,newhigh) y sobre el estado sin él (crítico: regression,high).
-verify: 0 reproducido, 2 diferente · compare-snapshot: 0 coherente, 1 difiere · validate: 0 válido, 1 advertencias, 2 no válido.</value>
+verify: 0 reproducido, 1 no verificado, 2 diferente · compare-snapshot: 0 coherente, 1 difiere · validate: 0 válido, 1 advertencias, 2 no válido.</value>
   </data>
   <data name="Help_Import" xml:space="preserve">
-    <value>Uso: {0} import &lt;archivo|carpeta&gt;… --plant &lt;carpeta&gt; [--collected-by-role &lt;rol&gt;] [--witness-role &lt;rol&gt;] [--record]
+    <value>Uso: {0} import &lt;archivo|carpeta&gt;… --plant &lt;carpeta&gt; [--collected-by-role &lt;rol&gt;] [--witness-role &lt;rol&gt;] [--record] [--reevaluate]
 
 Añade exportaciones o paquetes de herramientas integradas a la carpeta de la planta: comprueba los archivos .sha256,
 escribe el registro de importación, evalúa y guarda las ejecuciones. Un error de suma de comprobación detiene toda la
@@ -551,6 +572,7 @@ equivale a las exportaciones que contiene (*.snapshot.json, *.snapshot.json.gz).
   --collected-by-role &lt;rol&gt;         rol de la persona que realizó la captura (registro de importación)
   --witness-role &lt;rol&gt;              rol del testigo del operador (registro de importación)
   --record                          escribir también el acta de captura (PDF)
+  --reevaluate                      volver a evaluar las exportaciones que ya están en la planta con una ejecución (si no, se omiten)
   --brief, --format, --alert, --critical, --warning    como en check (modo de alerta predeterminado: change)
 
 Códigos de salida como en check.</value>
@@ -693,7 +715,7 @@ Códigos de salida: 0 correcto, 3 error.</value>
 Comprueba cada hash de un paquete de evidencias, vuelve a evaluar las exportaciones empaquetadas con el catálogo y los
 registros empaquetados y compara los resultados con los empaquetados.
 
-Códigos de salida: 0 reproducido, 2 diferente, 3 error.</value>
+Códigos de salida: 0 reproducido, 1 no verificado (catálogo desconocido para esta versión de Riegel), 2 diferente, 3 error.</value>
   </data>
   <data name="Issue_Error" xml:space="preserve">
     <value>Error</value>

@@ -154,6 +154,78 @@ public sealed class WalkthroughTests
     });
 
     [Fact]
+    public void Bericht_mit_Einstellungen_in_der_Anlage_behaelt_Rechner_und_Ordner() => Sta.Run(async () =>
+    {
+        // Prüfung vom 2026-10-20: Speichern der Einstellungen lud die Anlage neu, und der Bericht entstand danach über alle
+        // Rechner im Standardordner statt für den gewählten Rechner im gewählten Ordner
+        var errors = new List<Exception>();
+        AsyncCommand.Failed = errors.Add;
+        AsyncCommand.Strict = false;
+        using var session = DemoSession();
+        await session.OpenDemoAsync();
+        var vm = new MainViewModel(session, new TestDialogs());
+        using var temp = new TempFolder();
+        try
+        {
+            var reports = vm.Reports;
+            var other = session.Plant!.Machines.First(m => m.Latest is not null && m.HostName != DemoData.ApprovedHost).HostName;
+            reports.Host = reports.HostChoices.Single(c => c.Value == DemoData.ApprovedHost);
+            reports.OutputFolder = temp.Path;
+            (reports.Pdf, reports.Xlsx, reports.Csv, reports.Json) = (false, false, true, false);
+            reports.SaveToPlant = true;
+            await reports.PlantReportCommand.ExecuteAsync();
+            Assert.Empty(errors);
+
+            var csv = Assert.Single(Directory.GetFiles(temp.Path, "results.csv", SearchOption.AllDirectories));
+            var text = File.ReadAllText(csv);
+            Assert.Contains(DemoData.ApprovedHost, text, StringComparison.Ordinal);
+            Assert.DoesNotContain(other, text, StringComparison.Ordinal);
+            Assert.Equal(DemoData.ApprovedHost, reports.Host.Value);
+            Assert.Equal(temp.Path, reports.OutputFolder);
+        }
+        finally
+        {
+            vm.Detach();
+            AsyncCommand.Failed = null;
+        }
+    });
+
+    [Fact]
+    public void Pruefermodus_erkennt_nur_den_Anlagenordner_selbst_als_innen()
+    {
+        // Prüfung vom 2026-10-20: der Vergleich per Zeichenkettenanfang hielt „Linie3-Berichte“ für einen Teil von „Linie3“
+        Assert.True(AppSession.IsInside(@"D:\Anlagen\Linie3", @"D:\Anlagen\Linie3"));
+        Assert.True(AppSession.IsInside(@"D:\Anlagen\Linie3\", @"d:\anlagen\linie3\reports\2026"));
+        Assert.False(AppSession.IsInside(@"D:\Anlagen\Linie3", @"D:\Anlagen\Linie3-Berichte"));
+        Assert.False(AppSession.IsInside(@"D:\Anlagen\Linie3", @"D:\Anlagen"));
+        // die eigene Übergabe von „Diesen PC prüfen“ wird gelöscht, fremde Ordner nie
+        var own = Path.Combine(Path.GetTempPath(), "Riegel-Erfassung-" + Guid.NewGuid().ToString("N")[..8]);
+        var foreign = Path.Combine(Path.GetTempPath(), "riegel-fremd-" + Guid.NewGuid().ToString("N")[..8]);
+        foreach (var d in new[] { own, foreign }) { Directory.CreateDirectory(d); File.WriteAllText(Path.Combine(d, "x.snapshot.json"), "{}"); }
+        try
+        {
+            AppSession.DeleteTransferFolder(own);
+            AppSession.DeleteTransferFolder(foreign);
+            Assert.False(Directory.Exists(own));
+            Assert.True(Directory.Exists(foreign));
+        }
+        finally { Directory.Delete(foreign, recursive: true); }
+    }
+
+    [Fact]
+    public void Ordner_mit_Exporten_laesst_sich_ablegen_und_steht_fuer_die_Exporte()
+    {
+        // Prüfung vom 2026-10-20: die Oberfläche hielt einen Ordner mit Exporten für ein Bordmittel-Paket (RGL-0260)
+        using var temp = new TempFolder();
+        var share = temp.Sub("freigabe");
+        var export = SnapshotBuilder.Windows10Ltsc2019("HMI-A").WriteTo(share);
+        Assert.True(ImportDialogViewModel.IsImportable(share));
+        Assert.False(ImportDialogViewModel.IsImportable(temp.Sub("leer")));
+        var dialog = new ImportDialogViewModel(new TestDialogs(), [share], null);
+        Assert.Equal([export], dialog.Files);
+    }
+
+    [Fact]
     public void Pfade_ohne_Benutzernamen()
     {
         var temp = Path.Combine(Path.GetTempPath(), "Riegel-Demo-1234", "Musterwerk");
