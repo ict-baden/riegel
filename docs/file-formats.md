@@ -235,8 +235,8 @@ evidence pack. The synthetic fixtures `PG-ALT-01_20261010.riegel-builtin` (Windo
 
 | File | Format |
 |---|---|
-| `rules/catalogue.json` | `riegel.catalogue/1` header: `{ schema, id: "riegel", version: "2026.10", releasedOn }`; `version` is `YYYY.MM`, or `YYYY.MM.N` for a further change in the same month, and belongs to exactly one content (`ReleasedCatalogues`, see [development](development.md#releases)) |
-| `rules/<PREFIX>.json` | `riegel.rules/1`: `{ schema, prefix, rules: [ Rule ] }`, one file per prefix (20 files, 153 rules in 2026.10) |
+| `rules/catalogue.json` | `riegel.catalogue/1` header: `{ schema, id: "riegel", version: "2026.10.1", releasedOn }`; `version` is `YYYY.MM`, or `YYYY.MM.N` for a further change in the same month, and belongs to exactly one content (`ReleasedCatalogues`, see [development](development.md#releases)) |
+| `rules/<PREFIX>.json` | `riegel.rules/1`: `{ schema, prefix, rules: [ Rule ] }`, one file per prefix (20 files, 153 rules in 2026.10.1) |
 | `rules/lifecycle/windows.json` | `riegel.lifecycle/1` (see [catalogue tables](#catalogue-tables)) |
 | `rules/lifecycle/builds.json` | `riegel.builds/1` |
 | `rules/capabilities/<package>.json` | `riegel.capabilities/1` (`system.json`, `protection.json`, `logging.json`); a capability name may exist only once across all files |

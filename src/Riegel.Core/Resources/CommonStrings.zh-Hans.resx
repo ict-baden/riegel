@@ -190,14 +190,12 @@
   </data>
   <data name="Flag_TailoringPending" xml:space="preserve">
     <value>已申请范围裁剪</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Group_None" xml:space="preserve">
     <value>无分组</value>
   </data>
   <data name="Integrity_Statement" xml:space="preserve">
     <value>SHA-256 校验和表明文件自生成校验和以来未被更改。它们不能证明导出文件未经改动地来自目标计算机：携带存储介质的人可以同时替换导出文件和校验和。为此设有带见证人的采集记录以及使用 compare-snapshot 的抽样检查。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Item_Denied" xml:space="preserve">
     <value>访问被拒绝</value>
@@ -222,6 +220,9 @@
   </data>
   <data name="Item_ValueMissing" xml:space="preserve">
     <value>值未设置</value>
+  </data>
+  <data name="Language_MachineTranslation" xml:space="preserve">
+    <value>机器翻译</value>
   </data>
   <data name="Placeholder_Document" xml:space="preserve">
     <value>占位符：此文档将由 Riegel 0.1.0 的后续工作包生成。</value>
@@ -300,7 +301,6 @@
   </data>
   <data name="Status_Exception" xml:space="preserve">
     <value>有意保留</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Status_Fail" xml:space="preserve">
     <value>不符合</value>

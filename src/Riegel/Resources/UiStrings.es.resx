@@ -349,11 +349,9 @@
   </data>
   <data name="Change_TailoringAdded" xml:space="preserve">
     <value>ajuste del alcance añadido</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Change_TailoringRemoved" xml:space="preserve">
     <value>ajuste del alcance eliminado</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Change_Worse" xml:space="preserve">
     <value>empeorado</value>
@@ -546,7 +544,6 @@
   </data>
   <data name="Error_RGL0621" xml:space="preserve">
     <value>¿Ajustar el alcance de una regla de gravedad alta en lugar de justificar una excepción?</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0622" xml:space="preserve">
     <value>La medida necesita una acción.</value>
@@ -652,7 +649,6 @@
   </data>
   <data name="Groups_Intro" xml:space="preserve">
     <value>El ajuste del alcance y la configuración objetivo se aplican por función. Los equipos sin grupo quedan en «Sin grupo».</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Groups_Name" xml:space="preserve">
     <value>Nombre del grupo</value>
@@ -1037,7 +1033,6 @@
   </data>
   <data name="Notice_TailoringSaved" xml:space="preserve">
     <value>Ajuste del alcance {0} guardado: queda pendiente hasta que se registre la aprobación.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Notice_TemplateImported" xml:space="preserve">
     <value>Plantilla importada. Las entradas nuevas quedan pendientes hasta su aprobación.</value>
@@ -1125,11 +1120,9 @@
   </data>
   <data name="Page_tailoring" xml:space="preserve">
     <value>Ajuste del alcance</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Page_tailoring_Subtitle" xml:space="preserve">
     <value>Reglas que no forman parte de la configuración objetivo de una función</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Register_Approval" xml:space="preserve">
     <value>Aprobación</value>
@@ -1378,8 +1371,7 @@
     <value>Configuración objetivo</value>
   </data>
   <data name="Reports_TargetConfigText" xml:space="preserve">
-    <value>Reglas en alcance por grupo y función con valores esperados y ajuste del alcance: PDF y Excel para adoptar y firmar.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Reglas dentro del alcance por grupo y función con valores esperados y ajuste del alcance: PDF y Excel para adoptar y firmar.</value>
   </data>
   <data name="Reports_WithEvidence" xml:space="preserve">
     <value>También el paquete de evidencias (ZIP)</value>
@@ -1443,7 +1435,6 @@
   </data>
   <data name="Results_RegisterTailoring" xml:space="preserve">
     <value>Ajuste del alcance {0}: {1}</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Results_Remedy" xml:space="preserve">
     <value>Qué hacer</value>
@@ -1468,7 +1459,6 @@
   </data>
   <data name="Results_Tailor" xml:space="preserve">
     <value>Ajustar alcance…</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_BuilderCreated" xml:space="preserve">
     <value>Fabricante (elaborado)</value>
@@ -1760,11 +1750,9 @@
   </data>
   <data name="Tailoring_Empty" xml:space="preserve">
     <value>No hay ajustes del alcance en esta vista. Se crean desde un resultado («Ajustar alcance…») o desde una plantilla de función.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Tailoring_NewHint" xml:space="preserve">
     <value>Elija un resultado y use «Ajustar alcance…», o importe abajo una plantilla de función.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Tailoring_NoTemplates" xml:space="preserve">
     <value>Este catálogo de reglas aún no contiene plantillas de función.</value>
@@ -1780,19 +1768,15 @@
   </data>
   <data name="TailoringDialog_Intro" xml:space="preserve">
     <value>Ajustar el alcance significa que esta regla no forma parte de la configuración objetivo de esta función. Sale de ambos valores; para riesgos aceptados use una excepción.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="TailoringDialog_PendingNote" xml:space="preserve">
     <value>El ajuste del alcance queda pendiente hasta que se registre la aprobación.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="TailoringDialog_TitleEdit" xml:space="preserve">
     <value>Editar ajuste del alcance {0} ({1})</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="TailoringDialog_TitleNew" xml:space="preserve">
     <value>Ajustar el alcance de {0}</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Toggle_Off" xml:space="preserve">
     <value>No</value>

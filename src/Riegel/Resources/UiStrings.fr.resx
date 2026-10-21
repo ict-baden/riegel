@@ -349,11 +349,9 @@
   </data>
   <data name="Change_TailoringAdded" xml:space="preserve">
     <value>ajustement du périmètre ajouté</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Change_TailoringRemoved" xml:space="preserve">
     <value>ajustement du périmètre supprimé</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Change_Worse" xml:space="preserve">
     <value>dégradé</value>
@@ -545,8 +543,7 @@
     <value>Le motif doit comporter au moins 20 caractères.</value>
   </data>
   <data name="Error_RGL0621" xml:space="preserve">
-    <value>Ajuster le périmètre pour une règle de gravité élevée plutôt que justifier une exception ?</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Ajuster le périmètre d’une règle de gravité élevée : une exception justifiée ne conviendrait-elle pas mieux ?</value>
   </data>
   <data name="Error_RGL0622" xml:space="preserve">
     <value>La mesure nécessite une action.</value>
@@ -652,7 +649,6 @@
   </data>
   <data name="Groups_Intro" xml:space="preserve">
     <value>L’ajustement du périmètre et la configuration cible s’appliquent par rôle. Les machines sans groupe restent dans « Sans groupe ».</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Groups_Name" xml:space="preserve">
     <value>Nom du groupe</value>
@@ -1037,7 +1033,6 @@
   </data>
   <data name="Notice_TailoringSaved" xml:space="preserve">
     <value>Ajustement du périmètre {0} enregistré – il reste en attente jusqu’à la saisie de l’approbation.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Notice_TemplateImported" xml:space="preserve">
     <value>Modèle importé. Les nouvelles entrées restent en attente jusqu’à leur approbation.</value>
@@ -1125,11 +1120,9 @@
   </data>
   <data name="Page_tailoring" xml:space="preserve">
     <value>Ajustement du périmètre</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Page_tailoring_Subtitle" xml:space="preserve">
     <value>Règles qui ne font pas partie de la configuration cible d’un rôle</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Register_Approval" xml:space="preserve">
     <value>Approbation</value>
@@ -1379,7 +1372,6 @@
   </data>
   <data name="Reports_TargetConfigText" xml:space="preserve">
     <value>Règles dans le périmètre par groupe et rôle avec valeurs attendues et ajustement du périmètre – PDF et Excel à adopter et signer.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Reports_WithEvidence" xml:space="preserve">
     <value>Aussi le dossier de preuves (ZIP)</value>
@@ -1443,7 +1435,6 @@
   </data>
   <data name="Results_RegisterTailoring" xml:space="preserve">
     <value>Ajustement du périmètre {0} – {1}</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Results_Remedy" xml:space="preserve">
     <value>Que faire</value>
@@ -1468,7 +1459,6 @@
   </data>
   <data name="Results_Tailor" xml:space="preserve">
     <value>Ajuster le périmètre…</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_BuilderCreated" xml:space="preserve">
     <value>Constructeur (établi)</value>
@@ -1759,12 +1749,10 @@
     <value>Durci là où c’est possible. Documenté là où ça ne l’est pas.</value>
   </data>
   <data name="Tailoring_Empty" xml:space="preserve">
-    <value>Aucun ajustement du périmètre dans cette vue. Ils se créent depuis un résultat (« Ajuster le périmètre… ») ou un modèle de rôle.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Aucun ajustement du périmètre dans cette vue. Un ajustement se crée depuis un résultat (« Ajuster le périmètre… ») ou depuis un modèle de rôle.</value>
   </data>
   <data name="Tailoring_NewHint" xml:space="preserve">
     <value>Choisissez un résultat et utilisez « Ajuster le périmètre… » – ou importez ci-dessous un modèle de rôle.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Tailoring_NoTemplates" xml:space="preserve">
     <value>Ce catalogue de règles ne contient pas encore de modèles de rôle.</value>
@@ -1780,19 +1768,15 @@
   </data>
   <data name="TailoringDialog_Intro" xml:space="preserve">
     <value>Ajuster le périmètre signifie que cette règle ne fait pas partie de la configuration cible de ce rôle. Elle sort des deux scores – pour un risque accepté, utilisez une exception.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="TailoringDialog_PendingNote" xml:space="preserve">
     <value>L’ajustement du périmètre reste en attente jusqu’à la saisie de l’approbation.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="TailoringDialog_TitleEdit" xml:space="preserve">
     <value>Modifier l’ajustement du périmètre {0} ({1})</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="TailoringDialog_TitleNew" xml:space="preserve">
     <value>Ajuster le périmètre de {0}</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Toggle_Off" xml:space="preserve">
     <value>Non</value>

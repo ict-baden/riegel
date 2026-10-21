@@ -12,7 +12,7 @@
 
 - **Own texts.** Titles, rationales, plant notes and remedies are written by ICT-Baden in English and German. No text
   is copied from the sources below; rules that adapted a CC BY 4.0 text would list it under `textSources` (none do in
-  catalogue 2026.10).
+  catalogue 2026.10.1).
 - **Value provenance.** The expected value of every `check` rule and every cited OS default is backed by at least one of
   ACSC, the CC BY 4.0 Microsoft Windows Server documentation, a Microsoft Learn fact page or a DISA STIG, recorded in the
   rule's `verified` list with the URL or document and the date seen. Microsoft Security Baseline references only

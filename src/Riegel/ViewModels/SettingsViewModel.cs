@@ -26,8 +26,8 @@ internal sealed class SettingsViewModel : PageViewModel
 
     public SettingsViewModel(AppSession session, IDialogs dialogs) : base(session, dialogs, "settings", "")
     {
-        Languages = [new Choice<string>("", Loc.T("Settings_LanguageSystem")), .. UiLanguage.Supported.Select(c => new Choice<string>(c, UiLanguage.NativeName(c)))];
-        ReportLanguages = [new Choice<string>("", Loc.T("Settings_ReportLanguageUi")), .. UiLanguage.Supported.Select(c => new Choice<string>(c, UiLanguage.NativeName(c)))];
+        Languages = [new Choice<string>("", Loc.T("Settings_LanguageSystem")), .. UiLanguage.Supported.Select(c => new Choice<string>(c, UiLanguage.ChoiceName(c)))];
+        ReportLanguages = [new Choice<string>("", Loc.T("Settings_ReportLanguageUi")), .. UiLanguage.Supported.Select(c => new Choice<string>(c, UiLanguage.ChoiceName(c)))];
         Themes = [new Choice<string>("", Loc.T("Settings_ThemeSystem")), new Choice<string>("light", Loc.T("Settings_ThemeLight")), new Choice<string>("dark", Loc.T("Settings_ThemeDark"))];
         _language = Languages[0];
         _theme = Themes[0];

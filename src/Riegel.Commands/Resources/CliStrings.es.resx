@@ -109,7 +109,6 @@
   </data>
   <data name="Cli_BaselineContentWarning" xml:space="preserve">
     <value>Advertencia: el paquete de evidencias contiene el contenido completo de las líneas base importadas. Compruebe que su licencia permite distribuirlas (las condiciones de Microsoft, BSI y CIS pueden no permitirlo).</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Cli_BaselineLicenceNote" xml:space="preserve">
     <value>Las líneas base importadas permanecen en esta carpeta de la planta. Los paquetes de evidencias solo contienen sus metadatos, salvo con report --evidence --include-baseline-content.</value>
@@ -207,7 +206,6 @@ SHA-256: {1}</value>
   </data>
   <data name="Cli_Description" xml:space="preserve">
     <value>Comprueba equipos Windows en plantas, laboratorios y salas de control frente a una línea base de bastionado, en modo de solo lectura y sin conexión, registra las excepciones justificadas y genera un informe de evidencias para su firma.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Cli_DriftLine" xml:space="preserve">
     <value>  {0}  {1}: {2} → {3}</value>
@@ -457,7 +455,6 @@ Registra una ejecución (predeterminada: la más reciente) como estado aprobado 
 en marcha, la prueba de aceptación o la visita del fabricante. --record es su referencia de cambio, de QMS o de aprobación.
 
 Códigos de salida: 0 correcto, 3 error.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Baseline" xml:space="preserve">
     <value>Uso: {0} baseline &lt;subcomando&gt; --plant &lt;carpeta&gt; …
@@ -475,7 +472,7 @@ Evalúa exportaciones (o este equipo) frente al catálogo. Sin --plant solo eval
 los registros de la planta, guarda la ejecución y la compara con la ejecución anterior y con el estado aprobado.
 
   --plant &lt;carpeta&gt;       carpeta de la planta; se crea si no existe
-  --snapshot &lt;archivo&gt;…   exportaciones (.snapshot.json, .json.gz) o carpetas de paquetes de herramientas integradas; se admiten varias
+  --snapshot &lt;archivo&gt;…   exportaciones (.snapshot.json, .json.gz) o carpetas de paquetes de comandos integrados; se admiten varias
   --this-pc               capturar primero este equipo (Windows; allí es el valor predeterminado sin --snapshot)
   --no-store              con --plant: evaluar y comparar, pero no escribir nada
   --brief                 una línea por equipo para Icinga/Nagios, con datos de rendimiento
@@ -488,7 +485,6 @@ Tokens: regression, newhigh, high, medium, low, expired, expiring, pending, over
   change: crítico regression,newhigh · advertencia expired,expiring,pending,overdue,incomplete,stale,clock
   state:  crítico regression,high · advertencia medium,low,expired,expiring,pending,overdue,incomplete,stale,clock
 Códigos de salida: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Collect" xml:space="preserve">
     <value>Uso: {0} collect [--out &lt;carpeta&gt;] [--gzip] [--minimal] [--deep] [--pseudonymize]
@@ -503,7 +499,6 @@ para una exportación completa, ejecútelo en una consola con privilegios elevad
   --pseudonymize     sustituir nombres de equipo, de cuenta y de ruta
 
 Códigos de salida: 0 completa, 1 escrita pero incompleta (sin privilegios elevados o elementos denegados), 3 no se escribió nada.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_CollectionRecord" xml:space="preserve">
     <value>Uso: {0} collection-record --plant &lt;carpeta&gt; [--import &lt;id&gt;|--latest] [--out &lt;carpeta&gt;] [--language &lt;código&gt;]
@@ -512,7 +507,6 @@ Escribe el acta de captura de una importación (predeterminada: la más reciente
 recopilador, opciones, roles de quien captura y del testigo, y líneas de firma.
 
 Códigos de salida: 0 correcto, 3 error.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Collector" xml:space="preserve">
     <value>Uso: {0} collector export &lt;carpeta&gt;
@@ -552,7 +546,6 @@ Códigos de salida: 0 coherente, 1 difiere, 3 error.</value>
                                                  integradas: beispiel-anlagenbau
 
 Códigos de salida: 0 correcto, 3 error; validate como arriba.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_ExitCodes" xml:space="preserve">
     <value>Códigos de salida: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN (error de uso, exportación ilegible o dañada, error de suma de comprobación, error de E/S).
@@ -562,10 +555,10 @@ verify: 0 reproducido, 1 no verificado, 2 diferente · compare-snapshot: 0 coher
   <data name="Help_Import" xml:space="preserve">
     <value>Uso: {0} import &lt;archivo|carpeta&gt;… --plant &lt;carpeta&gt; [--collected-by-role &lt;rol&gt;] [--witness-role &lt;rol&gt;] [--record] [--reevaluate]
 
-Añade exportaciones o paquetes de herramientas integradas a la carpeta de la planta: comprueba los archivos .sha256,
+Añade exportaciones o paquetes de comandos integrados a la carpeta de la planta: comprueba los archivos .sha256,
 escribe el registro de importación, evalúa y guarda las ejecuciones. Un error de suma de comprobación detiene toda la
 importación antes de escribir nada.
-Una carpeta que no es un paquete de herramientas integradas (con nombre *.riegel-builtin o con hostname.txt o secedit.inf)
+Una carpeta que no es un paquete de comandos integrados (con nombre *.riegel-builtin o con hostname.txt o secedit.inf)
 equivale a las exportaciones que contiene (*.snapshot.json, *.snapshot.json.gz).
 
   --plant &lt;carpeta&gt;                 carpeta de la planta
@@ -576,7 +569,6 @@ equivale a las exportaciones que contiene (*.snapshot.json, *.snapshot.json.gz).
   --brief, --format, --alert, --critical, --warning    como en check (modo de alerta predeterminado: change)
 
 Códigos de salida como en check.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Measures" xml:space="preserve">
     <value>Uso: {0} measures &lt;subcomando&gt; --plant &lt;carpeta&gt; …
@@ -590,7 +582,6 @@ Códigos de salida como en check.</value>
                                                  cerrar una medida (predeterminado: realizada)
 
 Códigos de salida: 0 correcto, 3 error.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Overview" xml:space="preserve">
     <value>Uso: {0} &lt;comando&gt; [opciones]        {0} &lt;comando&gt; --help muestra las opciones de un comando
@@ -598,7 +589,7 @@ Códigos de salida: 0 correcto, 3 error.</value>
 Comprobar y supervisar:
   check              evaluar este equipo o exportaciones; con --plant: guardar, comparar, alertar ante cambios
   collect            Windows: escribir una exportación de este equipo
-  import             añadir exportaciones o paquetes de herramientas integradas a una carpeta de la planta
+  import             añadir exportaciones o paquetes de comandos integrados a una carpeta de la planta
   compare            cambios de estado y desviaciones de un equipo
   approve            registrar una ejecución como estado aprobado
 
@@ -630,7 +621,6 @@ Opciones globales:
   --info                       producto, licencia, enlaces y carpeta de datos
   --licenses, --lizenzen       textos de licencia
   --nur-lesen, --read-only     no escribir nada en la carpeta de la planta (documentos solo en --out)</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Plant" xml:space="preserve">
     <value>Uso: {0} plant init &lt;carpeta&gt; --name &lt;nombre&gt;
@@ -644,10 +634,9 @@ Códigos de salida: 0 correcto, 3 error.</value>
 
 Escribe una propuesta de corrección solo como archivos (.reg con .reg de reversión, GptTmpl.inf, audit.csv, README.txt)
 en remediation/&lt;equipo&gt;/&lt;ejecución&gt;/ dentro de --out o de la carpeta de la planta. Riegel nunca los aplica; acuerde
-antes cada cambio con el fabricante de la planta.
+antes cada cambio con el fabricante de la máquina.
 
 Códigos de salida: 0 correcto, 3 error.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Report" xml:space="preserve">
     <value>Uso: {0} report --plant &lt;carpeta&gt; [opciones]
@@ -666,7 +655,6 @@ Escribe el informe de la planta y las demás salidas a partir de la ejecución m
   --out &lt;carpeta&gt;                   carpeta de destino (predeterminada: reports/&lt;hora&gt;/ en la carpeta de la planta)
 
 Códigos de salida: 0 correcto, 3 error.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Rules" xml:space="preserve">
     <value>Uso: {0} rules [--id &lt;ID&gt;] [--format text|json|md]
@@ -681,11 +669,10 @@ Códigos de salida: 0 correcto, 3 error.</value>
   <data name="Help_Summary" xml:space="preserve">
     <value>Uso: {0} summary --plant &lt;carpeta&gt; [--plant &lt;carpeta&gt;…] [--out &lt;carpeta&gt;] [--language &lt;código&gt;]
 
-Una página A4 para la dirección con varias plantas: equipos, sistemas operativos con soporte, hallazgos altos abiertos
+Una página A4 para la dirección que abarca varias plantas: equipos, sistemas operativos con soporte, hallazgos altos abiertos
 con tendencia, empeoramientos, excepciones a punto de caducar y medidas vencidas. Se escribe en --out o en la carpeta actual.
 
 Códigos de salida: 0 correcto, 3 error.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Tailoring" xml:space="preserve">
     <value>Uso: {0} tailoring &lt;subcomando&gt; --plant &lt;carpeta&gt; …
@@ -698,7 +685,6 @@ Códigos de salida: 0 correcto, 3 error.</value>
                                                  integradas: hmi, engineering-station, historian-server, jump-host
 
 Códigos de salida: 0 correcto, 3 error; validate como arriba.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_TargetConfig" xml:space="preserve">
     <value>Uso: {0} target-config --plant &lt;carpeta&gt; [--group &lt;id&gt;] [--out &lt;carpeta&gt;] [--language &lt;código&gt;]
@@ -707,7 +693,6 @@ Escribe la configuración objetivo para su firma en PDF y Excel: por grupo y rol
 esperados, las decisiones de ajuste del alcance, las líneas base importadas y el origen de los valores esperados.
 
 Códigos de salida: 0 correcto, 3 error.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Help_Verify" xml:space="preserve">
     <value>Uso: {0} verify &lt;paquete.zip&gt; [--format text|json]

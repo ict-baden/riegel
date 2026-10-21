@@ -134,7 +134,7 @@
     <value>Bedingung nicht erfüllt: {0} = {1}</value>
   </data>
   <data name="Detail_NaDc" xml:space="preserve">
-    <value>Domänencontroller – Regelwerk 2026.10 ist nicht für Domänencontroller ausgelegt</value>
+    <value>Domänencontroller – Regelwerk 2026.10.1 ist nicht für Domänencontroller ausgelegt</value>
   </data>
   <data name="Detail_NaDomainJoined" xml:space="preserve">
     <value>Rechner ist Domänenmitglied; die Regel gilt für Einzelrechner</value>

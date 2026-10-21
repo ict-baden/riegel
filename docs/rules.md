@@ -9,7 +9,7 @@ by hand: change the rule files and run the tool again; a test checks that the pa
 
 ## Overview
 
-Catalogue `riegel` version 2026.10, released 2026-10-18. The files present hold 153 rules: 139 checks, 14 inventory rules and 0 retired rules in 20 files (`ACCT.json`, `APP.json`, `ASR.json`, `AUD.json`, `CRED.json`, `DEF.json`, `ENC.json`, `FW.json`, `LIFE.json`, `LOGON.json`, `MED.json`, `NET.json`, `NETX.json`, `PS.json`, `RDP.json`, `SVC.json`, `SYS.json`, `TLS.json`, `UAC.json`, `URA.json`).
+Catalogue `riegel` version 2026.10.1, released 2026-10-21. The files present hold 153 rules: 139 checks, 14 inventory rules and 0 retired rules in 20 files (`ACCT.json`, `APP.json`, `ASR.json`, `AUD.json`, `CRED.json`, `DEF.json`, `ENC.json`, `FW.json`, `LIFE.json`, `LOGON.json`, `MED.json`, `NET.json`, `NETX.json`, `PS.json`, `RDP.json`, `SVC.json`, `SYS.json`, `TLS.json`, `UAC.json`, `URA.json`).
 
 | Category | Rules | Checks | Inventory | High | Medium | Low |
 |---|---|---|---|---|---|---|

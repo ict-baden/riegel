@@ -33,7 +33,7 @@ with its own pass/fail/exception/not-checkable counts and score, so a customer l
 Härtungsgrad.
 
 **Domain controllers** (`DomainRole` 4 or 5) get no Härtungsgrad and no category scores ("nicht bewertet –
-Domänencontroller"); catalogue 2026.10 is not designed for them. Their counts are still shown.
+Domänencontroller"); catalogue 2026.10.1 is not designed for them. Their counts are still shown.
 
 ## Audit cap
 

@@ -134,7 +134,7 @@
     <value>Condition not met: {0} = {1}</value>
   </data>
   <data name="Detail_NaDc" xml:space="preserve">
-    <value>Domain controller – catalogue 2026.10 is not designed for domain controllers</value>
+    <value>Domain controller – catalogue 2026.10.1 is not designed for domain controllers</value>
   </data>
   <data name="Detail_NaDomainJoined" xml:space="preserve">
     <value>Machine is domain-joined; the rule applies to standalone machines</value>

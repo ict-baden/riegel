@@ -4,6 +4,22 @@ Alle wichtigen Änderungen an Riegel. Format nach [Keep a Changelog](https://kee
 
 ## [Unveröffentlicht]
 
+## [0.1.2] – 2026-10-21
+
+Release-Bereinigung. Sammler unverändert (0.1.0, dieselben Bytes), Regelwerk 2026.10.1.
+
+### Regelwerk 2026.10.1
+- **NET-25** (nicht authentifizierte RPC-Clients einschränken) gilt nicht mehr für Domänencontroller; der OT-Hinweis nennt die Folgen auf Servern (OPC DA, ältere Sicherungs- und Überwachungsagenten), empfiehlt „Authentifiziert“ (1) im Wartungsfenster und rät von „Authentifiziert ohne Ausnahmen“ (2) ab.
+
+### Behoben
+- **Nachweispaket:** mit `report --format json --evidence` lagen die Läufe zusätzlich zu `runs/<host>/` flach in der Wurzel des Pakets. Jetzt nur noch unter `runs/`, wie in `docs/evidence.md` beschrieben.
+
+### Geändert
+- Spanisch, Französisch und Chinesisch: die als unsicher markierten Einträge (je 170) geprüft und bereinigt, Begriffe vereinheitlicht. Die Sprachauswahl nennt diese drei Sprachen „maschinelle Übersetzung“ (in der Sprache selbst); Gegenlesen durch Muttersprachler steht weiter aus.
+- Impressum unter `https://ict-baden.de/impressum/`, Webseite `https://ict-baden.de/produkte/riegel/` (Info-Seite, `--info`).
+- README: Download führt auf das neueste Tag-Release; `latest` ist als Vorabversion für Tests genannt, nicht für Anlagen.
+- CI: alle Actions per Commit-SHA gepinnt; Release-Texte auf Englisch mit Liste der Dateien.
+
 ## [0.1.1] – 2026-10-21
 
 Korrekturen nach der zweiten unabhängigen Prüfung (2026-10-20). Die Sammler-Exe ist unverändert (0.1.0, dieselben Bytes, Hash-Sperre unverändert; im Sammlerpaket ändert sich nur README.txt), das Regelwerk bleibt 2026.10. 0.1.1 ersetzt 0.1.0 vor allem, weil 0.1.0 noch `Microsoft.Windows.SDK.NET.dll` ausliefert.

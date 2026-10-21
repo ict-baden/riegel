@@ -74,7 +74,8 @@ The Settings page marks every value that comes from `defaults.json` as *preset* 
 
 For each key: the user's value in `settings.json`, else the preset from `defaults.json`, else the built-in default.
 The language has one more step in front: the environment variable `RIEGEL_LANGUAGE` (see below). Report languages
-other than English and German are machine pre-translations; such documents say so on the cover and in every footer.
+other than English and German are machine pre-translations; the language lists say "machine translation" next to
+them, and such documents say so on the cover and in every footer.
 
 ## Plant settings
 

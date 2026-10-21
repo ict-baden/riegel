@@ -130,7 +130,7 @@ public sealed class SchemaTests
     public void Katalogkopf_und_Erfassungsplan_lassen_sich_lesen()
     {
         var header = RiegelJson.ReadFile<CatalogueDocument>(Path.Combine(RepoPaths.Rules, "catalogue.json"), 1024 * 1024);
-        Assert.Equal(("riegel", "2026.10"), (header.Id, header.Version));
+        Assert.Equal(("riegel", "2026.10.1"), (header.Id, header.Version));
         var plan = RiegelJson.ReadFile<CollectionPlan>(RepoPaths.CollectionPlan, 10 * 1024 * 1024);
         Assert.Equal(SchemaIds.CollectionPlan, plan.Schema);
         Assert.Equal(50_000, plan.Limits.MaxValuesTotal);

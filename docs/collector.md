@@ -260,7 +260,7 @@ publishes `Riegel-Collector-allowlist.zip`, computed on the CI runner (never on 
 
 Releases are unsigned until the signing account exists (owner item); then a publisher rule replaces the hash rule.
 Signing changes the bytes, so a hash rule then changes with every release. A hash rule stays valid as long as the
-collector's SHA-256 is unchanged: the release notes say "Sammler unverändert seit <version>".
+collector's SHA-256 is unchanged: the release notes say "Collector unchanged since <version>".
 
 ## Versions and releases
 

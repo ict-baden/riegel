@@ -206,12 +206,20 @@ public sealed partial class CatalogueInvariantTests
     }
 
     [Fact]
+    public void Regeldateien_sind_sauberes_UTF8_ohne_doppelt_kodierte_Umlaute()
+    {
+        // „Ã¤“ statt „ä“ entsteht, wenn UTF-8 noch einmal als Latin-1 gelesen und geschrieben wird
+        foreach (var file in Directory.EnumerateFiles(RepoPaths.Rules, "*.json", SearchOption.AllDirectories))
+            Assert.DoesNotContain("Ã", File.ReadAllText(file), StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void Katalogkopf_hat_Version_und_Datum()
     {
         var header = RiegelJson.ReadFile<CatalogueDocument>(Path.Combine(RepoPaths.Rules, "catalogue.json"), 1024 * 1024);
         Assert.Equal(SchemaIds.Catalogue, header.Schema);
         Assert.Equal("riegel", header.Id);
-        Assert.Equal("2026.10", header.Version);
+        Assert.Equal("2026.10.1", header.Version);
         Assert.True(header.ReleasedOn >= new DateOnly(2026, 10, 18), "releasedOn ist frühestens der Tag des Gerüsts");
         Assert.Null(header.Rules);
     }

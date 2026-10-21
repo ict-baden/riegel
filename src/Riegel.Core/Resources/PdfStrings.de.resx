@@ -101,7 +101,7 @@
     <value>Uhr unplausibel: altersabhängige Ergebnisse sind nicht prüfbar</value>
   </data>
   <data name="Banner_DomainController" xml:space="preserve">
-    <value>Domänencontroller: nicht bewertet – das Regelwerk 2026.10 ist nicht für Domänencontroller ausgelegt</value>
+    <value>Domänencontroller: nicht bewertet – das Regelwerk 2026.10.1 ist nicht für Domänencontroller ausgelegt</value>
   </data>
   <data name="Banner_ExperimentalGpo" xml:space="preserve">
     <value>Quelle: Domänen-GPO (nicht in echter Domäne getestet)</value>
@@ -815,7 +815,7 @@
     <value>Das Ergebnis beschreibt den Stand zum Zeitpunkt der Erhebung; spätere Änderungen zeigt erst ein neuer Lauf.</value>
   </data>
   <data name="Method_Limit_Dc" xml:space="preserve">
-    <value>Domänencontroller: Das Regelwerk 2026.10 ist nicht für Domänencontroller ausgelegt; sie werden aufgeführt, aber nicht bewertet.</value>
+    <value>Domänencontroller: Das Regelwerk 2026.10.1 ist nicht für Domänencontroller ausgelegt; sie werden aufgeführt, aber nicht bewertet.</value>
   </data>
   <data name="Method_Limit_Gpo" xml:space="preserve">
     <value>Die Zuordnung zu Domänen-GPOs ist experimentell: noch nicht in einer echten Domäne getestet.</value>
@@ -1175,7 +1175,7 @@
     <value>Werte je Kategorie</value>
   </data>
   <data name="Summary_DomainControllers" xml:space="preserve">
-    <value>Domänencontroller: {0} – nicht bewertet (das Regelwerk 2026.10 ist nicht für Domänencontroller ausgelegt).</value>
+    <value>Domänencontroller: {0} – nicht bewertet (das Regelwerk 2026.10.1 ist nicht für Domänencontroller ausgelegt).</value>
   </data>
   <data name="Summary_Heading" xml:space="preserve">
     <value>Zusammenfassung für die Leitung</value>

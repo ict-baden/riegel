@@ -148,7 +148,7 @@ Facts (operating system, domain, Defender mode, Office, network …) are derived
 unknown. When a capability exists on the operating system but its data source is missing (a WMI namespace or class),
 the evidence is Unavailable and the result `notCheckable` – the anomaly is never turned into "not applicable".
 
-Domain controllers are detected from `DomainRole` 4 or 5. Catalogue 2026.10 is not designed for domain controllers;
+Domain controllers are detected from `DomainRole` 4 or 5. Catalogue 2026.10.1 is not designed for domain controllers;
 rules marked `excludeDc` are not applicable there.
 
 ## Microsoft Defender gating

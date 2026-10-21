@@ -16,7 +16,6 @@
   </data>
   <data name="Appendix_Intro" xml:space="preserve">
     <value>每台计算机：标识与采集信息，先列“已恶化”，然后是带预期值、实际值、来源和标记的未解决发现项、例外、范围裁剪、按原因列出的无法检查项、原始值偏差和关键事实。所有结果见 Excel 工作簿和结果 JSON。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Appendix_Machine" xml:space="preserve">
     <value>A.{0} {1}</value>
@@ -29,7 +28,6 @@
   </data>
   <data name="ApprovalDoc_Binding" xml:space="preserve">
     <value>审批单 {0} 适用于例外登记册 {1} 和范围裁剪 {2}（本审批单条目：{3}）。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="ApprovalDoc_Category" xml:space="preserve">
     <value>类别</value>
@@ -57,7 +55,6 @@
   </data>
   <data name="ApprovalDoc_Intro" xml:space="preserve">
     <value>等待批准的新条目和已更改条目，附每个条目的内容哈希以及生成本审批单时登记册的校验和。签署后，在应用中或使用“exceptions approve”填写批准字段，并引用本审批单作为批准记录，例如“审批单 {0}（{1}）”。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="ApprovalDoc_KindException" xml:space="preserve">
     <value>例外</value>
@@ -88,7 +85,6 @@
   </data>
   <data name="ApprovalDoc_SignIntro" xml:space="preserve">
     <value>签署即表示审批人按勾选内容对上述条目作出决定。未作决定的条目仍为已申请状态。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="ApprovalDoc_Subtitle" xml:space="preserve">
     <value>{0} · 审批单 {1}</value>
@@ -101,13 +97,12 @@
   </data>
   <data name="Approval_Text" xml:space="preserve">
     <value>由 {0} 于 {1} 批准，记录 {2}，复审期限 {3}</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Banner_ClockSuspect" xml:space="preserve">
     <value>时钟不可信：基于时间的结果无法检查</value>
   </data>
   <data name="Banner_DomainController" xml:space="preserve">
-    <value>域控制器：未评分 – 目录 2026.10 并非为域控制器设计</value>
+    <value>域控制器：未评分 – 目录 2026.10.1 并非为域控制器设计</value>
   </data>
   <data name="Banner_ExperimentalGpo" xml:space="preserve">
     <value>来源：域 GPO（未在真实域中测试）</value>
@@ -119,16 +114,13 @@
     <value>检查不完整：仅 {0} 可检查</value>
   </data>
   <data name="Banner_Incomplete_Detail" xml:space="preserve">
-    <value>受影响的计算机：{0}。缺失的领域：{1}。数值以灰色显示；仅基于部分规则得出的高数值不能作为结论。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>受影响的计算机：{0}。缺失的部分：{1}。数值以灰色显示；仅基于部分规则得出的高数值不能作为结论。</value>
   </data>
   <data name="Banner_PreTranslation_Detail" xml:space="preserve">
     <value>本文档的文本为机器翻译，尚未经母语人士审核；以德文或英文版本为准。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Banner_StaleCatalogue" xml:space="preserve">
     <value>规则目录已超过 6 个月 – 生命周期和补丁信息可能已过时</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Banner_StaleCatalogue_Detail" xml:space="preserve">
     <value>目录距今天数：{0}。更新版本的 Riegel 附带最新目录。</value>
@@ -147,11 +139,9 @@
   </data>
   <data name="Baselines_Heading" xml:space="preserve">
     <value>客户基线</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Baselines_Intro" xml:space="preserve">
-    <value>每个导入的基线单独评分。如果证据包中不含其内容，verify 会将其结果报告为无法复核。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>每个已导入的基线单独评分。如果证据包中不含其内容，verify 会将其结果报告为无法复核。</value>
   </data>
   <data name="Basis_Approved" xml:space="preserve">
     <value>已批准状态</value>
@@ -197,7 +187,6 @@
   </data>
   <data name="Changes_Intro" xml:space="preserve">
     <value>在比较基准中为符合、有意保留、不适用或不在检查范围内、而现在不符合的规则。此处不计：已过期的例外（单独列出）、本目录中的新规则以及之前无法检查的规则。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Changes_None" xml:space="preserve">
     <value>自上次运行或已批准状态以来没有恶化。</value>
@@ -207,15 +196,12 @@
   </data>
   <data name="Classification_Disclaimer" xml:space="preserve">
     <value>本报告不是合规声明：它证明所列计算机的配置管理及部分有效性审查，不涉及事件处理、业务连续性、供应链、多因素认证、数据备份或网络分段。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Classification_Heading" xml:space="preserve">
     <value>定位</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Classification_Intro" xml:space="preserve">
     <value>Riegel 可为以下要求提供证据支持：</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Col_Action" xml:space="preserve">
     <value>行动</value>
@@ -234,7 +220,6 @@
   </data>
   <data name="Col_Baseline" xml:space="preserve">
     <value>基线</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Col_Basis" xml:space="preserve">
     <value>比较基准</value>
@@ -253,7 +238,6 @@
   </data>
   <data name="Col_Content" xml:space="preserve">
     <value>证据包中的内容</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Col_Due" xml:space="preserve">
     <value>到期</value>
@@ -416,7 +400,6 @@
   </data>
   <data name="Cover_Baselines" xml:space="preserve">
     <value>客户基线</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Cover_Catalogue" xml:space="preserve">
     <value>规则目录</value>
@@ -543,7 +526,6 @@
   </data>
   <data name="Exceptions_Intro" xml:space="preserve">
     <value>登记册 {0}，条目：{1}（{2}）。例外只有在具备批准角色、日期、复审日期和批准记录，且其内容与已批准的哈希一致时才有效。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Exceptions_None" xml:space="preserve">
     <value>登记册中没有例外。</value>
@@ -562,11 +544,9 @@
   </data>
   <data name="Findings_Intro" xml:space="preserve">
     <value>所有计算机上汇总的不符合规则：在适用该规则的计算机中有多少台未解决、最多列出十台计算机名称以及计划措施。各计算机的详情见附录 A；所有结果见 Excel 工作簿。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Findings_IntroMachine" xml:space="preserve">
     <value>此计算机上不符合的规则及计划措施；预期值和实际值见附录 A。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Findings_None" xml:space="preserve">
     <value>无未解决的发现项。</value>
@@ -618,15 +598,12 @@
   </data>
   <data name="Legend_Exception" xml:space="preserve">
     <value>不符合，但由一项有效且已批准的例外覆盖，其适用范围和接受值均匹配。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Legend_Fail" xml:space="preserve">
     <value>该值不符合预期，且没有有效的例外覆盖。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Legend_Flags" xml:space="preserve">
     <value>“假定为默认值”“已恶化”或“已申请例外”等标记用于补充说明状态，显示在结果旁边。日期和时间采用 ISO 8601（UTC）。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Legend_Heading" xml:space="preserve">
     <value>阅读说明</value>
@@ -638,23 +615,19 @@
     <value>含义</value>
   </data>
   <data name="Legend_NotApplicable" xml:space="preserve">
-    <value>操作系统、版本、域成员身份、角色或缺少的功能使该规则不相关。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>操作系统、内部版本、域成员身份、角色或缺少某项功能，使该规则不适用。</value>
   </data>
   <data name="Legend_NotCheckable" xml:space="preserve">
     <value>证据缺失、被拒绝、被截断或未采集，默认值未知或仅有启发式证据；附原因代码报告，绝不计为符合。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Legend_Open" xml:space="preserve">
     <value>计为未解决</value>
   </data>
   <data name="Legend_OutOfScope" xml:space="preserve">
     <value>因有效的范围裁剪决定而排除：不属于该角色的目标配置；不计入任何数值。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Legend_Pass" xml:space="preserve">
     <value>该值符合预期，有正面证据（或有出处的默认值，标记为“假定为默认值”）。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Legend_Status" xml:space="preserve">
     <value>状态</value>
@@ -787,48 +760,39 @@
   </data>
   <data name="Measures_Intro" xml:space="preserve">
     <value>登记册 {0}，条目：{1}，逾期：{2}。在规则符合之前，计划措施不会关闭发现项。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Measures_None" xml:space="preserve">
     <value>没有计划措施。</value>
   </data>
   <data name="Method_Catalogue" xml:space="preserve">
     <value>目录 {0} {1}（{2}）：规则：{3}，其中检查规则：{4}，清单规则：{5}。所有规则文本均为 Riegel 自行编写。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Catalogue_Heading" xml:space="preserve">
     <value>规则目录</value>
   </data>
   <data name="Method_Collection" xml:space="preserve">
-    <value>Riegel 的采集器读取计算机的配置和运行时状态（注册表、安全策略、审核策略、服务、Defender、防火墙、BitLocker、本地账户），不做任何更改，也不访问网络，并写出带 SHA-256 的原始数据导出文件。评估在离线状态下根据规则目录检查导出文件，并应用装置的登记册。管理员权限可扩大可读取的范围；没有管理员权限时，受影响的规则报告为无法检查。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Riegel 的采集器读取计算机的配置和运行时状态（注册表、安全策略、审核策略、服务、Defender、防火墙、BitLocker、本地帐户），不做任何更改，也不访问网络，并写出带 SHA-256 的原始数据导出文件。评估在离线状态下根据规则目录检查导出文件，并应用装置的登记册。管理员权限可扩大可读取的范围；没有管理员权限时，受影响的规则报告为无法检查。</value>
   </data>
   <data name="Method_Collection_Heading" xml:space="preserve">
     <value>采集</value>
   </data>
   <data name="Method_Evidence_1" xml:space="preserve">
     <value>只有在有正面证据时才判定为“符合”：缺失、被拒绝、被截断或未采集的数据一律判定为“无法检查”，绝不判定为“符合”。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Evidence_2" xml:space="preserve">
     <value>未设置的值只有在采集完整覆盖该部分时才计入；默认值仅在有引用来源时使用，并标记为“假定为默认值”。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Evidence_3" xml:space="preserve">
     <value>运行时证据优先于配置：凡 Windows 报告实际生效状态之处（SMB、LSA 保护、防火墙、Defender、VBS），以该状态为准；仅有配置的值绝不判定为“符合”。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Evidence_4" xml:space="preserve">
     <value>类型错误的值判定为“不符合”；仅有启发式证据（例如第三方杀毒软件在安全中心的条目）判定为“无法检查”。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Evidence_5" xml:space="preserve">
     <value>缺少的保护功能属于缺口（“不符合”，可走例外流程），而不是“不适用”。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Evidence_6" xml:space="preserve">
     <value>可检查比例低于 90% 或没有管理员权限时，报告带有“检查不完整”横幅，数值以灰色显示。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Evidence_Heading" xml:space="preserve">
     <value>证据规则</value>
@@ -840,43 +804,34 @@
     <value>证据完整性</value>
   </data>
   <data name="Method_Limit_1" xml:space="preserve">
-    <value>不作合规声明：Riegel 为封面所列框架提供证据支持，但不认证合规。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>不作合规声明：Riegel 为封面所列框架提供证据支持，但不对合规性进行认证。</value>
   </data>
   <data name="Method_Limit_2" xml:space="preserve">
-    <value>不是 GMP 验证包：本报告是经人工审核的定期审查和变更控制输入。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>不是 GMP 验证包：本报告是经人工审核的、用于定期审查和变更控制的输入材料。</value>
   </data>
   <data name="Method_Limit_3" xml:space="preserve">
     <value>计算机本身无法体现的内容不在检查之列：多因素认证、数据备份、网络分段、事件处理和物理安全。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Limit_4" xml:space="preserve">
     <value>结果描述的是采集时的状态；之后的更改只有在新的运行中才可见。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Limit_Dc" xml:space="preserve">
-    <value>域控制器：目录 2026.10 并非为域控制器设计；它们会被列出，但不评分。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>域控制器：目录 2026.10.1 并非为域控制器设计；它们会被列出，但不评分。</value>
   </data>
   <data name="Method_Limit_Gpo" xml:space="preserve">
-    <value>归因到域 GPO 属于实验功能：尚未在真实域中测试。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>与域 GPO 的对应关系属于实验功能：尚未在真实域中测试。</value>
   </data>
   <data name="Method_Limits_Heading" xml:space="preserve">
     <value>局限</value>
   </data>
   <data name="Method_NoCisBsi" xml:space="preserve">
     <value>本报告和目录不含任何 CIS 或 BSI 内容：不含 CIS Benchmarks、BSI SiSyPHuS 或 IT-Grundschutz 模块的文本、数值或标识符，也不含 Microsoft 安全基线的文件或数值。Grundschutz++ 仅以标识符形式出现。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Provenance" xml:space="preserve">
     <value>预期值来源（规则：{0}）：ACSC {1}，Microsoft Windows Server 文档（CC BY 4.0）{2}，Microsoft Learn 事实 {3}，DISA {4}；同时见于 Microsoft 安全基线（仅作佐证）：{5}。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Score" xml:space="preserve">
     <value>权重：高 3、中 2、低 1，基于可检查的结果（符合、不符合、有意保留）。加固程度 = 加权符合 ÷ 可检查；已记录 = （符合 + 有意保留）÷ 可检查。例外绝不会提高加固程度；范围裁剪使规则不计入两项数值。审核类别最多贡献 12 个权重点。检查覆盖率 = 可检查 ÷（适用 − 不在检查范围内 − 清单）。最后四舍五入；检查覆盖率截断为整数百分比。域控制器没有加固程度。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Score_Heading" xml:space="preserve">
     <value>评分</value>
@@ -946,7 +901,6 @@
   </data>
   <data name="Product_Label" xml:space="preserve">
     <value>RIEGEL · 安全加固检查</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Reason_Unknown" xml:space="preserve">
     <value>（无原因代码）</value>
@@ -977,7 +931,6 @@
   </data>
   <data name="RecordDoc_Intro" xml:space="preserve">
     <value>本记录说明从哪些计算机、使用哪个采集器、以哪些校验和获取了哪些导出文件。见证人确认导出文件是在所列计算机上生成并原样移交的。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="RecordDoc_NoExe" xml:space="preserve">
     <value>–（内置命令，无程序文件）</value>
@@ -1007,8 +960,7 @@
     <value>确认</value>
   </data>
   <data name="RecordDoc_SignIntro" xml:space="preserve">
-    <value>签署即表示采集角色和运营方见证人确认上述采集记录。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>签署即表示执行采集的角色和运营方见证人确认上述采集记录。</value>
   </data>
   <data name="RecordDoc_SignWitness" xml:space="preserve">
     <value>见证人（运营方）</value>
@@ -1030,43 +982,36 @@
   </data>
   <data name="Register_Tailoring" xml:space="preserve">
     <value>范围裁剪</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Report_MachineSubtitle" xml:space="preserve">
     <value>{0} – 计算机报告，装置 {1}</value>
   </data>
   <data name="Report_Title_AsDelivered" xml:space="preserve">
     <value>交付状态 – 安全加固证明</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Report_Title_Audit" xml:space="preserve">
     <value>安全加固证明报告</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_Builder" xml:space="preserve">
     <value>制造商</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_EngineeringStation" xml:space="preserve">
     <value>工程师站</value>
   </data>
   <data name="Role_Historian" xml:space="preserve">
     <value>历史数据库</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_Hmi" xml:space="preserve">
     <value>人机界面 (HMI)</value>
   </data>
   <data name="Role_JumpHost" xml:space="preserve">
     <value>跳板机</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_Office" xml:space="preserve">
     <value>办公电脑</value>
   </data>
   <data name="Role_Operator" xml:space="preserve">
     <value>运营方</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_Other" xml:space="preserve">
     <value>其他</value>
@@ -1082,7 +1027,6 @@
   </data>
   <data name="Score_AuditCapFootnote" xml:space="preserve">
     <value>审核类别在总体数值中最多计 12 个权重点（四条高严重性规则）；类别自身的数值不受此限制。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Score_CheckedShare" xml:space="preserve">
     <value>检查覆盖率</value>
@@ -1091,12 +1035,10 @@
     <value>已记录</value>
   </data>
   <data name="Score_Explained" xml:space="preserve">
-    <value>加固程度：可检查规则中符合规则的加权比例（高 3、中 2、低 1）。已记录：符合加上有意保留。检查范围：范围内适用规则中可检查的比例。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>加固程度：可检查规则中符合规则的加权比例（高 3、中 2、低 1）。已记录：符合加上有意保留。检查覆盖率：检查范围内适用规则中可检查规则的比例。</value>
   </data>
   <data name="Score_Greyed" xml:space="preserve">
     <value>检查不完整：仅 {0} 可检查 – 数值不可靠，以灰色显示。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Score_Hardening" xml:space="preserve">
     <value>加固程度</value>
@@ -1111,8 +1053,7 @@
     <value> …（已截断 – 完整内容见 Excel 工作簿）</value>
   </data>
   <data name="SignOff_Binding" xml:space="preserve">
-    <value>此批准确认登记册 {0} 中的例外（条目：{1}，其中有效：{2}）以及范围裁剪 {3}（条目：{4}）。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>本批准确认登记册 {0} 中的例外（条目：{1}，其中有效：{2}）以及范围裁剪 {3}（条目：{4}）。</value>
   </data>
   <data name="SignOff_Date" xml:space="preserve">
     <value>日期</value>
@@ -1122,15 +1063,12 @@
   </data>
   <data name="SignOff_Intro" xml:space="preserve">
     <value>签署即表示以下角色已审核本报告中的发现项、例外、范围裁剪决定和措施计划。偏差及商定的措施记录在“备注”中。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="SignOff_IntroAsDelivered" xml:space="preserve">
     <value>制造商确认所列机器在交付状态下的安全加固情况，包括机器软件所要求的偏差；运营方确认接收。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="SignOff_Measures" xml:space="preserve">
     <value>措施计划 {0}（条目：{1}）是本报告的一部分。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="SignOff_Name" xml:space="preserve">
     <value>姓名</value>
@@ -1179,34 +1117,27 @@
   </data>
   <data name="State_ChangedAfterApproval" xml:space="preserve">
     <value>批准后已更改</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="State_Expired" xml:space="preserve">
     <value>已过期</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="State_Expiring" xml:space="preserve">
     <value>即将到期</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="State_Invalid" xml:space="preserve">
     <value>无效</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="State_Pending" xml:space="preserve">
     <value>已申请</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="State_Valid" xml:space="preserve">
     <value>有效</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Status_None" xml:space="preserve">
     <value>（无）</value>
   </data>
   <data name="Step_Accepted" xml:space="preserve">
-    <value>接收</value>
-    <comment>TODO-übersetzen</comment>
+    <value>已接收</value>
   </data>
   <data name="Step_Approved" xml:space="preserve">
     <value>批准</value>
@@ -1219,11 +1150,9 @@
   </data>
   <data name="SummaryDoc_Footnote" xml:space="preserve">
     <value>各装置的详情见装置报告。Riegel 提供证据支持，不作合规声明。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="SummaryDoc_Legend" xml:space="preserve">
-    <value>受支持的操作系统：操作系统仍在支持期内的计算机比例。趋势：最近四个月末未解决的高严重性发现项，然后是今天。已恶化：自上次运行以来的恶化。数值：加固程度 / 已记录，其下为检查范围；灰色 = 检查不完整。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>受支持的操作系统：操作系统仍在支持期内的计算机比例。趋势：最近四个月月末及今天的未解决高严重性发现项。已恶化：自上次运行以来恶化的项。数值：加固程度 / 已记录，其下为检查覆盖率；灰色 = 检查不完整。</value>
   </data>
   <data name="SummaryDoc_NoHighFindings" xml:space="preserve">
     <value>没有未解决的高严重性发现项。</value>
@@ -1236,7 +1165,6 @@
   </data>
   <data name="SummaryDoc_Title" xml:space="preserve">
     <value>安全加固状态 – 管理层概览</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="SummaryDoc_TopFindings" xml:space="preserve">
     <value>所有装置中最常见的高严重性发现项</value>
@@ -1248,15 +1176,13 @@
     <value>各类别数值</value>
   </data>
   <data name="Summary_DomainControllers" xml:space="preserve">
-    <value>域控制器：{0} – 未评分（目录 2026.10 并非为域控制器设计）。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>域控制器：{0} – 未评分（目录 2026.10.1 并非为域控制器设计）。</value>
   </data>
   <data name="Summary_Heading" xml:space="preserve">
     <value>管理层摘要</value>
   </data>
   <data name="Summary_Intro" xml:space="preserve">
-    <value>计算机：{0}，其中已评分：{1}。评估日期 {2}。先看数量，再看百分比。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>计算机：{0}，其中已评分：{1}。评估日期 {2}。先列数量，后列百分比。</value>
   </data>
   <data name="Summary_MoreFindings" xml:space="preserve">
     <value>更多发现项：{0} – 见“按规则的未解决发现项”。</value>
@@ -1277,8 +1203,7 @@
     <value>ESU 至 {0}</value>
   </data>
   <data name="Support_EsuCovered" xml:space="preserve">
-    <value>已购买 ESU</value>
-    <comment>TODO-übersetzen</comment>
+    <value>有 ESU 支持</value>
   </data>
   <data name="Support_Unknown" xml:space="preserve">
     <value>支持状态未知</value>
@@ -1288,29 +1213,24 @@
   </data>
   <data name="Tagline" xml:space="preserve">
     <value>能加固的已加固，不能加固的已记录。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Tailoring_Heading" xml:space="preserve">
     <value>范围裁剪（不在检查范围内）</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Tailoring_Intro" xml:space="preserve">
-    <value>登记册 {0}，条目：{1}（{2}）。范围裁剪是针对角色的基线决定，而不是接受的风险；有效条目使该规则不计入两项数值。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>登记册 {0}，条目：{1}（{2}）。范围裁剪是针对角色的基线决定，而不是已接受的风险；有效条目使该规则不计入两项数值。</value>
   </data>
   <data name="Tailoring_None" xml:space="preserve">
     <value>没有范围裁剪决定。</value>
   </data>
   <data name="Target_AlsoMsb" xml:space="preserve">
     <value>同时见于 MS 基线</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Target_AppliesEverywhere" xml:space="preserve">
     <value>该组所有计算机</value>
   </data>
   <data name="Target_Binding" xml:space="preserve">
     <value>此批准涵盖目录 {0}（{1}）、范围裁剪 {2} 以及组：{3}。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Target_Date" xml:space="preserve">
     <value>截至</value>
@@ -1329,7 +1249,6 @@
   </data>
   <data name="Target_Intro" xml:space="preserve">
     <value>按组和角色：检查范围内的规则及其预期值（由检查本身生成）、适用性以及支撑该值的来源。本文件经批准后即为装置的目标配置，Riegel 据此检查计算机。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Target_Inventory" xml:space="preserve">
     <value>清单规则（不评分）</value>
@@ -1351,7 +1270,6 @@
   </data>
   <data name="Target_Prov_Msb" xml:space="preserve">
     <value>同时见于 Microsoft 安全基线（仅作佐证）</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Target_Prov_Total" xml:space="preserve">
     <value>有预期值的规则</value>
@@ -1370,7 +1288,6 @@
   </data>
   <data name="Target_SignOff_Intro" xml:space="preserve">
     <value>签署即表示以下角色为该装置采用此目标配置。任何更改都需要本文件的新版本。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Target_Tailoring" xml:space="preserve">
     <value>组 {0} 的范围裁剪决定</value>
@@ -1389,11 +1306,9 @@
   </data>
   <data name="Vendor_Heading" xml:space="preserve">
     <value>机器软件要求的偏差</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Vendor_Intro" xml:space="preserve">
     <value>由制造商创建（角色“制造商”）或从其模板导入的例外。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Vendor_None" xml:space="preserve">
     <value>制造商未记录任何偏差。</value>

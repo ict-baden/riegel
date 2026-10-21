@@ -101,7 +101,7 @@
     <value>Implausible clock: age-based results are not checkable</value>
   </data>
   <data name="Banner_DomainController" xml:space="preserve">
-    <value>Domain controllers: not rated – catalogue 2026.10 is not designed for domain controllers</value>
+    <value>Domain controllers: not rated – catalogue 2026.10.1 is not designed for domain controllers</value>
   </data>
   <data name="Banner_ExperimentalGpo" xml:space="preserve">
     <value>Source: domain GPO (not tested in a real domain)</value>
@@ -815,7 +815,7 @@
     <value>The result describes the state at collection time; later changes are visible only in a new run.</value>
   </data>
   <data name="Method_Limit_Dc" xml:space="preserve">
-    <value>Domain controllers: catalogue 2026.10 is not designed for domain controllers; they are listed but not rated.</value>
+    <value>Domain controllers: catalogue 2026.10.1 is not designed for domain controllers; they are listed but not rated.</value>
   </data>
   <data name="Method_Limit_Gpo" xml:space="preserve">
     <value>Attribution to domain GPOs is experimental: not yet tested in a real domain.</value>
@@ -1175,7 +1175,7 @@
     <value>Values per category</value>
   </data>
   <data name="Summary_DomainControllers" xml:space="preserve">
-    <value>Domain controllers: {0} – not rated (catalogue 2026.10 is not designed for domain controllers).</value>
+    <value>Domain controllers: {0} – not rated (catalogue 2026.10.1 is not designed for domain controllers).</value>
   </data>
   <data name="Summary_Heading" xml:space="preserve">
     <value>Management summary</value>

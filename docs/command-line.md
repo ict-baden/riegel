@@ -89,7 +89,7 @@ Riegel.Cli.exe --help | --hilfe | --version | --info | --licenses | --lizenzen
 | Option | Does |
 |---|---|
 | `--help`, `--hilfe` (also `-h`, `/?`) | overview, or the help of one command when it follows a command |
-| `--version` | `Riegel 0.1.0 (build abc1234) · collector 0.1.0 · catalogue 2026.10` – give this when you report a problem |
+| `--version` | `Riegel 0.1.2 (build abc1234) · collector 0.1.0 · catalogue 2026.10.1` – give this when you report a problem |
 | `--info` | product, version, collector and catalogue, copyright and licence, links (website, Impressum, source, support, privacy), data folder, exit codes, and "This software sends no data to ICT-Baden." |
 | `--licenses`, `--lizenzen` | the MIT licence of Riegel and `THIRD-PARTY-NOTICES.txt` (packages and rule-source attributions) |
 | `--nur-lesen`, `--read-only` | read-only mode (auditor mode): nothing is written into any plant folder. Allowed anywhere on the line. Commands that would write there (`import`, `approve`, register changes, `baseline import/remove`, `plant init`) end with `RGL-0457`; document commands need `--out` (`RGL-0458`); `check --plant` evaluates, compares and prints, but stores nothing. |

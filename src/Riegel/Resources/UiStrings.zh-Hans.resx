@@ -349,11 +349,9 @@
   </data>
   <data name="Change_TailoringAdded" xml:space="preserve">
     <value>新增裁剪</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Change_TailoringRemoved" xml:space="preserve">
-    <value>裁剪已移除</value>
-    <comment>TODO-übersetzen</comment>
+    <value>已移除裁剪</value>
   </data>
   <data name="Change_Worse" xml:space="preserve">
     <value>恶化</value>
@@ -546,7 +544,6 @@
   </data>
   <data name="Error_RGL0621" xml:space="preserve">
     <value>裁剪高严重级别规则——改用有理由的例外是否更合适？</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0622" xml:space="preserve">
     <value>措施需要填写行动。</value>
@@ -652,7 +649,6 @@
   </data>
   <data name="Groups_Intro" xml:space="preserve">
     <value>裁剪和目标配置按角色生效。没有分组的计算机归入“无分组”。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Groups_Name" xml:space="preserve">
     <value>分组名称</value>
@@ -1037,7 +1033,6 @@
   </data>
   <data name="Notice_TailoringSaved" xml:space="preserve">
     <value>裁剪条目 {0} 已保存——在登记批准之前为待审批状态。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Notice_TemplateImported" xml:space="preserve">
     <value>模板已导入。新条目在批准前为待审批状态。</value>
@@ -1125,11 +1120,9 @@
   </data>
   <data name="Page_tailoring" xml:space="preserve">
     <value>裁剪</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Page_tailoring_Subtitle" xml:space="preserve">
     <value>不属于某角色目标配置的规则</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Register_Approval" xml:space="preserve">
     <value>批准</value>
@@ -1378,8 +1371,7 @@
     <value>目标配置</value>
   </data>
   <data name="Reports_TargetConfigText" xml:space="preserve">
-    <value>按分组和角色列出范围内的规则及期望值和裁剪——PDF 和 Excel，供采纳和签署。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>按分组和角色列出检查范围内的规则及其期望值和裁剪——PDF 和 Excel，供采纳和签署。</value>
   </data>
   <data name="Reports_WithEvidence" xml:space="preserve">
     <value>另外生成证据包（ZIP）</value>
@@ -1443,7 +1435,6 @@
   </data>
   <data name="Results_RegisterTailoring" xml:space="preserve">
     <value>裁剪 {0} – {1}</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Results_Remedy" xml:space="preserve">
     <value>处理建议</value>
@@ -1468,7 +1459,6 @@
   </data>
   <data name="Results_Tailor" xml:space="preserve">
     <value>裁剪…</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_BuilderCreated" xml:space="preserve">
     <value>制造商（编制）</value>
@@ -1760,11 +1750,9 @@
   </data>
   <data name="Tailoring_Empty" xml:space="preserve">
     <value>此视图中没有裁剪条目。裁剪由结果（“裁剪…”）或角色模板创建。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Tailoring_NewHint" xml:space="preserve">
     <value>选择一个结果并使用“裁剪…”——或在下方导入角色模板。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Tailoring_NoTemplates" xml:space="preserve">
     <value>此规则库尚未包含角色模板。</value>
@@ -1780,19 +1768,15 @@
   </data>
   <data name="TailoringDialog_Intro" xml:space="preserve">
     <value>裁剪表示：该规则不属于此角色的目标配置。它不计入两项数值——已接受的风险请使用例外。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="TailoringDialog_PendingNote" xml:space="preserve">
     <value>在登记批准之前，该裁剪为待审批状态。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="TailoringDialog_TitleEdit" xml:space="preserve">
     <value>编辑裁剪 {0}（{1}）</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="TailoringDialog_TitleNew" xml:space="preserve">
     <value>裁剪 {0}</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Toggle_Off" xml:space="preserve">
     <value>关</value>

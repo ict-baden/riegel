@@ -7,7 +7,7 @@
 [Authoring a riegel.baseline/1 file](#authoring-a-riegelbaseline1-file) · [CSV template](#csv-template) ·
 [Limits and errors](#limits-and-errors) · [Sources](#sources)
 
-Riegel checks its own catalogue (`2026.10`). A **customer baseline** adds requirements on top: the plant operator's
+Riegel checks its own catalogue (`2026.10.1`). A **customer baseline** adds requirements on top: the plant operator's
 golden GPO, a machine builder's delivery requirements, or a security baseline the customer downloaded and is allowed to
 use. Each imported baseline becomes its own rule set (`ruleSetId` = the baseline ID) with rule IDs `IMP-<baseline>-…`,
 is evaluated in the same run as the catalogue and gets its own score section in the reports.

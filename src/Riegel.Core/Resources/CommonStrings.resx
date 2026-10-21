@@ -223,6 +223,10 @@
   <data name="Item_ValueMissing" xml:space="preserve">
     <value>Value not set</value>
   </data>
+  <data name="Language_MachineTranslation" xml:space="preserve">
+    <value>machine translation</value>
+    <comment>Zusatz in der Sprachauswahl hinter nicht geprüften Sprachen, in der Sprache selbst</comment>
+  </data>
   <data name="Placeholder_Document" xml:space="preserve">
     <value>Placeholder: this document is produced by a later work package of Riegel 0.1.0.</value>
     <comment>Only in scaffold placeholder files; replaced by the pdf and data-outputs packages</comment>

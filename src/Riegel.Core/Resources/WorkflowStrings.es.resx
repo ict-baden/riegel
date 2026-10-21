@@ -16,39 +16,30 @@
   </data>
   <data name="AccountPolicy_ClearTextPassword" xml:space="preserve">
     <value>Almacenar contraseñas con cifrado reversible</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_LockoutDurationMin" xml:space="preserve">
     <value>Duración del bloqueo de cuenta (minutos)</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_LockoutThreshold" xml:space="preserve">
     <value>Umbral de bloqueo de cuenta (0 = nunca)</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_LockoutWindowMin" xml:space="preserve">
-    <value>Restablecer el contador de bloqueo de cuenta tras (minutos)</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Restablecer el contador de bloqueo de cuenta después de (minutos)</value>
   </data>
   <data name="AccountPolicy_MaxPwAgeDays" xml:space="preserve">
     <value>Vigencia máxima de la contraseña (días)</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_MinPwAgeDays" xml:space="preserve">
     <value>Vigencia mínima de la contraseña (días)</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_MinPwLen" xml:space="preserve">
     <value>Longitud mínima de la contraseña</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_PasswordComplexity" xml:space="preserve">
     <value>La contraseña debe cumplir los requisitos de complejidad</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_PwHistLen" xml:space="preserve">
     <value>Historial de contraseñas (contraseñas recordadas)</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AppliesTo_Capability" xml:space="preserve">
     <value>donde el sistema operativo dispone de {0}</value>
@@ -168,8 +159,7 @@
     <value>Las medidas no necesitan aprobación; la firma del informe de la planta cubre el plan.</value>
   </data>
   <data name="Error_RGL0414" xml:space="preserve">
-    <value>La adaptación ya no está en vigor y se desconoce el resultado original: evalúe de nuevo la exportación.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>El ajuste del alcance ya no está en vigor y se desconoce el resultado original: evalúe de nuevo la exportación.</value>
   </data>
   <data name="Error_RGL0420" xml:space="preserve">
     <value>El ID {0} se usa más de una vez.</value>
@@ -238,8 +228,7 @@
     <value>Se solapa con {0} para la misma regla: gana el ámbito más específico y, en caso de empate, la aprobación más reciente.</value>
   </data>
   <data name="Error_RGL0442" xml:space="preserve">
-    <value>Se adapta una regla de gravedad alta: ¿no sería mejor una excepción justificada?</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Ajustar el alcance de una regla de gravedad alta: ¿no sería mejor una excepción justificada?</value>
   </data>
   <data name="Error_RGL0443" xml:space="preserve">
     <value>La medida está vencida desde el {0}.</value>
@@ -354,7 +343,6 @@
   </data>
   <data name="FwProp_AllowLocalRules" xml:space="preserve">
     <value>reglas locales aplicadas</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="FwProp_DefaultInboundBlock" xml:space="preserve">
     <value>conexiones entrantes bloqueadas de forma predeterminada</value>
@@ -364,7 +352,6 @@
   </data>
   <data name="FwProp_LogDropped" xml:space="preserve">
     <value>registrar paquetes descartados</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="InsurerFacts_NotFromMachine" xml:space="preserve">
     <value>No legible desde el equipo: MFA, copia de seguridad de datos, segmentación de red</value>
@@ -467,7 +454,6 @@
   </data>
   <data name="Role_Builder" xml:space="preserve">
     <value>Fabricante de la máquina</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_Operator" xml:space="preserve">
     <value>Operador</value>

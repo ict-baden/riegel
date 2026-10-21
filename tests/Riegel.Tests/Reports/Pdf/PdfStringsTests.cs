@@ -92,12 +92,7 @@ public sealed partial class PdfStringsTests
             "Machine_ImportId", "RecordDoc_Import", "Exc_Reference", "Cover_Registers", "Machine_Admin", "Col_Licence", "Col_Source"];
         var untranslated = english.Where(p => german[p.Key] == p.Value && !same.Contains(p.Key) && p.Value.Any(char.IsLetter)).Select(p => p.Key).ToList();
         Assert.True(untranslated.Count == 0, "Deutsch fehlt: " + string.Join(", ", untranslated));
-        // es/fr/zh-Hans: jede Datei hat Einträge mit TODO-übersetzen (vor dem ersten öffentlichen Release gegenlesen)
-        foreach (var language in new[] { "es", "fr", "zh-Hans" })
-        {
-            var doc = XDocument.Load(Path.Combine(RepoPaths.Src, "Riegel.Core", "Resources", $"PdfStrings.{language}.resx"));
-            Assert.Contains(doc.Root!.Elements("data"), d => (string?)d.Element("comment") == "TODO-übersetzen");
-        }
+        // es/fr/zh-Hans: maschinell übersetzt und oben so gekennzeichnet (TranslationMarkingTests); Gegenlesen durch Muttersprachler steht aus
     }
 
     [Fact]

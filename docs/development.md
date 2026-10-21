@@ -262,7 +262,7 @@ branch cancels the running build (`concurrency`); tag builds always finish.
   (cross-published); pack the collector reproducibly; read-only proof (before the MSI test, which wakes services and
   the installer); MSI build and an install/uninstall test on the runner; AppLocker data; demo report with every
   document O1–O15; SBOM; checksums; releases. A tag build creates its release only with exactly the eleven versioned
-  files; its notes name the collector version and SHA-256 and "Sammler unverändert seit <tag>" when older tags had the
+  files; its notes name the collector version and SHA-256 and "Collector unchanged since <tag>" when older tags had the
   same collector bytes.
 - **release-check** (after windows, on pushes to `main` and tags): downloads the release just published (`latest` or
   the tag) and checks on Linux that it has exactly the eleven files, that `SHA256SUMS.txt` has LF line endings, lists

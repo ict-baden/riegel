@@ -16,39 +16,30 @@
   </data>
   <data name="AccountPolicy_ClearTextPassword" xml:space="preserve">
     <value>Enregistrer les mots de passe en utilisant un chiffrement réversible</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_LockoutDurationMin" xml:space="preserve">
-    <value>Durée de verrouillage du compte (minutes)</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Durée de verrouillage des comptes (minutes)</value>
   </data>
   <data name="AccountPolicy_LockoutThreshold" xml:space="preserve">
     <value>Seuil de verrouillage du compte (0 = jamais)</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_LockoutWindowMin" xml:space="preserve">
-    <value>Réinitialiser le compteur de verrouillage du compte après (minutes)</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Réinitialiser le compteur de verrouillages du compte après (minutes)</value>
   </data>
   <data name="AccountPolicy_MaxPwAgeDays" xml:space="preserve">
     <value>Durée de vie maximale du mot de passe (jours)</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_MinPwAgeDays" xml:space="preserve">
     <value>Durée de vie minimale du mot de passe (jours)</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_MinPwLen" xml:space="preserve">
     <value>Longueur minimale du mot de passe</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_PasswordComplexity" xml:space="preserve">
     <value>Le mot de passe doit respecter des exigences de complexité</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_PwHistLen" xml:space="preserve">
     <value>Historique des mots de passe (mots de passe mémorisés)</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AppliesTo_Capability" xml:space="preserve">
     <value>là où le système d'exploitation dispose de {0}</value>
@@ -169,7 +160,6 @@
   </data>
   <data name="Error_RGL0414" xml:space="preserve">
     <value>L'ajustement du périmètre n'est plus en vigueur et le résultat d'origine est inconnu : réévaluez l'export.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0420" xml:space="preserve">
     <value>L'ID {0} est utilisé plusieurs fois.</value>
@@ -239,7 +229,6 @@
   </data>
   <data name="Error_RGL0442" xml:space="preserve">
     <value>Ajustement du périmètre d'une règle de gravité élevée : une exception justifiée ne serait-elle pas préférable ?</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0443" xml:space="preserve">
     <value>La mesure est en retard depuis le {0}.</value>
@@ -354,7 +343,6 @@
   </data>
   <data name="FwProp_AllowLocalRules" xml:space="preserve">
     <value>règles locales appliquées</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="FwProp_DefaultInboundBlock" xml:space="preserve">
     <value>connexions entrantes bloquées par défaut</value>
@@ -363,8 +351,7 @@
     <value>activé</value>
   </data>
   <data name="FwProp_LogDropped" xml:space="preserve">
-    <value>journaliser les paquets ignorés</value>
-    <comment>TODO-übersetzen</comment>
+    <value>enregistrer les paquets ignorés</value>
   </data>
   <data name="InsurerFacts_NotFromMachine" xml:space="preserve">
     <value>Non lisible sur la machine : MFA, sauvegarde des données, segmentation du réseau</value>
@@ -467,7 +454,6 @@
   </data>
   <data name="Role_Builder" xml:space="preserve">
     <value>Constructeur de la machine</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_Operator" xml:space="preserve">
     <value>Exploitant</value>
