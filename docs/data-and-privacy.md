@@ -29,7 +29,9 @@ What Riegel reads, which files it writes, where they live, what personal data th
 
 App, command line and collector contain no network code (a source-scan test fails on `HttpClient`, `WebRequest`,
 `Socket`, `TcpClient` and `Dns` in the shipped projects). Links on the *About* page (website, Impressum, source,
-support) open only `http`/`https` addresses in your browser, through the shell, when you click them. A plant folder
+support, privacy) open only `http`/`https` addresses in your browser, through the shell, when you click them. *Privacy*
+opens Riegel's privacy notice on the ICT-Baden website, <https://ict-baden.de/datenschutz/riegel/>; this page holds the
+details behind it. A plant folder
 may lie on a share; Windows then reads and writes it over SMB as for any file. Files from snapshots, imports or
 baselines are never started.
 
@@ -57,7 +59,7 @@ import.** Riegel converts it into a snapshot at import; the raw bundle never goe
 
 ## Plant folder
 
-The plant folder is the customer's evidence record (spec 7.6). Riegel writes into it only on an explicit action
+The plant folder is the customer's evidence record. Riegel writes into it only on an explicit action
 (import, check with `--plant`, saving a register, approving, a report into `reports\`) and never in auditor mode
 (`--nur-lesen` / *Prüfermodus*).
 

@@ -15,7 +15,13 @@ public static class AppInfo
     public const string Name = "Riegel";
     public const string RepositoryUrl = "https://github.com/ict-baden/riegel";
     public const string SupportUrl = RepositoryUrl + "/blob/main/SUPPORT.md";
-    public const string PrivacyUrl = RepositoryUrl + "/blob/main/docs/data-and-privacy.md";
+
+    /// <summary>
+    /// Datenschutzerklärung von Riegel auf der Webseite (eine Seite je Programm, wie bei den anderen Programmen von
+    /// ICT-Baden). Die Einzelheiten zu jeder Datei und jedem Feld stehen in docs/data-and-privacy.md.
+    /// </summary>
+    public const string PrivacyUrl = "https://ict-baden.de/datenschutz/riegel/";
+
     public const string LicenseUrl = RepositoryUrl + "/blob/main/LICENSE";
 
     /// <summary>
