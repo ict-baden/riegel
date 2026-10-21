@@ -36,9 +36,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4.3.1
         with:
           global-json-file: global.json
 
@@ -108,7 +108,7 @@ jobs:
         if: always()
         # Nur zur Fehlersuche: Ist der Artefaktspeicher der Organisation voll, bleibt der Lauf trotzdem grün
         continue-on-error: true
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: Testergebnisse-linux
           path: TestResults/*.trx
@@ -125,9 +125,9 @@ jobs:
       id-token: write # Anmeldung bei Azure Artifact Signing (OIDC) und Herkunftsnachweis
       attestations: write # Herkunftsnachweis
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4.3.1
         with:
           global-json-file: global.json
 
@@ -170,7 +170,7 @@ jobs:
       - name: Testergebnisse
         if: always()
         continue-on-error: true
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: Testergebnisse-windows
           path: TestResults/*.trx
@@ -256,7 +256,7 @@ jobs:
       # ---- Signieren der Programmdateien (vor dem Packen, damit ZIP und MSI signierte Dateien enthalten) ----
       - name: Bei Azure anmelden
         if: env.SIGN == 'true'
-        uses: azure/login@v3
+        uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -264,7 +264,7 @@ jobs:
 
       - name: Exe signieren (framework)
         if: env.SIGN == 'true'
-        uses: azure/artifact-signing-action@v2
+        uses: azure/artifact-signing-action@c7ab2a863ab5f9a846ddb8265964877ef296ee82 # v2.0.0
         with:
           endpoint: ${{ vars.SIGNING_ENDPOINT }}
           signing-account-name: ${{ vars.SIGNING_ACCOUNT }}
@@ -277,7 +277,7 @@ jobs:
 
       - name: Exe signieren (self-contained, für die MSI)
         if: env.SIGN == 'true'
-        uses: azure/artifact-signing-action@v2
+        uses: azure/artifact-signing-action@c7ab2a863ab5f9a846ddb8265964877ef296ee82 # v2.0.0
         with:
           endpoint: ${{ vars.SIGNING_ENDPOINT }}
           signing-account-name: ${{ vars.SIGNING_ACCOUNT }}
@@ -290,7 +290,7 @@ jobs:
 
       - name: Exe signieren (Einzeldatei Riegel.exe)
         if: env.SIGN == 'true'
-        uses: azure/artifact-signing-action@v2
+        uses: azure/artifact-signing-action@c7ab2a863ab5f9a846ddb8265964877ef296ee82 # v2.0.0
         with:
           endpoint: ${{ vars.SIGNING_ENDPOINT }}
           signing-account-name: ${{ vars.SIGNING_ACCOUNT }}
@@ -303,7 +303,7 @@ jobs:
 
       - name: Exe signieren (riegel-win-x64.exe)
         if: env.SIGN == 'true'
-        uses: azure/artifact-signing-action@v2
+        uses: azure/artifact-signing-action@c7ab2a863ab5f9a846ddb8265964877ef296ee82 # v2.0.0
         with:
           endpoint: ${{ vars.SIGNING_ENDPOINT }}
           signing-account-name: ${{ vars.SIGNING_ACCOUNT }}
@@ -316,7 +316,7 @@ jobs:
 
       - name: Exe signieren (Sammler, vor dem Packen)
         if: env.SIGN == 'true'
-        uses: azure/artifact-signing-action@v2
+        uses: azure/artifact-signing-action@c7ab2a863ab5f9a846ddb8265964877ef296ee82 # v2.0.0
         with:
           endpoint: ${{ vars.SIGNING_ENDPOINT }}
           signing-account-name: ${{ vars.SIGNING_ACCOUNT }}
@@ -383,7 +383,7 @@ jobs:
 
       - name: MSI signieren
         if: env.SIGN == 'true'
-        uses: azure/artifact-signing-action@v2
+        uses: azure/artifact-signing-action@c7ab2a863ab5f9a846ddb8265964877ef296ee82 # v2.0.0
         with:
           endpoint: ${{ vars.SIGNING_ENDPOINT }}
           signing-account-name: ${{ vars.SIGNING_ACCOUNT }}
@@ -495,14 +495,14 @@ jobs:
       - name: Herkunftsnachweis
         # Nur für öffentliche Repos; für private bräuchte es GitHub Enterprise (richtlinien/05)
         if: github.event_name != 'pull_request' && !github.event.repository.private
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
         with:
           subject-path: 'dist/*'
 
       - name: Prüfsummen als Artefakt
         # Klein und nur zur Fehlersuche; die Releases unten nehmen dist/ direkt
         continue-on-error: true
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: Pruefsummen-${{ steps.version.outputs.version }}
           path: |
@@ -528,10 +528,10 @@ jobs:
           $absent = @($expected | Where-Object { $_ -notin $files.Name })
           $extra = @($files.Name | Where-Object { $_ -notin $expected })
           if ($absent.Count -gt 0 -or $extra.Count -gt 0) { throw "Dateien in dist/: fehlen [$($absent -join ', ')], unerwartet [$($extra -join ', ')] – kein Release." }
-          # Release-Text (spec 4.3): Sammler-Version und SHA-256; „unverändert seit“, wenn ältere Tags dieselben Sammler-Bytes hatten
+          # Release-Text (spec 4.3, Englisch): Sammler-Version und SHA-256; „unchanged since“, wenn ältere Tags dieselben Sammler-Bytes hatten
           $hash = '${{ steps.collector.outputs.sha256 }}'
-          $signed = if ($env:SIGN -eq 'true') { 'signiert' } else { 'noch nicht signiert – kein Kundenpilot auf OT- oder validierten Rechnern' }
-          $notes = "Sammler ${{ steps.version.outputs.collector }}, SHA-256 (unsigniert) $hash. Programme $signed."
+          $signed = if ($env:SIGN -eq 'true') { 'signed' } else { 'not yet code-signed – no customer pilot on OT or validated machines yet' }
+          $notes = "Collector ${{ steps.version.outputs.collector }}, SHA-256 (unsigned) $hash. Programs $signed."
           try {
             git fetch --quiet --depth=1 origin '+refs/tags/v*:refs/tags/v*'
             $current = [version](($env:GITHUB_REF_NAME -replace '^v', '') -replace '[-+].*$', '')
@@ -544,11 +544,20 @@ jobs:
               if ((git show "${tag}:$lock" | Out-String).Trim().ToLower() -ne $hash) { break }
               $since = $tag
             }
-            if ($since) { $notes += " Sammler unverändert seit $since." }
+            if ($since) { $notes += " Collector unchanged since $since." }
           } catch {
             Write-Host "::warning::Vergleich des Sammlers mit älteren Tags nicht möglich: $_"
           }
-          $notes += "`n`nFür OT- und validierte Rechner diese Tag-Releases nehmen, nie 'latest'. Prüfsummen: SHA256SUMS.txt (sha256sum -c). Änderungen: CHANGELOG.md.`n"
+          $notes += "`n`nOn OT and validated machines use these tagged releases, never 'latest'. Checksums: SHA256SUMS.txt (sha256sum -c). Changes: CHANGELOG.md.`n`n" +
+                    "- **$env:APP$s-x64.msi**: evaluation app for all users (Intune/GPO) – not the way onto OT machines`n" +
+                    "- **$env:APP.exe**: desktop app as a single file, no installation, no .NET runtime needed`n" +
+                    "- **$env:APP$s-win-x64-framework.zip**: small variant with Riegel.Cli.exe and collector\, needs the .NET 10 Desktop Runtime`n" +
+                    "- **riegel$s-win-x64.exe**: command line for Windows as a single file (scripts, scheduled checks)`n" +
+                    "- **riegel$s-linux-x64** / **riegel$s-linux-arm64**: command line for Linux (auditors, CI); arm64 without runtime test`n" +
+                    "- **Riegel-Collector$s.zip**: portable collector for OT and legacy machines (Windows 7 SP1 to 11), installs nothing`n" +
+                    "- Riegel-Collector-allowlist$s.zip: AppLocker data for the collector`n" +
+                    "- Riegel-Collector-ReadOnlyProof$s.txt: read-only proof of this build`n" +
+                    "- $env:APP$s-sbom.cdx.json: bill of materials (CycloneDX)`n
           Write-Host $notes
           gh release create $env:GITHUB_REF_NAME $files.FullName --title "$env:APP $env:GITHUB_REF_NAME" --notes $notes --generate-notes @pre
           if ($LASTEXITCODE -ne 0) { throw "Release ließ sich nicht anlegen ($LASTEXITCODE)" }
@@ -562,20 +571,20 @@ jobs:
           # Rollierendes Release: immer der neueste main-Stand, unter festen Links (Einzelheiten im Skript)
           $base = "https://github.com/$env:GITHUB_REPOSITORY/releases/download/latest"
           $built = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd HH:mm')
-          $signed = if ($env:SIGN -eq 'true') { 'signiert' } else { 'noch nicht signiert' }
-          $collector = "Sammler ${{ steps.version.outputs.collector }}, SHA-256 (unsigniert) ${{ steps.collector.outputs.sha256 }}"
-          $notes = "Automatischer Build von main ($($env:GITHUB_SHA.Substring(0,7))), Version ${{ steps.version.outputs.version }}, gebaut $built UTC, $signed. $collector.`n`n" +
-                   "Die Links bleiben gleich und zeigen immer auf den neuesten Build. Für OT- und validierte Rechner bitte Tag-Releases nehmen, nie 'latest'.`n`n" +
-                   "- **[$env:APP-x64.msi]($base/$env:APP-x64.msi)**: Auswerte-App für alle Benutzer (Intune/GPO) – nicht der Weg auf OT-Rechner`n" +
-                   "- **[$env:APP.exe]($base/$env:APP.exe)**: Oberfläche als eine Datei, ohne Installation und ohne .NET-Runtime`n" +
-                   "- **[$env:APP-win-x64-framework.zip]($base/$env:APP-win-x64-framework.zip)**: kleine Variante mit Riegel.Cli.exe und collector\, braucht die .NET 10 Desktop Runtime`n" +
-                   "- **[riegel-win-x64.exe]($base/riegel-win-x64.exe)**: Befehlszeile für Windows als eine Datei (Skripte, geplante Prüfungen)`n" +
-                   "- **[riegel-linux-x64]($base/riegel-linux-x64)** / **[riegel-linux-arm64]($base/riegel-linux-arm64)**: Befehlszeile für Linux (Prüfer, CI); arm64 ohne Laufzeittest`n" +
-                   "- **[Riegel-Collector.zip]($base/Riegel-Collector.zip)**: portabler Sammler für OT- und Alt-Rechner (Windows 7 SP1 bis 11), installiert nichts`n" +
-                   "- [Riegel-Collector-allowlist.zip]($base/Riegel-Collector-allowlist.zip): AppLocker-Daten des Sammlers`n" +
-                   "- [Riegel-Collector-ReadOnlyProof.txt]($base/Riegel-Collector-ReadOnlyProof.txt): Nur-Lesen-Nachweis dieses Builds`n" +
-                   "- [Riegel-sbom.cdx.json]($base/Riegel-sbom.cdx.json): Stückliste der Bestandteile (CycloneDX)`n" +
-                   "- [SHA256SUMS.txt]($base/SHA256SUMS.txt): Prüfsummen"
+          $signed = if ($env:SIGN -eq 'true') { 'signed' } else { 'not yet code-signed' }
+          $collector = "Collector ${{ steps.version.outputs.collector }}, SHA-256 (unsigned) ${{ steps.collector.outputs.sha256 }}"
+          $notes = "Automatic pre-release build of main ($($env:GITHUB_SHA.Substring(0,7))), version ${{ steps.version.outputs.version }}, built $built UTC, $signed. $collector.`n`n" +
+                   "The links stay the same and always point to the newest build. On OT and validated machines use the tagged releases, never 'latest'.`n`n" +
+                   "- **[$env:APP-x64.msi]($base/$env:APP-x64.msi)**: evaluation app for all users (Intune/GPO) – not the way onto OT machines`n" +
+                   "- **[$env:APP.exe]($base/$env:APP.exe)**: desktop app as a single file, no installation, no .NET runtime needed`n" +
+                   "- **[$env:APP-win-x64-framework.zip]($base/$env:APP-win-x64-framework.zip)**: small variant with Riegel.Cli.exe and collector\, needs the .NET 10 Desktop Runtime`n" +
+                   "- **[riegel-win-x64.exe]($base/riegel-win-x64.exe)**: command line for Windows as a single file (scripts, scheduled checks)`n" +
+                   "- **[riegel-linux-x64]($base/riegel-linux-x64)** / **[riegel-linux-arm64]($base/riegel-linux-arm64)**: command line for Linux (auditors, CI); arm64 without runtime test`n" +
+                   "- **[Riegel-Collector.zip]($base/Riegel-Collector.zip)**: portable collector for OT and legacy machines (Windows 7 SP1 to 11), installs nothing`n" +
+                   "- [Riegel-Collector-allowlist.zip]($base/Riegel-Collector-allowlist.zip): AppLocker data for the collector`n" +
+                   "- [Riegel-Collector-ReadOnlyProof.txt]($base/Riegel-Collector-ReadOnlyProof.txt): read-only proof of this build`n" +
+                   "- [Riegel-sbom.cdx.json]($base/Riegel-sbom.cdx.json): bill of materials (CycloneDX)`n" +
+                   "- [SHA256SUMS.txt]($base/SHA256SUMS.txt): checksums"
           $expected = 'Riegel-x64.msi', 'Riegel.exe', 'Riegel-win-x64-framework.zip', 'riegel-win-x64.exe', 'riegel-linux-x64', 'riegel-linux-arm64',
                       'Riegel-Collector.zip', 'Riegel-Collector-allowlist.zip', 'Riegel-Collector-ReadOnlyProof.txt', 'Riegel-sbom.cdx.json', 'SHA256SUMS.txt'
           ./.github/scripts/release-latest.ps1 -Notes $notes -Title "Latest Build (main) – ${{ steps.version.outputs.version }}" -Expected $expected
