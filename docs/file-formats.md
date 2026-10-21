@@ -13,8 +13,7 @@
 [Error codes](#error-codes) · [Contract reference](#contract-reference)
 
 This page is the reference for every file Riegel reads or writes and for the public contract types in
-`src/Riegel.Core/Model` and `src/Riegel.Core/Services`. The binding product specification is the source; this page
-records the concrete formats the scaffold fixed. JSON Schemas (2020-12) for every format are in [`schemas/`](../schemas/).
+`src/Riegel.Core/Model` and `src/Riegel.Core/Services`. JSON Schemas (2020-12) for every format are in [`schemas/`](../schemas/).
 A change to a contract updates this page, the schema and the tests together.
 
 ## Conventions
@@ -596,13 +595,13 @@ and `Riegel.Core.Samples.SampleData` for deterministic report data.
 
 Codes are `RGL-nnnn`; texts are localised, the code stays (guideline 13). Ranges, each with its class:
 
-| Range | Class (folder) | Owner |
+| Range | Class (folder) | Area |
 |---|---|---|
-| 0001–0099 | `RglCodesCommon` (Riegel.Core/Model) | scaffold |
+| 0001–0099 | `RglCodesCommon` (Riegel.Core/Model) | core |
 | 0100–0199 | `RglCodesCollector` (Riegel.Collector/Collection) | collector |
 | 0200–0249 | `RglCodesEngine` (Riegel.Core/Evaluation) | engine |
 | 0250–0299 | `RglCodesParsing` (Riegel.Core/Parsing) | parsing |
-| 0300–0399 | `RglCodesCatalogue` (tools/RuleTool) | rules-a/b/c |
+| 0300–0399 | `RglCodesCatalogue` (tools/RuleTool) | rules |
 | 0400–0449 | `RglCodesWorkflow` (Riegel.Core/Plants) | workflow |
 | 0450–0499 | `RglCodesCli` (Riegel.Commands) | cli |
 | 0500–0549 | `RglCodesPdf` (Riegel.Core/Reports/Pdf) | pdf |

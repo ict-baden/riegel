@@ -42,7 +42,7 @@ only `OutDir` and `PdfA`.
 
 ## Plant report (O4)
 
-Layout as in the product specification, section 5:
+Layout:
 
 1. **Cover** – product line, title of the preset, plant, tagline; the banners (see below); a key/value block with
    plant, description, scope (number of machines and the first eight host names), evaluation date, report ID and

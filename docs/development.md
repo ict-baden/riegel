@@ -286,9 +286,12 @@ Releases never depend on artifacts (the organisation's artifact storage may be f
 
 ## Releases
 
-1. `CHANGELOG.md`: rename "Unveröffentlicht" to `## [x.y.z] – <date>`; `Directory.Build.props` `<Version>`; the
-   collector version and hash when the collector changes. The catalogue version is not a release step: it changes
-   with every change to the catalogue (below).
+1. `CHANGELOG.md`: rename "Unveröffentlicht" to `## [x.y.z] – <date>` and end the section with `### English` – that
+   part (with `####` subheadings) is the text of the GitHub release, written by `.github/scripts/release-notes.ps1`
+   together with the collector hash and the file list; the tag build stops before building if it is missing.
+   `Directory.Build.props` `<Version>`; the collector version and hash when the collector changes; versioned file
+   names in README and docs examples (`ReleaseNotesTests` checks them against the newest section). The catalogue
+   version is not a release step: it changes with every change to the catalogue (below).
 2. Push `main`, wait for a green build (it updates `latest`; release-check verifies it), check the asset list.
 3. `git tag vX.Y.Z && git push origin vX.Y.Z`: the tag build creates the release with the versioned file names, and
    release-check verifies it.

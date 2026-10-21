@@ -11,8 +11,7 @@
 
 This page explains, without program code, how the Riegel engine turns a snapshot (the raw facts a collector wrote on a
 machine) into one result per rule. It is written for auditors, quality assurance and anyone who has to sign a Riegel
-report. The binding product specification is section 2.3–2.8 of the project specification; this page describes how
-the engine implements it. File formats are in [file-formats.md](file-formats.md).
+report. File formats are in [file-formats.md](file-formats.md).
 
 ## In one paragraph
 
@@ -172,7 +171,7 @@ false, signature age 65535) for a Defender that is running. A missing Defender W
 | absent | no | fail | DEF-09 fail; a single ASR rule not applicable |
 | unknown, or third party unknown | – | not checkable | not checkable |
 
-"Off" with an active third-party antivirus is not in the specification's table; it is treated like passive. Whether a
+"Off" with an active third-party antivirus is not covered by the table above; it is treated like passive. Whether a
 third-party antivirus is active comes from the documented Windows Security Center API first; only when that is not
 available from the `root\SecurityCenter2` WMI class, whose `productState` encoding Microsoft does not document – such
 results carry the flag **Heuristic**. The rule for the ASR distinction: an ASR check fails on an absent Defender only

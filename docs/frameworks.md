@@ -78,7 +78,7 @@ requirements in this version, because the standard text is not freely available.
 
 ## Sources
 
-Seen on 2026-10-18 (from the product specification's source list):
+Seen on 2026-10-18:
 
 - Implementing Regulation (EU) 2024/2690 – https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R2690
 - ENISA NIS2 Technical Implementation Guidance v1.0, section 6.3 –

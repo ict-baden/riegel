@@ -54,10 +54,10 @@ Collector and Windows platform.
 | `RGL-0113` | ElevationCancelled | Elevation was cancelled. Nothing was collected. |
 | `RGL-0114` | ElevationFailed | Riegel could not be started with administrator rights (error {0}). |
 | `RGL-0115` | HandoffNoSnapshot | The elevated collection ended without an export in the hand-over folder. |
-| `RGL-0116` | HandoffDifferentProfile | The elevated collection ran under a different account ("over the shoulder"), so its export landed in that account's profile. Open a command prompt with "Run as administrator" as that account, run Riegel.Cli.exe collect --out <folder> and import the file. |
+| `RGL-0116` | HandoffDifferentProfile | The elevated collection ran under a different account ("over the shoulder"), so its export landed in that account's profile. Open a command prompt with "Run as administrator" as that account, run Riegel.Cli.exe collect --out &lt;folder&gt; and import the file. |
 | `RGL-0120` | ShellOpenRefused | Riegel only opens files it created (PDF, Excel, CSV, JSON, text, ZIP), folders and http/https links: {0} |
 | `RGL-0121` | ShellOpenFailed | Could not open {0} (error {1}). |
-| `RGL-0130` | CollectorBundleMissing | The collector package is missing next to the app ({0}). The single-file Riegel.exe does not contain it: use the collector package Riegel-Collector-<version>.zip from the release instead. |
+| `RGL-0130` | CollectorBundleMissing | The collector package is missing next to the app ({0}). The single-file Riegel.exe does not contain it: use the collector package Riegel-Collector-&lt;version&gt;.zip from the release instead. |
 | `RGL-0131` | CollectorBundleTargetExists | The target folder already contains {0}. Choose an empty folder. |
 | `RGL-0140` | CollectionFailed | Collecting this PC failed ({0}). |
 
@@ -231,14 +231,14 @@ Command line.
 | `RGL-0458` | ReadOnlyNeedsOut | Read-only mode: nothing is written into the plant folder – give an output folder with --out. |
 | `RGL-0459` | NoRuns | No run for machine {0} in this plant. Import or check a snapshot first. |
 | `RGL-0460` | NoApprovedState | Machine {0} has no approved state. Approve a run first with approve --machine {0}. |
-| `RGL-0461` | NoImports | No import record {0} in this plant. Import exports first: import <file> --plant <folder>. |
+| `RGL-0461` | NoImports | No import record {0} in this plant. Import exports first: import &lt;file&gt; --plant &lt;folder&gt;. |
 | `RGL-0462` | UnknownEntries | Not in the register: {0}. Nothing was changed. |
 | `RGL-0463` | UnknownRule | Unknown rule: {0}. |
 | `RGL-0464` | BaselineNotFound | Baseline {0} is not in this plant folder. |
 | `RGL-0465` | SidecarMismatch | {0}: the SHA-256 does not match its .sha256 file (expected {1}, actual {2}). The export was changed or damaged; Riegel does not use it. |
-| `RGL-0466` | ReviewDateMissing | {0} has no review date. Give one with --review-by <yyyy-MM-dd>. |
+| `RGL-0466` | ReviewDateMissing | {0} has no review date. Give one with --review-by &lt;yyyy-MM-dd&gt;. |
 | `RGL-0467` | RunOfOtherMachine | Run {0} belongs to machine {1}, not to {2}. |
-| `RGL-0468` | PlantNotFound | No plant folder at {0} (riegel-plant.json is missing). Create one with plant init <folder> --name <name>. |
+| `RGL-0468` | PlantNotFound | No plant folder at {0} (riegel-plant.json is missing). Create one with plant init &lt;folder&gt; --name &lt;name&gt;. |
 | `RGL-0469` | Cancelled | Cancelled. |
 | `RGL-0470` | NoExportsInFolder | The folder {0} is not a built-in-commands bundle and contains no exports (*.snapshot.json, *.snapshot.json.gz). |
 | `RGL-0471` | UnknownTemplate | No template file and no built-in template named {0}. Built-in: {1}. |

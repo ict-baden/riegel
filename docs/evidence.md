@@ -255,7 +255,7 @@ catalogue differs from the released catalogue of the same version · 0573 catalo
 
 ## Sources
 
-- `SHA256SUMS.txt` and the `.sha256` sidecars use the sha256sum line format that the scaffold fixed for snapshot
+- `SHA256SUMS.txt` and the `.sha256` sidecars use the sha256sum line format used for snapshot
   sidecars (`SnapshotFile.SidecarLine`, [file formats](file-formats.md)). Checked on 2026-10-18: a pack written by
   this package, unpacked into a scratch folder, passes `sha256sum -c SHA256SUMS.txt` (GNU coreutils 8.32, Git for
   Windows) for every file, and `sha256sum -c` accepts each snapshot sidecar.

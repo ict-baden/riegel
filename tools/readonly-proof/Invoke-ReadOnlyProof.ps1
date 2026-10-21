@@ -9,21 +9,23 @@
     (Pfad, Name, Zustand), FwPolicy2 und den Hash von Registry.pol.
 
     Ablauf:
-      1. Zustand S0, dann jedes Ziel einmal zum Aufwaermen (Erstlauf-Effekte wie ein von Windows per Trigger
-         gestarteter Dienst werden hier sichtbar und aufgelistet).
-      2. Kalibrierung: Nulllauf ohne Sammler; was sich dabei von selbst aendert, wird ausgeschlossen und genannt.
+      1. Zustand S0, dann jedes Ziel einmal zum Aufwaermen.
+      2. Kalibrierung: Nulllauf ohne Sammler. Einstellungen, die sich dabei von selbst aendern, werden ausgeschlossen
+         und gemeldet; Laufzustaende von Diensten nur genannt (sie werden trotzdem bewertet).
       3. Je Ziel ein gemessener Lauf mit Vorher/Nachher, den dabei entstandenen Ereignis-IDs des
-         Sicherheitsprotokolls, gestarteten Kindprozessen und den Defender-Erkennungen.
-      4. Wiederholung: Ein Dienst, der in einem gemessenen Lauf ohne Starttrigger seinen Laufzustand wechselte, wird
-         bis zu dreimal nachgeprueft - jeweils erst, wenn er wieder im alten Zustand ist. Kehrt der Wechsel wieder oder
-         laesst sich nicht wiederholen, scheitert der Nachweis; nur ein nicht reproduzierbarer Wechsel gilt als
-         Hintergrund (auf windows-2025 startet Windows VSS und swprv etwa 11 Minuten nach dem Boot selbst).
-    Eine geplante Aufgabe, die sich aendert, gilt nur dann als Windows, wenn das Sicherheitsprotokoll (4698-4702) die
-    Aenderung einem Prozess ausserhalb des Prozessbaums der Laeufe zuschreibt (z. B. taskhostw.exe, wenn
-    PrintJobCleanupTask sich nach ihrem Lauf selbst abschaltet); sonst scheitert der Nachweis.
-    Jede andere Abweichung einer Einstellung (in jeder Phase) und jede nicht kalibrierte Abweichung eines gemessenen
-    Laufs laesst den Nachweis scheitern (Exitcode 1). Der Text geht nach -Out (UTF-8, LF). Begruendung und Belege:
-    docs/collector.md, Abschnitt "How the proof tells the collector from Windows".
+         Sicherheitsprotokolls, gestarteten Kindprozessen und den Defender-Erkennungen; danach eine zweite Kalibrierung.
+      4. Wiederholung: Jeder Wechsel eines Dienst-Laufzustands (beim Aufwaermen oder in einem gemessenen Lauf), den
+         Windows nicht nach seiner Bauart selbst vornimmt (Starttrigger, Wartungsdienste, Leerlauf-Ende eines
+         Bedarfsdienstes), wird nachgeprueft: jedes Ziel noch dreimal, jeweils erst, wenn der Dienst wieder im alten
+         Zustand ist, danach 20 s Beobachtung. Jede erneute Abweichung und jeder Dienst, der nicht zurueckkehrt, laesst
+         den Nachweis scheitern; nur ein Wechsel, den kein Ziel wiederholt, gilt als Windows (auf windows-2025 startet
+         Windows VSS und swprv 11 bis 13 Minuten nach dem Boot selbst).
+    Eine geplante Aufgabe, die sich aendert, gilt nur als Windows, wenn die Aenderung in $knownTaskChanges steht und das
+    Sicherheitsprotokoll (4698-4702) sie dem dort genannten Programm ausserhalb aller Laeufe zuschreibt (PrintJobCleanup-
+    Task schaltet sich nach ihrem Lauf selbst ab, 4701 von taskhostw.exe); sonst scheitert der Nachweis.
+    Jede andere Abweichung einer Einstellung (in jeder Phase, auch waehrend der Wiederholungen) laesst den Nachweis
+    scheitern (Exitcode 1). Der Text geht nach -Out (UTF-8, LF). Regeln und Belege: docs/collector.md, Abschnitt
+    "How the proof tells the collector from Windows".
 
 .PARAMETER Target
     collector, deep (--deep), minimal (--minimal, darf keinen Prozess starten), cli (Riegel.Cli.exe collect),
@@ -231,23 +233,30 @@ function Invoke-Traced([string] $target, [string] $outDir) {
     $run | Add-Member -NotePropertyMembers @{ Tree = $tree; Children = $children.ToArray(); Start = $start; End = $end } -PassThru
 }
 
-# Name eines Prozesses: laufend (Get-Process) oder aus seinem Ereignis 4688 der letzten zwei Stunden
-function Get-ProcessLabel([int] $id) {
-    $p = Get-Process -Id $id -ErrorAction SilentlyContinue
-    if ($p) { return "$($p.ProcessName).exe ($id)" }
-    try {
-        foreach ($e in @(Get-WinEvent -FilterHashtable @{ LogName = 'Security'; Id = 4688; StartTime = (Get-Date).AddHours(-2) } -ErrorAction Stop)) {
-            $d = @{}
-            foreach ($n in ([xml] $e.ToXml()).Event.EventData.Data) { $d[$n.Name] = $n.InnerText }
-            try { if ([Convert]::ToInt32($d['NewProcessId'], 16) -eq $id) { return "$([IO.Path]::GetFileName([string] $d['NewProcessName'])) ($id)" } } catch { }
-        }
-    } catch { }
-    return "process $id"
+# Aenderungen geplanter Aufgaben, die Windows selbst vornimmt (Belege in docs/collector.md): Aufgabe, Art der Aenderung,
+# Ereignis-ID und das Programm, das sie laut Sicherheitsprotokoll vornimmt. Nur diese werden entschuldigt.
+$knownTaskChanges = @(
+    # Server 2025: die Aufgabe schaltet sich nach ihrem ersten Lauf selbst ab (4701 vom Aufgabenhost taskhostw.exe)
+    [pscustomobject]@{ Task = '\Microsoft\Windows\Printing\PrintJobCleanupTask'; Key = 'State'; Before = 'enabled'; After = 'disabled'; Event = 4701; Image = 'taskhostw.exe' }
+)
+
+# Programm einer PID zum Zeitpunkt $at: das juengste Ereignis 4688 mit dieser PID davor (PIDs werden wiederverwendet);
+# $null ohne Ereignis (Prozessueberwachung aus oder Prozess aelter als zwei Stunden)
+function Get-ImageAt([int] $id, [datetime] $at) {
+    try { $events = @(Get-WinEvent -FilterHashtable @{ LogName = 'Security'; Id = 4688; StartTime = $at.AddHours(-2); EndTime = $at } -ErrorAction Stop) }
+    catch { return $null }
+    # Get-WinEvent liefert die neuesten Ereignisse zuerst
+    foreach ($e in $events) {
+        $d = @{}
+        foreach ($n in ([xml] $e.ToXml()).Event.EventData.Data) { $d[$n.Name] = $n.InnerText }
+        try { if ([Convert]::ToInt32($d['NewProcessId'], 16) -eq $id) { return [IO.Path]::GetFileName([string] $d['NewProcessName']) } } catch { }
+    }
+    return $null
 }
 
 # Wer hat eine geplante Aufgabe geaendert? Sicherheitsprotokoll 4698 (angelegt), 4699 (geloescht), 4700 (aktiviert),
-# 4701 (deaktiviert), 4702 (geaendert) mit ClientProcessId (Windows 10 1809 / Server 2019 und neuer, wenn "Andere
-# Objektzugriffsereignisse" ueberwacht werden). Ergebnis: je Ereignis Id, Pid (0 = nicht protokolliert) und Name.
+# 4701 (deaktiviert), 4702 (geaendert) mit ClientProcessId und ParentProcessId (Windows 10 1809 / Server 2019 und neuer,
+# wenn "Andere Objektzugriffsereignisse" ueberwacht werden); 0 = nicht protokolliert.
 function Get-TaskChangers([string] $taskPath, [datetime] $from, [datetime] $to) {
     try { $events = @(Get-WinEvent -FilterHashtable @{ LogName = 'Security'; Id = 4698, 4699, 4700, 4701, 4702; StartTime = $from; EndTime = $to } -ErrorAction Stop) }
     catch { return @() }
@@ -257,21 +266,38 @@ function Get-TaskChangers([string] $taskPath, [datetime] $from, [datetime] $to) 
         if ([string] $d['TaskName'] -ne $taskPath) { continue }
         $client = 0
         [void] [int]::TryParse([string] $d['ClientProcessId'], [ref] $client)
-        [pscustomobject]@{ Id = $e.Id; Pid = $client; Name = $(if ($client) { Get-ProcessLabel $client } else { 'no ClientProcessId' }) }
+        $parent = 0
+        [void] [int]::TryParse([string] $d['ParentProcessId'], [ref] $parent)
+        $image = if ($client) { Get-ImageAt $client $e.TimeCreated } else { $null }
+        $who = if ($image) { "$image ($client)" } elseif ($client) { "process $client (no event 4688)" } else { 'no ClientProcessId' }
+        [pscustomobject]@{ Id = $e.Id; Pid = $client; Parent = $parent; Image = $image; Label = "event $($e.Id) by $who" }
     }
 }
 
-# Aenderung einer geplanten Aufgabe ($key task:<Pfad>[:State]) im Fenster: ByWindows, wenn das Sicherheitsprotokoll sie
-# nur Prozessen ausserhalb von $trees zuschreibt; Text nennt die Ereignisse und Prozesse (leer: nichts protokolliert)
-function Get-TaskChange([string] $key, [datetime] $from, [datetime] $to, $trees) {
+# Aenderung einer geplanten Aufgabe ($key task:<Pfad>[:State], Werte vorher/nachher) im Fenster: ByWindows nur, wenn jedes
+# Ereignis dazu in $knownTaskChanges steht und weder der Client- noch dessen Elternprozess zu einem Lauf gehoert.
+# Text nennt die Ereignisse und Programme (leer: nichts protokolliert - dann zaehlt die Aenderung).
+function Get-TaskChange([string] $key, [string] $before, [string] $after, [datetime] $from, [datetime] $to, $trees) {
     $path = $key.Substring(5) -replace ':State$', ''
+    $kind = if ($key -like '*:State') { 'State' } else { 'present' }
     $changers = @(Get-TaskChangers $path $from $to)
     $byWindows = $changers.Count -gt 0
     foreach ($c in $changers) {
-        if ($c.Pid -eq 0) { $byWindows = $false }
-        foreach ($t in $trees) { if ($t.Contains([int] $c.Pid)) { $byWindows = $false } }
+        $known = @($knownTaskChanges | Where-Object { $_.Task -eq $path -and $_.Key -eq $kind -and $_.Before -eq $before -and $_.After -eq $after -and
+                                                      $_.Event -eq $c.Id -and $c.Image -and $_.Image -eq $c.Image })
+        if ($c.Pid -eq 0 -or $known.Count -eq 0) { $byWindows = $false }
+        foreach ($t in $trees) { if ($t.Contains([int] $c.Pid) -or ($c.Parent -and $t.Contains([int] $c.Parent))) { $byWindows = $false } }
     }
-    [pscustomobject]@{ ByWindows = $byWindows; Text = (($changers | ForEach-Object { "event $($_.Id) by $($_.Name)" } | Sort-Object -Unique) -join ', ') }
+    [pscustomobject]@{ ByWindows = $byWindows; Text = (@($changers | ForEach-Object Label | Sort-Object -Unique) -join ', ') }
+}
+
+# Beurteilt eine geaenderte Aufgabe: $true, wenn sie als Aenderung von Windows aufgefuehrt wurde; sonst nennt sie die
+# Ereignisse und der Aufrufer zaehlt sie als Fehler
+function Test-TaskChangeByWindows([string] $key, $before, $after, [datetime] $from, [datetime] $to, $trees, [string] $label) {
+    $change = Get-TaskChange $key ([string] $before[$key]) ([string] $after[$key]) $from $to $trees
+    if ($change.ByWindows) { Line "  scheduled task changed by Windows (Security log: $($change.Text); a known change, not a process of the runs): $label$(Describe $before $after $key)"; return $true }
+    Line "  scheduled task changed; Security log: $(if ($change.Text) { "$($change.Text) - not a known change by Windows, or a process of the runs" } else { 'no event 4698-4702 for it' })"
+    return $false
 }
 
 function Test-OutputFolder([string] $target, [string] $dir) {
@@ -319,6 +345,28 @@ $detectionsBefore = @(try { Get-MpThreatDetection } catch { @() }).Count
 $s0 = Get-RunnerState
 $wu0 = "$($s0['svc:wuauserv:StartMode'])/$($s0['svc:wuauserv:State'])"
 
+# Regeln fuer den Laufzustand eines Dienstes (nicht wuauserv): Text, wenn Windows den Wechsel nach seiner Bauart selbst
+# vornimmt (aufgefuehrt, nicht gezaehlt), sonst $null - dann entscheidet die Wiederholung
+function Get-ServiceRule([string] $key, $before, $after) {
+    $name = $key.Split(':')[1]
+    $modeKey = "svc:$($name):StartMode"
+    if ($before[$modeKey] -ne $after[$modeKey]) { return $null }
+    # Starttrigger (sc qtriggerinfo): Windows startet den Dienst bei Bedarf, z. B. gpsvc, wenn gpresult ihn anspricht
+    if (Test-TriggerStart $name) { return 'on-demand start/stop by Windows (service has a start trigger, StartMode unchanged)' }
+    # Wartungsdienste von Windows Update und Windows Installer: Windows startet und beendet sie nach eigenem Zeitplan
+    if ($name -in 'WaaSMedicSvc', 'UsoSvc', 'TrustedInstaller') { return 'Windows servicing service changed state on its own (StartMode unchanged; listed, not counted)' }
+    # Bedarfsdienst, den Windows im Leerlauf beendet
+    if ([string] $before[$key] -eq 'Running' -and [string] $after[$key] -eq 'Stopped' -and [string] $after[$modeKey] -eq 'Manual') {
+        return 'demand-start service ended by Windows when idle (StartMode Manual, unchanged)'
+    }
+    return $null
+}
+function Get-ServiceState([string] $key) {
+    $svc = Get-CimInstance Win32_Service -Filter "Name='$($key.Split(':')[1])'" -Property State -ErrorAction SilentlyContinue
+    if ($null -eq $svc) { return 'absent' }
+    return [string] $svc.State
+}
+
 # 1. Aufwaermen
 $longest = 0
 $warmFrom = Get-Date
@@ -326,38 +374,30 @@ $warmTrees = [Collections.Generic.List[object]]::new()
 $allTrees = [Collections.Generic.List[object]]::new() # Prozessbaeume aller Laeufe (Zuordnung von Aufgabenaenderungen)
 foreach ($t in $Target) {
     $run = Invoke-Traced $t (Join-Path $work "warmup-$t")
-    $warmTrees.Add($run.Tree)
-    $warmTrees.Add((Get-ChildrenFromSecurityLog $run.Start $run.End $run.Pid).Pids)
-    $allTrees.Add($run.Tree)
+    $logged = Get-ChildrenFromSecurityLog $run.Start $run.End $run.Pid
+    foreach ($tree in $run.Tree, $logged.Pids) { $warmTrees.Add($tree); $allTrees.Add($tree) }
     $longest = [Math]::Max($longest, $run.Ms)
 }
 $s1 = Get-RunnerState
 $warmTo = Get-Date
-$warmCandidates = [Collections.Generic.List[string]]::new()
+# Dienstwechsel, die die Wiederholung (4.) prueft: Target, Key, Text, Before, After
+$recheck = [Collections.Generic.List[object]]::new()
 Line '== Warm-up (first run of every target)'
 foreach ($key in @(Compare-State $s0 $s1)) {
     $text = Describe $s0 $s1 $key
-    if ($key -like 'task:*') {
-        $change = Get-TaskChange $key $warmFrom $warmTo $warmTrees
-        if ($change.ByWindows) { Line "  scheduled task changed by Windows (Security log: $($change.Text); not a process of the runs): $text"; continue }
-        Line "  scheduled task changed; Security log: $(if ($change.Text) { "$($change.Text) - a process of the runs or not attributable" } else { 'no event 4698-4702 for it' })"
-    }
+    if ($key -like 'task:*' -and (Test-TaskChangeByWindows $key $s0 $s1 $warmFrom $warmTo $warmTrees '')) { continue }
     if (-not (Test-Runtime $key)) { Fail "configuration changed during warm-up: $text"; continue }
-    # Laufzustaende im (nicht kalibrierten) Aufwaermen: aufgelistet; Starts ohne Trigger prueft die Wiederholung
-    $name = $key.Split(':')[1]
-    if ($name -eq 'wuauserv') { Line "  note (V1, see the measured runs): $text"; continue }
-    if (Test-TriggerStart $name) { Line "  on-demand start/stop by Windows (service has a start trigger, StartMode unchanged): $text"; continue }
-    if ($name -in 'WaaSMedicSvc', 'UsoSvc', 'TrustedInstaller' -and -not (Compare-State $s0 $s1 | Where-Object { $_ -eq "svc:$($name):StartMode" })) {
-        Line "  Windows servicing service changed state on its own (StartMode unchanged; listed, not counted): $text"; continue
-    }
-    if ([string] $s1[$key] -eq 'Stopped') { Line "  service stopped during warm-up (a reading program cannot stop a service; listed): $text"; continue }
-    # Ein Start beim Aufwaermen ist im gemessenen Lauf unsichtbar, solange der Dienst noch laeuft: Wiederholung unten
-    Line "  service started without a start trigger (judged by repetition below): $text"
-    $warmCandidates.Add($key)
+    if ($key -eq 'svc:wuauserv:State') { Line "  note (V1, see the measured runs): $text"; continue }
+    $rule = Get-ServiceRule $key $s0 $s1
+    if ($rule) { Line "  $rule`: $text"; continue }
+    # Ein Wechsel beim Aufwaermen ist im gemessenen Lauf unsichtbar, solange er anhaelt: die Wiederholung prueft ihn
+    Line "  service state changed (judged by repetition below): $text"
+    $recheck.Add([pscustomobject]@{ Target = 'warm-up'; Key = $key; Text = $text; Before = [string] $s0[$key]; After = [string] $s1[$key] })
 }
 Line ''
 
-# 2. Kalibrierung
+# 2. Kalibrierung: Einstellungen, die sich von selbst aendern, werden ausgeschlossen (mit Warnung). Ein Dienst, der sich
+# hier aendert, kann ebenso eine spaete Folge des Aufwaermens sein: ohne Regel prueft ihn die Wiederholung
 $pause = [Math]::Max(30000, 2 * $longest)
 $calStart = Get-Date
 Start-Sleep -Milliseconds $pause
@@ -367,8 +407,13 @@ $excluded = @(Compare-State $s1 $s2)
 Line "== Calibration (null run, $([Math]::Round($pause / 1000)) s without the collector)"
 if ($excluded.Count -eq 0) { Line '  nothing changed on its own' }
 foreach ($key in $excluded) {
-    Line "  excluded (changes on its own): $(Describe $s1 $s2 $key)"
-    if (-not (Test-Runtime $key)) { Line "  WARNING: a configuration value changes on its own on this runner: $key" }
+    $text = Describe $s1 $s2 $key
+    if (-not (Test-Runtime $key)) { Line "  excluded (changes on its own): $text"; Line "  WARNING: a configuration value changes on its own on this runner: $key"; continue }
+    if ($key -eq 'svc:wuauserv:State') { Line "  changed on its own (V1, see below): $text"; continue }
+    $rule = Get-ServiceRule $key $s1 $s2
+    if ($rule) { Line "  $rule`: $text"; continue }
+    Line "  service state changed without a target (judged by repetition below): $text"
+    $recheck.Add([pscustomobject]@{ Target = 'calibration'; Key = $key; Text = $text; Before = [string] $s1[$key]; After = [string] $s2[$key] })
 }
 Line "  Security log event IDs without the collector (background): $(Get-SecurityEventIds $calStart $calEnd)"
 Line ''
@@ -378,7 +423,6 @@ $previous = $s2
 $previousFrom = $calEnd
 $wuChanged = $false
 $measured = [Collections.Generic.List[object]]::new()
-$excludedStarts = [Collections.Generic.List[object]]::new()
 foreach ($t in $Target) {
     $run = Invoke-Traced $t (Join-Path $work "run-$t")
     $start = $run.Start; $end = $run.End; $children = $run.Children
@@ -388,24 +432,18 @@ foreach ($t in $Target) {
     $afterFrom = Get-Date
     $after = Get-RunnerState
     $afterTo = Get-Date
-    $changes = @(Compare-State $previous $after | Where-Object { $_ -notin $excluded })
-    foreach ($key in @(Compare-State $previous $after | Where-Object { $_ -in $excluded -and $_ -like 'svc:*:State' -and $_ -ne 'svc:wuauserv:State' })) {
-        $name = $key.Split(':')[1]
-        if ([string] $after[$key] -ne 'Stopped' -and $name -notin 'WaaSMedicSvc', 'UsoSvc', 'TrustedInstaller' -and -not (Test-TriggerStart $name)) {
-            $excludedStarts.Add([pscustomobject]@{ Target = $t; Key = $key; Text = (Describe $previous $after $key); Before = $previous[$key]; After = $after[$key] })
-        }
-    }
+    # Ausgeschlossen bleiben nur Einstellungen aus der Kalibrierung und wuauserv, wenn er sich dort von selbst aenderte (V1)
+    $changes = @(Compare-State $previous $after | Where-Object { $_ -notin $excluded -or ((Test-Runtime $_) -and $_ -ne 'svc:wuauserv:State') })
     foreach ($key in $changes) {
-        $startMode = if ($key -like 'svc:*:State') { $after[($key -replace ':State$', ':StartMode')] } else { $null }
-        $measured.Add([pscustomobject]@{ Target = $t; Key = $key; Text = (Describe $previous $after $key); Before = $previous[$key]; After = $after[$key]; StartMode = $startMode
-                                         From = $previousFrom; To = $afterTo })
+        $measured.Add([pscustomobject]@{ Target = $t; Key = $key; Text = (Describe $previous $after $key); Before = [string] $previous[$key]; After = [string] $after[$key]
+                                         BeforeState = $previous; AfterState = $after; From = $previousFrom; To = $afterTo })
     }
     Line "== Measured run: $t (exit code $($run.ExitCode), $($run.Ms) ms)"
     if ($run.ExitCode -notin 0, 1) { Fail "$t exited with $($run.ExitCode)" }
     if (-not (Test-OutputFolder $t $run.Out)) { Fail "$t wrote something else than its export and checksum: $((Get-ChildItem $run.Out -Force | ForEach-Object Name) -join ', ')" }
     else { Line '  written: only the export and its .sha256 (builtin: only its bundle folder)' }
-    if ($changes.Count -eq 0) { Line '  no difference after calibration' }
-    else { foreach ($key in $changes) { Line "  difference (judged after the second calibration): $(Describe $previous $after $key)" } }
+    if ($changes.Count -eq 0) { Line '  no difference' }
+    else { foreach ($key in $changes) { Line "  difference (judged below): $(Describe $previous $after $key)" } }
     $own = @($children | Where-Object { $_ -ne 'conhost.exe' })
     Line "  child processes (WMI process trace): $(if ($children.Count) { ($children | Sort-Object) -join ', ' } else { 'none' })"
     $ownLogged = @($logged.Names | Where-Object { $_ -ne 'conhost.exe' })
@@ -420,7 +458,8 @@ foreach ($t in $Target) {
     $previousFrom = $afterFrom
 }
 
-# Zweite Kalibrierung nach den Laeufen: was sich dann von selbst aendert, war auch vorher Hintergrund
+# Zweite Kalibrierung nach den Laeufen: wie die erste; ein Dienstwechsel ohne Regel kann eine spaete Folge des letzten
+# Laufs sein und geht in die Wiederholung
 $cal2Start = Get-Date
 Start-Sleep -Milliseconds $pause
 $cal2End = Get-Date
@@ -428,80 +467,62 @@ $s9 = Get-RunnerState
 $excluded2 = @(Compare-State $previous $s9)
 Line "== Second calibration (null run, $([Math]::Round($pause / 1000)) s after the measured runs)"
 if ($excluded2.Count -eq 0) { Line '  nothing changed on its own' }
-foreach ($key in $excluded2) { Line "  excluded (changes on its own): $(Describe $previous $s9 $key)" }
+foreach ($key in $excluded2) {
+    $text = Describe $previous $s9 $key
+    if (-not (Test-Runtime $key)) { Line "  changed on its own: $text"; Line "  WARNING: a configuration value changes on its own on this runner: $key"; continue }
+    if ($key -eq 'svc:wuauserv:State') { Line "  changed on its own (V1, see below): $text"; continue }
+    $rule = Get-ServiceRule $key $previous $s9
+    if ($rule) { Line "  $rule`: $text"; continue }
+    Line "  service state changed without a target (judged by repetition below): $text"
+    $recheck.Add([pscustomobject]@{ Target = 'second calibration'; Key = $key; Text = $text; Before = [string] $previous[$key]; After = [string] $s9[$key] })
+}
 Line "  Security log event IDs without the collector (background): $(Get-SecurityEventIds $cal2Start $cal2End)"
 Line ''
 Line '== Differences of the measured runs'
-# Laufzustaende, die sich auch in der zweiten Kalibrierung von selbst aendern, sind Hintergrund; Einstellungen nie
-$open = @($measured | Where-Object { -not (Test-Runtime $_.Key) -or $_.Key -notin $excluded2 })
-$recheck = [Collections.Generic.List[object]]::new()
 foreach ($m in $measured) {
-    if ($m.Key -like 'svc:wuauserv:*' -and $open -contains $m) { $wuChanged = $true }
-    # Geplante Aufgabe: nur wenn das Sicherheitsprotokoll die Aenderung einem Prozess ausserhalb aller Laeufe zuschreibt
-    # (z. B. taskhostw.exe, wenn PrintJobCleanupTask sich nach ihrem Lauf selbst abschaltet)
-    if ($open -contains $m -and $m.Key -like 'task:*') {
-        $change = Get-TaskChange $m.Key $m.From $m.To $allTrees
-        if ($change.ByWindows) { Line "  scheduled task changed by Windows (Security log: $($change.Text); not a process of the runs): $($m.Target): $($m.Text)"; continue }
-        Line "  scheduled task changed; Security log: $(if ($change.Text) { "$($change.Text) - a process of the runs or not attributable" } else { 'no event 4698-4702 for it' })"
-    }
-    # Dienst mit Starttrigger (StartMode unveraendert): Windows startet ihn bei Bedarf (z. B. gpsvc oder RemoteRegistry,
-    # wenn gpresult sie anspricht) und beendet ihn im Leerlauf - kein Eingriff des Sammlers; wuauserv bleibt streng (V1)
-    $service = if ($m.Key -like 'svc:*:State') { $m.Key.Split(':')[1] } else { $null }
-    if ($open -contains $m -and $service -and $service -ne 'wuauserv' -and (Test-TriggerStart $service)) {
-        Line "  on-demand start/stop by Windows (service has a start trigger, StartMode unchanged): $($m.Target): $($m.Text)"
+    # Geplante Aufgabe: nur eine bekannte Aenderung durch Windows, belegt im Sicherheitsprotokoll, wird entschuldigt
+    if ($m.Key -like 'task:*' -and (Test-TaskChangeByWindows $m.Key $m.BeforeState $m.AfterState $m.From $m.To $allTrees "$($m.Target): ")) { continue }
+    if (-not (Test-Runtime $m.Key)) { Fail "$($m.Target) changed: $($m.Text)"; continue }
+    # wuauserv bleibt streng (V1); aendert er sich auch in der zweiten Kalibrierung von selbst, ist V1 hier nicht pruefbar
+    if ($m.Key -eq 'svc:wuauserv:State') {
+        if ($m.Key -in $excluded2) { Line "  wuauserv changed on its own in the second calibration as well (V1 not verifiable): $($m.Target): $($m.Text)" }
+        else { $wuChanged = $true; Fail "$($m.Target) changed: $($m.Text)" }
         continue
     }
-    # Wartungsdienste von Windows Update und Windows Installer (Update-Medic, Update-Orchestrator, Installer): Windows
-    # startet und beendet sie nach eigenem Zeitplan; aufgelistet, nicht gezaehlt, solange der Starttyp gleich bleibt
-    if ($open -contains $m -and $service -in 'WaaSMedicSvc', 'UsoSvc', 'TrustedInstaller' -and
-        -not ($measured | Where-Object { $_.Key -eq "svc:$($service):StartMode" })) {
-        Line "  Windows servicing service changed state on its own (StartMode unchanged; listed, not counted): $($m.Target): $($m.Text)"
-        continue
-    }
-    if ($open -contains $m -and $service -and $service -ne 'wuauserv' -and $m.Before -eq 'Running' -and $m.After -eq 'Stopped' -and
-        $m.StartMode -eq 'Manual' -and -not ($measured | Where-Object { $_.Key -eq "svc:$($service):StartMode" })) {
-        Line "  demand-start service ended by Windows when idle (StartMode Manual, unchanged; a reading program cannot stop a service): $($m.Target): $($m.Text)"
-        continue
-    }
-    # Anderer Laufzustand eines Dienstes ohne Starttrigger (Starttyp unveraendert, nicht wuauserv): erst die
-    # Wiederholung entscheidet (auf windows-2025 startet Windows VSS und swprv etwa 11 Minuten nach dem Boot selbst)
-    if ($open -contains $m -and $service -and $service -ne 'wuauserv' -and
-        -not ($measured | Where-Object { $_.Key -eq "svc:$($service):StartMode" })) {
-        Line "  service state changed without a start trigger (judged by repetition below): $($m.Target): $($m.Text)"
-        $recheck.Add($m)
-        continue
-    }
-    if ($open -contains $m) { Fail "$($m.Target) changed: $($m.Text)" }
-    else { Line "  background (also changed on its own in the second calibration): $($m.Target): $($m.Text)" }
+    $rule = Get-ServiceRule $m.Key $m.BeforeState $m.AfterState
+    if ($rule) { Line "  $rule`: $($m.Target): $($m.Text)"; continue }
+    Line "  service state changed (judged by repetition below): $($m.Target): $($m.Text)"
+    $recheck.Add($m)
 }
 if ($measured.Count -eq 0) { Line '  none' }
 Line ''
 
-# 4. Wiederholung. Ein Zustandswechsel, den ein Ziel verursacht, kommt bei jedem Lauf wieder. Gepruefte Dienste: die
-# offenen Wechsel der gemessenen Laeufe und die Wechsel beim Aufwaermen, die bis zu den gemessenen Laeufen anhielten
-# (dort waeren sie unsichtbar: VSS endet erst nach drei Minuten Leerlauf, die Kalibrierung dauert 30 s). Erst wenn jeder
-# Dienst wieder im alten Zustand ist, laeuft jedes Ziel noch einmal, mit dem Zustand der Dienste direkt davor und
-# danach. Drei gueltige Wiederholungen je Ziel ohne den Wechsel machen ihn zu Hintergrund; jeder erneute Wechsel, und
-# jeder Dienst, der nicht in den alten Zustand zurueckkehrt, bleibt ein Fehler.
-foreach ($key in $warmCandidates) {
-    if (-not ($recheck | Where-Object { $_.Key -eq $key })) {
-        $recheck.Add([pscustomobject]@{ Target = 'warm-up'; Key = $key; Text = (Describe $s0 $s1 $key); Before = $s0[$key]; After = $s1[$key] })
-    }
-}
-# Ein Start in einem gemessenen Lauf bei einem Dienst, den die Kalibrierung ausgeschlossen hat, wird ebenfalls wiederholt
-foreach ($m in $excludedStarts) {
-    if (-not ($recheck | Where-Object { $_.Key -eq $m.Key })) { Line "  start of a calibrated service in a measured run (judged by repetition below): $($m.Target): $($m.Text)"; $recheck.Add($m) }
-}
-function Get-ServiceState([string] $key) { [string] (Get-CimInstance Win32_Service -Filter "Name='$($key.Split(':')[1])'" -Property State).State }
+# 4. Wiederholung. Ein Wechsel, den ein Ziel verursacht, kommt bei jedem Lauf wieder. Erst wenn jeder gepruefte Dienst
+# wieder im alten Zustand ist (VSS endet nach drei Minuten Leerlauf, swprv drei Minuten danach), laeuft jedes Ziel noch
+# einmal; danach wird der Dienst 20 s lang beobachtet (laenger, als der gemessene Lauf bis zum Lesen der Dienste braucht).
+# Jede Abweichung vom alten Zustand ist ein Fehler, auch eine spaetere: Ist der Dienst vor dem naechsten Lauf nicht
+# mehr im alten Zustand, zaehlt der vorige Lauf nicht. Erst drei saubere Laeufe jedes Ziels machen den Wechsel zu
+# Hintergrund; ein Dienst, der nicht zurueckkehrt, bleibt ein Fehler.
 if ($recheck.Count -gt 0) {
     Line '== Repetition of service state changes (every target 3 times, each run with the service in its previous state)'
+    $repFrom = $cal2End # ab dem Lesen von $s9
     $checks = @($recheck | Group-Object Key | ForEach-Object { $_.Group[0] })
     $valid = @{}
     $failed = @{}
+    $lastClean = @{}
     foreach ($c in $checks) { foreach ($t in $Target) { $valid["$($c.Key)|$t"] = 0 } }
     function Test-Done($c) { $failed.ContainsKey($c.Key) -or -not ($Target | Where-Object { $valid["$($c.Key)|$_"] -lt 3 }) }
+    # Ist der Dienst nicht mehr im alten Zustand, zaehlt der letzte saubere Lauf nicht (spaete Aenderung)
+    function Undo-LateChange($c, [string] $state) {
+        if ($state -ne $c.Before -and $lastClean.ContainsKey($c.Key)) {
+            $valid["$($c.Key)|$($lastClean[$c.Key])"]--
+            Line "    $($c.Key.Split(':')[1]) was '$state' before the next run: the previous run of $($lastClean[$c.Key]) is not counted"
+            $lastClean.Remove($c.Key)
+        }
+    }
     for ($round = 1; $round -le 5 -and @($checks | Where-Object { -not (Test-Done $_) }).Count -gt 0; $round++) {
         $pending = @($checks | Where-Object { -not (Test-Done $_) })
+        foreach ($c in $pending) { Undo-LateChange $c (Get-ServiceState $c.Key) }
         $wait = [Diagnostics.Stopwatch]::StartNew()
         do {
             $notBack = @($pending | Where-Object { (Get-ServiceState $_.Key) -ne $_.Before })
@@ -512,28 +533,51 @@ if ($recheck.Count -gt 0) {
         if ($pending.Count -eq 0) { break }
         Line "  round $round (waited $([Math]::Round($wait.Elapsed.TotalSeconds)) s for $(($pending | ForEach-Object { $_.Key.Split(':')[1] + '=' + $_.Before }) -join ', '))"
         foreach ($t in $Target) {
-            $pre = @{}; foreach ($c in $pending) { $pre[$c.Key] = Get-ServiceState $c.Key }
+            $pre = @{}
+            foreach ($c in $pending) { $pre[$c.Key] = Get-ServiceState $c.Key; Undo-LateChange $c $pre[$c.Key] }
             $run = Invoke-Traced $t (Join-Path $work "repeat$round-$t")
             $allTrees.Add($run.Tree)
-            $post = @{}; foreach ($c in $pending) { $post[$c.Key] = Get-ServiceState $c.Key }
+            $deviation = @{}
+            $watch = [Diagnostics.Stopwatch]::StartNew()
+            do {
+                foreach ($c in $pending) {
+                    if (-not $deviation.ContainsKey($c.Key)) { $now = Get-ServiceState $c.Key; if ($now -ne $c.Before) { $deviation[$c.Key] = $now } }
+                }
+                Start-Sleep -Milliseconds 500
+            } while ($watch.Elapsed.TotalSeconds -lt 20)
             if ($run.ExitCode -notin 0, 1) { Fail "$t exited with $($run.ExitCode) in repetition round $round" }
             if (-not (Test-OutputFolder $t $run.Out)) { Fail "$t wrote something else than its export and checksum in repetition round $round" }
             $notes = foreach ($c in $pending) {
                 $name = $c.Key.Split(':')[1]
-                if ($failed.ContainsKey($c.Key)) { continue }
+                if ($failed.ContainsKey($c.Key)) { "$name already failed"; continue }
                 if ($pre[$c.Key] -ne $c.Before) { "$name was '$($pre[$c.Key])' before (not counted)"; continue }
-                if ($post[$c.Key] -eq $c.After) { Fail "$t changed: $($c.Key): '$($c.Before)' -> '$($c.After)' (repeated in repetition round $round)"; $failed[$c.Key] = $true; "$name REPEATED"; continue }
+                if ($deviation.ContainsKey($c.Key)) {
+                    Fail "$t changed: $($c.Key): '$($c.Before)' -> '$($deviation[$c.Key])' (repeated in repetition round $round)"
+                    $failed[$c.Key] = $true
+                    "$name REPEATED ('$($deviation[$c.Key])')"
+                    continue
+                }
                 $valid["$($c.Key)|$t"]++
-                "$name unchanged"
+                $lastClean[$c.Key] = $t
+                "$name unchanged for 20 s"
             }
             Line "    $t (exit code $($run.ExitCode), $($run.Ms) ms): $(@($notes) -join '; ')"
         }
     }
+    foreach ($c in $checks) { if (-not $failed.ContainsKey($c.Key)) { Undo-LateChange $c (Get-ServiceState $c.Key) } }
     foreach ($c in $checks) {
         if ($failed.ContainsKey($c.Key)) { continue }
         $short = @($Target | Where-Object { $valid["$($c.Key)|$_"] -lt 3 })
         if ($short.Count -eq 0) { Line "  not reproducible: no target repeated it in 3 runs each - a change by Windows (listed, not counted): $($c.Target): $($c.Text)" }
         else { Fail "$($c.Target) changed: $($c.Text) (could not be repeated three times for: $($short -join ', '))" }
+    }
+    # Die Wiederholungen selbst: Einstellungen, Aufgaben und %TEMP%\riegel-* wie bei jedem Lauf
+    $s10 = Get-RunnerState
+    $repTo = Get-Date
+    foreach ($key in @(Compare-State $s9 $s10)) {
+        if ($key -like 'task:*' -and (Test-TaskChangeByWindows $key $s9 $s10 $repFrom $repTo $allTrees 'repetitions: ')) { continue }
+        if (-not (Test-Runtime $key)) { Fail "configuration changed during the repetitions: $(Describe $s9 $s10 $key)" }
+        else { Line "  service state after the repetitions (listed; the repetitions judged the checked services): $(Describe $s9 $s10 $key)" }
     }
     Line ''
 }

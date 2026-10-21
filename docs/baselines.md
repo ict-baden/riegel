@@ -195,4 +195,3 @@ Baselines are treated as hostile input: no code execution, a closed vocabulary a
 - Microsoft, *Registry Policy File Format*,
   https://learn.microsoft.com/en-us/previous-versions/windows/desktop/policy/registry-policy-file-format (page dated
   2018-05-31, seen 2026-10-18).
-- Product specification, sections 2.3 (check vocabulary) and 2.15 (customer baselines).

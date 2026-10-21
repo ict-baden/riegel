@@ -323,33 +323,37 @@ controllers; Server Core; third-party antivirus and EDR reactions; Windows XP bu
 
 A runner is a live Windows machine: services start and stop, scheduled tasks run, Windows Update and Defender do their
 work. The proof must not count that as the collector's doing, and it must not explain away anything the collector
-does. These are its rules, in the order it applies them:
+does. These are its rules:
 
 1. **Configuration never changes.** Security template, audit policy, the registry exports, every service's start mode,
-   the Defender preferences, the firewall profiles and rules, `Registry.pol` and the set of scheduled tasks with their
-   enabled state are compared before and after every run (warm-up, measured runs, repetitions). Any difference fails
-   the proof. The one exception is a scheduled task whose change the Security log attributes to a process outside every
-   run: events 4698–4702 name the client process (`ClientProcessId`), and the proof excuses the change only if that
-   process belongs to none of the runs' process trees (collected from a WMI process trace and from event 4688). Without
-   such an event – auditing of *Other Object Access Events* off, or an older Windows – the change fails.
-2. **Calibration.** A null run of the same length without any target, before and after the measured runs, shows what
-   changes on its own; running states that change there are listed, not counted. Configuration values that change on
-   their own are reported as a warning.
-3. **Services Windows starts and stops by design** are listed, not counted, as long as their start mode stays the same:
+   the Defender preferences, the firewall profiles and rules, `Registry.pol`, the scheduled tasks with their enabled
+   state and leftover `%TEMP%\riegel-*` folders are compared before and after the warm-up, every measured run and the
+   whole repetition phase. Any difference fails the proof. A value that changes on its own during the first
+   calibration run is reported as a warning and left out of the measured comparison. The only change by Windows that
+   the proof accepts is one on its list of known task changes – today one entry: `PrintJobCleanupTask` disabled by the
+   task host (`taskhostw.exe`, event 4701). It must be recorded in the Security log (events 4698–4702 name the client
+   process; event 4688 gives its program), and neither the client nor its parent process may belong to a run's process
+   tree (collected from a WMI process trace and from event 4688). Without such an event – auditing of *Other Object
+   Access Events* or of process creation off, or an older Windows – the change fails. The proof names the originator
+   in every case.
+2. **Services Windows starts and stops by design** are listed, not counted, as long as their start mode stays the same:
    services with a start trigger (Windows starts them on demand, e.g. the Group Policy Client when `gpresult` calls it),
-   the servicing services of Windows Update and Windows Installer, and demand-start services that Windows ends when idle
-   (a reading program cannot stop a service).
-4. **Any other start, and any other change of a running state, is measured again.** Once the service is back in its
-   previous state, every target runs three more times, with the service's state read directly before and after each
-   run. If the change comes back once, or the service does not return to its previous state within eight minutes, the
-   proof fails. Only a change that no target repeats in three runs each is listed as a change by Windows. This covers
-   starts in a measured run, starts during the warm-up (a service such as VSS, which ends only after three minutes
-   idle, would otherwise still be running in the measured run and hide a repeat) and starts of a service that the
-   calibration saw changing on its own. `wuauserv` is never repeated or excused (V1).
+   the servicing services of Windows Update and Windows Installer, and demand-start services (start mode *Manual*) that
+   Windows ends when idle.
+3. **Any other change of a running state is measured again** – whether it happened during the warm-up, a measured run or
+   one of the two calibration runs (a late effect of the run before shows up there; a service such as VSS, which ends
+   only after three minutes idle, can also hide a repeat in the next run). Once every such service is back in its
+   previous state, every target runs three more times; after each run the services are watched for 20 seconds, longer
+   than a measured run takes until it reads the services. Any deviation from the previous state, also a late one that
+   is first seen before the next run, fails the proof, and so does a service that does not return to its previous
+   state within eight minutes. Only a change that no target repeats in three clean runs each is listed as a change by
+   Windows. `wuauserv` is never repeated or excused (V1); where it changes on its own in a calibration run, V1 is
+   reported as not verifiable on that runner.
 
 Every listed change stays in `Riegel-Collector-ReadOnlyProof-<version>.txt` with its rule, so a reviewer can check it.
-What the rules cannot exclude: a change that the collector causes only now and then, in fewer than one of three runs,
-would be listed as a change by Windows rather than counted.
+What the rules cannot exclude: a change that the collector causes only sometimes can pass three clean repetitions –
+one that it causes in every second run with a probability of one in eight per target, one in every third run with
+about three in ten – and an effect that appears only after the proof has ended is not seen at all.
 
 **Why rules 1 and 4 exist (diagnosis of 2026-10-21).** The collector workflow on `main` failed once on `windows-2025`
 with `svc:swprv:State` and `svc:VSS:State` changing from `Stopped` to `Running` during a measured collector run, and on
@@ -371,3 +375,12 @@ this on six Server 2025 runners (image 20261018.275.1):
 - **`PrintJobCleanupTask` disables itself:** the Security log records event 4701 (task disabled) from `taskhostw.exe`,
   the host that runs the task, right after the task's first run about five minutes after boot. The collector does not
   use the Task Scheduler at all.
+
+**Controls (2026-10-21, same runners).** The revised proof was run against stand-ins in place of `collect-builtin.cmd`.
+A stand-in that starts VSS on every call (`net start vss`) **fails** the proof in the first repetition – the old proof
+passed it, because the warm-up had started VSS and the measured run saw it already running. A stand-in that creates a
+scheduled task with `schtasks` **fails** it: the Security log names `schtasks.exe` from the stand-in's own process tree.
+Six proofs with the real collector and all five targets between 4 and 21 minutes after boot **passed**; the VSS start by
+Windows fell into their calibration runs. Before the proof became part of a release, the same rules were run against
+simulated runners for every case above (background start, start on every run, start during the warm-up only, *Start
+Pending*, a late start, a service that does not return, a known and an unknown task change).

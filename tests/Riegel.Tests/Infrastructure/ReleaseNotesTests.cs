@@ -23,7 +23,9 @@ public sealed partial class ReleaseNotesTests
         {
             var english = lines.FindIndex(l => Regex.IsMatch(l, @"^### English\s*$"));
             if (english < 0) { missing.Add($"{version}: kein '### English'"); continue; }
-            if (lines.Skip(english + 1).All(string.IsNullOrWhiteSpace)) missing.Add($"{version}: '### English' ist leer");
+            // Wie release-notes.ps1: HTML-Kommentarzeilen zählen nicht als Text
+            if (lines.Skip(english + 1).All(l => string.IsNullOrWhiteSpace(l) || Regex.IsMatch(l, @"^\s*<!--.*-->\s*$")))
+                missing.Add($"{version}: '### English' ist leer");
             if (lines.Skip(english + 1).Any(l => l.StartsWith("### ", StringComparison.Ordinal)))
                 missing.Add($"{version}: '### English' muss der letzte Teil des Abschnitts sein (Unterüberschriften mit ####)");
         }

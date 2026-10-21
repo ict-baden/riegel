@@ -99,7 +99,9 @@ public sealed class ErrorCodesDocTests
             sb.Append("| Code | Name | Meaning |\n|---|---|---|\n");
             foreach (var (code, name) in Codes(area.Codes))
             {
-                var text = (area.Text(code) ?? "").Replace("\r\n", " ").Replace('\n', ' ').Replace("|", "\\|", StringComparison.Ordinal).Trim();
+                // Spitze Klammern als Entität: GitHub hält <Ordner> sonst für ein HTML-Element und blendet es aus
+                var text = (area.Text(code) ?? "").Replace("\r\n", " ").Replace('\n', ' ').Replace("|", "\\|", StringComparison.Ordinal)
+                    .Replace("<", "&lt;", StringComparison.Ordinal).Replace(">", "&gt;", StringComparison.Ordinal).Trim();
                 sb.Append("| `").Append(code).Append("` | ").Append(name).Append(" | ").Append(text).Append(" |\n");
             }
             sb.Append('\n');
