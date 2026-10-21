@@ -19,13 +19,12 @@ public static class AppInfo
     public const string LicenseUrl = RepositoryUrl + "/blob/main/LICENSE";
 
     /// <summary>
-    /// Impressum – es gibt nur eines, auf der Webseite (Richtlinie 07). Diese Adresse funktioniert heute; die neue
-    /// Webseite leitet sie später um (https://ict-baden.de/impressum lieferte am 2026-10-18 HTTP 404).
+    /// Impressum – es gibt nur eines, auf der Webseite (Richtlinie 07). Feste Adresse der neuen Webseite.
     /// </summary>
-    public const string ImpressumUrl = "https://ict-baden.de/index.html?page=imprint";
+    public const string ImpressumUrl = "https://ict-baden.de/impressum/";
 
-    /// <summary>Webseite – ⚠ noch offen (OFFEN.md); bis dahin die Organisation auf GitHub.</summary>
-    public const string WebsiteUrl = "https://github.com/ict-baden";
+    /// <summary>Produktseite auf der Webseite von ICT-Baden.</summary>
+    public const string WebsiteUrl = "https://ict-baden.de/produkte/riegel/";
 
     private const string FallbackPublisher = "ICT-Baden";
 

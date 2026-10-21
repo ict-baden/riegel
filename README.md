@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/ict-baden/riegel/releases/tag/latest"><img alt="Download: latest" src="https://img.shields.io/badge/Download-latest-2ea44f?logo=github&logoColor=white"></a>
+  <a href="https://github.com/ict-baden/riegel/releases/latest"><img alt="Download: newest release" src="https://img.shields.io/github/v/release/ict-baden/riegel?label=Download&logo=github&logoColor=white&color=2ea44f"></a>
   <img alt="Designed for Windows 7 SP1 to 11 and Server 2008 R2 to 2025; tested on Server 2022, Server 2025 and Windows 11" src="https://img.shields.io/badge/Designed%20for-Windows%207%E2%80%9311%20%7C%20Server%202008%20R2%E2%80%932025-0078D4">
   <img alt="Evaluation on Windows and Linux" src="https://img.shields.io/badge/Evaluation-Windows%20%7C%20Linux-0078D4">
   <img alt=".NET 10" src="https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white">
@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <b><a href="https://github.com/ict-baden/riegel/releases/tag/latest">Download</a></b>
+  <b><a href="https://github.com/ict-baden/riegel/releases/latest">Download</a></b>
   &nbsp;·&nbsp; <a href="#what-riegel-does">Features</a>
   &nbsp;·&nbsp; <a href="#quick-start">Quick start</a>
   &nbsp;·&nbsp; <a href="#the-rule-catalogue">Rules</a>
@@ -131,17 +131,19 @@
   </tr>
 </table>
 
-**Downloads** – from the release [**latest**](https://github.com/ict-baden/riegel/releases/tag/latest) (newest build of
-`main`). **For OT machines take a tag release, never `latest`**: the collector's hash, its AppLocker data and its
-read-only proof belong to that release.
+**Downloads** – from the [**newest release**](https://github.com/ict-baden/riegel/releases/latest) (tag `vX.Y.Z`; file names carry the version, e.g.
+`Riegel-Collector-0.1.2.zip`). **For OT machines take a tag release, never the pre-release `latest`**: the collector's
+hash, its AppLocker data and its read-only proof belong to that release. The pre-release
+[`latest`](https://github.com/ict-baden/riegel/releases/tag/latest) is rebuilt from every change on `main` – for trying
+out, not for plants.
 
 | File | What it is |
 |---|---|
-| **[Riegel-Collector.zip](https://github.com/ict-baden/riegel/releases/download/latest/Riegel-Collector.zip)** | portable collector for plant and older machines, plus `collect-builtin.cmd`; installs nothing |
-| **[Riegel-x64.msi](https://github.com/ict-baden/riegel/releases/download/latest/Riegel-x64.msi)** | analysis app with `Riegel.Cli.exe` and the collector, for all users (`msiexec /i Riegel-x64.msi /qn`, Intune, GPO) – **not for OT machines** |
-| [Riegel.exe](https://github.com/ict-baden/riegel/releases/download/latest/Riegel.exe) | the app as one file, no installation (without the collector) |
-| [riegel-win-x64.exe](https://github.com/ict-baden/riegel/releases/download/latest/riegel-win-x64.exe) · [riegel-linux-x64](https://github.com/ict-baden/riegel/releases/download/latest/riegel-linux-x64) · [riegel-linux-arm64](https://github.com/ict-baden/riegel/releases/download/latest/riegel-linux-arm64) | command line as one file for scripts, FAT pipelines and auditors |
-| [SHA256SUMS.txt](https://github.com/ict-baden/riegel/releases/download/latest/SHA256SUMS.txt) | checksums – the builds are **not code-signed** yet, check them ([how](docs/installation.md#verifying-the-download)) |
+| **Riegel-Collector-&lt;version&gt;.zip** | portable collector for plant and older machines, plus `collect-builtin.cmd`; installs nothing |
+| **Riegel-&lt;version&gt;-x64.msi** | analysis app with `Riegel.Cli.exe` and the collector, for all users (`msiexec /i Riegel-0.1.2-x64.msi /qn`, Intune, GPO) – **not for OT machines** |
+| Riegel.exe | the app as one file, no installation (without the collector) |
+| riegel-&lt;version&gt;-win-x64.exe · riegel-&lt;version&gt;-linux-x64 · riegel-&lt;version&gt;-linux-arm64 | command line as one file for scripts, FAT pipelines and auditors |
+| SHA256SUMS.txt | checksums – the builds are **not code-signed** yet, check them ([how](docs/installation.md#verifying-the-download)) |
 
 All files, the framework ZIP, the AppLocker data, the read-only proof and the SBOM: **[Installation →](docs/installation.md)**.
 Want to look around first? **`Riegel.exe --demo`** opens the fictitious plant "Musterwerk – Linie 3".
@@ -261,6 +263,6 @@ Needs the .NET 10 SDK. Architecture, tests, CI, releases and the documentation i
 third-party licences and rule-source attributions: <a href="THIRD-PARTY-NOTICES.txt">THIRD-PARTY-NOTICES.txt</a> ·
 support: free via GitHub, guaranteed with a <a href="SUPPORT.md">support contract</a> ·
 <a href="SECURITY.md">Security</a> ·
-<a href="https://ict-baden.de/index.html?page=imprint">Impressum</a><br>
+<a href="https://ict-baden.de/impressum/">Impressum</a><br>
 This software sends no data to ICT-Baden.
 </sub></p>

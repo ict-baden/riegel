@@ -33,7 +33,7 @@ public sealed class CommandTests
 
         var info = Cli.Run("--info");
         Assert.Equal(0, info.Exit);
-        foreach (var text in new[] { "Riegel (Härtungs-Check)", "© 2026 ICT-Baden", "MIT", "https://github.com/ict-baden/riegel", "https://ict-baden.de/index.html?page=imprint", "--licenses" })
+        foreach (var text in new[] { "Riegel (Härtungs-Check)", "© 2026 ICT-Baden", "MIT", "https://github.com/ict-baden/riegel", "https://ict-baden.de/impressum/", "--licenses" })
             Assert.Contains(text, info.Out, StringComparison.Ordinal);
 
         foreach (var word in new[] { "--licenses", "--lizenzen" })
