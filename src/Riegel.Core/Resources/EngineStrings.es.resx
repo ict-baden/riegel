@@ -135,7 +135,7 @@
     <value>Condición no cumplida: {0} = {1}</value>
   </data>
   <data name="Detail_NaDc" xml:space="preserve">
-    <value>Controlador de dominio: el catálogo 2026.10 no está diseñado para controladores de dominio</value>
+    <value>Controlador de dominio: el catálogo 2026.10.1 no está diseñado para controladores de dominio</value>
   </data>
   <data name="Detail_NaDomainJoined" xml:space="preserve">
     <value>El equipo está unido a un dominio; la regla se aplica a equipos independientes</value>
@@ -291,8 +291,7 @@
     <value>Tabla o archivo del catálogo no válido: {0}</value>
   </data>
   <data name="Error_RGL0212" xml:space="preserve">
-    <value>La línea base del cliente no encaja: {0}</value>
-    <comment>TODO-übersetzen</comment>
+    <value>La línea base del cliente no es compatible: {0}</value>
   </data>
   <data name="Error_RGL0220" xml:space="preserve">
     <value>Acceso a la evidencia denegado</value>
@@ -437,7 +436,6 @@
   </data>
   <data name="Inv_SmartAppControl" xml:space="preserve">
     <value>Estado de Control inteligente de aplicaciones (VerifiedAndReputablePolicyState): {0}</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Inv_ToolInstalled" xml:space="preserve">
     <value>{0}: instalado como «{1}»</value>

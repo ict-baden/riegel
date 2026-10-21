@@ -135,7 +135,7 @@
     <value>Condition non remplie : {0} = {1}</value>
   </data>
   <data name="Detail_NaDc" xml:space="preserve">
-    <value>Contrôleur de domaine – le catalogue 2026.10 n'est pas conçu pour les contrôleurs de domaine</value>
+    <value>Contrôleur de domaine – le catalogue 2026.10.1 n'est pas conçu pour les contrôleurs de domaine</value>
   </data>
   <data name="Detail_NaDomainJoined" xml:space="preserve">
     <value>La machine est membre d'un domaine ; la règle s'applique aux machines autonomes</value>
@@ -291,8 +291,7 @@
     <value>Table ou fichier du catalogue non valide : {0}</value>
   </data>
   <data name="Error_RGL0212" xml:space="preserve">
-    <value>La baseline client ne convient pas : {0}</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Le référentiel client ne convient pas : {0}</value>
   </data>
   <data name="Error_RGL0220" xml:space="preserve">
     <value>Accès à la preuve refusé</value>
@@ -437,7 +436,6 @@
   </data>
   <data name="Inv_SmartAppControl" xml:space="preserve">
     <value>État du Contrôle intelligent des applications (VerifiedAndReputablePolicyState) : {0}</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Inv_ToolInstalled" xml:space="preserve">
     <value>{0} : installé sous « {1} »</value>

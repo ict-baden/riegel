@@ -7,14 +7,12 @@
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <data name="Baseline_Rationale" xml:space="preserve">
     <value>Requisito de la línea base importada «{0}».</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0250" xml:space="preserve">
     <value>{0} no es JSON válido (posición {1}); es posible que el archivo esté truncado.</value>
   </data>
   <data name="Error_RGL0251" xml:space="preserve">
-    <value>Versión de instantánea no compatible {0} (esta versión lee {1}).</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Versión de exportación no compatible {0} (esta versión lee {1}).</value>
   </data>
   <data name="Error_RGL0252" xml:space="preserve">
     <value>{0} es más grande de lo permitido (máximo {1} bytes).</value>
@@ -32,19 +30,16 @@
     <value>{0} no es un archivo gzip legible.</value>
   </data>
   <data name="Error_RGL0257" xml:space="preserve">
-    <value>{0} no es una instantánea válida ({1}).</value>
-    <comment>TODO-übersetzen</comment>
+    <value>{0} no es una exportación válida ({1}).</value>
   </data>
   <data name="Error_RGL0258" xml:space="preserve">
-    <value>Se descartaron {0} entradas derivadas (parsed:*) de una instantánea recopilada y se volvieron a calcular a partir de los datos sin procesar.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Se descartaron {0} entradas derivadas (parsed:*) de una exportación recopilada y se volvieron a calcular a partir de los datos sin procesar.</value>
   </data>
   <data name="Error_RGL0259" xml:space="preserve">
     <value>Los datos sin procesar {0} no están disponibles; no se pudo calcular la entrada derivada.</value>
   </data>
   <data name="Error_RGL0260" xml:space="preserve">
-    <value>No es un paquete de comandos integrados válido ({0}). Una carpeta con nombre *.riegel-builtin o con hostname.txt o secedit.inf se lee como tal paquete.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>No es un paquete de comandos integrados válido ({0}). Una carpeta con nombre *.riegel-builtin o con hostname.txt o secedit.inf se lee como paquete de comandos integrados.</value>
   </data>
   <data name="Error_RGL0261" xml:space="preserve">
     <value>{0} es más grande de lo permitido (máximo {1} bytes).</value>
@@ -69,7 +64,6 @@
   </data>
   <data name="Error_RGL0268" xml:space="preserve">
     <value>{0} no forma parte de este paquete de comandos integrados.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0270" xml:space="preserve">
     <value>{0} no es un archivo Registry.pol válido (en el byte {1}).</value>
@@ -82,19 +76,15 @@
   </data>
   <data name="Error_RGL0280" xml:space="preserve">
     <value>{0}: formato de línea base no reconocido (se esperaba una carpeta de copia de seguridad de GPO, un archivo .json o .csv).</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0281" xml:space="preserve">
     <value>Línea base no válida en {0} ({1}).</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0282" xml:space="preserve">
     <value>ID de línea base o de regla no válido: {0}</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0283" xml:space="preserve">
     <value>El ID de regla {0} aparece dos veces en la línea base (la segunda vez en {1}).</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0284" xml:space="preserve">
     <value>{0}: la línea {1}, columna {2} no es válida.</value>

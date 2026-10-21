@@ -135,7 +135,7 @@
     <value>条件不满足：{0} = {1}</value>
   </data>
   <data name="Detail_NaDc" xml:space="preserve">
-    <value>域控制器 – 规则目录 2026.10 并非为域控制器设计</value>
+    <value>域控制器 – 规则目录 2026.10.1 并非为域控制器设计</value>
   </data>
   <data name="Detail_NaDomainJoined" xml:space="preserve">
     <value>计算机已加入域；该规则适用于独立计算机</value>
@@ -292,7 +292,6 @@
   </data>
   <data name="Error_RGL0212" xml:space="preserve">
     <value>客户基线不匹配：{0}</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0220" xml:space="preserve">
     <value>拒绝访问证据</value>
@@ -437,7 +436,6 @@
   </data>
   <data name="Inv_SmartAppControl" xml:space="preserve">
     <value>智能应用控制状态（VerifiedAndReputablePolicyState）：{0}</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Inv_ToolInstalled" xml:space="preserve">
     <value>{0}：安装为“{1}”</value>

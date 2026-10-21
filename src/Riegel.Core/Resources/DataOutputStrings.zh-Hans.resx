@@ -669,8 +669,7 @@
     <value>由 {0} {1} 为评估日期 {2} 创建。所有文件均为 UTF-8，时间均为 UTC。</value>
   </data>
   <data name="EvidenceReadme_LicenseWarning" xml:space="preserve">
-    <value>警告：此证据包包含导入基线的内容。其许可条款（例如 Microsoft Security Compliance Toolkit、BSI 或 CIS）可能禁止转交这些内容。在将证据包交给任何人之前，请先核查相关条款。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>警告：此证据包包含已导入基线的内容。其许可条款（例如 Microsoft Security Compliance Toolkit、BSI 或 CIS）可能禁止转交这些内容。在将证据包交给任何人之前，请先核查相关条款。</value>
   </data>
   <data name="EvidenceReadme_NoBuiltinBundle" xml:space="preserve">
     <value>系统内置命令的原始数据包从不包含在证据包中，只包含由其转换的导出文件。</value>
@@ -688,8 +687,7 @@
     <value>使用 compare-snapshot 进行抽样检查</value>
   </data>
   <data name="EvidenceReadme_SampleText" xml:space="preserve">
-    <value>重新采集一台计算机（有见证人在场），并将新的导出文件与包中同一计算机的导出文件进行比较。易变值（病毒库时长、时间戳、运行时间）不计入。结果：“一致”或“有 N 处不同”并附列表。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>重新采集一台计算机（有见证人在场），并将新的导出文件与包中同一计算机的导出文件进行比较。易变值（病毒库时长、时间戳、正常运行时间）不计入。结果：“一致”或“有 N 处不同”并附列表。</value>
   </data>
   <data name="EvidenceReadme_Title" xml:space="preserve">
     <value>Riegel 证据包 – {0}</value>
@@ -701,8 +699,7 @@
     <value>使用 verify 复核</value>
   </data>
   <data name="EvidenceReadme_VerifyText" xml:space="preserve">
-    <value>verify 无需解压即可读取证据包，校验每个校验和，使用包内的规则目录、装置和登记册重新评估每个导出文件并比较结果。它会报告“已用引擎 X 复现（打包时：Y）”。内容未包含在包中的导入基线的结果无法复核。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>verify 无需解压即可读取证据包，核对每个校验和，使用包内的规则目录、装置和登记册重新评估每个导出文件并比较结果。它会报告“已用引擎 X 复现（打包时：Y）”。内容未包含在包中的导入基线的结果无法复核。</value>
   </data>
   <data name="Evidence_Baseline" xml:space="preserve">
     <value>导入的基线</value>
@@ -1210,7 +1207,6 @@
   </data>
   <data name="TargetConfig_SignOffNote" xml:space="preserve">
     <value>签核即确认基于目录 {0} 和范围裁剪 {1} 的目标配置。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="ValueSource_DirectlySet" xml:space="preserve">
     <value>直接设置</value>
@@ -1262,7 +1258,6 @@
   </data>
   <data name="Value_SignOffBinding" xml:space="preserve">
     <value>签核即确认登记册 {0} 中的例外（{1} 个条目，其中 {2} 个有效）以及范围裁剪 {3}。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Verify_BaselineNotVerifiable" xml:space="preserve">
     <value>未包含基线内容 – 无法复核</value>

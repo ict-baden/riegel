@@ -670,7 +670,6 @@
   </data>
   <data name="EvidenceReadme_LicenseWarning" xml:space="preserve">
     <value>AVERTISSEMENT : ce dossier contient le contenu de référentiels importés. Leurs conditions de licence (par exemple Microsoft Security Compliance Toolkit, BSI ou CIS) peuvent en interdire la transmission. Vérifiez les conditions avant de remettre le dossier à quiconque.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="EvidenceReadme_NoBuiltinBundle" xml:space="preserve">
     <value>Les lots bruts de commandes intégrées ne font jamais partie du dossier ; seuls les exports qui en sont issus.</value>
@@ -689,7 +688,6 @@
   </data>
   <data name="EvidenceReadme_SampleText" xml:space="preserve">
     <value>Collectez à nouveau une machine (avec témoin) et comparez le nouvel export à l'export empaqueté de la même machine. Les valeurs volatiles (âge des signatures, horodatages, durée de fonctionnement) ne comptent pas. Résultat : « cohérent » ou « diffère en N points » avec la liste.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="EvidenceReadme_Title" xml:space="preserve">
     <value>Dossier de preuves Riegel – {0}</value>
@@ -702,7 +700,6 @@
   </data>
   <data name="EvidenceReadme_VerifyText" xml:space="preserve">
     <value>verify lit le dossier sans le décompresser, contrôle chaque somme, réévalue chaque export avec le catalogue, l'installation et les registres inclus et compare les résultats. Il indique « reproduit avec le moteur X (empaqueté : Y) ». Les résultats des référentiels importés dont le contenu n'est pas inclus ne sont pas vérifiables.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Evidence_Baseline" xml:space="preserve">
     <value>Référentiel importé</value>
@@ -1210,7 +1207,6 @@
   </data>
   <data name="TargetConfig_SignOffNote" xml:space="preserve">
     <value>La validation confirme la configuration cible issue du catalogue {0} avec l'ajustement du périmètre {1}.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="ValueSource_DirectlySet" xml:space="preserve">
     <value>Défini directement</value>
@@ -1262,7 +1258,6 @@
   </data>
   <data name="Value_SignOffBinding" xml:space="preserve">
     <value>La validation confirme les exceptions du registre {0} ({1} entrées, dont {2} valides) et l'ajustement du périmètre {3}.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Verify_BaselineNotVerifiable" xml:space="preserve">
     <value>contenu du référentiel non inclus – non vérifiable</value>

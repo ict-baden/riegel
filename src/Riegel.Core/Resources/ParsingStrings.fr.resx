@@ -6,15 +6,13 @@
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <data name="Baseline_Rationale" xml:space="preserve">
-    <value>Exigence de la référence importée « {0} ».</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Exigence du référentiel importé « {0} ».</value>
   </data>
   <data name="Error_RGL0250" xml:space="preserve">
     <value>{0} n'est pas un JSON valide (position {1}) ; le fichier est peut-être tronqué.</value>
   </data>
   <data name="Error_RGL0251" xml:space="preserve">
-    <value>Version d'instantané non prise en charge {0} (cette version lit {1}).</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Version d'export non prise en charge : {0} (cette version lit {1}).</value>
   </data>
   <data name="Error_RGL0252" xml:space="preserve">
     <value>{0} dépasse la taille autorisée (maximum {1} octets).</value>
@@ -32,19 +30,16 @@
     <value>{0} n'est pas un fichier gzip lisible.</value>
   </data>
   <data name="Error_RGL0257" xml:space="preserve">
-    <value>{0} n'est pas un instantané valide ({1}).</value>
-    <comment>TODO-übersetzen</comment>
+    <value>{0} n'est pas un export valide ({1}).</value>
   </data>
   <data name="Error_RGL0258" xml:space="preserve">
-    <value>{0} entrées dérivées (parsed:*) d'un instantané collecté ont été rejetées et recalculées à partir des données brutes.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>{0} entrées dérivées (parsed:*) d'un export collecté ont été rejetées et recalculées à partir des données brutes.</value>
   </data>
   <data name="Error_RGL0259" xml:space="preserve">
     <value>Les données brutes {0} ne sont pas disponibles ; l'entrée dérivée n'a pas pu être calculée.</value>
   </data>
   <data name="Error_RGL0260" xml:space="preserve">
     <value>Ce n'est pas un paquet de commandes intégrées valide ({0}). Un dossier nommé *.riegel-builtin ou contenant hostname.txt ou secedit.inf est lu comme un tel paquet.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0261" xml:space="preserve">
     <value>{0} dépasse la taille autorisée (maximum {1} octets).</value>
@@ -69,7 +64,6 @@
   </data>
   <data name="Error_RGL0268" xml:space="preserve">
     <value>{0} ne fait pas partie de ce paquet de commandes intégrées.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0270" xml:space="preserve">
     <value>{0} n'est pas un fichier Registry.pol valide (à l'octet {1}).</value>
@@ -81,20 +75,16 @@
     <value>{0} n'est pas un XML gpresult valide ({1}).</value>
   </data>
   <data name="Error_RGL0280" xml:space="preserve">
-    <value>{0} : format de référence non reconnu (attendu : dossier de sauvegarde de GPO, fichier .json ou .csv).</value>
-    <comment>TODO-übersetzen</comment>
+    <value>{0} : format de référentiel non reconnu (attendu : dossier de sauvegarde de GPO, fichier .json ou .csv).</value>
   </data>
   <data name="Error_RGL0281" xml:space="preserve">
-    <value>Référence non valide à {0} ({1}).</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Référentiel non valide à {0} ({1}).</value>
   </data>
   <data name="Error_RGL0282" xml:space="preserve">
-    <value>Identifiant de référence ou de règle non valide : {0}</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Identifiant de référentiel ou de règle non valide : {0}</value>
   </data>
   <data name="Error_RGL0283" xml:space="preserve">
-    <value>L'identifiant de règle {0} apparaît deux fois dans la référence (la deuxième fois à {1}).</value>
-    <comment>TODO-übersetzen</comment>
+    <value>L'identifiant de règle {0} apparaît deux fois dans le référentiel (la deuxième fois à {1}).</value>
   </data>
   <data name="Error_RGL0284" xml:space="preserve">
     <value>{0} : la ligne {1}, colonne {2} n'est pas valide.</value>

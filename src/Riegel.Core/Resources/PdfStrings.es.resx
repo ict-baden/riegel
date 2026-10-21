@@ -16,7 +16,6 @@
   </data>
   <data name="Appendix_Intro" xml:space="preserve">
     <value>Por equipo: identidad y recopilación, primero «empeorado», luego hallazgos abiertos con valor esperado y real, fuente y marcas, excepciones, ajuste de alcance, no verificable por motivo, desviación de valores brutos y hechos clave. Cada resultado está en el libro de Excel y en el JSON de resultados.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Appendix_Machine" xml:space="preserve">
     <value>A.{0} {1}</value>
@@ -29,7 +28,6 @@
   </data>
   <data name="ApprovalDoc_Binding" xml:space="preserve">
     <value>La hoja {0} se refiere al registro de excepciones {1} y al ajuste de alcance {2} (entradas en esta hoja: {3}).</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="ApprovalDoc_Category" xml:space="preserve">
     <value>Categoría</value>
@@ -57,7 +55,6 @@
   </data>
   <data name="ApprovalDoc_Intro" xml:space="preserve">
     <value>Entradas nuevas y modificadas pendientes de aprobación, con el hash del contenido de cada entrada y las sumas de comprobación de los registros en el momento de la hoja. Tras la firma, introduzca los campos de aprobación en la aplicación o con «exceptions approve» y cite esta hoja como registro de aprobación, por ejemplo «Hoja de aprobación {0} del {1}».</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="ApprovalDoc_KindException" xml:space="preserve">
     <value>excepción</value>
@@ -88,7 +85,6 @@
   </data>
   <data name="ApprovalDoc_SignIntro" xml:space="preserve">
     <value>Con su firma, los aprobadores deciden sobre las entradas anteriores según lo marcado. Las entradas sin decisión siguen solicitadas.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="ApprovalDoc_Subtitle" xml:space="preserve">
     <value>{0} · hoja {1}</value>
@@ -101,13 +97,12 @@
   </data>
   <data name="Approval_Text" xml:space="preserve">
     <value>aprobada por {0} el {1}, registro {2}, revisar antes de {3}</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Banner_ClockSuspect" xml:space="preserve">
     <value>Reloj no plausible: los resultados basados en la antigüedad no son verificables</value>
   </data>
   <data name="Banner_DomainController" xml:space="preserve">
-    <value>Controladores de dominio: sin valorar – el catálogo 2026.10 no está diseñado para controladores de dominio</value>
+    <value>Controladores de dominio: sin valorar – el catálogo 2026.10.1 no está diseñado para controladores de dominio</value>
   </data>
   <data name="Banner_ExperimentalGpo" xml:space="preserve">
     <value>Fuente: GPO de dominio (no probado en un dominio real)</value>
@@ -119,16 +114,13 @@
     <value>Comprobación incompleta: solo {0} verificable</value>
   </data>
   <data name="Banner_Incomplete_Detail" xml:space="preserve">
-    <value>Equipos afectados: {0}. Áreas que faltan: {1}. Los valores se muestran en gris; un valor alto sobre una fracción de las reglas no es un titular.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Equipos afectados: {0}. Áreas que faltan: {1}. Los valores se muestran en gris; un valor alto calculado sobre una fracción de las reglas no es significativo.</value>
   </data>
   <data name="Banner_PreTranslation_Detail" xml:space="preserve">
     <value>Los textos de este documento se tradujeron automáticamente y aún no los ha revisado un hablante nativo; la versión alemana o inglesa es la que prevalece.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Banner_StaleCatalogue" xml:space="preserve">
     <value>Catálogo de reglas con más de 6 meses: los datos de ciclo de vida y parches pueden estar desactualizados</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Banner_StaleCatalogue_Detail" xml:space="preserve">
     <value>Antigüedad del catálogo en días: {0}. Una versión más reciente de Riegel trae el catálogo actual.</value>
@@ -147,11 +139,9 @@
   </data>
   <data name="Baselines_Heading" xml:space="preserve">
     <value>Líneas base del cliente</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Baselines_Intro" xml:space="preserve">
     <value>Cada línea base importada se valora por separado. Sin su contenido en el paquete de evidencias, verify indica sus resultados como no verificables.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Basis_Approved" xml:space="preserve">
     <value>estado aprobado</value>
@@ -197,7 +187,6 @@
   </data>
   <data name="Changes_Intro" xml:space="preserve">
     <value>Reglas que en la base de comparación estaban cumplidas, abiertas deliberadamente, no aplicables o fuera del alcance y ahora no se cumplen. No se cuentan aquí: excepciones vencidas (bloque propio), reglas nuevas en este catálogo y reglas que antes no eran verificables.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Changes_None" xml:space="preserve">
     <value>Ningún empeoramiento desde la última ejecución o el estado aprobado.</value>
@@ -207,15 +196,12 @@
   </data>
   <data name="Classification_Disclaimer" xml:space="preserve">
     <value>Este informe no es una declaración de conformidad: evidencia la gestión de la configuración y parte de la revisión de eficacia de los equipos indicados, no la gestión de incidentes, la continuidad del negocio, la cadena de suministro, MFA, las copias de seguridad ni la segmentación de red.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Classification_Heading" xml:space="preserve">
     <value>Clasificación</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Classification_Intro" xml:space="preserve">
     <value>Riegel aporta evidencias para:</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Col_Action" xml:space="preserve">
     <value>Acción</value>
@@ -234,7 +220,6 @@
   </data>
   <data name="Col_Baseline" xml:space="preserve">
     <value>Línea base</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Col_Basis" xml:space="preserve">
     <value>Comparado con</value>
@@ -253,7 +238,6 @@
   </data>
   <data name="Col_Content" xml:space="preserve">
     <value>Contenido en el paquete de evidencias</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Col_Due" xml:space="preserve">
     <value>Vence</value>
@@ -416,7 +400,6 @@
   </data>
   <data name="Cover_Baselines" xml:space="preserve">
     <value>Líneas base del cliente</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Cover_Catalogue" xml:space="preserve">
     <value>Catálogo de reglas</value>
@@ -543,7 +526,6 @@
   </data>
   <data name="Exceptions_Intro" xml:space="preserve">
     <value>Registro {0}, entradas: {1} ({2}). Una excepción solo es válida con rol aprobador, fecha, fecha de revisión y registro de aprobación, y solo mientras su contenido coincida con el hash aprobado.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Exceptions_None" xml:space="preserve">
     <value>El registro no contiene excepciones.</value>
@@ -561,12 +543,10 @@
     <value>Hallazgos abiertos por regla</value>
   </data>
   <data name="Findings_Intro" xml:space="preserve">
-    <value>Reglas no cumplidas agregadas sobre todos los equipos: en cuántos de los equipos donde se aplica la regla está abierta, hasta diez equipos por nombre y la medida planificada. Los detalles por equipo están en el anexo A; cada resultado, en el libro de Excel.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Reglas no cumplidas, agregadas para todos los equipos: en cuántos de los equipos a los que se aplica la regla sigue abierta, hasta diez equipos por nombre y la medida planificada. Los detalles por equipo están en el anexo A; cada resultado, en el libro de Excel.</value>
   </data>
   <data name="Findings_IntroMachine" xml:space="preserve">
     <value>Reglas no cumplidas en este equipo con la medida planificada; los valores esperados y reales están en el anexo A.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Findings_None" xml:space="preserve">
     <value>Sin hallazgos abiertos.</value>
@@ -618,15 +598,12 @@
   </data>
   <data name="Legend_Exception" xml:space="preserve">
     <value>No cumplido, pero cubierto por una excepción válida y aprobada cuyo alcance y valor aceptado coinciden.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Legend_Fail" xml:space="preserve">
     <value>El valor no cumple la expectativa y ninguna excepción válida lo cubre.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Legend_Flags" xml:space="preserve">
     <value>Marcas como «Valor predeterminado supuesto», «Empeorado» o «Excepción solicitada» matizan un estado y aparecen junto al resultado. Fechas y horas en ISO 8601 (UTC).</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Legend_Heading" xml:space="preserve">
     <value>Cómo leer este informe</value>
@@ -638,23 +615,19 @@
     <value>Significado</value>
   </data>
   <data name="Legend_NotApplicable" xml:space="preserve">
-    <value>El sistema operativo, la compilación, la pertenencia al dominio, el rol o una función ausente hacen irrelevante la regla.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>El sistema operativo, la compilación, la pertenencia al dominio, el rol o una característica ausente hacen que la regla no sea pertinente.</value>
   </data>
   <data name="Legend_NotCheckable" xml:space="preserve">
     <value>Evidencia ausente, denegada, truncada o no recopilada, valor predeterminado desconocido o solo heurística; se indica con su código de motivo y nunca cuenta como cumplido.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Legend_Open" xml:space="preserve">
     <value>Cuenta como abierto</value>
   </data>
   <data name="Legend_OutOfScope" xml:space="preserve">
     <value>Excluido por una decisión válida de ajuste de alcance: no forma parte de la configuración objetivo de este rol; en ningún valor.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Legend_Pass" xml:space="preserve">
     <value>El valor cumple la expectativa, con evidencia positiva (o un valor predeterminado documentado, marcado «Valor predeterminado supuesto»).</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Legend_Status" xml:space="preserve">
     <value>Estado</value>
@@ -787,48 +760,39 @@
   </data>
   <data name="Measures_Intro" xml:space="preserve">
     <value>Registro {0}, entradas: {1}, vencidas: {2}. Una medida planificada deja el hallazgo abierto hasta que se cumple la regla.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Measures_None" xml:space="preserve">
     <value>No hay medidas planificadas.</value>
   </data>
   <data name="Method_Catalogue" xml:space="preserve">
     <value>Catálogo {0} {1} del {2}: reglas: {3}, de ellas comprobaciones: {4} y reglas de inventario: {5}. Todos los textos de las reglas son propios de Riegel.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Catalogue_Heading" xml:space="preserve">
     <value>Catálogo de reglas</value>
   </data>
   <data name="Method_Collection" xml:space="preserve">
     <value>El recopilador de Riegel lee la configuración y el estado en ejecución del equipo – registro, directiva de seguridad, directiva de auditoría, servicios, Defender, firewall, BitLocker, cuentas locales – sin cambiar nada y sin acceso a la red, y escribe una exportación de datos brutos con su SHA-256. La evaluación comprueba la exportación sin conexión frente al catálogo de reglas y aplica los registros de la planta. Los derechos de administrador amplían lo que se puede leer; sin ellos, las reglas afectadas se indican como no verificables.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Collection_Heading" xml:space="preserve">
     <value>Recopilación</value>
   </data>
   <data name="Method_Evidence_1" xml:space="preserve">
     <value>«Cumplido» solo con evidencia positiva: los datos ausentes, denegados, truncados o no recopilados dan «no verificable», nunca «cumplido».</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Evidence_2" xml:space="preserve">
     <value>Un valor no definido solo cuenta donde la recopilación cubrió esa parte por completo; un valor predeterminado solo se usa con una fuente citada y se marca «Valor predeterminado supuesto».</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Evidence_3" xml:space="preserve">
     <value>La evidencia en ejecución prevalece sobre la configuración: donde Windows informa del estado efectivo (SMB, protección LSA, firewall, Defender, VBS), ese estado decide; un valor solo configurado nunca es «cumplido».</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Evidence_4" xml:space="preserve">
     <value>Un valor de tipo incorrecto es «no cumplido»; la evidencia solo heurística (por ejemplo, la entrada del centro de seguridad de un antivirus de terceros) es «no verificable».</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Evidence_5" xml:space="preserve">
-    <value>Una protección ausente es una brecha («no cumplido», con la vía de la excepción), no «no aplicable».</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Una protección ausente es una brecha («no cumplido», con la posibilidad de una excepción), no «no aplicable».</value>
   </data>
   <data name="Method_Evidence_6" xml:space="preserve">
     <value>Por debajo del 90 % verificable o sin derechos de administrador, el informe lleva el aviso «Comprobación incompleta» y los valores aparecen en gris.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Evidence_Heading" xml:space="preserve">
     <value>Reglas de evidencia</value>
@@ -841,42 +805,33 @@
   </data>
   <data name="Method_Limit_1" xml:space="preserve">
     <value>Ninguna declaración de conformidad: Riegel aporta evidencias para los marcos indicados en la portada; no certifica la conformidad.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Limit_2" xml:space="preserve">
     <value>No es un paquete de validación GMP: el informe es una aportación revisada por personas para la revisión periódica y el control de cambios.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Limit_3" xml:space="preserve">
     <value>Lo que el equipo no puede mostrar no se comprueba: MFA, copias de seguridad, segmentación de red, gestión de incidentes y seguridad física.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Limit_4" xml:space="preserve">
     <value>El resultado describe el estado en el momento de la recopilación; los cambios posteriores solo se ven en una nueva ejecución.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Limit_Dc" xml:space="preserve">
-    <value>Controladores de dominio: el catálogo 2026.10 no está diseñado para controladores de dominio; se enumeran pero no se valoran.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Controladores de dominio: el catálogo 2026.10.1 no está diseñado para controladores de dominio; se enumeran pero no se valoran.</value>
   </data>
   <data name="Method_Limit_Gpo" xml:space="preserve">
     <value>La atribución a GPO de dominio es experimental: aún no se ha probado en un dominio real.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Limits_Heading" xml:space="preserve">
     <value>Limitaciones</value>
   </data>
   <data name="Method_NoCisBsi" xml:space="preserve">
     <value>Este informe y el catálogo no contienen contenido de CIS ni del BSI: ningún texto, valor o identificador de CIS Benchmarks, BSI SiSyPHuS o módulos de IT-Grundschutz, y ningún archivo o valor de las líneas base de seguridad de Microsoft. Grundschutz++ aparece solo como identificador.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Provenance" xml:space="preserve">
     <value>Procedencia de los valores esperados (reglas: {0}): ACSC {1}, documentación de Microsoft Windows Server (CC BY 4.0) {2}, hechos de Microsoft Learn {3}, DISA {4}; también en una línea base de seguridad de Microsoft (solo corroboración): {5}.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Method_Score" xml:space="preserve">
-    <value>Pesos: alta 3, media 2, baja 1, sobre los resultados verificables (cumplido, no cumplido, abierto deliberadamente). Grado de bastionado = cumplido ponderado ÷ verificable; documentado = (cumplido + abierto deliberadamente) ÷ verificable. Las excepciones nunca elevan el grado de bastionado; el ajuste de alcance excluye la regla de ambos valores. La categoría de auditoría aporta como máximo 12 puntos de peso. Proporción comprobada = verificable ÷ (aplicable − fuera del alcance − inventario). Se redondea al final, la mitad hacia arriba; la proporción comprobada se trunca a porcentaje entero. Los controladores de dominio no reciben grado de bastionado.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Pesos: alta 3, media 2, baja 1, sobre los resultados verificables (cumplido, no cumplido, abierto deliberadamente). Grado de bastionado = cumplido ponderado ÷ verificable; documentado = (cumplido + abierto deliberadamente) ÷ verificable. Las excepciones nunca elevan el grado de bastionado; el ajuste de alcance excluye la regla de ambos valores. La categoría de auditoría aporta como máximo 12 puntos de peso. Proporción comprobada = verificable ÷ (aplicable − fuera del alcance − inventario). Se redondea al final, con los medios alejándose de cero; la proporción comprobada se trunca a porcentaje entero. Los controladores de dominio no reciben grado de bastionado.</value>
   </data>
   <data name="Method_Score_Heading" xml:space="preserve">
     <value>Valoración</value>
@@ -946,7 +901,6 @@
   </data>
   <data name="Product_Label" xml:space="preserve">
     <value>RIEGEL · COMPROBACIÓN DE BASTIONADO</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Reason_Unknown" xml:space="preserve">
     <value>(sin código de motivo)</value>
@@ -977,7 +931,6 @@
   </data>
   <data name="RecordDoc_Intro" xml:space="preserve">
     <value>Esta acta documenta qué exportaciones se tomaron de qué equipos, con qué recopilador y sumas de comprobación. El testigo confirma que las exportaciones se tomaron en los equipos indicados y se entregaron sin cambios.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="RecordDoc_NoExe" xml:space="preserve">
     <value>– (comandos integrados, sin ejecutable)</value>
@@ -1008,7 +961,6 @@
   </data>
   <data name="RecordDoc_SignIntro" xml:space="preserve">
     <value>Con su firma, el rol que recopila y el testigo del operador confirman la recopilación tal como se ha registrado arriba.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="RecordDoc_SignWitness" xml:space="preserve">
     <value>Testigo (operador)</value>
@@ -1030,43 +982,36 @@
   </data>
   <data name="Register_Tailoring" xml:space="preserve">
     <value>Ajuste de alcance</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Report_MachineSubtitle" xml:space="preserve">
     <value>{0} – informe del equipo, planta {1}</value>
   </data>
   <data name="Report_Title_AsDelivered" xml:space="preserve">
     <value>Estado de entrega – evidencia de bastionado</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Report_Title_Audit" xml:space="preserve">
     <value>Informe de evidencia de bastionado</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_Builder" xml:space="preserve">
     <value>Fabricante</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_EngineeringStation" xml:space="preserve">
     <value>estación de ingeniería</value>
   </data>
   <data name="Role_Historian" xml:space="preserve">
     <value>historiador</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_Hmi" xml:space="preserve">
     <value>HMI</value>
   </data>
   <data name="Role_JumpHost" xml:space="preserve">
     <value>servidor de salto</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_Office" xml:space="preserve">
     <value>PC de oficina</value>
   </data>
   <data name="Role_Operator" xml:space="preserve">
     <value>Operador</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_Other" xml:space="preserve">
     <value>otro</value>
@@ -1081,8 +1026,7 @@
     <value>grupo {0}</value>
   </data>
   <data name="Score_AuditCapFootnote" xml:space="preserve">
-    <value>La categoría de auditoría cuenta como máximo 12 puntos de peso (cuatro reglas altas) en los valores globales; el valor de la categoría no está limitado.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>La categoría de auditoría cuenta como máximo 12 puntos de peso (cuatro reglas de gravedad alta) en los valores globales; el valor de la categoría no está limitado.</value>
   </data>
   <data name="Score_CheckedShare" xml:space="preserve">
     <value>Proporción comprobada</value>
@@ -1092,11 +1036,9 @@
   </data>
   <data name="Score_Explained" xml:space="preserve">
     <value>Grado de bastionado: proporción ponderada de reglas cumplidas entre las verificables (alta 3, media 2, baja 1). Documentado: cumplidas más abiertas deliberadamente. Proporción comprobada: verificables entre las reglas aplicables dentro del alcance.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Score_Greyed" xml:space="preserve">
     <value>Comprobación incompleta: solo {0} verificable; los valores no son fiables y se muestran en gris.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Score_Hardening" xml:space="preserve">
     <value>Grado de bastionado</value>
@@ -1112,7 +1054,6 @@
   </data>
   <data name="SignOff_Binding" xml:space="preserve">
     <value>Con esta aprobación se confirman las excepciones del registro {0} (entradas: {1}, de ellas válidas: {2}) y el ajuste de alcance {3} (entradas: {4}).</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="SignOff_Date" xml:space="preserve">
     <value>Fecha</value>
@@ -1122,15 +1063,12 @@
   </data>
   <data name="SignOff_Intro" xml:space="preserve">
     <value>Con su firma, los roles indicados confirman que han revisado los hallazgos, las excepciones, las decisiones de ajuste de alcance y el plan de medidas de este informe. Las desviaciones y medidas acordadas se anotan en «Observaciones».</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="SignOff_IntroAsDelivered" xml:space="preserve">
-    <value>El fabricante confirma el estado de bastionado de entrega de las máquinas indicadas, incluidas las desviaciones que exige el software de la máquina; el operador confirma la recepción.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>El fabricante confirma el estado de bastionado en el momento de la entrega de las máquinas indicadas, incluidas las desviaciones que exige el software de la máquina; el operador confirma la recepción.</value>
   </data>
   <data name="SignOff_Measures" xml:space="preserve">
     <value>El plan de medidas {0} (entradas: {1}) forma parte de este informe.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="SignOff_Name" xml:space="preserve">
     <value>Nombre</value>
@@ -1179,34 +1117,27 @@
   </data>
   <data name="State_ChangedAfterApproval" xml:space="preserve">
     <value>modificada tras la aprobación</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="State_Expired" xml:space="preserve">
     <value>vencida</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="State_Expiring" xml:space="preserve">
     <value>vence pronto</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="State_Invalid" xml:space="preserve">
     <value>no válida</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="State_Pending" xml:space="preserve">
     <value>solicitada</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="State_Valid" xml:space="preserve">
     <value>válida</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Status_None" xml:space="preserve">
     <value>(ninguno)</value>
   </data>
   <data name="Step_Accepted" xml:space="preserve">
     <value>Aceptado</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Step_Approved" xml:space="preserve">
     <value>Aprobado</value>
@@ -1219,11 +1150,9 @@
   </data>
   <data name="SummaryDoc_Footnote" xml:space="preserve">
     <value>Los detalles por planta están en los informes de planta. Riegel aporta evidencias; no hace ninguna declaración de conformidad.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="SummaryDoc_Legend" xml:space="preserve">
     <value>SO con soporte: proporción de equipos con un sistema operativo aún con soporte. Tendencia: hallazgos altos abiertos en los cuatro últimos cierres de mes, luego hoy. Empeor.: empeoramientos desde la última ejecución. Valores: grado de bastionado / documentado, debajo la proporción comprobada; gris = comprobación incompleta.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="SummaryDoc_NoHighFindings" xml:space="preserve">
     <value>Sin hallazgos altos abiertos.</value>
@@ -1236,7 +1165,6 @@
   </data>
   <data name="SummaryDoc_Title" xml:space="preserve">
     <value>Estado de bastionado – resumen para la dirección</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="SummaryDoc_TopFindings" xml:space="preserve">
     <value>Hallazgos altos más frecuentes en todas las plantas</value>
@@ -1248,15 +1176,13 @@
     <value>Valores por categoría</value>
   </data>
   <data name="Summary_DomainControllers" xml:space="preserve">
-    <value>Controladores de dominio: {0} – sin valorar (el catálogo 2026.10 no está diseñado para controladores de dominio).</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Controladores de dominio: {0} – sin valorar (el catálogo 2026.10.1 no está diseñado para controladores de dominio).</value>
   </data>
   <data name="Summary_Heading" xml:space="preserve">
     <value>Resumen para la dirección</value>
   </data>
   <data name="Summary_Intro" xml:space="preserve">
     <value>Equipos: {0}, de ellos valorados: {1}. Fecha de evaluación {2}. Primero los recuentos, después los porcentajes.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Summary_MoreFindings" xml:space="preserve">
     <value>Más hallazgos: {0} – véase «Hallazgos abiertos por regla».</value>
@@ -1278,7 +1204,6 @@
   </data>
   <data name="Support_EsuCovered" xml:space="preserve">
     <value>ESU contratado</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Support_Unknown" xml:space="preserve">
     <value>estado de soporte desconocido</value>
@@ -1288,29 +1213,24 @@
   </data>
   <data name="Tagline" xml:space="preserve">
     <value>Bastionado donde se puede. Documentado donde no.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Tailoring_Heading" xml:space="preserve">
     <value>Ajuste de alcance (fuera del alcance)</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Tailoring_Intro" xml:space="preserve">
     <value>Registro {0}, entradas: {1} ({2}). El ajuste de alcance es una decisión de línea base para un rol, no un riesgo aceptado; las entradas válidas excluyen la regla de ambos valores.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Tailoring_None" xml:space="preserve">
     <value>Ninguna decisión de ajuste de alcance.</value>
   </data>
   <data name="Target_AlsoMsb" xml:space="preserve">
     <value>también en la línea base de MS</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Target_AppliesEverywhere" xml:space="preserve">
     <value>todos los equipos del grupo</value>
   </data>
   <data name="Target_Binding" xml:space="preserve">
-    <value>Esta aprobación abarca el catálogo {0} ({1}), el ajuste de alcance {2} y grupos: {3}.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>Esta aprobación abarca el catálogo {0} ({1}), el ajuste de alcance {2} y los grupos: {3}.</value>
   </data>
   <data name="Target_Date" xml:space="preserve">
     <value>Situación</value>
@@ -1329,7 +1249,6 @@
   </data>
   <data name="Target_Intro" xml:space="preserve">
     <value>Por grupo y rol: las reglas dentro del alcance con su valor esperado, generado a partir de la propia comprobación, su aplicabilidad y las fuentes que respaldan el valor. Una vez aprobado, este documento es la configuración objetivo de la planta y Riegel comprueba los equipos frente a ella.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Target_Inventory" xml:space="preserve">
     <value>regla de inventario (sin valoración)</value>
@@ -1351,7 +1270,6 @@
   </data>
   <data name="Target_Prov_Msb" xml:space="preserve">
     <value>también en una línea base de seguridad de Microsoft (solo corroboración)</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Target_Prov_Total" xml:space="preserve">
     <value>Reglas con valor esperado</value>
@@ -1370,7 +1288,6 @@
   </data>
   <data name="Target_SignOff_Intro" xml:space="preserve">
     <value>Con su firma, los roles indicados adoptan esta configuración objetivo para la planta. Los cambios requieren una nueva versión de este documento.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Target_Tailoring" xml:space="preserve">
     <value>Decisiones de ajuste de alcance del grupo {0}</value>
@@ -1389,11 +1306,9 @@
   </data>
   <data name="Vendor_Heading" xml:space="preserve">
     <value>Desviaciones requeridas por el software de la máquina</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Vendor_Intro" xml:space="preserve">
     <value>Excepciones creadas por el fabricante (rol «Fabricante») o importadas de sus plantillas.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Vendor_None" xml:space="preserve">
     <value>No hay desviaciones registradas por el fabricante.</value>

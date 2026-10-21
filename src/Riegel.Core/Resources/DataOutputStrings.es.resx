@@ -669,8 +669,7 @@
     <value>Creado con {0} {1} para la fecha de evaluación {2}. Todos los archivos están en UTF-8; las horas, en UTC.</value>
   </data>
   <data name="EvidenceReadme_LicenseWarning" xml:space="preserve">
-    <value>ADVERTENCIA: este paquete contiene el contenido de líneas base importadas. Sus condiciones de licencia (por ejemplo, Microsoft Security Compliance Toolkit, BSI o CIS) pueden prohibir su difusión. Revise las condiciones antes de entregar el paquete a terceros.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>ADVERTENCIA: este paquete contiene el contenido de líneas base importadas. Sus condiciones de licencia (por ejemplo, Microsoft Security Compliance Toolkit, BSI o CIS) pueden prohibir la redistribución de ese contenido. Revise las condiciones antes de entregar el paquete a terceros.</value>
   </data>
   <data name="EvidenceReadme_NoBuiltinBundle" xml:space="preserve">
     <value>Los paquetes en bruto de comandos integrados nunca forman parte del paquete; solo las exportaciones convertidas a partir de ellos.</value>
@@ -689,7 +688,6 @@
   </data>
   <data name="EvidenceReadme_SampleText" xml:space="preserve">
     <value>Vuelva a capturar un equipo (con testigo) y compare la exportación nueva con la exportación empaquetada del mismo equipo. Los valores volátiles (antigüedad de firmas, marcas de tiempo, tiempo de actividad) no cuentan. Resultado: "coherente" o "difiere en N puntos" con la lista.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="EvidenceReadme_Title" xml:space="preserve">
     <value>Paquete de evidencias de Riegel: {0}</value>
@@ -701,8 +699,7 @@
     <value>Verificar con verify</value>
   </data>
   <data name="EvidenceReadme_VerifyText" xml:space="preserve">
-    <value>verify lee el paquete sin descomprimirlo, comprueba cada suma, vuelve a evaluar cada exportación con el catálogo, la planta y los registros incluidos y compara los resultados. Informa "reproducido con el motor X (empaquetado: Y)". Los resultados de líneas base importadas cuyo contenido no está en el paquete no son verificables.</value>
-    <comment>TODO-übersetzen</comment>
+    <value>verify lee el paquete sin descomprimirlo, comprueba cada suma de comprobación, vuelve a evaluar cada exportación con el catálogo, la planta y los registros incluidos y compara los resultados. Informa "reproducido con el motor X (empaquetado: Y)". Los resultados de líneas base importadas cuyo contenido no está en el paquete no son verificables.</value>
   </data>
   <data name="Evidence_Baseline" xml:space="preserve">
     <value>Línea base importada</value>
@@ -1210,7 +1207,6 @@
   </data>
   <data name="TargetConfig_SignOffNote" xml:space="preserve">
     <value>La aprobación confirma la configuración objetivo del catálogo {0} con el ajuste del alcance {1}.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="ValueSource_DirectlySet" xml:space="preserve">
     <value>Establecido directamente</value>
@@ -1262,7 +1258,6 @@
   </data>
   <data name="Value_SignOffBinding" xml:space="preserve">
     <value>La aprobación confirma las excepciones del registro {0} ({1} entradas, {2} de ellas válidas) y el ajuste del alcance {3}.</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Verify_BaselineNotVerifiable" xml:space="preserve">
     <value>contenido de la línea base no incluido: no verificable</value>

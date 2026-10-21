@@ -16,39 +16,30 @@
   </data>
   <data name="AccountPolicy_ClearTextPassword" xml:space="preserve">
     <value>用可还原的加密来储存密码</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_LockoutDurationMin" xml:space="preserve">
     <value>帐户锁定时间（分钟）</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_LockoutThreshold" xml:space="preserve">
     <value>帐户锁定阈值（0 = 从不）</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_LockoutWindowMin" xml:space="preserve">
     <value>重置帐户锁定计数器（分钟）</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_MaxPwAgeDays" xml:space="preserve">
     <value>密码最长使用期限（天）</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_MinPwAgeDays" xml:space="preserve">
     <value>密码最短使用期限（天）</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_MinPwLen" xml:space="preserve">
     <value>密码长度最小值</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_PasswordComplexity" xml:space="preserve">
     <value>密码必须符合复杂性要求</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AccountPolicy_PwHistLen" xml:space="preserve">
     <value>强制密码历史（记住的密码数）</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="AppliesTo_Capability" xml:space="preserve">
     <value>操作系统具备 {0} 时</value>
@@ -168,8 +159,7 @@
     <value>措施无需批准；装置报告的签署涵盖该计划。</value>
   </data>
   <data name="Error_RGL0414" xml:space="preserve">
-    <value>裁剪已不再有效且原始结果未知：请重新评估导出。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>范围裁剪已不再有效，且原始结果未知：请重新评估导出文件。</value>
   </data>
   <data name="Error_RGL0420" xml:space="preserve">
     <value>ID {0} 被多次使用。</value>
@@ -238,8 +228,7 @@
     <value>与同一规则的 {0} 重叠：最具体的范围优先，同等情况下以最新批准为准。</value>
   </data>
   <data name="Error_RGL0442" xml:space="preserve">
-    <value>裁剪高严重性规则：是否改为有理由的例外更合适？</value>
-    <comment>TODO-übersetzen</comment>
+    <value>对高严重性规则进行范围裁剪：改为有理由的例外是否更合适？</value>
   </data>
   <data name="Error_RGL0443" xml:space="preserve">
     <value>该措施自 {0} 起已逾期。</value>
@@ -354,7 +343,6 @@
   </data>
   <data name="FwProp_AllowLocalRules" xml:space="preserve">
     <value>应用本地规则</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="FwProp_DefaultInboundBlock" xml:space="preserve">
     <value>默认阻止入站连接</value>
@@ -364,7 +352,6 @@
   </data>
   <data name="FwProp_LogDropped" xml:space="preserve">
     <value>记录被丢弃的数据包</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="InsurerFacts_NotFromMachine" xml:space="preserve">
     <value>无法从计算机读取：MFA（多重身份验证）、数据备份、网络分段</value>
@@ -467,7 +454,6 @@
   </data>
   <data name="Role_Builder" xml:space="preserve">
     <value>设备制造商</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Role_Operator" xml:space="preserve">
     <value>运营方</value>

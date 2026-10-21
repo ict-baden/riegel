@@ -6,15 +6,13 @@
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <data name="Baseline_Rationale" xml:space="preserve">
-    <value>来自导入的基线“{0}”的要求。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>来自已导入基线“{0}”的要求。</value>
   </data>
   <data name="Error_RGL0250" xml:space="preserve">
     <value>{0} 不是有效的 JSON（位置 {1}）；文件可能被截断。</value>
   </data>
   <data name="Error_RGL0251" xml:space="preserve">
-    <value>不支持的快照版本 {0}（此版本读取 {1}）。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>不支持的导出文件版本 {0}（此版本可读取 {1}）。</value>
   </data>
   <data name="Error_RGL0252" xml:space="preserve">
     <value>{0} 超过允许的大小（最多 {1} 字节）。</value>
@@ -32,19 +30,16 @@
     <value>{0} 不是可读的 gzip 文件。</value>
   </data>
   <data name="Error_RGL0257" xml:space="preserve">
-    <value>{0} 不是有效的快照（{1}）。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>{0} 不是有效的导出文件（{1}）。</value>
   </data>
   <data name="Error_RGL0258" xml:space="preserve">
-    <value>已丢弃所采集快照中的 {0} 个派生条目（parsed:*），并根据原始数据重新计算。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>已丢弃所采集导出文件中的 {0} 个派生条目（parsed:*），并已根据原始数据重新计算。</value>
   </data>
   <data name="Error_RGL0259" xml:space="preserve">
     <value>原始数据 {0} 不可用；无法计算派生条目。</value>
   </data>
   <data name="Error_RGL0260" xml:space="preserve">
     <value>不是有效的内置命令包（{0}）。名称为 *.riegel-builtin 或含有 hostname.txt 或 secedit.inf 的文件夹会作为此类包读取。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0261" xml:space="preserve">
     <value>{0} 超过允许的大小（最多 {1} 字节）。</value>
@@ -69,7 +64,6 @@
   </data>
   <data name="Error_RGL0268" xml:space="preserve">
     <value>{0} 不属于此内置命令包。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0270" xml:space="preserve">
     <value>{0} 不是有效的 Registry.pol 文件（位于字节 {1}）。</value>
@@ -82,19 +76,15 @@
   </data>
   <data name="Error_RGL0280" xml:space="preserve">
     <value>{0}：无法识别基线格式（应为 GPO 备份文件夹、.json 或 .csv 文件）。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0281" xml:space="preserve">
     <value>基线在 {0} 处无效（{1}）。</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0282" xml:space="preserve">
     <value>无效的基线或规则 ID：{0}</value>
-    <comment>TODO-übersetzen</comment>
   </data>
   <data name="Error_RGL0283" xml:space="preserve">
-    <value>规则 ID {0} 在基线中出现两次（第二次在 {1}）。</value>
-    <comment>TODO-übersetzen</comment>
+    <value>规则 ID {0} 在基线中出现两次（第二次出现在 {1}）。</value>
   </data>
   <data name="Error_RGL0284" xml:space="preserve">
     <value>{0}：第 {1} 行第 {2} 列无效。</value>
