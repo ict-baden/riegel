@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Die einzeln als unsicher markierten Einträge sind geprüft; ein neuer Eintrag mit unsicherer Übersetzung bekommt zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
@@ -33,7 +33,7 @@
     <value>Impossible d'ouvrir {0} (erreur {1}).</value>
   </data>
   <data name="Error_RGL0130" xml:space="preserve">
-    <value>Le paquet du collecteur est absent à côté de l'application ({0}). Le fichier unique Riegel.exe ne le contient pas : utilisez plutôt Riegel-Collector.zip de la version publiée.</value>
+    <value>Le paquet du collecteur est absent à côté de l'application ({0}). Le fichier unique Riegel.exe ne le contient pas : utilisez plutôt le paquet du collecteur Riegel-Collector-&lt;version&gt;.zip de la version publiée.</value>
   </data>
   <data name="Error_RGL0131" xml:space="preserve">
     <value>Le dossier cible contient déjà {0}. Choisissez un dossier vide.</value>

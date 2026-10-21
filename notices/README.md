@@ -1,8 +1,8 @@
 # Notices of the shipped .NET runtimes
 
-Riegel's self-contained packages (`Riegel-x64.msi`, `Riegel.exe`, `riegel-win-x64.exe`, `riegel-linux-x64`,
-`riegel-linux-arm64`) contain the .NET 10 runtime and, for the app, the Windows Desktop runtime (WPF). Their own
-third-party notices ship with Riegel, unchanged:
+Riegel's self-contained packages (`Riegel-<version>-x64.msi`, `Riegel.exe`, `riegel-<version>-win-x64.exe`,
+`riegel-<version>-linux-x64`, `riegel-<version>-linux-arm64`) contain the .NET 10 runtime and, for the app, the Windows
+Desktop runtime (WPF). Their own third-party notices ship with Riegel, unchanged:
 
 | File | Source |
 |---|---|

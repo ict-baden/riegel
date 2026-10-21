@@ -57,7 +57,7 @@ Collector and Windows platform.
 | `RGL-0116` | HandoffDifferentProfile | The elevated collection ran under a different account ("over the shoulder"), so its export landed in that account's profile. Open a command prompt with "Run as administrator" as that account, run Riegel.Cli.exe collect --out <folder> and import the file. |
 | `RGL-0120` | ShellOpenRefused | Riegel only opens files it created (PDF, Excel, CSV, JSON, text, ZIP), folders and http/https links: {0} |
 | `RGL-0121` | ShellOpenFailed | Could not open {0} (error {1}). |
-| `RGL-0130` | CollectorBundleMissing | The collector package is missing next to the app ({0}). The single-file Riegel.exe does not contain it: use Riegel-Collector.zip from the release instead. |
+| `RGL-0130` | CollectorBundleMissing | The collector package is missing next to the app ({0}). The single-file Riegel.exe does not contain it: use the collector package Riegel-Collector-<version>.zip from the release instead. |
 | `RGL-0131` | CollectorBundleTargetExists | The target folder already contains {0}. Choose an empty folder. |
 | `RGL-0140` | CollectionFailed | Collecting this PC failed ({0}). |
 

@@ -34,7 +34,7 @@
 
 > [!IMPORTANT]
 > **The MSI is not the way onto OT or validated machines.** Installing software there is a change in itself. On plant
-> PCs run the **portable collector** (`Riegel-Collector.zip`: installs nothing, changes no configuration and writes only
+> PCs run the **portable collector** (`Riegel-Collector-<version>.zip`: installs nothing, changes no configuration and writes only
 > its export; Windows itself records that a program ran – [what it leaves behind](docs/collector.md#what-it-leaves-behind)) or Windows' own
 > **built-in commands**, and evaluate the snapshot on an analysis PC. The MSI is for admin, engineering and auditor
 > PCs. **Not code-signed yet:** no customer pilot on OT or validated machines with this unsigned 0.1 version.
@@ -113,7 +113,7 @@
   their running state first; cited OS defaults are flagged "Default value assumed" (*Standardwert angenommen*).
 - **Monitoring that alerts on change:** Nagios exit codes and an Icinga line for regressions, newly open high findings,
   expiring exceptions and overdue measures – not for the standing state.
-- **Auditors on Linux:** `riegel-linux-x64` re-evaluates evidence packs (`verify`) and compares a fresh collection with
+- **Auditors on Linux:** `riegel-<version>-linux-x64` re-evaluates evidence packs (`verify`) and compares a fresh collection with
   a packed snapshot (`compare-snapshot`); it needs OpenSSL, ICU and a font from the system
   ([Linux packages](docs/installation.md#linux-packages)).
 - **Customer baselines:** import GPO backups (including the ones inside downloaded security baselines) or write your
@@ -125,14 +125,14 @@
 
 <table>
   <tr>
-    <td width="33%" valign="top"><b>① Collect</b><br>Copy <code>Riegel-Collector.zip</code> to a stick, run <code>Riegel.Collector.exe</code> on the plant PC (as administrator for a complete result). It writes one snapshot file next to itself.</td>
+    <td width="33%" valign="top"><b>① Collect</b><br>Copy <code>Riegel-Collector-&lt;version&gt;.zip</code> to a stick, run <code>Riegel.Collector.exe</code> on the plant PC (as administrator for a complete result). It writes one snapshot file next to itself.</td>
     <td width="33%" valign="top"><b>② Import</b><br>On an analysis PC, open or create a plant folder in <code>Riegel.exe</code> and drop the snapshot onto <i>Import exports</i> – or use <code>Riegel.Cli.exe import</code>.</td>
     <td width="33%" valign="top"><b>③ Justify and sign</b><br>Work through the open findings, record deliberate exceptions with their approval record, and write the plant report on the <i>Reports</i> page.</td>
   </tr>
 </table>
 
 **Downloads** – from the [**newest release**](https://github.com/ict-baden/riegel/releases/latest) (tag `vX.Y.Z`; file names carry the version, e.g.
-`Riegel-Collector-0.1.2.zip`). **For OT machines take a tag release, never the pre-release `latest`**: the collector's
+`Riegel-Collector-0.1.3.zip`). **For OT machines take a tag release, never the pre-release `latest`**: the collector's
 hash, its AppLocker data and its read-only proof belong to that release. The pre-release
 [`latest`](https://github.com/ict-baden/riegel/releases/tag/latest) is rebuilt from every change on `main` – for trying
 out, not for plants.
@@ -140,7 +140,7 @@ out, not for plants.
 | File | What it is |
 |---|---|
 | **Riegel-Collector-&lt;version&gt;.zip** | portable collector for plant and older machines, plus `collect-builtin.cmd`; installs nothing |
-| **Riegel-&lt;version&gt;-x64.msi** | analysis app with `Riegel.Cli.exe` and the collector, for all users (`msiexec /i Riegel-0.1.2-x64.msi /qn`, Intune, GPO) – **not for OT machines** |
+| **Riegel-&lt;version&gt;-x64.msi** | analysis app with `Riegel.Cli.exe` and the collector, for all users (`msiexec /i Riegel-0.1.3-x64.msi /qn`, Intune, GPO) – **not for OT machines** |
 | Riegel.exe | the app as one file, no installation (without the collector) |
 | riegel-&lt;version&gt;-win-x64.exe · riegel-&lt;version&gt;-linux-x64 · riegel-&lt;version&gt;-linux-arm64 | command line as one file for scripts, FAT pipelines and auditors |
 | SHA256SUMS.txt | checksums – the builds are **not code-signed** yet, check them ([how](docs/installation.md#verifying-the-download)) |
@@ -150,7 +150,7 @@ Want to look around first? **`Riegel.exe --demo`** opens the fictitious plant "M
 
 ### From the command line
 
-Use `Riegel.Cli.exe` (or `riegel-win-x64.exe`, `riegel-linux-x64`) in scripts – `Riegel.exe` is a window program and a
+Use `Riegel.Cli.exe` (or `riegel-<version>-win-x64.exe`, on Linux `riegel-<version>-linux-x64`) in scripts – `Riegel.exe` is a window program and a
 console does not wait for it.
 
 ```powershell
@@ -164,7 +164,7 @@ Riegel.Cli.exe check --snapshot D:\Exporte\HMI-01_20261018T080000Z.snapshot.json
 Riegel.Cli.exe plant init D:\Riegel\Linie3 --name "Linie 3"
 Riegel.Cli.exe import D:\Exporte --plant D:\Riegel\Linie3 --collected-by-role Servicetechniker --witness-role Anlagenverantwortlicher --record
 Riegel.Cli.exe report --plant D:\Riegel\Linie3 --format pdf,xlsx --evidence --out D:\Berichte
-riegel-linux-x64 verify Riegel-Evidence_Linie-3_2026-10-18.zip
+./riegel-0.1.3-linux-x64 verify Riegel-Evidence_Linie-3_2026-10-18.zip   # Linux
 
 # Monitoring against the plant (scheduled task, Icinga): one line; with --plant the alert mode is "change", so the
 # exit code reports what got worse, expiring exceptions and overdue measures – not the permanent state

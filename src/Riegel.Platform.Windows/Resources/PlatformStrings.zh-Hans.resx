@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Die einzeln als unsicher markierten Einträge sind geprüft; ein neuer Eintrag mit unsicherer Übersetzung bekommt zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
@@ -33,7 +33,7 @@
     <value>无法打开 {0}（错误 {1}）。</value>
   </data>
   <data name="Error_RGL0130" xml:space="preserve">
-    <value>应用旁边缺少采集器程序包（{0}）。单文件 Riegel.exe 不包含它：请改用 Release 中提供的 Riegel-Collector.zip。</value>
+    <value>应用旁边缺少采集器程序包（{0}）。单文件 Riegel.exe 不包含它：请改用 Release 中提供的采集器程序包 Riegel-Collector-&lt;版本&gt;.zip。</value>
   </data>
   <data name="Error_RGL0131" xml:space="preserve">
     <value>目标文件夹中已存在 {0}。请选择一个空文件夹。</value>

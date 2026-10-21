@@ -32,7 +32,7 @@
     <value>Could not open {0} (error {1}).</value>
   </data>
   <data name="Error_RGL0130" xml:space="preserve">
-    <value>The collector package is missing next to the app ({0}). The single-file Riegel.exe does not contain it: use Riegel-Collector.zip from the release instead.</value>
+    <value>The collector package is missing next to the app ({0}). The single-file Riegel.exe does not contain it: use the collector package Riegel-Collector-&lt;version&gt;.zip from the release instead.</value>
   </data>
   <data name="Error_RGL0131" xml:space="preserve">
     <value>The target folder already contains {0}. Choose an empty folder.</value>

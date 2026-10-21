@@ -21,14 +21,14 @@ code, so they fit scheduled tasks, Icinga and CI pipelines.
 | Program | Where | Use it for |
 |---|---|---|
 | `Riegel.Cli.exe` | in the MSI and the framework zip, next to `Riegel.exe` | scripts, scheduled tasks, Icinga on Windows |
-| `riegel-win-x64.exe` | release asset, single file | the same program without installation (USB stick, FAT bench) |
-| `riegel-linux-x64`, `riegel-linux-arm64` | release assets, single file | auditors and CI on Linux |
+| `riegel-<version>-win-x64.exe` | release asset, single file | the same program without installation (USB stick, FAT bench) |
+| `riegel-<version>-linux-x64`, `riegel-<version>-linux-arm64` | release assets, single file | auditors and CI on Linux |
 | `Riegel.exe <command>` | the window program | still works for compatibility – but see [Riegel.exe does not wait](#riegelexe-does-not-wait) |
 
 All of them run the same commands with the same options and exit codes. `collect`, `collector export` and
 `check --this-pc` need Windows; on Linux they end with exit code 3 and `RGL-0455`, which names the alternative
 (`riegel check --snapshot <file>`). `Riegel.Cli.exe` needs Windows 10 1809 / Server 2019 or later; older machines
-use the portable collector (`Riegel-Collector.zip`) and their exports are imported elsewhere.
+use the portable collector (`Riegel-Collector-<version>.zip`) and their exports are imported elsewhere.
 
 The examples use `Riegel.Cli.exe`; on Linux write `riegel` (the downloaded file renamed, or a symlink).
 

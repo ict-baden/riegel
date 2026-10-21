@@ -15,7 +15,7 @@
 machine and writes one snapshot file next to itself or into the folder you name. It installs nothing, changes no
 configuration and opens no network connection; Windows itself records that a program ran, and `gpresult` can make
 Windows start the Group Policy Client service on demand ([What it leaves behind](#what-it-leaves-behind)). The snapshot is evaluated later, on another PC, with
-Riegel (`Riegel-x64.msi`, `Riegel.exe` or the command line).
+Riegel (the MSI, `Riegel.exe` or the command line).
 
 - **Runs on** Windows 7 SP1 to Windows 11 and Windows Server 2008 R2 SP1 to 2025, x86, x64 and Arm64, with the .NET
   Framework that ships with Windows: CLR 4 (.NET 4.5 and later, Windows 8 / Server 2012 and newer) or CLR 2
@@ -66,7 +66,7 @@ itself be a change.
 
 1. **On the analysis PC:** in Riegel, *Copy collector to a drive* writes the collector, its `.exe.config`,
    `collect-builtin.cmd`, the README and `UEBERGABE.txt` (hand-over sheet with version, SHA-256 of every file, how
-   to run it and what it leaves behind) to the stick. Without the app, unpack `Riegel-Collector.zip` from a
+   to run it and what it leaves behind) to the stick. Without the app, unpack `Riegel-Collector-<version>.zip` from a
    **tag release** (see [versions](#versions-and-releases)).
 2. **Check the files on the target** before running them:
    `certutil -hashfile Riegel.Collector.exe SHA256` must print the value on the hand-over sheet and in the
@@ -187,7 +187,7 @@ before a collection round, and prefer `--minimal` or leave out `--deep` where an
 ## Built-in commands
 
 For machines on which no foreign program may run, and for Windows XP, Vista and Server 2003/2008,
-`collect-builtin.cmd` (in `Riegel-Collector.zip`) uses only Windows' own programs. It writes a new folder
+`collect-builtin.cmd` (in `Riegel-Collector-<version>.zip`) uses only Windows' own programs. It writes a new folder
 `<HOST>_<yyyyMMdd>.riegel-builtin` next to itself or below the folder you give as the first argument, and nothing
 else; every command's errorlevel goes into `exitcodes.txt`. Exit codes: 0 complete, 1 written but incomplete (run it
 elevated; `secedit` and `auditpol` need administrator rights), 3 nothing written (target not writable `RGL-0102`, or
@@ -249,7 +249,7 @@ reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Defaul
 ## Allow-listing (AppLocker)
 
 Where AppLocker or App Control blocks unknown programs, an administrator must allow the collector first. Each release
-publishes `Riegel-Collector-allowlist.zip`, computed on the CI runner (never on a customer machine):
+publishes `Riegel-Collector-allowlist-<version>.zip`, computed on the CI runner (never on a customer machine):
 
 - `AppLockerFileInformation.txt` – the output of `Get-AppLockerFileInformation` for `Riegel.Collector.exe`, including
   the hash as AppLocker sees it. AppLocker hash rules for programs use the Authenticode hash, not the plain file
@@ -290,7 +290,7 @@ account.
 
 Results of 2026-10-18 on the GitHub runners `windows-2022` (Server 2022, build 20348), `windows-2025` (Server 2025,
 build 26100) and `windows-11-arm` (Windows 11 Enterprise 25H2 Arm64, build 26200), workflow `collector.yml`, and on a
-Windows 11 Pro 25H2 x64 workstation (read-only). Every release repeats V1–V3 in `Riegel-Collector-ReadOnlyProof.txt`.
+Windows 11 Pro 25H2 x64 workstation (read-only). Every release repeats V1–V3 in `Riegel-Collector-ReadOnlyProof-<version>.txt`.
 
 | # | Question | Status |
 |---|---|---|

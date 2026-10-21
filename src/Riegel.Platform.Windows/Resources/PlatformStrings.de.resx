@@ -32,7 +32,7 @@
     <value>{0} ließ sich nicht öffnen (Fehler {1}).</value>
   </data>
   <data name="Error_RGL0130" xml:space="preserve">
-    <value>Das Sammler-Paket fehlt neben der App ({0}). Die Einzeldatei Riegel.exe enthält es nicht: stattdessen Riegel-Collector.zip aus dem Release verwenden.</value>
+    <value>Das Sammler-Paket fehlt neben der App ({0}). Die Einzeldatei Riegel.exe enthält es nicht: stattdessen das Sammler-Paket Riegel-Collector-&lt;Version&gt;.zip aus dem Release verwenden.</value>
   </data>
   <data name="Error_RGL0131" xml:space="preserve">
     <value>Im Zielordner liegt schon {0}. Bitte einen leeren Ordner wählen.</value>

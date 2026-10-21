@@ -9,7 +9,7 @@
 
 Plants that run validated or change-managed machines usually need a change request before any program may run there.
 This page collects what such a request asks for. Use the values of the **tag release** you deploy (never `latest`),
-and attach that release's `Riegel-Collector-ReadOnlyProof.txt` and `Riegel-Collector-allowlist.zip`.
+and attach that release's `Riegel-Collector-ReadOnlyProof-<version>.txt` and `Riegel-Collector-allowlist-<version>.zip`.
 
 ## Intended use and non-use
 
@@ -190,14 +190,14 @@ every demand-start service that Windows ended when idle during a run (start mode
 
 - `SHA256SUMS.txt` of the release (and `UEBERGABE.txt` when copied from the app) give the SHA-256 of every file; check
   on the target with `certutil -hashfile Riegel.Collector.exe SHA256`.
-- `Riegel-Collector-allowlist.zip` contains the `Get-AppLockerFileInformation` output and an AppLocker hash-rule XML
+- `Riegel-Collector-allowlist-<version>.zip` contains the `Get-AppLockerFileInformation` output and an AppLocker hash-rule XML
   for this exact build (see [Allow-listing](collector.md#allow-listing-applocker)).
 - The collector has its own version; the snapshot header names it and the SHA-256 of the exe that wrote it, so every
   export can be traced to the reviewed binary.
 
 ## Read-only proof
 
-`Riegel-Collector-ReadOnlyProof.txt` of each release records, for this exact build on a disposable GitHub runner,
+`Riegel-Collector-ReadOnlyProof-<version>.txt` of each release records, for this exact build on a disposable GitHub runner,
 the before/after comparison of the security template (`secedit /export`), the audit policy (`auditpol /backup`), the
 registry keys `HKLM\SOFTWARE\Policies`, `…\Control\Lsa`, `…\LanmanServer\Parameters` and `…\FirewallPolicy`, the
 start mode and running state of every service (including `wuauserv`), the Defender preferences, the scheduled tasks

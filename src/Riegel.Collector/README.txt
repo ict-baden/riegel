@@ -9,7 +9,7 @@ Riegel.Collector.exe reads the security configuration of this Windows machine an
 snapshot file (*.snapshot.json) and its checksum file (*.sha256) next to itself or into the
 folder you name. It installs nothing, changes no configuration and opens no network connection;
 what Windows itself records is listed under "What it leaves behind". Evaluate the snapshot on
-another PC with Riegel (Riegel-x64.msi, Riegel.exe or riegel-win-x64.exe).
+another PC with Riegel (the MSI, Riegel.exe or the command line).
 
 Designed for Windows 7 SP1 to Windows 11 and Server 2008 R2 to 2025, with the .NET Framework
 that ships with Windows (4.x or 3.5). Tested so far on Windows Server 2022 and 2025 and on
@@ -81,8 +81,8 @@ Riegel.Collector.exe liest die Sicherheitskonfiguration dieses Windows-Rechners 
 Exportdatei (*.snapshot.json) und ihre Prüfsummendatei (*.sha256) neben sich oder in den
 angegebenen Ordner. Er installiert nichts, ändert keine Konfiguration und baut keine
 Netzwerkverbindung auf; was Windows selbst vermerkt, steht unter „Was er hinterlässt“.
-Ausgewertet wird auf einem anderen PC mit Riegel (Riegel-x64.msi, Riegel.exe oder
-riegel-win-x64.exe).
+Ausgewertet wird auf einem anderen PC mit Riegel (MSI, Riegel.exe oder
+Befehlszeile).
 
 Ausgelegt für Windows 7 SP1 bis Windows 11 und Server 2008 R2 bis 2025, mit dem .NET Framework,
 das Windows mitbringt (4.x oder 3.5). Getestet bisher auf Windows Server 2022 und 2025 und auf

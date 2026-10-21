@@ -44,7 +44,7 @@ real machines. When in doubt Riegel reports *nicht prüfbar* (not checkable) ins
 | # | Question | Result |
 |---|---|---|
 | V1 | Does the collector leave `wuauserv` untouched? | **Yes** on `windows-2022` (service disabled) and `windows-2025` (running; the update history was read). On `windows-11-arm` Windows itself changed the service during calibration, so V1 was not verifiable there. |
-| V2 | Which Security-log events does one collection create? | Server 2022/2025: 4662, 4673, 4674, 4688 (collector, `secedit`, `gpresult`), 4798, 4799; fewer with `--minimal`. Depends on the audit policy; recorded per build in `Riegel-Collector-ReadOnlyProof.txt`. |
+| V2 | Which Security-log events does one collection create? | Server 2022/2025: 4662, 4673, 4674, 4688 (collector, `secedit`, `gpresult`), 4798, 4799; fewer with `--minimal`. Depends on the audit policy; recorded per build in `Riegel-Collector-ReadOnlyProof-<version>.txt`. |
 | V3 | Does Defender flag the collector or `--deep`? | **No** detection on any runner. |
 | V4 | Is `AMRunningMode` present? | **Yes**, `Normal` on all three runners. |
 | V5 | Does the collector start from a UNC share under CLR 2, and on Server 2008 R2 without the 3.5.1 feature? | **Unverified** – lab test before 1.0. |

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Besonders unsichere Einträge tragen zusätzlich den Kommentar „TODO-übersetzen“. -->
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Die einzeln als unsicher markierten Einträge sind geprüft; ein neuer Eintrag mit unsicherer Übersetzung bekommt zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
@@ -33,7 +33,7 @@
     <value>No se pudo abrir {0} (error {1}).</value>
   </data>
   <data name="Error_RGL0130" xml:space="preserve">
-    <value>Falta el paquete del recolector junto a la aplicación ({0}). El archivo único Riegel.exe no lo contiene: use Riegel-Collector.zip de la versión publicada.</value>
+    <value>Falta el paquete del recolector junto a la aplicación ({0}). El archivo único Riegel.exe no lo contiene: use el paquete del recolector Riegel-Collector-&lt;versión&gt;.zip de la versión publicada.</value>
   </data>
   <data name="Error_RGL0131" xml:space="preserve">
     <value>La carpeta de destino ya contiene {0}. Elija una carpeta vacía.</value>
