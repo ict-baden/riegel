@@ -42,6 +42,14 @@ jobs:
         with:
           global-json-file: global.json
 
+      - name: PowerShell-Syntax (alle Workflow-Schritte und Skripte)
+        # Auch die Schritte, die nur bei Tags oder auf main laufen: ein typografisches Anführungszeichen in einem String
+        # bricht sonst erst den Release-Lauf ab (Lupe, Vitrine am 2026-10-21)
+        run: |
+          python3 -c 'import yaml' 2>/dev/null || python3 -m pip install --quiet --user pyyaml
+          python3 .github/scripts/ps-syntax.py > "$RUNNER_TEMP/ps-blocks.json"
+          pwsh -NoProfile -File .github/scripts/ps-syntax.ps1 -Blocks "$RUNNER_TEMP/ps-blocks.json"
+
       - name: Schriften für die PDF-Tests
         # Segoe UI gibt es unter Linux nicht: freie Schriften für die PDF-Dokumente (Liberation ist metrisch gleich Arial).
         # zh-Hans: WenQuanYi Micro Hei (TrueType-Fläche aus der .ttc, die PDFsharp 6.2.4 einbetten kann); Noto CJK hat
@@ -147,15 +155,21 @@ jobs:
           # (AllowSameVersionUpgrades), und ein Release v0.1.1 ist immer neuer als jeder 0.1.0-CI-Build.
           $core = $v -replace '[-+].*$', ''
           $msi = if ($env:GITHUB_REF_TYPE -eq 'tag') { $core } else { "$core.$env:GITHUB_RUN_NUMBER" }
+          # Dateiversion der Programme immer mit Lauf-Nummer, auch beim Tag: Windows Installer kopiert eine Datei bei einem
+          # Update nur, wenn sie neuer ist als die installierte. Mit x.y.z.0 beim Tag (wie ein CI-Build derselben Version)
+          # entschied es beim Update von latest auf das Release „gleich alt, nicht kopieren“ und entfernte danach die alte
+          # Version - die Exe fehlte (bei Vitrine gefunden). Die Lauf-Nummer steigt, das Release ist also immer neuer.
+          $filever = "$core.$env:GITHUB_RUN_NUMBER"
           # Dateinamen: Releases aus einem Tag mit Version, sonst fest, damit die Links auf 'latest' dauerhaft gelten
           $suffix = if ($env:GITHUB_REF_TYPE -eq 'tag') { "-$v" } else { '' }
           # Der Sammler hat seine eigene Version (spec 4.3)
           $collector = (Get-Content src/Riegel.Collector/collector-version.txt -Raw).Trim()
           "version=$v" >> $env:GITHUB_OUTPUT
           "msi=$msi" >> $env:GITHUB_OUTPUT
+          "filever=$filever" >> $env:GITHUB_OUTPUT
           "suffix=$suffix" >> $env:GITHUB_OUTPUT
           "collector=$collector" >> $env:GITHUB_OUTPUT
-          Write-Host "Version: $v  MSI: $msi  Sammler: $collector  Signieren: $env:SIGN"
+          Write-Host "Version: $v  MSI: $msi  Dateiversion: $filever  Sammler: $collector  Signieren: $env:SIGN"
 
       - name: Release-Text prüfen (nur bei Tag v*)
         # Vor dem Bauen: ohne englischen CHANGELOG-Teil („### English“) entstünde ein Release ohne Text
@@ -209,7 +223,8 @@ jobs:
         shell: pwsh
         run: |
           $v = '${{ steps.version.outputs.version }}'
-          $gui = @("src/$env:APP/$env:APP.csproj", '-c', 'Release', '-r', 'win-x64', '-p:PublishSingleFile=true', "-p:Version=$v", '-p:DebugType=none')
+          $fv = "-p:FileVersion=${{ steps.version.outputs.filever }}"
+          $gui = @("src/$env:APP/$env:APP.csproj", '-c', 'Release', '-r', 'win-x64', '-p:PublishSingleFile=true', "-p:Version=$v", $fv, '-p:DebugType=none')
           # Oberfläche: benötigt .NET 10 Desktop Runtime / ohne Runtime-Abhängigkeit (Grundlage der MSI) / eine einzige Exe
           dotnet publish @gui --self-contained false -o out/framework
           if ($LASTEXITCODE -ne 0) { throw "Publish (framework) fehlgeschlagen ($LASTEXITCODE)" }
@@ -218,7 +233,7 @@ jobs:
           dotnet publish @gui --self-contained true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o out/standalone
           if ($LASTEXITCODE -ne 0) { throw "Publish (Einzeldatei) fehlgeschlagen ($LASTEXITCODE)" }
           # Konsolenprogramm Riegel.Cli.exe (spec 4.2) neben die Oberfläche, dazu als einzelne Datei riegel-win-x64.exe
-          $cli = @('src/Riegel.Cli/Riegel.Cli.csproj', '-c', 'Release', '-f', 'net10.0-windows', '-r', 'win-x64', '-p:PublishSingleFile=true', "-p:Version=$v", '-p:DebugType=none')
+          $cli = @('src/Riegel.Cli/Riegel.Cli.csproj', '-c', 'Release', '-f', 'net10.0-windows', '-r', 'win-x64', '-p:PublishSingleFile=true', "-p:Version=$v", $fv, '-p:DebugType=none')
           dotnet publish @cli --self-contained false -o out/framework
           if ($LASTEXITCODE -ne 0) { throw "Publish CLI (framework) fehlgeschlagen ($LASTEXITCODE)" }
           dotnet publish @cli --self-contained true -o out/self-contained
@@ -228,7 +243,7 @@ jobs:
           # Linux x64 und arm64: auf diesem Runner übersetzt (Cross-Publish), damit das Release nicht von Artefakten abhängt
           foreach ($rid in 'linux-x64', 'linux-arm64') {
             dotnet publish src/Riegel.Cli/Riegel.Cli.csproj -c Release -f net10.0 -r $rid --self-contained true -p:PublishSingleFile=true `
-              -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true "-p:Version=$v" -p:DebugType=none -o "out/$rid"
+              -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true "-p:Version=$v" $fv -p:DebugType=none -o "out/$rid"
             if ($LASTEXITCODE -ne 0) { throw "Publish $rid fehlgeschlagen ($LASTEXITCODE)" }
           }
           Get-ChildItem out/linux-x64, out/linux-arm64, out/cli-standalone | Format-Table Name, Length
@@ -401,22 +416,78 @@ jobs:
           timestamp-digest: SHA256
 
       - name: MSI-Installationstest (nur auf dem Wegwerf-Runner)
+        env:
+          GH_TOKEN: ${{ github.token }}
         shell: pwsh
         run: |
-          # Installieren, Riegel.Cli.exe --version mit verlässlichem $LASTEXITCODE, Sammler vorhanden, deinstallieren,
-          # Ordner weg (spec 8.12). Läuft nur auf dem CI-Runner, nie auf einem Arbeitsplatz.
+          # Neu installieren, dann Update von latest und vom neuesten Tag-Release: Dateien da, Dateiversion des neuen
+          # Pakets, ein Eintrag in „Programme und Features“, Riegel.Cli.exe --version mit verlässlichem $LASTEXITCODE,
+          # deinstallieren, Ordner weg. Läuft nur auf dem CI-Runner, nie auf einem Arbeitsplatz.
           if ($env:GITHUB_ACTIONS -ne 'true') { throw 'Nur auf GitHub-Runnern.' }
           $msi = (Resolve-Path "dist/$env:APP${{ steps.version.outputs.suffix }}-x64.msi").Path
-          $p = Start-Process msiexec.exe -ArgumentList '/i', "`"$msi`"", '/qn', '/l*v', "`"$PWD\msi-install.log`"" -Wait -PassThru
-          if ($p.ExitCode -ne 0) { Get-Content msi-install.log -Tail 60; throw "Installation fehlgeschlagen ($($p.ExitCode))" }
+          $fileVersion = '${{ steps.version.outputs.filever }}'
           $dir = Join-Path $env:ProgramFiles 'Riegel'
-          & "$dir\Riegel.Cli.exe" --version
-          if ($LASTEXITCODE -ne 0) { throw "Riegel.Cli.exe --version endete mit $LASTEXITCODE" }
-          if (-not (Test-Path "$dir\collector\Riegel.Collector.exe")) { throw 'collector\Riegel.Collector.exe fehlt in der Installation' }
-          $p = Start-Process msiexec.exe -ArgumentList '/x', "`"$msi`"", '/qn', '/l*v', "`"$PWD\msi-uninstall.log`"" -Wait -PassThru
-          if ($p.ExitCode -ne 0) { Get-Content msi-uninstall.log -Tail 60; throw "Deinstallation fehlgeschlagen ($($p.ExitCode))" }
-          if (Test-Path $dir) { Get-ChildItem $dir -Recurse | Select-Object -First 20; throw "$dir ist nach der Deinstallation noch da" }
-          Write-Host 'MSI: installiert, Riegel.Cli.exe --version = 0, Sammler vorhanden, deinstalliert, Ordner entfernt.'
+          $n = 0
+          function Invoke-Msi([string] $action, [string] $file) {
+            $script:n++
+            $log = Join-Path $PWD "msi-$script:n.log"
+            $p = Start-Process msiexec.exe -ArgumentList $action, "`"$file`"", '/qn', '/l*v', "`"$log`"" -Wait -PassThru
+            if ($p.ExitCode -ne 0) { Get-Content $log -Tail 60; throw "msiexec $action $(Split-Path $file -Leaf) endete mit $($p.ExitCode)" }
+          }
+          function Test-Installed([string] $label) {
+            foreach ($f in 'Riegel.exe', 'Riegel.Cli.exe', 'collector\Riegel.Collector.exe') {
+              if (-not (Test-Path (Join-Path $dir $f))) { throw "$label`: $f fehlt in der Installation" }
+            }
+            $found = (Get-Item "$dir\Riegel.exe").VersionInfo.FileVersion
+            if ($found -ne $fileVersion) { throw "$label`: Riegel.exe hat die Dateiversion $found statt $fileVersion" }
+            & "$dir\Riegel.Cli.exe" --version
+            if ($LASTEXITCODE -ne 0) { throw "$label`: Riegel.Cli.exe --version endete mit $LASTEXITCODE" }
+            $arp = @(Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*' -ErrorAction SilentlyContinue | Where-Object { $_.PSObject.Properties['DisplayName'] -and $_.DisplayName -eq 'Riegel' })
+            if ($arp.Count -ne 1) { throw "$label`: $($arp.Count) Einträge 'Riegel' in Programme und Features" }
+            Write-Host "$label`: Dateien da, Riegel.exe $found, ein Eintrag $($arp[0].DisplayVersion)"
+          }
+          function Remove-Installed([string] $label) {
+            Invoke-Msi '/x' $msi
+            if (Test-Path $dir) { Get-ChildItem $dir -Recurse | Select-Object -First 20; throw "$label`: $dir ist nach der Deinstallation noch da" }
+          }
+          # Die ersten drei Stellen der ProductVersion einer MSI (Windows Installer vergleicht nur diese)
+          function Get-MsiVersion([string] $file) {
+            $wi = New-Object -ComObject WindowsInstaller.Installer
+            $db = $wi.GetType().InvokeMember('OpenDatabase', 'InvokeMethod', $null, $wi, @($file, 0))
+            $view = $db.GetType().InvokeMember('OpenView', 'InvokeMethod', $null, $db, @("SELECT Value FROM Property WHERE Property='ProductVersion'"))
+            [void] $view.GetType().InvokeMember('Execute', 'InvokeMethod', $null, $view, $null)
+            $record = $view.GetType().InvokeMember('Fetch', 'InvokeMethod', $null, $view, $null)
+            $value = $record.GetType().InvokeMember('StringData', 'GetProperty', $null, $record, @(1))
+            [void] $view.GetType().InvokeMember('Close', 'InvokeMethod', $null, $view, $null)
+            $parts = ($value -split '\.')[0..2]
+            return [version] ($parts -join '.')
+          }
+
+          Invoke-Msi '/i' $msi
+          Test-Installed 'Neuinstallation'
+          Remove-Installed 'Neuinstallation'
+
+          # Updates: vom rollierenden Build latest und vom neuesten Tag-Release (bei einem Tag-Lauf das vorige Release)
+          $old = Join-Path $env:RUNNER_TEMP 'msi-old'
+          $sources = [Collections.Generic.List[object]]::new()
+          gh release download latest -R $env:GITHUB_REPOSITORY -p 'Riegel-x64.msi' -D "$old/latest" --clobber
+          if ($LASTEXITCODE -eq 0) { $sources.Add([pscustomobject]@{ Label = 'Update von latest'; File = "$old/latest/Riegel-x64.msi" }) }
+          else { Write-Host '::notice::latest hat keine MSI - Update von latest nicht geprüft' }
+          $tag = gh release view -R $env:GITHUB_REPOSITORY --json tagName -q .tagName
+          if ($LASTEXITCODE -eq 0 -and $tag -and $tag -ne $env:GITHUB_REF_NAME) {
+            gh release download $tag -R $env:GITHUB_REPOSITORY -p "Riegel-$($tag.TrimStart('v'))-x64.msi" -D "$old/tag" --clobber
+            if ($LASTEXITCODE -eq 0) { $sources.Add([pscustomobject]@{ Label = "Update von $tag"; File = "$old/tag/Riegel-$($tag.TrimStart('v'))-x64.msi" }) }
+          }
+          $newVersion = Get-MsiVersion $msi
+          foreach ($s in $sources) {
+            $oldVersion = Get-MsiVersion $s.File
+            if ($oldVersion -gt $newVersion) { Write-Host "::notice::$($s.Label): $oldVersion ist neuer als $newVersion - übersprungen"; continue }
+            Invoke-Msi '/i' $s.File
+            Invoke-Msi '/i' $msi
+            Test-Installed $s.Label
+            Remove-Installed $s.Label
+          }
+          Write-Host "MSI: Neuinstallation und $($sources.Count) Update(s) geprüft, deinstalliert, Ordner entfernt."
 
       - name: AppLocker-Daten des Sammlers
         # Nur auf dem Runner: liest Dateiinformationen und gibt eine Hash-Regel als XML aus – wendet nichts an (spec 4.3)

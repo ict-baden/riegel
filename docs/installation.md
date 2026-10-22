@@ -113,7 +113,10 @@ msiexec /x Riegel-0.1.3-x64.msi /qn                # uninstall
 ```
 
 The installer closes a running Riegel before it replaces files. CI installs and uninstalls every MSI on a disposable
-runner and checks `Riegel.Cli.exe --version` and `collector\`.
+runner, also as an update over the current `latest` build and over the newest tag release, and checks the program
+files with their file version, `Riegel.Cli.exe --version`, `collector\` and that *Programs and Features* lists Riegel
+once. The program files carry the version and the build number (`0.1.3.<run>`), so a release is always newer than every
+earlier `latest` build.
 
 ## Deploying with Intune or Group Policy
 

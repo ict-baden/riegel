@@ -20,7 +20,8 @@ Nur-Lesen-Nachweis und Veröffentlichung. Sammler unverändert (0.1.0, dieselben
 - *Datenschutz* auf der Info-Seite und in `--info` führt auf `https://ict-baden.de/datenschutz/riegel/`, wie bei den anderen Programmen von ICT-Baden; die Einzelheiten bleiben in `docs/data-and-privacy.md`.
 - README, Doku, `THIRD-PARTY-NOTICES.txt` und RGL-0130 nennen die Dateien der Tag-Releases mit Version (`Riegel-Collector-<version>.zip` …); ein Test hält die Versionsnummern in den Beispielen aktuell.
 - Releases tragen den englischen Teil des CHANGELOG-Abschnitts mit Sammler-Hash und Dateiliste als Text statt automatisch erzeugter Notizen; jeder Versionsabschnitt hat dafür einen Teil „English“.
-- CI: `actions/checkout` 7.0.1, `actions/setup-dotnet` 6.0.0 und `actions/upload-artifact` 7.0.2 (Node 24), weiter per Commit-SHA gepinnt.
+- MSI: Die Programme tragen die Dateiversion mit Build-Nummer (`0.1.3.<Lauf>`), auch im Tag-Release. So ist ein Release immer neuer als jeder frühere `latest`-Build, und Windows Installer ersetzt die Dateien bei einem Update sicher (bei Vitrine fehlte nach einem Update die Exe). Die CI prüft die MSI zusätzlich als Update über `latest` und über das neueste Tag-Release. Geprüft: Ein Update von `latest` (0.1.2-ci.50) auf v0.1.2 behielt alle Dateien; die veröffentlichten Releases sind nicht betroffen.
+- CI: `actions/checkout` 7.0.1, `actions/setup-dotnet` 6.0.0 und `actions/upload-artifact` 7.0.2 (Node 24), weiter per Commit-SHA gepinnt. Die Syntax aller PowerShell-Schritte und -Skripte wird bei jedem Lauf geprüft, auch die der Schritte, die nur bei einem Tag laufen.
 - Doku ohne Verweise auf die interne Spezifikation; Kopfvermerk der es/fr/zh-Hans-Sprachdateien ohne veralteten Hinweis auf einzeln markierte Einträge.
 
 ### English
@@ -37,7 +38,8 @@ Read-only proof and release housekeeping. Collector unchanged (0.1.0, same bytes
 - *Privacy* on the *About* page and in `--info` opens `https://ict-baden.de/datenschutz/riegel/`, as for the other ICT-Baden programs; the details remain in `docs/data-and-privacy.md`.
 - README, documentation, `THIRD-PARTY-NOTICES.txt` and RGL-0130 name the files of tag releases with their version (`Riegel-Collector-<version>.zip` …); a test keeps the version numbers in the examples current.
 - Releases carry the English part of the changelog section with the collector hash and the list of files as their notes instead of generated notes; every version section has an "English" part for this.
-- CI: `actions/checkout` 7.0.1, `actions/setup-dotnet` 6.0.0 and `actions/upload-artifact` 7.0.2 (Node 24), still pinned by commit SHA.
+- MSI: the programs carry the file version with the build number (`0.1.3.<run>`), also in the tag release. A release is therefore always newer than every earlier `latest` build, and Windows Installer reliably replaces the files on an update. CI also tests the MSI as an update over `latest` and over the newest tag release. Checked: an update from `latest` (0.1.2-ci.50) to v0.1.2 kept all files; the published releases are not affected.
+- CI: `actions/checkout` 7.0.1, `actions/setup-dotnet` 6.0.0 and `actions/upload-artifact` 7.0.2 (Node 24), still pinned by commit SHA. The syntax of every PowerShell step and script is checked on every run, including the steps that run only for a tag.
 - Documentation without references to the internal specification; the header note of the es/fr/zh-Hans language files no longer mentions individually marked entries.
 
 ## [0.1.2] – 2026-10-21
