@@ -605,7 +605,8 @@ jobs:
         shell: pwsh
         run: |
           # v1.0.0-rc1 und ähnliche: Vorabversion, nicht „Latest“
-          $pre = if ($env:GITHUB_REF_NAME -match '-') { @('--prerelease') } else { @() }
+          # @(...) um das if: ein if gibt ein Array mit einem Element als String zurück, @pre zerlegte ihn in Zeichen
+          $pre = @(if ($env:GITHUB_REF_NAME -match '-') { '--prerelease' })
           # Genau die elf Dateien aus spec 4.6 mit Versionsnummer (Riegel.exe ohne) – sonst kein Release
           $s = '${{ steps.version.outputs.suffix }}'
           $expected = "$env:APP$s-x64.msi", "$env:APP.exe", "$env:APP$s-win-x64-framework.zip", "riegel$s-win-x64.exe", "riegel$s-linux-x64",
