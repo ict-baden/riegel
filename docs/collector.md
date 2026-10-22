@@ -390,12 +390,14 @@ this on six Server 2025 runners (image 20261018.275.1):
   twice on the pull request because of the Windows Security rules before rule 1 knew this case. The collector reads
   the rules through `HNetCfg.FwPolicy2` and writes none.
 
-**Controls (2026-10-21, same runners).** The revised proof was run against stand-ins in place of `collect-builtin.cmd`.
-A stand-in that starts VSS on every call (`net start vss`) **fails** the proof in the first repetition – the old proof
-passed it, because the warm-up had started VSS and the measured run saw it already running. A stand-in that creates a
-scheduled task with `schtasks` **fails** it: the Security log names `schtasks.exe` from the stand-in's own process tree.
-Six proofs with the real collector and all five targets between 4 and 21 minutes after boot **passed**; the VSS start by
-Windows fell into their calibration runs. Before the proof became part of a release, the same rules were run against
-simulated runners for every case above (background start, start on every run, start during the warm-up only, *Start
+**Controls (2026-10-22, Server 2025 runners, final version of the proof).** The proof was run against stand-ins in
+place of `collect-builtin.cmd`. A stand-in that starts VSS on every call (`vssadmin list writers`, a COM activation like
+the one Windows itself makes) **fails** the proof in the first repetition round – the proof before this revision passed
+such a stand-in, because the warm-up had started VSS and the measured run saw it already running. A stand-in that starts
+VSS only on its first call **passes**: no target repeats the start in three clean runs each, and the proof lists it as a
+change by Windows (the limit described above). A stand-in that creates a scheduled task with `schtasks` **fails**. Four
+proofs with the real collector and all five targets between 7 and 25 minutes after boot **passed**, with Windows'
+own VSS start (680 and 681 s after boot) inside them. Before the proof became part of a release, the same rules were run
+against simulated runners for every case above (background start, start on every run, start during the warm-up only, *Start
 Pending*, a late start, a service that does not return, a known and an unknown task change, a known firewall change, a
 rule written by the collector, a rule change together with another firewall setting and an unknown rule).
