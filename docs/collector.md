@@ -328,14 +328,22 @@ does. These are its rules:
 1. **Configuration never changes.** Security template, audit policy, the registry exports, every service's start mode,
    the Defender preferences, the firewall profiles and rules, `Registry.pol`, the scheduled tasks with their enabled
    state and leftover `%TEMP%\riegel-*` folders are compared before and after the warm-up, every measured run and the
-   whole repetition phase. Any difference fails the proof. A value that changes on its own during the first
-   calibration run is reported as a warning and left out of the measured comparison. The only change by Windows that
-   the proof accepts is one on its list of known task changes – today one entry: `PrintJobCleanupTask` disabled by the
-   task host (`taskhostw.exe`, event 4701). It must be recorded in the Security log (events 4698–4702 name the client
-   process; event 4688 gives its program), and neither the client nor its parent process may belong to a run's process
-   tree (collected from a WMI process trace and from event 4688). Without such an event – auditing of *Other Object
-   Access Events* or of process creation off, or an older Windows – the change fails. The proof names the originator
-   in every case.
+   whole repetition phase (each repetition run on its own). Any difference fails the proof. A value that changes on its
+   own during the first calibration run is reported as a warning and left out of the measured comparison – except the
+   firewall, which is never left out. The only changes by Windows that the proof accepts are on two short lists, and
+   each needs its own record:
+   - **Scheduled tasks:** `PrintJobCleanupTask` disabled by the task host (`taskhostw.exe`, event 4701). The Security
+     log must name the client process (events 4698–4702) and its program (event 4688); its parent must be the Task
+     Scheduler service, and neither may belong to a run's process tree (collected from a WMI process trace and from
+     event 4688).
+   - **Firewall rules:** rules for packaged apps that the firewall service writes itself (account `NT SERVICE\mpssvc`,
+     program `svchost.exe`), and the `WinDefend` rules that a Defender platform update replaces (`MsMpEng.exe` as
+     SYSTEM). Only rule entries may have changed in the firewall store, and the Firewall log (events 2097, 2099, 2052)
+     must name the program and account for every changed rule; a program that writes a rule appears there with its own
+     path and account.
+
+   Without such a record – auditing off, or an older Windows – the change fails. The proof names the originator in
+   every case.
 2. **Services Windows starts and stops by design** are listed, not counted, as long as their start mode stays the same:
    services with a start trigger (Windows starts them on demand, e.g. the Group Policy Client when `gpresult` calls it),
    the servicing services of Windows Update and Windows Installer, and demand-start services (start mode *Manual*) that
@@ -375,6 +383,12 @@ this on six Server 2025 runners (image 20261018.275.1):
 - **`PrintJobCleanupTask` disables itself:** the Security log records event 4701 (task disabled) from `taskhostw.exe`,
   the host that runs the task, right after the task's first run about five minutes after boot. The collector does not
   use the Task Scheduler at all.
+- **Windows changes the firewall rules on its own (2026-10-22, two more runners):** about 11 minutes after boot a
+  Defender platform update replaces Defender's own rules (Firewall log: `MsMpEng.exe` as SYSTEM); 12 and 17 minutes
+  after boot Windows updates packaged apps (Windows Security, Narrator, the Windows Subsystem for Linux, Feedback Hub)
+  and the firewall service adds their rules itself (`svchost.exe` as `NT SERVICE\mpssvc`). The revised proof failed
+  twice on the pull request because of the Windows Security rules before rule 1 knew this case. The collector reads
+  the rules through `HNetCfg.FwPolicy2` and writes none.
 
 **Controls (2026-10-21, same runners).** The revised proof was run against stand-ins in place of `collect-builtin.cmd`.
 A stand-in that starts VSS on every call (`net start vss`) **fails** the proof in the first repetition – the old proof
@@ -383,4 +397,5 @@ scheduled task with `schtasks` **fails** it: the Security log names `schtasks.ex
 Six proofs with the real collector and all five targets between 4 and 21 minutes after boot **passed**; the VSS start by
 Windows fell into their calibration runs. Before the proof became part of a release, the same rules were run against
 simulated runners for every case above (background start, start on every run, start during the warm-up only, *Start
-Pending*, a late start, a service that does not return, a known and an unknown task change).
+Pending*, a late start, a service that does not return, a known and an unknown task change, a known firewall change, a
+rule written by the collector, a rule change together with another firewall setting and an unknown rule).

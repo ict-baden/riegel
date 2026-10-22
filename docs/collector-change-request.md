@@ -207,7 +207,7 @@ start mode and running state of every service (including `wuauserv`), the Defend
 collector first; the Security-log event IDs and Defender detections during the run; and the result. Any difference
 fails the release build, except the changes Windows makes by itself, which the proof lists with the rule it applied:
 services with a start trigger, servicing and idle-ended services, a service state change that no target repeats in
-three further runs each, and a known scheduled-task change by Windows that the Security log attributes to the Windows
-program it names
+three further runs each, and the known scheduled-task and firewall-rule changes by Windows that the Security log or
+the Firewall log attributes to the Windows program they name
 ([how the proof tells the collector from Windows](collector.md#how-the-proof-tells-the-collector-from-windows)). The workflow `collector.yml` runs the same proof on Windows Server 2022, Windows Server 2025
 and Windows 11 Arm64 for the collector, `--deep`, `--minimal`, `Riegel.Cli.exe collect` and `collect-builtin.cmd`.

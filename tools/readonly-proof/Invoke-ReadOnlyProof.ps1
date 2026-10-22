@@ -22,7 +22,9 @@
          Windows VSS und swprv 11 bis 13 Minuten nach dem Boot selbst).
     Eine geplante Aufgabe, die sich aendert, gilt nur als Windows, wenn die Aenderung in $knownTaskChanges steht und das
     Sicherheitsprotokoll (4698-4702) sie dem dort genannten Programm ausserhalb aller Laeufe zuschreibt (PrintJobCleanup-
-    Task schaltet sich nach ihrem Lauf selbst ab, 4701 von taskhostw.exe); sonst scheitert der Nachweis.
+    Task schaltet sich nach ihrem Lauf selbst ab, 4701 von taskhostw.exe); sonst scheitert der Nachweis. Ebenso Firewall-
+    Regeln: nur die in $knownFirewallChanges (Regeln fuer App-Pakete vom Firewall-Dienst selbst, Defender-Regeln bei einem
+    Plattform-Update), belegt im Firewall-Protokoll, und nur wenn sich sonst nichts an der Firewall geaendert hat.
     Jede andere Abweichung einer Einstellung (in jeder Phase, auch waehrend der Wiederholungen) laesst den Nachweis
     scheitern (Exitcode 1). Der Text geht nach -Out (UTF-8, LF). Regeln und Belege: docs/collector.md, Abschnitt
     "How the proof tells the collector from Windows".
@@ -302,6 +304,68 @@ function Get-TaskChange([string] $key, [string] $before, [string] $after, [datet
     [pscustomobject]@{ ByWindows = $byWindows; Text = (@($changers | ForEach-Object Label | Sort-Object -Unique) -join ', ') }
 }
 
+# Aenderungen der Firewall, die Windows selbst vornimmt (Belege in docs/collector.md): Regeln fuer App-Pakete, die der
+# Firewall-Dienst selbst schreibt (Konto NT SERVICE\mpssvc), und die Regeln "WinDefend", die Defender bei einem
+# Plattform-Update ersetzt. Ein anderes Programm, das Regeln schreibt, steht mit eigenem Pfad und Konto im Protokoll.
+$fwKey = 'reg:HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy'
+$mpssvcSid = try { (New-Object Security.Principal.NTAccount('NT SERVICE\mpssvc')).Translate([Security.Principal.SecurityIdentifier]).Value }
+             catch { 'S-1-5-80-3088073201-1464728630-1879813800-1107566885-823218052' }
+$knownFirewallChanges = @(
+    [pscustomobject]@{ Label = 'rule for a packaged app, written by the firewall service'; User = $mpssvcSid
+                       Application = '^[A-Za-z]:\\Windows\\System32\\svchost\.exe$'; RuleId = '^[A-Za-z0-9.]+_[a-z0-9]{13}-'; RuleName = '' }
+    [pscustomobject]@{ Label = 'Defender rule, replaced by a Defender platform update'; User = 'S-1-5-18'
+                       Application = '\\Microsoft\\Windows Defender\\Platform\\[^\\]+\\MsMpEng\.exe$'; RuleId = ''; RuleName = 'WinDefend' }
+)
+function Test-FirewallKey([string] $key) { $key -eq 'fw:rules' -or $key -eq $fwKey }
+
+# Regelaenderungen laut Firewall-Protokoll (2097 hinzugefuegt, 2099 geaendert, 2052 geloescht; aeltere Windows 2004-2006)
+function Get-FirewallEvents([datetime] $from, [datetime] $to) {
+    $log = 'Microsoft-Windows-Windows Firewall With Advanced Security/Firewall'
+    try { $events = @(Get-WinEvent -FilterHashtable @{ LogName = $log; Id = 2097, 2099, 2052, 2004, 2005, 2006; StartTime = $from; EndTime = $to } -ErrorAction Stop) }
+    catch { return @() }
+    foreach ($e in $events) {
+        $d = @{}
+        foreach ($n in ([xml] $e.ToXml()).Event.EventData.Data) { $d[$n.Name] = $n.InnerText }
+        [pscustomobject]@{ Id = $e.Id; RuleId = [string] $d['RuleId']; RuleName = [string] $d['RuleName']; Application = [string] $d['ModifyingApplication']; User = [string] $d['ModifyingUser'] }
+    }
+}
+
+# Geaenderte Firewall zwischen zwei Zustaenden: ByWindows nur, wenn sich im Registry-Export von FirewallPolicy
+# ausschliesslich Regeln geaendert haben und das Firewall-Protokoll jede davon einer bekannten Aenderung zuschreibt.
+# fw:rules (FwPolicy2) gilt nur zusammen mit einer so belegten Aenderung des Registry-Exports.
+function Get-FirewallChange($before, $after, [datetime] $from, [datetime] $to) {
+    $a = [string] $before[$fwKey]; $b = [string] $after[$fwKey]
+    if ($a -eq $b) { return [pscustomobject]@{ ByWindows = $false; Text = 'the rule store in the registry did not change' } }
+    $ids = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+    foreach ($c in @(Compare-Object @($a -split "`r?`n") @($b -split "`r?`n"))) {
+        $line = ([string] $c.InputObject).Trim()
+        if ($line -eq '') { continue }
+        if ($line -match '^"(?<id>[^"]+)"="v2\.\d+\|') { [void] $ids.Add($Matches['id']) }
+        else { return [pscustomobject]@{ ByWindows = $false; Text = "not only rules changed: $line" } }
+    }
+    $events = @(Get-FirewallEvents $from $to)
+    $labels = [Collections.Generic.List[string]]::new()
+    foreach ($id in $ids) {
+        $mine = @($events | Where-Object { $_.RuleId -eq $id })
+        if ($mine.Count -eq 0) { return [pscustomobject]@{ ByWindows = $false; Text = "no Firewall log event for rule $id" } }
+        foreach ($e in $mine) {
+            $known = @($knownFirewallChanges | Where-Object { $e.User -eq $_.User -and $e.Application -match $_.Application -and
+                                                             (-not $_.RuleId -or $e.RuleId -match $_.RuleId) -and (-not $_.RuleName -or $e.RuleName -match $_.RuleName) })
+            if ($known.Count -eq 0) { return [pscustomobject]@{ ByWindows = $false; Text = "rule $id changed by '$($e.Application)' as $($e.User) - not a known change by Windows" } }
+            $labels.Add("$($known[0].Label): $id")
+        }
+    }
+    [pscustomobject]@{ ByWindows = $true; Text = (@($labels | Sort-Object -Unique) -join '; ') }
+}
+
+# Beurteilt eine geaenderte Firewall wie Test-TaskChangeByWindows
+function Test-FirewallChangeByWindows([string] $key, $before, $after, [datetime] $from, [datetime] $to, [string] $label) {
+    $change = Get-FirewallChange $before $after $from $to
+    if ($change.ByWindows) { Line "  firewall rules changed by Windows (Firewall log: $($change.Text)): $label$key"; return $true }
+    Line "  firewall changed; $($change.Text)"
+    return $false
+}
+
 # Beurteilt eine geaenderte Aufgabe: $true, wenn sie als Aenderung von Windows aufgefuehrt wurde; sonst nennt sie die
 # Ereignisse und der Aufrufer zaehlt sie als Fehler
 function Test-TaskChangeByWindows([string] $key, $before, $after, [datetime] $from, [datetime] $to, $trees, [string] $label) {
@@ -397,6 +461,7 @@ Line '== Warm-up (first run of every target)'
 foreach ($key in @(Compare-State $s0 $s1)) {
     $text = Describe $s0 $s1 $key
     if ($key -like 'task:*' -and (Test-TaskChangeByWindows $key $s0 $s1 $warmFrom $warmTo $warmTrees '')) { continue }
+    if ((Test-FirewallKey $key) -and (Test-FirewallChangeByWindows $key $s0 $s1 $warmFrom $warmTo '')) { continue }
     if (-not (Test-Runtime $key)) { Fail "configuration changed during warm-up: $text"; continue }
     if ($key -eq 'svc:wuauserv:State') { Line "  note (V1, see the measured runs): $text"; continue }
     $rule = Get-ServiceRule $key $s0 $s1
@@ -414,11 +479,17 @@ $calStart = Get-Date
 Start-Sleep -Milliseconds $pause
 $calEnd = Get-Date
 $s2 = Get-RunnerState
-$excluded = @(Compare-State $s1 $s2)
+$calChanges = @(Compare-State $s1 $s2)
+# Die Firewall wird nie ausgeschlossen: jede Aenderung dort wird ueber das Firewall-Protokoll beurteilt
+$excluded = @($calChanges | Where-Object { -not (Test-FirewallKey $_) })
 Line "== Calibration (null run, $([Math]::Round($pause / 1000)) s without the collector)"
-if ($excluded.Count -eq 0) { Line '  nothing changed on its own' }
-foreach ($key in $excluded) {
+if ($calChanges.Count -eq 0) { Line '  nothing changed on its own' }
+foreach ($key in $calChanges) {
     $text = Describe $s1 $s2 $key
+    if (Test-FirewallKey $key) {
+        if (-not (Test-FirewallChangeByWindows $key $s1 $s2 $calStart (Get-Date) 'calibration: ')) { Line "  WARNING: the firewall changed on its own on this runner: $key" }
+        continue
+    }
     if (-not (Test-Runtime $key)) { Line "  excluded (changes on its own): $text"; Line "  WARNING: a configuration value changes on its own on this runner: $key"; continue }
     if ($key -eq 'svc:wuauserv:State') { Line "  changed on its own (V1, see below): $text"; continue }
     $rule = Get-ServiceRule $key $s1 $s2
@@ -475,11 +546,16 @@ $cal2Start = Get-Date
 Start-Sleep -Milliseconds $pause
 $cal2End = Get-Date
 $s9 = Get-RunnerState
-$excluded2 = @(Compare-State $previous $s9)
+$cal2Changes = @(Compare-State $previous $s9)
+$excluded2 = @($cal2Changes | Where-Object { -not (Test-FirewallKey $_) })
 Line "== Second calibration (null run, $([Math]::Round($pause / 1000)) s after the measured runs)"
-if ($excluded2.Count -eq 0) { Line '  nothing changed on its own' }
-foreach ($key in $excluded2) {
+if ($cal2Changes.Count -eq 0) { Line '  nothing changed on its own' }
+foreach ($key in $cal2Changes) {
     $text = Describe $previous $s9 $key
+    if (Test-FirewallKey $key) {
+        if (-not (Test-FirewallChangeByWindows $key $previous $s9 $cal2Start (Get-Date) 'second calibration: ')) { Line "  WARNING: the firewall changed on its own on this runner: $key" }
+        continue
+    }
     if (-not (Test-Runtime $key)) { Line "  changed on its own: $text"; Line "  WARNING: a configuration value changes on its own on this runner: $key"; continue }
     if ($key -eq 'svc:wuauserv:State') { Line "  changed on its own (V1, see below): $text"; continue }
     $rule = Get-ServiceRule $key $previous $s9
@@ -493,6 +569,7 @@ Line '== Differences of the measured runs'
 foreach ($m in $measured) {
     # Geplante Aufgabe: nur eine bekannte Aenderung durch Windows, belegt im Sicherheitsprotokoll, wird entschuldigt
     if ($m.Key -like 'task:*' -and (Test-TaskChangeByWindows $m.Key $m.BeforeState $m.AfterState $m.From $m.To $allTrees "$($m.Target): ")) { continue }
+    if ((Test-FirewallKey $m.Key) -and (Test-FirewallChangeByWindows $m.Key $m.BeforeState $m.AfterState $m.From $m.To "$($m.Target): ")) { continue }
     if (-not (Test-Runtime $m.Key)) { Fail "$($m.Target) changed: $($m.Text)"; continue }
     # wuauserv bleibt streng (V1); aendert er sich auch in der zweiten Kalibrierung von selbst, ist V1 hier nicht pruefbar
     if ($m.Key -eq 'svc:wuauserv:State') {
@@ -564,6 +641,7 @@ if ($recheck.Count -gt 0) {
             $next = Get-RunnerState
             foreach ($key in @(Compare-State $state $next | Where-Object { -not (Test-Runtime $_) -and $_ -notin $excluded -and $_ -notin $excluded2 })) {
                 if ($key -like 'task:*' -and (Test-TaskChangeByWindows $key $state $next $stateFrom (Get-Date) $allTrees "repetition round $round, $t`: ")) { continue }
+                if ((Test-FirewallKey $key) -and (Test-FirewallChangeByWindows $key $state $next $stateFrom (Get-Date) "repetition round $round, $t`: ")) { continue }
                 Fail "$t changed in repetition round $round`: $(Describe $state $next $key)"
             }
             $state = $next
