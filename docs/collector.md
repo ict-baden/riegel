@@ -327,8 +327,11 @@ does. These are its rules:
 
 1. **Configuration never changes.** Security template, audit policy, the registry exports, every service's start mode,
    the Defender preferences, the firewall profiles and rules, `Registry.pol`, the scheduled tasks with their enabled
-   state and leftover `%TEMP%\riegel-*` folders are compared before and after the warm-up, every measured run and the
-   whole repetition phase (each repetition run on its own). Any difference fails the proof. A value that changes on its
+   state and leftover `%TEMP%\riegel-*` folders are compared before and after the warm-up and every measured run – so
+   every target is judged in two runs. Any difference fails the proof. The repetitions (rule 3) compare them too, run by
+   run, and list every difference, but only their services decide: the longer a proof measures, the more often a one-off
+   change by Windows falls into it (on Server 2025, for example, `RunAsPPL` and `IsPplAutoEnabled` under `Lsa` and the
+   start mode of BITS). A value that changes on its
    own during the first calibration run is reported as a warning and left out of the measured comparison – except the
    firewall, which is never left out. The only changes by Windows that the proof accepts are on two short lists, and
    each needs its own record:
@@ -361,7 +364,9 @@ does. These are its rules:
 Every listed change stays in `Riegel-Collector-ReadOnlyProof-<version>.txt` with its rule, so a reviewer can check it.
 What the rules cannot exclude: a change that the collector causes only sometimes can pass three clean repetitions –
 one that it causes in every second run with a probability of one in eight per target, one in every third run with
-about three in ten – and an effect that appears only after the proof has ended is not seen at all.
+about three in ten. A configuration change that appears neither in the warm-up nor in the measured run of a target but
+only during its repetitions is listed and does not fail the proof, and an effect that appears only after the proof has
+ended is not seen at all.
 
 **Why rules 1 and 4 exist (diagnosis of 2026-10-21).** The collector workflow on `main` failed once on `windows-2025`
 with `svc:swprv:State` and `svc:VSS:State` changing from `Stopped` to `Running` during a measured collector run, and on

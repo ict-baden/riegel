@@ -88,8 +88,9 @@ These are open tasks for a lab and a real OT environment (gate for version 1.0):
 - Demand-start services that Windows ends when idle during a run are listed in the proof but not counted as a change.
 - A service state change that no target repeats in three further runs each is listed as Windows' own and not counted.
   A change that the collector caused only sometimes could therefore pass: one in every second run with a probability
-  of one in eight per target, one in every third run with about three in ten. Effects that appear only after the proof
-  has ended are not seen. Scheduled-task and firewall-rule changes are excused only when they are on the proof's lists of known
+  of one in eight per target, one in every third run with about three in ten. Configuration changes during the
+  repetitions are listed but do not fail the proof (configuration is judged in the warm-up and the measured runs).
+  Effects that appear only after the proof has ended are not seen. Scheduled-task and firewall-rule changes are excused only when they are on the proof's lists of known
   changes by Windows and the Security log (4698–4702, 4688) or the Firewall log (2097, 2099, 2052) names the Windows
   program; where these events are not recorded, every such change fails the proof
   ([rules and evidence](collector.md#how-the-proof-tells-the-collector-from-windows)).
