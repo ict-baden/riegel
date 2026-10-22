@@ -18,12 +18,15 @@ for path in sorted(glob.glob(".github/workflows/*.yml")):
     default = ((doc.get("defaults") or {}).get("run") or {}).get("shell")
     for job_name, job in (doc.get("jobs") or {}).items():
         job_default = ((job.get("defaults") or {}).get("run") or {}).get("shell") or default
-        windows = "windows" in str(job.get("runs-on", ""))
+        # runs-on direkt oder über die Matrix (runs-on: ${{ matrix.runner }})
+        matrix = ((job.get("strategy") or {}).get("matrix") or {})
+        windows = "windows" in str(job.get("runs-on", "")) or any("windows" in str(v) for v in matrix.values())
         for i, step in enumerate(job.get("steps") or []):
             if "run" not in step:
                 continue
             shell = step.get("shell") or job_default or ("pwsh" if windows else "bash")
-            if shell in ("pwsh", "powershell"):
+            # auch eigene Aufrufe wie „pwsh -NoProfile {0}“
+            if shell.split()[0] in ("pwsh", "powershell"):
                 out.append({"name": f"{path}:{job_name}:{step.get('name', i)}", "code": step["run"]})
 
 json.dump(out, sys.stdout)

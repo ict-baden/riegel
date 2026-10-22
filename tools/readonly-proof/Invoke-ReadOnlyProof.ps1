@@ -311,12 +311,29 @@ $fwKey = 'reg:HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\Fir
 $mpssvcSid = try { (New-Object Security.Principal.NTAccount('NT SERVICE\mpssvc')).Translate([Security.Principal.SecurityIdentifier]).Value }
              catch { 'S-1-5-80-3088073201-1464728630-1879813800-1107566885-823218052' }
 $knownFirewallChanges = @(
-    [pscustomobject]@{ Label = 'rule for a packaged app, written by the firewall service'; User = $mpssvcSid
-                       Application = '^[A-Za-z]:\\Windows\\System32\\svchost\.exe$'; RuleId = '^[A-Za-z0-9.]+_[a-z0-9]{13}-'; RuleName = '' }
+    # Regeln, die der Firewall-Dienst selbst schreibt (App-Pakete, Isolationsregeln): ein Programm, das die Firewall-API
+    # aufruft, steht stattdessen mit eigenem Pfad und Konto im Protokoll
+    [pscustomobject]@{ Label = 'rule written by the firewall service itself (packaged apps)'; User = $mpssvcSid
+                       Application = '^[A-Za-z]:\\Windows\\System32\\svchost\.exe$'; RuleName = '' }
     [pscustomobject]@{ Label = 'Defender rule, replaced by a Defender platform update'; User = 'S-1-5-18'
-                       Application = '\\Microsoft\\Windows Defender\\Platform\\[^\\]+\\MsMpEng\.exe$'; RuleId = ''; RuleName = 'WinDefend' }
+                       Application = '^[A-Za-z]:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\[^\\]+\\MsMpEng\.exe$'
+                       RuleName = '^WinDefend |^(In|Out)bound service restriction rule for WinDefend$' }
 )
+# Firewall-Schluessel: Regeln (fw:rules, Registry-Export) koennen belegt entschuldigt werden, Profile (fw:N:*) nie;
+# keiner von ihnen wird per Kalibrierung ausgeschlossen
 function Test-FirewallKey([string] $key) { $key -eq 'fw:rules' -or $key -eq $fwKey }
+function Test-AnyFirewallKey([string] $key) { $key -like 'fw:*' -or $key -eq $fwKey }
+
+# Registry-Export als Zeilen "Abschnitt<Tab>Zeile" (nur Wert-Zeilen, ohne Leerzeilen)
+function ConvertTo-SectionLines([string] $text) {
+    $section = ''
+    foreach ($raw in $text -split "`r?`n") {
+        $line = $raw.Trim()
+        if ($line -eq '' -or $line -like 'Windows Registry Editor*') { continue }
+        if ($line -match '^\[(?<k>.+)\]$') { $section = $Matches['k']; continue }
+        "$section`t$line"
+    }
+}
 
 # Regelaenderungen laut Firewall-Protokoll (2097 hinzugefuegt, 2099 geaendert, 2052 geloescht; aeltere Windows 2004-2006)
 function Get-FirewallEvents([datetime] $from, [datetime] $to) {
@@ -336,21 +353,25 @@ function Get-FirewallEvents([datetime] $from, [datetime] $to) {
 function Get-FirewallChange($before, $after, [datetime] $from, [datetime] $to) {
     $a = [string] $before[$fwKey]; $b = [string] $after[$fwKey]
     if ($a -eq $b) { return [pscustomobject]@{ ByWindows = $false; Text = 'the rule store in the registry did not change' } }
-    $ids = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
-    foreach ($c in @(Compare-Object @($a -split "`r?`n") @($b -split "`r?`n"))) {
-        $line = ([string] $c.InputObject).Trim()
-        if ($line -eq '') { continue }
-        if ($line -match '^"(?<id>[^"]+)"="v2\.\d+\|') { [void] $ids.Add($Matches['id']) }
-        else { return [pscustomobject]@{ ByWindows = $false; Text = "not only rules changed: $line" } }
+    # Jede Zeile mit ihrem Abschnitt [Schluessel], gross/klein-genau: sonst heben sich vertauschte Werte zweier Schluessel auf
+    $ids = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+    foreach ($c in @(Compare-Object @(ConvertTo-SectionLines $a) @(ConvertTo-SectionLines $b) -CaseSensitive)) {
+        $section, $line = ([string] $c.InputObject) -split "`t", 2
+        # Regeln stehen in ...\FirewallRules (auch AppIso) und in den Dienstregeln unter ...\RestrictedServices\...
+        $id = if ($line -match '^"(?<id>[^"]+)"="v2\.\d+\|') { $Matches['id'] } else { $null }
+        $ruleSection = $section -match '\\FirewallRules$' -or $section -match '\\RestrictedServices\\'
+        if ($id -and $ruleSection) { [void] $ids.Add($id) }
+        else { return [pscustomobject]@{ ByWindows = $false; Text = "not only rules changed: [$section] $line" } }
     }
+    if ($ids.Count -eq 0) { return [pscustomobject]@{ ByWindows = $false; Text = 'no rule difference in the registry export' } }
     $events = @(Get-FirewallEvents $from $to)
     $labels = [Collections.Generic.List[string]]::new()
     foreach ($id in $ids) {
-        $mine = @($events | Where-Object { $_.RuleId -eq $id })
+        $mine = @($events | Where-Object { $_.RuleId -ceq $id })
         if ($mine.Count -eq 0) { return [pscustomobject]@{ ByWindows = $false; Text = "no Firewall log event for rule $id" } }
         foreach ($e in $mine) {
             $known = @($knownFirewallChanges | Where-Object { $e.User -eq $_.User -and $e.Application -match $_.Application -and
-                                                             (-not $_.RuleId -or $e.RuleId -match $_.RuleId) -and (-not $_.RuleName -or $e.RuleName -match $_.RuleName) })
+                                                             (-not $_.RuleName -or $e.RuleName -match $_.RuleName) })
             if ($known.Count -eq 0) { return [pscustomobject]@{ ByWindows = $false; Text = "rule $id changed by '$($e.Application)' as $($e.User) - not a known change by Windows" } }
             $labels.Add("$($known[0].Label): $id")
         }
@@ -481,15 +502,14 @@ $calEnd = Get-Date
 $s2 = Get-RunnerState
 $calChanges = @(Compare-State $s1 $s2)
 # Die Firewall wird nie ausgeschlossen: jede Aenderung dort wird ueber das Firewall-Protokoll beurteilt
-$excluded = @($calChanges | Where-Object { -not (Test-FirewallKey $_) })
+$excluded = @($calChanges | Where-Object { -not (Test-AnyFirewallKey $_) })
 Line "== Calibration (null run, $([Math]::Round($pause / 1000)) s without the collector)"
 if ($calChanges.Count -eq 0) { Line '  nothing changed on its own' }
 foreach ($key in $calChanges) {
     $text = Describe $s1 $s2 $key
-    if (Test-FirewallKey $key) {
-        if (-not (Test-FirewallChangeByWindows $key $s1 $s2 $calStart (Get-Date) 'calibration: ')) { Line "  WARNING: the firewall changed on its own on this runner: $key" }
-        continue
-    }
+    # Eine nicht belegte Aenderung der Firewall kann eine spaete Folge des Aufwaermens sein: Fehler
+    if ((Test-FirewallKey $key) -and (Test-FirewallChangeByWindows $key $s1 $s2 $calStart (Get-Date) 'calibration: ')) { continue }
+    if (Test-AnyFirewallKey $key) { Fail "firewall changed during calibration, not attributable to Windows: $text"; continue }
     if (-not (Test-Runtime $key)) { Line "  excluded (changes on its own): $text"; Line "  WARNING: a configuration value changes on its own on this runner: $key"; continue }
     if ($key -eq 'svc:wuauserv:State') { Line "  changed on its own (V1, see below): $text"; continue }
     $rule = Get-ServiceRule $key $s1 $s2
@@ -547,15 +567,13 @@ Start-Sleep -Milliseconds $pause
 $cal2End = Get-Date
 $s9 = Get-RunnerState
 $cal2Changes = @(Compare-State $previous $s9)
-$excluded2 = @($cal2Changes | Where-Object { -not (Test-FirewallKey $_) })
+$excluded2 = @($cal2Changes | Where-Object { -not (Test-AnyFirewallKey $_) })
 Line "== Second calibration (null run, $([Math]::Round($pause / 1000)) s after the measured runs)"
 if ($cal2Changes.Count -eq 0) { Line '  nothing changed on its own' }
 foreach ($key in $cal2Changes) {
     $text = Describe $previous $s9 $key
-    if (Test-FirewallKey $key) {
-        if (-not (Test-FirewallChangeByWindows $key $previous $s9 $cal2Start (Get-Date) 'second calibration: ')) { Line "  WARNING: the firewall changed on its own on this runner: $key" }
-        continue
-    }
+    if ((Test-FirewallKey $key) -and (Test-FirewallChangeByWindows $key $previous $s9 $cal2Start (Get-Date) 'second calibration: ')) { continue }
+    if (Test-AnyFirewallKey $key) { Fail "firewall changed after the measured runs, not attributable to Windows: $text"; continue }
     if (-not (Test-Runtime $key)) { Line "  changed on its own: $text"; Line "  WARNING: a configuration value changes on its own on this runner: $key"; continue }
     if ($key -eq 'svc:wuauserv:State') { Line "  changed on its own (V1, see below): $text"; continue }
     $rule = Get-ServiceRule $key $previous $s9
@@ -594,6 +612,8 @@ Line ''
 if ($recheck.Count -gt 0) {
     Line '== Repetition of service state changes (every target 3 times, each run with the service in its previous state)'
     $checks = @($recheck | Group-Object Key | ForEach-Object { $_.Group[0] })
+    $state = $s9
+    $stateFrom = $cal2End
     $valid = @{}
     $failed = @{}
     $lastClean = @{}
@@ -619,12 +639,10 @@ if ($recheck.Count -gt 0) {
         $pending = @($pending | Where-Object { $notBack -notcontains $_ })
         if ($pending.Count -eq 0) { break }
         Line "  round $round (waited $([Math]::Round($wait.Elapsed.TotalSeconds)) s for $(($pending | ForEach-Object { $_.Key.Split(':')[1] + '=' + $_.Before }) -join ', '))"
-        # Einstellungen je Lauf: aufgefuehrt, nicht gezaehlt. Bewertet werden sie beim Aufwaermen und in den gemessenen
+        # Einstellungen je Lauf (durchgehend ab $s9, die Wartezeit gehoert zum naechsten Lauf): aufgefuehrt, nicht gezaehlt. Bewertet werden sie beim Aufwaermen und in den gemessenen
         # Laeufen (jedes Ziel lief dort schon zweimal); die Wiederholungen pruefen die Dienste nach. Je laenger gemessen
         # wird, desto oefter faellt eine einmalige Aenderung durch Windows hinein (auf windows-2025 z. B. RunAsPPL und
         # IsPplAutoEnabled unter Lsa, Starttyp von BITS) - das wuerde den Nachweis zufaellig rot machen.
-        $stateFrom = Get-Date
-        $state = Get-RunnerState
         foreach ($t in $Target) {
             $pre = @{}
             foreach ($c in $pending) { $pre[$c.Key] = Get-ServiceState $c.Key; Undo-LateChange $c $pre[$c.Key] }
@@ -667,6 +685,11 @@ if ($recheck.Count -gt 0) {
         }
     }
     foreach ($c in $checks) { if (-not $failed.ContainsKey($c.Key)) { Undo-LateChange $c (Get-ServiceState $c.Key) } }
+    # Nach dem letzten Lauf: was sich seit dem letzten Lesen geaendert hat, ebenfalls auffuehren
+    $last = Get-RunnerState
+    foreach ($key in @(Compare-State $state $last | Where-Object { -not (Test-Runtime $_) -and $_ -notin $excluded -and $_ -notin $excluded2 })) {
+        Line "  configuration changed after the last repetition run (listed): $(Describe $state $last $key)"
+    }
     foreach ($c in $checks) {
         if ($failed.ContainsKey($c.Key)) { continue }
         $short = @($Target | Where-Object { $valid["$($c.Key)|$_"] -lt 3 })

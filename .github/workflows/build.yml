@@ -459,6 +459,9 @@ jobs:
             $record = $view.GetType().InvokeMember('Fetch', 'InvokeMethod', $null, $view, $null)
             $value = $record.GetType().InvokeMember('StringData', 'GetProperty', $null, $record, @(1))
             [void] $view.GetType().InvokeMember('Close', 'InvokeMethod', $null, $view, $null)
+            # Datenbank freigeben, bevor msiexec dieselbe Datei installiert
+            foreach ($o in $record, $view, $db, $wi) { [void] [Runtime.InteropServices.Marshal]::ReleaseComObject($o) }
+            [GC]::Collect(); [GC]::WaitForPendingFinalizers()
             $parts = ($value -split '\.')[0..2]
             return [version] ($parts -join '.')
           }
@@ -473,21 +476,28 @@ jobs:
           gh release download latest -R $env:GITHUB_REPOSITORY -p 'Riegel-x64.msi' -D "$old/latest" --clobber
           if ($LASTEXITCODE -eq 0) { $sources.Add([pscustomobject]@{ Label = 'Update von latest'; File = "$old/latest/Riegel-x64.msi" }) }
           else { Write-Host '::notice::latest hat keine MSI - Update von latest nicht geprüft' }
+          # Neuestes Tag-Release („Latest“); ohne Tag-Release liefert gh das rollierende latest
           $tag = gh release view -R $env:GITHUB_REPOSITORY --json tagName -q .tagName
-          if ($LASTEXITCODE -eq 0 -and $tag -and $tag -ne $env:GITHUB_REF_NAME) {
+          if ($LASTEXITCODE -eq 0 -and $tag -match '^v\d+\.\d+\.\d+$' -and $tag -ne $env:GITHUB_REF_NAME) {
             gh release download $tag -R $env:GITHUB_REPOSITORY -p "Riegel-$($tag.TrimStart('v'))-x64.msi" -D "$old/tag" --clobber
             if ($LASTEXITCODE -eq 0) { $sources.Add([pscustomobject]@{ Label = "Update von $tag"; File = "$old/tag/Riegel-$($tag.TrimStart('v'))-x64.msi" }) }
-          }
+            else { Write-Host "::warning::MSI von $tag nicht ladbar - Update vom letzten Tag-Release nicht geprüft" }
+          } else { Write-Host "::notice::Kein früheres Tag-Release - Update vom letzten Tag-Release nicht geprüft" }
           $newVersion = Get-MsiVersion $msi
+          $tested = 0
           foreach ($s in $sources) {
             $oldVersion = Get-MsiVersion $s.File
-            if ($oldVersion -gt $newVersion) { Write-Host "::notice::$($s.Label): $oldVersion ist neuer als $newVersion - übersprungen"; continue }
+            if ($oldVersion -gt $newVersion) { Write-Host "::warning::$($s.Label): $oldVersion ist neuer als $newVersion - übersprungen"; continue }
             Invoke-Msi '/i' $s.File
             Invoke-Msi '/i' $msi
             Test-Installed $s.Label
             Remove-Installed $s.Label
+            $tested++
           }
-          Write-Host "MSI: Neuinstallation und $($sources.Count) Update(s) geprüft, deinstalliert, Ordner entfernt."
+          # Mindestens ein Update muss geprüft sein, sobald es ein latest gibt (sonst fiele der Test unbemerkt weg)
+          if ($tested -eq 0 -and $sources.Count -gt 0) { throw 'Kein Update geprüft: alle Vorgänger-MSI waren neuer oder nicht installierbar' }
+          Write-Host "MSI: Neuinstallation und $tested Update(s) geprüft, deinstalliert, Ordner entfernt."
+          exit 0 # der Exitcode eines übersprungenen gh-Aufrufs gilt nicht als Ergebnis
 
       - name: AppLocker-Daten des Sammlers
         # Nur auf dem Runner: liest Dateiinformationen und gibt eine Hash-Regel als XML aus – wendet nichts an (spec 4.3)

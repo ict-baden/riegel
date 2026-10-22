@@ -333,17 +333,19 @@ does. These are its rules:
    change by Windows falls into it (on Server 2025, for example, `RunAsPPL` and `IsPplAutoEnabled` under `Lsa` and the
    start mode of BITS). A value that changes on its
    own during the first calibration run is reported as a warning and left out of the measured comparison – except the
-   firewall, which is never left out. The only changes by Windows that the proof accepts are on two short lists, and
+   firewall, which is never left out: a firewall change in a calibration run that is not one of the known changes below
+   fails the proof, because it can be a late effect of the run before. The only changes by Windows that the proof accepts are on two short lists, and
    each needs its own record:
    - **Scheduled tasks:** `PrintJobCleanupTask` disabled by the task host (`taskhostw.exe`, event 4701). The Security
      log must name the client process (events 4698–4702) and its program (event 4688); its parent must be the Task
      Scheduler service, and neither may belong to a run's process tree (collected from a WMI process trace and from
      event 4688).
-   - **Firewall rules:** rules for packaged apps that the firewall service writes itself (account `NT SERVICE\mpssvc`,
-     program `svchost.exe`), and the `WinDefend` rules that a Defender platform update replaces (`MsMpEng.exe` as
-     SYSTEM). Only rule entries may have changed in the firewall store, and the Firewall log (events 2097, 2099, 2052)
-     must name the program and account for every changed rule; a program that writes a rule appears there with its own
-     path and account.
+   - **Firewall rules:** rules that the firewall service writes itself, for packaged apps and Windows components
+     (account `NT SERVICE\mpssvc`, program `svchost.exe`), and the `WinDefend` rules that a Defender platform update
+     replaces (`MsMpEng.exe` under `C:\ProgramData\Microsoft\Windows Defender\Platform\` as SYSTEM). Only rule
+     entries in the rule keys may have changed in the firewall store (compared key by key), and the Firewall log
+     (events 2097, 2099, 2052) must name the program and account for every changed rule; a program that writes a rule
+     appears there with its own path and account.
 
    Without such a record – auditing off, or an older Windows – the change fails. The proof names the originator in
    every case.
