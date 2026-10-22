@@ -104,6 +104,8 @@ function Get-RunnerState {
     }
     if ($null -ne $mp) {
         foreach ($p in $mp.CimInstanceProperties) { $s["mp:$($p.Name)"] = (@($p.Value) | ForEach-Object { [string] $_ }) -join ';' }
+        # Nur zur Zuordnung (Schluessel mit @ vergleicht Compare-State nicht): Version der Defender-Plattform
+        $s['@mp:AMProductVersion'] = try { [string] (Get-MpComputerStatus -ErrorAction Stop).AMProductVersion } catch { '' }
     } else { $s['mp'] = 'unavailable' }
     foreach ($task in Get-ScheduledTask) {
         # Ob eine Aufgabe gerade laeuft (Running/Queued/Ready), entscheidet ihr Zeitplan, nicht der Sammler: verglichen
@@ -134,6 +136,7 @@ function Compare-State($before, $after) {
     $changes = [Collections.Generic.List[string]]::new()
     $mpGap = $before['mp'] -eq 'unavailable' -or $after['mp'] -eq 'unavailable'
     foreach ($key in @($before.Keys) + @($after.Keys) | Sort-Object -Unique) {
+        if ($key.StartsWith('@')) { continue }
         if ($mpGap -and $key -like 'mp:*') { continue }
         $a = $before[$key]; $b = $after[$key]
         if ($a -ne $b) { $changes.Add($key) }
@@ -387,6 +390,45 @@ function Test-FirewallChangeByWindows([string] $key, $before, $after, [datetime]
     return $false
 }
 
+# Starttyp-Aenderungen, die Windows selbst vornimmt: BITS stellt sich je nach anstehenden Uebertragungen (z. B. fuer
+# Windows Update) zwischen Manual und Auto um. Beleg ist das Systemprotokoll: Ereignis 7040 des SCM mit dem Konto, das
+# den Starttyp aenderte - SYSTEM; die Laeufe des Nachweises laufen als Administrator, nie als SYSTEM.
+$knownStartModeChanges = @(
+    [pscustomobject]@{ Service = 'BITS'; Modes = @('Manual', 'Auto'); User = 'S-1-5-18' }
+)
+function Get-StartTypeEvents([datetime] $from, [datetime] $to) {
+    try { $events = @(Get-WinEvent -FilterHashtable @{ LogName = 'System'; ProviderName = 'Service Control Manager'; Id = 7040; StartTime = $from; EndTime = $to } -ErrorAction Stop) }
+    catch { return @() }
+    foreach ($e in $events) {
+        # Daten: Anzeigename, alter und neuer Starttyp, Dienstname (je nach Windows-Version)
+        $d = @(([xml] $e.ToXml()).Event.EventData.Data | ForEach-Object { [string] $_.InnerText })
+        [pscustomobject]@{ Data = $d; User = [string] $e.UserId }
+    }
+}
+# Geaenderter Starttyp ($key svc:<Name>:StartMode): $true, wenn er bekannt ist und jedes Ereignis 7040 dazu SYSTEM nennt
+function Test-StartModeChangeByWindows([string] $key, $before, $after, [datetime] $from, [datetime] $to, [string] $label) {
+    $name = $key.Split(':')[1]
+    $known = @($knownStartModeChanges | Where-Object { $_.Service -eq $name -and [string] $before[$key] -in $_.Modes -and [string] $after[$key] -in $_.Modes })
+    if ($known.Count -eq 0) { return $false }
+    $display = try { (Get-Service -Name $name -ErrorAction Stop).DisplayName } catch { $name }
+    $events = @(Get-StartTypeEvents $from $to | Where-Object { $_.Data -contains $name -or $_.Data -contains $display })
+    $byWindows = $events.Count -gt 0 -and @($events | Where-Object { $_.User -ne $known[0].User }).Count -eq 0
+    $who = if ($events.Count) { (@($events | ForEach-Object User | Sort-Object -Unique) -join ', ') } else { 'no event 7040' }
+    if ($byWindows) { Line "  start mode changed by Windows (System log 7040 by $who; $name switches itself between Manual and Auto): $label$(Describe $before $after $key)"; return $true }
+    Line "  start mode changed; System log: $who"
+    return $false
+}
+
+# Neue Defender-Einstellung: eine Eigenschaft von MSFT_MpPreference, die es vorher nicht gab, erscheint mit einem
+# Plattform-Update von Defender. $true nur, wenn sich die Plattformversion im selben Fenster geaendert hat.
+function Test-DefenderPreferenceByWindows([string] $key, $before, $after, [string] $label) {
+    if (-not $key.StartsWith('mp:') -or $before.Contains($key)) { return $false }
+    $v1 = [string] $before['@mp:AMProductVersion']; $v2 = [string] $after['@mp:AMProductVersion']
+    if (-not $v1 -or -not $v2 -or $v1 -eq $v2) { return $false }
+    Line "  new Defender preference after a Defender platform update ($v1 -> $v2): $label$(Describe $before $after $key)"
+    return $true
+}
+
 # Beurteilt eine geaenderte Aufgabe: $true, wenn sie als Aenderung von Windows aufgefuehrt wurde; sonst nennt sie die
 # Ereignisse und der Aufrufer zaehlt sie als Fehler
 function Test-TaskChangeByWindows([string] $key, $before, $after, [datetime] $from, [datetime] $to, $trees, [string] $label) {
@@ -483,6 +525,8 @@ foreach ($key in @(Compare-State $s0 $s1)) {
     $text = Describe $s0 $s1 $key
     if ($key -like 'task:*' -and (Test-TaskChangeByWindows $key $s0 $s1 $warmFrom $warmTo $warmTrees '')) { continue }
     if ((Test-FirewallKey $key) -and (Test-FirewallChangeByWindows $key $s0 $s1 $warmFrom $warmTo '')) { continue }
+    if ($key -like 'svc:*:StartMode' -and (Test-StartModeChangeByWindows $key $s0 $s1 $warmFrom $warmTo '')) { continue }
+    if (Test-DefenderPreferenceByWindows $key $s0 $s1 '') { continue }
     if (-not (Test-Runtime $key)) { Fail "configuration changed during warm-up: $text"; continue }
     if ($key -eq 'svc:wuauserv:State') { Line "  note (V1, see the measured runs): $text"; continue }
     $rule = Get-ServiceRule $key $s0 $s1
@@ -588,6 +632,8 @@ foreach ($m in $measured) {
     # Geplante Aufgabe: nur eine bekannte Aenderung durch Windows, belegt im Sicherheitsprotokoll, wird entschuldigt
     if ($m.Key -like 'task:*' -and (Test-TaskChangeByWindows $m.Key $m.BeforeState $m.AfterState $m.From $m.To $allTrees "$($m.Target): ")) { continue }
     if ((Test-FirewallKey $m.Key) -and (Test-FirewallChangeByWindows $m.Key $m.BeforeState $m.AfterState $m.From $m.To "$($m.Target): ")) { continue }
+    if ($m.Key -like 'svc:*:StartMode' -and (Test-StartModeChangeByWindows $m.Key $m.BeforeState $m.AfterState $m.From $m.To "$($m.Target): ")) { continue }
+    if (Test-DefenderPreferenceByWindows $m.Key $m.BeforeState $m.AfterState "$($m.Target): ") { continue }
     if (-not (Test-Runtime $m.Key)) { Fail "$($m.Target) changed: $($m.Text)"; continue }
     # wuauserv bleibt streng (V1); aendert er sich auch in der zweiten Kalibrierung von selbst, ist V1 hier nicht pruefbar
     if ($m.Key -eq 'svc:wuauserv:State') {

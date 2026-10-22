@@ -346,6 +346,12 @@ does. These are its rules:
      entries in the rule keys may have changed in the firewall store (compared key by key), and the Firewall log
      (events 2097, 2099, 2052) must name the program and account for every changed rule; a program that writes a rule
      appears there with its own path and account.
+   - **Start modes:** BITS switches itself between *Manual* and *Automatic* when transfers (for example for Windows
+     Update) are queued or done. The System log must record the change (event 7040) by SYSTEM; the runs of the proof
+     run as an administrator, never as SYSTEM.
+   - **Defender preferences:** a preference that did not exist before appears with a Defender platform update; it counts
+     only when the Defender platform version changed in the same interval. A changed value of an existing preference
+     always fails.
 
    Without such a record – auditing off, or an older Windows – the change fails. The proof names the originator in
    every case.
@@ -393,7 +399,9 @@ this on six Server 2025 runners (image 20261018.275.1):
 - **Windows changes the firewall rules on its own (2026-10-22, two more runners):** about 11 minutes after boot a
   Defender platform update replaces Defender's own rules (Firewall log: `MsMpEng.exe` as SYSTEM); 12 and 17 minutes
   after boot Windows updates packaged apps (Windows Security, Narrator, the Windows Subsystem for Linux, Feedback Hub)
-  and the firewall service adds their rules itself (`svchost.exe` as `NT SERVICE\mpssvc`). The revised proof failed
+  and the firewall service adds their rules itself (`svchost.exe` as `NT SERVICE\mpssvc`). The Defender platform update
+  also adds new preferences (`EnablePackageInspection`, `PromptEvidenceCollection`), and BITS switched its start mode
+  from *Manual* to *Automatic* and back during the same proof. The revised proof failed
   twice on the pull request because of the Windows Security rules before rule 1 knew this case. The collector reads
   the rules through `HNetCfg.FwPolicy2` and writes none.
 
