@@ -134,7 +134,7 @@
 **Downloads** – from the [**newest release**](https://github.com/ict-baden/riegel/releases/latest) (tag `vX.Y.Z`; file names carry the version, e.g.
 `Riegel-Collector-0.1.2.zip`). **For OT machines take a tag release, never the pre-release `latest`**: the collector's
 hash, its AppLocker data and its read-only proof belong to that release. The pre-release
-[`latest`](https://github.com/ict-baden/riegel/releases/tag/latest) is rebuilt from every change on `main` – for trying
+[`latest`](https://github.com/ict-baden/riegel/releases/tag/latest) is rebuilt nightly when `main` has changed – for trying
 out, not for plants.
 
 | File | What it is |

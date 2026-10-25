@@ -45,7 +45,7 @@ scheduled tasks.
 ## Downloads: latest and tag releases
 
 - **[latest](https://github.com/ict-baden/riegel/releases/tag/latest)** is the newest build of `main`, replaced in
-  place on every push, with fixed file names (version `<base version>-ci.<run>`). Use it to try Riegel and on analysis PCs.
+  place nightly when `main` has changed, with fixed file names (version `<base version>-ci.<run>`). Use it to try Riegel and on analysis PCs.
 - **Tag releases** (`v0.1.2` …) keep their files. Their names carry the version, e.g. `Riegel-0.1.2-x64.msi`,
   `Riegel-Collector-0.1.2.zip`, `riegel-0.1.2-linux-x64` (`Riegel.exe` keeps its name).
 - **OT customers use tag releases, never `latest`:** the collector's hash, its AppLocker data and its read-only proof
