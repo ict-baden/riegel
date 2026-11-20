@@ -31,7 +31,30 @@ public partial class MainWindow : Window, IThemedWindow
         vm.PropertyChanged += (_, e) =>
         {
             if (e.PropertyName == nameof(MainViewModel.SelectedPage)) Dispatcher.BeginInvoke(FocusPage, System.Windows.Threading.DispatcherPriority.Loaded);
+            if (e.PropertyName == nameof(MainViewModel.IsBusy)) OnBusyChanged();
         };
+    }
+
+    // Fokus vor einer Arbeit: Navigation und Seite sind währenddessen gesperrt und verlieren ihn
+    private IInputElement? _focusBeforeBusy;
+
+    private void OnBusyChanged()
+    {
+        if (ViewModel.IsBusy)
+        {
+            if (Keyboard.FocusedElement is { } focused && !ReferenceEquals(focused, BusyCard)) _focusBeforeBusy = focused;
+            // Fokus auf die Anzeige „läuft …“: bleibt im Fenster, der Screenreader sagt den Text an
+            Dispatcher.BeginInvoke(() => { if (ViewModel.IsBusy && IsActive) BusyCard.Focus(); }, System.Windows.Threading.DispatcherPriority.Loaded);
+            return;
+        }
+        var previous = _focusBeforeBusy;
+        _focusBeforeBusy = null;
+        Dispatcher.BeginInvoke(() =>
+        {
+            if (ViewModel.IsBusy || !IsActive) return;
+            if (previous is UIElement { IsVisible: true, IsEnabled: true } element && element.Focus()) return;
+            if (BusyCard.IsKeyboardFocusWithin || !IsKeyboardFocusWithin) PageHost.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
+        }, System.Windows.Threading.DispatcherPriority.Loaded);
     }
 
     internal MainViewModel ViewModel { get; }
@@ -86,7 +109,7 @@ public partial class MainWindow : Window, IThemedWindow
 
     private void OnDragOver(object sender, DragEventArgs e)
     {
-        e.Effects = ViewModel.Session.CanWrite && Importable(e).Count > 0 ? DragDropEffects.Copy : DragDropEffects.None;
+        e.Effects = ViewModel.Session.CanWrite && !ViewModel.IsBusy && Importable(e).Count > 0 ? DragDropEffects.Copy : DragDropEffects.None;
         e.Handled = true;
     }
 
@@ -94,7 +117,7 @@ public partial class MainWindow : Window, IThemedWindow
     {
         var files = Importable(e);
         _drag = null;
-        if (files.Count == 0) return;
+        if (files.Count == 0 || ViewModel.IsBusy) return;
         e.Handled = true;
         ViewModel.Select(ViewModel.Start);
         _ = DropAsync(files);

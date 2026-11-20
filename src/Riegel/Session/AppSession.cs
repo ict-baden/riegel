@@ -112,18 +112,27 @@ internal sealed partial class AppSession : ObservableObject, IDisposable
         Report(NoticeKind.Error, Describe(e));
     }
 
-    /// <summary>Arbeit im Hintergrund mit „läuft …“-Anzeige.</summary>
+    /// <summary>
+    /// Arbeit im Hintergrund mit „läuft …“-Anzeige. Mit Zähler: überlappen sich zwei Aufrufe, bleibt die Anzeige (und die
+    /// Sperre der Seiten) bis zum Ende des letzten stehen.
+    /// </summary>
     public async Task<T> Work<T>(string busyText, Func<T> work)
     {
-        IsBusy = true;
+        _running++;
         BusyText = busyText;
+        IsBusy = true;
         try { return await Task.Run(work); }
         finally
         {
-            IsBusy = false;
-            BusyText = "";
+            if (--_running == 0)
+            {
+                IsBusy = false;
+                BusyText = "";
+            }
         }
     }
+
+    private int _running;
 
     public Task Work(string busyText, Action work) => Work(busyText, () => { work(); return true; });
 

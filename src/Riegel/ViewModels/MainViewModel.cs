@@ -56,7 +56,13 @@ internal sealed class MainViewModel : ObservableObject
 
     private void OnSessionChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName is nameof(AppSession.IsBusy) or nameof(AppSession.BusyText) or "") { Raise(nameof(IsBusy)); Raise(nameof(BusyText)); }
+        if (e.PropertyName is nameof(AppSession.IsBusy) or nameof(AppSession.BusyText) or "")
+        {
+            Raise(nameof(IsBusy));
+            Raise(nameof(IsIdle));
+            Raise(nameof(BusyText));
+            if (System.Windows.Application.Current is not null) System.Windows.Input.CommandManager.InvalidateRequerySuggested();
+        }
     }
 
     /// <summary>Fenster geschlossen (z. B. Sprachwechsel): von der Sitzung abmelden.</summary>
@@ -92,6 +98,9 @@ internal sealed class MainViewModel : ObservableObject
     public PageViewModel SelectedPage => _selected;
 
     public bool IsBusy => Session.IsBusy;
+
+    /// <summary>Keine Arbeit läuft: Navigation und Seiten sind bedienbar (während der Arbeit gesperrt, auch für Tastatur).</summary>
+    public bool IsIdle => !Session.IsBusy;
     public string BusyText => Session.BusyText;
 
     // ---------------------------------------------------------------- Anlagenkarte
@@ -175,6 +184,9 @@ internal sealed class MainViewModel : ObservableObject
     /// <summary>Kürzel ausführen; true = erledigt. Die Prüfung von Strg/AltGr steckt in <see cref="Shortcuts.Resolve"/>.</summary>
     public (bool Handled, FocusRequest Focus) Execute(ShortcutAction action, int page)
     {
+        // Während einer Arbeit nichts Neues starten und nicht die Seite wechseln (zwei Schreibvorgänge im Anlagenordner);
+        // nur die Hilfe bleibt. Das Kürzel gilt als erledigt, damit es nicht an die gesperrte Seite geht.
+        if (Session.IsBusy && action != ShortcutAction.Help) return (true, FocusRequest.None);
         switch (action)
         {
             case ShortcutAction.OpenPlant:

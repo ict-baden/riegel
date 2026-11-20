@@ -37,7 +37,7 @@
     </Grid.ColumnDefinitions>
 
     <!-- ===================== Navigation ===================== -->
-    <DockPanel Margin="12,12,8,12">
+    <DockPanel Margin="12,12,8,12" IsEnabled="{Binding IsIdle}">
       <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="12,6,0,18">
         <Image Source="pack://application:,,,/Riegel;component/Assets/riegel.png" Width="34" Height="34" RenderOptions.BitmapScalingMode="HighQuality"/>
         <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
@@ -94,10 +94,11 @@
         </StackPanel>
       </Border>
 
-      <ContentControl x:Name="PageHost" Grid.Row="2" Content="{Binding SelectedPage}" Focusable="False" IsTabStop="False"/>
+      <ContentControl x:Name="PageHost" Grid.Row="2" Content="{Binding SelectedPage}" Focusable="False" IsTabStop="False" IsEnabled="{Binding IsIdle}"/>
 
       <!-- Seite braucht eine Anlage -->
-      <Border Grid.Row="2" Background="{DynamicResource ApplicationBackgroundBrush}" Visibility="{Binding SelectedPage.ShowNoPlant, Converter={StaticResource BoolToVisible}}">
+      <Border Grid.Row="2" Background="{DynamicResource ApplicationBackgroundBrush}" Visibility="{Binding SelectedPage.ShowNoPlant, Converter={StaticResource BoolToVisible}}"
+              IsEnabled="{Binding IsIdle}">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="520" Margin="32">
           <TextBlock Text="&#xE8B7;" Style="{StaticResource Icon}" FontSize="34" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
           <TextBlock Text="{ui:T Main_NoPlantTitle}" Style="{StaticResource BodyStrong}" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,12,0,0"/>
@@ -138,9 +139,11 @@
 
       <!-- Läuft gerade … -->
       <Border Grid.RowSpan="4" Background="#40000000" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisible}}">
-        <Border Style="{StaticResource Card}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="24,18" MinWidth="320">
+        <Border x:Name="BusyCard" Style="{StaticResource Card}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="24,18" MinWidth="320"
+                Focusable="True" FocusVisualStyle="{x:Null}" AutomationProperties.Name="{Binding BusyText}">
           <StackPanel>
-            <TextBlock Text="{Binding BusyText}" Style="{StaticResource BodyStrong}" HorizontalAlignment="Center" TextAlignment="Center"/>
+            <TextBlock Text="{Binding BusyText}" Style="{StaticResource BodyStrong}" HorizontalAlignment="Center" TextAlignment="Center"
+                       AutomationProperties.LiveSetting="Assertive"/>
             <ProgressBar IsIndeterminate="True" Height="4" Margin="0,12,0,0"/>
           </StackPanel>
         </Border>
