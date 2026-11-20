@@ -137,6 +137,38 @@ public sealed class PlantStoreTests
     }
 
     [Fact]
+    public void Import_wertet_mehrere_Exporte_eines_Rechners_in_Erfassungsreihenfolge_aus()
+    {
+        using var export = new TempFolder();
+        var early = SnapshotBuilder.Windows11Workgroup("W11-TEST").CollectedAt(new DateTimeOffset(2026, 10, 1, 8, 0, 0, TimeSpan.Zero)).WriteTo(export.Path);
+        var late = SnapshotBuilder.Windows11Workgroup("W11-TEST").CollectedAt(new DateTimeOffset(2026, 10, 10, 8, 0, 0, TimeSpan.Zero)).WriteTo(export.Path);
+
+        (Run Early, Run Late, ImportRecord Record) ImportIn(params string[] order)
+        {
+            var plant = new TempPlant();
+            try
+            {
+                var services = Services();
+                var record = services.Plants.Import(plant.Plant, order, new ImportOptions(null, null, null));
+                var runs = record.Files.Select(f => services.Plants.LoadRun(plant.Plant, f.RunId!)).ToList();
+                return (runs.Single(r => r.CollectedAtUtc.Day == 1), runs.Single(r => r.CollectedAtUtc.Day == 10), record);
+            }
+            finally { plant.Dispose(); }
+        }
+
+        // neuester zuerst übergeben (Mehrfachauswahl im Dateidialog): der Vorlauf ist trotzdem der ältere Export
+        var reversed = ImportIn(late, early);
+        Assert.Null(reversed.Early.PreviousRunId);
+        Assert.Equal(reversed.Early.Id, reversed.Late.PreviousRunId);
+        Assert.Equal([Path.GetFileName(early), Path.GetFileName(late)], reversed.Record.Files.Select(f => f.FileName));
+
+        // dasselbe Ergebnis wie in chronologischer Reihenfolge
+        var ordered = ImportIn(early, late);
+        Assert.Equal(ordered.Record.Id, reversed.Record.Id);
+        Assert.Equal(ordered.Late.Results.Select(r => (r.RuleId, r.Status, r.Flags)), reversed.Late.Results.Select(r => (r.RuleId, r.Status, r.Flags)));
+    }
+
+    [Fact]
     public void Import_mit_falscher_Pruefsumme_schreibt_nichts()
     {
         using var plant = new TempPlant();

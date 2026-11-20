@@ -127,6 +127,11 @@ internal sealed class PlantStore(RiegelServices services) : IPlantStore
                     Clean(o.OperatorRole) ?? p.Settings.OperatorRole, []);
         }
 
+        // Je Rechner in Erfassungsreihenfolge auswerten, nicht in Argumentreihenfolge: der Vorlauf wird von der Platte
+        // gesucht, ein neuerer Export vor einem älteren desselben Imports bekäme sonst die falsche Basis (Regressionen,
+        // neue Regeln und NewHigh gegen einen älteren Lauf oder gar keinen). OrderBy ist stabil.
+        prepared = [.. prepared.OrderBy(x => x.Snapshot.Machine.HostName, StringComparer.OrdinalIgnoreCase).ThenBy(x => x.Snapshot.CollectedAtUtc)];
+
         // 2. Ablegen, auswerten, Nachweis schreiben
         var id = FileNames.Timestamp(now) + "-" + Hashes.Sha256Hex(string.Join("\n", prepared.Select(x => x.Sha256)))[..6];
         var language = WorkflowText.CurrentLanguage();
