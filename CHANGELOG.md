@@ -6,6 +6,22 @@ Jeder Versionsabschnitt endet mit „English“: Das ist der Text des Releases a
 
 ## [Unveröffentlicht]
 
+### Behoben
+- **Gruppen:** Eine neue Gruppe bekam die ID einer gelöschten wieder (`g-` + Anzahl), und Rechner sowie freigegebene Ausnahmen und Zuschnitte der gelöschten Gruppe galten dann still für die neue. Neue IDs liegen jetzt über allen, die in Anlage, Rechnern und Registern vorkommen (ohne Groß-/Kleinschreibung).
+- **Import mehrerer Exporte:** Je Rechner wird in Erfassungsreihenfolge ausgewertet, nicht in der Reihenfolge der Argumente oder der Auswahl im Dateidialog. Vorher bekam ein neuerer Export vor einem älteren desselben Imports den falschen Vorlauf, mit falschen Regressionen, neuen Regeln und „neu hoch“.
+- **Vergleich gegen den freigegebenen Stand:** „Ausnahme entfernt“ (auch nur beantragt oder nach der Freigabe geändert) und „Zuschnitt entfernt“ nach „nicht erfüllt“ zählen als Verschlechterung (Token `regression`), wie die Kennzeichen am Ergebnis.
+- **Lauf-Flag `clockSuspect`:** dieselbe Uhrprüfung wie die Auswertung (ein Tag Spielraum, nächstniedrigere UBR, Fakten statt nur Kopf). Vorher konnte der Lauf „Uhr unplausibel“ tragen, während die Altersregeln normal bewertet waren, und umgekehrt. Ein `verify` von Nachweispaketen aus 0.1.x kann in solchen Grenzfällen eine Abweichung der Lauf-Flags melden.
+- **Oberfläche während einer Arbeit:** Navigation und Seiten sind gesperrt, auch für Tastatur, Kürzel und Ablegen von Dateien; die Anzeige „läuft …“ bleibt bis zum Ende der letzten Arbeit. Vorher ließen sich parallel zweite Schreibvorgänge im Anlagenordner starten.
+- **„Diesen PC prüfen“:** Der Übergabeordner mit dem Export wird auch gelöscht, wenn Erfassung, Übergabe oder Import scheitern; ältere Reste räumt Riegel beim Start auf. Scheitert die Erfassung im erhöhten Prozess, nennt RGL-0115 jetzt Exitcode und Ursache (der erhöhte Prozess hinterlegt nur den Code in `error.txt`).
+- **`collect-builtin.cmd`** wechselt vor dem ersten Programmaufruf nach `%SystemRoot%\System32` und setzt `PATH` und `PATHEXT` fest. Vorher hätte ein fremdes `reg.bat` oder `find.exe` im aktuellen Ordner (Stick, Freigabe) mit Administratorrechten laufen können.
+- **Vergleich:** Ein gerade nicht lesbarer Export (Freigabe weg, Datei gesperrt) wird auf der Seite gemeldet, statt einen halb zurückgesetzten Stand zu lassen.
+- **Demo:** Jede Erzeugung bekommt wieder einen eigenen Ausgabeordner (die feste Demo-Uhr legte alles in denselben); in derselben Sekunde mit „-2“, „-3“ …
+- **Sprung zu einer Ausnahme** bei aktiver Suche zeigt den Eintrag (Suche wird zurückgesetzt) statt eines leeren Details.
+- **Import-Dialog:** Ein Ordner ohne Exporte (RGL-0470) oder ein nicht lesbarer Ordner wird im Dialog gemeldet statt still ignoriert.
+
+### Bekannte Einschränkung
+- Der Sammler (0.1.0, unverändert) lässt bei einem Schreibfehler nach dem Anlegen (Stick voll) eine leere oder halbe `*.snapshot.json` ohne `.sha256` zurück, obwohl er „3 nichts geschrieben“ meldet. Die Behebung braucht eine neue Sammler-Version; bis dahin steht es in `docs/limitations.md`.
+
 ## [0.1.3] – 2026-10-21
 
 Nur-Lesen-Nachweis und Veröffentlichung. Sammler unverändert (0.1.0, dieselben Bytes), Regelwerk 2026.10.1.

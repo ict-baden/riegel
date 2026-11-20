@@ -76,6 +76,12 @@ These are open tasks for a lab and a real OT environment (gate for version 1.0):
 
 ## Collector
 
+- The collector creates its export file before collecting (so that a target that is not writable stops it early). If
+  writing fails afterwards – a full USB stick, a removed drive – or an unexpected error ends the run, it exits with 3
+  ("nothing written") but leaves an empty or truncated `*.snapshot.json` without `.sha256` behind. A later import of
+  that folder stops at this file (missing checksum file, not valid JSON). Delete such a file by hand and collect again;
+  an export without its `.sha256` is never a valid one. Fixing this changes the collector's bytes and needs a new
+  collector version.
 - `windows-11-arm`: `gpresult /x` answers "Access Denied" even to an elevated administrator, so an elevated collection
   there exits with 1 (`raw:gpresult-xml` is an error and value sources stay unknown).
 - `--deep` is needed for the LSASS protection level; without it CRED-06 relies on Wininit event 12 and is *not
