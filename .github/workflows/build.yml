@@ -30,8 +30,10 @@ permissions:
 # In PRs bricht ein neuer Push den überholten Lauf ab (spart Minuten). Auf main und bei Tags laufen die Läufe
 # nacheinander zu Ende: Ein Push, der nur „linux“ baut, darf keinen vollen Lauf (Nachtlauf, [voll]) abbrechen.
 # release-latest.ps1 veröffentlicht nur den neuesten Stand von main und räumt Reste abgebrochener Läufe auf.
+# Ein fremdes Label (nicht voll-bauen) startet zwar einen Lauf, der Job „gate“ setzt ihn aber auf run=false; damit er
+# keinen echten Lauf desselben PR abbricht, bekommt er eine eigene Gruppe.
 concurrency:
-  group: build-${{ github.ref }}
+  group: build-${{ github.ref }}${{ (github.event.action == 'labeled' && github.event.label.name != 'voll-bauen') && '-label' || '' }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
@@ -60,13 +62,17 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+          LABEL: ${{ github.event.label.name }}
           MSG: ${{ github.event.head_commit.message }}
           LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
           PR: ${{ github.event.pull_request.number }}
           # Geänderte Dateien, bei denen ein PR den Job „windows“ braucht: alles, was Linux nicht baut oder testet
           # (WPF-App, Windows-Anbindung, Sammler, Befehlszeile für Windows, Windows-Tests, Bordmittel, Nur-Lesen-Nachweis,
-          # MSI, Hinweise der Laufzeit, Build-Einstellungen, Werkzeuge, Lizenztexte im Paket)
-          FULL_PATHS: '^(\.github/|installer/|src/Riegel/|src/Riegel\.(Platform\.Windows|Collector|Cli)/|tests/Riegel\.Tests/(Windows/|Riegel\.Tests\.csproj$)|tools/(collect-builtin|readonly-proof)/|notices/|\.config/|Directory\.Build\.(props|targets)$|global\.json$|Riegel\.sln$|THIRD-PARTY-NOTICES\.txt$)'
+          # MSI, Hinweise der Laufzeit, Build-Einstellungen, Lizenztexte im Paket). Dazu der Erhebungsplan (in die
+          # Sammler-Exe eingebettet: Hash-Sperre), das Snapshot-Schema (Sammler-Tests) und die Projektdateien von Core und
+          # Befehlen (Paket-Updates: Lizenzhinweise aller Pakete der App prüft nur der Windows-Test)
+          FULL_PATHS: '^(\.github/|installer/|src/Riegel/|src/Riegel\.(Platform\.Windows|Collector|Cli)/|src/Riegel\.(Core|Commands)/[^/]+\.csproj$|tests/Riegel\.Tests/(Windows/|Riegel\.Tests\.csproj$)|tools/(collect-builtin|readonly-proof)/|contracts/|schemas/snapshot\.schema\.json$|notices/|\.config/|Directory\.Build\.(props|targets)$|global\.json$|Riegel\.sln$|THIRD-PARTY-NOTICES\.txt$)'
           # Reine Doku, wie paths-ignore oben
           DOC_PATHS: '(\.md$|^docs/|^LICENSE$|^\.github/ISSUE_TEMPLATE/)'
         run: |
@@ -78,8 +84,13 @@ jobs:
               # Bei mehreren Commits in einem Push zählt die Nachricht des letzten
               if [ "$GITHUB_REF_TYPE" = tag ] || [[ "$MSG" == *"[voll]"* ]]; then full=true; fi ;;
             pull_request)
-              files=$(gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR/files" --jq '.[].filename')
-              if [[ ",$LABELS," == *",voll-bauen,"* ]] || grep -qE "$FULL_PATHS" <<< "$files"; then full=true; fi ;;
+              # Ein anderes Label als voll-bauen ändert nichts am Code: kein neuer Lauf
+              if [ "$ACTION" = labeled ] && [ "$LABEL" != voll-bauen ]; then
+                run=false
+              else
+                files=$(gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR/files" --jq '.[].filename')
+                if [[ ",$LABELS," == *",voll-bauen,"* ]] || grep -qE "$FULL_PATHS" <<< "$files"; then full=true; fi
+              fi ;;
             schedule)
               # Der Tag 'latest' steht auf dem Commit des letzten vollen Builds von main
               built=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/latest" --jq .object.sha 2>/dev/null || true)

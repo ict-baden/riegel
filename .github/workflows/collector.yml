@@ -39,8 +39,9 @@ on:
 permissions:
   contents: read
 
+# Ein fremdes Label startet keinen Job (siehe unten); seine eigene Gruppe verhindert, dass es einen echten Lauf abbricht
 concurrency:
-  group: collector-${{ github.ref }}
+  group: collector-${{ github.ref }}${{ (github.event.action == 'labeled' && github.event.label.name != 'record-fixtures') && '-label' || '' }}
   cancel-in-progress: true
 
 env:

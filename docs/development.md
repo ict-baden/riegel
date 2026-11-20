@@ -251,16 +251,25 @@ snapshot of a workstation or a customer machine; your own PC is compared only lo
 documentation only (`**.md`, `docs/**`, `LICENSE`, issue templates) start nothing. In a pull request a newer push
 cancels the running build (`concurrency`); on `main` and for tags builds are queued and always finish.
 
-A first job **gate** decides how much a run builds (ICT-Baden guideline 04, *Wann die CI baut*), because Windows minutes
-count double:
+A first job **gate** decides how much a run builds, because Windows minutes count double:
 
 - **Push to `main`, push to a pull request:** only linux.
 - **Full build** (linux, windows, release-check): nightly when `main` has changed more than documentation since the
   last full build (the tag `latest`), tags `v*`, by hand (`gh workflow run build.yml --ref main`), a push whose last
   commit message contains `[voll]`, and pull requests with the label `voll-bauen` or with changes that Linux does not
   build or test (`FULL_PATHS` in the workflow: `.github/`, `installer/`, the app, the platform, the collector, the CLI,
-  the Windows tests, `tools/collect-builtin`, `tools/readonly-proof`, `notices/`, build settings, tools). On `main` a
-  full build updates `latest`.
+  the Windows tests and the test project file, `tools/collect-builtin`, `tools/readonly-proof`, the collection plan
+  `contracts/` (embedded in the collector: hash lock), `schemas/snapshot.schema.json`, the project files of Core and
+  Commands (package updates: only the Windows test checks the notices of every package of the app), `notices/`,
+  `.config/`, build settings, `global.json`, `Riegel.sln` and `THIRD-PARTY-NOTICES.txt`). On `main` a full build
+  updates `latest`.
+- **Other labels** start no build: a pull request event for a label other than `voll-bauen` stops at gate, in its own
+  concurrency group, so it never cancels a real run.
+
+`FULL_PATHS` applies to pull requests only. A push to `main` builds only linux; the nightly or a tag build catches up
+with the Windows-only tests (for example `docs/error-codes.md` for the app, collector and platform codes, the notices of
+every package of the app, the demo report). When a commit changes such things, put `[voll]` in its message or run the
+whole solution locally on Windows (`dotnet test Riegel.sln`) before pushing.
 
 - **linux:** build and test `tests/Riegel.Tests -f net10.0` (with RuleTool), with free fonts for the PDF tests
   (DejaVu, Liberation, Noto CJK for the CFF test, WenQuanYi Micro Hei for Chinese); publish `riegel` for linux-x64 and
