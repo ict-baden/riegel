@@ -318,12 +318,26 @@ internal sealed partial class AppSession
     /// <summary>Standard-Ausgabeordner: reports/&lt;Zeitpunkt&gt;/ im Anlagenordner (spec 7.6); im Prüfermodus keiner.</summary>
     public string? DefaultOutputFolder => _plant is { ReadOnly: false } p ? Path.Combine(p.Folder, "reports") : null;
 
-    private static string ReportsFolder(PlantContext plant) =>
-        Path.Combine(plant.Folder, "reports", plant.Services.Clock.GetUtcNow().UtcDateTime.ToString("yyyy-MM-dd'T'HHmmss'Z'", CultureInfo.InvariantCulture));
+    private string ReportsFolder(PlantContext plant) => NewOutputFolder(Path.Combine(plant.Folder, "reports"), plant.Services.Clock);
 
     /// <summary>Neuer Unterordner mit Zeitstempel unter <paramref name="baseFolder"/>.</summary>
-    public string NewOutputFolder(string baseFolder) =>
-        Path.Combine(baseFolder, Services.Clock.GetUtcNow().UtcDateTime.ToString("yyyy-MM-dd'T'HHmmss'Z'", CultureInfo.InvariantCulture));
+    public string NewOutputFolder(string baseFolder) => NewOutputFolder(baseFolder, Services.Clock);
+
+    /// <summary>
+    /// Neuer Unterordner je Erzeugung (spec 7.6). Der Name kommt bewusst von der echten Uhr, nicht von der Uhr der
+    /// Anlage: in der Demo steht diese fest, und alle Dokumente landeten sonst im selben Ordner (nur beim Erzeugen der
+    /// Screenshots bleibt die feste Uhr, damit die Bilder gleich bleiben). Gibt es den Ordner schon (dieselbe Sekunde),
+    /// bekommt der neue „-2“, „-3“ … angehängt.
+    /// </summary>
+    private string NewOutputFolder(string baseFolder, TimeProvider plantClock)
+    {
+        var clock = Mode == AppMode.Screenshots ? plantClock : RealServices.Clock;
+        var folder = Path.Combine(baseFolder, clock.GetUtcNow().UtcDateTime.ToString("yyyy-MM-dd'T'HHmmss'Z'", CultureInfo.InvariantCulture));
+        if (Mode == AppMode.Screenshots) return folder;
+        var candidate = folder;
+        for (int n = 2; Directory.Exists(candidate) || File.Exists(candidate); n++) candidate = folder + "-" + n.ToString(CultureInfo.InvariantCulture);
+        return candidate;
+    }
 
     /// <summary>
     /// Liegt <paramref name="path"/> im Ordner <paramref name="folder"/> (oder ist er es)? Mit Trennzeichen verglichen, damit
