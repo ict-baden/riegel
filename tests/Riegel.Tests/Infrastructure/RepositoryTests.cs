@@ -46,7 +46,9 @@ public sealed partial class RepositoryTests
         foreach (var property in new[] { "Version", "FileVersion", "AssemblyVersion", "InformationalVersion" }) Assert.Contains(property, local);
         Assert.Matches(@"^\d+\.\d+\.\d+$", File.ReadAllText(Path.Combine(RepoPaths.Src, "Riegel.Collector", "collector-version.txt")).Trim());
         var hash = File.ReadAllText(Path.Combine(RepoPaths.Src, "Riegel.Collector", "collector.sha256")).Trim();
-        Assert.True(hash == "unset" || Core.Model.Hashes.IsSha256(hash), "collector.sha256: „unset“ oder ein SHA-256");
+        // Hash-Sperre ist Pflicht: kein „unset“; Kleinbuchstaben, weil die CI den gebauten Hash kleingeschrieben vergleicht
+        Assert.True(Core.Model.Hashes.IsSha256(hash), "collector.sha256 muss ein SHA-256 sein (Hash-Sperre)");
+        Assert.Equal(hash.ToLowerInvariant(), hash);
         var tfm = project.Descendants("TargetFramework").Single().Value;
         Assert.Equal("net35", tfm);
     }

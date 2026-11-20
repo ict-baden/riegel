@@ -80,6 +80,14 @@ jobs:
           $size = (Get-Item "$env:OUT/collector-a/Riegel.Collector.exe").Length
           Write-Host "Riegel.Collector.exe: $a ($size bytes)"
           if ($a -ne $b) { throw "Sammler nicht bytegleich: $a / $b" }
+          # Hash-Sperre wie in build.yml (auch Plan und Meldungstabellen stecken in der Exe); alle drei Runner bauen
+          # dieselben Bytes (exeSha256 der aufgezeichneten Fixtures)
+          $expected = (Get-Content src/Riegel.Collector/collector.sha256 -Raw).Trim()
+          if ($expected -cnotmatch '^[0-9a-f]{64}$') {
+            throw "collector.sha256 enthält keinen SHA-256 in Kleinbuchstaben ('$expected'), die Hash-Sperre ist Pflicht; gebaut: $a"
+          } elseif ($expected -ne $a) {
+            throw "Sammler-Bytes geändert ohne Versionssprung: erwartet $expected, gebaut $a (collector-version.txt anheben, collector.sha256 setzen, Runner-Fixtures neu aufzeichnen)."
+          }
           if ($size -gt 150KB) { throw "Sammler größer als 150 KB: $size" }
           "## Collector on ${{ matrix.runner }}`n`nDouble build: equal, SHA-256 ``$a``, $size bytes`n" >> $env:GITHUB_STEP_SUMMARY
 

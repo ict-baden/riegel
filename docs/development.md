@@ -269,10 +269,14 @@ count double:
   (`.github/scripts/linux-minimal-smoke.sh`): without OpenSSL and ICU it must end with `RGL-0018` and exit code 3 (not
   134), with the packages from [Installation › Linux packages](installation.md#linux-packages) `check`, `report` and
   `verify` must work.
-- **windows** (after linux): build and test the whole solution; build the collector twice and check the hash lock;
+- **windows** (after linux): build and test the whole solution; build the collector twice and check the hash lock
+  (`collector.sha256` must hold the lower-case SHA-256 of the build – there is no "unset"), and that a collector version
+  already published under a tag `v*` (pre-releases included) still has the hash it was published with – otherwise
+  raise `collector-version.txt`;
   publish the app (framework, self-contained, single file), `Riegel.Cli.exe`, `riegel-win-x64.exe` and the Linux CLIs
   (cross-published); pack the collector reproducibly; read-only proof (before the MSI test, which wakes services and
-  the installer); MSI build and an install/uninstall test on the runner; AppLocker data; demo report with every
+  the installer); MSI build and an install/uninstall test on the runner, also as an update from `latest` and from the
+  newest tag release (a tag build that finds neither warns that no update was tested); AppLocker data; demo report with every
   document O1–O15; SBOM; checksums; releases. A tag build creates its release only with exactly the eleven versioned
   files; its notes name the collector version and SHA-256 and "Collector unchanged since <tag>" when older tags had the
   same collector bytes.
