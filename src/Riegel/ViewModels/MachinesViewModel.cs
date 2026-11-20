@@ -236,15 +236,30 @@ internal sealed class MachinesViewModel : PageViewModel
     private async Task GroupsAsync()
     {
         if (Plant is null) return;
-        var dialog = new GroupsDialogViewModel(Plant.Plant.Groups);
+        var dialog = new GroupsDialogViewModel(Plant.Plant.Groups, UsedGroupIds(Plant));
         if (!Dialogs.Show(dialog)) return;
         var groups = dialog.Result;
-        var ids = groups.Select(g => g.Id).ToHashSet(StringComparer.Ordinal);
+        var ids = groups.Select(g => g.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
         await Session.SavePlantAsync(p => p with
         {
             Groups = groups,
             Machines = [.. p.Machines.Select(m => m.GroupId is not null && !ids.Contains(m.GroupId) ? m with { GroupId = null } : m)],
         }, Loc.T("Notice_GroupsSaved"));
+    }
+
+    /// <summary>
+    /// Alle Gruppen-IDs, die in Anlage und Registern vorkommen. Eine neue Gruppe darf keine davon bekommen:
+    /// sonst gälten Rechnerzuordnungen und freigegebene Ausnahmen oder Zuschnitte einer gelöschten Gruppe still für die neue.
+    /// </summary>
+    internal static IReadOnlyCollection<string> UsedGroupIds(PlantContext plant)
+    {
+        var r = plant.Registers;
+        return [.. plant.Plant.Groups.Select(g => g.Id)
+            .Concat(plant.Plant.Machines.Select(m => m.GroupId).OfType<string>())
+            .Concat(r.Exceptions.Exceptions.SelectMany(e => e.Scope.Groups))
+            .Concat(r.Tailoring.Entries.SelectMany(t => t.Scope.Groups))
+            .Concat(r.Measures.Measures.SelectMany(m => m.Scope.Groups))
+            .Distinct(StringComparer.OrdinalIgnoreCase)];
     }
 
     public override Task PrepareScreenshotAsync()
@@ -335,9 +350,13 @@ internal sealed class GroupRow : ObservableObject
 internal sealed class GroupsDialogViewModel : ObservableObject, IDialogViewModel
 {
     private GroupRow? _selected;
+    private readonly HashSet<string> _reserved;
 
-    public GroupsDialogViewModel(IReadOnlyList<MachineGroup> groups)
+    /// <param name="reserved">IDs, die schon einmal vergeben waren (Anlage, Rechner, Register); werden nie neu vergeben.</param>
+    public GroupsDialogViewModel(IReadOnlyList<MachineGroup> groups, IEnumerable<string>? reserved = null)
     {
+        _reserved = new HashSet<string>(groups.Select(g => g.Id), StringComparer.OrdinalIgnoreCase);
+        if (reserved is not null) _reserved.UnionWith(reserved);
         RoleChoices = [.. Enum.GetValues<MachineRole>().Select(r => new Choice<MachineRole>(r, Texts.Role(r)))];
         foreach (var g in groups) Rows.Add(new GroupRow(g.Id, g.Name, g.Role, RoleChoices));
         AddCommand = new RelayCommand(Add);
@@ -356,10 +375,15 @@ internal sealed class GroupsDialogViewModel : ObservableObject, IDialogViewModel
 
     private void Add()
     {
-        int n = Rows.Count + 1;
+        // Fortlaufend über alle je vergebenen g-N, nie eine gelöschte ID wiederverwenden.
+        int n = 1 + _reserved.Concat(Rows.Select(r => r.Id))
+            .Select(x => x.StartsWith("g-", StringComparison.OrdinalIgnoreCase)
+                && int.TryParse(x.AsSpan(2), NumberStyles.None, CultureInfo.InvariantCulture, out int k) ? k : 0)
+            .DefaultIfEmpty(0).Max();
         string id;
         do id = "g-" + n++.ToString(CultureInfo.InvariantCulture);
-        while (Rows.Any(r => r.Id == id));
+        while (_reserved.Contains(id) || Rows.Any(r => string.Equals(r.Id, id, StringComparison.OrdinalIgnoreCase)));
+        _reserved.Add(id);
         var row = new GroupRow(id, Loc.T("Groups_NewName"), MachineRole.Other, RoleChoices);
         Rows.Add(row);
         Selected = row;
