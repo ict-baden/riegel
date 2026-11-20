@@ -155,16 +155,25 @@ internal sealed class ComparisonViewModel : PageViewModel
         {
             bool approved = AgainstApproved;
             var basis = approved ? ComparisonBasis.Approved : ComparisonBasis.Previous;
-            var result = await Task.Run(() =>
+            (Run? From, RunComparison? Comparison, string? Problem) result;
+            try
             {
-                Run? from = approved ? (machine.Approved is { } a ? TryLoad(plant, a.RunId) : null) : machine.Previous;
-                // Basis ohne brauchbaren Export: Vergleich ohne Rohwerte; Ziel ohne brauchbaren Export: kein Vergleich
-                // (RGL-0415/0416 stehen dann im Hinweis der Seite)
-                string? fromProblem = null;
-                var fromSnapshot = from is null ? null : plant.TryReadSnapshot(from, out fromProblem);
-                var toSnapshot = plant.TryReadSnapshot(to, out var toProblem);
-                return (from, toSnapshot is null ? null : plant.Services.Comparison.Compare(from, fromSnapshot, to, toSnapshot, basis), toProblem ?? fromProblem);
-            });
+                result = await Task.Run(() =>
+                {
+                    Run? from = approved ? (machine.Approved is { } a ? TryLoad(plant, a.RunId) : null) : machine.Previous;
+                    // Basis ohne brauchbaren Export: Vergleich ohne Rohwerte; Ziel ohne brauchbaren Export: kein Vergleich
+                    // (RGL-0415/0416 stehen dann im Hinweis der Seite)
+                    string? fromProblem = null;
+                    var fromSnapshot = from is null ? null : plant.TryReadSnapshot(from, out fromProblem);
+                    var toSnapshot = plant.TryReadSnapshot(to, out var toProblem);
+                    return (from, toSnapshot is null ? null : plant.Services.Comparison.Compare(from, fromSnapshot, to, toSnapshot, basis), toProblem ?? fromProblem);
+                });
+            }
+            catch (Exception e) when (e is RiegelException or IOException or UnauthorizedAccessException)
+            {
+                // Anlagenordner im Netz kurz weg o. Ä.: Grund auf der Seite zeigen statt still einen halben Stand zu lassen
+                result = (null, null, AppSession.Describe(e));
+            }
             if (version != _version) return;
             var (fromRun, comparison, problem) = result;
             if (problem is not null) EmptyText = problem;
@@ -192,7 +201,7 @@ internal sealed class ComparisonViewModel : PageViewModel
     private static Run? TryLoad(PlantContext plant, string runId)
     {
         try { return plant.Services.Plants.LoadRun(plant.Plant, runId); }
-        catch (RiegelException) { return null; }
+        catch (Exception e) when (e is RiegelException or IOException or UnauthorizedAccessException) { return null; }
     }
 
     private async Task ApproveRunAsync()

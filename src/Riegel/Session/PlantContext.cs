@@ -152,14 +152,17 @@ internal sealed class PlantContext
         catch (RiegelException e) when (e.Code == RglCodesCommon.NotFound) { return null; }
     }
 
-    /// <summary>Wie <see cref="ReadSnapshot"/>, aber ein unbrauchbarer Export gilt als fehlend; der Grund kommt in <paramref name="problem"/>.</summary>
+    /// <summary>
+    /// Wie <see cref="ReadSnapshot"/>, aber ein unbrauchbarer oder gerade nicht lesbarer Export (Freigabe weg, Datei
+    /// gesperrt) gilt als fehlend; der Grund kommt in <paramref name="problem"/>.
+    /// </summary>
     public Snapshot? TryReadSnapshot(Run run, out string? problem)
     {
         problem = null;
         try { return ReadSnapshot(run); }
-        catch (RiegelException e)
+        catch (Exception e) when (e is RiegelException or IOException or UnauthorizedAccessException)
         {
-            problem = e.ToString();
+            problem = AppSession.Describe(e);
             return null;
         }
     }
