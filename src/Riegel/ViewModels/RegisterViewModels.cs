@@ -150,10 +150,17 @@ internal abstract class RegisterPageViewModel : PageViewModel
         if (id is null) return;
         if (Rows.FirstOrDefault(r => r.Id == id) is not { } row)
         {
+            // Sprung soll genau diesen Eintrag zeigen: Statusfilter und Suchbegriff zurücksetzen (Apply nur einmal)
+            if (_search.Length > 0)
+            {
+                _search = "";
+                Raise(nameof(Search));
+            }
             SelectFilter(Filters[0]);
-            row = Rows.FirstOrDefault(r => r.Id == id)!;
+            row = Rows.FirstOrDefault(r => string.Equals(r.Id, id, StringComparison.OrdinalIgnoreCase));
         }
-        Selected = row;
+        // nicht gefunden (z. B. inzwischen gelöscht): die Auswahl von Apply bleibt, das Detail wird nicht leer
+        if (row is not null) Selected = row;
     }
 
     protected virtual void RaiseDetail()
