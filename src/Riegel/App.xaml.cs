@@ -58,6 +58,8 @@ public partial class App : Application
         ShowMainWindow();
         _instance?.Listen(() => Dispatcher.BeginInvoke(BringToFront));
         if (_options.Mode == AppMode.Demo) Dispatcher.InvokeAsync(OpenDemoAsync);
+        // liegengebliebene Übergabeordner von „Diesen PC prüfen“ (Absturz, abgebrochener Lauf) im Hintergrund aufräumen
+        _ = Task.Run(AppSession.CleanupOldTransferFolders);
     }
 
     private async Task OpenDemoAsync()

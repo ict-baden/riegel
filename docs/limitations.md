@@ -152,8 +152,9 @@ These are open tasks for a lab and a real OT environment (gate for version 1.0):
   update.
 - Remediation `.reg` files were checked against the documented syntax but never imported by Riegel's tests
   (Riegel never changes a machine); `audit.csv` needs its first comment line removed before a GPO import.
-- *Check this PC* leaves its snapshot in the data folder (`handoff\`) or `%TEMP%` after the import
-  ([Data and privacy](data-and-privacy.md#on-the-analysis-pc)).
+- *Check this PC* deletes its hand-over folder (`handoff\` in the data folder or `%TEMP%`) after the import and on
+  failure. Only if the elevated account's files cannot be deleted does it stay; a later start of Riegel removes such
+  leftovers once they are older than one day ([Data and privacy](data-and-privacy.md#on-the-analysis-pc)).
 - On Linux the empty `.riegel.lock` file stays in the plant folder after use (flock semantics).
 
 ## Languages

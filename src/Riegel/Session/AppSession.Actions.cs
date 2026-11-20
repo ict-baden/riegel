@@ -200,26 +200,57 @@ internal sealed partial class AppSession
         if (!CollectionAllowed) throw new RiegelException(RglCodesApp.NotInDemo, RglCodesApp.Text(RglCodesApp.NotInDemo));
         var plant = RequireWritable();
         var platform = Platform;
-        string path = await Work(Loc.T("Busy_Collecting"), () =>
+        // Die Zwischenablage (%TEMP%\Riegel-Erfassung-… oder handoff\<token>\) mit Konten, SIDs, Defender-Ausnahmen und
+        // Proxy nie liegen lassen – auch nicht, wenn Erfassung, Übergabe oder Import scheitern (Prüfung vom 2026-10-20).
+        // Der Pfad steht fest, bevor etwas geschrieben wird; die Zuweisung im Hintergrund ist nach dem await sichtbar.
+        string? transfer = null;
+        try
         {
-            if (!elevate || IsElevated)
+            string path = await Work(Loc.T("Busy_Collecting"), () =>
             {
-                var snapshot = platform.CollectThisMachine(new CollectOptions(), CancellationToken.None);
-                var folder = Path.Combine(Path.GetTempPath(), "Riegel-Erfassung-" + Guid.NewGuid().ToString("N")[..8]);
-                return SnapshotFile.Write(snapshot, folder);
-            }
-            var token = Convert.ToHexString(RandomNumberGenerator.GetBytes(16)).ToLowerInvariant();
-            var result = platform.RunElevatedCollect(token, CancellationToken.None);
-            if (result.DifferentUserProfile)
-                throw new RiegelException(RglCodesApp.ElevationOtherProfile, RglCodesApp.Text(RglCodesApp.ElevationOtherProfile));
-            if (!result.Success || result.SnapshotPath is null)
-                throw new RiegelException(result.ErrorCode ?? RglCodesApp.ElevationFailed, result.Message ?? RglCodesApp.Text(RglCodesApp.ElevationFailed));
-            return result.SnapshotPath;
-        });
-        await ImportAsync([path], Loc.T("Role_ThisPc"), null, writeRecord: false);
-        // Der Anlagenordner hält jetzt die importierte Kopie: die Zwischenablage (%TEMP%\Riegel-Erfassung-… oder
-        // handoff\<token>\) mit Konten, SIDs, Defender-Ausnahmen und Proxy nicht liegen lassen (Prüfung vom 2026-10-20)
-        DeleteTransferFolder(Path.GetDirectoryName(path));
+                if (!elevate || IsElevated)
+                {
+                    var folder = Path.Combine(Path.GetTempPath(), "Riegel-Erfassung-" + Guid.NewGuid().ToString("N")[..8]);
+                    transfer = folder;
+                    var snapshot = platform.CollectThisMachine(new CollectOptions(), CancellationToken.None);
+                    return SnapshotFile.Write(snapshot, folder);
+                }
+                var token = Convert.ToHexString(RandomNumberGenerator.GetBytes(16)).ToLowerInvariant();
+                transfer = Path.Combine(AppPaths.HandoffFolder, token);
+                var result = platform.RunElevatedCollect(token, CancellationToken.None);
+                if (result.DifferentUserProfile)
+                    throw new RiegelException(RglCodesApp.ElevationOtherProfile, RglCodesApp.Text(RglCodesApp.ElevationOtherProfile));
+                if (!result.Success || result.SnapshotPath is null)
+                    throw new RiegelException(result.ErrorCode ?? RglCodesApp.ElevationFailed, result.Message ?? RglCodesApp.Text(RglCodesApp.ElevationFailed));
+                return result.SnapshotPath;
+            });
+            // Der Anlagenordner hält danach die importierte Kopie
+            await ImportAsync([path], Loc.T("Role_ThisPc"), null, writeRecord: false);
+        }
+        finally
+        {
+            DeleteTransferFolder(transfer);
+        }
+    }
+
+    /// <summary>
+    /// Beim Start: liegengebliebene Übergabeordner (älter als ein Tag) löschen, etwa nach einem Absturz. Ein laufender
+    /// erhöhter Lauf einer anderen Instanz ist jünger und bleibt.
+    /// </summary>
+    internal static void CleanupOldTransferFolders()
+    {
+        var cutoff = DateTime.UtcNow.AddDays(-1);
+        try
+        {
+            var candidates = Directory.EnumerateDirectories(Path.GetTempPath(), "Riegel-Erfassung-*");
+            if (Directory.Exists(AppPaths.HandoffFolder)) candidates = candidates.Concat(Directory.EnumerateDirectories(AppPaths.HandoffFolder));
+            foreach (var folder in candidates.ToList())
+                if (Directory.GetLastWriteTimeUtc(folder) < cutoff) DeleteTransferFolder(folder);
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or System.Security.SecurityException)
+        {
+            Log.Warning($"Alte Übergabeordner nicht aufgeräumt ({e.GetType().Name})");
+        }
     }
 
     /// <summary>
