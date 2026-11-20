@@ -95,9 +95,11 @@ internal static class Assessor
     /// <summary>
     /// Echte Verschlechterung (spec 2.7): vorher erfüllt, bewusst offen, nicht anwendbar oder nicht im Prüfumfang, jetzt
     /// nicht erfüllt. Keine Verschlechterung: nur abgelaufene Ausnahme, neue Regel, vorher nicht prüfbar („neu offen“).
+    /// „Ausnahme entfernt“ (auch: nur beantragt, nach der Freigabe geändert) und „Zuschnitt entfernt“ nach „nicht
+    /// erfüllt“ zählen mit – dieselbe Regel wie <c>RunService.MarkChanges</c>.
     /// </summary>
     public static bool IsRegression(StatusChange change) =>
-        change.Kind == StatusChangeKind.Worse &&
+        change.Kind is StatusChangeKind.Worse or StatusChangeKind.ExceptionRemoved or StatusChangeKind.TailoringRemoved &&
         change.To == ResultStatus.Fail &&
         change.From is { } from && GoodBefore.Contains(from) &&
         (change.ToFlags & ResultFlags.ExceptionExpired) == 0 &&
