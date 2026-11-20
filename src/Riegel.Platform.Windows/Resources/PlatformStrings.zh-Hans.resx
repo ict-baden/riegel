@@ -21,7 +21,10 @@
     <value>无法以管理员权限启动 Riegel（错误 {0}）。</value>
   </data>
   <data name="Error_RGL0115" xml:space="preserve">
-    <value>以管理员权限进行的采集已结束，但移交文件夹中没有导出文件。</value>
+    <value>以管理员权限进行的采集已结束，但移交文件夹中没有导出文件（退出代码 {0}）。</value>
+  </data>
+  <data name="Handoff_Cause" xml:space="preserve">
+    <value>提升权限的进程报告的原因：{0}。</value>
   </data>
   <data name="Error_RGL0116" xml:space="preserve">
     <value>以管理员权限进行的采集是在另一个帐户下运行的（“越肩”提权），因此其导出文件位于该帐户的用户配置文件中。请以该帐户使用“以管理员身份运行”打开命令提示符，运行 Riegel.Cli.exe collect --out &lt;文件夹&gt;，然后导入该文件。</value>

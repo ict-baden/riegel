@@ -11,7 +11,8 @@ namespace Riegel.Commands.Commands;
 /// unvollständig (nicht als Administrator oder Einträge verweigert), 3 nichts geschrieben.
 /// Versteckt: <c>collect --handoff &lt;token&gt;</c> – die erhöhte Seite der Übergabe (spec 7.6): legt
 /// <c>%LocalAppData%\Riegel\handoff\&lt;token&gt;\</c> selbst an (über IPlatform), schreibt nur Export und Begleitdatei
-/// hinein und sonst nichts.
+/// hinein und sonst nichts – scheitert die Erfassung, stattdessen nur <see cref="HandoffErrorFile"/> mit dem RGL-Code
+/// (eine Zeile, keine Inhalte), damit die nicht erhöhte Seite die Ursache nennen kann.
 /// </summary>
 internal static class CollectCommand
 {
@@ -24,6 +25,9 @@ internal static class CollectCommand
         new("--pseudonymize", OptionKind.Flag),
         new("--handoff", OptionKind.Value),
     ];
+
+    /// <summary>Fehlerdatei im Übergabeordner (gelesen von Handoff.Evaluate in der Windows-Anbindung).</summary>
+    internal const string HandoffErrorFile = "error.txt";
 
     /// <summary>Token der Übergabe: 16 bis 64 Zeichen aus [A-Za-z0-9_-] (kein Pfadteil, kein Punkt).</summary>
     internal static bool IsValidToken(string token) =>
@@ -45,11 +49,29 @@ internal static class CollectCommand
         var folder = token is not null
             ? platform.CreateHandoffDirectory(token)
             : Path.GetFullPath(a.Value("--out") ?? Directory.GetCurrentDirectory());
-        var snapshot = platform.CollectThisMachine(options, ctx.Cancel);
-        var path = SnapshotFile.Write(snapshot, folder, a.Has("--gzip"));
+        Snapshot snapshot;
+        string path;
+        try
+        {
+            snapshot = platform.CollectThisMachine(options, ctx.Cancel);
+            path = SnapshotFile.Write(snapshot, folder, a.Has("--gzip"));
+        }
+        catch (Exception e) when (token is not null && e is RiegelException or IOException or UnauthorizedAccessException)
+        {
+            // Der erhöhte Prozess läuft unsichtbar: seine Fehlermeldung sähe niemand. Nur den Code übergeben, dann wie bisher enden.
+            WriteHandoffError(folder, e is RiegelException r ? r.Code : RglCodesCommon.IoError);
+            throw;
+        }
         ctx.Line(CliStrings.Cli_CollectWritten, path, Hashes.Sha256File(path));
         bool incomplete = !snapshot.IsAdmin || snapshot.Items.Any(i => i.Status is ItemStatus.Denied);
         if (incomplete) ctx.Line(CliStrings.Cli_CollectIncomplete);
         return incomplete ? CommandApp.Warning : CommandApp.Ok;
+    }
+
+    /// <summary>Nur den Code in den eigenen, gerade angelegten Übergabeordner schreiben; scheitert das, bleibt es beim Exitcode.</summary>
+    internal static void WriteHandoffError(string folder, string code)
+    {
+        try { File.WriteAllText(Path.Combine(folder, HandoffErrorFile), code + "\n", new System.Text.UTF8Encoding(false)); }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException) { }
     }
 }

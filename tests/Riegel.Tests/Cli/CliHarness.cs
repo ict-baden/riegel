@@ -140,9 +140,13 @@ internal sealed class FakePlatform(Snapshot snapshot, string? handoffRoot = null
 
     public List<string> Handoffs { get; } = [];
 
+    /// <summary>Erfassung scheitert mit dieser Ausnahme (null = gelingt).</summary>
+    public Exception? CollectError { get; set; }
+
     public Snapshot CollectThisMachine(CollectOptions o, CancellationToken ct)
     {
         Collected.Add(o);
+        if (CollectError is not null) throw CollectError;
         return snapshot;
     }
 

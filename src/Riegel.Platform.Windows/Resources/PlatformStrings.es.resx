@@ -21,7 +21,10 @@
     <value>No se pudo iniciar Riegel con derechos de administrador (error {0}).</value>
   </data>
   <data name="Error_RGL0115" xml:space="preserve">
-    <value>La recopilación con derechos de administrador terminó sin exportación en la carpeta de entrega.</value>
+    <value>La recopilación con derechos de administrador terminó sin exportación en la carpeta de entrega (código de salida {0}).</value>
+  </data>
+  <data name="Handoff_Cause" xml:space="preserve">
+    <value>Causa notificada por el proceso con privilegios elevados: {0}.</value>
   </data>
   <data name="Error_RGL0116" xml:space="preserve">
     <value>La recopilación se ejecutó con otra cuenta ("por encima del hombro"), por lo que su exportación está en el perfil de esa cuenta. Con esa cuenta, abra un símbolo del sistema con "Ejecutar como administrador", ejecute Riegel.Cli.exe collect --out &lt;carpeta&gt; e importe el archivo.</value>

@@ -236,6 +236,27 @@ public sealed class CommandTests
         Assert.Single(platform.Collected);
     }
 
+    [Fact]
+    public void Collect_handoff_hinterlegt_bei_Fehler_nur_den_Code()
+    {
+        using var temp = new TempFolder();
+        var platform = new FakePlatform(SnapshotBuilder.Windows11Workgroup("W11-TEST").Build(), temp.Sub("handoff"))
+        {
+            CollectError = new RiegelException("RGL-0140", "Erfassung gescheitert (Text bleibt im erhöhten Prozess)"),
+        };
+        var token = "0123456789abcdef-fehler"; // gitleaks:allow (fester Testwert des Übergabe-Kennzeichens)
+        var result = Cli.Run(Cli.With(platform: platform), "collect", "--handoff", token);
+        Assert.Equal(3, result.Exit);
+        Assert.Contains("RGL-0140", result.Err, StringComparison.Ordinal);
+        var file = Assert.Single(Directory.GetFiles(Path.Combine(temp.Path, "handoff", token)));
+        Assert.Equal(Riegel.Commands.Commands.CollectCommand.HandoffErrorFile, Path.GetFileName(file));
+        Assert.Equal("RGL-0140", File.ReadAllText(file).TrimEnd());
+
+        // ohne Übergabe bleibt alles wie bisher: keine Fehlerdatei im Zielordner
+        Assert.Equal(3, Cli.Run(Cli.With(platform: platform), "collect", "--out", temp.Sub("out")).Exit);
+        Assert.Empty(Directory.GetFiles(temp.Sub("out")));
+    }
+
     [Theory]
     [InlineData("kurz")]
     [InlineData("..\\..\\..\\Windows")]

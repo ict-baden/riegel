@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
+using System.Globalization;
 using Riegel.Collector.Collection;
 using Riegel.Core.Model;
+using Riegel.Platform.Windows.Resources;
 
 namespace Riegel.Platform.Windows;
 
@@ -53,9 +55,13 @@ internal static class Handoff
     private static RiegelException ReparsePoint(string path) =>
         new(RglCodesCollector.HandoffReparsePoint, WindowsPlatform.Message(RglCodesCollector.HandoffReparsePoint, path));
 
+    /// <summary>Fehlerdatei des erhöhten Prozesses (geschrieben von collect --handoff): eine Zeile mit dem RGL-Code.</summary>
+    internal const string ErrorFile = "error.txt";
+
     /// <summary>
     /// Ergebnis nach dem Ende des erhöhten Prozesses. Fehlt der Ordner, obwohl der Prozess erfolgreich endete, lief er
-    /// mit einem anderen Konto (anderes Profil, „über die Schulter“).
+    /// mit einem anderen Konto (anderes Profil, „über die Schulter“). Ohne Export nennt die Meldung den Exitcode und,
+    /// wenn der erhöhte Prozess ihn hinterlegt hat, den Code der eigentlichen Ursache.
     /// </summary>
     public static HandoffResult Evaluate(string root, string token, int exitCode)
     {
@@ -63,12 +69,37 @@ internal static class Handoff
         if (!Directory.Exists(dir))
         {
             bool otherProfile = exitCode is 0 or 1;
-            string code = otherProfile ? RglCodesCollector.HandoffDifferentProfile : RglCodesCollector.HandoffNoSnapshot;
-            return new HandoffResult(false, null, exitCode, code, WindowsPlatform.Message(code), otherProfile);
+            return otherProfile
+                ? new HandoffResult(false, null, exitCode, RglCodesCollector.HandoffDifferentProfile, WindowsPlatform.Message(RglCodesCollector.HandoffDifferentProfile), true)
+                : NoSnapshot(exitCode, null);
         }
         var exports = Directory.GetFiles(dir, "*" + SnapshotFile.Extension).Concat(Directory.GetFiles(dir, "*" + SnapshotFile.GzipExtension)).ToList();
         if (exports.Count != 1 || !File.Exists(SnapshotFile.SidecarPath(exports[0])))
-            return new HandoffResult(false, null, exitCode, RglCodesCollector.HandoffNoSnapshot, WindowsPlatform.Message(RglCodesCollector.HandoffNoSnapshot), false);
+            return NoSnapshot(exitCode, exports.Count == 0 ? ReadCause(dir) : null);
         return new HandoffResult(true, exports[0], exitCode, null, null, false);
+    }
+
+    private static HandoffResult NoSnapshot(int exitCode, string? cause)
+    {
+        string message = WindowsPlatform.Message(RglCodesCollector.HandoffNoSnapshot, exitCode);
+        if (cause is not null && PlatformStrings.ResourceManager.GetString("Handoff_Cause", CultureInfo.CurrentUICulture) is { } text)
+            message += " " + string.Format(CultureInfo.CurrentCulture, text, cause);
+        return new HandoffResult(false, null, exitCode, RglCodesCollector.HandoffNoSnapshot, message, false);
+    }
+
+    /// <summary>
+    /// Code aus der Fehlerdatei – streng gelesen: höchstens 64 Bytes, genau „RGL-nnnn“. Den Text dazu liefert die eigene
+    /// Oberfläche, nie die Datei (der Ordner stammt vom erhöhten Prozess).
+    /// </summary>
+    internal static string? ReadCause(string dir)
+    {
+        try
+        {
+            var file = new FileInfo(Path.Combine(dir, ErrorFile));
+            if (!file.Exists || file.Length > 64 || (file.Attributes & FileAttributes.ReparsePoint) != 0) return null;
+            var code = File.ReadAllText(file.FullName).Trim();
+            return code.Length == 8 && code.StartsWith("RGL-", StringComparison.Ordinal) && code[4..].All(char.IsAsciiDigit) ? code : null;
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException) { return null; }
     }
 }

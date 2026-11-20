@@ -53,7 +53,7 @@ Collector and Windows platform.
 | `RGL-0112` | HandoffReparsePoint | Refused: part of the hand-over path is a link or junction (reparse point): {0} |
 | `RGL-0113` | ElevationCancelled | Elevation was cancelled. Nothing was collected. |
 | `RGL-0114` | ElevationFailed | Riegel could not be started with administrator rights (error {0}). |
-| `RGL-0115` | HandoffNoSnapshot | The elevated collection ended without an export in the hand-over folder. |
+| `RGL-0115` | HandoffNoSnapshot | The elevated collection ended without an export in the hand-over folder (exit code {0}). |
 | `RGL-0116` | HandoffDifferentProfile | The elevated collection ran under a different account ("over the shoulder"), so its export landed in that account's profile. Open a command prompt with "Run as administrator" as that account, run Riegel.Cli.exe collect --out &lt;folder&gt; and import the file. |
 | `RGL-0120` | ShellOpenRefused | Riegel only opens files it created (PDF, Excel, CSV, JSON, text, ZIP), folders and http/https links: {0} |
 | `RGL-0121` | ShellOpenFailed | Could not open {0} (error {1}). |

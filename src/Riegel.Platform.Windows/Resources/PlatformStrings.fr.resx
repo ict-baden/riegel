@@ -21,7 +21,10 @@
     <value>Impossible de démarrer Riegel avec des droits d'administrateur (erreur {0}).</value>
   </data>
   <data name="Error_RGL0115" xml:space="preserve">
-    <value>La collecte avec droits d'administrateur s'est terminée sans export dans le dossier de transfert.</value>
+    <value>La collecte avec droits d'administrateur s'est terminée sans export dans le dossier de transfert (code de sortie {0}).</value>
+  </data>
+  <data name="Handoff_Cause" xml:space="preserve">
+    <value>Cause signalée par le processus élevé : {0}.</value>
   </data>
   <data name="Error_RGL0116" xml:space="preserve">
     <value>La collecte s'est exécutée sous un autre compte (« par-dessus l'épaule »), son export se trouve donc dans le profil de ce compte. Avec ce compte, ouvrez une invite de commandes avec « Exécuter en tant qu'administrateur », lancez Riegel.Cli.exe collect --out &lt;dossier&gt; et importez le fichier.</value>

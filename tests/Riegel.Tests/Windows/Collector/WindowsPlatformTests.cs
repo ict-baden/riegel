@@ -5,6 +5,7 @@ using Riegel.Collector.Collection;
 using Riegel.Core.Model;
 using Riegel.Core.Services;
 using Riegel.Platform.Windows;
+using Riegel.Tests.Cli;
 using Riegel.Tests.TestSupport;
 
 namespace Riegel.Tests.Windows.Collector;
@@ -101,6 +102,35 @@ public sealed class WindowsPlatformTests
         Assert.True(ok.Success);
         Assert.Equal(snapshot, ok.SnapshotPath);
         Assert.Equal(1, ok.ExitCode);
+    }
+
+    [Fact]
+    public void Ohne_Export_nennt_die_Meldung_Exitcode_und_hinterlegte_Ursache()
+    {
+        using var _ = new UiCulture("en");
+        using var temp = new TempFolder();
+        string root = temp.Sub("handoff");
+        Assert.Equal(Riegel.Commands.Commands.CollectCommand.HandoffErrorFile, Handoff.ErrorFile);
+
+        string dir = Handoff.CreateDirectory(root, "token-0006");
+        var plain = Handoff.Evaluate(root, "token-0006", 3);
+        Assert.Equal(RglCodesCollector.HandoffNoSnapshot, plain.ErrorCode);
+        Assert.Contains("(exit code 3)", plain.Message, StringComparison.Ordinal);
+        Assert.DoesNotContain("Cause", plain.Message, StringComparison.Ordinal);
+
+        File.WriteAllText(Path.Combine(dir, Handoff.ErrorFile), "RGL-0140" + Environment.NewLine);
+        var withCause = Handoff.Evaluate(root, "token-0006", 3);
+        Assert.Equal(RglCodesCollector.HandoffNoSnapshot, withCause.ErrorCode);
+        Assert.EndsWith("Cause reported by the elevated process: RGL-0140.", withCause.Message, StringComparison.Ordinal);
+
+        // nur genau ein Code, sonst nichts aus der Datei
+        foreach (var bad in new[] { "RGL-0140 und mehr", "C:/Users/x", "RGL-14", "RGL-01a0", new string('x', 100) })
+        {
+            File.WriteAllText(Path.Combine(dir, Handoff.ErrorFile), bad);
+            Assert.Null(Handoff.ReadCause(dir));
+        }
+        // kein Ordner und ein Fehlschlag: ebenfalls mit Exitcode
+        Assert.Contains("(exit code 5)", Handoff.Evaluate(root, "token-0007", 5).Message, StringComparison.Ordinal);
     }
 
     [Fact]

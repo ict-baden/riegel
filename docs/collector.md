@@ -284,7 +284,9 @@ items (only the `collector` header and the origin `app` differ). On the analysis
 
 In the app, *Check this PC* without administrator rights starts Riegel once more with *Run as administrator* (UAC). The
 elevated process creates `%LocalAppData%\Riegel\handoff\<token>\` itself – refusing an existing folder and any link or
-junction in the path – writes only the snapshot and its `.sha256` there and exits; the app then imports it. If a
+junction in the path – writes only the snapshot and its `.sha256` there and exits; the app then imports it. If the
+collection fails, the elevated process writes only `error.txt` with the error code (one line, no content) instead, so
+the app can name the cause next to `RGL-0115` and the exit code. If a
 different administrator account confirms the UAC prompt ("over the shoulder"), that account has a different profile
 and the hand-over cannot work: the app says so and points to `Riegel.Cli.exe collect` in an elevated console of that
 account.

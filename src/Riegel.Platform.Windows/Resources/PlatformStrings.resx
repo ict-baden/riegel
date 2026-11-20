@@ -20,7 +20,10 @@
     <value>Riegel could not be started with administrator rights (error {0}).</value>
   </data>
   <data name="Error_RGL0115" xml:space="preserve">
-    <value>The elevated collection ended without an export in the hand-over folder.</value>
+    <value>The elevated collection ended without an export in the hand-over folder (exit code {0}).</value>
+  </data>
+  <data name="Handoff_Cause" xml:space="preserve">
+    <value>Cause reported by the elevated process: {0}.</value>
   </data>
   <data name="Error_RGL0116" xml:space="preserve">
     <value>The elevated collection ran under a different account ("over the shoulder"), so its export landed in that account's profile. Open a command prompt with "Run as administrator" as that account, run Riegel.Cli.exe collect --out &lt;folder&gt; and import the file.</value>

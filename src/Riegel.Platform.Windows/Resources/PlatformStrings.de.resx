@@ -20,7 +20,10 @@
     <value>Riegel ließ sich nicht mit Administratorrechten starten (Fehler {0}).</value>
   </data>
   <data name="Error_RGL0115" xml:space="preserve">
-    <value>Die Erhebung mit Administratorrechten endete ohne Export im Übergabeordner.</value>
+    <value>Die Erhebung mit Administratorrechten endete ohne Export im Übergabeordner (Exitcode {0}).</value>
+  </data>
+  <data name="Handoff_Cause" xml:space="preserve">
+    <value>Vom erhöhten Prozess gemeldete Ursache: {0}.</value>
   </data>
   <data name="Error_RGL0116" xml:space="preserve">
     <value>Die Erhebung lief mit einem anderen Konto („über die Schulter“), ihr Export liegt deshalb im Profil dieses Kontos. Als dieses Konto eine Eingabeaufforderung mit „Als Administrator ausführen“ öffnen, Riegel.Cli.exe collect --out &lt;Ordner&gt; aufrufen und die Datei importieren.</value>
