@@ -135,9 +135,35 @@ public sealed partial class CollectorDocsTests
         foreach (Match m in Regex.Matches(cmd, @"^(?!rem )\s*(\w+(\.exe)?)\s", RegexOptions.Multiline | RegexOptions.IgnoreCase))
         {
             string program = m.Groups[1].Value.ToLowerInvariant();
-            Assert.True(program is "secedit" or "auditpol" or "reg" or "hostname" or "ver" or "set" or "if" or "for" or "call" or "goto" or "echo" or "mkdir" or "endlocal" or "setlocal" or "exit" or "rem",
+            Assert.True(program is "secedit" or "auditpol" or "reg" or "hostname" or "ver" or "set" or "if" or "for" or "call" or "goto" or "echo" or "mkdir" or "endlocal" or "setlocal" or "exit" or "rem" or "pushd" or "popd",
                 $"unerwartetes Programm in collect-builtin.cmd: {program}");
         }
+    }
+
+    /// <summary>
+    /// cmd.exe sucht Programme ohne Pfad zuerst im aktuellen Ordner (Stick, Freigabe): vor dem ersten Programmaufruf
+    /// wechselt das Skript nach System32 und setzt PATH und PATHEXT fest; das Ziel wird vorher absolut.
+    /// </summary>
+    [Fact]
+    public void Bordmittel_starten_Programme_nur_aus_System32()
+    {
+        string cmd = Cmd;
+        int first = Regex.Match(cmd, @"^(?!rem )[^\r\n]*\b(wmic|find|hostname|secedit|auditpol|reg|powershell)\b", RegexOptions.Multiline | RegexOptions.IgnoreCase).Index;
+        string[] guards =
+        [
+            @"set ""TARGET=%~f1""",
+            @"pushd ""%SystemRoot%\System32""",
+            @"set ""PATH=%SystemRoot%\System32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SystemRoot%\System32\WindowsPowerShell\v1.0""",
+            @"set ""PATHEXT=.COM;.EXE""",
+        ];
+        foreach (var guard in guards)
+        {
+            int at = cmd.IndexOf(guard, StringComparison.Ordinal);
+            Assert.True(at >= 0, $"fehlt in collect-builtin.cmd: {guard}");
+            Assert.True(at < first, $"steht erst nach dem ersten Programmaufruf: {guard}");
+        }
+        Assert.True(cmd.IndexOf("pushd", StringComparison.Ordinal) > cmd.IndexOf("setlocal", StringComparison.Ordinal), "pushd nach setlocal (endlocal stellt den Ordner wieder her)");
+        Assert.Contains(@"cd /d %SystemRoot%\System32", File.ReadAllText(Docs("collector.md")), StringComparison.Ordinal);
     }
 
     [Fact]

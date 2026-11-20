@@ -3,7 +3,8 @@ rem SPDX-License-Identifier: MIT
 rem ---------------------------------------------------------------------------------------------
 rem Riegel - Erhebung nur mit Windows-Bordmitteln (spec 7.5), fuer Rechner, auf denen kein fremdes
 rem Programm laufen darf, und fuer Windows XP/Vista/2008. Startet nur Programme von Windows
-rem (secedit, auditpol, reg, hostname, ver, find, optional wmic oder powershell fuer das Datum) und
+rem (secedit, auditpol, reg, hostname, ver, find, optional wmic oder powershell fuer das Datum), und
+rem zwar aus System32: es wechselt dorthin und setzt PATH fest, bevor es das erste Programm aufruft. Es
 rem schreibt nur in den neuen Ordner <HOST>_<yyyyMMdd>.riegel-builtin neben dieser Datei oder
 rem unter dem Ordner im ersten Argument. Liest nur: es setzt und konfiguriert nichts und fuegt keine
 rem Registry-Werte hinzu.
@@ -26,7 +27,13 @@ setlocal EnableExtensions DisableDelayedExpansion
 set "WOW64=0"
 if defined PROCESSOR_ARCHITEW6432 set "WOW64=1"
 
-set "TARGET=%~1"
+rem Ziel zuerst absolut machen (gegen den Ordner beim Aufruf), dann nach System32 wechseln und PATH/PATHEXT fest
+rem setzen: cmd.exe sucht ein Programm ohne Pfad zuerst im aktuellen Ordner. Auf einem Stick oder einer Freigabe
+rem koennte dort ein fremdes reg.bat oder find.exe liegen und liefe mit Adminrechten. endlocal stellt alles wieder her.
+set "TARGET=%~f1"
+pushd "%SystemRoot%\System32"
+set "PATH=%SystemRoot%\System32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SystemRoot%\System32\WindowsPowerShell\v1.0"
+set "PATHEXT=.COM;.EXE"
 if "%TARGET%"=="" set "TARGET=%~dp0"
 if "%TARGET:~-1%"=="\" set "TARGET=%TARGET:~0,-1%"
 
@@ -137,10 +144,12 @@ echo.
 echo Done / Fertig: %BUNDLE%
 if "%FAILED%"=="0" (
   echo Complete / Vollstaendig.
+  popd
   endlocal & exit /b 0
 )
 echo Incomplete: see exitcodes.txt (secedit and auditpol need "Run as administrator").
 echo Unvollstaendig: siehe exitcodes.txt (secedit und auditpol brauchen "Als Administrator ausfuehren").
+popd
 endlocal & exit /b 1
 
 rem ---- errorlevel eines Schritts festhalten (Name, Code, "required" = Pflichtschritt) ----
@@ -153,8 +162,10 @@ exit /b 0
 
 :exists
 echo RGL-0106: The folder already exists / Der Ordner existiert schon: %BUNDLE%
+popd
 endlocal & exit /b 3
 
 :notwritable
 echo RGL-0102: Target not writable / Ziel nicht beschreibbar: %TARGET%
+popd
 endlocal & exit /b 3

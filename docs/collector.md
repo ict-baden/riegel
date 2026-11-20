@@ -200,10 +200,17 @@ the folder exists already `RGL-0106`).
 collect-builtin.cmd [target folder]
 ```
 
+Before its first command the script resolves the target folder to a full path, changes to `%SystemRoot%\System32` and
+sets `PATH` and `PATHEXT` to Windows' own folders. `cmd.exe` looks for a program without a path in the current folder
+first; on a USB stick or a share, a foreign `reg.bat` or `find.exe` placed there would otherwise run with administrator
+rights.
+
 The same commands, for typing by hand (replace `<bundle>` with a new folder named `<HOST>_<yyyyMMdd>.riegel-builtin`,
-create the subfolder `reg` first, and note each command's `%errorlevel%` in `exitcodes.txt` as `<step>=<code>`):
+given as a full path, create the subfolder `reg` first, and note each command's `%errorlevel%` in `exitcodes.txt` as
+`<step>=<code>`). Change to the Windows folder first – do not type them with the stick or share as the current folder:
 
 ```
+cd /d %SystemRoot%\System32
 hostname > "<bundle>\hostname.txt"
 ver > "<bundle>\ver.txt"
 secedit /export /cfg "<bundle>\secedit.inf" /log "<bundle>\secedit.log" /quiet
