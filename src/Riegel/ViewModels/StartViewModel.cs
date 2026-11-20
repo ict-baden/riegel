@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 using System.Collections.ObjectModel;
+using Riegel.Commands;
 using Riegel.Core.Model;
 using Riegel.Core.Plants;
 using Riegel.Session;
@@ -170,16 +171,17 @@ internal sealed class ImportDialogViewModel : ObservableObject, IDialogViewModel
     private string _witnessRole;
     private bool _writeRecord = true;
     private string? _selected;
+    private string? _error;
 
     public ImportDialogViewModel(IDialogs dialogs, IReadOnlyList<string> paths, string? operatorRole)
     {
         _dialogs = dialogs;
         _witnessRole = operatorRole ?? "";
         // Ein Ordner mit Exporten steht für die Exporte darin, wie in der Befehlszeile (ImportPaths)
-        foreach (var p in ImportPaths.Expand(paths)) if (!Files.Contains(p, StringComparer.OrdinalIgnoreCase)) Files.Add(p);
+        foreach (var p in paths) AddExpanded(p);
         AddFilesCommand = new RelayCommand(AddFiles);
         AddFolderCommand = new RelayCommand(AddFolder);
-        RemoveCommand = new RelayCommand(() => { if (Selected is { } s) Files.Remove(s); }, () => Selected is not null);
+        RemoveCommand = new RelayCommand(() => { if (Selected is { } s) Files.Remove(s); Error = null; }, () => Selected is not null);
         Files.CollectionChanged += (_, _) => Raise(nameof(CanAccept));
     }
 
@@ -195,6 +197,9 @@ internal sealed class ImportDialogViewModel : ObservableObject, IDialogViewModel
 
     public bool WriteRecord { get => _writeRecord; set => Set(ref _writeRecord, value); }
 
+    /// <summary>Hinweis im Dialog: Ordner ohne Exporte (RGL-0470 wie in der Befehlszeile) oder nicht lesbar.</summary>
+    public string? Error { get => _error; private set => Set(ref _error, value); }
+
     public RelayCommand AddFilesCommand { get; }
     public RelayCommand AddFolderCommand { get; }
     public RelayCommand RemoveCommand { get; }
@@ -205,6 +210,7 @@ internal sealed class ImportDialogViewModel : ObservableObject, IDialogViewModel
 
     private void AddFiles()
     {
+        Error = null;
         foreach (var f in _dialogs.PickFiles(Loc.T("Import_PickFiles"), Loc.T("Import_Filter"), multiple: true))
             if (!Files.Contains(f, StringComparer.OrdinalIgnoreCase)) Files.Add(f);
     }
@@ -212,7 +218,30 @@ internal sealed class ImportDialogViewModel : ObservableObject, IDialogViewModel
     private void AddFolder()
     {
         if (_dialogs.PickFolder(Loc.T("Import_PickBundle")) is not { } folder) return;
-        foreach (var p in ImportPaths.Expand([folder])) if (!Files.Contains(p, StringComparer.OrdinalIgnoreCase)) Files.Add(p);
+        Error = null;
+        AddExpanded(folder);
+    }
+
+    /// <summary>
+    /// Pfad aufnehmen (Ordner mit Exporten: die Exporte darin). Ein Ordner ohne Exporte – etwa die Wurzel des Sticks, wenn
+    /// sie in einem Unterordner liegen – und ein nicht lesbarer Ordner fallen nicht still weg, sondern stehen im Dialog.
+    /// </summary>
+    private void AddExpanded(string path)
+    {
+        try
+        {
+            var expanded = ImportPaths.Expand([path]);
+            if (expanded.Count == 0)
+            {
+                Error = RglCodesCli.NoExportsInFolder + ": " + RglCodesCli.Message(RglCodesCli.NoExportsInFolder, Path.GetFullPath(path));
+                return;
+            }
+            foreach (var p in expanded) if (!Files.Contains(p, StringComparer.OrdinalIgnoreCase)) Files.Add(p);
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or System.Security.SecurityException or ArgumentException)
+        {
+            Error = AppSession.Describe(e);
+        }
     }
 
     /// <summary>
