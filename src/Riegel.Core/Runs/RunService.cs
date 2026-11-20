@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Riegel.Core.About;
 using Riegel.Core.Comparison;
+using Riegel.Core.Evaluation;
 using Riegel.Core.Model;
 using Riegel.Core.Model.Json;
 using Riegel.Core.Plants;
@@ -26,9 +27,6 @@ internal sealed class RunService(RiegelServices services, IEvaluator? evaluator 
 {
     /// <summary>Unter diesem Prüfumfang (Prozent) gilt ein Lauf als unvollständig (spec 2.4 Punkt 9).</summary>
     public const int IncompleteBelow = 90;
-
-    /// <summary>Toleranz der Uhr des Zielrechners gegenüber Import- und Auswertungszeit (spec 2.8).</summary>
-    public static readonly TimeSpan ClockTolerance = TimeSpan.FromHours(24);
 
     private IEvaluator Evaluator => evaluator ?? services.Evaluator;
 
@@ -119,7 +117,9 @@ internal sealed class RunService(RiegelServices services, IEvaluator? evaluator 
 
         var flags = RunFlags.None;
         if (stale) flags |= RunFlags.StaleSnapshot;
-        if (ClockSuspect(s, o.ImportedAtUtc, now, catalogue) || results.Any(x => (x.Flags & ResultFlags.ClockSuspect) != 0)) flags |= RunFlags.ClockSuspect;
+        // dieselbe Uhrprüfung wie die Auswertung (nächstniedrigere UBR, ein Tag Spielraum, Fakten statt nur Kopf):
+        // Lauf-Flag und Kennzeichen der Ergebnisse dürfen sich im Nachweis nicht widersprechen
+        if (EvaluationClock.IsSuspect(s, catalogue, context) || results.Any(x => (x.Flags & ResultFlags.ClockSuspect) != 0)) flags |= RunFlags.ClockSuspect;
         if (basis is not null && plant?.Folder is { } folder && BasisSnapshot(folder, basis, limits) is { } before &&
             RunComparer.GuidChanged(before.Machine.MachineGuid, s.Machine.MachineGuid))
             flags |= RunFlags.MachineIdentityChanged;
@@ -150,23 +150,6 @@ internal sealed class RunService(RiegelServices services, IEvaluator? evaluator 
                 return regression ? x with { Flags = x.Flags | ResultFlags.Regression } : x;
             }),
         ];
-    }
-
-    /// <summary>
-    /// Uhr des Zielrechners unplausibel (spec 2.8): mehr als 24 h nach Import oder Auswertung, vor dem letzten Start
-    /// oder vor dem Veröffentlichungstag des installierten Builds + UBR.
-    /// </summary>
-    internal static bool ClockSuspect(Snapshot s, DateTimeOffset? importedAtUtc, DateTimeOffset evaluatedAtUtc, ICatalogue catalogue)
-    {
-        var collected = s.CollectedAtUtc;
-        if (importedAtUtc is { } imported && collected > imported + ClockTolerance) return true;
-        if (collected > evaluatedAtUtc + ClockTolerance) return true;
-        if (s.Machine.LastBootUtc is { } boot && collected < boot) return true;
-        if (s.Machine.Build is { } build && s.Machine.Ubr is { } ubr &&
-            catalogue.Builds.Find(build, BuildTable.OsKindOf(s.Machine.ProductType))?.Releases.FirstOrDefault(r => r.Ubr == ubr) is { } release &&
-            DateOnly.FromDateTime(collected.UtcDateTime) < release.Date)
-            return true;
-        return false;
     }
 
     private Run? TryLoadRun(Plant plant, string runId)

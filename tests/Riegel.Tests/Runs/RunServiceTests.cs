@@ -194,8 +194,15 @@ public sealed class RunServiceTests
         Assert.Equal(RunFlags.ClockSuspect, beforeBoot.Flags & RunFlags.ClockSuspect);
         // vor dem Erscheinen des installierten Updates erfasst
         var builds = new BuildTable(SchemaIds.Builds, [new BuildEntry(17763, "Windows 10 1809", [new BuildRelease(7792, new DateOnly(2026, 10, 14), null, "B")], "https://example.invalid", Today)]);
-        var beforeRelease = rig.Evaluate(Hmi(new(2026, 10, 13, 8, 0, 0, TimeSpan.Zero)), new TestCatalogue(Catalogue.Rules, builds: builds));
+        // dieselbe Regel wie die Uhrprüfung der Auswertung (EvaluationClock): ein Tag Spielraum für Zeitzonen …
+        var beforeRelease = rig.Evaluate(Hmi(new(2026, 10, 12, 8, 0, 0, TimeSpan.Zero)), new TestCatalogue(Catalogue.Rules, builds: builds));
         Assert.Equal(RunFlags.ClockSuspect, beforeRelease.Flags & RunFlags.ClockSuspect);
+        var eveOfRelease = rig.Evaluate(Hmi(new(2026, 10, 13, 20, 0, 0, TimeSpan.Zero)), new TestCatalogue(Catalogue.Rules, builds: builds));
+        Assert.Equal(RunFlags.None, eveOfRelease.Flags & RunFlags.ClockSuspect);
+        // … und die nächstniedrigere UBR, wenn die installierte nicht in der Tabelle steht
+        var olderOnly = new BuildTable(SchemaIds.Builds, [new BuildEntry(17763, "Windows 10 1809", [new BuildRelease(7700, new DateOnly(2026, 10, 14), null, "B")], "https://example.invalid", Today)]);
+        var unknownUbr = rig.Evaluate(Hmi(new(2026, 10, 12, 9, 0, 0, TimeSpan.Zero)), new TestCatalogue(Catalogue.Rules, builds: olderOnly));
+        Assert.Equal(RunFlags.ClockSuspect, unknownUbr.Flags & RunFlags.ClockSuspect);
         // Kennzeichen der Engine an einem Ergebnis gilt für den Lauf
         var fromEngine = rig.Evaluate(Hmi(now.AddHours(-4)).Script("NET-08", "notCheckable||clockSuspect"));
         Assert.Equal(RunFlags.ClockSuspect, fromEngine.Flags & RunFlags.ClockSuspect);

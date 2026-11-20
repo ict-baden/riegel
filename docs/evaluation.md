@@ -218,9 +218,10 @@ Evidence is read in the order shown; the first source that can decide does so.
   `CollectedAtUtc`, the target machine's clock at collection.
 - **Calendar facts** (end of support) use the evaluation date.
 - **ClockSuspect:** the collection time lies more than 24 hours after the import or the evaluation time, more than one
-  day before the release day of the installed build + UBR (one day of slack for time zones), or before the last
-  start. Then every age-based result is `notCheckable` with the flag ClockSuspect (RGL-0232); other results are not
-  affected.
+  day before the release day of the installed build + UBR (one day of slack for time zones; for a UBR not in the
+  build table the next lower one counts), or before the last start. Then every age-based result is `notCheckable`
+  with the flag ClockSuspect (RGL-0232); other results are not affected. The run flag `clockSuspect` (token `clock`)
+  uses exactly the same check, plus any result that carries the flag.
 
 ## Flags
 
