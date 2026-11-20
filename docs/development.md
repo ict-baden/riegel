@@ -247,8 +247,20 @@ snapshot of a workstation or a customer machine; your own PC is compared only lo
 
 ## Continuous integration
 
-`.github/workflows/build.yml` runs on pushes to `main`, tags `v*`, pull requests and by hand. A newer push to the same
-branch cancels the running build (`concurrency`); tag builds always finish.
+`.github/workflows/build.yml` runs on pushes to `main`, tags `v*`, pull requests, nightly and by hand; changes to
+documentation only (`**.md`, `docs/**`, `LICENSE`, issue templates) start nothing. In a pull request a newer push
+cancels the running build (`concurrency`); on `main` and for tags builds are queued and always finish.
+
+A first job **gate** decides how much a run builds (ICT-Baden guideline 04, *Wann die CI baut*), because Windows minutes
+count double:
+
+- **Push to `main`, push to a pull request:** only linux.
+- **Full build** (linux, windows, release-check): nightly when `main` has changed more than documentation since the
+  last full build (the tag `latest`), tags `v*`, by hand (`gh workflow run build.yml --ref main`), a push whose last
+  commit message contains `[voll]`, and pull requests with the label `voll-bauen` or with changes that Linux does not
+  build or test (`FULL_PATHS` in the workflow: `.github/`, `installer/`, the app, the platform, the collector, the CLI,
+  the Windows tests, `tools/collect-builtin`, `tools/readonly-proof`, `notices/`, build settings, tools). On `main` a
+  full build updates `latest`.
 
 - **linux:** build and test `tests/Riegel.Tests -f net10.0` (with RuleTool), with free fonts for the PDF tests
   (DejaVu, Liberation, Noto CJK for the CFF test, WenQuanYi Micro Hei for Chinese); publish `riegel` for linux-x64 and
@@ -264,7 +276,7 @@ branch cancels the running build (`concurrency`); tag builds always finish.
   document O1–O15; SBOM; checksums; releases. A tag build creates its release only with exactly the eleven versioned
   files; its notes name the collector version and SHA-256 and "Collector unchanged since <tag>" when older tags had the
   same collector bytes.
-- **release-check** (after windows, on pushes to `main` and tags): downloads the release just published (`latest` or
+- **release-check** (after windows, on full builds of `main` and tags): downloads the release just published (`latest` or
   the tag) and checks on Linux that it has exactly the eleven files, that `SHA256SUMS.txt` has LF line endings, lists
   every other file and passes `sha256sum -c`, that the collector ZIP's inner `SHA256SUMS.txt` passes, and that
   `riegel-linux-x64` starts (with the tag's version).
@@ -292,7 +304,8 @@ Releases never depend on artifacts (the organisation's artifact storage may be f
    `Directory.Build.props` `<Version>`; the collector version and hash when the collector changes; versioned file
    names in README and docs examples (`ReleaseNotesTests` checks them against the newest section). The catalogue
    version is not a release step: it changes with every change to the catalogue (below).
-2. Push `main`, wait for a green build (it updates `latest`; release-check verifies it), check the asset list.
+2. Push `main` with `[voll]` in the commit message (or start the build by hand), wait for a green build (it updates
+   `latest`; release-check verifies it), check the asset list.
 3. `git tag vX.Y.Z && git push origin vX.Y.Z`: the tag build creates the release with the versioned file names, and
    release-check verifies it.
 4. **Right after the tag, raise `<Version>` in `Directory.Build.props`** to the next planned version (for example

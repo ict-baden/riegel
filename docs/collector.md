@@ -271,7 +271,7 @@ collector's SHA-256 is unchanged: the release notes say "Collector unchanged sin
   app. It changes only when the collection code or the embedded collection plan changes, and every snapshot names it.
 - The build is **byte-for-byte reproducible**; CI builds it twice and compares the SHA-256, and a hash lock fails the
   build if the bytes change without a version bump.
-- **OT and validated machines use tag releases (`vX.Y.Z`), never `latest`.** `latest` is rebuilt from every change on
+- **OT and validated machines use tag releases (`vX.Y.Z`), never `latest`.** `latest` is rebuilt nightly from
   `main`; a tag release is fixed, has its own `SHA256SUMS.txt`, read-only proof and AppLocker data, and can be named
   in a change request.
 - No customer pilot on OT or validated machines with an unsigned collector (owner decision).
