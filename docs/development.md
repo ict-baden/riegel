@@ -294,13 +294,17 @@ whole solution locally on Windows (`dotnet test Riegel.sln`) before pushing.
   every other file and passes `sha256sum -c`, that the collector ZIP's inner `SHA256SUMS.txt` passes, and that
   `riegel-linux-x64` starts (with the tag's version).
 - **Collector** (`collector.yml`, on changes to the collector, the platform, the built-in commands, the proof, the
-  anonymiser, the plan or the snapshot schema): on `windows-2022`, `windows-2025` and `windows-11-arm`, build twice,
-  run elevated and as a Basic User, compare the item sets of net35 and `Riegel.Cli.exe collect`, validate against the
-  schema, run the read-only proof for `collector`, `--deep`, `--minimal`, `Riegel.Cli.exe collect` and
-  `collect-builtin.cmd`, and record V1–V4, V7 and V8. Windows minutes count double: push sparingly.
+  anonymiser, the plan or the snapshot schema): on `windows-2022`, `windows-2025` and `windows-11-arm`, build twice and
+  check the hash lock against `collector.sha256` (all three runners build the same bytes), run elevated and as a Basic
+  User, compare the item sets of net35 and `Riegel.Cli.exe collect`, validate against the schema, run the read-only
+  proof for `collector`, `--deep`, `--minimal`, `Riegel.Cli.exe collect` and `collect-builtin.cmd`, and record V1–V4,
+  V7 and V8. The run as a Basic User must end with exit code 1 and an export; if it does not, the remaining steps still
+  run and the job fails at the end. Windows minutes count double: push sparingly.
 
 Signing steps run only when the organisation variable `SIGNING_ACCOUNT` is set (and not for pull requests); build
-provenance only for a public repository.
+provenance only for a public repository. A tag for a final release (no `-` in the tag name) therefore stops at once
+while the repository is private, because its release could never get provenance afterwards (a new build has different
+bytes); pre-release tags (`v1.0.0-rc1`) may be built from a private repository.
 
 Releases never depend on artifacts (the organisation's artifact storage may be full): the Windows job publishes
 `dist/` directly. Artifact uploads are tiny, kept 7 days and never fail the build. On `main` the rolling release
@@ -311,6 +315,18 @@ Releases never depend on artifacts (the organisation's artifact storage may be f
 
 ## Releases
 
+0. **Before the first final release from a public repository** (once, in this order): make the repository public (or
+   create the new one with a clean history); turn on private vulnerability reporting
+   (`gh api -X PUT repos/ict-baden/riegel/private-vulnerability-reporting`) and check it:
+   `gh api repos/ict-baden/riegel/private-vulnerability-reporting` must return `{"enabled":true}`, and
+   `https://github.com/ict-baden/riegel/security/advisories/new` must open for another account; set the secrets and the
+   variable `SIGNING_ACCOUNT` in that repository. If the repository gets another name, change the links in
+   `SECURITY.md`, `.github/ISSUE_TEMPLATE/config.yml` and `AppInfo.RepositoryUrl`. Only then run step 2 and tag: a
+   final tag in a private repository stops at once (no build provenance), and step 2 on the public repository shows in
+   its log that the step "Herkunftsnachweis" ran. A new repository has no `latest` and no tag releases, so the MSI test
+   of the first tag cannot test an update from the MSIs handed out before: install the last `Riegel-0.1.x-x64.msi` and
+   then the new MSI once by hand on a throwaway VM (files, file version, one entry in *Programs and Features*,
+   `Riegel.Cli.exe --version`), and keep that old MSI.
 1. `CHANGELOG.md`: rename "Unveröffentlicht" to `## [x.y.z] – <date>` and end the section with `### English` – that
    part (with `####` subheadings) is the text of the GitHub release, written by `.github/scripts/release-notes.ps1`
    together with the collector hash and the file list; the tag build stops before building if it is missing.
@@ -318,14 +334,18 @@ Releases never depend on artifacts (the organisation's artifact storage may be f
    names in README and docs examples (`ReleaseNotesTests` checks them against the newest section). The catalogue
    version is not a release step: it changes with every change to the catalogue (below).
 2. Push `main` with `[voll]` in the commit message (or start the build by hand), wait for a green build (it updates
-   `latest`; release-check verifies it), check the asset list.
+   `latest`; release-check verifies it), check the asset list. Push the tag only afterwards, not together with `main`:
+   the tag build tests the MSI as an update from this `latest`.
 3. `git tag vX.Y.Z && git push origin vX.Y.Z`: the tag build creates the release with the versioned file names, and
    release-check verifies it.
 4. **Right after the tag, raise `<Version>` in `Directory.Build.props`** to the next planned version (for example
    0.1.1 → 0.1.2); `CHANGELOG.md` keeps an empty "Unveröffentlicht" section on top. Otherwise every following `main` build is
    `X.Y.Z-ci.<run>`, which sorts *before* the tag `X.Y.Z` (SemVer), and its MSI `X.Y.Z.<run>` is not seen as a
    downgrade when the tag's MSI is installed over it (Windows Installer compares three fields).
-5. Follow the release checklist of the ICT-Baden guidelines (`CHECKLISTE-RELEASE.md`).
+5. Check the published release: the notes are the English part of the changelog section and name the collector
+   version and SHA-256; it has the eleven files with `SHA256SUMS.txt` and the SBOM (release-check); `THIRD-PARTY-NOTICES.txt`
+   lists every shipped package; the build provenance verifies (`gh attestation verify <file> --repo ict-baden/riegel`);
+   once signing is set up, `Get-AuthenticodeSignature` shows `Valid` for the programs and the MSI.
 
 **Catalogue versions.** Every change to the catalogue (rules, tables, the header) that reaches `main` is released
 through `latest`. It therefore needs a new `version` (`YYYY.MM`, or `YYYY.MM.N` for a further change in the same month)

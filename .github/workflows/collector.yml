@@ -120,6 +120,7 @@ jobs:
           $code = $LASTEXITCODE
           Get-Content "$env:OUT\nonadmin.log" -ErrorAction SilentlyContinue
           if ($code -ne 1) { throw "Erwartet Exitcode 1 (unvollständig ohne Admin), erhalten $code" }
+          if (-not (Get-ChildItem "$env:OUT/nonadmin" -Filter *.snapshot.json)) { throw 'Exitcode 1, aber kein Export unter out/nonadmin' }
           exit 0
 
       - name: Riegel.Cli.exe collect (net10)
@@ -255,3 +256,10 @@ jobs:
           path: out/record/
           if-no-files-found: ignore
           retention-days: 7
+
+      # Der Schritt ohne Adminrechte darf scheitern, damit Vergleich, Nur-Lesen-Nachweis und Befunde trotzdem laufen;
+      # der Job wird danach rot
+      - name: Lauf ohne Adminrechte muss gelungen sein
+        if: always() && steps.nonadmin.outcome == 'failure'
+        shell: pwsh
+        run: throw 'Sammler ohne Adminrechte fehlgeschlagen (siehe Schritt „Sammler ohne Adminrechte“)'
