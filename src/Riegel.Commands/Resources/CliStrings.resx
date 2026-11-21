@@ -248,6 +248,9 @@ Source code: {2}
 Help and support: {3}
 Data and privacy: {4}</value>
   </data>
+  <data name="Cli_InfoPublisher" xml:space="preserve">
+    <value>Publisher: {0}</value>
+  </data>
   <data name="Cli_InfoThirdParty" xml:space="preserve">
     <value>Third-party licences and rule-source attributions: {0} --licenses</value>
   </data>

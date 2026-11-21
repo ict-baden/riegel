@@ -241,6 +241,9 @@ Quellcode: {2}
 Hilfe und Support: {3}
 Daten und Datenschutz: {4}</value>
   </data>
+  <data name="Cli_InfoPublisher" xml:space="preserve">
+    <value>Herausgeber: {0}</value>
+  </data>
   <data name="Cli_InfoThirdParty" xml:space="preserve">
     <value>Lizenzen der Bestandteile und Quellennachweise der Regeln: {0} --lizenzen</value>
   </data>

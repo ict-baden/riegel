@@ -113,6 +113,9 @@
   <data name="About_ProductName" xml:space="preserve">
     <value>Riegel (Härtungs-Check)</value>
   </data>
+  <data name="About_PublishedBy" xml:space="preserve">
+    <value>Publié par {0}</value>
+  </data>
   <data name="About_ReadOnly" xml:space="preserve">
     <value>Riegel lit la configuration et n’écrit que dans le dossier de l’installation, le dossier de sortie choisi et son dossier de données ; « Contrôler ce PC » fait transiter l’export par un dossier temporaire supprimé après l’importation. Il ne modifie aucune configuration et n’ouvre aucune connexion réseau.</value>
   </data>
@@ -153,7 +156,7 @@
     <value>Site web</value>
   </data>
   <data name="About_WebsiteText" xml:space="preserve">
-    <value>ICT-Baden sur GitHub</value>
+    <value>Page produit de Riegel sur le site web d'ICT Baden GmbH</value>
   </data>
   <data name="App_AlreadyRunningElevated" xml:space="preserve">
     <value>Riegel est déjà en cours d’exécution avec des droits d’administrateur dans cette session Windows. Passez à cette fenêtre, ou fermez-la et relancez Riegel.</value>

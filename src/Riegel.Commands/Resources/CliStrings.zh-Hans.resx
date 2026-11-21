@@ -241,6 +241,9 @@ SHA-256：{1}</value>
 帮助和支持：{3}
 数据和隐私：{4}</value>
   </data>
+  <data name="Cli_InfoPublisher" xml:space="preserve">
+    <value>发布者：{0}</value>
+  </data>
   <data name="Cli_InfoThirdParty" xml:space="preserve">
     <value>第三方许可证和规则来源署名：{0} --licenses</value>
   </data>

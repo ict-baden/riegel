@@ -41,6 +41,7 @@ internal sealed class AboutViewModel : PageViewModel
     public string ComponentsText => Loc.F("About_Components", AppInfo.CollectorVersion, CatalogueVersion);
     public string CopyrightText => $"{AppInfo.Copyright} · {Loc.T("About_MitLicense")}";
     public string Publisher => AppInfo.Publisher;
+    public string PublishedByText => Loc.F("About_PublishedBy", AppInfo.Publisher);
     public string NoData => Loc.C("About_NoData");
     public string ReadOnlyText => Loc.T("About_ReadOnly") + " " + NoData;
     public string DataFolder => SettingsViewModel.Shorten(AppPaths.DataFolder);

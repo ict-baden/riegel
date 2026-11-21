@@ -112,6 +112,9 @@
   <data name="About_ProductName" xml:space="preserve">
     <value>Riegel (Härtungs-Check)</value>
   </data>
+  <data name="About_PublishedBy" xml:space="preserve">
+    <value>Published by {0}</value>
+  </data>
   <data name="About_ReadOnly" xml:space="preserve">
     <value>Riegel reads configuration and writes only into the plant folder, the chosen output folder and its data folder; “Check this PC” passes its snapshot through a temporary folder that is deleted after the import. It changes no configuration and opens no network connections.</value>
   </data>
@@ -152,7 +155,7 @@
     <value>Website</value>
   </data>
   <data name="About_WebsiteText" xml:space="preserve">
-    <value>ICT-Baden on GitHub</value>
+    <value>Riegel's product page on the website of ICT Baden GmbH</value>
   </data>
   <data name="App_AlreadyRunningElevated" xml:space="preserve">
     <value>Riegel is already running with administrator rights in this Windows session. Switch to that window, or close it and start Riegel again.</value>

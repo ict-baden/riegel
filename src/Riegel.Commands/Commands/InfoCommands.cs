@@ -79,6 +79,7 @@ internal static class InfoCommands
         ctx.Line(CliStrings.Cli_InfoCollector, AppInfo.CollectorVersion);
         ctx.Line(CliStrings.Cli_InfoCatalogue, catalogue.Id, catalogue.Version);
         ctx.Line(AppInfo.Copyright);
+        ctx.Line(CliStrings.Cli_InfoPublisher, AppInfo.Publisher);
         ctx.Line(CliStrings.Cli_InfoLicence, AppInfo.LicenseUrl);
         ctx.Line(CliStrings.Cli_InfoThirdParty, CommandContext.ProgramName);
         ctx.Line(CommonStrings.About_NoData);

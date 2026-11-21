@@ -14,6 +14,7 @@
             <TextBlock Text="{Binding ComponentsText}" Style="{StaticResource Caption}"/>
             <TextBlock Text="{Binding Description}" Style="{StaticResource Caption}" Margin="0,4,0,0"/>
             <TextBlock Text="{Binding CopyrightText}" Style="{StaticResource Caption}" Margin="0,4,0,0"/>
+            <TextBlock Text="{Binding PublishedByText}" Style="{StaticResource Caption}"/>
           </StackPanel>
         </StackPanel>
       </Border>

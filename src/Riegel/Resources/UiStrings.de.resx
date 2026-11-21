@@ -112,6 +112,9 @@
   <data name="About_ProductName" xml:space="preserve">
     <value>Riegel (Härtungs-Check)</value>
   </data>
+  <data name="About_PublishedBy" xml:space="preserve">
+    <value>Herausgeber: {0}</value>
+  </data>
   <data name="About_ReadOnly" xml:space="preserve">
     <value>Riegel liest Konfiguration und schreibt nur in den Anlagenordner, den gewählten Ausgabeordner und seinen Datenordner; „Diesen PC prüfen“ übergibt den Export über einen temporären Ordner, der nach dem Import gelöscht wird. Es ändert keine Konfiguration und baut keine Netzwerkverbindungen auf.</value>
   </data>
@@ -152,7 +155,7 @@
     <value>Webseite</value>
   </data>
   <data name="About_WebsiteText" xml:space="preserve">
-    <value>ICT-Baden auf GitHub</value>
+    <value>Produktseite von Riegel auf der Webseite der ICT Baden GmbH</value>
   </data>
   <data name="App_AlreadyRunningElevated" xml:space="preserve">
     <value>Riegel läuft in dieser Windows-Sitzung schon mit Administratorrechten. Wechseln Sie zu diesem Fenster oder schließen Sie es und starten Sie Riegel erneut.</value>

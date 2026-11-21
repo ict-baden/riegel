@@ -241,6 +241,9 @@ Code source : {2}
 Aide et support : {3}
 Données et confidentialité : {4}</value>
   </data>
+  <data name="Cli_InfoPublisher" xml:space="preserve">
+    <value>Éditeur : {0}</value>
+  </data>
   <data name="Cli_InfoThirdParty" xml:space="preserve">
     <value>Licences tierces et attributions des sources des règles : {0} --licenses</value>
   </data>

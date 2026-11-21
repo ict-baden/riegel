@@ -166,9 +166,10 @@ values in `riegel-plant.json` (only when you press *Save in the plant*). Details
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="assets/screenshots/about-dark.png"><img src="assets/screenshots/about-light.png" alt="About page with version, licence and data folder"></picture>
 
-Version, build and collector version, rule catalogue version, the MIT licence text, third-party licences and the
-attributions of the rule sources, the data folder, links (help and support, source code, privacy, legal notice,
-website, this documentation – F1), the command line with its exit codes and the keyboard shortcuts.
+Version, build and collector version, rule catalogue version, the publisher (ICT Baden GmbH), the MIT licence text,
+third-party licences and the attributions of the rule sources, the data folder, links (help and support, source code,
+privacy notice, legal notice (Impressum), product page, this documentation – F1), the command line with its exit codes
+and the keyboard shortcuts.
 
 *Create diagnostics package* saves version, system details and the log of the last 7 days as a ZIP for support –
 never exports, registers or reports. *Without names and addresses* (on by default) removes names, paths and addresses,
