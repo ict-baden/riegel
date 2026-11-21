@@ -54,8 +54,8 @@ real machines. When in doubt Riegel reports *nicht prüfbar* (not checkable) ins
 
 ## Only testable later, on real machines
 
-These are open tasks for a lab and a real OT environment. They are not done for this release; like signing, they are a
-gate before customer pilots on OT or validated machines:
+These are open tasks for a lab and a real OT environment. They are not done for Riegel 1.0.0 and are open before the
+first customer pilot on OT or validated machines, like signing:
 
 - Starts on Windows 7, 8.1, Server 2008 R2, 2012 R2, Windows 10 2016 LTSB and Embedded/IoT images; the UNC start under
   CLR 2 (V5).
@@ -176,5 +176,5 @@ gate before customer pilots on OT or validated machines:
 
 - **Releases are not code-signed yet.** SmartScreen may warn; allow-listing works by hash only. Signing is a hard gate before
   customer pilots on OT or validated machines.
-- "Auditors can read the code and download the matching version for `verify`" holds only once the repository and its
-  tag releases are public.
+- "Auditors can read the code and download the matching version for `verify`" holds as long as the repository and
+  its tag releases stay public and downloadable.

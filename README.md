@@ -131,11 +131,11 @@
   </tr>
 </table>
 
-**Downloads** – from the [**newest release**](https://github.com/ict-baden/riegel/releases/latest) (tag `vX.Y.Z`; file names carry the version, e.g.
-`Riegel-Collector-1.0.0.zip`). **For OT machines take a tag release, never the pre-release `latest`**: the collector's
-hash, its AppLocker data and its read-only proof belong to that release. The pre-release
-[`latest`](https://github.com/ict-baden/riegel/releases/tag/latest) is rebuilt nightly when `main` has changed – for trying
-out, not for plants.
+**Downloads** – from the [**newest release**](https://github.com/ict-baden/riegel/releases/latest) (Riegel 1.0.0, tag
+`v1.0.0`; file names carry the version, e.g. `Riegel-Collector-1.0.0.zip`). **For OT machines take a tag release, never
+the pre-release build `latest`**: the collector's hash, its AppLocker data and its read-only proof belong to that
+release. The pre-release build [`latest`](https://github.com/ict-baden/riegel/releases/tag/latest) is rebuilt nightly
+when `main` has changed – for trying out, not for plants.
 
 | File | What it is |
 |---|---|
@@ -220,19 +220,20 @@ TISAX, insurer questionnaires and GMP periodic reviews ([Frameworks](docs/framew
 claim**, is not a validated system, and covers configuration management – not MFA, backups, incident handling or
 network segmentation.
 
-Two statements hold only under a condition and are not made before it holds: "auditors can read the code and download
-the matching version for `verify`" – once the repository and its tag releases are public and stay downloadable; and
-"allow-listable by publisher" – once releases are signed. Until then the collector is allow-listed by its hash.
+Two statements hold only under a condition: "auditors can read the code and download the matching version for
+`verify`" – as long as the repository and its tag releases stay public and downloadable; and "allow-listable by
+publisher" – only once releases are signed. Until then the collector is allow-listed by its hash.
 
 ## Limits, honestly
 
 - **Windows targets only.** Linux machines (edge devices, Linux HMIs) are **not checked**; the Linux command line only
   evaluates Windows snapshots. Machine settings only, no per-user policies; domain controllers get no score.
-- **Pre-release, not code-signed.** SmartScreen may warn; the collector can only be allow-listed by hash. No customer
-  pilot on OT or validated machines before the collector is signed.
+- **Not code-signed yet.** SmartScreen may warn; the collector can only be allow-listed by hash. No customer pilot on
+  OT or validated machines before the collector is signed.
 - **Tested on fixtures and CI runners** (Windows Server 2022, Server 2025, Windows 11 Arm64, a Windows 11 workstation
   oracle). Not yet on real Windows 7/8.1/2008 R2/2012 R2 machines, in a real domain, with third-party antivirus or EDR,
-  or with real AppLocker enforcement – see [Limitations](docs/limitations.md).
+  or with real AppLocker enforcement: these lab tests are open before the first customer pilot – see
+  [Limitations](docs/limitations.md).
 - **Domain GPO attribution is experimental** and marked so in the report.
 - **Some rules are inventory, not checks**, where no shippable source sets a value (IP forwarding, Remote Registry, RDP
   idle limit, RC4/DES/NULL/MD5); AppLocker enforcement is not recognised by APP-01 yet.
@@ -256,13 +257,19 @@ dotnet test tests/Riegel.Tests -f net10.0  # the platform-neutral part, also on 
 Needs the .NET 10 SDK. Architecture, tests, CI, releases and the documentation images:
 **[Development →](docs/development.md)** · **[CONTRIBUTING.md](CONTRIBUTING.md)** · **[CHANGELOG.md](CHANGELOG.md)**
 
+## Publisher
+
+Riegel is published by **ICT Baden GmbH**:
+[Product page](https://ict-baden.de/produkte/riegel/) ·
+[Impressum (legal notice)](https://ict-baden.de/impressum/) ·
+[Privacy notice](https://ict-baden.de/datenschutz/riegel/) (details: [Data and privacy](docs/data-and-privacy.md)) ·
+[Support](SUPPORT.md) · [Security](SECURITY.md)
+
 ---
 
 <p align="center"><sub>
-<b>Ein Werkzeug von ICT-Baden.</b> Free and open source software under the <a href="LICENSE">MIT licence</a> ·
+Free and open source software under the <a href="LICENSE">MIT licence</a> ·
 third-party licences and rule-source attributions: <a href="THIRD-PARTY-NOTICES.txt">THIRD-PARTY-NOTICES.txt</a> ·
-support: free via GitHub, guaranteed with a <a href="SUPPORT.md">support contract</a> ·
-<a href="SECURITY.md">Security</a> ·
-<a href="https://ict-baden.de/impressum/">Impressum</a><br>
+support: free via GitHub, guaranteed with a <a href="SUPPORT.md">support contract</a><br>
 This software sends no data to ICT-Baden.
 </sub></p>
