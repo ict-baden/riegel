@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:ict-baden:riegel:schema:tailoring",
-  "title": "riegel.tailoring/1 – Tailoring register (spec 2.12)",
+  "title": "riegel.tailoring/1 – Tailoring register",
   "type": "object",
   "properties": {
     "schema": {

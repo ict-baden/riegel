@@ -123,7 +123,7 @@ A UTF-8 JSON file (schema [`schemas/baseline.schema.json`](../schemas/baseline.s
       "check": { "type": "registry", "key": "HKLM\\SOFTWARE\\ExampleVendor\\HmiSuite\\Remote",
                  "value": "EnableRemoteConfig", "valueType": "dword", "op": "eq", "expected": 0, "whenMissing": "fail" },
       "rationale": "The line is configured locally only.",
-      "reference": "Delivery specification 4.2"
+      "reference": "Plant vendor: remote configuration of the HMI suite"
     },
     {
       "title": "Minimum password length at least 14",

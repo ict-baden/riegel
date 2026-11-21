@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:ict-baden:riegel:schema:import",
-  "title": "riegel.import/1 – Import and collection record (spec 7.6)",
+  "title": "riegel.import/1 – Import and collection record",
   "type": "object",
   "properties": {
     "schema": {

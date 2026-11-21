@@ -175,6 +175,5 @@ These are open tasks for a lab and a real OT environment (gate for version 1.0):
 
 - **0.1 is not code-signed.** SmartScreen may warn; allow-listing works by hash only. Signing is a hard gate before
   customer pilots on OT or validated machines.
-- The trademark check of the name (including "RIEGL") is still open.
 - "Auditors can read the code and download the matching version for `verify`" holds only once the repository and its
   tag releases are public.

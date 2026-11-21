@@ -22,7 +22,7 @@ Mit einem Supportvertrag von ICT-Baden bekommen Sie:
 - Anpassungen und Schulungen nach Absprache
 
 Kontakt: [Impressum](https://ict-baden.de/impressum/)
-<!-- ⚠ Support-Adresse folgt, sobald die E-Mail-Adressen feststehen (OFFEN.md). -->
+<!-- ⚠ Eine Support-Adresse folgt. -->
 
 ## Was Sie mitschicken / What to include
 

@@ -368,4 +368,7 @@ these hashes (a known version with another hash is `RGL-0572`, an unknown versio
   (`Microsoft.Net.Compilers.Toolset`, `Microsoft.NETFramework.ReferenceAssemblies.net35`: a new compiler changes the
   collector's bytes, so update them only together with a new collector version, hash and recorded fixtures) nor major
   updates of `System.*` and `Microsoft.Extensions.*` packages (they follow the .NET major version, `net10.0`).
+- Comments in source code, tests and CI cite sections of the internal specification (`spec x.y`) and the internal
+  ICT-Baden guidelines (`Richtlinie NN`, `richtlinien/NN`); neither is public. `CLAUDE.md` refers to internal,
+  non-public repositories as well. Everything needed to build, test and contribute is in `CONTRIBUTING.md` and `docs/`.
 - No CIS, BSI SiSyPHuS or IT-Grundschutz content; no Microsoft Security Baseline files or values.

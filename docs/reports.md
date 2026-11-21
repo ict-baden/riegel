@@ -186,7 +186,7 @@ zh-Hans; anything else becomes English. en and de are complete and reviewed (`Ui
 es, fr and zh-Hans are machine pre-translated: each of their `.resx` files (and the collector's `messages.<lang>.txt`)
 starts with the comment "Maschinell vorübersetzt – TODO-übersetzen"; a new entry whose translation is especially
 uncertain carries the comment `TODO-übersetzen` in all three languages until it is checked, and a native speaker reads
-the whole file (guideline 13). The language lists in the app add "machine translation" (in that language) to these
+the whole file. The language lists in the app add "machine translation" (in that language) to these
 three (`UiLanguage.ChoiceName`). A test keeps this marking uniform.
 Until a language is marked reviewed, its documents carry "Maschinelle Vorübersetzung – nicht geprüft" in that
 language and in English on the cover and in every footer.

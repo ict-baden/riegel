@@ -593,7 +593,7 @@ and `Riegel.Core.Samples.SampleData` for deterministic report data.
 
 ## Error codes
 
-Codes are `RGL-nnnn`; texts are localised, the code stays (guideline 13). Ranges, each with its class:
+Codes are `RGL-nnnn`; texts are localised, the code stays the same in every language. Ranges, each with its class:
 
 | Range | Class (folder) | Area |
 |---|---|---|

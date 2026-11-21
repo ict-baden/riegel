@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  MSI für Riegel (nach der Vorlage aus ict-baden/richtlinien und Zutritt): Programmdateien nach %ProgramFiles%\Riegel
+  MSI für Riegel (nach der Vorlage der internen ICT-Baden-Richtlinien und Zutritt): Programmdateien nach %ProgramFiles%\Riegel
   – Riegel.exe (Oberfläche), Riegel.Cli.exe (Befehlszeile), collector\ (portabler Sammler zum Kopieren auf
   Datenträger), Lizenztexte – und ein Startmenü-Eintrag. Kein Dienst, keine geplante Aufgabe, kein Autostart
   (Richtlinie 04). Daten und Einstellungen liegen pro Benutzer unter %LocalAppData%\Riegel, Anlagen in Ordnern des
   Kunden. Die MSI ist nicht der Weg auf OT- oder validierte Rechner (spec 4.1).
   UpgradeCode und die GUID der Startmenü-Komponente wurden für Riegel neu erzeugt ([guid]::NewGuid(), 2026-10-18)
   und werden nie geändert: sonst installiert sich ein Update neben die alte Version, statt sie zu ersetzen.
-  Manufacturer wird „ICT-Baden GmbH“, sobald die Firmierung steht (OFFEN.md), zusammen mit LICENSE und
-  Directory.Build.props.
+  Manufacturer wechselt zusammen mit LICENSE und Directory.Build.props auf die Firmierung aus dem Impressum.
 -->
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
      xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">

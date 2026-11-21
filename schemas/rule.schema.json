@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:ict-baden:riegel:schema:rule",
-  "title": "riegel.rules/1 – Rule file rules/<PREFIX>.json with the closed check vocabulary (spec 2.3)",
+  "title": "riegel.rules/1 – Rule file rules/<PREFIX>.json with the closed check vocabulary",
   "type": "object",
   "properties": {
     "schema": {
@@ -254,7 +254,7 @@
           "$ref": "#/$defs/check_not"
         }
       ],
-      "description": "closed check vocabulary (spec 2.3), discriminated by 'type'"
+      "description": "closed check vocabulary (docs/file-formats.md), discriminated by 'type'"
     },
     "check_accountPolicy": {
       "type": "object",

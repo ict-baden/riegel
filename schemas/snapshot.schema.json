@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:ict-baden:riegel:schema:snapshot",
-  "title": "riegel.snapshot/1 – Snapshot of one machine (O1, spec 7.3)",
+  "title": "riegel.snapshot/1 – Snapshot of one machine (O1)",
   "type": "object",
   "properties": {
     "schema": {

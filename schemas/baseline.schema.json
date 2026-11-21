@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:ict-baden:riegel:schema:baseline",
-  "title": "riegel.baseline/1 – Customer baseline (spec 2.15)",
+  "title": "riegel.baseline/1 – Customer baseline",
   "type": "object",
   "properties": {
     "schema": {
@@ -178,7 +178,7 @@
           "$ref": "#/$defs/check_not"
         }
       ],
-      "description": "closed check vocabulary (spec 2.3), discriminated by 'type'"
+      "description": "closed check vocabulary (docs/file-formats.md), discriminated by 'type'"
     },
     "check_accountPolicy": {
       "type": "object",

@@ -1,4 +1,4 @@
-# Sammler auf drei Runnern (spec 8.9, Paket collector): net35-Sammler zweimal bauen und vergleichen, als Admin und
+# Sammler auf drei Runnern (docs/collector.md, Paket collector): net35-Sammler zweimal bauen und vergleichen, als Admin und
 # ohne Adminrechte laufen lassen, Schema prüfen, Einträge von net35 und net10 (Riegel.Cli.exe collect) vergleichen,
 # Nur-Lesen-Nachweis für alle Ziele und die Befunde V1–V4, V7, V8 in die Zusammenfassung schreiben.
 # Läuft nur, wenn sich Sammler, Windows-Anbindung, Bordmittel, Nachweis, Anonymisierer, Plan oder Schema ändern

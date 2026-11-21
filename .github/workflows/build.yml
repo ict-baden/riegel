@@ -1,15 +1,15 @@
-# Nach der Vorlage aus ict-baden/richtlinien und dem Workflow von Zutritt. Job „linux“ baut und testet den
-# plattformneutralen Teil (Core, Befehle; richtlinien/02); der Job „windows“ startet erst, wenn er grün ist, baut alles
-# (auch den net35-Sammler), packt und veröffentlicht selbst – ohne Umweg über Artefakte (deren Speicher teilen sich alle
-# Repos der Organisation; ist er voll, darf das kein Release verhindern). Jedes Release enthält eine Stückliste (SBOM,
-# richtlinien/06), öffentliche Repos einen Herkunftsnachweis (richtlinien/05).
-# Schritte, die Pakete später mit Leben füllen (Lese-Nachweis, Demo-Bericht), prüfen selbst, ob ihr Skript da ist.
-# Der Workflow collector.yml (Sammler auf drei Runnern, Nur-Lesen-Nachweis) gehört dem Paket collector.
+# Nach der Vorlage der internen ICT-Baden-Richtlinien (nicht öffentlich; „Richtlinie NN“ unten meint diese) und dem
+# Workflow von Zutritt. Job „linux“ baut und testet den plattformneutralen Teil (Core, Befehle; Richtlinie 02); der Job
+# „windows“ startet erst, wenn er grün ist, baut alles (auch den net35-Sammler), packt und veröffentlicht selbst – ohne
+# Umweg über Artefakte (deren Speicher teilen sich alle Repos der Organisation; ist er voll, darf das kein Release
+# verhindern). Jedes Release enthält eine Stückliste (SBOM, Richtlinie 06), öffentliche Repos einen Herkunftsnachweis
+# (Richtlinie 05). Schritte, die Pakete später mit Leben füllen (Lese-Nachweis, Demo-Bericht), prüfen selbst, ob ihr
+# Skript da ist. Der Workflow collector.yml (Sammler auf drei Runnern, Nur-Lesen-Nachweis) gehört dem Paket collector.
 #
-# Wann wie viel gebaut wird, steht in Richtlinie 04 („Wann die CI baut“). Kurz: Pushs und PRs bauen nur den Job
-# „linux“, die Jobs „windows“ und „release-check“ gibt es nachts (nur wenn main neu ist), bei Tags, von Hand, mit
-# [voll] in der Commit-Nachricht und bei PRs mit Label voll-bauen oder Windows-Pfaden (FULL_PATHS). Reine Doku startet
-# nichts.
+# Wann wie viel gebaut wird (Richtlinie 04, „Wann die CI baut“; beschrieben in docs/development.md): Pushs und PRs
+# bauen nur den Job „linux“, die Jobs „windows“ und „release-check“ gibt es nachts (nur wenn main neu ist), bei Tags,
+# von Hand, mit [voll] in der Commit-Nachricht und bei PRs mit Label voll-bauen oder Windows-Pfaden (FULL_PATHS).
+# Reine Doku startet nichts.
 name: Build
 
 on:
@@ -40,7 +40,7 @@ env:
   APP: "Riegel"
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
-  # Signieren nur, wenn die Organisation Artifact Signing eingerichtet hat (siehe richtlinien/05-signieren.md)
+  # Signieren nur, wenn die Organisation Artifact Signing eingerichtet hat (Richtlinie 05, Signieren)
   # und nicht bei Pull Requests (dort gibt es kein OIDC-Token mit den nötigen Rechten).
   SIGN: ${{ vars.SIGNING_ACCOUNT != '' && github.event_name != 'pull_request' }}
 
@@ -239,7 +239,7 @@ jobs:
           $filever = "$core.$env:GITHUB_RUN_NUMBER"
           # Dateinamen: Releases aus einem Tag mit Version, sonst fest, damit die Links auf 'latest' dauerhaft gelten
           $suffix = if ($env:GITHUB_REF_TYPE -eq 'tag') { "-$v" } else { '' }
-          # Der Sammler hat seine eigene Version (spec 4.3)
+          # Der Sammler hat seine eigene Version (docs/collector.md)
           $collector = (Get-Content src/Riegel.Collector/collector-version.txt -Raw).Trim()
           "version=$v" >> $env:GITHUB_OUTPUT
           "msi=$msi" >> $env:GITHUB_OUTPUT
@@ -285,7 +285,7 @@ jobs:
         id: collector
         shell: pwsh
         run: |
-          # Bytegleicher Build (spec 4.3): zwei vollständige Builds in zwei Ordner, dann Hash-Sperre gegen collector.sha256
+          # Bytegleicher Build (docs/collector.md): zwei vollständige Builds in zwei Ordner, dann Hash-Sperre gegen collector.sha256
           $project = 'src/Riegel.Collector/Riegel.Collector.csproj'
           foreach ($dir in 'out/collector-a', 'out/collector-b') {
             dotnet build $project -c Release --no-incremental -o $dir
@@ -350,7 +350,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "Publish (self-contained) fehlgeschlagen ($LASTEXITCODE)" }
           dotnet publish @gui --self-contained true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o out/standalone
           if ($LASTEXITCODE -ne 0) { throw "Publish (Einzeldatei) fehlgeschlagen ($LASTEXITCODE)" }
-          # Konsolenprogramm Riegel.Cli.exe (spec 4.2) neben die Oberfläche, dazu als einzelne Datei riegel-win-x64.exe
+          # Konsolenprogramm Riegel.Cli.exe (docs/command-line.md) neben die Oberfläche, dazu als einzelne Datei riegel-win-x64.exe
           $cli = @('src/Riegel.Cli/Riegel.Cli.csproj', '-c', 'Release', '-f', 'net10.0-windows', '-r', 'win-x64', '-p:PublishSingleFile=true', "-p:Version=$v", $fv, '-p:DebugType=none')
           dotnet publish @cli --self-contained false -o out/framework
           if ($LASTEXITCODE -ne 0) { throw "Publish CLI (framework) fehlgeschlagen ($LASTEXITCODE)" }
@@ -469,7 +469,7 @@ jobs:
       - name: Sammler-Paket
         shell: pwsh
         run: |
-          # Riegel-Collector.zip (spec 4.6): Exe, .exe.config, collect-builtin.cmd (wenn vorhanden), README.txt, Lizenzen,
+          # Riegel-Collector.zip (docs/installation.md): Exe, .exe.config, collect-builtin.cmd (wenn vorhanden), README.txt, Lizenzen,
           # innere SHA256SUMS.txt – reproduzierbar gepackt und als collector\ neben die App kopiert (MSI, ZIP)
           $bundle = 'out/collector-bundle'
           New-Item -ItemType Directory -Force $bundle, dist | Out-Null
@@ -486,7 +486,7 @@ jobs:
           }
 
       - name: Nur-Lesen-Nachweis des Sammlers
-        # spec 4.3/8.9: vor dem MSI-Test, der Dienste und den Windows Installer weckt (sonst wartet der Nachweis lange auf
+        # docs/collector.md: vor dem MSI-Test, der Dienste und den Windows Installer weckt (sonst wartet der Nachweis lange auf
         # TiWorker/TrustedInstaller); Ergebnis als Release-Datei
         shell: pwsh
         run: |
@@ -497,7 +497,7 @@ jobs:
       - name: Pakete schnüren
         shell: pwsh
         run: |
-          # Lizenztexte gehören neben die Exe, ins ZIP und in die MSI (richtlinien/06) – die csproj kopieren sie beim Publish
+          # Lizenztexte gehören neben die Exe, ins ZIP und in die MSI (Richtlinie 06) – die csproj kopieren sie beim Publish
           foreach ($dir in 'out/framework', 'out/self-contained') {
             foreach ($file in 'LICENSE', 'THIRD-PARTY-NOTICES.txt', 'THIRD-PARTY-NOTICES-dotnet-runtime.txt', 'THIRD-PARTY-NOTICES-dotnet-wpf.txt',
                               'Riegel.exe', 'Riegel.Cli.exe', 'collector/Riegel.Collector.exe') {
@@ -622,7 +622,7 @@ jobs:
           exit 0 # der Exitcode eines übersprungenen gh-Aufrufs gilt nicht als Ergebnis
 
       - name: AppLocker-Daten des Sammlers
-        # Nur auf dem Runner: liest Dateiinformationen und gibt eine Hash-Regel als XML aus – wendet nichts an (spec 4.3)
+        # Nur auf dem Runner: liest Dateiinformationen und gibt eine Hash-Regel als XML aus – wendet nichts an
         # Dauert sonst 1 s; ein hängender Runner hat hier einmal 33 Minuten verbraucht
         timeout-minutes: 5
         shell: powershell
@@ -655,7 +655,7 @@ jobs:
       - name: Demo-Bericht
         shell: pwsh
         run: |
-          # Riegel.exe --demo-report schreibt jedes Dokument O1–O15 aus spec 5 über die echte Engine; kein Upload
+          # Riegel.exe --demo-report schreibt jedes Dokument O1–O15 (docs/reports.md) über die echte Engine; kein Upload
           $exe = (Resolve-Path out/self-contained/Riegel.exe).Path
           $target = Join-Path $PWD 'out/demo'
           $p = Start-Process -FilePath $exe -ArgumentList '--demo-report', "`"$target`"" -Wait -PassThru
@@ -702,7 +702,7 @@ jobs:
           Get-Content dist/SHA256SUMS.txt
 
       - name: Herkunftsnachweis
-        # Nur für öffentliche Repos; für private bräuchte es GitHub Enterprise (richtlinien/05)
+        # Nur für öffentliche Repos; für private bräuchte es GitHub Enterprise (Richtlinie 05)
         if: github.event_name != 'pull_request' && !github.event.repository.private
         uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
@@ -729,7 +729,7 @@ jobs:
           # v1.0.0-rc1 und ähnliche: Vorabversion, nicht „Latest“
           # @(...) um das if: ein if gibt ein Array mit einem Element als String zurück, @pre zerlegte ihn in Zeichen
           $pre = @(if ($env:GITHUB_REF_NAME -match '-') { '--prerelease' })
-          # Genau die elf Dateien aus spec 4.6 mit Versionsnummer (Riegel.exe ohne) – sonst kein Release
+          # Genau die elf Release-Dateien (README, docs/installation.md) mit Versionsnummer (Riegel.exe ohne) – sonst kein Release
           $s = '${{ steps.version.outputs.suffix }}'
           $expected = "$env:APP$s-x64.msi", "$env:APP.exe", "$env:APP$s-win-x64-framework.zip", "riegel$s-win-x64.exe", "riegel$s-linux-x64",
                       "riegel$s-linux-arm64", "Riegel-Collector$s.zip", "Riegel-Collector-allowlist$s.zip", "Riegel-Collector-ReadOnlyProof$s.txt",
@@ -794,7 +794,7 @@ jobs:
           ./.github/scripts/release-latest.ps1 -Notes $notes -Title "Latest Build (main) – ${{ steps.version.outputs.version }}" -Expected $expected
 
   release-check:
-    # Nach dem Veröffentlichen unter Linux nachprüfen, was ein Kunde herunterlädt: genau die elf Dateien aus spec 4.6,
+    # Nach dem Veröffentlichen unter Linux nachprüfen, was ein Kunde herunterlädt: genau die elf Release-Dateien,
     # SHA256SUMS.txt mit LF und `sha256sum -c`, die innere Prüfsummendatei des Sammler-Pakets, die Linux-Befehlszeile
     # startet. Lädt aus dem Release, nicht aus Artefakten (Linux-Minuten zählen einfach).
     needs: [gate, windows]
@@ -820,7 +820,7 @@ jobs:
           have=$(ls -1 | LC_ALL=C sort)
           if [ "$have" != "$want" ]; then
             diff <(echo "$want") <(echo "$have") || true
-            echo "::error::Dateien von '$tag' weichen von spec 4.6 ab"; exit 1
+            echo "::error::Dateien von '$tag' weichen von der Liste der elf Release-Dateien ab"; exit 1
           fi
           if grep -q $'\r' SHA256SUMS.txt; then echo "::error::SHA256SUMS.txt hat CRLF-Zeilenenden"; exit 1; fi
           listed=$(awk '{print $2}' SHA256SUMS.txt | LC_ALL=C sort)

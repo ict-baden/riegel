@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:ict-baden:riegel:schema:measures",
-  "title": "riegel.measures/1 – Measures register (spec 2.13)",
+  "title": "riegel.measures/1 – Measures register",
   "type": "object",
   "properties": {
     "schema": {

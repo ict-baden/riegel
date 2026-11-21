@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:ict-baden:riegel:schema:approved",
-  "title": "riegel.approved/1 – Approved state of a machine (spec 2.14)",
+  "title": "riegel.approved/1 – Approved state of a machine",
   "type": "object",
   "properties": {
     "schema": {

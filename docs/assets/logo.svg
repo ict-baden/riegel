@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 32 32">
-  <!-- Riegel (Härtungs-Check): App-Icon nach marke/app-icon-vorlage.svg (Richtlinie 08).
+  <!-- Riegel (Härtungs-Check): App-Icon nach der internen Icon-Vorlage von ICT-Baden.
        Verlauf von oben nach unten #F3821D → #AC281B, weißes Schild mit Haken, Strichstärke 2,2, runde Enden. -->
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">

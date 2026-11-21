@@ -5,7 +5,7 @@
 Bitte **kein öffentliches Issue**. Melden Sie Sicherheitslücken vertraulich:
 
 - über GitHub: [Private vulnerability report](https://github.com/ict-baden/riegel/security/advisories/new)
-<!-- ⚠ E-Mail-Adresse für Sicherheitsmeldungen folgt, sobald sie feststeht (OFFEN.md „E-Mail-Adressen“). -->
+<!-- ⚠ Eine E-Mail-Adresse für Sicherheitsmeldungen folgt. -->
 
 Please **do not open a public issue**. Report vulnerabilities privately via the link above.
 

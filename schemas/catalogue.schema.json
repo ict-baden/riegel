@@ -455,7 +455,7 @@
           "$ref": "#/$defs/check_not"
         }
       ],
-      "description": "closed check vocabulary (spec 2.3), discriminated by 'type'"
+      "description": "closed check vocabulary (docs/file-formats.md), discriminated by 'type'"
     },
     "check_accountPolicy": {
       "type": "object",
