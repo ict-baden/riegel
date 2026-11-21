@@ -596,16 +596,17 @@ jobs:
           Remove-Installed 'Neuinstallation'
 
           # Updates: vom rollierenden Build latest und vom neuesten Tag-Release (bei einem Tag-Lauf das vorige Release)
+          # Pfade nur mit Join-Path: msiexec lehnt gemischte Trennzeichen ab (Fehler 1324, "Failed to access database")
           $old = Join-Path $env:RUNNER_TEMP 'msi-old'
           $sources = [Collections.Generic.List[object]]::new()
-          gh release download latest -R $env:GITHUB_REPOSITORY -p 'Riegel-x64.msi' -D "$old/latest" --clobber
-          if ($LASTEXITCODE -eq 0) { $sources.Add([pscustomobject]@{ Label = 'Update von latest'; File = "$old/latest/Riegel-x64.msi" }) }
+          gh release download latest -R $env:GITHUB_REPOSITORY -p 'Riegel-x64.msi' -D (Join-Path $old 'latest') --clobber
+          if ($LASTEXITCODE -eq 0) { $sources.Add([pscustomobject]@{ Label = 'Update von latest'; File = (Join-Path $old 'latest\Riegel-x64.msi') }) }
           else { Write-Host '::notice::latest hat keine MSI - Update von latest nicht geprüft' }
           # Neuestes Tag-Release („Latest“); ohne Tag-Release liefert gh das rollierende latest
           $tag = gh release view -R $env:GITHUB_REPOSITORY --json tagName -q .tagName
           if ($LASTEXITCODE -eq 0 -and $tag -match '^v\d+\.\d+\.\d+$' -and $tag -ne $env:GITHUB_REF_NAME) {
-            gh release download $tag -R $env:GITHUB_REPOSITORY -p "Riegel-$($tag.TrimStart('v'))-x64.msi" -D "$old/tag" --clobber
-            if ($LASTEXITCODE -eq 0) { $sources.Add([pscustomobject]@{ Label = "Update von $tag"; File = "$old/tag/Riegel-$($tag.TrimStart('v'))-x64.msi" }) }
+            gh release download $tag -R $env:GITHUB_REPOSITORY -p "Riegel-$($tag.TrimStart('v'))-x64.msi" -D (Join-Path $old 'tag') --clobber
+            if ($LASTEXITCODE -eq 0) { $sources.Add([pscustomobject]@{ Label = "Update von $tag"; File = (Join-Path $old "tag\Riegel-$($tag.TrimStart('v'))-x64.msi") }) }
             else { Write-Host "::warning::MSI von $tag nicht ladbar - Update vom letzten Tag-Release nicht geprüft" }
           } else { Write-Host "::notice::Kein früheres Tag-Release - Update vom letzten Tag-Release nicht geprüft" }
           if ($env:GITHUB_REF_TYPE -eq 'tag' -and $sources.Count -eq 0) {
