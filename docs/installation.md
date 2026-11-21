@@ -19,7 +19,7 @@ scheduled tasks.
 > see [Portable collector](collector.md).
 
 > [!WARNING]
-> **Version 0.1, not code-signed yet.** Until code signing is set up for ICT-Baden, Windows SmartScreen may warn and
+> **Not code-signed yet.** Until code signing is set up for ICT-Baden, Windows SmartScreen may warn and
 > AppLocker can only allow the collector by its hash. Check every download against `SHA256SUMS.txt`. No customer pilot
 > on OT or validated machines with an unsigned collector.
 

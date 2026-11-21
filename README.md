@@ -11,7 +11,7 @@
   <img alt="Data stays local" src="https://img.shields.io/badge/Data-stays%20local-2E7D32">
   <img alt="UI: English and German; Spanish, French and Chinese as machine-translated preview" src="https://img.shields.io/badge/UI-en%2C%20de%20(%2B%20es%2C%20fr%2C%20zh%20preview)-6B7280">
   <img alt="Licence: MIT" src="https://img.shields.io/badge/Licence-MIT-blue">
-  <img alt="Status: pre-release, not signed" src="https://img.shields.io/badge/Status-0.1%20pre--release%2C%20not%20signed-E3A008">
+  <img alt="Status: not code-signed yet" src="https://img.shields.io/badge/Status-not%20code--signed%20yet-E3A008">
   <a href="https://github.com/ict-baden/riegel/actions/workflows/build.yml"><img alt="Build" src="https://github.com/ict-baden/riegel/actions/workflows/build.yml/badge.svg"></a>
 </p>
 
@@ -37,7 +37,7 @@
 > PCs run the **portable collector** (`Riegel-Collector-<version>.zip`: installs nothing, changes no configuration and writes only
 > its export; Windows itself records that a program ran – [what it leaves behind](docs/collector.md#what-it-leaves-behind)) or Windows' own
 > **built-in commands**, and evaluate the snapshot on an analysis PC. The MSI is for admin, engineering and auditor
-> PCs. **Not code-signed yet:** no customer pilot on OT or validated machines with this unsigned 0.1 version.
+> PCs. **Not code-signed yet:** no customer pilot on OT or validated machines while it is unsigned.
 
 > [!NOTE]
 > **Deutsch:** Riegel (Härtungs-Check) prüft Windows-Rechner in Anlagen, Laboren und Leitständen lesend und offline
@@ -210,7 +210,7 @@ Every rule with its sources: **[Rule catalogue →](docs/rules.md)** · how a re
 | [Customer baselines](docs/baselines.md) | GPO backups, `riegel.baseline/1` JSON and CSV |
 | [Rule catalogue](docs/rules.md) · [Rule sources](docs/rule-sources.md) · [Frameworks](docs/frameworks.md) | all 153 rules, sources and licences, what Riegel supports evidence for |
 | [Data and privacy](docs/data-and-privacy.md) | every file and field, deleting, pseudonymisation, works council, no network |
-| [Limitations](docs/limitations.md) | what 0.1 does not do and what is only tested on CI runners |
+| [Limitations](docs/limitations.md) | what Riegel does not do and what is only tested on CI runners |
 | [File formats](docs/file-formats.md) · [Error codes](docs/error-codes.md) · [Development](docs/development.md) | formats and contracts, every `RGL-` code, build, tests, CI, releases |
 
 ## For audits and regulated environments

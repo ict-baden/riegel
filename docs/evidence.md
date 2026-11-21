@@ -203,7 +203,7 @@ In detail:
   matches the packed one (`compare-snapshot`).
 - **Not proven:** that the packed export really came from that machine, that nobody changed the machine between the
   collection and the audit (only the sample shows that for the sampled machines), that the person who wrote the pack
-  did not rebuild the whole pack with matching hashes (the pack is not signed in 0.1), the results of customer
+  did not rebuild the whole pack with matching hashes (the pack is not signed), the results of customer
   baselines whose content is not in the pack (they are counted as packed), and anything Riegel cannot read from a
   machine (MFA, backups, network segmentation).
 - **No compliance statement.** A reproduced pack shows that the evaluation is traceable, not that the plant is secure.

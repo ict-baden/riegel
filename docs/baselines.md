@@ -20,7 +20,7 @@ is evaluated in the same run as the catalogue and gets its own score section in 
 | **`riegel.baseline/1` JSON** you write yourself | every rule in the file | the whole closed check vocabulary ([file formats › Check vocabulary](file-formats.md#check-vocabulary)) |
 | **CSV template** ([`assets/baseline-template.csv`](assets/baseline-template.csv)) | one requirement per row | `registry`, `service`, `auditSubcategory`, `userRight` |
 
-Policy Analyzer `.PolicyRules` files and HardeningKitty lists are not imported in 0.1; they are planned for 0.2.
+Policy Analyzer `.PolicyRules` files and HardeningKitty lists are not imported yet; they are planned for a later version.
 
 Riegel never runs anything from a baseline. Every rule uses the closed vocabulary; unknown fields or check types are
 errors, not ignored.

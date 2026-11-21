@@ -2,7 +2,7 @@
 
 # Limitations
 
-What Riegel 0.1.0 does not do, what is only verified on CI runners and fixtures, and what can only be tested later on
+What Riegel does not do, what is only verified on CI runners and fixtures, and what can only be tested later on
 real machines. When in doubt Riegel reports *nicht prüfbar* (not checkable) instead of a pass or a fail.
 
 **Contents:** [Scope](#scope) · [How it was tested](#how-it-was-tested) · [Verification tasks V1–V8](#verification-tasks-v1v8) ·
@@ -17,7 +17,7 @@ real machines. When in doubt Riegel reports *nicht prüfbar* (not checkable) ins
 - **Machine settings only**, no per-user policies.
 - **Domain controllers** are detected; catalogue 2026.10.1 is not designed for them, rules marked `excludeDc` do not
   apply there, and DCs get no hardening score.
-- **No manual attestation** (BIOS password, boot order, locked cabinet) in 0.1.0; reserved for a later catalogue.
+- **No manual attestation** (BIOS password, boot order, locked cabinet) yet; reserved for a later catalogue.
 - **Not a compliance statement.** Riegel supports evidence for NIS2/BSIG, ISO 27001 A.8.9, IEC 62443, TISAX and GMP
   periodic reviews; it is not GMP-validated and does not cover MFA, backups or network segmentation.
 - Riegel never applies anything: remediation exists only as files for the plant vendor.
@@ -47,14 +47,15 @@ real machines. When in doubt Riegel reports *nicht prüfbar* (not checkable) ins
 | V2 | Which Security-log events does one collection create? | Server 2022/2025: 4662, 4673, 4674, 4688 (collector, `secedit`, `gpresult`), 4798, 4799; fewer with `--minimal`. Depends on the audit policy; recorded per build in `Riegel-Collector-ReadOnlyProof-<version>.txt`. |
 | V3 | Does Defender flag the collector or `--deep`? | **No** detection on any runner. |
 | V4 | Is `AMRunningMode` present? | **Yes**, `Normal` on all three runners. |
-| V5 | Does the collector start from a UNC share under CLR 2, and on Server 2008 R2 without the 3.5.1 feature? | **Unverified** – lab test before 1.0. |
+| V5 | Does the collector start from a UNC share under CLR 2, and on Server 2008 R2 without the 3.5.1 feature? | **Unverified** – lab test before the first customer pilot on OT or validated machines. |
 | V6 | PDF/A with PDFsharp-MigraDoc 6.2.4? | **No**: the output is untagged, so PDF/A is not offered (`--pdfa` fails with RGL-0520). |
 | V7 | `NetUserEnum`, `MSNdis_PhysicalMediumType`, `GetSecurityDescriptor` without admin; WSC API from net35; Wininit event 12 | The first two work without admin on all runners. `GetSecurityDescriptor` without admin was verified only on a workstation: the runners have only administrative shares, which have no share security object. The WSC API works from net35 on Windows 11 x64 and Arm64 and is not registered on servers (as Microsoft documents). Event 12 carries the protection level (`4`). |
 | V8 | Does `HNetCfg.FwPolicy2` return GPO-deployed rules? | The COM rule count equals the local store on all runners, which have no GPO rules. Rules from a **domain** GPO: **unverified** (no domain in CI). |
 
 ## Only testable later, on real machines
 
-These are open tasks for a lab and a real OT environment (gate for version 1.0):
+These are open tasks for a lab and a real OT environment. They are not done for this release; like signing, they are a
+gate before customer pilots on OT or validated machines:
 
 - Starts on Windows 7, 8.1, Server 2008 R2, 2012 R2, Windows 10 2016 LTSB and Embedded/IoT images; the UNC start under
   CLR 2 (V5).
@@ -173,7 +174,7 @@ These are open tasks for a lab and a real OT environment (gate for version 1.0):
 
 ## Releases and signing
 
-- **0.1 is not code-signed.** SmartScreen may warn; allow-listing works by hash only. Signing is a hard gate before
+- **Releases are not code-signed yet.** SmartScreen may warn; allow-listing works by hash only. Signing is a hard gate before
   customer pilots on OT or validated machines.
 - "Auditors can read the code and download the matching version for `verify`" holds only once the repository and its
   tag releases are public.
