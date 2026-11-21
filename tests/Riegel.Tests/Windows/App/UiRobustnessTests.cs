@@ -94,6 +94,17 @@ public sealed class UiRobustnessTests
         finally { vm.Detach(); }
     });
 
+    // Exklusiv sperren, mit kurzer Wiederholung: Direkt nach dem Schreiben der Demo-Daten hält auf dem Runner oft
+    // noch der Virenscanner oder das Laden im Hintergrund die Datei (IOException „being used by another process“).
+    private static async Task<FileStream> LockExclusiveAsync(string path)
+    {
+        for (var attempt = 0; ; attempt++)
+        {
+            try { return new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None); }
+            catch (IOException) when (attempt < 50) { await Task.Delay(100); }
+        }
+    }
+
     [Fact]
     public void Vergleich_mit_gesperrtem_Export_zeigt_den_Grund() => Sta.Run(async () =>
     {
@@ -106,7 +117,7 @@ public sealed class UiRobustnessTests
             var machine = plant.Machines.First(m => m.Latest is not null && plant.SnapshotPath(m.Latest) is not null);
             vm.Comparison.SelectHost(machine.HostName);
             var path = plant.SnapshotPath(machine.Latest!)!;
-            using (new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None))
+            using (await LockExclusiveAsync(path))
                 await vm.Comparison.RefreshAsync();
             Assert.StartsWith("RGL-", vm.Comparison.EmptyText, StringComparison.Ordinal);
             Assert.False(vm.Comparison.HasComparison);
