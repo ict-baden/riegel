@@ -125,7 +125,7 @@ domain member is still open. Network data in it: the **default gateway address**
 | `settings.json` | `%LocalAppData%\Riegel` (Linux `~/.local/share/riegel`; `RIEGEL_DATA_DIR` overrides) | language, theme, default plant folder, thresholds, recently opened plant folders (paths) |
 | `logs\riegel-<date>.log` | same folder | 7 days, at most 1 MB per day; never setting values, host names, accounts or paths (paths, host, user and domain names, accounts, SIDs and addresses in error messages are replaced before a line is written) |
 | `handoff\<token>\` | same folder | the snapshot and checksum of *Check as administrator* (or only `error.txt` with an error code); deleted after the import, and also when collection, hand-over or import fail (the plant folder holds the imported copy). If the elevated account's files cannot be deleted, it stays; Riegel deletes such leftovers older than one day at its next start |
-| `Riegel-Erfassung-<8 hex>\` | `%TEMP%` | the snapshot of *Check this PC* without elevation; deleted after a successful import, kept if the import fails. Riegel 0.1.0 kept it – delete old ones by hand |
+| `Riegel-Erfassung-<8 hex>\` | `%TEMP%` | the snapshot of *Check this PC* without elevation; deleted after the import, and also when collection or import fail. Riegel deletes leftovers older than one day at its next start (versions before 1.0.0 kept them) |
 | `defaults.json` | `%ProgramData%\ICT-Baden\Riegel` | presets of the administrator, read only |
 | Demo plant | `%TEMP%\Riegel-Demo-<8 hex>` | fictitious data; deleted when Riegel closes (older leftovers after a day) |
 
