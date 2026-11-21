@@ -9,17 +9,18 @@
 # Wann wie viel gebaut wird (Richtlinie 04, „Wann die CI baut“; beschrieben in docs/development.md): Pushs und PRs
 # bauen nur den Job „linux“, die Jobs „windows“ und „release-check“ gibt es nachts (nur wenn main neu ist), bei Tags,
 # von Hand, mit [voll] in der Commit-Nachricht und bei PRs mit Label voll-bauen oder Windows-Pfaden (FULL_PATHS).
-# Reine Doku startet nichts.
+# Nichts starten nur Dateien, die kein Test liest (Issue-Vorlagen, CONTRIBUTING, SECURITY, SUPPORT, Bilder):
+# README.md, CHANGELOG.md, LICENSE und docs/*.md prüfen ReleaseNotesTests, DocsTests und RepositoryTests im Job „linux“.
 name: Build
 
 on:
   push:
     branches: [main]
     tags: ['v*'] # Pfadfilter gelten für Tags nicht, ein Tag baut immer
-    paths-ignore: ['**.md', 'docs/**', 'LICENSE', '.github/ISSUE_TEMPLATE/**']
+    paths-ignore: ['.github/ISSUE_TEMPLATE/**', 'CONTRIBUTING.md', 'SECURITY.md', 'SUPPORT.md', '**.png']
   pull_request:
     types: [opened, synchronize, reopened, labeled]
-    paths-ignore: ['**.md', 'docs/**', 'LICENSE', '.github/ISSUE_TEMPLATE/**']
+    paths-ignore: ['.github/ISSUE_TEMPLATE/**', 'CONTRIBUTING.md', 'SECURITY.md', 'SUPPORT.md', '**.png']
   schedule:
     - cron: '51 2 * * *' # Minute je Repo anders, damit nicht alle gleichzeitig starten
   workflow_dispatch:
@@ -257,10 +258,15 @@ jobs:
           throw 'Das Repo ist privat: endgültige Releases erst, wenn es öffentlich ist (docs/development.md, Releases).'
 
       - name: Release-Text prüfen (nur bei Tag v*)
-        # Vor dem Bauen: ohne englischen CHANGELOG-Teil („### English“) entstünde ein Release ohne Text
+        # Vor dem Bauen: ohne englischen CHANGELOG-Teil („### English“) entstünde ein Release ohne Text. Ein endgültiger
+        # Tag muss der Basisversion in Directory.Build.props entsprechen (sonst war die Version vor dem Tag nicht gesetzt).
         if: github.ref_type == 'tag'
         shell: pwsh
-        run: ./.github/scripts/release-notes.ps1 -Version '${{ steps.version.outputs.version }}' | Out-Null
+        run: |
+          $v = '${{ steps.version.outputs.version }}'
+          $base = ([xml](Get-Content Directory.Build.props)).Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
+          if ($v -notmatch '-' -and $v -ne $base) { throw "Tag v$v, aber Directory.Build.props nennt $base (docs/development.md, Releases)." }
+          ./.github/scripts/release-notes.ps1 -Version $v | Out-Null
 
       - name: Restore
         run: dotnet restore "${{ env.APP }}.sln"

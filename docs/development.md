@@ -247,8 +247,11 @@ snapshot of a workstation or a customer machine; your own PC is compared only lo
 
 ## Continuous integration
 
-`.github/workflows/build.yml` runs on pushes to `main`, tags `v*`, pull requests, nightly and by hand; changes to
-documentation only (`**.md`, `docs/**`, `LICENSE`, issue templates) start nothing. In a pull request a newer push
+`.github/workflows/build.yml` runs on pushes to `main`, tags `v*`, pull requests, nightly and by hand; changes only to
+files that no test reads (issue templates, `CONTRIBUTING.md`, `SECURITY.md`, `SUPPORT.md`, images) start nothing.
+`README.md`, `CHANGELOG.md`, `LICENSE` and `docs/*.md` start the linux job: tests check the release notes, the
+versioned file names, the links and the licence line. The nightly full build still skips a `main` that changed only
+documentation. In a pull request a newer push
 cancels the running build (`concurrency`); on `main` and for tags builds are queued and always finish.
 
 A first job **gate** decides how much a run builds, because Windows minutes count double:

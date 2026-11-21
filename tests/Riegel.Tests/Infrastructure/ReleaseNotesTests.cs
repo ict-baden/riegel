@@ -45,6 +45,22 @@ public sealed partial class ReleaseNotesTests
         Assert.True(stale.Count == 0, $"Neueste Version im CHANGELOG ist {newest}; veraltet:\n" + string.Join("\n", stale));
     }
 
+    [Fact]
+    public void Basisversion_ist_nicht_aelter_als_der_neueste_Abschnitt()
+    {
+        // Vor dem Tag gleich dem neuesten Abschnitt, direkt nach dem Tag angehoben (docs/development.md, Releases); dann
+        // sammelt „Unveröffentlicht“ die Änderungen der nächsten Version. Älter hieße: latest-Builds sortierten vor das Release.
+        var props = System.Xml.Linq.XDocument.Load(Path.Combine(RepoPaths.Root, "Directory.Build.props"));
+        var baseText = props.Descendants("Version").Select(e => e.Value.Trim()).First(v => v.Length > 0);
+        var newestText = Sections()[0].Version;
+        Assert.Matches(@"^\d+\.\d+\.\d+$", baseText);
+        var newest = Version.Parse(newestText.Split('-')[0]);
+        var current = Version.Parse(baseText);
+        Assert.True(current >= newest, $"Directory.Build.props nennt {baseText}, der neueste CHANGELOG-Abschnitt ist {newestText}.");
+        if (current > newest)
+            Assert.Contains(Changelog, l => Regex.IsMatch(l, @"^## \[Unveröffentlicht\]\s*$"));
+    }
+
     /// <summary>Versionsabschnitte „## [x.y.z] – Datum“ in der Reihenfolge der Datei (neueste zuerst), ohne „Unveröffentlicht“.</summary>
     private static List<(string Version, List<string> Lines)> Sections()
     {
