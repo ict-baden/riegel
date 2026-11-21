@@ -19,7 +19,14 @@ Jeder Versionsabschnitt endet mit „English“: Das ist der Text des Releases a
 - **Sprung zu einer Ausnahme** bei aktiver Suche zeigt den Eintrag (Suche wird zurückgesetzt) statt eines leeren Details.
 - **Import-Dialog:** Ein Ordner ohne Exporte (RGL-0470) oder ein nicht lesbarer Ordner wird im Dialog gemeldet statt still ignoriert.
 
+### Geändert
+- **CI:** Die Hash-Sperre des Sammlers ist Pflicht (kein „unset“ mehr) und gilt auch im Workflow `collector.yml`; eine schon unter einem Tag veröffentlichte Sammler-Version mit anderem Hash bricht den Build ab (Versionssprung vergessen). PRs bauen auch bei Änderungen am Erhebungsplan, am Snapshot-Schema und an den Projektdateien von Core und Befehlen voll; fremde Labels starten keinen Lauf mehr. Ein gescheiterter Sammler-Lauf ohne Adminrechte macht den Sammler-Job rot. Ein endgültiges Release aus einem privaten Repo bricht ab (ohne Herkunftsnachweis). Dependabot schlägt den festen Compiler des Sammlers und .NET-Hauptversionen nicht mehr vor.
+- **Tests:** Die Prüfung der aufgezeichneten Fixtures auf Anonymisierung, der Anonymisierer und die Fehlercodes von Core und Befehlen in `docs/error-codes.md` laufen auch unter Linux; Tests mit RuleTool und Anonymisierer scheitern in der CI, statt still übersprungen zu werden.
+- **Doku:** öffentliche Dateien (Doku, Schemas, `SECURITY.md`, `SUPPORT.md`) ohne Verweise auf die interne Spezifikation, die internen Richtlinien und interne Dateien; Kommentare in Quelltext, Tests und CI nennen weiter Abschnitte der internen Spezifikation und Richtlinien (`docs/development.md`). Release-Schritte für das erste öffentliche Release (öffentlich schalten, private Schwachstellenmeldung einschalten, `main` vor dem Tag bauen).
+
 ### Bekannte Einschränkung
+- Labortests auf echten Rechnern sind offen: V5 (Start von einer UNC-Freigabe unter CLR 2, Server 2008 R2 ohne 3.5.1), Starts auf Windows 7, 8.1, Server 2008 R2 und 2012 R2, echtes AppLocker/App Control, Domänen-GPO, Drittanbieter-Virenschutz und EDR, die Linux-arm64-Befehlszeile zur Laufzeit. Wie das Signieren sind sie ein Gate vor Kundenpiloten auf OT- oder validierten Rechnern (`docs/limitations.md`).
+- Spanisch, Französisch und Chinesisch sind maschinell vorübersetzt und noch nicht von Muttersprachlern geprüft.
 - Der Sammler (0.1.0, unverändert) lässt bei einem Schreibfehler nach dem Anlegen (Stick voll) eine leere oder halbe `*.snapshot.json` ohne `.sha256` zurück, obwohl er „3 nichts geschrieben“ meldet. Die Behebung braucht eine neue Sammler-Version; bis dahin steht es in `docs/limitations.md`.
 
 ## [0.1.3] – 2026-10-21
