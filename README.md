@@ -132,7 +132,7 @@
 </table>
 
 **Downloads** – from the [**newest release**](https://github.com/ict-baden/riegel/releases/latest) (tag `vX.Y.Z`; file names carry the version, e.g.
-`Riegel-Collector-0.1.3.zip`). **For OT machines take a tag release, never the pre-release `latest`**: the collector's
+`Riegel-Collector-1.0.0.zip`). **For OT machines take a tag release, never the pre-release `latest`**: the collector's
 hash, its AppLocker data and its read-only proof belong to that release. The pre-release
 [`latest`](https://github.com/ict-baden/riegel/releases/tag/latest) is rebuilt nightly when `main` has changed – for trying
 out, not for plants.
@@ -140,7 +140,7 @@ out, not for plants.
 | File | What it is |
 |---|---|
 | **Riegel-Collector-&lt;version&gt;.zip** | portable collector for plant and older machines, plus `collect-builtin.cmd`; installs nothing |
-| **Riegel-&lt;version&gt;-x64.msi** | analysis app with `Riegel.Cli.exe` and the collector, for all users (`msiexec /i Riegel-0.1.3-x64.msi /qn`, Intune, GPO) – **not for OT machines** |
+| **Riegel-&lt;version&gt;-x64.msi** | analysis app with `Riegel.Cli.exe` and the collector, for all users (`msiexec /i Riegel-1.0.0-x64.msi /qn`, Intune, GPO) – **not for OT machines** |
 | Riegel.exe | the app as one file, no installation (without the collector) |
 | riegel-&lt;version&gt;-win-x64.exe · riegel-&lt;version&gt;-linux-x64 · riegel-&lt;version&gt;-linux-arm64 | command line as one file for scripts, FAT pipelines and auditors |
 | SHA256SUMS.txt | checksums – the builds are **not code-signed** yet, check them ([how](docs/installation.md#verifying-the-download)) |
@@ -164,7 +164,7 @@ Riegel.Cli.exe check --snapshot D:\Exporte\HMI-01_20261018T080000Z.snapshot.json
 Riegel.Cli.exe plant init D:\Riegel\Linie3 --name "Linie 3"
 Riegel.Cli.exe import D:\Exporte --plant D:\Riegel\Linie3 --collected-by-role Servicetechniker --witness-role Anlagenverantwortlicher --record
 Riegel.Cli.exe report --plant D:\Riegel\Linie3 --format pdf,xlsx --evidence --out D:\Berichte
-./riegel-0.1.3-linux-x64 verify Riegel-Evidence_Linie-3_2026-10-18.zip   # Linux
+./riegel-1.0.0-linux-x64 verify Riegel-Evidence_Linie-3_2026-10-18.zip   # Linux
 
 # Monitoring against the plant (scheduled task, Icinga): one line; with --plant the alert mode is "change", so the
 # exit code reports what got worse, expiring exceptions and overdue measures – not the permanent state

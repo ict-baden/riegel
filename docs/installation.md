@@ -46,8 +46,8 @@ scheduled tasks.
 
 - **[latest](https://github.com/ict-baden/riegel/releases/tag/latest)** is the newest build of `main`, replaced in
   place nightly when `main` has changed, with fixed file names (version `<base version>-ci.<run>`). Use it to try Riegel and on analysis PCs.
-- **Tag releases** (`v0.1.3` …) keep their files. Their names carry the version, e.g. `Riegel-0.1.3-x64.msi`,
-  `Riegel-Collector-0.1.3.zip`, `riegel-0.1.3-linux-x64` (`Riegel.exe` keeps its name). This documentation writes them as
+- **Tag releases** (`v1.0.0` …) keep their files. Their names carry the version, e.g. `Riegel-1.0.0-x64.msi`,
+  `Riegel-Collector-1.0.0.zip`, `riegel-1.0.0-linux-x64` (`Riegel.exe` keeps its name). This documentation writes them as
   `Riegel-Collector-<version>.zip` and so on; in `latest` the same files have no version in their names.
 - **OT customers use tag releases, never `latest`:** the collector's hash, its AppLocker data and its read-only proof
   belong to exactly that release, and a change request names that version. The collector has its own version
@@ -70,8 +70,8 @@ scheduled tasks.
 ## Verifying the download
 
 ```powershell
-(Get-FileHash .\Riegel-Collector-0.1.3.zip -Algorithm SHA256).Hash.ToLower()
-Select-String Riegel-Collector-0.1.3.zip .\SHA256SUMS.txt
+(Get-FileHash .\Riegel-Collector-1.0.0.zip -Algorithm SHA256).Hash.ToLower()
+Select-String Riegel-Collector-1.0.0.zip .\SHA256SUMS.txt
 ```
 
 All files in the current folder at once:
@@ -88,7 +88,7 @@ files inside; `UEBERGABE.txt`, written by *Copy collector to a drive*, lists the
 
 ## SmartScreen and signing
 
-Until releases are signed, `Get-AuthenticodeSignature .\Riegel-0.1.3-x64.msi` shows `NotSigned`, and SmartScreen may show
+Until releases are signed, `Get-AuthenticodeSignature .\Riegel-1.0.0-x64.msi` shows `NotSigned`, and SmartScreen may show
 *Windows protected your PC* for `Riegel.exe`, the MSI or `riegel-<version>-win-x64.exe`: check the checksum, then *More info* ›
 *Run anyway*. On machines with application control, allow the collector by its **hash** (data in
 `Riegel-Collector-allowlist-<version>.zip`); once releases are signed, a publisher rule replaces the hash rule – signing changes
@@ -106,16 +106,16 @@ The MSI installs per machine (administrator rights needed):
 
 ```powershell
 # As administrator
-msiexec /i Riegel-0.1.3-x64.msi                    # interactive
-msiexec /i Riegel-0.1.3-x64.msi /qn                # silent
-msiexec /i Riegel-0.1.3-x64.msi /qn /l*v msi.log   # silent with a log
-msiexec /x Riegel-0.1.3-x64.msi /qn                # uninstall
+msiexec /i Riegel-1.0.0-x64.msi                    # interactive
+msiexec /i Riegel-1.0.0-x64.msi /qn                # silent
+msiexec /i Riegel-1.0.0-x64.msi /qn /l*v msi.log   # silent with a log
+msiexec /x Riegel-1.0.0-x64.msi /qn                # uninstall
 ```
 
 The installer closes a running Riegel before it replaces files. CI installs and uninstalls every MSI on a disposable
 runner, also as an update over the current `latest` build and over the newest tag release, and checks the program
 files with their file version, `Riegel.Cli.exe --version`, `collector\` and that *Programs and Features* lists Riegel
-once. Riegel's programs carry the version and the build number (`0.1.3.<run>`; the collector keeps its own version), so
+once. Riegel's programs carry the version and the build number (`1.0.0.<run>`; the collector keeps its own version), so
 a release is newer than every `latest` build before it – `main` is built before the tag, and the version on `main` is
 raised right after the tag.
 

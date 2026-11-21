@@ -15,7 +15,7 @@
     Ältestes Tag mit denselben Sammler-Bytes („Collector unchanged since …“), leer wenn der Sammler neu ist.
 
 .EXAMPLE
-    ./.github/scripts/release-notes.ps1 -Version 0.1.3 -Collector 0.1.0 -CollectorSha256 042f… -Since v0.1.0
+    ./.github/scripts/release-notes.ps1 -Version 1.0.0 -Collector 0.1.0 -CollectorSha256 042f… -Since v0.1.0
 #>
 param(
     [Parameter(Mandatory)] [string] $Version,
@@ -29,7 +29,7 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $lines = @(Get-Content -LiteralPath $Changelog -Encoding utf8)
-# Abschnitt „## [0.1.3] – 2026-10-21“ bis zum nächsten „## “
+# Abschnitt „## [1.0.0] – 2026-11-21“ bis zum nächsten „## “
 $start = -1
 for ($i = 0; $i -lt $lines.Count; $i++) {
     if ($lines[$i] -match "^## \[$([regex]::Escape($Version))\]") { $start = $i; break }
