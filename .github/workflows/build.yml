@@ -253,7 +253,8 @@ jobs:
         # (ein neuer Build hat andere Bytes). Vorabversionen (v1.0.0-rc1) dürfen auch aus einem privaten Repo kommen.
         if: github.ref_type == 'tag' && !contains(github.ref_name, '-') && github.event.repository.private
         shell: pwsh
-        run: throw 'Das Repo ist privat: endgültige Releases erst, wenn es öffentlich ist (docs/development.md, Releases).'
+        run: |
+          throw 'Das Repo ist privat: endgültige Releases erst, wenn es öffentlich ist (docs/development.md, Releases).'
 
       - name: Release-Text prüfen (nur bei Tag v*)
         # Vor dem Bauen: ohne englischen CHANGELOG-Teil („### English“) entstünde ein Release ohne Text

@@ -98,6 +98,32 @@ public sealed partial class RepositoryTests
         Assert.Contains("WixToolset.Util.wixext", File.ReadAllText(Path.Combine(RepoPaths.Root, "installer", "Riegel.Installer.wixproj")), StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void Workflows_haben_keinen_Doppelpunkt_in_ungequoteten_Werten()
+    {
+        // „run: throw 'a: b'“ ist kein gültiges YAML (Doppelpunkt mit Leerzeichen in einem ungequoteten Wert); GitHub
+        // startet den Workflow dann gar nicht, auch kein Tag-Release. Solche Werte gehören in einen Block (run: |).
+        var github = Path.Combine(RepoPaths.Root, ".github");
+        var hits = new List<string>();
+        foreach (var file in Directory.EnumerateFiles(github, "*.yml", SearchOption.AllDirectories))
+        {
+            var lines = File.ReadAllLines(file);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                var m = YamlPlainValue().Match(lines[i]);
+                if (!m.Success) continue;
+                var value = Regex.Replace(m.Groups["v"].Value, @"\s+#.*$", "");
+                if (value.Contains(": ", StringComparison.Ordinal) || value.EndsWith(':'))
+                    hits.Add($"{Path.GetRelativePath(RepoPaths.Root, file)}:{i + 1}: {lines[i].Trim()}");
+            }
+        }
+        Assert.True(hits.Count == 0, string.Join("\n", hits));
+    }
+
     [GeneratedRegex(@"\{\{[A-Z_]+\}\}")]
     private static partial Regex Placeholder();
+
+    // „schlüssel: wert“ bzw. „- schlüssel: wert“ mit einem Wert ohne Anführungszeichen, Block oder Fluss-Syntax
+    [GeneratedRegex(@"^\s*(?:- )?[\w.-]+: (?![|>'""\[{&*!])(?<v>.*)$")]
+    private static partial Regex YamlPlainValue();
 }
