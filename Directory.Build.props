@@ -1,5 +1,5 @@
 <Project>
-  <!-- Gemeinsame Einstellungen für alle Projekte im Repo (Vorlage aus ict-baden/richtlinien) -->
+  <!-- Gemeinsame Einstellungen für alle Projekte im Repo (nach der Vorlage der internen Richtlinien) -->
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
