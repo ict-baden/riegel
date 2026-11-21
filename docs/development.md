@@ -364,5 +364,8 @@ these hashes (a known version with another hash is `RGL-0572`, an unknown versio
   catalogue (en, de); collector texts in `messages.<lang>.txt`.
 - No person names or GitHub handles anywhere, also not in demo data, fixtures or screenshots.
 - Dependencies only with permissive licences, pinned exactly, listed in `THIRD-PARTY-NOTICES.txt`; see the licence
-  pins in `CLAUDE.md` and `.github/dependabot.yml`.
+  pins in `CLAUDE.md` and `.github/dependabot.yml`. Dependabot also never proposes the collector's build packages
+  (`Microsoft.Net.Compilers.Toolset`, `Microsoft.NETFramework.ReferenceAssemblies.net35`: a new compiler changes the
+  collector's bytes, so update them only together with a new collector version, hash and recorded fixtures) nor major
+  updates of `System.*` and `Microsoft.Extensions.*` packages (they follow the .NET major version, `net10.0`).
 - No CIS, BSI SiSyPHuS or IT-Grundschutz content; no Microsoft Security Baseline files or values.

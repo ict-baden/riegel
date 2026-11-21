@@ -9,8 +9,18 @@ updates:
     groups:
       nuget:
         patterns: ["*"]
-    # Diese Sprünge wechseln die Lizenz und sind nach richtlinien/02 nicht erlaubt (siehe CLAUDE.md):
     ignore:
+      # Fester Compiler und Referenzassemblys des Sammlers (Hash-Sperre): ein Update ändert die Bytes der Exe, also nur
+      # bewusst zusammen mit neuer collector-version.txt, collector.sha256 und neu aufgezeichneten Runner-Fixtures
+      - dependency-name: "Microsoft.Net.Compilers.Toolset"
+      - dependency-name: "Microsoft.NETFramework.ReferenceAssemblies.net35"
+      # System.* und Microsoft.Extensions.* folgen der .NET-Hauptversion (net10.0): Major nur mit dem bewussten Umstieg
+      - dependency-name: "System.*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "Microsoft.Extensions.*"
+        update-types: ["version-update:semver-major"]
+      # Diese Sprünge wechseln die Lizenz und sind nach der internen Richtlinie 02 nicht erlaubt (Lizenzen in CLAUDE.md
+      # und docs/development.md):
       # PDFsharp und MigraDoc: 6.2.x ist MIT, ab 6.5.0 AGPL-3.0 – nur Patch-Updates
       - dependency-name: "PDFsharp*"
         update-types: ["version-update:semver-minor", "version-update:semver-major"]
