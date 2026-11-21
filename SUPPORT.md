@@ -6,7 +6,6 @@ Riegel is free and open source. There are two ways to get help.
 ## Kostenlos: GitHub / Free: GitHub
 
 - **Fehler, Wünsche und Fragen:** [Issue anlegen](https://github.com/ict-baden/riegel/issues/new/choose)
-<!-- ⚠ Zeile „Fragen: Discussions“ aus der Vorlage wieder aufnehmen, sobald Discussions im Repo eingeschaltet ist. -->
 
 Wir lesen alles, können aber keine Reaktionszeit zusagen. Alles dort ist öffentlich – bitte keine internen Daten.
 We read everything but cannot promise response times. Everything there is public.
@@ -21,8 +20,7 @@ Mit einem Supportvertrag der ICT Baden GmbH bekommen Sie:
 - Vorrang bei Fehlerbehebungen und Sicherheitsinformationen vorab
 - Anpassungen und Schulungen nach Absprache
 
-Kontakt: [Impressum](https://ict-baden.de/impressum/)
-<!-- ⚠ Eine Support-Adresse folgt. -->
+Kontakt: [Kontaktseite](https://ict-baden.de/#kontakt), [Support und Preise](https://ict-baden.de/support/) / Contact: [contact page](https://ict-baden.de/#kontakt), [support and pricing](https://ict-baden.de/en/support/)
 
 ## Was Sie mitschicken / What to include
 
