@@ -37,6 +37,8 @@
     <ProjectReference Include="..\..\src\Riegel.Commands\Riegel.Commands.csproj" />
     <!-- RuleTool nur bauen (die RuleTool-Tests starten es als eigenen Prozess), auch im Linux-Job -->
     <ProjectReference Include="..\..\tools\RuleTool\RuleTool.csproj" ReferenceOutputAssembly="false" Private="false" />
+    <!-- Ebenso den Anonymisierer (RecordedFixtureTests startet ihn), damit auch der Linux-Job ihn prüft -->
+    <ProjectReference Include="..\..\tools\SnapshotAnonymizer\SnapshotAnonymizer.csproj" ReferenceOutputAssembly="false" Private="false" />
   </ItemGroup>
 
   <!-- Nur unter Windows: Windows-Anbindung, die WPF-App und der gebaute net35-Sammler (Referenztest, spec 8.13) -->

@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 using System.Globalization;
 using System.Reflection;
-using System.Resources;
 using System.Text;
 using Riegel.Tests.TestSupport;
 
@@ -10,16 +9,14 @@ namespace Riegel.Tests.Windows.Docs;
 /// <summary>
 /// docs/error-codes.md wird aus den Klassen RglCodes* erzeugt (spec 7.13): je Bereich die Konstanten mit ihrem
 /// englischen Text aus der Sprachdatei des Pakets. Der Test vergleicht die Datei mit der erzeugten Fassung; mit
-/// <c>RIEGEL_UPDATE_DOCS=1</c> schreibt er sie neu. Nur unter Windows, weil Sammler, Windows-Anbindung und App dazugehören.
+/// <c>RIEGEL_UPDATE_DOCS=1</c> schreibt er sie neu. Nur unter Windows, weil Sammler, Windows-Anbindung und App dazugehören;
+/// die Bereiche von Core und Befehlen prüft <c>ErrorCodesCoreDocTests</c> auch unter Linux.
 /// </summary>
 public sealed class ErrorCodesDocTests
 {
     private sealed record Area(string Range, string Owner, Type Codes, Func<string, string?> Text);
 
-    private static ResourceManager Resources(Assembly assembly, string baseName) => new(baseName, assembly);
-
-    private static string? Res(ResourceManager rm, string code) =>
-        rm.GetString("Error_" + code.Replace("-", "", StringComparison.Ordinal), CultureInfo.InvariantCulture);
+    private static string? Res(Assembly assembly, string baseName, string code) => ErrorCodeTable.Text(assembly, baseName, code);
 
     private static IReadOnlyList<Area> Areas()
     {
@@ -33,17 +30,17 @@ public sealed class ErrorCodesDocTests
         var catalogueMessage = catalogue.GetMethod("Message", [typeof(string)])!;
         return
         [
-            new("RGL-0001–0099", "common", typeof(Riegel.Core.Model.RglCodesCommon), c => Res(Resources(core, "Riegel.Core.Resources.CommonStrings"), c)),
+            new("RGL-0001–0099", "common", typeof(Riegel.Core.Model.RglCodesCommon), c => Res(core, "Riegel.Core.Resources.CommonStrings", c)),
             new("RGL-0100–0199", "collector and Windows platform", platform.GetTypes().Single(t => t.Name == "RglCodesCollector"),
-                c => Res(Resources(platform, "Riegel.Platform.Windows.Resources.PlatformStrings"), c) ?? CollectorText(c)),
-            new("RGL-0200–0249", "engine (catalogue, facts, evaluation)", typeof(Riegel.Core.Evaluation.RglCodesEngine), c => Res(Resources(core, "Riegel.Core.Resources.EngineStrings"), c)),
-            new("RGL-0250–0299", "parsing (snapshots, built-in bundles, baselines)", typeof(Riegel.Core.Parsing.RglCodesParsing), c => Res(Resources(core, "Riegel.Core.Resources.ParsingStrings"), c)),
+                c => Res(platform, "Riegel.Platform.Windows.Resources.PlatformStrings", c) ?? CollectorText(c)),
+            new("RGL-0200–0249", "engine (catalogue, facts, evaluation)", typeof(Riegel.Core.Evaluation.RglCodesEngine), c => Res(core, "Riegel.Core.Resources.EngineStrings", c)),
+            new("RGL-0250–0299", "parsing (snapshots, built-in bundles, baselines)", typeof(Riegel.Core.Parsing.RglCodesParsing), c => Res(core, "Riegel.Core.Resources.ParsingStrings", c)),
             new("RGL-0300–0399", "catalogue content and RuleTool (developer tool)", catalogue, c => (string?)catalogueMessage.Invoke(null, [c])),
-            new("RGL-0400–0449", "workflow (plant folder, runs, registers)", typeof(Riegel.Core.Plants.RglCodesWorkflow), c => Res(Resources(core, "Riegel.Core.Resources.WorkflowStrings"), c)),
-            new("RGL-0450–0499", "command line", typeof(Riegel.Commands.RglCodesCli), c => Res(Resources(commands, "Riegel.Commands.Resources.CliStrings"), c)),
-            new("RGL-0500–0549", "PDF documents", typeof(Riegel.Core.Reports.Pdf.RglCodesPdf), c => Res(Resources(core, "Riegel.Core.Resources.PdfStrings"), c)),
-            new("RGL-0550–0599", "data outputs (Excel, CSV, evidence pack, remediation)", typeof(Riegel.Core.Evidence.RglCodesDataOutputs), c => Res(Resources(core, "Riegel.Core.Resources.DataOutputStrings"), c)),
-            new("RGL-0600–0699", "app (user interface)", typeof(Riegel.RglCodesApp), c => Res(Resources(app, "Riegel.Resources.UiStrings"), c)),
+            new("RGL-0400–0449", "workflow (plant folder, runs, registers)", typeof(Riegel.Core.Plants.RglCodesWorkflow), c => Res(core, "Riegel.Core.Resources.WorkflowStrings", c)),
+            new("RGL-0450–0499", "command line", typeof(Riegel.Commands.RglCodesCli), c => Res(commands, "Riegel.Commands.Resources.CliStrings", c)),
+            new("RGL-0500–0549", "PDF documents", typeof(Riegel.Core.Reports.Pdf.RglCodesPdf), c => Res(core, "Riegel.Core.Resources.PdfStrings", c)),
+            new("RGL-0550–0599", "data outputs (Excel, CSV, evidence pack, remediation)", typeof(Riegel.Core.Evidence.RglCodesDataOutputs), c => Res(core, "Riegel.Core.Resources.DataOutputStrings", c)),
+            new("RGL-0600–0699", "app (user interface)", typeof(Riegel.RglCodesApp), c => Res(app, "Riegel.Resources.UiStrings", c)),
         ];
     }
 
@@ -70,17 +67,7 @@ public sealed class ErrorCodesDocTests
     private static string Configuration =>
         typeof(ErrorCodesDocTests).Assembly.Location.Contains($"{Path.DirectorySeparatorChar}Debug{Path.DirectorySeparatorChar}", StringComparison.Ordinal) ? "Debug" : "Release";
 
-    /// <summary>Alle Codes eines Bereichs mit dem Namen ihrer Konstante (Reihenfolge der Liste All).</summary>
-    private static List<(string Code, string Name)> Codes(Type type)
-    {
-        var names = type.GetFields(BindingFlags.Public | BindingFlags.Static)
-            .Where(f => f.IsLiteral && f.FieldType == typeof(string))
-            .GroupBy(f => (string)f.GetRawConstantValue()!).ToDictionary(g => g.Key, g => g.First().Name, StringComparer.Ordinal);
-        var member = (MemberInfo?)type.GetProperty("All", BindingFlags.Public | BindingFlags.Static) ?? type.GetField("All", BindingFlags.Public | BindingFlags.Static)
-            ?? throw new InvalidOperationException(type.Name + ": All fehlt");
-        var all = (IEnumerable<string>)(member is PropertyInfo p ? p.GetValue(null)! : ((FieldInfo)member).GetValue(null)!);
-        return [.. all.Select(c => (c, names.TryGetValue(c, out var n) ? n : "?"))];
-    }
+    private static List<(string Code, string Name)> Codes(Type type) => ErrorCodeTable.Codes(type);
 
     internal static string Generate()
     {
@@ -99,10 +86,7 @@ public sealed class ErrorCodesDocTests
             sb.Append("| Code | Name | Meaning |\n|---|---|---|\n");
             foreach (var (code, name) in Codes(area.Codes))
             {
-                // Spitze Klammern als Entität: GitHub hält <Ordner> sonst für ein HTML-Element und blendet es aus
-                var text = (area.Text(code) ?? "").Replace("\r\n", " ").Replace('\n', ' ').Replace("|", "\\|", StringComparison.Ordinal)
-                    .Replace("<", "&lt;", StringComparison.Ordinal).Replace(">", "&gt;", StringComparison.Ordinal).Trim();
-                sb.Append("| `").Append(code).Append("` | ").Append(name).Append(" | ").Append(text).Append(" |\n");
+                sb.Append(ErrorCodeTable.Row(code, name, area.Text(code)));
             }
             sb.Append('\n');
         }

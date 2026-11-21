@@ -6,12 +6,13 @@ using Riegel.Core.Model;
 using Riegel.Core.Model.Json;
 using Riegel.Tests.TestSupport;
 
-namespace Riegel.Tests.Windows.Collector;
+namespace Riegel.Tests.Snapshots;
 
 /// <summary>
 /// Aufgezeichnete Runner-Fixtures (spec 8.1): schema-gültig, Herkunft recorded, anonymisiert (keine echten Rechner-
 /// SIDs, Hostnamen, Benutzer oder Gateways), mit den Rohdaten als Parser-Fixtures. Und der Anonymisierer selbst an
-/// einer synthetischen Fixture.
+/// einer synthetischen Fixture. Plattformneutral (nur JSON- und Textdateien, der Anonymisierer ist net10.0), damit
+/// neue Aufzeichnungen und Änderungen am Anonymisierer schon im Linux-Job geprüft werden – das Repo ist öffentlich.
 /// </summary>
 public sealed partial class RecordedFixtureTests
 {
@@ -34,7 +35,7 @@ public sealed partial class RecordedFixtureTests
         if (relative.Length == 0) return; // noch keine Aufzeichnung
         string path = Path.Combine(RepoPaths.RecordedFixtures, relative);
         string json = File.ReadAllText(path);
-        SnapshotSchema.AssertValid(json, relative);
+        SchemaValidator.AssertValid(json, relative, "snapshot");
         var snapshot = RiegelJson.Deserialize<Snapshot>(File.ReadAllBytes(path));
         Assert.Equal(SnapshotOrigin.Recorded, snapshot.Origin);
         Assert.StartsWith("RUNNER-", snapshot.Machine.HostName, StringComparison.Ordinal);
@@ -78,12 +79,12 @@ public sealed partial class RecordedFixtureTests
         Assert.DoesNotContain("runneradmin", text, StringComparison.OrdinalIgnoreCase);
     }
 
-    [Fact]
+    [BuiltToolFact("SnapshotAnonymizer")]
     public void Anonymisierer_ersetzt_Namen_SIDs_und_Herkunft()
     {
-        string dll = Path.Combine(RepoPaths.Root, "tools", "SnapshotAnonymizer", "bin", "Release", "net10.0", "SnapshotAnonymizer.dll");
-        if (!File.Exists(dll)) dll = dll.Replace(@"\Release\", @"\Debug\", StringComparison.Ordinal);
-        if (!File.Exists(dll)) return; // nur gebaut, wenn die ganze Lösung gebaut wurde
+        // Das Testprojekt baut den Anonymisierer mit (ProjectReference ohne Assembly-Verweis, auch unter Linux)
+        string dll = BuiltTool.DllPath("SnapshotAnonymizer")
+            ?? throw new InvalidOperationException($"SnapshotAnonymizer ist in der Konfiguration {BuiltTool.Configuration} nicht gebaut.");
         using var temp = new TempFolder();
         var node = JsonNode.Parse(File.ReadAllText(RepoPaths.Synthetic("win11-24h2-workgroup-admin")))!.AsObject();
         node["origin"] = "collector";
