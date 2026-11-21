@@ -7,9 +7,10 @@
     <Deterministic>true</Deterministic>
     <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
 
-    <Company>ICT-Baden</Company>
+    <!-- Firmierung wie im Impressum (https://ict-baden.de/impressum/). Der Sammler behält die bisherigen Werte (seine csproj). -->
+    <Company>ICT Baden GmbH</Company>
     <Product>Riegel</Product>
-    <Copyright>© 2026 ICT-Baden</Copyright>
+    <Copyright>© 2026 ICT Baden GmbH</Copyright>
     <!-- Basisversion für alle Teile außer dem Sammler (Richtlinie 04). CI-Builds setzen -p:Version=<Basis>-ci.<Lauf>;
          der Sammler hat seine eigene Version in src/Riegel.Collector/collector-version.txt und ignoriert -p:Version
          (TreatAsLocalProperty in seiner csproj), damit seine Bytes stabil bleiben. -->

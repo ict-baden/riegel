@@ -37,6 +37,16 @@
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
 
+  <!-- Herausgeber-Attribute fest auf dem Stand von Sammler 0.1.0: Directory.Build.props nennt seit Riegel 1.0.0 die
+       Firmierung „ICT Baden GmbH“; diese Werte stehen in der Exe und würden ihre Bytes (Hash-Sperre) ändern.
+       Directory.Build.props wird vor dem Projektrumpf importiert, die Werte hier überschreiben es (TreatAsLocalProperty
+       hilft dagegen nicht, das schützt nur vor -p:). Beim nächsten Versionssprung des Sammlers angleichen. -->
+  <PropertyGroup>
+    <Company>ICT-Baden</Company>
+    <Product>Riegel</Product>
+    <Copyright>© 2026 ICT-Baden</Copyright>
+  </PropertyGroup>
+
   <!-- Version nur aus collector-version.txt -->
   <PropertyGroup>
     <CollectorVersion>$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)collector-version.txt').Trim())</CollectorVersion>

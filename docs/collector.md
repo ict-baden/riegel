@@ -276,6 +276,8 @@ collector's SHA-256 is unchanged: the release notes say "Collector unchanged sin
 
 - The collector has **its own version** (`src/Riegel.Collector/collector-version.txt`, now 0.1.0), independent of the
   app. It changes only when the collection code or the embedded collection plan changes, and every snapshot names it.
+  Riegel 1.0.0 ships the same collector 0.1.0 as Riegel 0.1.x, byte for byte: its file properties therefore still
+  name the publisher as "ICT-Baden" (company and copyright); the next collector version will carry "ICT Baden GmbH".
 - The build is **byte-for-byte reproducible**; CI builds it twice and compares the SHA-256, and a hash lock fails the
   build if the bytes change without a version bump.
 - **OT and validated machines use tag releases (`vX.Y.Z`), never `latest`.** `latest` is rebuilt nightly from

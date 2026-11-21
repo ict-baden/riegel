@@ -35,7 +35,7 @@ public sealed partial class RepositoryTests
                      "installer/Riegel.Installer.wixproj", "installer/Package.wxs", "docs/file-formats.md", "docs/development.md", "docs/assets/logo.svg",
                      "src/Riegel/Assets/riegel.ico", "src/Riegel/Assets/riegel.png", "contracts/collection-plan.json", "rules/catalogue.json" })
             Assert.True(File.Exists(Path.Combine(RepoPaths.Root, file)), file);
-        Assert.Contains("Copyright (c) 2026 ICT-Baden", File.ReadAllText(Path.Combine(RepoPaths.Root, "LICENSE")), StringComparison.Ordinal);
+        Assert.Contains("Copyright (c) 2026 ICT Baden GmbH", File.ReadAllText(Path.Combine(RepoPaths.Root, "LICENSE")), StringComparison.Ordinal);
     }
 
     [Fact]

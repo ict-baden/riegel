@@ -32,7 +32,7 @@ public static class AppInfo
     /// <summary>Produktseite auf der Webseite von ICT-Baden.</summary>
     public const string WebsiteUrl = "https://ict-baden.de/produkte/riegel/";
 
-    private const string FallbackPublisher = "ICT-Baden";
+    private const string FallbackPublisher = "ICT Baden GmbH";
 
     private static readonly Assembly Self = typeof(AppInfo).Assembly;
 
@@ -51,11 +51,11 @@ public static class AppInfo
     /// <summary>Version des portablen Sammlers, der zu diesem Build gehört (collector-version.txt, eingebettet).</summary>
     public static string CollectorVersion { get; } = ReadEmbedded("collector-version.txt")?.Trim() is { Length: > 0 } v ? v : "unknown";
 
-    /// <summary>Herausgeber (AssemblyCompany), solange die Firmierung offen ist „ICT-Baden“.</summary>
+    /// <summary>Herausgeber (AssemblyCompany): „ICT Baden GmbH“, wie im Impressum.</summary>
     public static string Publisher { get; } =
         Self.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company is { Length: > 0 } company && company != Name ? company : FallbackPublisher;
 
-    /// <summary>„© 2026 ICT-Baden“ (AssemblyCopyright).</summary>
+    /// <summary>„© 2026 ICT Baden GmbH“ (AssemblyCopyright).</summary>
     public static string Copyright { get; } =
         Self.GetCustomAttribute<AssemblyCopyrightAttribute>()?.Copyright is { Length: > 0 } copyright ? copyright : $"© 2026 {Publisher}";
 
