@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- Maschinell vorübersetzt – TODO-übersetzen: vor der ersten öffentlichen Version von Muttersprachlern prüfen lassen. Die einzeln als unsicher markierten Einträge sind geprüft; ein neuer Eintrag mit unsicherer Übersetzung bekommt zusätzlich den Kommentar „TODO-übersetzen“. -->
+  <!-- Maschinell vorübersetzt – TODO-übersetzen: noch nicht von Muttersprachlern geprüft, das Gegenlesen steht aus (bekannte Einschränkung, docs/limitations.md). Die einzeln als unsicher markierten Einträge sind geprüft; ein neuer Eintrag mit unsicherer Übersetzung bekommt zusätzlich den Kommentar „TODO-übersetzen“. -->
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
