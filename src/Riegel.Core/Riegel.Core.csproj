@@ -26,7 +26,7 @@
     <PackageReference Include="ClosedXML" Version="0.105.1" />
     <PackageReference Include="SixLabors.Fonts" Version="1.0.1" />
     <PackageReference Include="PDFsharp-MigraDoc" Version="6.2.4" />
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.15" />
   </ItemGroup>
 
   <!-- Texte (Richtlinie 13): <Name>Strings.resx = Englisch (Rückfallsprache), dazu .de/.es/.fr/.zh-Hans. Die Klassen
