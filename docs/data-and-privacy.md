@@ -19,7 +19,7 @@ What Riegel reads, which files it writes, where they live, what personal data th
   folder you choose and its own data folder `%LocalAppData%\Riegel`. *Check this PC* passes its snapshot through a
   temporary folder (`%TEMP%\Riegel-Erfassung-<8 hex>` or `handoff\<token>` in the data folder) and deletes it after the
   import; the demo plant lives in `%TEMP%` while Riegel runs ([On the analysis PC](#on-the-analysis-pc)).
-- It opens **no network connection** and sends **no data to ICT-Baden**: no telemetry, no update check, no crash
+- It opens **no network connection** and sends **no data to ICT Baden**: no telemetry, no update check, no crash
   reports.
 - Snapshots, registers and reports describe the security configuration of the customer's machines and contain host
   names, local account names and SIDs. Treat them as **confidential**; the PDF marks every page "Confidential – contains
@@ -30,7 +30,7 @@ What Riegel reads, which files it writes, where they live, what personal data th
 App, command line and collector contain no network code (a source-scan test fails on `HttpClient`, `WebRequest`,
 `Socket`, `TcpClient` and `Dns` in the shipped projects). Links on the *About* page (website, Impressum, source,
 support, privacy) open only `http`/`https` addresses in your browser, through the shell, when you click them. *Privacy*
-opens Riegel's privacy notice on the ICT-Baden website, <https://ict-baden.de/datenschutz/riegel/>; this page holds the
+opens Riegel's privacy notice on the ICT Baden website, <https://ict-baden.de/datenschutz/riegel/>; this page holds the
 details behind it. A plant folder
 may lie on a share; Windows then reads and writes it over SMB as for any file. Files from snapshots, imports or
 baselines are never started.
@@ -161,6 +161,6 @@ assess, together with its works council and its data protection officer where th
 
 ## Who is responsible
 
-The customer is the controller of the data in snapshots, plant folders and reports; ICT-Baden receives none of it
-through the software. When ICT-Baden or a partner collects and evaluates on site, the service agreement governs that
+The customer is the controller of the data in snapshots, plant folders and reports; ICT Baden receives none of it
+through the software. When ICT Baden or a partner collects and evaluates on site, the service agreement governs that
 processing. Security issues: [SECURITY.md](../SECURITY.md); support: [SUPPORT.md](../SUPPORT.md).

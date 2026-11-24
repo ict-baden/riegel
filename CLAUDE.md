@@ -2,7 +2,7 @@
 
 Riegel: Checks Windows machines in plants, labs and control rooms against a hardening baseline – read-only and offline – records justified exceptions and produces an evidence report for sign-off.
 
-Projekt von ICT-Baden. Es gelten die Richtlinien in [`ict-baden/richtlinien`](https://github.com/ict-baden/richtlinien). Stand und Zuständigkeit stehen in `ict-baden/ict-baden-projekte` (`projekte.json`, Eintrag `haertungs-check`, `notizen/haertungs-check.md`, `in-arbeit.md`).
+Projekt der ICT Baden GmbH. Diese Datei ist die Arbeitsanleitung für Claude Code. Regeln für Beiträge stehen in [`CONTRIBUTING.md`](CONTRIBUTING.md), Bauen, Testen, CI und Releases in [`docs/development.md`](docs/development.md). „Richtlinie NN“ und „spec x.y“ meinen interne, nicht öffentliche Unterlagen der ICT Baden GmbH; alles Nötige steht in den beiden Dateien.
 
 ## Bauen und testen
 
@@ -45,13 +45,12 @@ Mehr in [`docs/development.md`](docs/development.md).
 - **Regeltexte im Katalog-JSON und Sammler-Texte in `messages.<Sprache>.txt`** statt `.resx` (Abweichung von Richtlinie 13 Regel 1, freigegeben am 2026-10-19): Regeln sind versionierte Daten, der Sammler läuft unter CLR 2.
 - **Windows-Projekte auf `net10.0-windows` ohne SDK-Version** (Abweichung von Richtlinie 02, freigegeben am 2026-10-19): Riegel nutzt keine WinRT-API; mit `net10.0-windows10.0.19041.0` käme `Microsoft.Windows.SDK.NET.dll` (Lizenz des Windows SDK, nicht MIT) in jedes Windows-Paket. CI und `ThirdPartyNoticesTests` prüfen, dass sie nicht ausgeliefert wird. Mindestens Windows 10 1809 / Server 2019 bleibt die Vorgabe (Doku).
 - **MSI:** `UpgradeCode` (B5657095-F1E6-418A-8F3E-9578C4EB1B13) und die GUID der Startmenü-Komponente (577DFE8C-6CB0-4127-9B0A-F86608882BE5) nie ändern. Die MSI ist nicht der Weg auf OT-Rechner.
-- **Herausgeber:** „ICT Baden GmbH“ (wie im Impressum) in `LICENSE`, `Directory.Build.props`, MSI-`Manufacturer`, SBOM und `AppInfo`. Der Sammler 0.1.0 behält in seinen Dateieigenschaften „ICT-Baden“ (feste Werte in seiner csproj, Hash-Sperre); beim nächsten Versionssprung des Sammlers angleichen. „ICT-Baden“ bleibt in technischen Kennungen (AppUserModelID, Mutex, `%ProgramData%\ICT-Baden\Riegel`, Registry). Impressum `https://ict-baden.de/impressum/`, Datenschutz `https://ict-baden.de/datenschutz/riegel/`, Produktseite `https://ict-baden.de/produkte/riegel/`, keine E-Mail-Adressen. Signieren: die Schritte überspringen sich, solange `vars.SIGNING_ACCOUNT` leer ist.
+- **Herausgeber:** „ICT Baden GmbH“ (wie im Impressum) in `LICENSE`, `Directory.Build.props`, MSI-`Manufacturer`, SBOM und `AppInfo`. Im Fließtext „ICT Baden“ ohne Bindestrich. Der Sammler 0.1.0 behält in seinen Dateieigenschaften „ICT-Baden“ (feste Werte in seiner csproj, Hash-Sperre); beim nächsten Versionssprung des Sammlers angleichen. „ICT-Baden“ bleibt in technischen Kennungen (AppUserModelID, Mutex, `%ProgramData%\ICT-Baden\Riegel`, Registry). Der Satz „… sendet keine Daten an ICT-Baden.“ in `CommonStrings*.resx` (Info-Seite, `--info`) trägt den Bindestrich noch. Impressum `https://ict-baden.de/impressum/`, Datenschutz `https://ict-baden.de/datenschutz/riegel/`, Produktseite `https://ict-baden.de/produkte/riegel/`, keine E-Mail-Adressen (Ausnahme: `security@ict-baden.de` in `SECURITY.md` und der Issue-Auswahl). Signieren: die Schritte überspringen sich, solange `vars.SIGNING_ACCOUNT` leer ist.
 - **Keine Personennamen** in Oberfläche, Demo-Daten, Fixtures und Doku; Rollen statt Namen.
 
 ## Regeln
 
 - Commit-Nachrichten auf Deutsch.
-- Kein Text fest im Code: jeden neuen Text in alle Sprachdateien eintragen (en, de, es, fr, zh-Hans), Fachbegriffe aus `ict-baden/richtlinien/sprachen/glossar.csv`. Unsichere Übersetzung: englischen Text eintragen, mit `TODO-übersetzen` markieren. Regeln in Richtlinie 13.
+- Kein Text fest im Code: jeden neuen Text in alle Sprachdateien eintragen (en, de, es, fr, zh-Hans), Fachbegriffe nach dem internen Glossar. Unsichere Übersetzung: englischen Text eintragen, mit `TODO-übersetzen` markieren. Regeln in Richtlinie 13.
 - Code-Kommentare Deutsch, README und `docs/` Englisch; jede `.cs`-Datei beginnt mit `// SPDX-License-Identifier: MIT`.
-- Nach Arbeit an diesem Projekt: Verlauf in `ict-baden-projekte/notizen/haertungs-check.md` und Logbuch dort ergänzen (macht die Hauptsitzung; Agenten schreiben dort nie).
 - Vor jedem Release: Abschnitt „Unveröffentlicht“ im `CHANGELOG.md` pflegen.

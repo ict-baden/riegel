@@ -6,6 +6,11 @@ Jeder Versionsabschnitt endet mit „English“: Das ist der Text des Releases a
 
 ## [Unveröffentlicht]
 
+### Geändert
+- `SECURITY.md` und Issue-Auswahl: Ohne GitHub-Konto geht die Meldung einer Sicherheitslücke per E-Mail an security@ict-baden.de (Policy: https://ict-baden.de/sicherheit/) statt über die Kontaktseite. Kunden mit Supportvertrag bekommen Sicherheitsupdates zusätzlich für die vorherige Hauptversion, bis zwölf Monate nach Erscheinen der Nachfolgerin (auch in `docs/installation.md`).
+- README und `docs/` schreiben im Fließtext „ICT Baden“ ohne Bindestrich; technische Kennungen und der Satz der Info-Seite bleiben unverändert.
+- `CLAUDE.md` nennt keine internen Repos mehr und verweist auf `CONTRIBUTING.md` und `docs/development.md`.
+
 ## [1.0.0] – 2026-11-21
 
 Erste öffentliche Version. Sie enthält alles, was als 0.1.3 vorgesehen war (nie veröffentlicht), und die Korrekturen danach. Sammler unverändert (0.1.0, dieselben Bytes wie seit v0.1.0), Regelwerk 2026.10.1.

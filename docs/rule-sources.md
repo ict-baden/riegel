@@ -10,7 +10,7 @@
 
 ## Principles
 
-- **Own texts.** Titles, rationales, plant notes and remedies are written by ICT-Baden in English and German. No text
+- **Own texts.** Titles, rationales, plant notes and remedies are written by ICT Baden in English and German. No text
   is copied from the sources below; rules that adapted a CC BY 4.0 text would list it under `textSources` (none do in
   catalogue 2026.10.1).
 - **Value provenance.** The expected value of every `check` rule and every cited OS default is backed by at least one of
