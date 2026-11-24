@@ -137,7 +137,7 @@ text:
 | NET-29 IP forwarding | check | inventory | no shippable source sets an expected value for `IPEnableRouter` |
 | SVC-04 Remote Registry | check | inventory | ACSC and DISA set no requirement; Microsoft's CC BY server guidance says "Do not disable" |
 | RDP-08 idle session limit | check | inventory | no shippable source recommends a value |
-| TLS-06/07/08/11 RC4, DES/3DES, NULL, MD5 | check | inventory | Microsoft's CC BY TLS documentation says ciphers and hashes are controlled through the cipher suite order and that the SCHANNEL registry keys for them "isn't supported"; Riegel 0.1 cannot read the effective cipher suite list |
+| TLS-06/07/08/11 RC4, DES/3DES, NULL, MD5 | check | inventory | Microsoft's CC BY TLS documentation says ciphers and hashes are controlled through the cipher suite order and that the SCHANNEL registry keys for them "isn't supported"; Riegel cannot yet read the effective cipher suite list |
 
 The planned inventory rules ACCT-15, APP-06, RDP-09, NETX-01, DEF-11, SYS-07 and SYS-08 are inventory as specified.
 ACCT-16 and ACCT-17 stay checks, backed by the current DISA STIGs.
