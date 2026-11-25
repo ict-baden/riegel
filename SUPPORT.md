@@ -25,7 +25,7 @@ Kontakt: [Kontaktseite](https://ict-baden.de/#kontakt), [Support und Preise](htt
 ## Was Sie mitschicken / What to include
 
 - **Versionen:** Riegel und Regelwerk aus `Riegel.Cli.exe --version` oder der Seite *Info*, der Sammler aus `Riegel.Collector.exe --version` oder dem Erhebungsprotokoll.
-- **Variante:** MSI, Einzeldatei `Riegel.exe`, ZIP, `riegel-win-x64.exe`, Linux, Sammler oder Bordmittel (`collect-builtin.cmd`).
+- **Variante:** MSI, Einzeldatei `Riegel.exe`, ZIP, `riegel-<version>-win-x64.exe`, Linux, Sammler oder Bordmittel (`collect-builtin.cmd`).
 - **Geprüfter Rechner:** Windows-Version und Build (`winver` oder `ver`), Domäne oder Arbeitsgruppe, als Administrator erhoben oder nicht.
 - **Diagnosepaket:** *Info* › *Diagnosepaket erstellen* speichert Version, Systemangaben und das Protokoll der letzten 7 Tage als ZIP, auf Wunsch ohne Rechner-, Konto- und Pfadnamen. Es enthält keine Exporte, Register oder Berichte. Bitte vor dem Anhängen hineinschauen.
 

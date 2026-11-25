@@ -19,7 +19,7 @@ scheduled tasks.
 > see [Portable collector](collector.md).
 
 > [!WARNING]
-> **Not code-signed yet.** Until code signing is set up for ICT-Baden, Windows SmartScreen may warn and
+> **Not code-signed yet.** Until code signing is set up for ICT Baden, Windows SmartScreen may warn and
 > AppLocker can only allow the collector by its hash. Check every download against `SHA256SUMS.txt`. No customer pilot
 > on OT or validated machines with an unsigned collector.
 
@@ -216,5 +216,6 @@ Details and the Icinga example: [Command line › Scheduled tasks](command-line.
 
 ## Supported versions
 
-Security fixes are provided for the newest released version ([SECURITY.md](../SECURITY.md)); help is free on GitHub
-and guaranteed under a support contract ([SUPPORT.md](../SUPPORT.md)).
+Security fixes are provided for the newest released version; customers with a support contract also receive them for
+the previous major version until twelve months after its successor appears ([SECURITY.md](../SECURITY.md)). Help is
+free on GitHub and guaranteed under a support contract ([SUPPORT.md](../SUPPORT.md)).

@@ -118,7 +118,7 @@ Riegel.Collector.exe [--out <folder>] [--gzip] [--minimal] [--deep] [--pseudonym
 | `--deep` | also read the protection level of the LSASS process (`OpenProcess` with `PROCESS_QUERY_LIMITED_INFORMATION`); off by default because EDR products may report any LSASS handle |
 | `--pseudonymize` | replace local user names, Winlogon user names, group member names and profile path segments with `user-<8 hex>` (HMAC-SHA256 keyed with the MachineGuid); SIDs stay. Pseudonymised, not anonymous: short names can be guessed. Checks that compare account names (for example "Administrator renamed") are not reliable on such snapshots. The Group Policy result (gpresult XML with computer, domain, OU, GPO and group names) is **not** pseudonymised – use `--minimal` to leave it out ([Data and privacy](data-and-privacy.md#what-a-snapshot-contains)) |
 | `--quiet` | print only the export path and its SHA-256 |
-| `--nur-lesen` | accepted so that scripts can pass the same read-only switch to every ICT-Baden tool; it changes nothing because the collector never writes configuration |
+| `--nur-lesen` | accepted so that scripts can pass the same read-only switch to every ICT Baden tool; it changes nothing because the collector never writes configuration |
 | `--version`, `--help` | print and exit with 0 |
 
 | Exit code | Meaning |
